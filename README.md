@@ -1,8 +1,6 @@
-===============================================================================
-=                          Qianyi Zhou's PCL Fork                             =
-===============================================================================
+# Qianyi Zhou's PCL Fork
 
-I have been receiving requests for the source code of 
+I have been receiving requests for the source code of
 pcl_kinfu_largeScale_release.exe, which is a critical module in the robust
 scene reconstruction system we have developed.
 
@@ -12,9 +10,7 @@ Executable system: http://redwood-data.org/indoor/tutorial.html
 
 Thus I publish my fork of PCL here as a reference.
 
-===============================================================================
-
-Disclaimer
+## Disclaimer
 
 I forked PCL from an early development version three years ago, and have made
 numerous changes. This repository is an image of my personal development chunk.
@@ -26,9 +22,7 @@ PROVIDE ANY SUPPORT FOR THIS CODE. IT SHOULD BE USED ONLY AS A REFERENCE.
 If you are looking for the official PCL, go to this repository:
 https://github.com/PointCloudLibrary/pcl
 
-===============================================================================
-
-License
+## License
 
 As part of the scene reconstruction system, the code of this repository is
 released under the MIT license.
