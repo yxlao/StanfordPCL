@@ -194,19 +194,22 @@ if(OPENMP_FOUND)
 else(OPENMP_FOUND)
   message (STATUS "Not found OpenMP")
 endif()
+
 # Boost (required)
 include(${PCL_SOURCE_DIR}/cmake/pcl_find_boost.cmake)
+
 # Eigen (required)
 # find_package(Eigen REQUIRED)
-include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/3rdparty/eigen)
+include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/3rdparty/eigen/)
 add_definitions(-DEIGEN_USE_NEW_STDVECTOR
                 -DEIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET)
+
 # FLANN (required)
-if(NOT PCL_SHARED_LIBS OR WIN32)
-  set(FLANN_USE_STATIC ON)
-endif(NOT PCL_SHARED_LIBS OR WIN32)
-find_package(FLANN 1.7.0 REQUIRED)
-include_directories(SYSTEM ${FLANN_INCLUDE_DIRS})
+# if(NOT PCL_SHARED_LIBS OR WIN32)
+#   set(FLANN_USE_STATIC ON)
+# endif(NOT PCL_SHARED_LIBS OR WIN32)
+# find_package(FLANN 1.7.0 REQUIRED)
+include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/3rdparty/flann/)
 
 # libusb-1.0
 find_package(libusb-1.0)
