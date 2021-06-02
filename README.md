@@ -25,6 +25,12 @@
    .\b2.exe --clean-all -n
    ```
 
+### Eigen
+
+Download Eigen 3.38 from https://gitlab.com/libeigen/eigen/-/releases/3.3.8.
+Extract to `C:\Program Files\eigen`. That is, you shall find
+``C:\Program Files\eigen\README.md`.
+
 ## Introduction
 
 I have been receiving requests for the source code of
