@@ -9,6 +9,8 @@ endif("${CMAKE_BUILD_TYPE}" STREQUAL "")
 project(PCL)
 string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
 
+set(OPENNI_ROOT /home/yixing/openni_install/usr)
+
 ### ---[ Find universal dependencies
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules/" ${CMAKE_MODULE_PATH})
 
@@ -222,7 +224,10 @@ find_package(OpenNI)
 if (OPENNI_FOUND)
   set(HAVE_OPENNI ON)
   include_directories(SYSTEM ${OPENNI_INCLUDE_DIRS})
+else()
+  message(FATAL_ERROR "OPENNI_FOUND: ${OPENNI_FOUND}")
 endif()
+
 # LibPNG
 find_package(PNG)
 if (PNG_FOUND)
