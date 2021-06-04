@@ -222,6 +222,10 @@ if (OPENNI_FOUND)
   set(HAVE_OPENNI ON)
   include_directories(SYSTEM ${OPENNI_INCLUDE_DIRS})
 endif()
+if (NOT OPENNI_FOUND)
+  message(FATAL_ERROR "OPENNI_FOUND: ${OPENNI_FOUND}")
+endif()
+
 # LibPNG
 find_package(PNG)
 if (PNG_FOUND)
