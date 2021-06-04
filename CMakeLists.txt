@@ -300,7 +300,7 @@ PCL_ADD_INCLUDES(common "" ${pcl_config_h})
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
 
 ### ---[ Set up for tests
-# include(${PCL_SOURCE_DIR}/cmake/pcl_tests.cmake)
+include(${PCL_SOURCE_DIR}/cmake/pcl_tests.cmake)
 
 ### ---[ Set up for examples
 #include(${PCL_SOURCE_DIR}/cmake/pcl_examples.cmake)
