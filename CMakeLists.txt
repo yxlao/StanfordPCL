@@ -217,12 +217,16 @@ if(LIBUSB_1_FOUND)
 endif(LIBUSB_1_FOUND)
 
 # OpenNI
-find_package(OpenNI)
+include(${PROJECT_SOURCE_DIR}/deps/openni/openni.cmake)
+# find_package(OpenNI)
 if (OPENNI_FOUND)
   set(HAVE_OPENNI ON)
   include_directories(SYSTEM ${OPENNI_INCLUDE_DIRS})
-endif()
-if (NOT OPENNI_FOUND)
+  message(STATUS "OPENNI_FOUND: ${OPENNI_FOUND}")
+  message(STATUS "OPENNI_INCLUDE_DIRS: ${OPENNI_INCLUDE_DIRS}")
+  message(STATUS "OPENNI_LIBRARIES: ${OPENNI_LIBRARIES}")
+
+else()
   message(FATAL_ERROR "OPENNI_FOUND: ${OPENNI_FOUND}")
 endif()
 
