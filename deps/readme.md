@@ -9,3 +9,7 @@
 ## OpenNI
 
 `1.5.7.10`: https://github.com/OpenNI/OpenNI/releases/tag/Stable-1.5.7.10
+
+## VTK
+
+`v5.6.1`
