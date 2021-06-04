@@ -6,8 +6,9 @@ project(PCL_DEPS)
 set(DEPS_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
 
 # OpenNI
-# Build this first, as this requires special treatment of install dir.
+# Force OpenNI to build first, as it requires special treatment for install dir
 include(${PROJECT_SOURCE_DIR}/openni/openni.cmake)
 
 # FLANN
-
+include(${PROJECT_SOURCE_DIR}/flann/flann.cmake)
+add_dependencies(ext_flann ext_openni)
