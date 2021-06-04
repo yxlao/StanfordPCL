@@ -20,3 +20,7 @@ add_dependencies(ext_vtk ext_openni)
 # Eigen
 include(${PROJECT_SOURCE_DIR}/eigen/eigen.cmake)
 add_dependencies(ext_eigen ext_openni)
+
+# Boost
+include(${PROJECT_SOURCE_DIR}/boost/boost.cmake)
+add_dependencies(ext_boost ext_openni)
