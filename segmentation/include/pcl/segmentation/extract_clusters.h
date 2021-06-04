@@ -57,10 +57,10 @@ namespace pcl
     * \param max_pts_per_cluster maximum number of points that a cluster may contain (default: max int)
     * \ingroup segmentation
     */
-  template <typename PointT> void 
+  template <typename PointT> void
   extractEuclideanClusters (
-      const PointCloud<PointT> &cloud, const boost::shared_ptr<search::Search<PointT> > &tree, 
-      float tolerance, std::vector<PointIndices> &clusters, 
+      const PointCloud<PointT> &cloud, const boost::shared_ptr<search::Search<PointT> > &tree,
+      float tolerance, std::vector<PointIndices> &clusters,
       unsigned int min_pts_per_cluster = 1, unsigned int max_pts_per_cluster = (std::numeric_limits<int>::max) ());
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,10 +75,10 @@ namespace pcl
     * \param max_pts_per_cluster maximum number of points that a cluster may contain (default: max int)
     * \ingroup segmentation
     */
-  template <typename PointT> void 
+  template <typename PointT> void
   extractEuclideanClusters (
-      const PointCloud<PointT> &cloud, const std::vector<int> &indices, 
-      const boost::shared_ptr<search::Search<PointT> > &tree, float tolerance, std::vector<PointIndices> &clusters, 
+      const PointCloud<PointT> &cloud, const std::vector<int> &indices,
+      const boost::shared_ptr<search::Search<PointT> > &tree, float tolerance, std::vector<PointIndices> &clusters,
       unsigned int min_pts_per_cluster = 1, unsigned int max_pts_per_cluster = (std::numeric_limits<int>::max) ());
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -95,12 +95,12 @@ namespace pcl
     * \param max_pts_per_cluster maximum number of points that a cluster may contain (default: max int)
     * \ingroup segmentation
     */
-  template <typename PointT, typename Normal> void 
+  template <typename PointT, typename Normal> void
   extractEuclideanClusters (
-      const PointCloud<PointT> &cloud, const PointCloud<Normal> &normals, 
-      float tolerance, const boost::shared_ptr<KdTree<PointT> > &tree, 
-      std::vector<PointIndices> &clusters, double eps_angle, 
-      unsigned int min_pts_per_cluster = 1, 
+      const PointCloud<PointT> &cloud, const PointCloud<Normal> &normals,
+      float tolerance, const boost::shared_ptr<KdTree<PointT> > &tree,
+      std::vector<PointIndices> &clusters, double eps_angle,
+      unsigned int min_pts_per_cluster = 1,
       unsigned int max_pts_per_cluster = (std::numeric_limits<int>::max) ())
   {
     if (tree->getInputCloud ()->points.size () != cloud.points.size ())
@@ -194,12 +194,12 @@ namespace pcl
     * \param max_pts_per_cluster maximum number of points that a cluster may contain (default: max int)
     * \ingroup segmentation
     */
-  template <typename PointT, typename Normal> 
+  template <typename PointT, typename Normal>
   void extractEuclideanClusters (
-      const PointCloud<PointT> &cloud, const PointCloud<Normal> &normals, 
-      const std::vector<int> &indices, const boost::shared_ptr<KdTree<PointT> > &tree, 
-      float tolerance, std::vector<PointIndices> &clusters, double eps_angle, 
-      unsigned int min_pts_per_cluster = 1, 
+      const PointCloud<PointT> &cloud, const PointCloud<Normal> &normals,
+      const std::vector<int> &indices, const boost::shared_ptr<KdTree<PointT> > &tree,
+      float tolerance, std::vector<PointIndices> &clusters, double eps_angle,
+      unsigned int min_pts_per_cluster = 1,
       unsigned int max_pts_per_cluster = (std::numeric_limits<int>::max) ())
   {
     // \note If the tree was created over <cloud, indices>, we guarantee a 1-1 mapping between what the tree returns
@@ -309,82 +309,82 @@ namespace pcl
 
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       /** \brief Empty constructor. */
-      EuclideanClusterExtraction () : tree_ (), 
+      EuclideanClusterExtraction () : tree_ (),
                                       cluster_tolerance_ (0),
-                                      min_pts_per_cluster_ (1), 
+                                      min_pts_per_cluster_ (1),
                                       max_pts_per_cluster_ (std::numeric_limits<int>::max ())
       {};
 
       /** \brief Provide a pointer to the search object.
         * \param[in] tree a pointer to the spatial search object.
         */
-      inline void 
-      setSearchMethod (const KdTreePtr &tree) 
-      { 
-        tree_ = tree; 
+      inline void
+      setSearchMethod (const KdTreePtr &tree)
+      {
+        tree_ = tree;
       }
 
-      /** \brief Get a pointer to the search method used. 
+      /** \brief Get a pointer to the search method used.
        *  @todo fix this for a generic search tree
        */
-      inline KdTreePtr 
-      getSearchMethod () const 
-      { 
-        return (tree_); 
+      inline KdTreePtr
+      getSearchMethod () const
+      {
+        return (tree_);
       }
 
       /** \brief Set the spatial cluster tolerance as a measure in the L2 Euclidean space
         * \param[in] tolerance the spatial cluster tolerance as a measure in the L2 Euclidean space
         */
-      inline void 
-      setClusterTolerance (double tolerance) 
-      { 
-        cluster_tolerance_ = tolerance; 
+      inline void
+      setClusterTolerance (double tolerance)
+      {
+        cluster_tolerance_ = tolerance;
       }
 
       /** \brief Get the spatial cluster tolerance as a measure in the L2 Euclidean space. */
-      inline double 
-      getClusterTolerance () const 
-      { 
-        return (cluster_tolerance_); 
+      inline double
+      getClusterTolerance () const
+      {
+        return (cluster_tolerance_);
       }
 
       /** \brief Set the minimum number of points that a cluster needs to contain in order to be considered valid.
         * \param[in] min_cluster_size the minimum cluster size
         */
-      inline void 
-      setMinClusterSize (int min_cluster_size) 
-      { 
-        min_pts_per_cluster_ = min_cluster_size; 
+      inline void
+      setMinClusterSize (int min_cluster_size)
+      {
+        min_pts_per_cluster_ = min_cluster_size;
       }
 
       /** \brief Get the minimum number of points that a cluster needs to contain in order to be considered valid. */
-      inline int 
-      getMinClusterSize () const 
-      { 
-        return (min_pts_per_cluster_); 
+      inline int
+      getMinClusterSize () const
+      {
+        return (min_pts_per_cluster_);
       }
 
       /** \brief Set the maximum number of points that a cluster needs to contain in order to be considered valid.
         * \param[in] max_cluster_size the maximum cluster size
         */
-      inline void 
-      setMaxClusterSize (int max_cluster_size) 
-      { 
-        max_pts_per_cluster_ = max_cluster_size; 
+      inline void
+      setMaxClusterSize (int max_cluster_size)
+      {
+        max_pts_per_cluster_ = max_cluster_size;
       }
 
       /** \brief Get the maximum number of points that a cluster needs to contain in order to be considered valid. */
-      inline int 
-      getMaxClusterSize () const 
-      { 
-        return (max_pts_per_cluster_); 
+      inline int
+      getMaxClusterSize () const
+      {
+        return (max_pts_per_cluster_);
       }
 
       /** \brief Cluster extraction in a PointCloud given by <setInputCloud (), setIndices ()>
         * \param[out] clusters the resultant point clusters
         */
-      void 
+      void
       extract (std::vector<PointIndices> &clusters);
 
     protected:
@@ -411,10 +411,10 @@ namespace pcl
 
   };
 
-  /** \brief Sort clusters method (for std::sort). 
+  /** \brief Sort clusters method (for std::sort).
     * \ingroup segmentation
     */
-  inline bool 
+  inline bool
   comparePointClusters (const pcl::PointIndices &a, const pcl::PointIndices &b)
   {
     return (a.indices.size () < b.indices.size ());

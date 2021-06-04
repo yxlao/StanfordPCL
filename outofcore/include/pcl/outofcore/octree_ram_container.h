@@ -52,10 +52,10 @@ namespace pcl
   {
     /** \class OutofcoreOctreeRamContainer
      *  \brief Storage container class which the outofcore octree base is templated against
-     *  \note Code was adapted from the Urban Robotics out of core octree implementation. 
-     *  Contact Jacob Schloss <jacob.schloss@urbanrobotics.net> with any questions. 
+     *  \note Code was adapted from the Urban Robotics out of core octree implementation.
+     *  Contact Jacob Schloss <jacob.schloss@urbanrobotics.net> with any questions.
      *  http://www.urbanrobotics.net/
-     * 
+     *
      *  \ingroup outofcore
      *  \author Jacob Schloss (jacob.scloss@urbanrobotics.net)
      */
@@ -68,17 +68,17 @@ namespace pcl
         /** \brief empty contructor (with a path parameter?)
          */
         OutofcoreOctreeRamContainer (const boost::filesystem::path&) : container_ () { }
-        
+
         /** \brief inserts \ref count number of points into container; uses the container_ type's insert         *  function
          * \param[in] start - address of first point in array
-         * \param[in] count - the maximum offset from start of points inserted 
+         * \param[in] count - the maximum offset from start of points inserted
          **/
         void
         insertRange (const PointT* start, const uint64_t count);
 
-        /** \brief inserts count points into container 
+        /** \brief inserts count points into container
          * \param[in] start - address of first point in array
-         * \param[in] count - the maximum offset from start of points inserted 
+         * \param[in] count - the maximum offset from start of points inserted
          **/
         void
         insertRange (const PointT* const * start, const uint64_t count);
@@ -95,8 +95,8 @@ namespace pcl
         {
           PCL_ERROR ("[pcl::outofcore::OutofcoreOctreeRamContainer] Inserting eigen-aligned point vectors is not implemented using the ram containers\n");
         }
-        
-        /** \brief 
+
+        /** \brief
          * \param[in] start Index of first point to return from container
          * \param[in] count Offset (start + count) of the last point to return from container
          * \param[out] v Array of points read from the input range
@@ -110,7 +110,7 @@ namespace pcl
          * \param[in] start Index of first point in range to subsample
          * \param[in] count Offset (start+count) of last point in range to subsample
          * \param[in] percent Percentage of range to return
-         * \param[out] v Vector with percent*count uniformly random sampled 
+         * \param[out] v Vector with percent*count uniformly random sampled
          * points from given input rangerange
          */
         void
@@ -128,7 +128,7 @@ namespace pcl
         {
           return container_.empty ();
         }
-        
+
 
         /** \brief clears the vector of points in this class */
         inline void
@@ -150,7 +150,7 @@ namespace pcl
           assert ( index < container_.size () );
           return ( container_[index] );
         }
-        
+
 
       protected:
         //no copy construction

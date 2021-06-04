@@ -81,7 +81,7 @@ pcl::PCDWriter::generateHeader (const pcl::PointCloud<PointT> &cloud, const int 
 
   std::vector<sensor_msgs::PointField> fields;
   pcl::getFields (cloud, fields);
- 
+
   std::stringstream field_names, field_types, field_sizes, field_counts;
   for (size_t i = 0; i < fields.size (); ++i)
   {
@@ -96,8 +96,8 @@ pcl::PCDWriter::generateHeader (const pcl::PointCloud<PointT> &cloud, const int 
     field_counts << " " << count;
   }
   oss << field_names.str ();
-  oss << "\nSIZE" << field_sizes.str () 
-      << "\nTYPE" << field_types.str () 
+  oss << "\nSIZE" << field_sizes.str ()
+      << "\nTYPE" << field_types.str ()
       << "\nCOUNT" << field_counts.str ();
   // If the user passes in a number of points value, use that instead
   if (nr_points != std::numeric_limits<int>::max ())
@@ -105,12 +105,12 @@ pcl::PCDWriter::generateHeader (const pcl::PointCloud<PointT> &cloud, const int 
   else
     oss << "\nWIDTH " << cloud.width << "\nHEIGHT " << cloud.height << "\n";
 
-  oss << "VIEWPOINT " << cloud.sensor_origin_[0] << " " << cloud.sensor_origin_[1] << " " << cloud.sensor_origin_[2] << " " << 
-                         cloud.sensor_orientation_.w () << " " << 
-                         cloud.sensor_orientation_.x () << " " << 
-                         cloud.sensor_orientation_.y () << " " << 
+  oss << "VIEWPOINT " << cloud.sensor_origin_[0] << " " << cloud.sensor_origin_[1] << " " << cloud.sensor_origin_[2] << " " <<
+                         cloud.sensor_orientation_.w () << " " <<
+                         cloud.sensor_orientation_.x () << " " <<
+                         cloud.sensor_orientation_.y () << " " <<
                          cloud.sensor_orientation_.z () << "\n";
-  
+
   // If the user passes in a number of points value, use that instead
   if (nr_points != std::numeric_limits<int>::max ())
     oss << "POINTS " << nr_points << "\n";
@@ -122,7 +122,7 @@ pcl::PCDWriter::generateHeader (const pcl::PointCloud<PointT> &cloud, const int 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT> int
-pcl::PCDWriter::writeBinary (const std::string &file_name, 
+pcl::PCDWriter::writeBinary (const std::string &file_name,
                              const pcl::PointCloud<PointT> &cloud)
 {
   if (cloud.empty ())
@@ -166,14 +166,14 @@ pcl::PCDWriter::writeBinary (const std::string &file_name,
   {
     if (fields[i].name == "_")
       continue;
-    
+
     int fs = fields[i].count * getFieldSize (fields[i].datatype);
     fsize += fs;
     fields_sizes.push_back (fs);
     fields[nri++] = fields[i];
   }
   fields.resize (nri);
-  
+
   data_size = cloud.points.size () * fsize;
 
   // Prepare the map
@@ -257,7 +257,7 @@ pcl::PCDWriter::writeBinary (const std::string &file_name,
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT> int
-pcl::PCDWriter::writeBinaryCompressed (const std::string &file_name, 
+pcl::PCDWriter::writeBinaryCompressed (const std::string &file_name,
                                        const pcl::PointCloud<PointT> &cloud)
 {
   if (cloud.points.empty ())
@@ -302,7 +302,7 @@ pcl::PCDWriter::writeBinaryCompressed (const std::string &file_name,
   {
     if (fields[i].name == "_")
       continue;
-    
+
     fields_sizes[nri] = fields[i].count * pcl::getFieldSize (fields[i].datatype);
     fsize += fields_sizes[nri];
     fields[nri] = fields[i];
@@ -310,13 +310,13 @@ pcl::PCDWriter::writeBinaryCompressed (const std::string &file_name,
   }
   fields_sizes.resize (nri);
   fields.resize (nri);
- 
+
   // Compute the size of data
   data_size = cloud.points.size () * fsize;
 
   //////////////////////////////////////////////////////////////////////
   // Empty array holding only the valid data
-  // data_size = nr_points * point_size 
+  // data_size = nr_points * point_size
   //           = nr_points * (sizeof_field_1 + sizeof_field_2 + ... sizeof_field_n)
   //           = sizeof_field_1 * nr_points + sizeof_field_2 * nr_points + ... sizeof_field_n * nr_points
   char *only_valid_data = static_cast<char*> (malloc (data_size));
@@ -336,7 +336,7 @@ pcl::PCDWriter::writeBinaryCompressed (const std::string &file_name,
     pters[i] = &only_valid_data[toff];
     toff += fields_sizes[i] * static_cast<int> (cloud.points.size ());
   }
-  
+
   // Go over all the points, and copy the data in the appropriate places
   for (size_t i = 0; i < cloud.points.size (); ++i)
   {
@@ -350,9 +350,9 @@ pcl::PCDWriter::writeBinaryCompressed (const std::string &file_name,
 
   char* temp_buf = static_cast<char*> (malloc (static_cast<size_t> (static_cast<float> (data_size) * 1.5f + 8.0f)));
   // Compress the valid data
-  unsigned int compressed_size = pcl::lzfCompress (only_valid_data, 
-                                                   static_cast<uint32_t> (data_size), 
-                                                   &temp_buf[8], 
+  unsigned int compressed_size = pcl::lzfCompress (only_valid_data,
+                                                   static_cast<uint32_t> (data_size),
+                                                   &temp_buf[8],
                                                    static_cast<uint32_t> (static_cast<float>(data_size) * 1.5f));
   unsigned int compressed_final_size = 0;
   // Was the compression successful?
@@ -451,7 +451,7 @@ pcl::PCDWriter::writeBinaryCompressed (const std::string &file_name,
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT> int
-pcl::PCDWriter::writeASCII (const std::string &file_name, const pcl::PointCloud<PointT> &cloud, 
+pcl::PCDWriter::writeASCII (const std::string &file_name, const pcl::PointCloud<PointT> &cloud,
                             const int precision)
 {
   if (cloud.empty ())
@@ -468,13 +468,13 @@ pcl::PCDWriter::writeASCII (const std::string &file_name, const pcl::PointCloud<
 
   std::ofstream fs;
   fs.open (file_name.c_str ());      // Open file
-  
+
   if (!fs.is_open () || fs.fail ())
   {
     throw pcl::IOException ("[pcl::PCDWriter::writeASCII] Could not open file for writing!");
     return (-1);
   }
-  
+
   // Mandatory lock file
   boost::interprocess::file_lock file_lock;
   setLockingPermissions (file_name, file_lock);
@@ -501,7 +501,7 @@ pcl::PCDWriter::writeASCII (const std::string &file_name, const pcl::PointCloud<
         continue;
 
       int count = fields[d].count;
-      if (count == 0) 
+      if (count == 0)
         count = 1;          // we simply cannot tolerate 0 counts (coming from older converter code)
 
       for (int c = 0; c < count; ++c)
@@ -611,8 +611,8 @@ pcl::PCDWriter::writeASCII (const std::string &file_name, const pcl::PointCloud<
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT> int
-pcl::PCDWriter::writeBinary (const std::string &file_name, 
-                             const pcl::PointCloud<PointT> &cloud, 
+pcl::PCDWriter::writeBinary (const std::string &file_name,
+                             const pcl::PointCloud<PointT> &cloud,
                              const std::vector<int> &indices)
 {
   if (cloud.points.empty () || indices.empty ())
@@ -656,14 +656,14 @@ pcl::PCDWriter::writeBinary (const std::string &file_name,
   {
     if (fields[i].name == "_")
       continue;
-    
+
     int fs = fields[i].count * getFieldSize (fields[i].datatype);
     fsize += fs;
     fields_sizes.push_back (fs);
     fields[nri++] = fields[i];
   }
   fields.resize (nri);
-  
+
   data_size = indices.size () * fsize;
 
   // Prepare the map
@@ -741,15 +741,15 @@ pcl::PCDWriter::writeBinary (const std::string &file_name,
 #else
   pcl_close (fd);
 #endif
-  
+
   resetLockingPermissions (file_name, file_lock);
   return (0);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT> int
-pcl::PCDWriter::writeASCII (const std::string &file_name, 
-                            const pcl::PointCloud<PointT> &cloud, 
+pcl::PCDWriter::writeASCII (const std::string &file_name,
+                            const pcl::PointCloud<PointT> &cloud,
                             const std::vector<int> &indices,
                             const int precision)
 {
@@ -800,7 +800,7 @@ pcl::PCDWriter::writeASCII (const std::string &file_name,
         continue;
 
       int count = fields[d].count;
-      if (count == 0) 
+      if (count == 0)
         count = 1;          // we simply cannot tolerate 0 counts (coming from older converter code)
 
       for (int c = 0; c < count; ++c)
@@ -903,7 +903,7 @@ pcl::PCDWriter::writeASCII (const std::string &file_name,
     fs << result << "\n";
   }
   fs.close ();              // Close file
-  
+
   resetLockingPermissions (file_name, file_lock);
 
   return (0);

@@ -85,14 +85,14 @@ public:
          ) const;
 
   // virtual ON_Geometry override
-	bool GetTightBoundingBox( 
-			ON_BoundingBox& tight_bbox, 
+	bool GetTightBoundingBox(
+			ON_BoundingBox& tight_bbox,
       int bGrowBox = false,
 			const ON_Xform* xform = 0
       ) const;
 
   // virtual ON_Geometry override
-  ON_BOOL32 Transform( 
+  ON_BOOL32 Transform(
          const ON_Xform&
          );
 
@@ -109,7 +109,7 @@ public:
 
   /////////////////////////////////////////////////////////////////
   // Interface
-  // 
+  //
   int PointCount() const;
   void AppendPoint( const ON_3dPoint& );
   void InvalidateBoundingBox(); // call if you change values of points
@@ -199,7 +199,7 @@ public:
   /////////////////////////////////////////////////////////////////
   // Implementation - RUNTIME point visibility - not saved in 3dm files.
   //    If m_H.Count() = m_P.Count(), then
-  //    m_H[j] is true if the point m_P[j] 
+  //    m_H[j] is true if the point m_P[j]
   //    is hidden.  Otherwise, all points are visible.
   //    m_hidden_count = number of true values in the m_H[] array.
   ON_SimpleArray<bool> m_H;

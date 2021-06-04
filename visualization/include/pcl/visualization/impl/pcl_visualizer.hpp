@@ -308,10 +308,10 @@ pcl::visualization::PCLVisualizer::addPolygon (
   if (am_it != shape_actor_map_->end ())
   {
     vtkSmartPointer<vtkAppendPolyData> all_data = vtkSmartPointer<vtkAppendPolyData>::New ();
-    
+
     // Add old data
     all_data->AddInput (reinterpret_cast<vtkPolyDataMapper*> ((vtkActor::SafeDownCast (am_it->second))->GetMapper ())->GetInput ());
-   
+
     // Add new data
     vtkSmartPointer<vtkDataSetSurfaceFilter> surface_filter = vtkSmartPointer<vtkDataSetSurfaceFilter>::New ();
     surface_filter->SetInput (vtkUnstructuredGrid::SafeDownCast (data));
@@ -572,8 +572,8 @@ pcl::visualization::PCLVisualizer::addSphere (const PointT &center, double radiu
   data->SetThetaResolution (10);
   data->LatLongTessellationOff ();
   data->Update ();
- 
-  // Setup actor and mapper 
+
+  // Setup actor and mapper
   vtkSmartPointer <vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New ();
   mapper->SetInputConnection (data->GetOutputPort ());
 
@@ -925,7 +925,7 @@ pcl::visualization::PCLVisualizer::addCorrespondences (
   line_cells->SetCells (n_corr, line_cells_id);
   line_points->SetNumberOfPoints (j*2);
   line_tcoords->SetNumberOfTuples (j*2);
- 
+
   // Fill in the lines
   line_data->SetPoints (line_points);
   line_data->SetLines (line_cells);
@@ -1030,7 +1030,7 @@ pcl::visualization::PCLVisualizer::addCorrespondences (
   line_cells->SetCells (n_corr, line_cells_id);
   line_points->SetNumberOfPoints (j*2);
   line_tcoords->SetNumberOfTuples (j*2);
- 
+
   // Fill in the lines
   line_data->SetPoints (line_points);
   line_data->SetLines (line_cells);
@@ -1133,7 +1133,7 @@ pcl::visualization::PCLVisualizer::updateCorrespondences (
   line_cells->SetCells (n_corr, line_cells_id);
   line_points->SetNumberOfPoints (j*2);
   line_tcoords->SetNumberOfTuples (j*2);
- 
+
   // Fill in the lines
   line_data->SetPoints (line_points);
   line_data->SetLines (line_cells);
@@ -1469,7 +1469,7 @@ pcl::visualization::PCLVisualizer::addPolygonMesh (
   CloudActorMap::iterator am_it = cloud_actor_map_->find (id);
   if (am_it != cloud_actor_map_->end ())
   {
-    pcl::console::print_warn (stderr, 
+    pcl::console::print_warn (stderr,
                                 "[addPolygonMesh] A shape with id <%s> already exists! Please choose a different id and retry.\n",
                                 id.c_str ());
     return (false);

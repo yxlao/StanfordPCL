@@ -11,8 +11,8 @@
 int
 main (int argc, char** argv)
 {
-  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>), 
-                                      cloud_filtered (new pcl::PointCloud<pcl::PointXYZ>), 
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>),
+                                      cloud_filtered (new pcl::PointCloud<pcl::PointXYZ>),
                                       cloud_projected (new pcl::PointCloud<pcl::PointXYZ>);
   pcl::PCDReader reader;
 

@@ -74,12 +74,12 @@ void checkSimpleLine8 (unsigned x_start, unsigned y_start, unsigned x_end, unsig
   int dx = x_end - x_start;
   int dy = y_end - y_start;
   unsigned dmax = std::max (abs(dx), abs(dy));
-  
+
   EXPECT_EQ (dmax, idx);
-  
+
   int x_step = 0;
   int y_step = 0;
-  
+
   EXPECT_GT (dmax, 0);
   if (dx == 0)
   {
@@ -144,7 +144,7 @@ void checkGeneralLine (unsigned x_start, unsigned y_start, unsigned x_end, unsig
     neighbors = LineIterator::Neighbor8;
   else
     neighbors = LineIterator::Neighbor4;
-    
+
   LineIterator lineIt (x_start, y_start, x_end, y_end, cloud.width, neighbors);
   // use polymorphic
   OrganizedIndexIterator& iterator = lineIt;
@@ -159,7 +159,7 @@ void checkGeneralLine (unsigned x_start, unsigned y_start, unsigned x_end, unsig
     ++iterator;
     ++idx;
   }
-  
+
   int dx = x_end - x_start;
   int dy = y_end - y_start;
   unsigned dmax = std::max (abs(dx), abs(dy));
@@ -168,11 +168,11 @@ void checkGeneralLine (unsigned x_start, unsigned y_start, unsigned x_end, unsig
     EXPECT_EQ (dmax, idx);
   else
     EXPECT_EQ (abs(dx) + abs(dy), idx);
-  
+
   float length = sqrtf (float (dx * dx + dy * dy));
   float dir_x = float (dx) / length;
   float dir_y = float (dy) / length;
-  
+
   // now all z-values should be 0 again!
   for (int yIdx = 0; yIdx < int(cloud.height); ++yIdx)
   {
@@ -183,11 +183,11 @@ void checkGeneralLine (unsigned x_start, unsigned y_start, unsigned x_end, unsig
       {
         // point need to be close to line
         float distance = dir_x * float(yIdx - int(y_start)) - dir_y * float(xIdx - int(x_start));
-        if (neighorhood)        
+        if (neighorhood)
           EXPECT_LE (fabs(distance), 0.5f);
         else
           EXPECT_LE (fabs(distance), 0.70711f);
-        
+
         // and within the endpoints
         float lambda = dir_y * float(yIdx - int(y_start)) + dir_x * float(xIdx - int(x_start));
         EXPECT_LE (lambda, length);
@@ -203,27 +203,27 @@ TEST (PCL, LineIterator8Neighbors)
   PointCloud <PointXYZ> cloud;
   cloud.width = 100;
   cloud.height = 100;
-  cloud.resize (cloud.width * cloud.height);  
-  
+  cloud.resize (cloud.width * cloud.height);
+
   unsigned center_x = 50;
   unsigned center_y = 50;
   unsigned length = 45;
-  
+
   // right
   checkSimpleLine8 (center_x, center_y, center_x + length, center_y, cloud);
-  
+
   // left
   checkSimpleLine8 (center_x, center_y, center_x - length, center_y, cloud);
 
   // down
   checkSimpleLine8 (center_x, center_y, center_x, center_y - length, cloud);
-  
+
   // up
   checkSimpleLine8 (center_x, center_y, center_x, center_y + length, cloud);
 
   // up-right
   checkSimpleLine8 (center_x, center_y, center_x + length, center_y + length, cloud);
-  
+
   // up-left
   checkSimpleLine8 (center_x, center_y, center_x - length, center_y + length, cloud);
 
@@ -240,19 +240,19 @@ TEST (PCL, LineIterator8NeighborsGeneral)
   PointCloud <PointXYZ> cloud;
   cloud.width = 100;
   cloud.height = 100;
-  cloud.resize (cloud.width * cloud.height);  
-  
+  cloud.resize (cloud.width * cloud.height);
+
   unsigned center_x = 50;
   unsigned center_y = 50;
   unsigned length = 45;
-  
+
   const unsigned angular_resolution = 180;
   float d_alpha = float(M_PI / angular_resolution);
   for (unsigned idx = 0; idx < angular_resolution; ++idx)
   {
     unsigned x_end = unsigned (length * cos (float(idx) * d_alpha) + center_x + 0.5);
     unsigned y_end = unsigned (length * sin (float(idx) * d_alpha) + center_y + 0.5);
-    
+
     // right
     checkGeneralLine (center_x, center_y, x_end, y_end, cloud, true);
   }
@@ -264,19 +264,19 @@ TEST (PCL, LineIterator4NeighborsGeneral)
   PointCloud <PointXYZ> cloud;
   cloud.width = 100;
   cloud.height = 100;
-  cloud.resize (cloud.width * cloud.height);  
-  
+  cloud.resize (cloud.width * cloud.height);
+
   unsigned center_x = 50;
   unsigned center_y = 50;
   unsigned length = 45;
-  
+
   const unsigned angular_resolution = 360;
   float d_alpha = float(2.0 * M_PI / angular_resolution);
   for (unsigned idx = 0; idx < angular_resolution; ++idx)
   {
     unsigned x_end = unsigned (length * cos (float(idx) * d_alpha) + center_x + 0.5);
     unsigned y_end = unsigned (length * sin (float(idx) * d_alpha) + center_y + 0.5);
-    
+
     // right
     checkGeneralLine (center_x, center_y, x_end, y_end, cloud, false);
   }

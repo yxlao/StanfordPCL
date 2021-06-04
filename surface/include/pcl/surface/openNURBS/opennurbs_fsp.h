@@ -21,15 +21,15 @@ class ON_CLASS ON_FixedSizePool
 public:
   ON_FixedSizePool();
   ~ON_FixedSizePool();
-  
+
   /*
   Description:
     Create a fixed size memory pool.
   Parameters:
-    sizeof_element - [in] 
+    sizeof_element - [in]
       number of bytes in each element. This parameter must be greater than zero.
-      In general, use sizeof(element type).  If you pass a "raw" number as 
-      sizeof_element, then be certain that it is the right size to insure the 
+      In general, use sizeof(element type).  If you pass a "raw" number as
+      sizeof_element, then be certain that it is the right size to insure the
       fields in your elements will be properly aligned.
     element_count_estimate - [in] (0 = good default)
       If you know how many elements you will need, pass that number here.
@@ -39,8 +39,8 @@ public:
       If block_element_capacity is zero, Create() will calculate a block
       size that is efficent for most applications.  If you are an expert
       user and want to specify the number of elements per block,
-      then pass the number of elements per block here.  When 
-      block_element_capacity > 0 and element_count_estimate > 0, the first 
+      then pass the number of elements per block here.  When
+      block_element_capacity > 0 and element_count_estimate > 0, the first
       block will have a capacity of at least element_count_estimate; in this
       case do not ask for extraordinarly large amounts of contiguous heap.
   Remarks:
@@ -49,7 +49,7 @@ public:
   Returns:
     True if successful and the pool can be used.
   */
-  bool Create( 
+  bool Create(
     size_t sizeof_element,
     size_t element_count_estimate,
     size_t block_element_capacity
@@ -66,7 +66,7 @@ public:
     A pointer to sizeof_element bytes.  The memory is zeroed.
   */
   void* AllocateElement();
-  
+
   /*
   Description:
     Return an element to the pool.
@@ -88,7 +88,7 @@ public:
 
     ON_FixedMemoryPool uses the first sizeof(void*) bytes of the
     returned element for bookkeeping purposes.  Therefore, if you
-    are going to use ReturnElement(), then SizeofElement() must be 
+    are going to use ReturnElement(), then SizeofElement() must be
     at least sizeof(void*).  If you are using a platform that requires
     pointers to be aligned on sizeof(void*) boundaries, then
     SizeofElement() must be a multiple of sizeof(void*).
@@ -96,9 +96,9 @@ public:
     and NextElement() to iterate through the list of elements, then you
     need to set a value in the returned element to indicate that it
     needs to be skipped during the iteration.  This value cannot be
-    located in the fist sizeof(void*) bytes of the element.  If the 
-    element is a class with a vtable, you cannot call a virtual 
-    function on a returned element because the vtable pointer is 
+    located in the fist sizeof(void*) bytes of the element.  If the
+    element is a class with a vtable, you cannot call a virtual
+    function on a returned element because the vtable pointer is
     trashed when ReturnElement() modifies the fist sizeof(void*) bytes.
   */
   void ReturnElement(void* p);
@@ -135,7 +135,7 @@ public:
     Get the first element when iterating through the list of elements.
   Parameters:
     element_index - [in]
-      If you use the version of FirstElement() that has an 
+      If you use the version of FirstElement() that has an
       element_index parameter, then the iteration begins at
       that element.
   Example:
@@ -160,8 +160,8 @@ public:
   Returns:
     The first element when iterating through the list of elements.
   Remarks:
-    FirstElement() and NextElement() will return elements that have 
-    been returned to the pool using ReturnElement().  If you use 
+    FirstElement() and NextElement() will return elements that have
+    been returned to the pool using ReturnElement().  If you use
     ReturnElement(), then be sure to mark the element so it can be
     identified and skipped.
 
@@ -179,8 +179,8 @@ public:
   Returns:
     The next element when iterating through the list of elements.
   Remarks:
-    FirstElement() and NextElement() will return elements that have 
-    been returned to the pool using ReturnElement().  If you use 
+    FirstElement() and NextElement() will return elements that have
+    been returned to the pool using ReturnElement().  If you use
     ReturnElement(), then be sure to mark the element so it can be
     identified and skipped.
 
@@ -203,15 +203,15 @@ public:
 
           // iterate through all blocks in the pool
           size_t block_element_count = 0;
-          for ( void* p = FirstBlock(&block_element_count); 
-                0 != p; 
-                p = NextBlock(&block_element_count) 
+          for ( void* p = FirstBlock(&block_element_count);
+                0 != p;
+                p = NextBlock(&block_element_count)
               )
           {
             ElementType* e = (ElementType*)p;
-            for ( size_t i = 0; 
-                  i < block_element_count; 
-                  i++, e = ((const char*)e) + SizeofElement() 
+            for ( size_t i = 0;
+                  i < block_element_count;
+                  i++, e = ((const char*)e) + SizeofElement()
                 )
             {
               ...
@@ -267,8 +267,8 @@ public:
     in the first few blocks.
 
     If ReturnElement() is not used or AllocateElement() calls to
-    are made after any use of ReturnElement(), then the i-th 
-    element is the one returned by the (i+1)-th call to 
+    are made after any use of ReturnElement(), then the i-th
+    element is the one returned by the (i+1)-th call to
     AllocateElement().
   */
   void* Element(size_t element_index) const;
@@ -278,7 +278,7 @@ public:
   Description:
     Expert user function to call when the heap used by this pool
     is no longer valid.  This call zeros all fields and does not
-    call any heap functions.  After calling EmergencyDestroy(), 
+    call any heap functions.  After calling EmergencyDestroy(),
     the destructor will not attempt to free any heap.
   */
   void EmergencyDestroy();
@@ -302,7 +302,7 @@ private:
   size_t m_block_element_count;  // block element count
   size_t m_active_element_count; // number of active elements
   size_t m_total_element_count;  // total number of elements (active + returned)
-  
+
 private:
   // returns capacity of elements in existing block
   size_t BlockElementCapacity( const void* block ) const;
@@ -323,7 +323,7 @@ public:
 
   ON_SimpleFixedSizePool();
   ~ON_SimpleFixedSizePool();
-  
+
   /*
   Description:
     Create a fixed size memory pool.
@@ -346,7 +346,7 @@ public:
   Returns:
     True if successful and the pool can be used.
   */
-  bool Create( 
+  bool Create(
     size_t element_count_estimate,
     size_t block_element_count
     );
@@ -362,7 +362,7 @@ public:
     A pointer to sizeof_element bytes.  The memory is zeroed.
   */
   T* AllocateElement();
-  
+
   /*
   Description:
     Return an element to the pool.
@@ -384,7 +384,7 @@ public:
 
     ON_FixedMemoryPool uses the first sizeof(void*) bytes of the
     returned element for bookkeeping purposes.  Therefore, if you
-    are going to use ReturnElement(), then SizeofElement() must be 
+    are going to use ReturnElement(), then SizeofElement() must be
     at least sizeof(void*).  If you are using a platform that requires
     pointers to be aligned on sizeof(void*) boundaries, then
     SizeofElement() must be a multiple of sizeof(void*).
@@ -392,9 +392,9 @@ public:
     and NextElement() to iterate through the list of elements, then you
     need to set a value in the returned element to indicate that it
     needs to be skipped during the iteration.  This value cannot be
-    located in the fist sizeof(void*) bytes of the element.  If the 
-    element is a class with a vtable, you cannot call a virtual 
-    function on a returned element because the vtable pointer is 
+    located in the fist sizeof(void*) bytes of the element.  If the
+    element is a class with a vtable, you cannot call a virtual
+    function on a returned element because the vtable pointer is
     trashed when ReturnElement() modifies the fist sizeof(void*) bytes.
   */
   void ReturnElement(T* p);
@@ -478,9 +478,9 @@ public:
 
           // iterate through all blocks in the pool
           size_t block_element_count = 0;
-          for ( T* p = FirstBlock(&block_element_count); 
-                0 != p; 
-                p = NextBlock(&block_element_count) 
+          for ( T* p = FirstBlock(&block_element_count);
+                0 != p;
+                p = NextBlock(&block_element_count)
               )
           {
             // a[] is an array of length block_element_count
@@ -526,8 +526,8 @@ public:
     in the first few blocks.
 
     If ReturnElement() is not used or AllocateElement() calls to
-    are made after any use of ReturnElement(), then the i-th 
-    element is the one returned by the (i+1)-th call to 
+    are made after any use of ReturnElement(), then the i-th
+    element is the one returned by the (i+1)-th call to
     AllocateElement().
   */
   T* Element(size_t element_index) const;
@@ -537,7 +537,7 @@ public:
   Description:
     Expert user function to call when the heap used by this pool
     is no longer valid.  This call zeros all fields and does not
-    call any heap functions.  After calling EmergencyDestroy(), 
+    call any heap functions.  After calling EmergencyDestroy(),
     the destructor will not attempt to free any heap.
   */
   void EmergencyDestroy();

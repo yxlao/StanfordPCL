@@ -75,7 +75,7 @@ namespace pcl
       {
         reg_name_ = "NormalDistributionsTransform2D";
       }
- 
+
       /** \brief centre of the ndt grid (target coordinate system)
         * \param centre value to set
         */
@@ -118,7 +118,7 @@ namespace pcl
         * \param[out] output the transformed input point cloud dataset using the rigid transformation found
         * \param[in] guess the initial guess of the transformation to compute
         */
-      virtual void 
+      virtual void
       computeTransformation (PointCloudSource &output, const Eigen::Matrix4f &guess);
 
       using Registration<PointSource, PointTarget>::reg_name_;
@@ -128,7 +128,7 @@ namespace pcl
       using Registration<PointSource, PointTarget>::max_iterations_;
       using Registration<PointSource, PointTarget>::transformation_epsilon_;
       using Registration<PointSource, PointTarget>::transformation_;
-      using Registration<PointSource, PointTarget>::previous_transformation_;      
+      using Registration<PointSource, PointTarget>::previous_transformation_;
       using Registration<PointSource, PointTarget>::final_transformation_;
       using Registration<PointSource, PointTarget>::update_visualizer_;
       using Registration<PointSource, PointTarget>::indices_;

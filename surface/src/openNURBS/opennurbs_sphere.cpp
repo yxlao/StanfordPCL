@@ -96,8 +96,8 @@ double ON_Sphere::Diameter() const
   return 2.0*radius;
 }
 
-bool ON_Sphere::ClosestPointTo( 
-       ON_3dPoint point, 
+bool ON_Sphere::ClosestPointTo(
+       ON_3dPoint point,
        double* longitude,
        double* latitude
        ) const

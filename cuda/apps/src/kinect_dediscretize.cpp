@@ -57,7 +57,7 @@ class SimpleKinectTool
     {
 	    pcl_cuda::PointCloudAOS<pcl_cuda::Device>::Ptr data;
     	{
-    	pcl::ScopeTime t ("time:");    
+    	pcl::ScopeTime t ("time:");
       d2c.compute<pcl_cuda::Device> (depth_image, image, constant, data);
       }
       //d2c.callback (depth_image, constant, *data);
@@ -68,7 +68,7 @@ class SimpleKinectTool
       viewer.showCloud (output);
 
     }
-    
+
     void run (const std::string& device_id)
     {
       pcl::Grabber* interface = new pcl::OpenNIGrabber(device_id);
@@ -79,7 +79,7 @@ class SimpleKinectTool
 
       //viewer.runOnVisualizationThread (fn, "viz_cb");
       interface->start ();
-      
+
       while (true)
       {
         sleep (1);

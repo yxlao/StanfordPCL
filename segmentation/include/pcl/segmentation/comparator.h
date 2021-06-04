@@ -64,22 +64,22 @@ namespace pcl
       Comparator () : input_ ()
       {
       }
-      
+
       /** \brief Empty destructor for comparator. */
       virtual
       ~Comparator ()
       {
       }
-      
+
       /** \brief Set the input cloud for the comparator.
         * \param[in] cloud the point cloud this comparator will operate on
         */
-      virtual void 
+      virtual void
       setInputCloud (const PointCloudConstPtr& cloud)
       {
         input_ = cloud;
       }
-      
+
       /** \brief Get the input cloud this comparator operates on. */
       virtual PointCloudConstPtr
       getInputCloud () const
@@ -94,7 +94,7 @@ namespace pcl
         */
       virtual bool
       compare (int idx1, int idx2) const = 0;
-      
+
     protected:
       PointCloudConstPtr input_;
   };

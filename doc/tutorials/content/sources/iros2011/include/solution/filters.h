@@ -50,7 +50,7 @@ removeOutliers (const PointCloudPtr & input, float radius, int min_neighbors)
 
 /* Apply a series of filters (threshold depth, downsample, and remove outliers) */
 PointCloudPtr
-applyFilters (const PointCloudPtr & input, float min_depth, float max_depth, float leaf_size, float radius, 
+applyFilters (const PointCloudPtr & input, float min_depth, float max_depth, float leaf_size, float radius,
               float min_neighbors)
 {
   PointCloudPtr filtered;

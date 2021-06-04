@@ -39,7 +39,7 @@
 
 namespace pcl {
 
-inline float 
+inline float
 Narf::getDescriptorDistance(const Narf& other) const
 {
   float ret = L1_Norm(descriptor_, other.descriptor_, descriptor_size_);
@@ -91,7 +91,7 @@ inline void Narf::copyToNarf36(Narf36& narf36) const
 //inline float Narf::getDescriptorDistance(const Narf& other) const
 //{
   //float max_diff_between_cells = 0.25;
-  
+
   //const float* descriptor1_ptr = descriptor_;
   //const float* descriptor2_ptr = other.getDescriptor();
   //float ret = 0;

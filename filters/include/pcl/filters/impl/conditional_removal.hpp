@@ -48,7 +48,7 @@
 //////////////////////////////////////////////////////////////////////////
 template <typename PointT>
 pcl::FieldComparison<PointT>::FieldComparison (
-    std::string field_name, ComparisonOps::CompareOp op, double compare_val) 
+    std::string field_name, ComparisonOps::CompareOp op, double compare_val)
   : ComparisonBase<PointT> ()
   , compare_val_ (compare_val), point_data_ (NULL)
 {
@@ -56,7 +56,7 @@ pcl::FieldComparison<PointT>::FieldComparison (
   op_ = op;
 
   // Get all fields
-  std::vector<sensor_msgs::PointField> point_fields; 
+  std::vector<sensor_msgs::PointField> point_fields;
   // Use a dummy cloud to get the field types in a clever way
   PointCloud<PointT> dummyCloud;
   pcl::getFields (dummyCloud, point_fields);
@@ -73,10 +73,10 @@ pcl::FieldComparison<PointT>::FieldComparison (
   size_t d;
   for (d = 0; d < point_fields.size (); ++d)
   {
-    if (point_fields[d].name == field_name) 
+    if (point_fields[d].name == field_name)
       break;
   }
-  
+
   if (d == point_fields.size ())
   {
     PCL_WARN ("[pcl::FieldComparison::FieldComparison] field not found!\n");
@@ -92,7 +92,7 @@ pcl::FieldComparison<PointT>::FieldComparison (
 
 //////////////////////////////////////////////////////////////////////////
 template <typename PointT>
-pcl::FieldComparison<PointT>::~FieldComparison () 
+pcl::FieldComparison<PointT>::~FieldComparison ()
 {
   if (point_data_ != NULL)
   {
@@ -115,7 +115,7 @@ pcl::FieldComparison<PointT>::evaluate (const PointT &point) const
   // if p(data) == val then compare_result = 0
   // if p(data) <  ival then compare_result = -1
   int compare_result = point_data_->compare (point, compare_val_);
-  
+
   switch (this->op_)
   {
     case pcl::ComparisonOps::GT :
@@ -208,7 +208,7 @@ pcl::PackedRGBComparison<PointT>::evaluate (const PointT &point) const
   uint8_t my_val = *(pt_data + component_offset_);
 
   // now do the comparison
-  switch (this->op_) 
+  switch (this->op_)
   {
     case pcl::ComparisonOps::GT :
       return (my_val > this->compare_val_);
@@ -231,11 +231,11 @@ pcl::PackedRGBComparison<PointT>::evaluate (const PointT &point) const
 //////////////////////////////////////////////////////////////////////////
 template <typename PointT>
 pcl::PackedHSIComparison<PointT>::PackedHSIComparison (
-    std::string component_name, ComparisonOps::CompareOp op, double compare_val) : 
+    std::string component_name, ComparisonOps::CompareOp op, double compare_val) :
   component_name_ (component_name), component_id_ (), compare_val_ (compare_val), rgb_offset_ ()
 {
   // Get all the fields
-  std::vector<sensor_msgs::PointField> point_fields; 
+  std::vector<sensor_msgs::PointField> point_fields;
   // Use a dummy cloud to get the field types in a clever way
   PointCloud<PointT> dummyCloud;
   pcl::getFields (dummyCloud, point_fields);
@@ -243,7 +243,7 @@ pcl::PackedHSIComparison<PointT>::PackedHSIComparison (
   // Locate the "rgb" field
   size_t d;
   for (d = 0; d < point_fields.size (); ++d)
-    if (point_fields[d].name == "rgb" || point_fields[d].name == "rgba") 
+    if (point_fields[d].name == "rgb" || point_fields[d].name == "rgba")
       break;
   if (d == point_fields.size ())
   {
@@ -254,9 +254,9 @@ pcl::PackedHSIComparison<PointT>::PackedHSIComparison (
 
   // Verify the datatype
   uint8_t datatype = point_fields[d].datatype;
-  if (datatype != sensor_msgs::PointField::FLOAT32 && 
-      datatype != sensor_msgs::PointField::UINT32 && 
-      datatype != sensor_msgs::PointField::INT32) 
+  if (datatype != sensor_msgs::PointField::FLOAT32 &&
+      datatype != sensor_msgs::PointField::UINT32 &&
+      datatype != sensor_msgs::PointField::INT32)
   {
     PCL_WARN ("[pcl::PackedHSIComparison::PackedHSIComparison] has unusable type!\n");
     capable_ = false;
@@ -274,19 +274,19 @@ pcl::PackedHSIComparison<PointT>::PackedHSIComparison (
   rgb_offset_ = point_fields[d].offset;
 
   // verify the component name
-  if (component_name == "h" ) 
+  if (component_name == "h" )
   {
     component_id_ = H;
-  } 
-  else if (component_name == "s") 
+  }
+  else if (component_name == "s")
   {
     component_id_ = S;
-  } 
-  else if (component_name == "i") 
-  { 
+  }
+  else if (component_name == "i")
+  {
     component_id_ = I;
-  } 
-  else 
+  }
+  else
   {
     PCL_WARN ("[pcl::PackedRGBComparison::PackedRGBComparison] unrecognized component name!\n");
     capable_ = false;
@@ -316,11 +316,11 @@ pcl::PackedHSIComparison<PointT>::evaluate (const PointT &point) const
   const uint32_t* rgb_data = reinterpret_cast<const uint32_t*> (pt_data + rgb_offset_);
   uint32_t new_rgb_val = *rgb_data;
 
-  if (rgb_val_ != new_rgb_val) 
+  if (rgb_val_ != new_rgb_val)
   { // avoid having to redo this calc, if possible
     rgb_val_ = new_rgb_val;
     // extract r,g,b
-    r_ = static_cast <uint8_t> (rgb_val_ >> 16); 
+    r_ = static_cast <uint8_t> (rgb_val_ >> 16);
     g_ = static_cast <uint8_t> (rgb_val_ >> 8);
     b_ = static_cast <uint8_t> (rgb_val_);
 
@@ -341,7 +341,7 @@ pcl::PackedHSIComparison<PointT>::evaluate (const PointT &point) const
 
   float my_val = 0;
 
-  switch (component_id_) 
+  switch (component_id_)
   {
     case H:
       my_val = static_cast <float> (h_);
@@ -357,7 +357,7 @@ pcl::PackedHSIComparison<PointT>::evaluate (const PointT &point) const
   }
 
   // now do the comparison
-  switch (this->op_) 
+  switch (this->op_)
   {
     case pcl::ComparisonOps::GT :
       return (my_val > this->compare_val_);
@@ -510,10 +510,10 @@ bool
 pcl::TfQuadraticXYZComparison<PointT>::evaluate (const PointT &point) const
 {
   Eigen::Vector4f pointAffine;
-  pointAffine << point.x, point.y, point.z, 1; 
-  
+  pointAffine << point.x, point.y, point.z, 1;
+
   float myVal = static_cast<float>(2.0f * tf_comp_vect_.transpose () * pointAffine) + static_cast<float>(pointAffine.transpose () * tf_comp_matr_ * pointAffine) + comp_scalar_ - 3.0f;
-  
+
   // now do the comparison
   switch (this->op_)
   {
@@ -537,23 +537,23 @@ pcl::TfQuadraticXYZComparison<PointT>::evaluate (const PointT &point) const
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 template <typename PointT> int
-pcl::PointDataAtOffset<PointT>::compare (const PointT& p, const double& val) 
+pcl::PointDataAtOffset<PointT>::compare (const PointT& p, const double& val)
 {
   // if p(data) > val return 1
   // if p(data) == val return 0
-  // if p(data) < val return -1 
-  
+  // if p(data) < val return -1
+
   const uint8_t* pt_data = reinterpret_cast<const uint8_t*> (&p);
 
-  switch (datatype_) 
+  switch (datatype_)
   {
-    case sensor_msgs::PointField::INT8 : 
+    case sensor_msgs::PointField::INT8 :
     {
       int8_t pt_val;
       memcpy (&pt_val, pt_data + this->offset_, sizeof (int8_t));
       return (pt_val > static_cast<int8_t>(val)) - (pt_val < static_cast<int8_t> (val));
     }
-    case sensor_msgs::PointField::UINT8 : 
+    case sensor_msgs::PointField::UINT8 :
     {
       uint8_t pt_val;
       memcpy (&pt_val, pt_data + this->offset_, sizeof (uint8_t));
@@ -565,37 +565,37 @@ pcl::PointDataAtOffset<PointT>::compare (const PointT& p, const double& val)
       memcpy (&pt_val, pt_data + this->offset_, sizeof (int16_t));
       return (pt_val > static_cast<int16_t>(val)) - (pt_val < static_cast<int16_t> (val));
     }
-    case sensor_msgs::PointField::UINT16 : 
+    case sensor_msgs::PointField::UINT16 :
     {
       uint16_t pt_val;
       memcpy (&pt_val, pt_data + this->offset_, sizeof (uint16_t));
       return (pt_val > static_cast<uint16_t> (val)) - (pt_val < static_cast<uint16_t> (val));
     }
-    case sensor_msgs::PointField::INT32 : 
+    case sensor_msgs::PointField::INT32 :
     {
       int32_t pt_val;
       memcpy (&pt_val, pt_data + this->offset_, sizeof (int32_t));
       return (pt_val > static_cast<int32_t> (val)) - (pt_val < static_cast<int32_t> (val));
     }
-    case sensor_msgs::PointField::UINT32 : 
+    case sensor_msgs::PointField::UINT32 :
     {
       uint32_t pt_val;
       memcpy (&pt_val, pt_data + this->offset_, sizeof (uint32_t));
       return (pt_val > static_cast<uint32_t> (val)) - (pt_val < static_cast<uint32_t> (val));
     }
-    case sensor_msgs::PointField::FLOAT32 : 
+    case sensor_msgs::PointField::FLOAT32 :
     {
       float pt_val;
       memcpy (&pt_val, pt_data + this->offset_, sizeof (float));
       return (pt_val > static_cast<float> (val)) - (pt_val < static_cast<float> (val));
     }
-    case sensor_msgs::PointField::FLOAT64 : 
+    case sensor_msgs::PointField::FLOAT64 :
     {
       double pt_val;
       memcpy (&pt_val, pt_data + this->offset_, sizeof (double));
       return (pt_val > val) - (pt_val < val);
     }
-    default : 
+    default :
       PCL_WARN ("[pcl::pcl::PointDataAtOffset::compare] unknown data_type!\n");
       return (0);
   }
@@ -604,7 +604,7 @@ pcl::PointDataAtOffset<PointT>::compare (const PointT& p, const double& val)
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
-template <typename PointT> void 
+template <typename PointT> void
 pcl::ConditionBase<PointT>::addComparison (ComparisonBaseConstPtr comparison)
 {
   if (!comparison->isCapable ())
@@ -613,7 +613,7 @@ pcl::ConditionBase<PointT>::addComparison (ComparisonBaseConstPtr comparison)
 }
 
 //////////////////////////////////////////////////////////////////////////
-template <typename PointT> void 
+template <typename PointT> void
 pcl::ConditionBase<PointT>::addCondition (Ptr condition)
 {
   if (!condition->isCapable ())
@@ -641,10 +641,10 @@ pcl::ConditionAnd<PointT>::evaluate (const PointT &point) const
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
-template <typename PointT> bool 
+template <typename PointT> bool
 pcl::ConditionOr<PointT>::evaluate (const PointT &point) const
 {
-  if (comparisons_.empty () && conditions_.empty ()) 
+  if (comparisons_.empty () && conditions_.empty ())
     return (true);
   for (size_t i = 0; i < comparisons_.size (); ++i)
     if (comparisons_[i]->evaluate(point))
@@ -660,7 +660,7 @@ pcl::ConditionOr<PointT>::evaluate (const PointT &point) const
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
-template <typename PointT> void 
+template <typename PointT> void
 pcl::ConditionalRemoval<PointT>::setCondition (ConditionBasePtr condition)
 {
   condition_ = condition;
@@ -683,7 +683,7 @@ pcl::ConditionalRemoval<PointT>::applyFilter (PointCloud &output)
     return;
   }
 
-  if (condition_.get () == NULL) 
+  if (condition_.get () == NULL)
   {
     PCL_WARN ("[pcl::%s::applyFilter] No filtering condition given!\n", getClassName ().c_str ());
     return;
@@ -695,8 +695,8 @@ pcl::ConditionalRemoval<PointT>::applyFilter (PointCloud &output)
   {
     output.height    = 1;   // filtering breaks the organized structure
     output.is_dense  = true;
-  } 
-  else 
+  }
+  else
   {
     output.height   = this->input_->height;
     output.width    = this->input_->width;
@@ -803,4 +803,4 @@ pcl::ConditionalRemoval<PointT>::applyFilter (PointCloud &output)
 #define PCL_INSTANTIATE_ConditionOr(T) template class PCL_EXPORTS pcl::ConditionOr<T>;
 #define PCL_INSTANTIATE_ConditionalRemoval(T) template class PCL_EXPORTS pcl::ConditionalRemoval<T>;
 
-#endif 
+#endif

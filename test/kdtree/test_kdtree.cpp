@@ -48,7 +48,7 @@
 using namespace std;
 using namespace pcl;
 
-struct MyPoint : public PointXYZ 
+struct MyPoint : public PointXYZ
 {
   MyPoint (float x, float y, float z) {this->x=x; this->y=y; this->z=z;}
 };
@@ -59,7 +59,7 @@ PointCloud<Eigen::MatrixXf> cloud_eigen;
 // Includ the implementation so that KdTree<MyPoint> works
 #include <pcl/kdtree/impl/kdtree_flann.hpp>
 
-void 
+void
 init ()
 {
   float resolution = 0.1f;
@@ -80,7 +80,7 @@ init ()
                                          static_cast<float> (1024 * rand () / (RAND_MAX + 1.0))));
 }
 
-void 
+void
 initEigen ()
 {
   cloud_eigen.width  = 640;
@@ -110,9 +110,9 @@ TEST (PCL, KdTreeFLANN_radiusSearch)
   vector<int> k_indices;
   vector<float> k_distances;
   kdtree.radiusSearch (test_point, max_dist, k_indices, k_distances, 100);
-  
+
   //cout << k_indices.size()<<"=="<<brute_force_result.size()<<"?\n";
-  
+
   for (size_t i = 0; i < k_indices.size (); ++i)
   {
     set<int>::iterator brute_force_result_it = brute_force_result.find (k_indices[i]);
@@ -125,7 +125,7 @@ TEST (PCL, KdTreeFLANN_radiusSearch)
   }
   //for (set<int>::const_iterator it=brute_force_result.begin(); it!=brute_force_result.end(); ++it)
     //cerr << "FLANN missed "<<*it<<"\n";
-  
+
   bool error = brute_force_result.size () > 0;
   //if (error)  cerr << "Missed too many neighbors!\n";
   EXPECT_EQ (error, false);
@@ -140,7 +140,7 @@ TEST (PCL, KdTreeFLANN_radiusSearch)
         kdtree.radiusSearch (cloud_big.points[i], 0.1, k_indices, k_distances);
     }
   }
-  
+
   {
     KdTreeFLANN<MyPoint> kdtree;
     kdtree.setInputCloud (cloud_big.makeShared ());
@@ -151,8 +151,8 @@ TEST (PCL, KdTreeFLANN_radiusSearch)
         kdtree.radiusSearch (cloud_big.points[i], 0.1, k_indices, k_distances, 10);
     }
   }
-  
-  
+
+
   {
     KdTreeFLANN<MyPoint> kdtree (false);
     kdtree.setInputCloud (cloud_big.makeShared ());
@@ -181,7 +181,7 @@ TEST (PCL, KdTreeFLANN_radiusSearchEigen)
   vector<int> k_indices;
   vector<float> k_distances;
   kdtree.radiusSearch (test_point, max_dist, k_indices, k_distances);
-  
+
   for (size_t i = 0; i < k_indices.size (); ++i)
   {
     set<int>::iterator brute_force_result_it = brute_force_result.find (k_indices[i]);
@@ -190,7 +190,7 @@ TEST (PCL, KdTreeFLANN_radiusSearchEigen)
     if (ok)
       brute_force_result.erase (brute_force_result_it);
   }
-  
+
   bool error = brute_force_result.size () > 0;
   EXPECT_EQ (error, false);
 
@@ -204,7 +204,7 @@ TEST (PCL, KdTreeFLANN_radiusSearchEigen)
         kdtree.radiusSearch (cloud_eigen.points.row (i), 0.1, k_indices, k_distances);
     }
   }
-  
+
   {
     KdTreeFLANN<Eigen::MatrixXf> kdtree (false);
     kdtree.setInputCloud (cloud_eigen.makeShared ());
@@ -321,11 +321,11 @@ TEST (PCL, KdTreeFLANN_nearestKSearchEigen)
 class MyPointRepresentationXY : public PointRepresentation<MyPoint>
 {
 public:
-  MyPointRepresentationXY () 
-  { 
-    this->nr_dimensions_ = 2; 
+  MyPointRepresentationXY ()
+  {
+    this->nr_dimensions_ = 2;
   }
-  
+
   void copyToFloatArray (const MyPoint &p, float *out) const
   {
     out[0] = p.x;
@@ -350,31 +350,31 @@ TEST (PCL, KdTreeFLANN_setPointRepresentation)
   KdTreeFLANN<MyPoint> kdtree;
   kdtree.setInputCloud (random_cloud);
   MyPoint p (50.0f, 50.0f, 50.0f);
-  
+
   // Find k nearest neighbors
   const int k = 10;
   vector<int> k_indices (k);
   vector<float> k_distances (k);
   kdtree.nearestKSearch (p, k, k_indices, k_distances);
-  for (int i = 0; i < k; ++i) 
+  for (int i = 0; i < k; ++i)
   {
     // Compare to ground truth values, computed independently
     static const int gt_indices[10] = {2, 7, 5, 1, 4, 6, 9, 0, 8, 3};
-    static const float gt_distances[10] = 
+    static const float gt_distances[10] =
       {877.8f, 1674.7f, 1802.6f, 1937.5f, 2120.6f, 2228.8f, 3064.5f, 3199.7f, 3604.2f, 4344.8f};
     EXPECT_EQ (k_indices[i], gt_indices[i]);
     EXPECT_NEAR (k_distances[i], gt_distances[i], 0.1);
   }
-  
+
   // Find k nearest neighbors with a different point representation
   boost::shared_ptr<MyPointRepresentationXY> ptrep (new MyPointRepresentationXY);
   kdtree.setPointRepresentation (ptrep);
   kdtree.nearestKSearch (p, k, k_indices, k_distances);
-  for (int i = 0; i < k; ++i) 
+  for (int i = 0; i < k; ++i)
   {
     // Compare to ground truth values, computed independently
     static const int gt_indices[10] = {6, 2, 5, 1, 7, 0, 4, 3, 9, 8};
-    static const float gt_distances[10] = 
+    static const float gt_distances[10] =
       {158.6f, 716.5f, 778.6f, 1170.2f, 1177.5f, 1402.0f, 1924.6f, 2639.1f, 2808.5f, 3370.1f};
     EXPECT_EQ (k_indices[i], gt_indices[i]);
     EXPECT_NEAR (k_distances[i], gt_distances[i], 0.1);
@@ -386,11 +386,11 @@ TEST (PCL, KdTreeFLANN_setPointRepresentation)
   point_rep.setRescaleValues(alpha);
   kdtree.setPointRepresentation (point_rep.makeShared ());
   kdtree.nearestKSearch (p, k, k_indices, k_distances);
-  for (int i = 0; i < k; ++i) 
+  for (int i = 0; i < k; ++i)
   {
     // Compare to ground truth values, computed independently
     static const int gt_indices[10] =  {2, 9, 4, 7, 1, 5, 8, 0, 3, 6};
-    static const float gt_distances[10] = 
+    static const float gt_distances[10] =
       {3686.9f, 6769.2f, 7177.0f, 8802.3f, 11071.5f, 11637.3f, 11742.4f, 17769.0f, 18497.3f, 18942.0f};
     EXPECT_EQ (k_indices[i], gt_indices[i]);
     EXPECT_NEAR (k_distances[i], gt_distances[i], 0.1);

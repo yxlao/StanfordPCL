@@ -43,7 +43,7 @@
 
 //////////////////////////////////////////////////////////////////////////
 // Variable naming uses capital letters to make the comparison with the original paper easier
-template<typename PointT> bool 
+template<typename PointT> bool
 pcl::ProgressiveSampleConsensus<PointT>::computeModel (int debug_verbosity_level)
 {
   // Warn and exit if no threshold was set
@@ -157,9 +157,9 @@ pcl::ProgressiveSampleConsensus<PointT>::computeModel (int debug_verbosity_level
 
       // We only need to compute possible better epsilon_n_star for when _n is just about to be removed an inlier
       size_t I_possible_n_star = I_N;
-      for (std::vector<int>::const_reverse_iterator last_inlier = inliers.rbegin (), 
-                                                    inliers_end = inliers.rend (); 
-           last_inlier != inliers_end; 
+      for (std::vector<int>::const_reverse_iterator last_inlier = inliers.rbegin (),
+                                                    inliers_end = inliers.rend ();
+           last_inlier != inliers_end;
            ++last_inlier, --I_possible_n_star)
       {
         // The best possible_n_star for a given I_possible_n_star is the index of the last inlier

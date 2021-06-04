@@ -44,7 +44,7 @@ you read the following resources:
  * http://www.siafoo.net/help/reST - has a nice tutorial/set of examples
 
 Once you understand how reST works, look over our current set of tutorials for
-examples at http://svn.pointclouds.org/pcl/trunk/doc/tutorials/content/. 
+examples at http://svn.pointclouds.org/pcl/trunk/doc/tutorials/content/.
 
 To add a new tutorial, simply create a new file, and send it to us together
 with the images/videos that you want included in the tutorial. The best way to
@@ -59,7 +59,7 @@ Providing a good API documentation is not easy -- as finding a balance between
 the amount of information that you present for each function, versus keeping it
 clean and simple is ermmm, a challenge in itself. Differently said, it's hard
 to know what sort of people will look at the API: hardcore developers or first
-time users. 
+time users.
 
 Our solution is to document the API as best as possible, but leave certain more
 complex details such as application examples for the tutorials. However, while

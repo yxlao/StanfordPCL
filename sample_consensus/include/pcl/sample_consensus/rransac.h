@@ -44,8 +44,8 @@
 namespace pcl
 {
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /** \brief @b RandomizedRandomSampleConsensus represents an implementation of the RRANSAC (Randomized RAndom SAmple 
-    * Consensus), as described in "Randomized RANSAC with Td,d test", O. Chum and J. Matas, Proc. British Machine Vision 
+  /** \brief @b RandomizedRandomSampleConsensus represents an implementation of the RRANSAC (Randomized RAndom SAmple
+    * Consensus), as described in "Randomized RANSAC with Td,d test", O. Chum and J. Matas, Proc. British Machine Vision
     * Conf. (BMVC '02), vol. 2, BMVA, pp. 448-457, 2002.
     * \note RRANSAC is useful in situations where most of the data samples belong to the model, and a fast outlier rejection algorithm is needed.
     * \author Radu Bogdan Rusu

@@ -78,7 +78,7 @@ openni_wrapper::OpenNIDriver::OpenNIDriver ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-unsigned 
+unsigned
 openni_wrapper::OpenNIDriver::updateDeviceList ()
 {
   // clear current list of devices
@@ -215,7 +215,7 @@ openni_wrapper::OpenNIDriver::updateDeviceList ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 openni_wrapper::OpenNIDriver::stopAll ()
 {
   XnStatus status = context_.StopGeneratingAll ();
@@ -242,14 +242,14 @@ openni_wrapper::OpenNIDriver::~OpenNIDriver () throw ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-boost::shared_ptr<openni_wrapper::OpenNIDevice> 
+boost::shared_ptr<openni_wrapper::OpenNIDevice>
 openni_wrapper::OpenNIDriver::createVirtualDevice (const std::string& path, bool repeat, bool stream) const
 {
   return (boost::shared_ptr<OpenNIDevice> (new DeviceONI (context_, path, repeat, stream)));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-boost::shared_ptr<openni_wrapper::OpenNIDevice> 
+boost::shared_ptr<openni_wrapper::OpenNIDevice>
 openni_wrapper::OpenNIDriver::getDeviceByIndex (unsigned index) const
 {
   using namespace std;
@@ -265,9 +265,9 @@ openni_wrapper::OpenNIDriver::getDeviceByIndex (unsigned index) const
 
     if (vendor_id == 0x45e)
     {
-      device.reset (new DeviceKinect (context_, 
+      device.reset (new DeviceKinect (context_,
                                       device_context_[index].device_node,
-                                      *device_context_[index].image_node, 
+                                      *device_context_[index].image_node,
                                       *device_context_[index].depth_node,
                                       *device_context_[index].ir_node));
       device_context_[index].device = device;
@@ -275,15 +275,15 @@ openni_wrapper::OpenNIDriver::getDeviceByIndex (unsigned index) const
     else if (vendor_id == 0x1d27)
     {
       if (device_context_[index].image_node.get())
-        device.reset (new DevicePrimesense (context_, 
-                                            device_context_[index].device_node, 
-                                            *device_context_[index].image_node, 
+        device.reset (new DevicePrimesense (context_,
+                                            device_context_[index].device_node,
+                                            *device_context_[index].image_node,
                                             *device_context_[index].depth_node,
                                             *device_context_[index].ir_node));
       else
-        device.reset (new DeviceXtionPro (context_, 
-                                          device_context_[index].device_node, 
-                                          *device_context_[index].depth_node, 
+        device.reset (new DeviceXtionPro (context_,
+                                          device_context_[index].device_node,
+                                          *device_context_[index].depth_node,
                                           *device_context_[index].ir_node));
       device_context_[index].device = device;
     }
@@ -411,7 +411,7 @@ openni_wrapper::OpenNIDriver::getDeviceInfos () throw ()
 #endif
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const char* 
+const char*
 openni_wrapper::OpenNIDriver::getSerialNumber (unsigned index) const throw ()
 {
 #ifndef _WIN32
@@ -430,7 +430,7 @@ openni_wrapper::OpenNIDriver::getSerialNumber (unsigned index) const throw ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 openni_wrapper::OpenNIDriver::getDeviceType (const std::string& connectionString, unsigned short& vendorId, unsigned short& productId)
 {
 #if _WIN32
@@ -444,7 +444,7 @@ openni_wrapper::OpenNIDriver::getDeviceType (const std::string& connectionString
     {
       std::string tokenValue = *tok_iter;
 
-      switch (tokenIndex) 
+      switch (tokenIndex)
       {
         case 2:    // the vendor ID
           sscanf (tokenValue.c_str (), "%hx", &vendorId);
@@ -462,28 +462,28 @@ openni_wrapper::OpenNIDriver::getDeviceType (const std::string& connectionString
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const char* 
+const char*
 openni_wrapper::OpenNIDriver::getConnectionString (unsigned index) const throw ()
 {
   return (device_context_[index].device_node.GetCreationInfo ());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const char* 
+const char*
 openni_wrapper::OpenNIDriver::getVendorName (unsigned index) const throw ()
 {
   return (device_context_[index].device_node.GetDescription ().strVendor);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const char* 
+const char*
 openni_wrapper::OpenNIDriver::getProductName (unsigned index) const throw ()
 {
   return (device_context_[index].device_node.GetDescription ().strName);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-unsigned short 
+unsigned short
 openni_wrapper::OpenNIDriver::getVendorID (unsigned index) const throw ()
 {
   unsigned short vendor_id;
@@ -500,7 +500,7 @@ openni_wrapper::OpenNIDriver::getVendorID (unsigned index) const throw ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-unsigned short 
+unsigned short
 openni_wrapper::OpenNIDriver::getProductID (unsigned index) const throw ()
 {
   unsigned short vendor_id;
@@ -517,7 +517,7 @@ openni_wrapper::OpenNIDriver::getProductID (unsigned index) const throw ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-unsigned char 
+unsigned char
 openni_wrapper::OpenNIDriver::getBus (unsigned index) const throw ()
 {
   unsigned char bus = 0;
@@ -531,7 +531,7 @@ openni_wrapper::OpenNIDriver::getBus (unsigned index) const throw ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-unsigned char 
+unsigned char
 openni_wrapper::OpenNIDriver::getAddress (unsigned index) const throw ()
 {
   unsigned char address = 0;

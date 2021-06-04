@@ -110,7 +110,7 @@ namespace pcl
   class ScopeTime : public StopWatch
   {
     public:
-      inline ScopeTime (const char* title) : 
+      inline ScopeTime (const char* title) :
         title_ (std::string (title))
       {
         start_time_ = boost::posix_time::microsec_clock::local_time ();
@@ -138,7 +138,7 @@ namespace pcl
   ScopeTime scopeTime(__func__)
 #endif
 
-inline double 
+inline double
 getTime ()
 {
   boost::posix_time::ptime epoch_time (boost::gregorian::date (1970, 1, 1));

@@ -62,7 +62,7 @@ printHelp (int, char **argv)
 
 void printElapsedTimeAndNumberOfPoints (double t, int w, int h=1)
 {
-  print_info ("[done, "); print_value ("%g", t); print_info (" ms : "); 
+  print_info ("[done, "); print_value ("%g", t); print_info (" ms : ");
   print_value ("%d", w*h); print_info (" points]\n");
 }
 
@@ -85,7 +85,7 @@ loadCloud (const std::string & filename, PointCloudXYZRGBA & cloud)
 
 std::vector<pcl::LINEMODDetection>
 matchTemplates (const PointCloudXYZRGBA::ConstPtr & input, const pcl::LINEMOD & linemod)
-{  
+{
   pcl::ColorGradientModality<pcl::PointXYZRGBA> color_grad_mod;
   color_grad_mod.setInputCloud (input);
   color_grad_mod.processInputData ();
@@ -172,7 +172,7 @@ main (int argc, char** argv)
 
   // Load the input point cloud from the provided PCD file
   PointCloudXYZRGBA::Ptr cloud (new PointCloudXYZRGBA);
-  if (!loadCloud (argv[1], *cloud)) 
+  if (!loadCloud (argv[1], *cloud))
     return (-1);
 
   // Load the specified templates and match them to the provided input cloud

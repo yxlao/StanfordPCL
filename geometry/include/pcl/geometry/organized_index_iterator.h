@@ -49,23 +49,23 @@ class OrganizedIndexIterator
      *  \param[in] width the width of the image/organized cloud
      */
     OrganizedIndexIterator (unsigned width);
-    
+
     /** \brief virtual destructor*/
     virtual ~OrganizedIndexIterator ();
-    
+
     /** \brief go to next pixel/point in image/cloud*/
     virtual void operator ++ () = 0;
-    
+
     /** \brief go to next pixel/point in image/cloud*/
     virtual void operator ++ (int);
-    
+
     /** \brief returns the pixel/point index in the linearized memory of the image/cloud
-      * \return the pixel/point index in the linearized memory of the image/cloud 
+      * \return the pixel/point index in the linearized memory of the image/cloud
       */
     unsigned operator* () const;
-    
-    /** \brief returns the pixel/point index in the linearized memory of the image/cloud 
-      * \return the pixel/point index in the linearized memory of the image/cloud 
+
+    /** \brief returns the pixel/point index in the linearized memory of the image/cloud
+      * \return the pixel/point index in the linearized memory of the image/cloud
       */
     virtual unsigned getIndex () const;
 
@@ -87,11 +87,11 @@ class OrganizedIndexIterator
     /** \brief resets the iterator to the beginning of the line
       */
     virtual void reset () = 0;
-    
+
   protected:
     /** \brief the width of the image/cloud*/
     unsigned width_;
-    
+
     /** \brief the index of the current pixel/point*/
     unsigned index_;
 };
@@ -104,12 +104,12 @@ class OrganizedIndexIterator
 inline OrganizedIndexIterator::OrganizedIndexIterator (unsigned width)
 : width_ (width)
 , index_ (0)
-{  
+{
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 inline OrganizedIndexIterator::~OrganizedIndexIterator ()
-{  
+{
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -134,7 +134,7 @@ pcl::OrganizedIndexIterator::getIndex () const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-/** \brief default implementation. Should be overloaded 
+/** \brief default implementation. Should be overloaded
  */
 inline unsigned
 pcl::OrganizedIndexIterator::getRowIndex () const

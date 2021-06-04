@@ -120,7 +120,7 @@ int main (int argc, char** argv)
   cloud[16].x = 1948; cloud[16].y = 172; cloud[16].z = 12;
   cloud[17].x = 2077; cloud[17].y = 181; cloud[17].z = 33;
   cloud[18].x = 2282; cloud[18].y = 190; cloud[18].z = 23;
-  cloud[19].x = 2999; cloud[19].y = 202; cloud[19].z = 29;  
+  cloud[19].x = 2999; cloud[19].y = 202; cloud[19].z = 29;
 
   pca.setInputCloud (cloud.makeShared ());
 

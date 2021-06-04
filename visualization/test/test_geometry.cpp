@@ -14,7 +14,7 @@ using pcl::PassThrough;
 using pcl::NormalEstimation;
 using pcl::KdTreeFLANN;
 
-int 
+int
   main (int argc, char **argv)
 {
   srand (time (0));
@@ -79,7 +79,7 @@ int
     p.addPointCloud (cloud_normals, color_handler, geometry_handler, "cloud_xyz");
     p.spin ();
     p.removePointCloud ("cloud_xyz");
-    
+
     geometry_handler = pcl::visualization::PointCloudGeometryHandlerCustom<PointXYZRGBNormal> (cloud_normals, "x", "x", "y");
     p.addPointCloud (cloud_normals, color_handler, geometry_handler, "cloud_xyz");
     p.spin ();

@@ -70,14 +70,14 @@ openni_wrapper::DeviceXtionPro::~DeviceXtionPro () throw ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 openni_wrapper::DeviceXtionPro::isImageResizeSupported (unsigned, unsigned, unsigned, unsigned) const throw ()
 {
   return (false);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 openni_wrapper::DeviceXtionPro::enumAvailableModes () throw ()
 {
   XnMapOutputMode output_mode;
@@ -112,14 +112,14 @@ openni_wrapper::DeviceXtionPro::enumAvailableModes () throw ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-boost::shared_ptr<openni_wrapper::Image> 
+boost::shared_ptr<openni_wrapper::Image>
 openni_wrapper::DeviceXtionPro::getCurrentImage (boost::shared_ptr<xn::ImageMetaData>) const throw ()
 {
   return (boost::shared_ptr<Image> (reinterpret_cast<Image*> (0)));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 openni_wrapper::DeviceXtionPro::startDepthStream ()
 {
   if (isDepthRegistered ())

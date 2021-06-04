@@ -51,7 +51,7 @@ namespace pcl
   {
     /** \brief CloudGenerator class generates a point cloud using some randoom number generator.
       * Generators can be found in \file pcl/common/include/random.h and easily extensible.
-      *  
+      *
       * \ingroup common
       * \author Nizar Sallem
       */
@@ -80,11 +80,11 @@ namespace pcl
                       const GeneratorParameters& z_params);
 
       /** Set parameters for x, y and z values. Uniqueness is ensured through seed incrementation.
-        * \param params parameteres for X, Y and Z values generation. 
+        * \param params parameteres for X, Y and Z values generation.
         */
       void
       setParameters (const GeneratorParameters& params);
-      
+
       /** Set parameters for x values generation
         * \param x_params paramters for x values generation
         */
@@ -96,7 +96,7 @@ namespace pcl
         */
       void
       setParametersForY (const GeneratorParameters& y_params);
-      
+
       /** Set parameters for z values generation
         * \param z_params paramters for z values generation
         */
@@ -104,21 +104,21 @@ namespace pcl
       setParametersForZ (const GeneratorParameters& z_params);
 
       /// \return x values generation parameters
-      const GeneratorParameters& 
+      const GeneratorParameters&
       getParametersForX () const;
 
       /// \return y values generation parameters
-      const GeneratorParameters& 
+      const GeneratorParameters&
       getParametersForY () const;
 
       /// \return z values generation parameters
-      const GeneratorParameters& 
+      const GeneratorParameters&
       getParametersForZ () const;
-      
-      /// \return a single random generated point 
-      PointT 
+
+      /// \return a single random generated point
+      PointT
       get ();
-        
+
       /** Generates a cloud with X Y Z picked within given ranges. This function assumes that
         * cloud is properly defined else it raises errors and does nothing.
         * \param[out] cloud cloud to generate coordinates for
@@ -127,15 +127,15 @@ namespace pcl
       int
       fill (pcl::PointCloud<PointT>& cloud);
 
-      /** Generates a cloud of specified dimensions with X Y Z picked within given ranges. 
+      /** Generates a cloud of specified dimensions with X Y Z picked within given ranges.
         * \param[in] width width of generated cloud
         * \param[in] height height of generated cloud
         * \param[out] cloud output cloud
         * \return 0 if generation went well else -1.
         */
-      int 
+      int
       fill (int width, int height, pcl::PointCloud<PointT>& cloud);
-      
+
       private:
         GeneratorT x_generator_, y_generator_, z_generator_;
     };
@@ -145,14 +145,14 @@ namespace pcl
     {
       public:
       typedef typename GeneratorT::Parameters GeneratorParameters;
-      
+
       CloudGenerator ();
-      
+
       CloudGenerator (const GeneratorParameters& params);
 
       CloudGenerator (const GeneratorParameters& x_params,
                       const GeneratorParameters& y_params);
-      
+
       void
       setParameters (const GeneratorParameters& params);
 
@@ -162,21 +162,21 @@ namespace pcl
       void
       setParametersForY (const GeneratorParameters& y_params);
 
-      const GeneratorParameters& 
+      const GeneratorParameters&
       getParametersForX () const;
 
-      const GeneratorParameters& 
+      const GeneratorParameters&
       getParametersForY () const;
 
       pcl::PointXY
       get ();
 
-      int 
+      int
       fill (pcl::PointCloud<pcl::PointXY>& cloud);
 
-      int 
+      int
       fill (int width, int height, pcl::PointCloud<pcl::PointXY>& cloud);
-      
+
       private:
         GeneratorT x_generator_;
         GeneratorT y_generator_;

@@ -37,23 +37,23 @@
 #ifndef PCL_GPU_DEVICE_STATIC_CHECK_HPP_
 #define PCL_GPU_DEVICE_STATIC_CHECK_HPP_
 
-#if defined(__CUDACC__) 
-    #define __PCL_GPU_HOST_DEVICE__ __host__ __device__ __forceinline__ 
+#if defined(__CUDACC__)
+    #define __PCL_GPU_HOST_DEVICE__ __host__ __device__ __forceinline__
 #else
     #define __PCL_GPU_HOST_DEVICE__
-#endif  
+#endif
 
 namespace pcl
 {
     namespace device
     {
         template<bool expr> struct Static {};
-        
-        template<> struct Static<true> 
-        { 
-            __PCL_GPU_HOST_DEVICE__ static void check() {}; 
+
+        template<> struct Static<true>
+        {
+            __PCL_GPU_HOST_DEVICE__ static void check() {};
         };
-    }    
+    }
 
     namespace gpu
     {
@@ -63,4 +63,4 @@ namespace pcl
 
 #undef __PCL_GPU_HOST_DEVICE__
 
-#endif /* PCL_GPU_DEVICE_STATIC_CHECK_HPP_ */ 
+#endif /* PCL_GPU_DEVICE_STATIC_CHECK_HPP_ */

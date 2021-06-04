@@ -16,7 +16,7 @@ if(build)
         include/pcl/${SUBSYS_NAME}/impl/linemod/line_rgbd.hpp
         )
 
-    set(incs 
+    set(incs
         include/pcl/${SUBSYS_NAME}/boost.h
         include/pcl/${SUBSYS_NAME}/color_gradient_dot_modality.h
         include/pcl/${SUBSYS_NAME}/color_gradient_modality.h
@@ -39,32 +39,32 @@ if(build)
         include/pcl/${SUBSYS_NAME}/ransac_based/model_library.h
         include/pcl/${SUBSYS_NAME}/ransac_based/voxel_structure.h
         )
-        
+
     set(hv_incs
         include/pcl/${SUBSYS_NAME}/hv/occlusion_reasoning.h
         include/pcl/${SUBSYS_NAME}/hv/hypotheses_verification.h
         include/pcl/${SUBSYS_NAME}/hv/hv_papazov.h
-        include/pcl/${SUBSYS_NAME}/hv/greedy_verification.h    
+        include/pcl/${SUBSYS_NAME}/hv/greedy_verification.h
       )
-      
+
     set(cg_incs
         include/pcl/${SUBSYS_NAME}/cg/correspondence_grouping.h
-        include/pcl/${SUBSYS_NAME}/cg/hough_3d.h    
+        include/pcl/${SUBSYS_NAME}/cg/hough_3d.h
         include/pcl/${SUBSYS_NAME}/cg/geometric_consistency.h
         )
-    
 
-    set(impl_incs 
+
+    set(impl_incs
         include/pcl/${SUBSYS_NAME}/impl/linemod/line_rgbd.hpp
         include/pcl/${SUBSYS_NAME}/impl/ransac_based/voxel_structure.hpp
         )
-        
+
     set(hv_impl_incs
         include/pcl/${SUBSYS_NAME}/impl/hv/occlusion_reasoning.hpp
-        include/pcl/${SUBSYS_NAME}/impl/hv/hv_papazov.hpp        
+        include/pcl/${SUBSYS_NAME}/impl/hv/hv_papazov.hpp
         include/pcl/${SUBSYS_NAME}/impl/hv/greedy_verification.hpp
     )
-    
+
     set(cg_impl_incs
         include/pcl/${SUBSYS_NAME}/impl/cg/correspondence_grouping.hpp
         include/pcl/${SUBSYS_NAME}/impl/cg/hough_3d.hpp
@@ -94,7 +94,7 @@ if(build)
     PCL_ADD_INCLUDES(${SUBSYS_NAME} ${SUBSYS_NAME} ${incs})
     PCL_ADD_INCLUDES(${SUBSYS_NAME} ${SUBSYS_NAME}/hv ${hv_incs})
     PCL_ADD_INCLUDES(${SUBSYS_NAME} ${SUBSYS_NAME}/cg ${cg_incs})
-    
+
     PCL_ADD_INCLUDES(${SUBSYS_NAME} ${SUBSYS_NAME}/impl ${impl_incs})
     PCL_ADD_INCLUDES(${SUBSYS_NAME} ${SUBSYS_NAME}/impl/hv ${hv_impl_incs})
     PCL_ADD_INCLUDES(${SUBSYS_NAME} ${SUBSYS_NAME}/impl/cg ${cg_impl_incs})

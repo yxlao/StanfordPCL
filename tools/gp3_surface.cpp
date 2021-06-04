@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
- *  
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -56,9 +56,9 @@ printHelp (int, char **argv)
 {
   print_error ("Syntax is: %s input.pcd output.vtk <options>\n", argv[0]);
   print_info ("  where options are:\n");
-  print_info ("                     -radius X = use a radius of Xm around each point to determine the neighborhood (default: "); 
+  print_info ("                     -radius X = use a radius of Xm around each point to determine the neighborhood (default: ");
   print_value ("%f", default_radius); print_info (")\n");
-  print_info ("                     -mu X     = set the multipler of the nearest neighbor distance to obtain the final search radius (default: "); 
+  print_info ("                     -mu X     = set the multipler of the nearest neighbor distance to obtain the final search radius (default: ");
   print_value ("%f", default_mu); print_info (")\n");
 }
 
@@ -84,7 +84,7 @@ compute (const PointCloud<PointNormal>::Ptr &input, pcl::PolygonMesh &output,
   // Estimate
   TicToc tt;
   tt.tic ();
-  
+
   print_highlight (stderr, "Computing ");
 
 
@@ -156,7 +156,7 @@ main (int argc, char** argv)
 
   // Load the first file
   PointCloud<PointNormal>::Ptr cloud (new PointCloud<PointNormal>);
-  if (!loadCloud (argv[pcd_file_indices[0]], *cloud)) 
+  if (!loadCloud (argv[pcd_file_indices[0]], *cloud))
     return (-1);
 
   // Perform the surface triangulation

@@ -92,7 +92,7 @@ class SimpleOpenNIViewer
     }
 
     void
-    image_callback (const boost::shared_ptr<openni_wrapper::Image> &image, 
+    image_callback (const boost::shared_ptr<openni_wrapper::Image> &image,
                     const boost::shared_ptr<openni_wrapper::DepthImage> &depth_image, float)
     {
       FPS_CALC ("image callback");
@@ -100,19 +100,19 @@ class SimpleOpenNIViewer
       image_ = image;
       depth_image_ = depth_image;
     }
-    
+
     void
     run ()
     {
       boost::function<void (const boost::shared_ptr<openni_wrapper::Image>&, const boost::shared_ptr<openni_wrapper::DepthImage>&, float) > image_cb = boost::bind (&SimpleOpenNIViewer::image_callback, this, _1, _2, _3);
       boost::signals2::connection image_connection = grabber_.registerCallback (image_cb);
-      
+
       grabber_.start ();
-      
+
       unsigned char* rgb_data = 0;
       unsigned rgb_data_size = 0;
       const void* data;
-       
+
       while (true)
       {
         boost::mutex::scoped_lock lock (image_mutex_);
@@ -175,9 +175,9 @@ class SimpleOpenNIViewer
       }
 
       grabber_.stop ();
-      
+
       image_connection.disconnect ();
-      
+
       if (rgb_data)
         delete[] rgb_data;
     }
@@ -230,7 +230,7 @@ main(int argc, char ** argv)
 {
   std::string device_id ("");
   pcl::OpenNIGrabber::Mode image_mode = pcl::OpenNIGrabber::OpenNI_Default_Mode;
-  
+
   if (argc >= 2)
   {
     device_id = argv[1];
@@ -271,7 +271,7 @@ main(int argc, char ** argv)
         }
         else
           cout << "No devices connected." << endl;
-        
+
         cout <<"Virtual Devices available: ONI player" << endl;
       }
       return (0);
@@ -283,11 +283,11 @@ main(int argc, char ** argv)
     if (driver.getNumberDevices () > 0)
       cout << "Device Id not set, using first device." << endl;
   }
-  
+
   unsigned mode;
   if (pcl::console::parse (argc, argv, "-imagemode", mode) != -1)
     image_mode = pcl::OpenNIGrabber::Mode (mode);
-  
+
   pcl::OpenNIGrabber grabber (device_id, pcl::OpenNIGrabber::OpenNI_Default_Mode, image_mode);
   SimpleOpenNIViewer v (grabber);
   v.run ();

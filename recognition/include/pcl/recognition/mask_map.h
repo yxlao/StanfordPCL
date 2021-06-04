@@ -4,7 +4,7 @@
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
  *
- *  All rights reserved. 
+ *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -54,16 +54,16 @@ namespace pcl
       void
       resize (size_t width, size_t height);
 
-      inline size_t 
+      inline size_t
       getWidth () const { return (width_); }
-      
+
       inline size_t
       getHeight () const { return (height_); }
-      
-      inline unsigned char* 
+
+      inline unsigned char*
       getData () { return (&data_[0]); }
 
-      inline const unsigned char* 
+      inline const unsigned char*
       getData () const { return (&data_[0]); }
 
       static void
@@ -95,16 +95,16 @@ namespace pcl
         memset (&data_[0], 0, width_*height_);
       }
 
-      inline unsigned char & 
-      operator() (const size_t x, const size_t y) 
-      { 
-        return (data_[y*width_+x]); 
+      inline unsigned char &
+      operator() (const size_t x, const size_t y)
+      {
+        return (data_[y*width_+x]);
       }
 
-      inline const unsigned char & 
+      inline const unsigned char &
       operator() (const size_t x, const size_t y) const
-      { 
-        return (data_[y*width_+x]); 
+      {
+        return (data_[y*width_+x]);
       }
 
       void
@@ -114,9 +114,9 @@ namespace pcl
       //unsigned char * data_;
       std::vector<unsigned char> data_;
       size_t width_;
-      size_t height_;  
+      size_t height_;
   };
 
 }
 
-#endif  
+#endif

@@ -55,7 +55,7 @@ pcl::search::BruteForce<PointT>::nearestKSearch (
     const PointT& point, int k, std::vector<int>& k_indices, std::vector<float>& k_distances) const
 {
   assert (isFinite (point) && "Invalid (NaN, Inf) point coordinates given to nearestKSearch!");
-  
+
   k_indices.clear ();
   k_distances.clear ();
   if (k < 1)
@@ -117,7 +117,7 @@ pcl::search::BruteForce<PointT>::denseKSearch (
       {
         queue.pop ();
         queue.push (entry);
-      }      
+      }
     }
   }
 
@@ -131,7 +131,7 @@ pcl::search::BruteForce<PointT>::denseKSearch (
     queue.pop ();
     --idx;
   }
-  
+
   return (static_cast<int> (k_indices.size ()));
 }
 
@@ -143,7 +143,7 @@ pcl::search::BruteForce<PointT>::sparseKSearch (
   // result used to collect the first k neighbors -> unordered
   std::vector<Entry> result;
   result.reserve (k);
-  
+
   std::priority_queue<Entry> queue;
   if (indices_ != NULL)
   {
@@ -153,7 +153,7 @@ pcl::search::BruteForce<PointT>::sparseKSearch (
       if (pcl_isfinite (input_->points[*iIt].x))
         result.push_back (Entry (*iIt, getDistSqr (input_->points[*iIt], point)));
     }
-    
+
     queue = std::priority_queue<Entry> (result.begin (), result.end ());
 
     // either we have k elements, or there are none left to iterate >in either case we're fine
@@ -185,7 +185,7 @@ pcl::search::BruteForce<PointT>::sparseKSearch (
       }
     }
     queue = std::priority_queue<Entry> (result.begin (), result.end ());
-    
+
     // add the rest
     for (; entry.index < input_->size (); ++entry.index)
     {
@@ -200,7 +200,7 @@ pcl::search::BruteForce<PointT>::sparseKSearch (
       }
     }
   }
-  
+
   k_indices.resize (queue.size ());
   k_distances.resize (queue.size ());
   size_t idx = queue.size () - 1;
@@ -220,7 +220,7 @@ pcl::search::BruteForce<PointT>::denseRadiusSearch (
     const PointT& point, double radius,
     std::vector<int> &k_indices, std::vector<float> &k_sqr_distances,
     unsigned int max_nn) const
-{  
+{
   radius *= radius;
 
   size_t reserve = max_nn;
@@ -265,7 +265,7 @@ pcl::search::BruteForce<PointT>::denseRadiusSearch (
 
   if (sorted_results_)
     this->sortResults (k_indices, k_sqr_distances);
-  
+
   return (static_cast<int> (k_indices.size ()));
 }
 
@@ -337,7 +337,7 @@ pcl::search::BruteForce<PointT>::radiusSearch (
     std::vector<float> &k_sqr_distances, unsigned int max_nn) const
 {
   assert (isFinite (point) && "Invalid (NaN, Inf) point coordinates given to nearestKSearch!");
-  
+
   k_indices.clear ();
   k_sqr_distances.clear ();
   if (radius <= 0)

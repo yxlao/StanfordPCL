@@ -87,7 +87,7 @@ namespace pcl
       // ClusterId -> (PointId, PointId, PointId, .... )
       typedef std::vector<SetPoints> ClustersToPoints;
       // PointId -> ClusterId
-      typedef std::vector<ClusterId> PointsToClusters; 
+      typedef std::vector<ClusterId> PointsToClusters;
       // coll of centroids
       typedef std::vector<Point> Centroids;
 
@@ -96,7 +96,7 @@ namespace pcl
       Kmeans (unsigned int num_points, unsigned int num_dimensions);
 
       /** \brief This destructor destroys
-        * 
+        *
         */
       ~Kmeans ();
 
@@ -108,11 +108,11 @@ namespace pcl
 
 /*
       void
-      setClusterField (std::string field_name) 
+      setClusterField (std::string field_name)
       {
         cluster_field_name_ = field_name;
       };
-*/    
+*/
 
       //void
       //getClusterCentroids (PointT &out);
@@ -122,13 +122,13 @@ namespace pcl
 
       void
       kMeans ();
-      
+
       void
       setInputData (std::vector<Point> &data)
       {
         if (num_points_ != data.size ())
           std::cout << "Data vector not the same" << std::endl;
-        
+
         data_ = data;
       }
 
@@ -145,7 +145,7 @@ namespace pcl
     // Initial partition points among available clusters
     void initialClusterPoints();
 
-      void 
+      void
       computeCentroids();
 
       // distance between two points
@@ -153,13 +153,13 @@ namespace pcl
       {
         float total = 0.0;
         float diff;
-    
-        Point::const_iterator cpx=x.begin(); 
+
+        Point::const_iterator cpx=x.begin();
         Point::const_iterator cpy=y.begin();
         Point::const_iterator cpx_end=x.end();
         for(;cpx!=cpx_end;++cpx,++cpy){
           diff = *cpx - *cpy;
-          total += (diff * diff); 
+          total += (diff * diff);
         }
         return total;  // no need to take sqrt, which is monotonic
       }
@@ -179,16 +179,16 @@ namespace pcl
 
       unsigned int num_points_;
       unsigned int num_dimensions_;
-      
+
 
       /** \brief The number of clusters. */
       unsigned int num_clusters_;
-      
+
       /** \brief The cluster centroids. */
       //std::vector
 
       //std::string cluster_field_name_;
-      
+
       // one data point
 
       // all data points
@@ -198,8 +198,8 @@ namespace pcl
       PointsToClusters points_to_clusters_;
       Centroids centroids_;
 
-      
-      
+
+
 
     public:
       EIGEN_MAKE_ALIGNED_OPERATOR_NEW

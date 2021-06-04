@@ -146,7 +146,7 @@ pcl::gpu::extractLabeledEuclideanClusters (const boost::shared_ptr<pcl::PointClo
   }
 }
 
-template <typename PointT> void 
+template <typename PointT> void
 pcl::gpu::EuclideanLabeledClusterExtraction<PointT>::extract (std::vector<PointIndices> &clusters)
 {
   // Initialize the GPU search tree

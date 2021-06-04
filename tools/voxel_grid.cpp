@@ -57,13 +57,13 @@ printHelp (int, char **argv)
 {
   print_error ("Syntax is: %s input.pcd output.pcd <options>\n", argv[0]);
   print_info ("  where options are:\n");
-  print_info ("                     -leaf x,y,z   = the VoxelGrid leaf size (default: "); 
+  print_info ("                     -leaf x,y,z   = the VoxelGrid leaf size (default: ");
   print_value ("%f, %f, %f", default_leaf_size, default_leaf_size, default_leaf_size); print_info (")\n");
-  print_info ("                     -field X      = filter data along this field name (default: "); 
+  print_info ("                     -field X      = filter data along this field name (default: ");
   print_value ("%s", default_field.c_str ()); print_info (")\n");
-  print_info ("                     -fmin  X      = filter all data with values along the specified field smaller than this value (default: "); 
+  print_info ("                     -fmin  X      = filter all data with values along the specified field smaller than this value (default: ");
   print_value ("-inf"); print_info (")\n");
-  print_info ("                     -fmax  X      = filter all data with values along the specified field larger than this value (default: "); 
+  print_info ("                     -fmax  X      = filter all data with values along the specified field larger than this value (default: ");
   print_value ("inf"); print_info (")\n");
 }
 
@@ -88,7 +88,7 @@ compute (const sensor_msgs::PointCloud2::ConstPtr &input, sensor_msgs::PointClou
 {
   TicToc tt;
   tt.tic ();
-  
+
   print_highlight ("Computing ");
 
   VoxelGrid<sensor_msgs::PointCloud2> grid;
@@ -111,7 +111,7 @@ saveCloud (const std::string &filename, const sensor_msgs::PointCloud2 &output)
 
   PCDWriter w;
   w.writeBinaryCompressed (filename, output);
-  
+
   print_info ("[done, "); print_value ("%g", tt.toc ()); print_info (" ms : "); print_value ("%d", output.width * output.height); print_info (" points]\n");
 }
 
@@ -167,7 +167,7 @@ main (int argc, char** argv)
          fmax = default_filter_max;
   parse_argument (argc, argv, "-fmin", fmin);
   parse_argument (argc, argv, "-fmax", fmax);
-  print_info ("Filtering data on field: "); print_value ("%s", field.c_str ()); print_info (" between: "); 
+  print_info ("Filtering data on field: "); print_value ("%s", field.c_str ()); print_info (" between: ");
   if (fmin == -std::numeric_limits<double>::max ())
     print_value ("-inf ->");
   else
@@ -179,7 +179,7 @@ main (int argc, char** argv)
 
   // Load the first file
   sensor_msgs::PointCloud2::Ptr cloud (new sensor_msgs::PointCloud2);
-  if (!loadCloud (argv[p_file_indices[0]], *cloud)) 
+  if (!loadCloud (argv[p_file_indices[0]], *cloud))
     return (-1);
 
   // Apply the voxel grid

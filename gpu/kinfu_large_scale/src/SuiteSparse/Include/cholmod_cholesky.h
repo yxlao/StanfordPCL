@@ -72,7 +72,7 @@
 /* Orders and analyzes A, AA', PAP', or PAA'P' and returns a symbolic factor
  * that can later be passed to cholmod_factorize. */
 
-cholmod_factor *cholmod_analyze 
+cholmod_factor *cholmod_analyze
 (
     /* ---- input ---- */
     cholmod_sparse *A,	/* matrix to order and analyze */
@@ -133,7 +133,7 @@ cholmod_factor *cholmod_l_analyze_p2 (int, cholmod_sparse *, SuiteSparse_long *,
  * routine a second time with another matrix.  A must have the same nonzero
  * pattern as that passed to cholmod_analyze. */
 
-int cholmod_factorize 
+int cholmod_factorize
 (
     /* ---- input ---- */
     cholmod_sparse *A,	/* matrix to factorize */
@@ -446,7 +446,7 @@ int cholmod_l_row_lsubtree (cholmod_sparse *, SuiteSparse_long *, size_t,
  * first permutes A according to L->Perm.  A can be upper/lower/unsymmetric,
  * in contrast to cholmod_resymbol_noperm (which can be lower or unsym). */
 
-int cholmod_resymbol 
+int cholmod_resymbol
 (
     /* ---- input ---- */
     cholmod_sparse *A,	/* matrix to analyze */

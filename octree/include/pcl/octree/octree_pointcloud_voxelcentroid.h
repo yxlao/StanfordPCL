@@ -78,9 +78,9 @@ namespace pcl
         }
 
         /** \brief Add new point to voxel.
-          * \param[in] new_point the new point to add  
+          * \param[in] new_point the new point to add
           */
-        void 
+        void
         addPoint (const PointT& new_point)
         {
           using namespace pcl::common;
@@ -91,9 +91,9 @@ namespace pcl
         }
 
         /** \brief Calculate centroid of voxel.
-          * \param[out] centroid_arg the resultant centroid of the voxel 
+          * \param[out] centroid_arg the resultant centroid of the voxel
           */
-        void 
+        void
         getCentroid (PointT& centroid_arg) const
         {
           using namespace pcl::common;
@@ -110,7 +110,7 @@ namespace pcl
         }
 
         /** \brief Reset leaf container. */
-        virtual void 
+        virtual void
         reset ()
         {
           using namespace pcl::common;
@@ -162,7 +162,7 @@ namespace pcl
           * \param[in] key_arg octree key addressing a leaf node.
           * \param[in] data_arg DataT object to be added.
           */
-        virtual void 
+        virtual void
         addData (const OctreeKey& key_arg, const int& data_arg)
         {
           LeafNode* new_leaf = 0;
@@ -213,8 +213,8 @@ namespace pcl
           * \return number of occupied voxels
           */
         void
-        getVoxelCentroidsRecursive (const BranchNode* branch_arg, 
-                                    OctreeKey& key_arg, 
+        getVoxelCentroidsRecursive (const BranchNode* branch_arg,
+                                    OctreeKey& key_arg,
                                     typename OctreePointCloud<PointT, LeafContainerT, BranchContainerT>::AlignedPointTVector &voxel_centroid_list_arg) const;
 
     };

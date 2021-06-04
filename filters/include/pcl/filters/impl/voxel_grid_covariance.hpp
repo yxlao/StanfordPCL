@@ -364,8 +364,8 @@ pcl::VoxelGridCovariance<PointT>::getNeighborhoodAtPoint (const PointT& referenc
 
   // Find displacement coordinates
   Eigen::MatrixXi relative_coordinates = pcl::getAllNeighborCellIndices ();
-  Eigen::Vector4i ijk (static_cast<int> (floor (reference_point.x / leaf_size_[0])), 
-                       static_cast<int> (floor (reference_point.y / leaf_size_[1])), 
+  Eigen::Vector4i ijk (static_cast<int> (floor (reference_point.x / leaf_size_[0])),
+                       static_cast<int> (floor (reference_point.y / leaf_size_[1])),
                        static_cast<int> (floor (reference_point.z / leaf_size_[2])), 0);
   Eigen::Array4i diff2min = min_b_ - ijk;
   Eigen::Array4i diff2max = max_b_ - ijk;

@@ -46,7 +46,7 @@ namespace pcl
 {
   namespace visualization
   {
-    /** \brief pclImageCanvasSource2D represents our own custom version of vtkImageCanvasSource2D, used by 
+    /** \brief pclImageCanvasSource2D represents our own custom version of vtkImageCanvasSource2D, used by
       * the ImageViewer class.
       */
     class PCL_EXPORTS PCLImageCanvasSource2D : public vtkImageCanvasSource2D
@@ -54,7 +54,7 @@ namespace pcl
       public:
         static PCLImageCanvasSource2D *New ();
 
-      inline void 
+      inline void
       DrawImage (vtkImageData* image)
       {
         this->ImageData->DeepCopy (image);

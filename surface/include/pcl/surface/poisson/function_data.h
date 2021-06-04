@@ -45,11 +45,11 @@
 
 #include "ppolynomial.h"
 
-namespace pcl 
+namespace pcl
 {
-  namespace poisson 
+  namespace poisson
   {
-   
+
     template<int Degree,class Real>
     class FunctionData
     {

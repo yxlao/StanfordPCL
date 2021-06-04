@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2012, Willow Garage, Inc.
- *  
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -68,7 +68,7 @@ pcl::Hough3DGrouping<PointModelT, PointSceneT, PointModelRfT, PointSceneRfT>::co
   else
   {
     norm_est.setRadiusSearch (local_rf_normals_search_radius_);
-  }  
+  }
   norm_est.compute (*normal_cloud);
 
   BOARDLocalReferenceFrameEstimation<PointType, Normal, PointRfType> rf_est;
@@ -198,7 +198,7 @@ pcl::Hough3DGrouping<PointModelT, PointSceneT, PointModelRfT, PointSceneRfT>::ho
 
     const Eigen::Vector3f& scene_point = scene_->at (scene_index).getVector3fMap ();
     const PointSceneRfT&   scene_point_rf = scene_rf_->at (scene_index);
-    
+
     Eigen::Vector3f scene_point_rf_x (scene_point_rf.x_axis[0], scene_point_rf.x_axis[1], scene_point_rf.x_axis[2]);
     Eigen::Vector3f scene_point_rf_y (scene_point_rf.y_axis[0], scene_point_rf.y_axis[1], scene_point_rf.y_axis[2]);
     Eigen::Vector3f scene_point_rf_z (scene_point_rf.z_axis[0], scene_point_rf.z_axis[1], scene_point_rf.z_axis[2]);
@@ -210,19 +210,19 @@ pcl::Hough3DGrouping<PointModelT, PointSceneT, PointModelRfT, PointSceneRfT>::ho
     scene_votes[i].y () = scene_point_rf_x[1] * model_point_vote.x () + scene_point_rf_y[1] * model_point_vote.y () + scene_point_rf_z[1] * model_point_vote.z () + scene_point.y ();
     scene_votes[i].z () = scene_point_rf_x[2] * model_point_vote.x () + scene_point_rf_y[2] * model_point_vote.y () + scene_point_rf_z[2] * model_point_vote.z () + scene_point.z ();
 
-    if (scene_votes[i].x () < d_min.x ()) 
-      d_min.x () = scene_votes[i].x (); 
-    if (scene_votes[i].x () > d_max.x ()) 
-      d_max.x () = scene_votes[i].x (); 
+    if (scene_votes[i].x () < d_min.x ())
+      d_min.x () = scene_votes[i].x ();
+    if (scene_votes[i].x () > d_max.x ())
+      d_max.x () = scene_votes[i].x ();
 
-    if (scene_votes[i].y () < d_min.y ()) 
-      d_min.y () = scene_votes[i].y (); 
-    if (scene_votes[i].y () > d_max.y ()) 
-      d_max.y () = scene_votes[i].y (); 
+    if (scene_votes[i].y () < d_min.y ())
+      d_min.y () = scene_votes[i].y ();
+    if (scene_votes[i].y () > d_max.y ())
+      d_max.y () = scene_votes[i].y ();
 
-    if (scene_votes[i].z () < d_min.z ()) 
-      d_min.z () = scene_votes[i].z (); 
-    if (scene_votes[i].z () > d_max.z ()) 
+    if (scene_votes[i].z () < d_min.z ())
+      d_min.z () = scene_votes[i].z ();
+    if (scene_votes[i].z () > d_max.z ())
       d_max.z () = scene_votes[i].z ();
 
     //calculate max distance for interpolated votes
@@ -245,7 +245,7 @@ pcl::Hough3DGrouping<PointModelT, PointSceneT, PointModelRfT, PointSceneRfT>::ho
     if (use_interpolation_)
     {
       hough_space_->voteInt (scene_votes[i], weight, i);
-    } 
+    }
     else
     {
       hough_space_->vote (scene_votes[i], weight, i);

@@ -13,8 +13,8 @@ int main()
 
   MatrixXd cosA = A.cos();
   std::cout << "cos(A) = \n" << cosA << "\n\n";
-  
-  // The matrix functions satisfy sin^2(A) + cos^2(A) = I, 
+
+  // The matrix functions satisfy sin^2(A) + cos^2(A) = I,
   // like the scalar functions.
   std::cout << "sin^2(A) + cos^2(A) = \n" << sinA*sinA + cosA*cosA << "\n\n";
 }

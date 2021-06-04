@@ -7,11 +7,11 @@ In this tutorial we will learn how to calculate a simple 2D convex hull polygon
 for a set of points supported by a plane.
 
 The following video shows a demonstration of the code given below on the test
-dataset `table_scene_mug_stereo_textured.pcd 
+dataset `table_scene_mug_stereo_textured.pcd
 <http://svn.pointclouds.org/data/tutorials/table_scene_mug_stereo_textured.pcd>`_.
 
 .. raw:: html
-  
+
   <iframe title="Acquiring the convex hull of a planar surface" width="480" height="390" src="http://www.youtube.com/embed/J9CjWDgPDTM?rel=0" frameborder="0" allowfullscreen></iframe>
 
 The code

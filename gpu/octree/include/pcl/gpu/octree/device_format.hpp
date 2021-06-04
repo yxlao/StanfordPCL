@@ -47,7 +47,7 @@ namespace pcl
         {
             DeviceArray<int> data;
             DeviceArray<int> sizes;
-            int max_elems;  
+            int max_elems;
 
             NeighborIndices() {}
             NeighborIndices(int query_number, int max_elements) : max_elems(0)
@@ -61,7 +61,7 @@ namespace pcl
                 data.create (query_number * max_elems);
 
                 if (max_elems != 1)
-                    sizes.create(query_number);                
+                    sizes.create(query_number);
             }
 
             void upload(const std::vector<int>& data, const std::vector<int>& sizes, int max_elements)
@@ -79,7 +79,7 @@ namespace pcl
             operator PtrStep<int>() const
             {
                 return PtrStep<int>((int*)data.ptr(), max_elems * sizeof(int));
-            }            
+            }
 
             size_t neighboors_size() const { return data.size()/max_elems; }
         };

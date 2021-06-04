@@ -46,7 +46,7 @@ namespace cuda
 
 //////////////////////////////////////////////////////////////////////////
 void
-toPCL (const PointCloudAOS<Host> &input, 
+toPCL (const PointCloudAOS<Host> &input,
                  const thrust::host_vector<float4> &normals,
                  pcl::PointCloud<pcl::PointXYZRGBNormal> &output)
 {
@@ -72,7 +72,7 @@ toPCL (const PointCloudAOS<Host> &input,
 
 //////////////////////////////////////////////////////////////////////////
 void
-toPCL (const PointCloudAOS<Device> &d_input, 
+toPCL (const PointCloudAOS<Device> &d_input,
                  const thrust::device_vector<float4> &d_normals,
                  pcl::PointCloud<pcl::PointXYZRGBNormal> &output)
 {
@@ -101,7 +101,7 @@ toPCL (const PointCloudAOS<Device> &d_input,
 
 //////////////////////////////////////////////////////////////////////////
 void
-toPCL (const PointCloudAOS<Host> &input, 
+toPCL (const PointCloudAOS<Host> &input,
                  pcl::PointCloud<pcl::PointXYZRGB> &output)
 {
   output.points.resize (input.points.size ());
@@ -119,7 +119,7 @@ toPCL (const PointCloudAOS<Host> &input,
   output.is_dense = input.is_dense;
 
 /*  for (size_t i = 0; i < output.points.size (); ++i)
-  std::cerr << 
+  std::cerr <<
     output.points[i].x << " " <<
     output.points[i].y << " " <<
     output.points[i].z << " " << std::endl;*/
@@ -127,7 +127,7 @@ toPCL (const PointCloudAOS<Host> &input,
 
 //////////////////////////////////////////////////////////////////////////
 void
-toPCL (const PointCloudAOS<Device> &input, 
+toPCL (const PointCloudAOS<Device> &input,
                  pcl::PointCloud<pcl::PointXYZRGB> &output)
 {
   PointCloudAOS<Host> cloud;
@@ -148,7 +148,7 @@ toPCL (const PointCloudAOS<Device> &input,
   output.is_dense = cloud.is_dense;
 
 /*  for (size_t i = 0; i < output.points.size (); ++i)
-  std::cerr << 
+  std::cerr <<
     output.points[i].x << " " <<
     output.points[i].y << " " <<
     output.points[i].z << " " << std::endl;*/

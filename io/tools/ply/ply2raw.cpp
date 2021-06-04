@@ -53,7 +53,7 @@
   *     property float32 z
   *   element face
   *     property list uint8 int32 vertex_indices.
-  * 
+  *
   * \author Ares Lagae
   * \ingroup io
   */
@@ -61,18 +61,18 @@
 class ply_to_raw_converter
 {
   public:
-    ply_to_raw_converter () : 
-      ostream_ (), vertex_x_ (0), vertex_y_ (0), vertex_z_ (0), 
+    ply_to_raw_converter () :
+      ostream_ (), vertex_x_ (0), vertex_y_ (0), vertex_z_ (0),
       face_vertex_indices_element_index_ (),
-      face_vertex_indices_first_element_ (), 
+      face_vertex_indices_first_element_ (),
       face_vertex_indices_previous_element_ (),
       vertices_ ()
     {}
 
     ply_to_raw_converter (const ply_to_raw_converter &f) :
-      ostream_ (), vertex_x_ (0), vertex_y_ (0), vertex_z_ (0), 
+      ostream_ (), vertex_x_ (0), vertex_y_ (0), vertex_z_ (0),
       face_vertex_indices_element_index_ (),
-      face_vertex_indices_first_element_ (), 
+      face_vertex_indices_first_element_ (),
       face_vertex_indices_previous_element_ (),
       vertices_ ()
     {
@@ -92,7 +92,7 @@ class ply_to_raw_converter
       return (*this);
     }
 
-    bool 
+    bool
     convert (std::istream& istream, const std::string& istream_filename, std::ostream& ostream, const std::string& ostream_filename);
 
   private:
@@ -105,15 +105,15 @@ class ply_to_raw_converter
     void
     error_callback (const std::string& filename, std::size_t line_number, const std::string& message);
 
-    boost::tuple<boost::function<void ()>, boost::function<void ()> > 
+    boost::tuple<boost::function<void ()>, boost::function<void ()> >
     element_definition_callback (const std::string& element_name, std::size_t count);
 
-    template <typename ScalarType> boost::function<void (ScalarType)> 
+    template <typename ScalarType> boost::function<void (ScalarType)>
     scalar_property_definition_callback (const std::string& element_name, const std::string& property_name);
 
-    template <typename SizeType, typename ScalarType>  boost::tuple<boost::function<void (SizeType)>, 
-                                                                       boost::function<void (ScalarType)>, 
-                                                                       boost::function<void ()> > 
+    template <typename SizeType, typename ScalarType>  boost::tuple<boost::function<void (SizeType)>,
+                                                                       boost::function<void (ScalarType)>,
+                                                                       boost::function<void ()> >
     list_property_definition_callback (const std::string& element_name, const std::string& property_name);
 
     void
@@ -170,7 +170,7 @@ ply_to_raw_converter::error_callback (const std::string& filename, std::size_t l
   std::cerr << filename << ":" << line_number << ": " << "error: " << message << std::endl;
 }
 
-boost::tuple<boost::function<void ()>, boost::function<void ()> > 
+boost::tuple<boost::function<void ()>, boost::function<void ()> >
 ply_to_raw_converter::element_definition_callback (const std::string& element_name, std::size_t)
 {
   if (element_name == "vertex") {
@@ -190,7 +190,7 @@ ply_to_raw_converter::element_definition_callback (const std::string& element_na
   }
 }
 
-template <> boost::function<void (pcl::io::ply::float32)> 
+template <> boost::function<void (pcl::io::ply::float32)>
 ply_to_raw_converter::scalar_property_definition_callback (const std::string& element_name, const std::string& property_name)
 {
   if (element_name == "vertex") {
@@ -212,15 +212,15 @@ ply_to_raw_converter::scalar_property_definition_callback (const std::string& el
   }
 }
 
-template <> boost::tuple<boost::function<void (pcl::io::ply::uint8)>, 
-                            boost::function<void (pcl::io::ply::int32)>, 
-                            boost::function<void ()> > 
+template <> boost::tuple<boost::function<void (pcl::io::ply::uint8)>,
+                            boost::function<void (pcl::io::ply::int32)>,
+                            boost::function<void ()> >
 ply_to_raw_converter::list_property_definition_callback (const std::string& element_name, const std::string& property_name)
 {
-  if ((element_name == "face") && (property_name == "vertex_indices")) 
+  if ((element_name == "face") && (property_name == "vertex_indices"))
   {
-    return boost::tuple<boost::function<void (pcl::io::ply::uint8)>, 
-      boost::function<void (pcl::io::ply::int32)>, 
+    return boost::tuple<boost::function<void (pcl::io::ply::uint8)>,
+      boost::function<void (pcl::io::ply::int32)>,
       boost::function<void ()> > (
         boost::bind (&ply_to_raw_converter::face_vertex_indices_begin, this, _1),
       boost::bind (&ply_to_raw_converter::face_vertex_indices_element, this, _1),
@@ -228,8 +228,8 @@ ply_to_raw_converter::list_property_definition_callback (const std::string& elem
     );
   }
   else {
-    return boost::tuple<boost::function<void (pcl::io::ply::uint8)>, 
-      boost::function<void (pcl::io::ply::int32)>, 
+    return boost::tuple<boost::function<void (pcl::io::ply::uint8)>,
+      boost::function<void (pcl::io::ply::int32)>,
       boost::function<void ()> > (0, 0, 0);
   }
 }
@@ -300,7 +300,7 @@ ply_to_raw_converter::face_vertex_indices_end () {}
 void
 ply_to_raw_converter::face_end () {}
 
-bool 
+bool
 ply_to_raw_converter::convert (std::istream&, const std::string& istream_filename, std::ostream& ostream, const std::string&)
 {
   pcl::io::ply::ply_parser::flags_type ply_parser_flags = 0;
@@ -308,7 +308,7 @@ ply_to_raw_converter::convert (std::istream&, const std::string& istream_filenam
 
   ply_parser.info_callback (boost::bind (&ply_to_raw_converter::info_callback, this, boost::ref (istream_filename), _1, _2));
   ply_parser.warning_callback (boost::bind (&ply_to_raw_converter::warning_callback, this, boost::ref (istream_filename), _1, _2));
-  ply_parser.error_callback (boost::bind (&ply_to_raw_converter::error_callback, this, boost::ref (istream_filename), _1, _2)); 
+  ply_parser.error_callback (boost::bind (&ply_to_raw_converter::error_callback, this, boost::ref (istream_filename), _1, _2));
 
   ply_parser.element_definition_callback (boost::bind (&ply_to_raw_converter::element_definition_callback, this, _1, _2));
 

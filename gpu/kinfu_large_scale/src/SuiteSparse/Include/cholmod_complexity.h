@@ -14,7 +14,7 @@
  * XTYPE is CHOLMOD_PATTERN, _REAL, _COMPLEX or _ZOMPLEX, and is the xtype of
  * the template routine under construction.  XTYPE2 is equal to XTYPE, except
  * if XTYPE is CHOLMOD_PATTERN, in which case XTYPE is CHOLMOD_REAL.
- * XTYPE and XTYPE2 are defined in cholmod_template.h.  
+ * XTYPE and XTYPE2 are defined in cholmod_template.h.
  */
 
 /* -------------------------------------------------------------------------- */

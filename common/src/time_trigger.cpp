@@ -73,12 +73,12 @@ pcl::TimeTrigger::~TimeTrigger ()
   quit_ = true;
   condition_.notify_all ();
   lock.unlock ();
-  
+
   timer_thread_.join ();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-boost::signals2::connection 
+boost::signals2::connection
 pcl::TimeTrigger::registerCallback (const callback_type& callback)
 {
   boost::unique_lock<boost::mutex> lock (condition_mutex_);
@@ -86,7 +86,7 @@ pcl::TimeTrigger::registerCallback (const callback_type& callback)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::TimeTrigger::setInterval (double interval_seconds)
 {
   boost::unique_lock<boost::mutex> lock (condition_mutex_);
@@ -96,7 +96,7 @@ pcl::TimeTrigger::setInterval (double interval_seconds)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::TimeTrigger::start ()
 {
   boost::unique_lock<boost::mutex> lock (condition_mutex_);
@@ -108,7 +108,7 @@ pcl::TimeTrigger::start ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::TimeTrigger::stop ()
 {
   boost::unique_lock<boost::mutex> lock (condition_mutex_);
@@ -120,7 +120,7 @@ pcl::TimeTrigger::stop ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::TimeTrigger::thread_function ()
 {
   static double time = 0;

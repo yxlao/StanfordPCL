@@ -36,7 +36,7 @@ pcl::cloud_composer::CloudCommand::~CloudCommand ()
         if (item)
           delete item;
     }
-    
+
   }
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,7 +71,7 @@ pcl::cloud_composer::CloudCommand::canUseTemplates (ConstItemList &input_data)
     template_type_ = -3;
     return false;
   }
-  
+
   // Now make sure all input clouds have the same templated type
   int type = cloud_items.value (0)->getPointType ();
   foreach (const CloudItem* cloud_item, cloud_items)
@@ -90,15 +90,15 @@ pcl::cloud_composer::CloudCommand::canUseTemplates (ConstItemList &input_data)
 }
 
 /*
-QList <pcl::cloud_composer::CloudComposerItem*> 
+QList <pcl::cloud_composer::CloudComposerItem*>
 pcl::cloud_composer::CloudCommand::executeToolOnTemplateCloud (AbstractTool* tool, ConstItemList &input_data)
 {
   QList <CloudComposerItem*> output;
   // If can_use_templates_ is false and type is -1 we haven't checked if we can yet
   if (!can_use_templates_ && template_type_ == -1)
     this->canUseTemplates (input_data);
-  
-  
+
+
   //If this is true now, we can go ahead and run it
   if (can_use_templates_ && template_type_ >= 0)
   {
@@ -109,21 +109,21 @@ pcl::cloud_composer::CloudCommand::executeToolOnTemplateCloud (AbstractTool* too
     qDebug () << "Tried CloudCommand::executeToolOnTemplateCloud but input data was not templated clouds!";
   }
   return output;
-  
+
 }
 */
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool 
+bool
 pcl::cloud_composer::CloudCommand::replaceOriginalWithNew (QList <const CloudComposerItem*> originals, QList <CloudComposerItem*> new_items)
-{ 
+{
   //Find the input item's parent
   if (originals.size () < 1)
   {
     qCritical () << "No items to replace specified!";
     return false;
   }
-    
+
   QStandardItem* parent_item = originals.value(0)->parent ();
   //Verify that all items have same parent
   foreach (const CloudComposerItem* item, originals)
@@ -137,7 +137,7 @@ pcl::cloud_composer::CloudCommand::replaceOriginalWithNew (QList <const CloudCom
   // If parent is 0, it's parent is invisiblerootitem (That's how Qt defines it... boo!)
   if (parent_item == 0)
     parent_item = project_model_->invisibleRootItem ();
-  
+
   //Now remove all the originals
   foreach (const CloudComposerItem* item, originals)
   {
@@ -153,17 +153,17 @@ pcl::cloud_composer::CloudCommand::replaceOriginalWithNew (QList <const CloudCom
   //Insert the new items below the parent item'
   foreach (CloudComposerItem* item, new_items)
   {
-    parent_item->appendRow (item);   
+    parent_item->appendRow (item);
   }
 
   return true;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool 
+bool
 pcl::cloud_composer::CloudCommand::restoreOriginalRemoveNew (QList <const CloudComposerItem*> originals, QList <CloudComposerItem*> new_items)
-{ 
-  
+{
+
   //Now remove all the new items
   foreach (CloudComposerItem* item, new_items)
   {
@@ -194,7 +194,7 @@ pcl::cloud_composer::CloudCommand::restoreOriginalRemoveNew (QList <const CloudC
     int num = removed_to_parent_map_.remove (original);
     if (num > 1)
       qCritical () << "More than one item with same pointer in removed_to_parent_map_, this is undefined behavior";
-    else if (num == 0) 
+    else if (num == 0)
       qCritical () << "Could not find key in map to remove, not good!";
   }
 
@@ -206,8 +206,8 @@ pcl::cloud_composer::CloudCommand::restoreOriginalRemoveNew (QList <const CloudC
 
 pcl::cloud_composer::ModifyItemCommand::ModifyItemCommand (QList <const CloudComposerItem*> input_data, QUndoCommand* parent)
   : CloudCommand (input_data, parent)
-{ 
-  
+{
+
 }
 
 bool
@@ -227,7 +227,7 @@ pcl::cloud_composer::ModifyItemCommand::runCommand (AbstractTool* tool)
       output = tool->performAction (input_list);
     if (output.size () == 0)
       qWarning () << "Warning: Tool " << tool->getToolName () << "returned no item in a ModifyItemCommand";
-    else 
+    else
     {
       OutputPair output_pair = {input_list, output};
       output_data_.append (output_pair);
@@ -237,7 +237,7 @@ pcl::cloud_composer::ModifyItemCommand::runCommand (AbstractTool* tool)
     {
       qCritical () << "Tool " << tool->getToolName () << "returned multiple items in a ModifyCloudCommand";
     }
-    
+
   }
   if (num_items_returned != original_data_.size ())
   {
@@ -261,8 +261,8 @@ pcl::cloud_composer::ModifyItemCommand::undo ()
     if (!restoreOriginalRemoveNew (output_pair.input_items_, output_pair.output_items_))
       qCritical() << "Failed to restore original items in ModifyItemCommand::undo!";
   }
-  
-  
+
+
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -285,7 +285,7 @@ pcl::cloud_composer::ModifyItemCommand::redo ()
 pcl::cloud_composer::NewItemCloudCommand::NewItemCloudCommand (QList <const CloudComposerItem*> input_data, QUndoCommand* parent)
   : CloudCommand (input_data, parent)
 {
-  
+
 }
 
 bool
@@ -306,13 +306,13 @@ pcl::cloud_composer::NewItemCloudCommand::runCommand (AbstractTool* tool)
       output = tool->performAction (input_list);
     if (output.size () == 0)
       qWarning () << "Warning: Tool " << tool->getToolName () << "returned no item in a NewItemCloudCommand";
-    else 
+    else
     {
       OutputPair output_pair = {input_list, output};
       output_data_.append (output_pair);
       num_new_items += output.size ();
     }
-    
+
   }
   if (num_new_items > 0)
   {
@@ -324,7 +324,7 @@ pcl::cloud_composer::NewItemCloudCommand::runCommand (AbstractTool* tool)
     qWarning () << "New Item command generated no new items!";
     return false;
   }
-   
+
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -347,13 +347,13 @@ pcl::cloud_composer::NewItemCloudCommand::undo ()
     }
     //Get a copy of the input item we can modify
     QStandardItem* item_to_change = project_model_->itemFromIndex (input_index);
-    //Remove the items we added 
+    //Remove the items we added
     foreach (CloudComposerItem* output_item, output_items)
     {
       QModelIndex output_index = project_model_->indexFromItem (output_item);
       item_to_change->takeRow (output_index.row ());
     }
-    
+
   }
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -392,7 +392,7 @@ pcl::cloud_composer::NewItemCloudCommand::redo ()
 pcl::cloud_composer::SplitCloudCommand::SplitCloudCommand (QList <const CloudComposerItem*> input_data, QUndoCommand* parent)
   : CloudCommand (input_data, parent)
 {
-  
+
 }
 
 bool
@@ -414,7 +414,7 @@ pcl::cloud_composer::SplitCloudCommand::runCommand (AbstractTool* tool)
       output = tool->performAction (input_list);
     if (output.size () == 0)
       qWarning () << "Warning: Tool " << tool->getToolName () << "returned no item in a SplitCloudCommand";
-    else 
+    else
     {
       qDebug () << "Split command returned "<<output.size ()<<" items";
       OutputPair output_pair = {input_list, output};
@@ -446,7 +446,7 @@ pcl::cloud_composer::SplitCloudCommand::undo ()
     if (!restoreOriginalRemoveNew (output_pair.input_items_, output_pair.output_items_))
       qCritical () << "Failed to restore old cloud in SplitCloudCommand::undo!";
   }
-  
+
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -460,7 +460,7 @@ pcl::cloud_composer::SplitCloudCommand::redo ()
     //Replace the input with the output for this pair
     if (! replaceOriginalWithNew (output_pair.input_items_, output_pair.output_items_))
       qCritical () << "Replacement of old items with new failed in ModifyItemCommand!";
-  
+
   }
 }
 
@@ -471,13 +471,13 @@ pcl::cloud_composer::SplitCloudCommand::redo ()
 pcl::cloud_composer::DeleteItemCommand::DeleteItemCommand (QList <const CloudComposerItem*> input_data, QUndoCommand* parent)
   : CloudCommand (input_data, parent)
 {
-  
+
 }
 
 bool
 pcl::cloud_composer::DeleteItemCommand::runCommand (AbstractTool* tool)
 {
-  
+
   //For delete item command, each selected item should be processed separately
   //e.g. delete every selected item
   int num_new_items = 0;
@@ -519,7 +519,7 @@ pcl::cloud_composer::DeleteItemCommand::redo ()
     //Replace the input with the output for this pair
     if (! replaceOriginalWithNew (output_pair.input_items_, output_pair.output_items_))
       qCritical () << "Removal of items failed in DeleteItemCommand::redo";
-  
+
   }
 }
 
@@ -530,7 +530,7 @@ pcl::cloud_composer::DeleteItemCommand::redo ()
 pcl::cloud_composer::MergeCloudCommand::MergeCloudCommand (ConstItemList input_data, QUndoCommand* parent)
   : CloudCommand (input_data, parent)
 {
-  
+
 }
 
 bool
@@ -553,13 +553,13 @@ pcl::cloud_composer::MergeCloudCommand::runCommand (AbstractTool* tool)
   }
   OutputPair output_pair = {original_data_, output_items};
   output_data_.append (output_pair);
-  
+
   if (output_items.size () == 0)
   {
     qWarning () << "Warning: Tool " << tool->getToolName () << "returned no item in a MergeCloudCommand";
     return false;
   }
-  
+
   this->setText ("Merge Clouds");
   return true;
 }
@@ -590,6 +590,6 @@ pcl::cloud_composer::MergeCloudCommand::redo ()
     // This works because all input clouds must have same parent, the root item (clouds must be on top level)
     if (! replaceOriginalWithNew (output_pair.input_items_, output_pair.output_items_))
       qCritical () << "Removal of items failed in MergeCloudCommand::redo";
-  
+
   }
 }

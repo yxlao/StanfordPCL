@@ -57,7 +57,7 @@ namespace pcl
     namespace interactor_styles
     {
       enum INTERACTOR_STYLES
-      { 
+      {
         PCL_VISUALIZER = 0,
         RECTANGULAR_FRUSTUM,
         SELECTED_TRACKBALL,
@@ -66,76 +66,76 @@ namespace pcl
     }
     namespace interactor_events
     {
-      enum 
+      enum
       {
         SELECTION_COMPLETE_EVENT = vtkCommand::UserEvent + 1,
         MANIPULATION_COMPLETE_EVENT
       };
     };
 
-    class RectangularFrustumSelector;  
+    class RectangularFrustumSelector;
     class SelectedTrackballStyleInteractor;
     class ClickTrackballStyleInteractor;
     class ProjectModel;
-    
-    class PCL_EXPORTS InteractorStyleSwitch : public vtkInteractorStyle 
+
+    class PCL_EXPORTS InteractorStyleSwitch : public vtkInteractorStyle
     {
       public:
         static InteractorStyleSwitch *New();
         vtkTypeMacro(InteractorStyleSwitch, vtkInteractorStyle);
-        
+
         InteractorStyleSwitch();
         virtual ~InteractorStyleSwitch();
-  
-        void 
+
+        void
         SetInteractor(vtkRenderWindowInteractor *iren);
-        
+
         vtkGetObjectMacro(current_style_, vtkInteractorStyle);
-        
-        void 
+
+        void
         initializeInteractorStyles (boost::shared_ptr<pcl::visualization::PCLVisualizer> vis, ProjectModel* model);
-        
-        inline void 
+
+        inline void
         setQVTKWidget (QVTKWidget* qvtk) { qvtk_ = qvtk; }
-                
+
         void
         setCurrentInteractorStyle (interactor_styles::INTERACTOR_STYLES interactor_style);
-        
+
       //  vtkSmartPointer<pcl::visualization::PCLVisualizerInteractorStyle>
       //  getPCLVisInteractorStyle () { return pcl_vis_style_; }
-        
+
         inline vtkSmartPointer <vtkInteractorStyle>
-        getInteractorStyle (const interactor_styles::INTERACTOR_STYLES interactor_style) const 
+        getInteractorStyle (const interactor_styles::INTERACTOR_STYLES interactor_style) const
           { return name_to_style_map_.value (interactor_style); }
-        
-        virtual 
+
+        virtual
         void SetDefaultRenderer(vtkRenderer*);
-        virtual 
+        virtual
         void SetCurrentRenderer(vtkRenderer*);
-        
+
         virtual void
         OnLeave ();
-                  
+
       protected:
-        void 
+        void
         setCurrentStyle();
-        
+
         QMap <interactor_styles::INTERACTOR_STYLES, vtkSmartPointer <vtkInteractorStyle> > name_to_style_map_;
-        
-        
+
+
         vtkRenderWindowInteractor* render_window_interactor_;
         vtkSmartPointer<vtkRendererCollection> rens_;
-        
+
         vtkSmartPointer<vtkInteractorStyle> current_style_;
         vtkSmartPointer<pcl::visualization::PCLVisualizerInteractorStyle> pcl_vis_style_;
         vtkSmartPointer<RectangularFrustumSelector> rectangular_frustum_selector_;
-        
+
         vtkSmartPointer<SelectedTrackballStyleInteractor> selected_trackball_interactor_style_;
-        
+
         vtkSmartPointer<ClickTrackballStyleInteractor> click_trackball_interactor_style_;
         vtkSmartPointer<vtkAreaPicker> area_picker_;
         vtkSmartPointer<vtkPointPicker> point_picker_;
-        
+
         /** \brief Internal pointer to QVTKWidget that this Switch works with */
         QVTKWidget* qvtk_;
         /** \brief Internal pointer to PCLVisualizer that this Switch works with */
@@ -145,11 +145,10 @@ namespace pcl
         void operator=(const InteractorStyleSwitch&);  // Not implemented.
         ProjectModel* project_model_;
     };
-    
+
   }
-  
+
 }
 
 #endif // INTERACTOR_STYLE_SWITCH_H_
-        
-        
+

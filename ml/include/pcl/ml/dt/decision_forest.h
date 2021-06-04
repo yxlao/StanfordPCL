@@ -34,7 +34,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  */
-  
+
 #ifndef PCL_ML_DT_DECISION_FOREST_H_
 #define PCL_ML_DT_DECISION_FOREST_H_
 
@@ -53,13 +53,13 @@ namespace pcl
   class PCL_EXPORTS DecisionForest
     : public std::vector<pcl::DecisionTree<NodeType> >
   {
-  
+
     public:
 
       /** \brief Constructor. */
       DecisionForest () {}
       /** \brief Destructor. */
-      virtual 
+      virtual
       ~DecisionForest () {}
 
       ///** \brief Adds the specified tree to the forest.
@@ -74,10 +74,10 @@ namespace pcl
       ///** \brief Returns the number of trees in the forest. */
       //inline size_t
 
-      /** \brief Serializes the decision tree. 
+      /** \brief Serializes the decision tree.
         * \param[out] stream The destination for the serialization.
         */
-      void 
+      void
       serialize (::std::ostream & stream) const
       {
         const int num_of_trees = static_cast<int> (this->size ());
@@ -97,10 +97,10 @@ namespace pcl
         //}
       }
 
-      /** \brief Deserializes the decision tree. 
+      /** \brief Deserializes the decision tree.
         * \param[in] stream The source for the deserialization.
         */
-      void 
+      void
       deserialize (::std::istream & stream)
       {
         int num_of_trees;

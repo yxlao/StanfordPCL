@@ -56,7 +56,7 @@ namespace pcl
     * \ingroup common
     */
   PCL_EXPORTS void
-  lineToLineSegment (const Eigen::VectorXf &line_a, const Eigen::VectorXf &line_b, 
+  lineToLineSegment (const Eigen::VectorXf &line_a, const Eigen::VectorXf &line_b,
                      Eigen::Vector4f &pt1_seg, Eigen::Vector4f &pt2_seg);
 
   /** \brief Get the square distance from a point to a line (represented by a point and a direction)
@@ -97,7 +97,7 @@ namespace pcl
     * \ingroup common
     */
   template <typename PointT> double inline
-  getMaxSegment (const pcl::PointCloud<PointT> &cloud, 
+  getMaxSegment (const pcl::PointCloud<PointT> &cloud,
                  PointT &pmin, PointT &pmax)
   {
     double max_dist = std::numeric_limits<double>::min ();
@@ -107,8 +107,8 @@ namespace pcl
     {
       for (size_t j = i; j < cloud.points.size (); ++j)
       {
-        // Compute the distance 
-        double dist = (cloud.points[i].getVector4fMap () - 
+        // Compute the distance
+        double dist = (cloud.points[i].getVector4fMap () -
                        cloud.points[j].getVector4fMap ()).squaredNorm ();
         if (dist <= max_dist)
           continue;
@@ -126,7 +126,7 @@ namespace pcl
     pmax = cloud.points[i_max];
     return (std::sqrt (max_dist));
   }
- 
+
   /** \brief Obtain the maximum segment in a given set of points, and return the minimum and maximum points.
     * \param[in] cloud the point cloud dataset
     * \param[in] indices a set of point indices to use from \a cloud
@@ -146,8 +146,8 @@ namespace pcl
     {
       for (size_t j = i; j < indices.size (); ++j)
       {
-        // Compute the distance 
-        double dist = (cloud.points[indices[i]].getVector4fMap () - 
+        // Compute the distance
+        double dist = (cloud.points[indices[i]].getVector4fMap () -
                        cloud.points[indices[j]].getVector4fMap ()).squaredNorm ();
         if (dist <= max_dist)
           continue;

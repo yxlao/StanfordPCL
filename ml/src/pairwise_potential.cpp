@@ -40,15 +40,15 @@
 #include <pcl/ml/pairwise_potential.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-pcl::PairwisePotential::PairwisePotential (const std::vector<float> &feature, 
-                                           const int feature_dimension, 
+pcl::PairwisePotential::PairwisePotential (const std::vector<float> &feature,
+                                           const int feature_dimension,
                                            const int N, const float w) :
   N_ (N), w_ (w)
-{  
+{
   //lattice_.init (feature, feature_dimension, N);
   std::cout << "0---------" << std::endl;
   lattice_.init (feature, feature_dimension, N);
-  
+
   std::cout << "1---------" << std::endl;
 
   //lattice_.debug ();
@@ -89,11 +89,11 @@ pcl::PairwisePotential::PairwisePotential (const std::vector<float> &feature,
   else
     std::cout << "DEBUG norm - ERROR" << std::endl;
 */
-  
+
 
   // per pixel normalization
   for (int i = 0; i < N; i++)
-    norm_[i] = 1.0f / (norm_[i] + 1e-20f); 
+    norm_[i] = 1.0f / (norm_[i] + 1e-20f);
 
   std::cout << "4---------" << std::endl;
 
@@ -102,11 +102,11 @@ pcl::PairwisePotential::PairwisePotential (const std::vector<float> &feature,
   std::cout << "5---------" << std::endl;
 
   features_ = feature;
-  
+
   std::cout << "6---------" << std::endl;
 
 
-/*  
+/*
   std::cout << "bary size: " << bary_.size () << std::endl;
   for (int g = 0; g < 25; g++)
     std::cout << bary_[g] << std::endl;

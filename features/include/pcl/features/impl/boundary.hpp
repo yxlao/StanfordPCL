@@ -46,9 +46,9 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointInT, typename PointNT, typename PointOutT> bool
 pcl::BoundaryEstimation<PointInT, PointNT, PointOutT>::isBoundaryPoint (
-      const pcl::PointCloud<PointInT> &cloud, int q_idx, 
-      const std::vector<int> &indices, 
-      const Eigen::Vector4f &u, const Eigen::Vector4f &v, 
+      const pcl::PointCloud<PointInT> &cloud, int q_idx,
+      const std::vector<int> &indices,
+      const Eigen::Vector4f &u, const Eigen::Vector4f &v,
       const float angle_threshold)
 {
   return (isBoundaryPoint (cloud, cloud.points[q_idx], indices, u, v, angle_threshold));
@@ -57,9 +57,9 @@ pcl::BoundaryEstimation<PointInT, PointNT, PointOutT>::isBoundaryPoint (
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointInT, typename PointNT, typename PointOutT> bool
 pcl::BoundaryEstimation<PointInT, PointNT, PointOutT>::isBoundaryPoint (
-      const pcl::PointCloud<PointInT> &cloud, const PointInT &q_point, 
-      const std::vector<int> &indices, 
-      const Eigen::Vector4f &u, const Eigen::Vector4f &v, 
+      const pcl::PointCloud<PointInT> &cloud, const PointInT &q_point,
+      const std::vector<int> &indices,
+      const Eigen::Vector4f &u, const Eigen::Vector4f &v,
       const float angle_threshold)
 {
   if (indices.size () < 3)
@@ -75,8 +75,8 @@ pcl::BoundaryEstimation<PointInT, PointNT, PointOutT>::isBoundaryPoint (
 
   for (size_t i = 0; i < indices.size (); ++i)
   {
-    if (!pcl_isfinite (cloud.points[indices[i]].x) || 
-        !pcl_isfinite (cloud.points[indices[i]].y) || 
+    if (!pcl_isfinite (cloud.points[indices[i]].x) ||
+        !pcl_isfinite (cloud.points[indices[i]].y) ||
         !pcl_isfinite (cloud.points[indices[i]].z))
       continue;
 
@@ -228,5 +228,5 @@ pcl::BoundaryEstimation<PointInT, PointNT, Eigen::MatrixXf>::computeFeatureEigen
 
 #define PCL_INSTANTIATE_BoundaryEstimation(PointInT,PointNT,PointOutT) template class PCL_EXPORTS pcl::BoundaryEstimation<PointInT, PointNT, PointOutT>;
 
-#endif    // PCL_FEATURES_IMPL_BOUNDARY_H_ 
+#endif    // PCL_FEATURES_IMPL_BOUNDARY_H_
 

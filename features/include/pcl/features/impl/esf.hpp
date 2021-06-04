@@ -310,8 +310,8 @@ pcl::ESFEstimation<PointInT, PointOutT>::computeESF (
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointInT, typename PointOutT> int
 pcl::ESFEstimation<PointInT, PointOutT>::lci (
-    const int x1, const int y1, const int z1, 
-    const int x2, const int y2, const int z2, 
+    const int x1, const int y1, const int z1,
+    const int x2, const int y2, const int z2,
     float &ratio, int &incnt, int &pointcount)
 {
   int voxelcount = 0;
@@ -524,7 +524,7 @@ pcl::ESFEstimation<PointInT, PointOutT>::compute (PointCloudOut &output)
 
   // Resize the output dataset
   // Important! We should only allocate precisely how many elements we will need, otherwise
-  // we risk at pre-allocating too much memory which could lead to bad_alloc 
+  // we risk at pre-allocating too much memory which could lead to bad_alloc
   // (see http://dev.pointclouds.org/issues/657)
   output.width = output.height = 1;
   output.is_dense = input_->is_dense;

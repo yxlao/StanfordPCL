@@ -4,7 +4,7 @@
 using pcl::PointCloud;
 using pcl::PointXYZ;
 
-int 
+int
   main (int argc, char **argv)
 {
   srand (unsigned (time (0)));
@@ -14,8 +14,8 @@ int
   cloud->points.resize (5);
   for (size_t i = 0; i < cloud->points.size (); ++i)
   {
-    cloud->points[i].x = i; 
-    cloud->points[i].y = i / 2; 
+    cloud->points[i].x = i;
+    cloud->points[i].y = i / 2;
     cloud->points[i].z = 0;
   }
 
@@ -27,7 +27,7 @@ int
   //p.addPolygon (cloud, "polygon");
   p.addPolygon<PointXYZ> (cloud, 1.0, 0.0, 0.0, "polygon", 0);
   p.setShapeRenderingProperties (pcl::visualization::PCL_VISUALIZER_LINE_WIDTH, 10, "polygon");
-  
+
   p.addLine<PointXYZ, PointXYZ> (cloud->points[0], cloud->points[1], 0.0, 1.0, 0.0);
   p.setShapeRenderingProperties (pcl::visualization::PCL_VISUALIZER_LINE_WIDTH, 50, "line");
 
@@ -36,7 +36,7 @@ int
 //  p.removePolygon ("poly");
 
   p.addText ("text", 200, 200, 1.0, 0, 0, "text");
-  
+
   p.addText3D ("text3D", cloud->points[0], 1.0, 1.0, 0.0, 0.0);
   p.spin ();
   p.removeCoordinateSystem (0);

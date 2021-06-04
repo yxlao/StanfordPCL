@@ -50,7 +50,7 @@ namespace pcl
   {
     /**
       * @b CorrespondenceRejectoVarTrimmed implements a simple correspondence
-      * rejection method by considering as inliers a certain percentage of correspondences 
+      * rejection method by considering as inliers a certain percentage of correspondences
       * with the least distances. The percentage of inliers is computed internally as mentioned
       * in the paper 'Outlier Robust ICP for minimizing Fractional RMSD, J. M. Philips et al'
       *
@@ -70,8 +70,8 @@ namespace pcl
       public:
 
         /** \brief Empty constructor. */
-        CorrespondenceRejectorVarTrimmed () : 
-          trimmed_distance_ (0), 
+        CorrespondenceRejectorVarTrimmed () :
+          trimmed_distance_ (0),
           factor_ (),
           min_ratio_ (0.05),
           max_ratio_ (0.95),
@@ -85,8 +85,8 @@ namespace pcl
           * \param[in] original_correspondences the set of initial correspondences given
           * \param[out] remaining_correspondences the resultant filtered set of remaining correspondences
           */
-        inline void 
-        getRemainingCorrespondences (const pcl::Correspondences& original_correspondences, 
+        inline void
+        getRemainingCorrespondences (const pcl::Correspondences& original_correspondences,
                                      pcl::Correspondences& remaining_correspondences);
 
         /** \brief Get the trimmed distance used for thresholding in correspondence rejection. */
@@ -94,10 +94,10 @@ namespace pcl
         getTrimmedDistance () const { return trimmed_distance_; };
 
         /** \brief Provide a source point cloud dataset (must contain XYZ
-          * data!), used to compute the correspondence distance.  
+          * data!), used to compute the correspondence distance.
           * \param[in] cloud a cloud containing XYZ data
           */
-        template <typename PointT> inline void 
+        template <typename PointT> inline void
         setInputCloud (const typename pcl::PointCloud<PointT>::ConstPtr &cloud)
         {
           if (!data_container_)
@@ -106,10 +106,10 @@ namespace pcl
         }
 
         /** \brief Provide a target point cloud dataset (must contain XYZ
-          * data!), used to compute the correspondence distance.  
+          * data!), used to compute the correspondence distance.
           * \param[in] target a cloud containing XYZ data
           */
-        template <typename PointT> inline void 
+        template <typename PointT> inline void
         setInputTarget (const typename pcl::PointCloud<PointT>::ConstPtr &target)
         {
           if (!data_container_)
@@ -148,7 +148,7 @@ namespace pcl
         /** \brief Apply the rejection algorithm.
           * \param[out] correspondences the set of resultant correspondences.
           */
-        inline void 
+        inline void
         applyRejection (pcl::Correspondences &correspondences)
         {
           getRemainingCorrespondences (*input_correspondences_, correspondences);
@@ -158,9 +158,9 @@ namespace pcl
           */
         double trimmed_distance_;
 
-        /** \brief The factor for correspondence rejection. Only factor times the total points sorted based on 
+        /** \brief The factor for correspondence rejection. Only factor times the total points sorted based on
          *  the correspondence distances will be considered as inliers. Remaining points are rejected. This factor is
-         *  computed internally 
+         *  computed internally
          */
         double factor_;
 

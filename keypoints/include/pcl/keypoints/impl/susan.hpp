@@ -57,45 +57,45 @@ pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::setGeometricValidation (bo
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointInT, typename PointOutT, typename NormalT, typename IntensityT> void 
+template <typename PointInT, typename PointOutT, typename NormalT, typename IntensityT> void
 pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::setRadius (float radius)
-{ 
-  search_radius_ = radius; 
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointInT, typename PointOutT, typename NormalT, typename IntensityT> void 
-pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::setDistanceThreshold (float distance_threshold) 
 {
-  distance_threshold_ = distance_threshold; 
+  search_radius_ = radius;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointInT, typename PointOutT, typename NormalT, typename IntensityT> void 
-pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::setAngularThreshold (float angular_threshold) 
-{ 
-  angular_threshold_ = angular_threshold; 
+template <typename PointInT, typename PointOutT, typename NormalT, typename IntensityT> void
+pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::setDistanceThreshold (float distance_threshold)
+{
+  distance_threshold_ = distance_threshold;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointInT, typename PointOutT, typename NormalT, typename IntensityT> void 
-pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::setIntensityThreshold (float intensity_threshold) 
-{ 
-  intensity_threshold_ = intensity_threshold; 
+template <typename PointInT, typename PointOutT, typename NormalT, typename IntensityT> void
+pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::setAngularThreshold (float angular_threshold)
+{
+  angular_threshold_ = angular_threshold;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointInT, typename PointOutT, typename NormalT, typename IntensityT> void 
+template <typename PointInT, typename PointOutT, typename NormalT, typename IntensityT> void
+pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::setIntensityThreshold (float intensity_threshold)
+{
+  intensity_threshold_ = intensity_threshold;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+template <typename PointInT, typename PointOutT, typename NormalT, typename IntensityT> void
 pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::setNormals (const PointCloudNConstPtr &normals)
-{ 
+{
   normals_ = normals;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointInT, typename PointOutT, typename NormalT, typename IntensityT> void
-pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::setSearchSurface (const PointCloudInConstPtr &cloud) 
-{ 
-  surface_ = cloud; 
+pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::setSearchSurface (const PointCloudInConstPtr &cloud)
+{
+  surface_ = cloud;
   normals_.reset (new pcl::PointCloud<NormalT>);
 }
 
@@ -111,7 +111,7 @@ pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::setNumberOfThreads (unsign
 // template <typename PointInT, typename PointOutT, typename NormalT, typename IntensityT> void
 // pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::USAN (const PointInT& nucleus,
 //                                                 const NormalT& nucleus_normal,
-//                                                 const std::vector<int>& neighbors, 
+//                                                 const std::vector<int>& neighbors,
 //                                                 const float& t,
 //                                                 float& response,
 //                                                 Eigen::Vector3f& centroid) const
@@ -164,7 +164,7 @@ pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::setNumberOfThreads (unsign
 //         if ((coefficients[0]/coefficients[5]) < 1 && (coefficients[3]/coefficients[5]) < 1)
 //           direction = Eigen::Vector3f (0, 1, 0);
 //         // Diagonal edge
-//         else 
+//         else
 //         {
 //           //XY direction
 //           if ((coefficients[2]/coeffcients[1]) < 1 && (coeffcients[4]/coeffcients[1]) < 1)
@@ -196,7 +196,7 @@ pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::setNumberOfThreads (unsign
 //         }
 //       }
 //     }
-    
+
 //     // std::size_t max_index = std::distance (coefficients.begin (), max);
 //     // switch (max_index)
 //     // {
@@ -219,7 +219,7 @@ pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::initCompute ()
     PCL_ERROR ("[pcl::%s::initCompute] init failed!\n", name_.c_str ());
     return (false);
   }
-  
+
   if (normals_->empty ())
   {
     PointCloudNPtr normals (new PointCloudN ());
@@ -265,7 +265,7 @@ pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::isWithinNucleusCentroid (c
 // template <typename PointInT, typename PointOutT, typename NormalT, typename IntensityT> bool
 // pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::isValidQueryPoint3D (int point_index) const
 // {
-//   return (isFinite (surface_->points [point_index]) && 
+//   return (isFinite (surface_->points [point_index]) &&
 //           isFinite (normals_->points [point_index]));
 // }
 
@@ -278,7 +278,7 @@ pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::isWithinNucleusCentroid (c
 // template <typename PointInT, typename PointOutT, typename NormalT, typename IntensityT> bool
 // pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::isWithinSusan2D (int nucleus, int neighbor) const
 // {
-//   return (fabs (intensity_ (surface_->points[nucleus]) - 
+//   return (fabs (intensity_ (surface_->points[nucleus]) -
 //                 intensity_ (surface_->points[neighbor])) <= intensity_threshold_);
 // }
 
@@ -293,7 +293,7 @@ pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::isWithinNucleusCentroid (c
 // pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::isWithinSusanH (int nucleus, int neighbor) const
 // {
 //   Eigen::Vector3f nucleus_normal = normals_->point[nucleus].getVector3fMap ();
-//   return ((1 - nucleus_normal.dot (normals_->points[*index].getNormalVector3fMap ()) <= angular_threshold_) || 
+//   return ((1 - nucleus_normal.dot (normals_->points[*index].getNormalVector3fMap ()) <= angular_threshold_) ||
 //           (fabs (intensity_ (surface_->points[nucleus]) - intensity_ (surface_->points[neighbor])) <= intensity_threshold_));
 // }
 
@@ -352,7 +352,7 @@ pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::detectKeypoints (PointClou
         {
           PointOutT point_out;
           point_out.getVector3fMap () = point_in.getVector3fMap ();
-          //point_out.intensity = geometric_threshold - area; 
+          //point_out.intensity = geometric_threshold - area;
           intensity_out_.set (point_out, geometric_threshold - area);
           // if a label field is found use it to save the index
           if (label_idx_ != -1)
@@ -374,7 +374,7 @@ pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::detectKeypoints (PointClou
           // Check the distance <= distance_threshold_
           if (dist.norm () >= distance_threshold_)
           {
-            // point is valid from distance point of view 
+            // point is valid from distance point of view
             Eigen::Vector3f nc = centroid - nucleus;
             // Check the contiguity
             std::vector<int>::const_iterator usan_it = usan.begin ();
@@ -388,7 +388,7 @@ pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::detectKeypoints (PointClou
             {
               PointOutT point_out;
               point_out.getVector3fMap () = point_in.getVector3fMap ();
-              // point_out.intensity = geometric_threshold - area; 
+              // point_out.intensity = geometric_threshold - area;
               intensity_out_.set (point_out, geometric_threshold - area);
               // if a label field is found use it to save the index
               if (label_idx_ != -1)
@@ -401,26 +401,26 @@ pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::detectKeypoints (PointClou
 //#ifdef _OPENMP
 //#pragma omp critical
 //#endif
-              response->push_back (point_out);              
+              response->push_back (point_out);
             }
           }
         }
       }
-    }  
+    }
   }
-  
+
   response->height = 1;
   response->width = static_cast<uint32_t> (response->size ());
-  
+
   if (!nonmax_)
     output = *response;
   else
   {
     output.points.clear ();
     output.points.reserve (response->points.size());
-    
+
 //#ifdef _OPENMP
-//#pragma omp parallel for shared (output) num_threads(threads_)   
+//#pragma omp parallel for shared (output) num_threads(threads_)
 //#endif
     for (int idx = 0; idx < static_cast<int> (response->points.size ()); ++idx)
     {
@@ -449,9 +449,9 @@ pcl::SUSAN<PointInT, PointOutT, NormalT, IntensityT>::detectKeypoints (PointClou
 //#endif
         output.points.push_back (response->points[idx]);
     }
-    
+
     output.height = 1;
-    output.width = static_cast<uint32_t> (output.points.size());  
+    output.width = static_cast<uint32_t> (output.points.size());
   }
   // we don not change the denseness
   output.is_dense = surface_->is_dense;

@@ -52,7 +52,7 @@ namespace pcl {
 
     double PCL_EXPORTS
     ArcTan2 (const double& y, const double& x);
- 
+
     double PCL_EXPORTS
     Angle (const double in[2]);
 
@@ -67,7 +67,7 @@ namespace pcl {
 
     void PCL_EXPORTS
     Multiply (const double in1[2], const double in2[2], double out[2]);
-    
+
     void PCL_EXPORTS
     Divide (const double in1[2], const double in2[2], double out[2]);
 

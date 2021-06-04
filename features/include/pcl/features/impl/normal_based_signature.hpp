@@ -98,8 +98,8 @@ pcl::NormalBasedSignatureEstimation<PointT, PointNT, PointFeature>::computeFeatu
         }
         normal_v = normal.cross3 (normal_u);
 
-        Eigen::Vector4f zeta_point = 2.0f * static_cast<float> (l + 1) * scale_h_ / static_cast<float> (M_) * 
-            (cosf (2.0f * static_cast<float> (M_PI) * static_cast<float> ((k + 1) / N_)) * normal_u + 
+        Eigen::Vector4f zeta_point = 2.0f * static_cast<float> (l + 1) * scale_h_ / static_cast<float> (M_) *
+            (cosf (2.0f * static_cast<float> (M_PI) * static_cast<float> ((k + 1) / N_)) * normal_u +
              sinf (2.0f * static_cast<float> (M_PI) * static_cast<float> ((k + 1) / N_)) * normal_v);
 
         // Compute normal by using the neighbors
@@ -116,7 +116,7 @@ pcl::NormalBasedSignatureEstimation<PointT, PointNT, PointFeature>::computeFeatu
           k_sqr_distances.resize (5);
           tree_->nearestKSearch (zeta_point_pcl, 5, k_indices, k_sqr_distances);
         }
-        
+
         Eigen::Vector4f average_normal = Eigen::Vector4f::Zero ();
 
         float average_normalization_factor = 0.0f;

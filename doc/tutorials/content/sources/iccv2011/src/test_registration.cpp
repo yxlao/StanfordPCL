@@ -8,10 +8,10 @@
 
 #include "load_clouds.h"
 
-int 
+int
 main (int argc, char ** argv)
 {
-  if (argc < 3) 
+  if (argc < 3)
   {
     pcl::console::print_info ("Syntax is: %s source target <options>\n", argv[0]);
     pcl::console::print_info ("  where options are:\n");
@@ -30,7 +30,7 @@ main (int argc, char ** argv)
 
   // Compute the intial alignment
   double min_sample_dist, max_correspondence_dist, nr_iters;
-  bool compute_intial_alignment = 
+  bool compute_intial_alignment =
     pcl::console::parse_3x_arguments (argc, argv, "-i", min_sample_dist, max_correspondence_dist, nr_iters) > 0;
   if (compute_intial_alignment)
   {
@@ -43,7 +43,7 @@ main (int argc, char ** argv)
     // Find the transform that roughly aligns the points
     tform = computeInitialAlignment (src_keypoints, src_descriptors, tgt_keypoints, tgt_descriptors,
                                      min_sample_dist, max_correspondence_dist, nr_iters);
-    
+
     pcl::console::print_info ("Computed initial alignment\n");
   }
 
@@ -54,17 +54,17 @@ main (int argc, char ** argv)
   {
     std::vector<std::string> tokens;
     boost::split (tokens, params_string, boost::is_any_of (","), boost::token_compress_on);
-    assert (tokens.size () == 4);    
+    assert (tokens.size () == 4);
     float max_correspondence_distance = atof(tokens[0].c_str ());
     float outlier_rejection_threshold = atof(tokens[1].c_str ());
     float transformation_epsilon = atoi(tokens[2].c_str ());
     int max_iterations = atoi(tokens[3].c_str ());
 
-    tform = refineAlignment (src_points, tgt_points, tform, max_correspondence_distance,  
+    tform = refineAlignment (src_points, tgt_points, tform, max_correspondence_distance,
                              outlier_rejection_threshold, transformation_epsilon, max_iterations);
 
     pcl::console::print_info ("Refined alignment\n");
-  }  
+  }
 
   // Transform the source point to align them with the target points
   pcl::transformPointCloud (*src_points, *src_points, tform);
@@ -80,7 +80,7 @@ main (int argc, char ** argv)
     // Save the result
     pcl::io::savePCDFile (filename, *src_points);
 
-    pcl::console::print_info ("Saved registered clouds as %s\n", filename.c_str ());    
+    pcl::console::print_info ("Saved registered clouds as %s\n", filename.c_str ());
   }
   // Or visualize the result
   else
@@ -93,7 +93,7 @@ main (int argc, char ** argv)
 
     pcl::visualization::PointCloudColorHandlerCustom<PointT> yellow (tgt_points, 255, 255, 0);
     vis.addPointCloud (tgt_points, yellow, "tgt_points");
-    
+
     vis.resetCamera ();
     vis.spin ();
   }

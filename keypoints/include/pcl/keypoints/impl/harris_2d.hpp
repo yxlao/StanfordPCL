@@ -102,7 +102,7 @@ pcl::HarrisKeypoint2D<PointInT, PointOutT, IntensityT>::computeSecondMomentMatri
 {
   static const int width = static_cast<int> (input_->width);
   static const int height = static_cast<int> (input_->height);
-  
+
   int x = static_cast<int> (index % input_->width);
   int y = static_cast<int> (index / input_->width);
   unsigned count = 0;
@@ -134,17 +134,17 @@ pcl::HarrisKeypoint2D<PointInT, PointOutT, IntensityT>::initCompute ()
   }
 
   if (!input_->isOrganized ())
-  {    
+  {
     PCL_ERROR ("[pcl::%s::initCompute] %s doesn't support non organized clouds!\n", name_.c_str ());
     return (false);
   }
-  
+
   if (indices_->size () != input_->size ())
   {
     PCL_ERROR ("[pcl::%s::initCompute] %s doesn't support setting indices!\n", name_.c_str ());
     return (false);
   }
-  
+
   if ((window_height_%2) == 0)
   {
     PCL_ERROR ("[pcl::%s::initCompute] Window height must be odd!\n", name_.c_str ());
@@ -162,7 +162,7 @@ pcl::HarrisKeypoint2D<PointInT, PointOutT, IntensityT>::initCompute ()
     PCL_ERROR ("[pcl::%s::initCompute] Window size must be >= 3x3!\n", name_.c_str ());
     return (false);
   }
-  
+
   half_window_width_ = window_width_ / 2;
   half_window_height_ = window_height_ / 2;
 
@@ -232,7 +232,7 @@ pcl::HarrisKeypoint2D<PointInT, PointOutT, IntensityT>::detectKeypoints (PointCl
   derivatives_cols_(w,h) = (intensity_ ((*input_) (w,h)) - intensity_ ((*input_) (w,h-1))) * 0.5;
 
   float highest_response_;
-  
+
   switch (method_)
   {
     case HARRIS:
@@ -248,36 +248,36 @@ pcl::HarrisKeypoint2D<PointInT, PointOutT, IntensityT>::detectKeypoints (PointCl
       responseTomasi(*response_, highest_response_);
       break;
   }
-  
+
   if (!nonmax_)
     output = *response_;
   else
-  {    
+  {
     threshold_*= highest_response_;
 
-    std::sort (indices_->begin (), indices_->end (), 
+    std::sort (indices_->begin (), indices_->end (),
                boost::bind (&HarrisKeypoint2D::greaterIntensityAtIndices, this, _1, _2));
-    
+
     output.clear ();
     output.reserve (response_->size());
-    std::vector<bool> occupency_map (response_->size (), false);    
+    std::vector<bool> occupency_map (response_->size (), false);
     int width (response_->width);
     int height (response_->height);
     const int occupency_map_size (occupency_map.size ());
 
 #ifdef _OPENMP
-#pragma omp parallel for shared (output, occupency_map) private (width, height) num_threads(threads_)   
+#pragma omp parallel for shared (output, occupency_map) private (width, height) num_threads(threads_)
 #endif
     for (int idx = 0; idx < occupency_map_size; ++idx)
     {
       if (occupency_map[idx] || response_->points [indices_->at (idx)].intensity < threshold_ || !isFinite (response_->points[idx]))
         continue;
-        
+
 #ifdef _OPENMP
 #pragma omp critical
 #endif
       output.push_back (response_->at (indices_->at (idx)));
-      
+
 			int u_end = std::min (width, indices_->at (idx) % width + min_distance_);
 			int v_end = std::min (height, indices_->at (idx) / width + min_distance_);
       for(int u = std::max (0, indices_->at (idx) % width - min_distance_); u < u_end; ++u)
@@ -360,7 +360,7 @@ pcl::HarrisKeypoint2D<PointInT, PointOutT, IntensityT>::responseNoble (PointClou
     out_point.z = in_point.z;
     out_point.intensity = 0;
     if (isFinite (in_point))
-    {    
+    {
       computeSecondMomentMatrix (index, covar);
       float trace = covar [0] + covar [2];
       if (trace != 0)
@@ -373,9 +373,9 @@ pcl::HarrisKeypoint2D<PointInT, PointOutT, IntensityT>::responseNoble (PointClou
 #endif
         highest_response =  (out_point.intensity > highest_response) ? out_point.intensity : highest_response;
       }
-    }    
+    }
   }
-  
+
   output.height = input_->height;
   output.width = input_->width;
 }
@@ -393,7 +393,7 @@ pcl::HarrisKeypoint2D<PointInT, PointOutT, IntensityT>::responseLowe (PointCloud
 #ifdef _OPENMP
 #pragma omp parallel for shared (output, highest_response) private (covar) num_threads(threads_)
 #endif
-  for (size_t index = 0; index < output_size; ++index)      
+  for (size_t index = 0; index < output_size; ++index)
   {
     PointOutT &out_point = output.points [index];
     const PointInT &in_point = input_->points [index];
@@ -402,7 +402,7 @@ pcl::HarrisKeypoint2D<PointInT, PointOutT, IntensityT>::responseLowe (PointCloud
     out_point.z = in_point.z;
     out_point.intensity = 0;
     if (isFinite (in_point))
-    {    
+    {
       computeSecondMomentMatrix (index, covar);
       float trace = covar [0] + covar [2];
       if (trace != 0)
@@ -444,7 +444,7 @@ pcl::HarrisKeypoint2D<PointInT, PointOutT, IntensityT>::responseTomasi (PointClo
     out_point.z = in_point.z;
     out_point.intensity = 0;
     if (isFinite (in_point))
-    {      
+    {
       computeSecondMomentMatrix (index, covar);
       // min egenvalue
       out_point.intensity = ((covar[0] + covar[2] - sqrt((covar[0] - covar[2])*(covar[0] - covar[2]) + 4 * covar[1] * covar[1])) /2.0f);
@@ -453,9 +453,9 @@ pcl::HarrisKeypoint2D<PointInT, PointOutT, IntensityT>::responseTomasi (PointClo
 #pragma omp critical
 #endif
       highest_response =  (out_point.intensity > highest_response) ? out_point.intensity : highest_response;
-    }    
+    }
   }
-  
+
   output.height = input_->height;
   output.width = input_->width;
 }

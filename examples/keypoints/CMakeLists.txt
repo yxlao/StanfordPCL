@@ -2,7 +2,7 @@ if(BUILD_visualization)
 
   PCL_SUBSYS_DEPEND(build ${SUBSYS_NAME} DEPS visualization)
 
-  ## Find VTK 
+  ## Find VTK
 	if(NOT VTK_FOUND)
 	    set(DEFAULT FALSE)
 	    set(REASON "VTK was not found.")

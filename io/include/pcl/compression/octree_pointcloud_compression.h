@@ -116,7 +116,7 @@ namespace pcl
           doVoxelGridEnDecoding_ (doVoxelGridDownDownSampling_arg), iFrameRate_ (iFrameRate_arg),
           iFrameCounter_ (0), frameID_ (0), pointCount_ (0), iFrame_ (true),
           doColorEncoding_ (doColorEncoding_arg), cloudWithColor_ (false), dataWithColor_ (false),
-          pointColorOffset_ (0), bShowStatistics (showStatistics_arg), 
+          pointColorOffset_ (0), bShowStatistics (showStatistics_arg),
           compressedPointDataLen_ (), compressedColorDataLen_ (), selectedProfile_(compressionProfile_arg),
           pointResolution_(pointResolution_arg), octreeResolution_(octreeResolution_arg), colorBitResolution_(colorBitResolution_arg)
         {
@@ -147,7 +147,7 @@ namespace pcl
             colorCoder_.setBitDepth (selectedProfile.colorBitResolution);
 
           }
-          else 
+          else
           {
             // configure point & color coder
             pointCoder_.setPrecision (static_cast<float> (pointResolution_));

@@ -43,7 +43,7 @@
 
 
 template <typename PointT>
-void 
+void
 pcl::WorldModel<PointT>::addSlice ( PointCloudPtr new_cloud)
 {
   PCL_DEBUG ("Adding new cloud. Current world contains %d points.\n", world_->points.size ());
@@ -57,16 +57,16 @@ pcl::WorldModel<PointT>::addSlice ( PointCloudPtr new_cloud)
 
 
 template <typename PointT>
-void 
+void
 pcl::WorldModel<PointT>::getExistingData(const double previous_origin_x, const double previous_origin_y, const double previous_origin_z, const double offset_x, const double offset_y, const double offset_z, const double volume_x, const double volume_y, const double volume_z, pcl::PointCloud<PointT> &existing_slice)
 {
-  double newOriginX = previous_origin_x + offset_x; 
-  double newOriginY = previous_origin_y + offset_y; 
+  double newOriginX = previous_origin_x + offset_x;
+  double newOriginY = previous_origin_y + offset_y;
   double newOriginZ = previous_origin_z + offset_z;
-  double newLimitX = newOriginX + volume_x; 
-  double newLimitY = newOriginY + volume_y; 
+  double newLimitX = newOriginX + volume_x;
+  double newLimitY = newOriginY + volume_y;
   double newLimitZ = newOriginZ + volume_z;
-    
+
   // filter points in the space of the new cube
   PointCloudPtr newCube (new pcl::PointCloud<PointT>);
   // condition
@@ -76,53 +76,53 @@ pcl::WorldModel<PointT>::getExistingData(const double previous_origin_x, const d
   range_condAND->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("y", pcl::ComparisonOps::GE, newOriginY)));
   range_condAND->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("y", pcl::ComparisonOps::LT, newLimitY)));
   range_condAND->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("z", pcl::ComparisonOps::GE, newOriginZ)));
-  range_condAND->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("z", pcl::ComparisonOps::LT, newLimitZ))); 
-  
+  range_condAND->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("z", pcl::ComparisonOps::LT, newLimitZ)));
+
   // build the filter
   pcl::ConditionalRemoval<PointT> condremAND (range_condAND, true);
   condremAND.setInputCloud (world_);
   condremAND.setKeepOrganized (false);
-  
+
   // apply filter
   condremAND.filter (*newCube);
-    
+
   // filter points that belong to the new slice
   ConditionOrPtr range_condOR (new pcl::ConditionOr<PointT> ());
-  
+
   if(offset_x >= 0)
     range_condOR->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("x", pcl::ComparisonOps::GE,  previous_origin_x + volume_x - 1.0 )));
   else
     range_condOR->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("x", pcl::ComparisonOps::LT,  previous_origin_x )));
-    
+
   if(offset_y >= 0)
     range_condOR->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("y", pcl::ComparisonOps::GE,  previous_origin_y + volume_y - 1.0 )));
   else
     range_condOR->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("y", pcl::ComparisonOps::LT,  previous_origin_y )));
-    
+
   if(offset_z >= 0)
     range_condOR->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("z", pcl::ComparisonOps::GE,  previous_origin_z + volume_z - 1.0 )));
   else
     range_condOR->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("z", pcl::ComparisonOps::LT,  previous_origin_z )));
-  
+
   // build the filter
   pcl::ConditionalRemoval<PointT> condrem (range_condOR, true);
   condrem.setInputCloud (newCube);
   condrem.setKeepOrganized (false);
   // apply filter
-  condrem.filter (existing_slice);  
- 
+  condrem.filter (existing_slice);
+
   if(existing_slice.points.size () != 0)
   {
     //transform the slice in new cube coordinates
-    Eigen::Affine3f transformation; 
+    Eigen::Affine3f transformation;
     transformation.translation ()[0] = newOriginX;
     transformation.translation ()[1] = newOriginY;
     transformation.translation ()[2] = newOriginZ;
-        
+
     transformation.linear ().setIdentity ();
 
     transformPointCloud (existing_slice, existing_slice, transformation.inverse ());
-    
+
   }
 }
 
@@ -131,7 +131,7 @@ template <typename PointT>
 void
 pcl::WorldModel<PointT>::getWorldAsCubes (const double size, std::vector<typename pcl::WorldModel<PointT>::PointCloudPtr> &cubes, std::vector<Eigen::Vector3f> &transforms, double overlap)
 {
-  
+
   if(world_->points.size () == 0)
   {
     PCL_INFO("The world is empty, returning nothing\n");
@@ -146,7 +146,7 @@ pcl::WorldModel<PointT>::getWorldAsCubes (const double size, std::vector<typenam
   pcl::removeNaNFromPointCloud	(	*world_, *world_, indices);
 	
   PCL_INFO ("World contains %d points after nan removal.\n", world_->points.size ());
-  
+
 
   // check cube size value
   double cubeSide = size;
@@ -171,7 +171,7 @@ pcl::WorldModel<PointT>::getWorldAsCubes (const double size, std::vector<typenam
     step_increment = 0.1f;
   }
 
-  
+
   // get world's bounding values on XYZ
   PointT min, max;
   pcl::getMinMax3D(*world_, min, max);
@@ -179,7 +179,7 @@ pcl::WorldModel<PointT>::getWorldAsCubes (const double size, std::vector<typenam
   PCL_INFO ("Bounding box for the world: \n\t [%f - %f] \n\t [%f - %f] \n\t [%f - %f] \n", min.x, max.x, min.y, max.y, min.z, max.z);
 
   PointT origin = min;
-  
+
   // clear returned vectors
   cubes.clear();
   transforms.clear();
@@ -222,7 +222,7 @@ pcl::WorldModel<PointT>::getWorldAsCubes (const double size, std::vector<typenam
           Eigen::Vector3f transform;
           transform[0] = origin.x, transform[1] = origin.y, transform[2] = origin.z;
           transforms.push_back(transform);
-          cubes.push_back(box);        
+          cubes.push_back(box);
         }
         else
         {
@@ -241,7 +241,7 @@ pcl::WorldModel<PointT>::getWorldAsCubes (const double size, std::vector<typenam
     std::stringstream name;
     name << "cloud" << c+1 << ".pcd";
     pcl::io::savePCDFileASCII(name.str(), *(cubes[c]));
-    
+
   }*/
 
   std::cout << "returning " << cubes.size() << " cubes" << std::endl;
@@ -252,7 +252,7 @@ template <typename PointT>
 void
 pcl::WorldModel<PointT>::getWorldAsCubes (const double size, std::vector<typename pcl::WorldModel<PointT>::PointCloudPtr> &cubes, std::vector<Eigen::Vector3f> &transforms, double overlap, pcl::gpu::StandaloneMarchingCubes<pcl::PointXYZI> & mcubes)
 {
-  
+
   if(world_->points.size () == 0)
   {
     PCL_INFO("The world is empty, returning nothing\n");
@@ -267,7 +267,7 @@ pcl::WorldModel<PointT>::getWorldAsCubes (const double size, std::vector<typenam
   pcl::removeNaNFromPointCloud	(	*world_, *world_, indices);
 	
   PCL_INFO ("World contains %d points after nan removal.\n", world_->points.size ());
-  
+
 
   // check cube size value
   double cubeSide = size;
@@ -292,7 +292,7 @@ pcl::WorldModel<PointT>::getWorldAsCubes (const double size, std::vector<typenam
     step_increment = 0.1f;
   }
 
-  
+
   // get world's bounding values on XYZ
   PointT min, max;
   pcl::getMinMax3D(*world_, min, max);
@@ -300,7 +300,7 @@ pcl::WorldModel<PointT>::getWorldAsCubes (const double size, std::vector<typenam
   PCL_INFO ("Bounding box for the world: \n\t [%f - %f] \n\t [%f - %f] \n\t [%f - %f] \n", min.x, max.x, min.y, max.y, min.z, max.z);
 
   PointT origin = min;
-  
+
   // clear returned vectors
   cubes.clear();
   transforms.clear();
@@ -346,13 +346,13 @@ pcl::WorldModel<PointT>::getWorldAsCubes (const double size, std::vector<typenam
           //transform[0] = origin.x, transform[1] = origin.y, transform[2] = origin.z;
           //transforms.push_back(transform);
           //cubes.push_back(box);
-		    Eigen::Affine3f cloud_transform; 
-    
+		    Eigen::Affine3f cloud_transform;
+
 			cloud_transform.linear ().setIdentity ();
 			cloud_transform.translation ()[0] = -origin.x;
 			cloud_transform.translation ()[1] = -origin.y;
 			cloud_transform.translation ()[2] = -origin.z;
-    
+
 			transformPointCloud (*box, *box, cloud_transform);
 
 			//Get mesh
@@ -360,20 +360,20 @@ pcl::WorldModel<PointT>::getWorldAsCubes (const double size, std::vector<typenam
 			pcl::PointCloud< pcl::PointXYZI > * pbox = reinterpret_cast < pcl::PointCloud< pcl::PointXYZI > * > ( ppbox );
 			pcl::gpu::StandaloneMarchingCubes<PointT>::MeshPtr tmp = mcubes.getMeshFromTSDFCloud ( * pbox );
 			float cell_size = mcubes.getCellSize();
-        
+
 			if(tmp != 0)
 			{
 				cloud_transform.translation ()[0] = origin.x * cell_size;
 				cloud_transform.translation ()[1] = origin.y * cell_size;
 				cloud_transform.translation ()[2] = origin.z * cell_size;
-    
+
 				pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_tmp_ptr (new pcl::PointCloud<pcl::PointXYZ>);
 				fromROSMsg ( ( tmp )->cloud, *cloud_tmp_ptr);
-    
+
 				transformPointCloud (*cloud_tmp_ptr, *cloud_tmp_ptr, cloud_transform);
-    
+
 				toROSMsg (*cloud_tmp_ptr, ( tmp )->cloud);
-    
+
 				std::stringstream name;
 				name << "mesh_" << k << ".ply";
 				PCL_INFO ("Saving mesh...%d \n", k);
@@ -402,7 +402,7 @@ pcl::WorldModel<PointT>::getWorldAsCubes (const double size, std::vector<typenam
     std::stringstream name;
     name << "cloud" << c+1 << ".pcd";
     pcl::io::savePCDFileASCII(name.str(), *(cubes[c]));
-    
+
   }*/
 
   std::cout << "returning " << cubes.size() << " cubes" << std::endl;
@@ -410,13 +410,13 @@ pcl::WorldModel<PointT>::getWorldAsCubes (const double size, std::vector<typenam
 }
 
 template <typename PointT>
-inline void 
+inline void
 pcl::WorldModel<PointT>::setIndicesAsNans (PointCloudPtr cloud, IndicesConstPtr indices)
 {
-  std::vector<sensor_msgs::PointField> fields; 
+  std::vector<sensor_msgs::PointField> fields;
   pcl::for_each_type<FieldList> (pcl::detail::FieldAdder<PointT> (fields));
   float my_nan = std::numeric_limits<float>::quiet_NaN ();
-  
+
   for (int rii = 0; rii < static_cast<int> (indices->size ()); ++rii)  // rii = removed indices iterator
   {
     uint8_t* pt_data = reinterpret_cast<uint8_t*> (&cloud->points[(*indices)[rii]]);
@@ -427,14 +427,14 @@ pcl::WorldModel<PointT>::setIndicesAsNans (PointCloudPtr cloud, IndicesConstPtr 
 
 
 template <typename PointT>
-void 
+void
 pcl::WorldModel<PointT>::setSliceAsNans (const double origin_x, const double origin_y, const double origin_z, const double offset_x, const double offset_y, const double offset_z, const int size_x, const int size_y, const int size_z)
-{ 
+{
   PCL_DEBUG ("IN SETSLICE AS NANS\n");
-  
+
   PointCloudPtr slice (new pcl::PointCloud<PointT>);
-  
-  // prepare filter limits on all dimensions  
+
+  // prepare filter limits on all dimensions
   double previous_origin_x = origin_x;
   double previous_limit_x = origin_x + size_x - 1;
   double new_origin_x = origin_x + offset_x;
@@ -443,13 +443,13 @@ pcl::WorldModel<PointT>::setSliceAsNans (const double origin_x, const double ori
   double previous_origin_y = origin_y;
   double previous_limit_y = origin_y + size_y - 1;
   double new_origin_y = origin_y + offset_y;
-  double new_limit_y = previous_limit_y + offset_y;  
- 
+  double new_limit_y = previous_limit_y + offset_y;
+
   double previous_origin_z = origin_z;
   double previous_limit_z = origin_z + size_z - 1;
   double new_origin_z = origin_z + offset_z;
-  double new_limit_z = previous_limit_z + offset_z; 
-   
+  double new_limit_z = previous_limit_z + offset_z;
+
   // get points of slice on X (we actually set a negative filter and set the ouliers (so, our slice points) to nan)
   double lower_limit_x, upper_limit_x;
   if(offset_x >=0)
@@ -460,18 +460,18 @@ pcl::WorldModel<PointT>::setSliceAsNans (const double origin_x, const double ori
   else
   {
     lower_limit_x = new_limit_x;
-    upper_limit_x = previous_limit_x;    
+    upper_limit_x = previous_limit_x;
   }
-  
+
   PCL_DEBUG ("Limit X: [%f - %f]\n", lower_limit_x, upper_limit_x);
-  
+
   ConditionOrPtr range_cond_OR_x (new pcl::ConditionOr<PointT> ());
   range_cond_OR_x->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("x", pcl::ComparisonOps::GE,  upper_limit_x ))); // filtered dimension
   range_cond_OR_x->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("x", pcl::ComparisonOps::LT,  lower_limit_x ))); // filtered dimension
-    
+
   range_cond_OR_x->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("y", pcl::ComparisonOps::GE,  previous_limit_y)));
   range_cond_OR_x->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("y", pcl::ComparisonOps::LT,  previous_origin_y )));
-    
+
   range_cond_OR_x->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("z", pcl::ComparisonOps::GE,  previous_limit_z)));
   range_cond_OR_x->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("z", pcl::ComparisonOps::LT,  previous_origin_z )));
 
@@ -479,13 +479,13 @@ pcl::WorldModel<PointT>::setSliceAsNans (const double origin_x, const double ori
   condrem_x.setInputCloud (world_);
   condrem_x.setKeepOrganized (false);
   // apply filter
-  condrem_x.filter (*slice);  
+  condrem_x.filter (*slice);
   IndicesConstPtr indices_x = condrem_x.getRemovedIndices ();
-  
+
   //set outliers (so our slice points) to nan
   setIndicesAsNans(world_, indices_x);
   PCL_DEBUG("%d points set to nan on X\n", indices_x->size ());
-  
+
   // get points of slice on Y (we actually set a negative filter and set the ouliers (so, our slice points) to nan)
   double lower_limit_y, upper_limit_y;
   if(offset_y >=0)
@@ -496,18 +496,18 @@ pcl::WorldModel<PointT>::setSliceAsNans (const double origin_x, const double ori
   else
   {
     lower_limit_y = new_limit_y;
-    upper_limit_y = previous_limit_y;    
+    upper_limit_y = previous_limit_y;
   }
-  
+
   PCL_DEBUG ("Limit Y: [%f - %f]\n", lower_limit_y, upper_limit_y);
-  
+
   ConditionOrPtr range_cond_OR_y (new pcl::ConditionOr<PointT> ());
   range_cond_OR_y->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("x", pcl::ComparisonOps::GE,  previous_limit_x )));
   range_cond_OR_y->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("x", pcl::ComparisonOps::LT,  previous_origin_x )));
-    
+
   range_cond_OR_y->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("y", pcl::ComparisonOps::GE,  upper_limit_y))); // filtered dimension
   range_cond_OR_y->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("y", pcl::ComparisonOps::LT,  lower_limit_y ))); // filtered dimension
-    
+
   range_cond_OR_y->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("z", pcl::ComparisonOps::GE,  previous_limit_z)));
   range_cond_OR_y->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("z", pcl::ComparisonOps::LT,  previous_origin_z )));
 
@@ -515,13 +515,13 @@ pcl::WorldModel<PointT>::setSliceAsNans (const double origin_x, const double ori
   condrem_y.setInputCloud (world_);
   condrem_y.setKeepOrganized (false);
   // apply filter
-  condrem_y.filter (*slice);  
+  condrem_y.filter (*slice);
   IndicesConstPtr indices_y = condrem_y.getRemovedIndices ();
-  
+
   //set outliers (so our slice points) to nan
   setIndicesAsNans(world_, indices_y);
   PCL_DEBUG ("%d points set to nan on Y\n", indices_y->size ());
-  
+
   // get points of slice on Z (we actually set a negative filter and set the ouliers (so, our slice points) to nan)
   double lower_limit_z, upper_limit_z;
   if(offset_z >=0)
@@ -532,18 +532,18 @@ pcl::WorldModel<PointT>::setSliceAsNans (const double origin_x, const double ori
   else
   {
     lower_limit_z = new_limit_z;
-    upper_limit_z = previous_limit_z;    
+    upper_limit_z = previous_limit_z;
   }
-  
+
   PCL_DEBUG ("Limit Z: [%f - %f]\n", lower_limit_z, upper_limit_z);
-  
+
   ConditionOrPtr range_cond_OR_z (new pcl::ConditionOr<PointT> ());
   range_cond_OR_z->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("x", pcl::ComparisonOps::GE,  previous_limit_x )));
   range_cond_OR_z->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("x", pcl::ComparisonOps::LT,  previous_origin_x )));
-    
+
   range_cond_OR_z->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("y", pcl::ComparisonOps::GE,  previous_limit_y)));
   range_cond_OR_z->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("y", pcl::ComparisonOps::LT,  previous_origin_y )));
-    
+
   range_cond_OR_z->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("z", pcl::ComparisonOps::GE,  upper_limit_z))); // filtered dimension
   range_cond_OR_z->addComparison (FieldComparisonConstPtr (new pcl::FieldComparison<PointT> ("z", pcl::ComparisonOps::LT,  lower_limit_z ))); // filtered dimension
 
@@ -551,14 +551,14 @@ pcl::WorldModel<PointT>::setSliceAsNans (const double origin_x, const double ori
   condrem_z.setInputCloud (world_);
   condrem_z.setKeepOrganized (false);
   // apply filter
-  condrem_z.filter (*slice);  
+  condrem_z.filter (*slice);
   IndicesConstPtr indices_z = condrem_z.getRemovedIndices ();
-  
+
   //set outliers (so our slice points) to nan
   setIndicesAsNans(world_, indices_z);
   PCL_DEBUG("%d points set to nan on Z\n", indices_z->size ());
-  
-  
+
+
 }
 
 #define PCL_INSTANTIATE_WorldModel(T) template class PCL_EXPORTS pcl::WorldModel<T>;

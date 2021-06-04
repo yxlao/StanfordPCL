@@ -42,7 +42,7 @@
 #define PCL_REGISTER_POINT_STRUCT_H_
 
 #ifdef __GNUC__
-#pragma GCC system_header 
+#pragma GCC system_header
 #endif
 
 #include <pcl/point_traits.h>
@@ -228,8 +228,8 @@ namespace pcl
   /***/
 
 // Construct type traits given full sequence of (type, name, tag) triples
-//  BOOST_MPL_ASSERT_MSG(boost::is_pod<name>::value,                    
-//                       REGISTERED_POINT_TYPE_MUST_BE_PLAIN_OLD_DATA, (name)); 
+//  BOOST_MPL_ASSERT_MSG(boost::is_pod<name>::value,
+//                       REGISTERED_POINT_TYPE_MUST_BE_PLAIN_OLD_DATA, (name));
 #define POINT_CLOUD_REGISTER_POINT_STRUCT_I(name, seq)                           \
   namespace pcl                                                                  \
   {                                                                              \

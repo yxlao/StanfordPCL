@@ -91,29 +91,29 @@ namespace pcl
       /** \brief For devices that are streaming, the streams are started by calling this method.
         *        Trigger-based devices, just trigger the device once for each call of start.
         */
-      virtual void 
+      virtual void
       start ();
 
       /** \brief For devices that are streaming, the streams are stopped.
         *        This method has no effect for triggered devices.
         */
-      virtual void 
+      virtual void
       stop ();
 
       /** \brief returns the name of the concrete subclass.
         * \return the name of the concrete driver.
         */
-      virtual std::string 
+      virtual std::string
       getName () const;
 
       /** \brief Indicates whether the grabber is streaming or not. This value is not defined for triggered devices.
         * \return true if grabber is running / streaming. False otherwise.
         */
-      virtual bool 
+      virtual bool
       isRunning () const;
 
       /** \brief returns the frames pre second. 0 if it is trigger based. */
-      virtual float 
+      virtual float
       getFramesPerSecond () const;
 
       /** \brief Get a boost shared pointer to the \ref OpenNIDevice object. */

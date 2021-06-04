@@ -4,7 +4,7 @@
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
  *
- *  All rights reserved. 
+ *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -49,7 +49,7 @@ namespace pcl
   {
     std::vector<unsigned char> features;
 
-    void 
+    void
     serialize (std::ostream & stream) const
     {
       const size_t num_of_features = static_cast<size_t> (features.size ());
@@ -60,7 +60,7 @@ namespace pcl
       }
     }
 
-    void 
+    void
     deserialize (std::istream & stream)
     {
       features.clear ();
@@ -82,7 +82,7 @@ namespace pcl
 
     RegionXY region;
 
-    void 
+    void
     serialize (std::ostream & stream) const
     {
       const size_t num_of_modalities = static_cast<size_t> (modalities.size ());
@@ -95,7 +95,7 @@ namespace pcl
       region.serialize (stream);
     }
 
-    void 
+    void
     deserialize (std::istream & stream)
     {
       modalities.clear ();
@@ -114,4 +114,4 @@ namespace pcl
 
 }
 
-#endif 
+#endif

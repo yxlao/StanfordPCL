@@ -44,7 +44,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointNT>
-pcl::MarchingCubes<PointNT>::MarchingCubes () 
+pcl::MarchingCubes<PointNT>::MarchingCubes ()
 : min_p_ (), max_p_ (), percentage_extend_grid_ (), iso_level_ ()
 {
 }

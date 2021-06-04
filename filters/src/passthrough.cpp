@@ -68,7 +68,7 @@ pcl::PassThrough<sensor_msgs::PointCloud2>::applyFilter (PointCloud2 &output)
   {
     if (filter_field_name_.empty ())
     {
-      // Silly - if no filtering is actually done, and we want to keep the data organized, 
+      // Silly - if no filtering is actually done, and we want to keep the data organized,
       // just copy everything. Any optimizations that can be done here???
       output = *input_;
       return;

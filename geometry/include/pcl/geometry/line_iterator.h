@@ -60,10 +60,10 @@ class LineIterator : public OrganizedIndexIterator
       * \param neighborhood connectivity of the neighborhood
       */
     LineIterator (unsigned x_start, unsigned y_start, unsigned x_end, unsigned y_end, unsigned width, const Neighborhood& neighborhood = Neighbor8);
-    
+
     /** \brief Destructor*/
     virtual ~LineIterator ();
-    
+
     virtual void operator ++ ();
     virtual unsigned getRowIndex () const;
     virtual unsigned getColumnIndex () const;
@@ -74,50 +74,50 @@ class LineIterator : public OrganizedIndexIterator
       * \param[in] neighborhood connectivity to the neighborhood. Either 4 or 8
       */
     void init (const Neighborhood& neighborhood);
-    
+
     /** \brief current column index*/
     unsigned x_;
-    
+
     /** \brief current row index*/
     unsigned y_;
-    
+
     /** \brief column index of first pixel/point*/
     unsigned x_start_;
-    
+
     /** \brief row index of first pixel/point*/
     unsigned y_start_;
-    
+
     /** \brief column index of end pixel/point*/
     unsigned x_end_;
-    
+
     /** \brief row index of end pixel/point*/
     unsigned y_end_;
-    
+
     // calculated values
     /** \brief current distance to the line*/
     int error_;
-    
+
     /** \brief error threshold*/
     int error_max_;
-    
+
     /** \brief increment of error (distance) value in case of an y-step (if dx > dy)*/
     int error_minus_;
-    
+
     /** \brief increment of error (distance) value in case of just an x-step (if dx > dy)*/
     int error_plus_;
-    
+
     /** \brief increment of column index in case of just an x-step (if dx > dy)*/
     int x_plus_;
 
     /** \brief increment of row index in case of just an x-step (if dx > dy)*/
     int y_plus_;
-    
+
     /** \brief increment of column index in case of just an y-step (if dx > dy)*/
     int x_minus_;
 
     /** \brief increment of row index in case of just an y-step (if dx > dy)*/
     int y_minus_;
-    
+
     /** \brief increment pixel/point index in case of just an x-step (if dx > dy)*/
     int index_plus_;
 
@@ -143,7 +143,7 @@ inline LineIterator::LineIterator (unsigned x_start, unsigned y_start, unsigned 
 
 ////////////////////////////////////////////////////////////////////////////////
 inline LineIterator::~LineIterator ()
-{  
+{
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -157,13 +157,13 @@ LineIterator::init (const Neighborhood& neighborhood)
 
   int delta_x = x_end_ - x_start_;
   int delta_y = y_end_ - y_start_;
-  
+
   int x_dir = ( (delta_x > 0) ? 1 : -1 ) ;
   int y_dir = ( (delta_y > 0) ? 1 : -1 ) ;
 
   delta_x *= x_dir;
   delta_y *= y_dir;
-  
+
   if(delta_x >= delta_y)
   {
     if( neighborhood == Neighbor4 )
@@ -184,7 +184,7 @@ LineIterator::init (const Neighborhood& neighborhood)
       y_minus_ = y_dir;
       x_plus_  = x_dir;
       y_plus_  = 0;
-        
+
       error_minus_ = (delta_y - delta_x) * 2;
       error_plus_  = (delta_y * 2);
     }
@@ -216,7 +216,7 @@ LineIterator::init (const Neighborhood& neighborhood)
   }
 
   index_minus_ = x_minus_ + y_minus_ * width_;
-  index_plus_ = x_plus_ + y_plus_ * width_;  
+  index_plus_ = x_plus_ + y_plus_ * width_;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -236,7 +236,7 @@ LineIterator::operator ++ ()
     y_ += y_plus_;
     error_ += error_plus_;
     index_ += index_plus_;
-  }  
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

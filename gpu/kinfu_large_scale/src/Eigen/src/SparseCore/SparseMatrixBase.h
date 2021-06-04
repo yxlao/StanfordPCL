@@ -10,7 +10,7 @@
 #ifndef EIGEN_SPARSEMATRIXBASE_H
 #define EIGEN_SPARSEMATRIXBASE_H
 
-namespace Eigen { 
+namespace Eigen {
 
 /** \ingroup SparseCore_Module
   *
@@ -37,7 +37,7 @@ template<typename Derived> class SparseMatrixBase : public EigenBase<Derived>
 
     typedef SparseMatrixBase StorageBaseType;
     typedef EigenBase<Derived> Base;
-    
+
     template<typename OtherDerived>
     Derived& operator=(const EigenBase<OtherDerived> &other)
     {
@@ -170,7 +170,7 @@ template<typename Derived> class SparseMatrixBase : public EigenBase<Derived>
 
     SparseMatrixBase() : m_isRValue(false) { /* TODO check flags */ }
 
-    
+
     template<typename OtherDerived>
     Derived& operator=(const ReturnByValue<OtherDerived>& other)
     {
@@ -356,7 +356,7 @@ template<typename Derived> class SparseMatrixBase : public EigenBase<Derived>
     template<typename OtherDerived>
     const typename SparseDenseProductReturnType<Derived,OtherDerived>::Type
     operator*(const MatrixBase<OtherDerived> &other) const;
-    
+
      /** \returns an expression of P H P^-1 where H is the matrix represented by \c *this */
     SparseSymmetricPermutationProduct<Derived,Upper|Lower> twistedBy(const PermutationMatrix<Dynamic,Dynamic,Index>& perm) const
     {
@@ -405,7 +405,7 @@ template<typename Derived> class SparseMatrixBase : public EigenBase<Derived>
     const SparseInnerVectorSet<Derived,Dynamic> subrows(Index start, Index size) const;
     SparseInnerVectorSet<Derived,Dynamic> subcols(Index start, Index size);
     const SparseInnerVectorSet<Derived,Dynamic> subcols(Index start, Index size) const;
-    
+
     SparseInnerVectorSet<Derived,Dynamic> middleRows(Index start, Index size);
     const SparseInnerVectorSet<Derived,Dynamic> middleRows(Index start, Index size) const;
     SparseInnerVectorSet<Derived,Dynamic> middleCols(Index start, Index size);

@@ -53,7 +53,7 @@ namespace pcl
       * method, to verify if the algorithm has reached convergence.
       *
       * Typical convergence criteria that could inherit from this include:
-      * 
+      *
       *  * a maximum number of iterations has been reached
       *  * the transformation (R, t) cannot be further updated (the difference between current and previous is smaller than a threshold)
       *  * the Mean Squared Error (MSE) between the current set of correspondences and the previous one is smaller than some threshold

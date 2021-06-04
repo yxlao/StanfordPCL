@@ -49,7 +49,7 @@ const wchar_t* ON_DebugWriteObjectDirectory();
 /*
 Description:
   ON_DebugWriteObject is a debugging utility that can be called
-  from a debugger's evaluate expression window to dump objects 
+  from a debugger's evaluate expression window to dump objects
   for future inspection.
 Parameters:
   pObject - [in]
@@ -65,7 +65,7 @@ int ON_DebugWriteObject( const class ON_Object* pObject );
 /*
 Description:
   ON_DebugWrite3dPoint is a debugging utility that can be called
-  from a debugger's evaluate expression window to dump points 
+  from a debugger's evaluate expression window to dump points
   for future inspection.
 Parameters:
   p3dPoint - [in]
@@ -92,7 +92,7 @@ public:
     filename - [in]
     mode - [in]
   Remarks:
-    Use the ON_FileStream static functions for reading, writing, 
+    Use the ON_FileStream static functions for reading, writing,
     seeking, position finding with the FILE pointer returned
     by this function.
   */
@@ -105,12 +105,12 @@ public:
     filename - [in]
     mode - [in]
   Remarks:
-    Use the ON_FileStream static functions for reading, writing, 
+    Use the ON_FileStream static functions for reading, writing,
     seeking, position finding with the FILE pointer returned
     by this function.
   */
   static FILE* Open( const char* filename, const char* mode );
-  
+
   /*
   Description:
     Portable wrapper for C runtime fclose().
@@ -174,7 +174,7 @@ public:
       FILE pointer returned by ON_FileStream::Open().
     offset - [in]
     origin - [in]
-      SEEK_SET (0): seek from beginning of file.  
+      SEEK_SET (0): seek from beginning of file.
       SEEK_CUR (1): seek from current position of file pointer.
       SEEK_END (2): seek from end of file.
   */
@@ -231,7 +231,7 @@ public:
       If file_size is not null, the the size of the file
       in bytes returned here
     file_creation_time - [out]
-      If file_creation_time is not null, then the time the file 
+      If file_creation_time is not null, then the time the file
       was created is returned here as the number of seconds since
       midnight January 1, 1970.
     file_last_modified_time - [out]
@@ -241,7 +241,7 @@ public:
   Returns:
     true if the query was successful.  False if an error occured.
   */
-  static bool GetFileInformation( 
+  static bool GetFileInformation(
     FILE* fp,
     ON__UINT64* file_size,
     ON__UINT64* file_create_time,
@@ -265,7 +265,7 @@ public:
     file_name_filter - [in]
       If this paramter is null, then the iteration
       includes all names in the directory.
-      The file name to search for. This parameter can 
+      The file name to search for. This parameter can
       include wildcard characters, such as an
       asterisk (*) or a question mark (?). For example,
       "\rootdir\subdir\*.*"  will iterate all files in
@@ -300,8 +300,8 @@ public:
   Returns:
     NULL if no matching files are present in the directory.
   */
-  const wchar_t* FirstFile( 
-    const wchar_t* directory_name, 
+  const wchar_t* FirstFile(
+    const wchar_t* directory_name,
     const wchar_t* file_name_filter
     );
 
@@ -374,7 +374,7 @@ private:
 
 /////////////////////////////////////////////////////////////////////
 //
-// ON_Buffer 
+// ON_Buffer
 //
 
 typedef void (*ON_Buffer_ErrorHandler)(class ON_Buffer*);
@@ -429,7 +429,7 @@ public:
   Returns:
     32-bit CRC of the buffer contents.
   Remarks:
-    
+
   */
   ON__UINT32 CRC32( ON__UINT32 current_remainder ) const;
 
@@ -444,7 +444,7 @@ public:
     Size().
   */
   ON__UINT64 CurrentPosition() const;
-  
+
   /*
   Parameters:
     size - [in]
@@ -463,15 +463,15 @@ public:
     buffer - [out]
       read values are returned in buffer.
   Returns:
-    Number of bytes read into buffer. For example, 
-    if CurrentPosition() <= Size() and 
+    Number of bytes read into buffer. For example,
+    if CurrentPosition() <= Size() and
     size > (Size() - CurrentPosition()) and
     buffer is not null, then the value
     (Size() - CurrentPosition()) is returned.
   Remarks:
     If the size parameter is zero, then nothing is done.
-    When CurrentPosition() <= Size(), attempts to read more 
-    than (Size() - CurrentPosition()) bytes do not generate 
+    When CurrentPosition() <= Size(), attempts to read more
+    than (Size() - CurrentPosition()) bytes do not generate
     an error. When CurrentPosition() > Size(), any attempt
     to read generates an error.
   */
@@ -502,9 +502,9 @@ public:
     Seeking beyond the end of the buffer is succeeds.
     Seeking before the beginning of the buffer fails.
   */
-  bool Seek( 
-    ON__INT64 offset, 
-    int origin 
+  bool Seek(
+    ON__INT64 offset,
+    int origin
     );
 
   /*
@@ -520,7 +520,7 @@ public:
     Seeking beyond the end of the buffer is succeeds.
     Seeking before the beginning of the buffer fails.
   */
-  bool SeekFromStart( ON__INT64 offset ); 
+  bool SeekFromStart( ON__INT64 offset );
 
   /*
   Parameters:
@@ -535,7 +535,7 @@ public:
     Seeking beyond the end of the buffer is succeeds.
     Seeking before the beginning of the buffer fails.
   */
-  bool SeekFromCurrentPosition( ON__INT64 offset ); 
+  bool SeekFromCurrentPosition( ON__INT64 offset );
 
   /*
   Parameters:
@@ -550,14 +550,14 @@ public:
     Seeking beyond the end of the buffer is succeeds.
     Seeking before the beginning of the buffer fails.
   */
-  bool SeekFromEnd( ON__INT64 offset ); 
+  bool SeekFromEnd( ON__INT64 offset );
 
   /*
   Parameters:
     buffer_size - [in]
       new size of buffer.
   Returns:
-    True if successful.    
+    True if successful.
   Remarks:
     The current position is not changed and may be beyond the
     end of the file. Use Seek to set the current position after
@@ -591,11 +591,11 @@ public:
     1: attempt to seek to a negative position
   */
   ON__UINT32 LastError() const;
-  
+
   void ClearLastError();
 
   ON_Buffer_ErrorHandler ErrorHandler() const;
-  
+
   void SetErrorHandler(ON_Buffer_ErrorHandler error_handler);
 
   /*
@@ -620,7 +620,7 @@ public:
   Parameters:
     compressed_buffer - [out]
       (The reference can be *this)
-  
+
   Example:
 
         // compress a buffer in place
@@ -687,7 +687,7 @@ private:
 
 /////////////////////////////////////////////////////////////////////
 //
-// ON_BinaryArchive 
+// ON_BinaryArchive
 //      virtual class for CPU independent serialization
 //
 // ON_BinaryFile
@@ -750,7 +750,7 @@ bool ON_IsShortChunkTypecode(ON__UINT32 typecode);
 
 #if defined(ON_DLL_TEMPLATE)
 // This stuff is here because of a limitation in the way Microsoft
-// handles templates and DLLs.  See Microsoft's knowledge base 
+// handles templates and DLLs.  See Microsoft's knowledge base
 // article ID Q168958 for details.
 #pragma warning( push )
 #pragma warning( disable : 4231 )
@@ -772,7 +772,7 @@ class ON_3dmGoo;
 class ON_BinaryArchive;
 
 // Used int ON_3dmProperties::Read() to set ON_BinaryArchive.m_3dm_opennurbs_version
-// Do not call directly. 
+// Do not call directly.
 void ON_SetBinaryArchiveOpenNURBSVersion(ON_BinaryArchive&,int);
 
 class ON_CLASS ON_BinaryArchive // use for generic serialization of binary data
@@ -781,18 +781,18 @@ public:
   ON_BinaryArchive( ON::archive_mode );
   virtual ~ON_BinaryArchive();
 
-  virtual 
+  virtual
   size_t CurrentPosition( // current offset (in bytes) into archive ( like ftell() )
-                ) const = 0; 
-  virtual 
+                ) const = 0;
+  virtual
   bool SeekFromCurrentPosition( // seek from current position ( like fseek( ,SEEK_CUR) )
                 int // byte offset ( >= -CurrentPostion() )
-                ) = 0; 
-  virtual 
+                ) = 0;
+  virtual
   bool SeekFromStart(  // seek from current position ( like fseek( ,SEEK_SET) )
                 size_t // byte offset ( >= 0 )
                 ) = 0;
-  virtual 
+  virtual
   bool AtEnd() const = 0; // true if at end of file
 
   bool BigSeekFromStart( ON__UINT64 offset );
@@ -825,7 +825,7 @@ public:
 
   bool ReadMode() const;  // true if reading is permitted
   bool WriteMode() const; // true if writing is permitted
-  
+
   /*
   Returns:
      Endian-ness of the cpu reading this file.
@@ -834,7 +834,7 @@ public:
   */
   ON::endian Endian() const; // endian-ness of cpu
 
-  int BadCRCCount() const; // number of chunks read with bad CRC 
+  int BadCRCCount() const; // number of chunks read with bad CRC
 
   bool ReadByte( size_t, void* ); // must fail if mode is not read or readwrite
 
@@ -868,7 +868,7 @@ public:
 
   // ReadCompressedBuffer()/WriteCompressedBuffer() use zlib 1.1.3
   // to inflate/deflate the data buffer.
-  // Care must be used to get an endian independent file.  
+  // Care must be used to get an endian independent file.
   // See ON_Mesh::Read()/ON_Mesh::Write() for an example of an endian
   // independent use of compression. See also ToggleByteOrder() and Endian().
   //
@@ -938,84 +938,84 @@ public:
 
 	bool ReadChar(    // Read an array of 8 bit chars
 			size_t,       // number of chars to read
-			char*    
-			);  
+			char*
+			);
 	bool ReadChar(    // Read an array of 8 bit unsigned chars
 			size_t,       // number of unsigned chars to read
-			unsigned char*    
-			);  
+			unsigned char*
+			);
 	bool ReadChar(    // Read a single 8 bit char
-			char*    
-			);  
+			char*
+			);
 	bool ReadChar(    // Read a single 8 bit unsigned char
-			unsigned char*    
-			);  
+			unsigned char*
+			);
 
 	bool ReadShort(   // Read an array of 16 bit shorts
 			size_t,       // number of shorts to read
-			short*    
-			);  
+			short*
+			);
 	bool ReadShort(   // Read an array of 16 bit unsigned shorts
 			size_t,       // number of shorts to read
-			unsigned short*    
-			);  
+			unsigned short*
+			);
 	bool ReadShort(   // Read a single 16 bit short
-			short*    
-			);  
+			short*
+			);
 	bool ReadShort(   // Read a single 16 bit unsigned short
-			unsigned short*    
-			);  
+			unsigned short*
+			);
 
 	bool ReadInt( // Read an array of 32 bit integers
 			size_t,	      // number of ints to read
-			int*      
-			); 
+			int*
+			);
 	bool ReadInt( // Read an array of 32 bit integers
 			size_t,	      // number of ints to read
-			unsigned int*      
-			); 
+			unsigned int*
+			);
 	bool ReadInt( // Read a single 32 bit integer
-			int*      
-			); 
+			int*
+			);
 	bool ReadInt( // Read a single 32 bit unsigned integer
-			unsigned int*      
-			); 
+			unsigned int*
+			);
 
 	bool ReadBigInt( // Read an array of 64 bit integers
 			size_t,	      // number of ints to read
-			ON__INT64*      
-			); 
+			ON__INT64*
+			);
 	bool ReadBigInt( // Read an array of 64 bit integers
 			size_t,	      // number of ints to read
-			ON__UINT64*      
-			); 
+			ON__UINT64*
+			);
 	bool ReadBigInt( // Read a single 64 bit integer
-			ON__INT64*      
-			); 
+			ON__INT64*
+			);
 	bool ReadBigInt( // Read a single 64 bit unsigned integer
-			ON__UINT64*      
-			); 
+			ON__UINT64*
+			);
 
 	bool ReadLong( // Read an array of 32 bit integers
 			size_t,	      // number of ints to read
-			long*      
-			); 
+			long*
+			);
 	bool ReadLong( // Read an array of 32 bit integers
 			size_t,	      // number of ints to read
-			unsigned long*      
-			); 
+			unsigned long*
+			);
 	bool ReadLong( // Read a single 32 bit integer
-			long*      
-			); 
+			long*
+			);
 	bool ReadLong( // Read a single 32 bit unsigned integer
-			unsigned long*      
-			); 
+			unsigned long*
+			);
 	bool ReadSize( // Read a single size_t
 			size_t*
-			); 
+			);
 
   bool ReadBigSize( size_t* ); // 64 bits
-  
+
   bool ReadBigTime( time_t* ); // UCT seconds since 1 January 1970 (64 bits)
 
 
@@ -1124,7 +1124,7 @@ public:
   bool ReadArray( ON_ClassArray<ON_String>& );
   bool ReadArray( ON_ClassArray<ON_wString>& );
   bool ReadArray( ON_SimpleArray<ON_DisplayMaterialRef>& );
-  bool ReadArray( ON_SimpleArray<ON_LinetypeSegment>& );  
+  bool ReadArray( ON_SimpleArray<ON_LinetypeSegment>& );
   bool ReadArray( ON_SimpleArray<ON_MappingChannel>& );
   bool ReadArray( ON_ClassArray<ON_MaterialRef>& );
   bool ReadArray( ON_ClassArray<ON_MappingRef>& );
@@ -1138,84 +1138,84 @@ public:
 
   bool WriteChar(    // Write an array of 8 bit chars
 			size_t,       // number of chars to write
-			const char*    
-			);  
+			const char*
+			);
 	bool WriteChar(    // Write an array of 8 bit unsigned chars
 			size_t,       // number of unsigned chars to write
-			const unsigned char*    
-			);  
+			const unsigned char*
+			);
 	bool WriteChar(    // Write a single 8 bit char
 			char
-			);  
+			);
 	bool WriteChar(    // Write a single 8 bit unsigned char
 			unsigned char
-			);  
+			);
 
 	bool WriteShort(   // Write an array of 16 bit shorts
 			size_t,       // number of shorts to write
-			const short*    
-			);  
+			const short*
+			);
 	bool WriteShort(   // Write an array of 16 bit unsigned shorts
 			size_t,       // number of shorts to write
-			const unsigned short*    
-			);  
+			const unsigned short*
+			);
 	bool WriteShort(   // Write a single 16 bit short
 			short
-			);  
+			);
 	bool WriteShort(   // Write a single 16 bit unsigned short
 			unsigned short
-			);  
+			);
 
 	bool WriteInt( // Write an array of 32 bit integers
 			size_t,	      // number of ints to write
-			const int*      
-			); 
+			const int*
+			);
 	bool WriteInt( // Write an array of 32 bit integers
 			size_t,	      // number of ints to write
-			const unsigned int*      
-			); 
+			const unsigned int*
+			);
 	bool WriteInt( // Write a single 32 bit integer
-			int    
-			); 
+			int
+			);
 	bool WriteInt( // Write a single 32 bit unsigned integer
 			unsigned int
-			); 
+			);
 
 	bool WriteBigInt( // Write an array of 64 bit integers
 			size_t,	      // number of ints to write
-			const ON__INT64*      
-			); 
+			const ON__INT64*
+			);
 	bool WriteBigInt( // Write an array of 64 bit integers
 			size_t,	      // number of ints to write
-			const ON__UINT64*      
-			); 
+			const ON__UINT64*
+			);
 	bool WriteBigInt( // Write a single 64 bit integer
-			ON__INT64    
-			); 
+			ON__INT64
+			);
 	bool WriteBigInt( // Write a single 64 bit unsigned integer
 			ON__UINT64
-			); 
+			);
 
 	bool WriteLong( // Write an array of 32 bit integers
 			size_t,	      // number of ints to write
-			const long*      
-			); 
+			const long*
+			);
 	bool WriteLong( // Write an array of 32 bit integers
 			size_t,	      // number of ints to write
-			const unsigned long*      
-			); 
+			const unsigned long*
+			);
 	bool WriteLong( // Write a single 32 bit integer
-			long    
-			); 
+			long
+			);
 	bool WriteLong( // Write a single 32 bit unsigned integer
 			unsigned long
-			); 
+			);
 	bool WriteSize( // Write a single size_t
 			size_t
-			); 
+			);
 
-  bool WriteBigSize( size_t ); // 64 bits 
-  
+  bool WriteBigSize( size_t ); // 64 bits
+
   bool WriteBigTime( time_t ); // UCT seconds since 1 January 1970 (64 bits)
 
 	bool WriteFloat(   // Write a number of IEEE floats
@@ -1284,7 +1284,7 @@ public:
   // the NULL terminator, then call ReadString() with enought memory
   // to load the string.
   bool WriteString( // Write NULL terminated string
-      const char*         
+      const char*
       );
   bool WriteString( // Write NULL terminated string
       const unsigned char*
@@ -1324,7 +1324,7 @@ public:
   bool WriteArray( const ON_ClassArray<ON_String>& );
   bool WriteArray( const ON_ClassArray<ON_wString>& );
   bool WriteArray( const ON_SimpleArray<ON_DisplayMaterialRef>& );
-  bool WriteArray( const ON_SimpleArray<ON_LinetypeSegment>& );  
+  bool WriteArray( const ON_SimpleArray<ON_LinetypeSegment>& );
   bool WriteArray( const ON_SimpleArray<ON_MappingChannel>& );
   bool WriteArray( const ON_ClassArray<ON_MaterialRef>& );
   bool WriteArray( const ON_ClassArray<ON_MappingRef>& );
@@ -1352,7 +1352,7 @@ public:
        this could happen in cases where old code is attempting to read
        new objects.
   */
-  int ReadObject( 
+  int ReadObject(
          ON_Object** ppObject
          );
 
@@ -1370,7 +1370,7 @@ public:
     2: unable to read object because the class id in the archive
        did not match pObject->ClassId.
   */
-  int ReadObject( 
+  int ReadObject(
          ON_Object& object
          );
 
@@ -1391,17 +1391,17 @@ public:
 
   bool EnableSave3dmAnalysisMeshes( ON_BOOL32 = true ); // returns previous state
   bool Save3dmAnalysisMeshes() const;
-  
+
   bool EnableSaveUserData( ON_BOOL32 = true ); // returns previous state
   bool SaveUserData() const;
-  
+
   /*
   Returns:
     50 (The Rhino 5.0 opennurbs file version.)
     This is the value of version to pass to ON_BinaryArchive
-    functions like Write3dmStartSection() when you want to use the 
+    functions like Write3dmStartSection() when you want to use the
     the current opennurbs version number and you do not want to have
-    to update your code when this version number changes.    
+    to update your code when this version number changes.
   */
   static int CurrentArchiveVersion();
 
@@ -1412,27 +1412,27 @@ public:
   Parameters:
     version - [in]
        0, 2, 3, 4, 50, ...
-       
+
        If version is 0, then the value of ON_BinaryArchive::CurrentVersion()
        is used.
 
-       It is suggested that you use either 0 or the value of 
-       ON_BinaryArchive::CurrentArchiveVersion() for this parameter 
+       It is suggested that you use either 0 or the value of
+       ON_BinaryArchive::CurrentArchiveVersion() for this parameter
        when you want your code to write the most up to date
-       file version.       
+       file version.
   */
-  bool Write3dmStartSection( 
+  bool Write3dmStartSection(
         int version,
         const char* // NULL or ASCII string with application name, etc.
                     // This information is primarily used when debugging files
                     // that contain problems.  McNeel and Associates stores
-                    // application name, application version, compile date, 
+                    // application name, application version, compile date,
                     // OS in use when file was written.
         );
 
-  bool Read3dmStartSection( 
+  bool Read3dmStartSection(
         int*, // returns version (1,2,3,4,5,50,...)
-        ON_String& 
+        ON_String&
         );
 
   ///////////////////////////////////////////////////////////////////
@@ -1531,13 +1531,13 @@ public:
   // Description:
   //   Reads groups from group table.  If the group definition is
   //   read, a group is created by calling new ON_Group(),
-  //   initialized with values stored in the archive, and 
+  //   initialized with values stored in the archive, and
   //   returned.
   //
   // Parameters:
   //   ppGroup - If the group definition is
   //   read, a group is created by calling new ON_Group(),
-  //   initialized with values stored in the archive, and 
+  //   initialized with values stored in the archive, and
   //   a pointer to the new group is returned in *ppGroup.
   //
   // Returns:
@@ -1562,7 +1562,7 @@ public:
   //               do something with pGroup
   //           } //
   //           archive.EndRead3dmGroupTable();
-  //      
+  //
   int  Read3dmGroup(
             ON_Group** // ppGroup
             );
@@ -1582,13 +1582,13 @@ public:
   // Description:
   //   Reads fonts from font table.  If the font definition is
   //   read, a font is created by calling new ON_Font(),
-  //   initialized with values stored in the archive, and 
+  //   initialized with values stored in the archive, and
   //   returned.
   //
   // Parameters:
   //   ppFont - If the font definition is
   //   read, a font is created by calling new ON_Font(),
-  //   initialized with values stored in the archive, and 
+  //   initialized with values stored in the archive, and
   //   a pointer to the new font is returned in *ppFont.
   //
   // Returns:
@@ -1613,7 +1613,7 @@ public:
   //               do something with pFont
   //           } //
   //           archive.EndRead3dmFontTable();
-  //      
+  //
   int Read3dmFont(
             ON_Font** // ppFont
             );
@@ -1632,15 +1632,15 @@ public:
 
   // Description:
   //   Reads annotation dimension styles from dimension style table.
-  //   If the dimension style definition is read, 
+  //   If the dimension style definition is read,
   //   a dimension style is created by calling new ON_DimStyle(),
-  //   initialized with values stored in the archive, and 
+  //   initialized with values stored in the archive, and
   //   returned.
   //
   // Parameters:
   //   ppDimStyle - If the dimstyle definition is
   //   read, a dimstyle is created by calling new ON_DimStyle(),
-  //   initialized with values stored in the archive, and 
+  //   initialized with values stored in the archive, and
   //   a pointer to the new dimstyle is returned in *ppDimStyle.
   //
   // Returns:
@@ -1665,7 +1665,7 @@ public:
   //               do something with pDimStyle
   //           } //
   //           archive.EndRead3dmDimStyleTable();
-  //      
+  //
   int Read3dmDimStyle(
             ON_DimStyle** // ppDimStyle
             );
@@ -1716,37 +1716,37 @@ public:
   /*
    Description:
      Reads instance definitions from instance defintion table.
-  
+
    Parameters:
      ppInstanceDefinition - If an instance defintion is
-     read, an instance defintion is created by calling new 
+     read, an instance defintion is created by calling new
      ON_InstanceDefinition(), initialized with values stored
      in the archive, and a pointer to the new instance defintion
      is returned in *ppInstanceDefinition.
-  
+
    Returns:
-  
+
      @untitled table
      0     at the end of the instance defintion table
      1     instance defintion was successfully read
      -1    archive is corrupt at this point
-  
+
    Example:
      Calls to Read3dmInstanceDefinition need to be bracketed by calls
      to BeginRead3dmInstanceDefinitionTable() / EndRead3dmInstanceDefinitionTable().
-  
+
              archive.BeginRead3dmInstanceDefinitionTable();
              int rc = 1;
              ON_InstanceDefinition* pInstanceDefinition;
              while(rc==1)
-             { 
+             {
                pInstanceDefinition = 0;
                archive.Read3dmInstanceDefinition(&pInstanceDefinition);
                if ( pInstanceDefinition )
                  do something with pInstanceDefinition
-             } 
+             }
              archive.EndRead3dmInstanceDefinitionTable();
-  */      
+  */
   int Read3dmInstanceDefinition(
             ON_InstanceDefinition** // ppInstanceDefinition
             );
@@ -1757,7 +1757,7 @@ public:
   // Step 15: REQUIRED - Write/Read geometry and annotation table (it can be empty)
   //
   bool BeginWrite3dmObjectTable();
-  bool Write3dmObject( 
+  bool Write3dmObject(
          const ON_Object&,
          const ON_3dmObjectAttributes* // optional
          );
@@ -1779,7 +1779,7 @@ public:
   // Step 16: REQUIRED - Write/Read history record table (it can be empty)
   //
   bool BeginWrite3dmHistoryRecordTable();
-  bool Write3dmHistoryRecord( 
+  bool Write3dmHistoryRecord(
          const class ON_HistoryRecord&
          );
   bool EndWrite3dmHistoryRecordTable();
@@ -1818,14 +1818,14 @@ public:
     goo_3dm_version - [in]
       If bSavingGoo is false, this parameter must be zero and
       ON_BinaryArchive::Archive3dmVersion() will be used.
-      If bSavingGoo is true, this parameter must be the version of 
-      the 3dm archive (1,2,3,4,5,50,...) the plug-in code used to 
+      If bSavingGoo is true, this parameter must be the version of
+      the 3dm archive (1,2,3,4,5,50,...) the plug-in code used to
       write the user table.
     goo_opennurbs_version - [in]
       If bSavingGoo is false, this parameter must be zero and
       ON_BinaryArchive::ArchiveOpenNURBSVersion() will be used.
       If bSavingGoo is true, this parameter must be the version
-      of the opennurbs (YYYYMMDDN) the plug-in code used to 
+      of the opennurbs (YYYYMMDDN) the plug-in code used to
       write the user table.
   Returns:
     True if the the user information can be written.
@@ -1842,7 +1842,7 @@ public:
 
   /*
   Description:
-    If Read3dmAnaonymousUserTable() was used to read ON_3dmGoo because a 
+    If Read3dmAnaonymousUserTable() was used to read ON_3dmGoo because a
     plug-in was not present, then use Write3dmAnonymousUserTableRecord()
     to put than information back into the archive.
     Write3dmAnonymousUserTableRecord() writes the entire record.
@@ -1854,14 +1854,14 @@ public:
       The version of the archive (1,2,3,4,5,50,...) that was used when
       the plug-in wrote the user table.
     goo_opennurbs_version - [in]
-      The version of opennurbs ( YYYMMDDN ) that was used when the 
+      The version of opennurbs ( YYYMMDDN ) that was used when the
       plug-in wrote the user table.
     goo - [in]
   Returns:
     True if the goo was written or skipped because it could not be robustly
     saved.  False if a catastrophic IO error occured.
   */
-  bool Write3dmAnonymousUserTableRecord( 
+  bool Write3dmAnonymousUserTableRecord(
     const ON_UUID& plugin_id,
     int goo_3dm_version,
     int goo_opennurbs_version,
@@ -1876,18 +1876,18 @@ public:
 
   /*
   Parameters:
-    plugin_id - [out] 
+    plugin_id - [out]
       id of plug-in that wrote the user table
-    bLastSavedAsGoo - [out] 
+    bLastSavedAsGoo - [out]
       True if this table was saved into this archive as goo because
       the plug-in was not present at the time of the save.
     archive_3dm_version - [out]
       Version of the archive the plug-in wrote to.  When bLastSavedAsGoo
       is true, this number can be different from Archive3dmVersion().
     archive_opennurbs_version - [out]
-      Version of opennurbs the plug-in used to write the archive.  
-      When bLastSavedAsGoo is true, this number can be different 
-      from ArchiveOpenNURBSVersion().     
+      Version of opennurbs the plug-in used to write the archive.
+      When bLastSavedAsGoo is true, this number can be different
+      from ArchiveOpenNURBSVersion().
   Returns:
     False when there are no more user tables or an IO error occurs.
   */
@@ -1906,7 +1906,7 @@ public:
     If you do not need to resave the information, then simply call EndRead3dmUserTable()
     to skip over this table.
   */
-  bool Read3dmAnonymousUserTable( 
+  bool Read3dmAnonymousUserTable(
     int archive_3dm_version,
     int archive_opennurbs_version,
     ON_3dmGoo& goo
@@ -1953,7 +1953,7 @@ public:
   // Returns:
   //   true if successful, false if unable to find or read
   //   a TCODE_ENDOFFILE chunk.
-  bool Read3dmEndMark( 
+  bool Read3dmEndMark(
            size_t* // sizeof_archive
            );
 
@@ -2029,8 +2029,8 @@ public:
     Begins reading a chunk that must be in the archive at this location.
   Parameters:
     expected_tcode - [in] chunk's typecode from opennurbs_3dm.h
-    major_version - [out] 
-    minor_version - [out] 
+    major_version - [out]
+    minor_version - [out]
   Returns:
     True if beginning of the chunk was read.  In this case
     You must call EndRead3dmChunk(), even if something goes wrong
@@ -2052,8 +2052,8 @@ public:
       read.  If bSupressPartiallyReadChunkWarning is true, then
       no warning is issued for partially read chunks.
   */
-  bool EndRead3dmChunk(); 
-  bool EndRead3dmChunk(bool bSupressPartiallyReadChunkWarning); 
+  bool EndRead3dmChunk();
+  bool EndRead3dmChunk(bool bSupressPartiallyReadChunkWarning);
 
 
   ///////////////////////////////////////////////////////////////////
@@ -2075,7 +2075,7 @@ public:
     a TCODE_DICTIONARY_ID chunk containing the id, version and name.
     After calling this function, you may either write entries by
     calling
-      BeginWriteDictionaryEntry(); 
+      BeginWriteDictionaryEntry();
       write entry definition...
       EndWriteDictionaryEntry();
     or you may finish writing the dictionay by calling
@@ -2093,10 +2093,10 @@ public:
     de_type - [in]
     entry_name - [in]
   Returns:
-    true 
+    true
       Entry header was written and you must call EndWriteDictionary()
       after writing the entry data.
-    false 
+    false
       Failed to write entry header.  Do not call EndWriteDictionary().
   Remarks:
     Begins a new chunk with tcode TCODE_DICTIONARY_ENTRY,
@@ -2111,17 +2111,17 @@ public:
     de_type - [in]
     entry_name - [in]
   Returns:
-    true 
+    true
       Entry header was written and you must call EndWriteDictionary()
       after writing the entry data.
-    false 
+    false
       Failed to write entry header.  Do not call EndWriteDictionary().
   Remarks:
     Begins a new chunk with tcode TCODE_DICTIONARY_ENTRY,
     then writes the int, and then writes the string.
   */
   bool BeginWriteDictionaryEntry(
-          int de_type, 
+          int de_type,
           const wchar_t* entry_name
           );
   bool EndWriteDictionaryEntry();
@@ -2146,7 +2146,7 @@ public:
     2: at end of dictionary
   */
   int BeginReadDictionaryEntry(
-          int* de_type, 
+          int* de_type,
           ON_wString& entry_name
           );
   bool EndReadDictionaryEntry();
@@ -2164,15 +2164,15 @@ public:
         ON__INT64* big_value
         );
 
-  bool Seek3dmChunkFromStart( 
+  bool Seek3dmChunkFromStart(
         // beginning at the start of the active chunk, search portion of
-        // archive included in active chunk for the start of a subchunk 
+        // archive included in active chunk for the start of a subchunk
         // with the specified type.
         // if true is returned, then the position is set so the next call to
         // BeginRead3dmChunk() will read a chunk with the specified typecode
         unsigned int    // typecode from opennurbs_3dm.h
         );
-  bool Seek3dmChunkFromCurrentPosition( 
+  bool Seek3dmChunkFromCurrentPosition(
         // beginning at the current position, search portion of archive
         // included in active chunk for the start of a subchunk with the
         // specified type.
@@ -2181,10 +2181,10 @@ public:
         unsigned int    // typecode from opennurbs_3dm.h
         );
 
-  // A chunk version is a single byte that encodes a major.minor 
+  // A chunk version is a single byte that encodes a major.minor
   // version number.  Useful when creating I/O code for 3dm chunks
-  // that may change in the future.  Increment the minor version 
-  // number if new information is added to the end of the chunk. 
+  // that may change in the future.  Increment the minor version
+  // number if new information is added to the end of the chunk.
   // Increment the major version if the format of the chunk changes
   // in some other way.
   bool Write3dmChunkVersion(
@@ -2198,7 +2198,7 @@ public:
 
   /*
   Description:
-    Low level tool to writes user data attached to the 
+    Low level tool to writes user data attached to the
     object.  This function should never be called
     directly.
   Parameters:
@@ -2266,7 +2266,7 @@ public:
     supports Windows linking/embedding, the first 5kb to 1mb
     of the file contains information that is put there by MFC.
     ArchiveStartOffset() returns the offset into the file where
-    the 3dm archive actually begins. The call to 
+    the 3dm archive actually begins. The call to
     ON_BinaryArchive::Read3dmStartSection() calculates this
     offset and stores the value in m_3dm_start_section_offset.
   Returns:
@@ -2348,9 +2348,9 @@ public:
     0 if something went wrong, otherwise the typecode
     of the chunk that was just studied.
   */
-  unsigned int 
+  unsigned int
   Dump3dmChunk(
-        ON_TextLog& text_log, 
+        ON_TextLog& text_log,
         int recursion_depth = 0
         );
 
@@ -2363,7 +2363,7 @@ protected:
     actual number of bytes read (like fread())
   */
   virtual
-  size_t Read( size_t, void* ) = 0; 
+  size_t Read( size_t, void* ) = 0;
 
   /*
   Description:
@@ -2395,8 +2395,8 @@ protected:
     2 - the application was already loaded
   */
   virtual
-  int LoadUserDataApplication( 
-    ON_UUID application_id 
+  int LoadUserDataApplication(
+    ON_UUID application_id
     );
 
   bool SetArchive3dmVersion(int);
@@ -2418,19 +2418,19 @@ private:
   bool WriteInt64( size_t, const ON__INT64* );
   bool ReadInt64(  size_t, ON__INT64* );
 
-  bool BeginWrite3dmTable( 
+  bool BeginWrite3dmTable(
     unsigned int // tcode
     );
-  bool EndWrite3dmTable( 
+  bool EndWrite3dmTable(
     unsigned int // tcode
     );
-  bool BeginRead3dmTable( 
+  bool BeginRead3dmTable(
     unsigned int // tcode
     );
-  bool EndRead3dmTable( 
+  bool EndRead3dmTable(
     unsigned int // tcode
     );
-  
+
   bool Read3dmV1Layer( ON_Layer*& );
   int  Read3dmV1Light(  // returns 0 at end of light table
                       //         1 light successfully read
@@ -2450,11 +2450,11 @@ private:
           unsigned int = 0 // optional filter made by setting ON::object_type bits
           );  // returns NULL at end of object table
 
-  bool Read3dmV1AttributesOrMaterial( 
+  bool Read3dmV1AttributesOrMaterial(
             ON_3dmObjectAttributes*,    // attributes,
             ON_Material*,      // material,
             ON_BOOL32&,             // bHaveMat
-            unsigned int,      // end_mark_tcode 
+            unsigned int,      // end_mark_tcode
             class ON__3dmV1_XDATA* = 0 // v1 "xdata"
             );
   bool Read3dmV1String( ON_String& );
@@ -2487,7 +2487,7 @@ private:
   //
   // bit 0x00000001
   //   V1 files do not have a table structure and are read using
-  //   multiple passes and there are valid situations where a 
+  //   multiple passes and there are valid situations where a
   //   4 byte read is attempted at the end of a file.
   //
   // bit 0x00000002
@@ -2496,15 +2496,15 @@ private:
   //
   // bit 0x00000004
   //   Requested read may go beyond end of file.
-  //   One situation where this happens is when a table is not at the 
-  //   expected location in a file, 
+  //   One situation where this happens is when a table is not at the
+  //   expected location in a file,
 
   unsigned int m_error_message_mask;
 protected:
   unsigned int ErrorMessageMask() const;
   /*
   Paramters:
-    sizeof_request - [in] 
+    sizeof_request - [in]
       value of count parameter passed to virtual Read() function.
     sizeof_read - [in]
       number of bytes actually read by the virtual Read() function.
@@ -2550,7 +2550,7 @@ private:
   bool WriteChunkValue( ON__UINT32 typecode, ON__INT64 );
   bool WriteChunkLength( ON__UINT64 );
   bool ReadChunkValue( ON__UINT32 typecode, ON__INT64* value64 );
-  bool FindMisplacedTable( 
+  bool FindMisplacedTable(
         ON__UINT64 filelength,
         const ON__UINT32 table_tocde,
         const ON__UINT32 table_record_record,
@@ -2659,9 +2659,9 @@ public:
   Parameters:
     mode - [in]
     fp - [in]
-      If a file is being read, fp is the pointer returned 
+      If a file is being read, fp is the pointer returned
       from ON_FileStream::Open(...,L"rb").
-      If a file is being written, fp is the pointer returned 
+      If a file is being written, fp is the pointer returned
       from ON_FileStream::Open(...,L"wb").
   */
   ON_BinaryFile( ON::archive_mode, FILE* fp );
@@ -2669,13 +2669,13 @@ public:
   virtual ~ON_BinaryFile();
 
   // ON_BinaryArchive overrides
-  size_t CurrentPosition() const; 
+  size_t CurrentPosition() const;
   bool SeekFromCurrentPosition(int);
   bool SeekFromStart(size_t);
   bool AtEnd() const;
 
   // fseek from end (since the file has an end)
-  bool SeekFromEnd( int ); 
+  bool SeekFromEnd( int );
 
   //////////
   // To use custom memory buffering instead of relying
@@ -2748,17 +2748,17 @@ public:
 
   /*
   Returns:
-    Buffer being read/written. 
+    Buffer being read/written.
   */
   ON_Buffer* Buffer() const;
 
   // virtual ON_BinaryArchive overrides
-  size_t CurrentPosition() const; 
+  size_t CurrentPosition() const;
   bool SeekFromCurrentPosition(int);
   bool SeekFromStart(size_t);
   bool AtEnd() const;
 
-  bool SeekFromEnd( ON__INT64 ); 
+  bool SeekFromEnd( ON__INT64 );
 
 protected:
   size_t Read( size_t, void* );
@@ -2791,16 +2791,16 @@ public:
     sizeof_buffer - [in] size of buffer in bytes (>0)
     buffer - [in] memory buffer containing binary archive
     bCopyBuffer - [in]
-      true - copy the input buffer.  
+      true - copy the input buffer.
           Useful when the buffer may be destroyed while this class is still in use.
-      false - Do not copy the input buffer.  
-          In this case you are responsible for making certain the input buffer 
+      false - Do not copy the input buffer.
+          In this case you are responsible for making certain the input buffer
           is valid while this class is in use.
     archive_3dm_version  - [in] (1,2,3,4 or 5)
     archive_opennurbs_version - [in] YYYYMMDDn
   */
-  ON_Read3dmBufferArchive( 
-    size_t sizeof_buffer, 
+  ON_Read3dmBufferArchive(
+    size_t sizeof_buffer,
     const void* buffer,
     bool bCopyBuffer,
     int archive_3dm_version,
@@ -2810,20 +2810,20 @@ public:
   ~ON_Read3dmBufferArchive();
 
   /*
-  Returns: 
+  Returns:
      value of m_sizeof_buffer
   */
   size_t SizeOfBuffer() const;
 
   /*
-  Returns: 
+  Returns:
      value of m_buffer
   */
   const void* Buffer() const;
 
   // ON_BinaryArchive overrides
-  size_t CurrentPosition() const; 
-  bool SeekFromCurrentPosition(int); 
+  size_t CurrentPosition() const;
+  bool SeekFromCurrentPosition(int);
   bool SeekFromStart(size_t);
   bool AtEnd() const;
 
@@ -2845,7 +2845,7 @@ private:
 
 private:
   // prohibit use - no implementation
-  ON_Read3dmBufferArchive(); 
+  ON_Read3dmBufferArchive();
   ON_Read3dmBufferArchive( const ON_Read3dmBufferArchive& );
   ON_Read3dmBufferArchive& operator=(const ON_Read3dmBufferArchive&);
 };
@@ -2858,22 +2858,22 @@ public:
   Description:
     Construct an ON_BinaryArchive for writing information to a memory buffer.
   Parameters:
-    initial_sizeof_buffer - [in] 
+    initial_sizeof_buffer - [in]
       initial size of buffer in bytes (>=0)
       If you are unable to estimate the size you will need, pass in zero.
-    max_sizeof_buffer - [in] 
+    max_sizeof_buffer - [in]
       maximum size of buffer in bytes (>=0)
-      If max_sizeof_buffer > 0 and the amount of information saved 
-      requires a buffer larger than this size, then writing fails. 
+      If max_sizeof_buffer > 0 and the amount of information saved
+      requires a buffer larger than this size, then writing fails.
       If max_sizeof_buffer <= 0, then no buffer size limits are enforced.
     archive_3dm_version  - [in] (0, ,2,3,4 or 50)
       Pass 0 or ON_BinaryArchive::CurrentArchiveVersion() to write the
       version of opennurbs archives used by lastest version of Rhino.
     archive_opennurbs_version - [in] YYYYMMDDn
   */
-  ON_Write3dmBufferArchive( 
-    size_t initial_sizeof_buffer, 
-    size_t max_sizeof_buffer, 
+  ON_Write3dmBufferArchive(
+    size_t initial_sizeof_buffer,
+    size_t max_sizeof_buffer,
     int archive_3dm_version,
     int archive_opennurbs_version
     );
@@ -2881,31 +2881,31 @@ public:
   ~ON_Write3dmBufferArchive();
 
   /*
-  Returns: 
+  Returns:
      Size of the archive in bytes.
   */
   size_t SizeOfArchive() const;
 
   /*
-  Returns: 
+  Returns:
      value of m_sizeof_buffer
   */
   size_t SizeOfBuffer() const;
 
   /*
-  Returns: 
+  Returns:
      value of m_buffer.
      SizeOfArchive() reports the number of bytes
      written to this buffer.
      SizeOfBuffer() reports the number of bytes
      allocated in this buffer.
-     
+
   */
   const void* Buffer() const;
 
   /*
   Returns:
-    The pointer to the buffer and sets all 
+    The pointer to the buffer and sets all
     members on this archive back to zero.
     The caller is responsible for calling onfree() on
     the pointer when finished with the buffer.
@@ -2913,14 +2913,14 @@ public:
   void* HarvestBuffer();
 
   // ON_BinaryArchive overrides
-  size_t CurrentPosition() const; 
-  bool SeekFromCurrentPosition(int); 
+  size_t CurrentPosition() const;
+  bool SeekFromCurrentPosition(int);
   bool SeekFromStart(size_t);
   bool AtEnd() const;
 
 protected:
   // ON_BinaryArchive overrides
-  size_t Read( size_t, void* ); 
+  size_t Read( size_t, void* );
   size_t Write( size_t, const void* ); // return actual number of bytes written (like fwrite())
   bool Flush();
 
@@ -2939,7 +2939,7 @@ private:
 
 private:
   // prohibit use - no implementation
-  ON_Write3dmBufferArchive(); 
+  ON_Write3dmBufferArchive();
   ON_Write3dmBufferArchive( const ON_Write3dmBufferArchive& );
   ON_Write3dmBufferArchive& operator=(const ON_Write3dmBufferArchive&);
 };
@@ -2974,7 +2974,7 @@ Remarks:
   object.
 */
 ON_DECL
-bool ON_WriteOneObjectArchive( 
+bool ON_WriteOneObjectArchive(
           ON_BinaryArchive& archive,
           int version,
           const ON_Object& object

@@ -76,13 +76,13 @@ class OpenNIFastMesh
       ofm.setTrianglePixelSize (3);
       ofm.setTriangulationType (pcl::OrganizedFastMesh<PointType>::QUAD_MESH);
     }
-    
-    void 
+
+    void
     cloud_cb (const CloudConstPtr& cloud)
     {
       // Computation goes here
       FPS_CALC ("computation");
-     
+
       // Prepare input
       ofm.setInputCloud (cloud);
 
@@ -110,11 +110,11 @@ class OpenNIFastMesh
 
       boost::function<void (const CloudConstPtr&)> f = boost::bind (&OpenNIFastMesh::cloud_cb, this, _1);
       boost::signals2::connection c = interface->registerCallback (f);
-     
+
       view.reset (new pcl::visualization::PCLVisualizer (argc, argv, "PCL OpenNI Mesh Viewer"));
 
       interface->start ();
-      
+
       CloudConstPtr temp_cloud;
       boost::shared_ptr<std::vector<pcl::Vertices> > temp_verts;
       pcl::console::TicToc t1;
@@ -189,7 +189,7 @@ main (int argc, char ** argv)
   std::string arg;
   if (argc > 1)
     arg = std::string (argv[1]);
-  
+
   if (arg == "--help" || arg == "-h")
   {
     usage (argv);

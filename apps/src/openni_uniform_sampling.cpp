@@ -65,7 +65,7 @@ class OpenNIUniformSampling
     typedef Cloud::Ptr CloudPtr;
     typedef Cloud::ConstPtr CloudConstPtr;
 
-    OpenNIUniformSampling (const std::string& device_id = "", 
+    OpenNIUniformSampling (const std::string& device_id = "",
                        float leaf_size = 0.05)
     : viewer ("PCL OpenNI PassThrough Viewer")
     , device_id_(device_id)
@@ -73,7 +73,7 @@ class OpenNIUniformSampling
       pass_.setRadiusSearch (leaf_size);
     }
 
-    void 
+    void
     cloud_cb_ (const CloudConstPtr& cloud)
     {
       boost::mutex::scoped_lock lock (mtx_);
@@ -86,7 +86,7 @@ class OpenNIUniformSampling
       pass_.setInputCloud (cloud);
       pass_.compute (*indices_);
       *cloud_  = *cloud;
-      
+
       pcl::copyPointCloud<pcl::PointXYZRGBA, pcl::PointXYZ> (*cloud, indices_->points, *keypoints_);
     }
 
@@ -121,9 +121,9 @@ class OpenNIUniformSampling
       boost::function<void (const CloudConstPtr&)> f = boost::bind (&OpenNIUniformSampling::cloud_cb_, this, _1);
       boost::signals2::connection c = interface->registerCallback (f);
       viewer.runOnVisualizationThread (boost::bind(&OpenNIUniformSampling::viz_cb, this, _1), "viz_cb");
-      
+
       interface->start ();
-      
+
       while (!viewer.wasStopped ())
       {
         boost::this_thread::sleep(boost::posix_time::seconds(1));
@@ -164,7 +164,7 @@ usage (char ** argv)
     cout << "No devices connected." << endl;
 }
 
-int 
+int
 main (int argc, char ** argv)
 {
   if (argc < 2)
@@ -174,7 +174,7 @@ main (int argc, char ** argv)
   }
 
   std::string arg (argv[1]);
-  
+
   if (arg == "--help" || arg == "-h")
   {
     usage (argv);

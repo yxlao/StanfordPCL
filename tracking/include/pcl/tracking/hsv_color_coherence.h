@@ -33,50 +33,50 @@ namespace pcl
         /** \brief set the weight of coherence
           * \param[in] weight the weight of coherence.
           */
-        inline void 
+        inline void
         setWeight (double weight) { weight_ = weight; }
 
         /** \brief get the weight (w) of coherence */
-        inline double 
+        inline double
         getWeight () { return weight_; }
-        
+
         /** \brief set the hue weight (w_h) of coherence
           * \param[in] weight the hue weight (w_h) of coherence.
           */
-        inline void 
+        inline void
         setHWeight (double weight) { h_weight_ = weight; }
 
         /** \brief get the hue weight (w_h) of coherence */
-        inline double 
+        inline double
         getHWeight () { return h_weight_; }
 
         /** \brief set the saturation weight (w_s) of coherence
           * \param[in] weight the saturation weight (w_s) of coherence.
           */
-        inline void 
+        inline void
         setSWeight (double weight) { s_weight_ = weight; }
 
         /** \brief get the saturation weight (w_s) of coherence */
-        inline double 
+        inline double
         getSWeight () { return s_weight_; }
 
         /** \brief set the value weight (w_v) of coherence
           * \param[in] weight the value weight (w_v) of coherence.
           */
-        inline void 
+        inline void
         setVWeight (double weight) { v_weight_ = weight; }
 
         /** \brief get the value weight (w_v) of coherence */
-        inline double 
+        inline double
         getVWeight () { return v_weight_; }
-        
+
       protected:
-        
+
         /** \brief return the color coherence between the two points.
           * \param[in] source instance of source point.
           * \param[in] target instance of target point.
           */
-        double 
+        double
         computeCoherence (PointInT &source, PointInT &target);
 
         /** \brief the weight of coherence (w) */
@@ -84,13 +84,13 @@ namespace pcl
 
         /** \brief the hue weight (w_h) */
         double h_weight_;
-        
+
         /** \brief the saturation weight (w_s) */
         double s_weight_;
 
         /** \brief the value weight (w_v) */
         double v_weight_;
-        
+
       };
   }
 }

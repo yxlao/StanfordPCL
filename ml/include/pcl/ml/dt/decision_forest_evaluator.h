@@ -34,7 +34,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  */
-  
+
 #ifndef PCL_ML_DT_DECISION_FOREST_EVALUATOR_H_
 #define PCL_ML_DT_DECISION_FOREST_EVALUATOR_H_
 
@@ -63,10 +63,10 @@ namespace pcl
       /** \brief Constructor. */
       DecisionForestEvaluator();
       /** \brief Destructor. */
-      virtual 
+      virtual
       ~DecisionForestEvaluator();
 
-      /** \brief Evaluates the specified examples using the supplied forest. 
+      /** \brief Evaluates the specified examples using the supplied forest.
         * \param[in] DecisionForestEvaluator The decision forest.
         * \param[in] feature_handler The feature handler used to train the tree.
         * \param[in] stats_estimator The statistics estimation instance used while training the tree.
@@ -81,7 +81,7 @@ namespace pcl
                 DataSet & data_set,
                 std::vector<ExampleIndex> & examples,
                 std::vector<LabelType> & label_data);
-    
+
     private:
       /** \brief Evaluator for decision trees. */
       DecisionTreeEvaluator<FeatureType, DataSet, LabelType, ExampleIndex, NodeType> tree_evaluator_;

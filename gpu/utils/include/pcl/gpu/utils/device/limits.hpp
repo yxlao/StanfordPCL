@@ -37,8 +37,8 @@
 #ifndef PCL_DEVICE_NUMERIC_LIMITS_HPP_
 #define PCL_DEVICE_NUMERIC_LIMITS_HPP_
 
-namespace pcl 
-{ 
+namespace pcl
+{
     namespace device
     {
         template<class T> struct numeric_limits

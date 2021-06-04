@@ -46,7 +46,7 @@
 
 namespace pcl
 {
-  /** \brief @b IterativeClosestPoint provides a base implementation of the Iterative Closest Point algorithm. 
+  /** \brief @b IterativeClosestPoint provides a base implementation of the Iterative Closest Point algorithm.
     * The transformation is estimated based on Singular Value Decomposition (SVD).
     *
     * The algorithm has several termination criteria:
@@ -98,7 +98,7 @@ namespace pcl
 
     public:
       /** \brief Empty constructor. */
-      IterativeClosestPoint () 
+      IterativeClosestPoint ()
       {
         reg_name_ = "IterativeClosestPoint";
         ransac_iterations_ = 1000;
@@ -110,7 +110,7 @@ namespace pcl
         * \param output the transformed input point cloud dataset using the rigid transformation found
         * \param guess the initial guess of the transformation to compute
         */
-      virtual void 
+      virtual void
       computeTransformation (PointCloudSource &output, const Eigen::Matrix4f &guess);
 
       using Registration<PointSource, PointTarget>::reg_name_;

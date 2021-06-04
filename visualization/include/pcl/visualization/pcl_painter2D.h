@@ -76,7 +76,7 @@ namespace pcl
       vtkPen *pen_;                 //the corresponding pen and brush for the figure
       vtkBrush *brush_;
       vtkTransform2D *transform_;
-      
+
       Figure2D (std::vector<float> info, vtkPen *p, vtkBrush * b, vtkTransform2D *t)
       {
         this->pen_ = vtkPen::New ();
@@ -99,17 +99,17 @@ namespace pcl
         this->brush_->DeepCopy (b);
         this->transform_->SetMatrix (t->GetMatrix());
       }
-      
+
       void applyInternals (vtkContext2D *painter)
       {
         painter->ApplyPen (pen_);
         painter->ApplyBrush (brush_);
         painter->GetDevice ()->SetMatrix (transform_->GetMatrix());
       }
-		  
+		
       virtual void draw (vtkContext2D *) {}
     };
-    
+
    /** \brief Class for PolyLine
      */
     struct FPolyLine2D : public Figure2D
@@ -119,7 +119,7 @@ namespace pcl
 
       void draw (vtkContext2D * painter)
       {
-        applyInternals(painter);  
+        applyInternals(painter);
         painter->DrawPoly (&info_[0], static_cast<unsigned int> (info_.size ()) / 2);
       }
     };
@@ -133,7 +133,7 @@ namespace pcl
 
       void draw (vtkContext2D * painter)
       {
-        applyInternals(painter);  
+        applyInternals(painter);
         painter->DrawPoints (&info_[0], static_cast<unsigned int> (info_.size ()) / 2);
       }
     };
@@ -147,11 +147,11 @@ namespace pcl
 
       void draw (vtkContext2D * painter)
       {
-        applyInternals(painter);  
+        applyInternals(painter);
         painter->DrawQuad (&info_[0]);
       }
     };
-    
+
     /** \brief Class for Polygon
      */
     struct FPolygon2D : public Figure2D
@@ -161,11 +161,11 @@ namespace pcl
 
       void draw (vtkContext2D * painter)
       {
-        applyInternals(painter);  
+        applyInternals(painter);
         painter->DrawPolygon (&info_[0], static_cast<unsigned int> (info_.size ()) / 2);
       }
     };
-    
+
    /** \brief Class for storing EllipticArc; every ellipse , circle are covered by this
      */
     struct FEllipticArc2D : public Figure2D
@@ -186,7 +186,7 @@ namespace pcl
 
       void draw (vtkContext2D * painter)
       {
-        applyInternals(painter);  
+        applyInternals(painter);
         painter->DrawEllipticArc (info_[0], info_[1], info_[2], info_[3], info_[4], info_[5]);
       }
     };
@@ -202,7 +202,7 @@ namespace pcl
     public:
 
       //static PCLPainter2D *New();
-      
+
       /** \brief Constructor of the class
        */
       PCLPainter2D (char const * name = "PCLPainter2D");
@@ -211,7 +211,7 @@ namespace pcl
       /** \brief Paint event for the chart, called whenever the chart needs to be drawn
        *  \param[in] name Name of the window
        */
-      virtual bool 
+      virtual bool
       Paint (vtkContext2D *painter);
 
       /** \brief Draw a line between the specified points.
@@ -220,69 +220,69 @@ namespace pcl
        * \param[in] x2 X coordinate of the ending point of the line
        * \param[in] y2 Y coordinate of the ending point of the line
        */
-      void 
+      void
       addLine (float x1, float y1, float x2, float y2);
-      
-      /** \brief Draw line(s) between the specified points 
+
+      /** \brief Draw line(s) between the specified points
        *  \param[in] p a vector of size 2*n and the points are packed x1, y1, x2, y2 etc.
        */
-      void 
+      void
       addLine (std::vector<float> p);
 
-      
+
       /** \brief Draw specified point(s).
        * \param[in] x X coordinate of the point
        * \param[in] y Y coordinate of the point
-       */      
-      void 
+       */
+      void
       addPoint (float x, float y);
       /** \brief Draw specified point(s).
        * \param[in] points a vector of size 2*n and the points are packed x1, y1, x2, y2 etc.
        */
-      
-      void 
+
+      void
       addPoints (std::vector<float> points);
-      
-      
+
+
       /** \brief Draw a rectangle based on the given points
        * \param[in] x X coordinate of the origin
        * \param[in] y Y coordinate of the origin
        * \param[in] width width of the rectangle
        * \param[in] height height of the rectangle
        */
-      void 
+      void
       addRect (float x, float y, float width, float height);
-      
+
       /** \brief Draw a quadrilateral based on the given points
        * \param[in] p a vector of size 8 and the points are packed x1, y1, x2, y2, x3, y3 and x4, y4.
        */
-      void 
+      void
       addQuad (std::vector<float> p);
-      
-        /** \brief Draw a polygon between the specified points 
+
+        /** \brief Draw a polygon between the specified points
        *  \param[in] p a vector of size 2*n and the points are packed x1, y1, x2, y2 etc.
        */
-      void 
+      void
       addPolygon (std::vector<float> p);
 
-      
+
       /** \brief Draw an ellipse based on the inputs
        * \param[in] x X coordinate of the origin
        * \param[in] y Y coordinate of the origin
        * \param[in] rx X radius of the ellipse
        * \param[in] ry Y radius of the ellipse
        */
-      void 
+      void
       addEllipse (float x, float y, float rx, float ry);
-      
+
       /** \brief Draw a circle based on the inputs
        * \param[in] x X coordinate of the origin
        * \param[in] y Y coordinate of the origin
        * \param[in] r radius of the circle
        */
-      void 
+      void
       addCircle (float x, float y, float r);
-      
+
       /** \brief Draw an elliptic arc based on the inputs
        * \param[in] x X coordinate of the origin
        * \param[in] y Y coordinate of the origin
@@ -291,9 +291,9 @@ namespace pcl
        * \param[in] start_angle the starting angle of the arc expressed in degrees
        * \param[in] end_angle the ending angle of the arc expressed in degrees
        */
-      void 
+      void
       addEllipticArc (float x, float y, float rx, float ry, float start_angle, float end_angle);
-      
+
       /** \brief Draw an arc based on the inputs
        * \param[in] x X coordinate of the origin
        * \param[in] y Y coordinate of the origin
@@ -301,7 +301,7 @@ namespace pcl
        * \param[in] start_angle the starting angle of the arc expressed in degrees
        * \param[in] end_angle the ending angle of the arc expressed in degrees
        */
-      void 
+      void
       addArc (float x, float y, float r, float start_angle, float end_angle);
 
 
@@ -309,39 +309,39 @@ namespace pcl
        * \param[in] x translation along X axis
        * \param[in] y translation along Y axis
        */
-      void 
+      void
       translatePen (double x, double y);
-      
+
       /** \brief Create a rotation matrix and concatenate it with the current transformation.
        * \param[in] angle angle in degrees
        */
-      void 
+      void
       rotatePen(double angle);
-      
+
       /** \brief Create a scale matrix and concatenate it with the current transformation.
        * \param[in] x translation along X axis
        * \param[in] y translation along Y axis
        */
-      void 
+      void
       scalePen(double x, double y);
-      
+
       /** \brief Create a translation matrix and concatenate it with the current transformation.
        * \param[in] x translation along X axis
        * \param[in] y translation along Y axis
        */
-      void 
+      void
       setTransform(vtkMatrix3x3 *matrix);
-      
+
       /** \brief Returns the current transformation matrix.
        */
-      vtkMatrix3x3 * 
+      vtkMatrix3x3 *
       getTransform();
-      
+
       /** \brief Clears all the transformation applied. Sets the transformation matrix to Identity
        */
-      void 
+      void
       clearTransform();
-      
+
       /** \brief remove all the figures from the window
        */
        void
@@ -403,14 +403,14 @@ namespace pcl
       getWindowSize ();
 
       /** \brief displays all the figures added in a window.
-       */    
+       */
       void display ();
-      
+
       /** \brief spins (runs the event loop) the interactor for spin_time amount of time. The name is confusing and will be probably obsolete in the future release with a single overloaded spin()/display() function.
         *  \param[in] spin_time - How long (in ms) should the visualization loop be allowed to run.
         */
       void spinOnce ( const int spin_time = 0 );
-        
+
       /** \brief spins (runs the event loop) the interactor indefinitely. Same as display() - added to retain the similarity between other existing visualization classes
        */
       void spin ();
@@ -420,7 +420,7 @@ namespace pcl
 
       //All the figures drawn till now gets stored here
       std::vector<Figure2D *> figures_;
-    
+
       //state variables of the class
       vtkPen *current_pen_;
       vtkBrush *current_brush_;
@@ -429,7 +429,7 @@ namespace pcl
       double bkg_color_[3];
 
       vtkContextView *view_;
-      
+
       //####event callback class####
         struct ExitMainLoopTimerCallback : public vtkCommand
         {
@@ -437,7 +437,7 @@ namespace pcl
           {
             return (new ExitMainLoopTimerCallback);
           }
-          virtual void 
+          virtual void
           Execute (vtkObject* vtkNotUsed (caller), unsigned long event_id, void* call_data)
           {
             if (event_id != vtkCommand::TimerEvent)
@@ -461,7 +461,7 @@ namespace pcl
           vtkRenderWindowInteractor *interactor;
 #endif
         };
-        
+
         /** \brief Callback object enabling us to leave the main loop, when a timer fires. */
         vtkSmartPointer<ExitMainLoopTimerCallback> exit_loop_timer_;
     };

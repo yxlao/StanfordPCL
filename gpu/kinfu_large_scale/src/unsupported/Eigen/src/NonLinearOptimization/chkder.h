@@ -1,7 +1,7 @@
 #define chkder_log10e 0.43429448190325182765
 #define chkder_factor 100.
 
-namespace Eigen { 
+namespace Eigen {
 
 namespace internal {
 
@@ -37,7 +37,7 @@ void chkder(
     }
     else {
         /* mode = 2. */
-        err.setZero(m); 
+        err.setZero(m);
         for (Index j = 0; j < n; ++j) {
             temp = abs(x[j]);
             if (temp == 0.)

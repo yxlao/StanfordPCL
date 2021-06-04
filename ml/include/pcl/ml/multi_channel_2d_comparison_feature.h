@@ -34,7 +34,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  */
-  
+
 #ifndef PCL_ML_MULTI_CHANNEL_2D_COMPARISON_FEATURE_H_
 #define PCL_ML_MULTI_CHANNEL_2D_COMPARISON_FEATURE_H_
 
@@ -59,7 +59,7 @@ namespace pcl
       /** \brief Serializes the feature to a stream.
         * \param[out] stream The destination for the serialization.
         */
-      inline void 
+      inline void
       serialize (std::ostream & stream) const
       {
         p1.serialize (stream);
@@ -67,10 +67,10 @@ namespace pcl
         stream.write (reinterpret_cast<const char*> (&channel), sizeof (channel));
       }
 
-      /** \brief Deserializes the feature from a stream. 
+      /** \brief Deserializes the feature from a stream.
         * \param[in] stream The source for the deserialization.
         */
-      inline void 
+      inline void
       deserialize (std::istream & stream)
       {
         p1.deserialize (stream);

@@ -48,7 +48,7 @@ namespace pcl
   struct xNdCopyEigenPointFunctor
   {
     typedef typename traits::POD<PointT>::type Pod;
-    
+
     xNdCopyEigenPointFunctor (const Eigen::VectorXf &p1, PointT &p2)
       : p1_ (p1),
         p2_ (reinterpret_cast<Pod&>(p2)),
@@ -73,7 +73,7 @@ namespace pcl
   struct xNdCopyPointEigenFunctor
   {
     typedef typename traits::POD<PointT>::type Pod;
-    
+
     xNdCopyPointEigenFunctor (const PointT &p1, Eigen::VectorXf &p2)
       : p1_ (reinterpret_cast<const Pod&>(p1)), p2_ (p2), f_idx_ (0) { }
 
@@ -119,7 +119,7 @@ namespace pcl
 
     public:
       /** \brief Empty constructor. */
-      ApproximateVoxelGrid () : 
+      ApproximateVoxelGrid () :
         pcl::Filter<PointT> (),
         leaf_size_ (Eigen::Vector3f::Ones ()),
         inverse_leaf_size_ (Eigen::Array3f::Ones ()),
@@ -129,14 +129,14 @@ namespace pcl
         filter_name_ = "ApproximateVoxelGrid";
       }
 
-      /** \brief Copy constructor. 
-        * \param[in] src the approximate voxel grid to copy into this. 
+      /** \brief Copy constructor.
+        * \param[in] src the approximate voxel grid to copy into this.
         */
-      ApproximateVoxelGrid (const ApproximateVoxelGrid &src) : 
+      ApproximateVoxelGrid (const ApproximateVoxelGrid &src) :
         pcl::Filter<PointT> (),
         leaf_size_ (src.leaf_size_),
         inverse_leaf_size_ (src.inverse_leaf_size_),
-        downsample_all_data_ (src.downsample_all_data_), 
+        downsample_all_data_ (src.downsample_all_data_),
         histsize_ (src.histsize_),
         history_ ()
       {
@@ -145,10 +145,10 @@ namespace pcl
           history_[i] = src.history_[i];
       }
 
-      /** \brief Copy operator. 
-        * \param[in] src the approximate voxel grid to copy into this. 
+      /** \brief Copy operator.
+        * \param[in] src the approximate voxel grid to copy into this.
         */
-      inline ApproximateVoxelGrid& 
+      inline ApproximateVoxelGrid&
       operator = (const ApproximateVoxelGrid &src)
       {
         leaf_size_ = src.leaf_size_;
@@ -164,10 +164,10 @@ namespace pcl
       /** \brief Set the voxel grid leaf size.
         * \param[in] leaf_size the voxel grid leaf size
         */
-      inline void 
-      setLeafSize (const Eigen::Vector3f &leaf_size) 
-      { 
-        leaf_size_ = leaf_size; 
+      inline void
+      setLeafSize (const Eigen::Vector3f &leaf_size)
+      {
+        leaf_size_ = leaf_size;
         inverse_leaf_size_ = Eigen::Array3f::Ones () / leaf_size_.array ();
       }
 
@@ -183,26 +183,26 @@ namespace pcl
       }
 
       /** \brief Get the voxel grid leaf size. */
-      inline Eigen::Vector3f 
+      inline Eigen::Vector3f
       getLeafSize () const { return (leaf_size_); }
 
       /** \brief Set to true if all fields need to be downsampled, or false if just XYZ.
         * \param downsample the new value (true/false)
         */
-      inline void 
+      inline void
       setDownsampleAllData (bool downsample) { downsample_all_data_ = downsample; }
 
       /** \brief Get the state of the internal downsampling parameter (true if
-        * all fields need to be downsampled, false if just XYZ). 
+        * all fields need to be downsampled, false if just XYZ).
         */
-      inline bool 
+      inline bool
       getDownsampleAllData () const { return (downsample_all_data_); }
 
     protected:
       /** \brief The size of a leaf. */
       Eigen::Vector3f leaf_size_;
 
-      /** \brief Compute 1/leaf_size_ to avoid division later */ 
+      /** \brief Compute 1/leaf_size_ to avoid division later */
       Eigen::Array3f inverse_leaf_size_;
 
       /** \brief Set to true if all fields need to be downsampled, or false if just XYZ. */
@@ -219,12 +219,12 @@ namespace pcl
       /** \brief Downsample a Point Cloud using a voxelized grid approach
         * \param output the resultant point cloud message
         */
-      void 
+      void
       applyFilter (PointCloud &output);
 
       /** \brief Write a single point from the hash to the output cloud
         */
-      void 
+      void
       flush(PointCloud &output, size_t op, he *hhe, int rgba_index, int centroid_size);
   };
 }

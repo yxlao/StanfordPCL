@@ -46,7 +46,7 @@ namespace pcl
     class IntParameter;
     class DoubleParameter;
 
-    class StatisticalOutlierRemovalWorker : public AbstractWorker 
+    class StatisticalOutlierRemovalWorker : public AbstractWorker
     {
       public:
         StatisticalOutlierRemovalWorker(const QList<CloudMeshItem*>& cloud_mesh_items, QWidget* parent=0);

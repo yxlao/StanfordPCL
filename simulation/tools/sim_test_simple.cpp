@@ -9,7 +9,7 @@
  *  q - up
  *  z - down
  *  f - write point cloud file
- * 
+ *
  * The mouse controls the direction of movement
  *
  *  Esc - quit
@@ -309,9 +309,9 @@ void display ()
     //camera.move(0.0,i*0.02,0.0);
     poses.push_back (camera.getPose ());
   }
-  
+
   range_likelihood_->computeLikelihoods (reference, poses, scores);
-  
+
   range_likelihood_->computeLikelihoods (reference, poses, scores);
   std::cout << "score: ";
   for (size_t i = 0; i<scores.size (); ++i)
@@ -359,8 +359,8 @@ void display ()
 //  display_depth_image (range_likelihood_->getDepthBuffer ());
   display_depth_image (range_likelihood_->getDepthBuffer (),
                        range_likelihood_->getWidth (), range_likelihood_->getHeight ());
-  
-  
+
+
   // Draw the score image
   glViewport (0, range_likelihood_->getHeight (),
               range_likelihood_->getWidth (), range_likelihood_->getHeight ());
@@ -371,7 +371,7 @@ void display ()
   display_score_image (range_likelihood_->getScoreBuffer ());
 
   glutSwapBuffers ();
-  
+
   if (write_file_)
   {
     range_likelihood_->addNoise ();
@@ -388,11 +388,11 @@ void display ()
     // Save in local frame
     range_likelihood_->getPointCloud (pc_out,false,camera_->getPose ());
     // TODO: what to do when there are more than one simulated view?
-    
+
     pcl::PCDWriter writer;
-    writer.write ("simulated_range_image.pcd", *pc_out,	false);  
+    writer.write ("simulated_range_image.pcd", *pc_out,	false);
     cout << "finished writing file\n";
-    
+
 //     pcl::visualization::CloudViewer viewer ("Simple Cloud Viewer");
 //     viewer.showCloud (pc_out);
 
@@ -403,27 +403,27 @@ void display ()
   {
     viewer->spinOnce (100);
     boost::this_thread::sleep (boost::posix_time::microseconds (100000));
-  }    
-  
+  }
+
   // doesnt work:
 //    viewer->~PCLVisualizer();
 //    viewer.reset();
-    
-    
+
+
     cout << "done\n";
     // Problem: vtk and opengl dont seem to play very well together
     // vtk seems to misbehave after a little while and wont keep the window on the screen
 
     // method1: kill with [x] - but eventually it crashes:
     //while (!viewer.wasStopped ()){
-    //}    
-    
-    // method2: eventually starts ignoring cin and pops up on screen and closes almost 
+    //}
+
+    // method2: eventually starts ignoring cin and pops up on screen and closes almost
     // immediately
     //  cout << "enter 1 to cont\n";
     //  cin >> pause;
     //  viewer.wasStopped ();
-    
+
     // method 3: if you interact with the window with keys, the window is not closed properly
     // TODO: use pcl methods as this time stuff is probably not cross playform
 //     struct timespec t;
@@ -459,7 +459,7 @@ on_keyboard (unsigned char key, int x, int y)
     paused_ = !paused_;
   else if (key == 'v' || key == 'V')
     write_file_ = 1;
-  
+
   // Use glutGetModifiers for modifiers
   // GLUT_ACTIVE_SHIFT, GLUT_ACTIVE_CTRL, GLUT_ACTIVE_ALT
 }
@@ -529,16 +529,16 @@ void load_PolygonMesh_model (char* polygon_file)
   //pcl::io::loadPolygonFile("/home/mfallon/data/models/dalet/Darlek_modified_works.obj",mesh);
   pcl::io::loadPolygonFile (polygon_file, mesh);
   pcl::PolygonMesh::Ptr cloud (new pcl::PolygonMesh (mesh));
-  
+
   // Not sure if PolygonMesh assumes triangles if to
   // TODO: Ask a developer
   PolygonMeshModel::Ptr model = PolygonMeshModel::Ptr (new PolygonMeshModel (GL_POLYGON, cloud));
   scene_->add (model);
-  
+
   std::cout << "Just read " << polygon_file << std::endl;
   std::cout << mesh.polygons.size () << " polygons and "
 	    << mesh.cloud.data.size () << " triangles\n";
-  
+
 }
 
 void
@@ -556,12 +556,12 @@ initialize (int argc, char** argv)
   // works for small files:
   //camera_->set(-5.0, 0.0, 1.0, 0.0, 0.0, 0.0);
   camera_->set( 1.31762, 0.382931, 1.89533, 0, 0.20944, -9.14989);
-  camera_->setPitch(0.20944); // not sure why this is here: 
+  camera_->setPitch(0.20944); // not sure why this is here:
   //camera_->set(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-  
+
   cout << "About to read: " << argv[1] << endl;
   load_PolygonMesh_model (argv[1]);
-    
+
   paused_ = false;
 }
 
@@ -580,15 +580,15 @@ main (int argc, char** argv)
   {
     printHelp (argc, argv);
     return (-1);
-  }  
-  
+  }
+
   int i;
   for (i=0; i<2048; i++)
   {
     float v = i/2048.0;
     v = powf(v, 3)* 6;
     t_gamma[i] = v*6*256;
-  }  
+  }
 
   glutInit (&argc, argv);
   glutInitDisplayMode (GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGB);// was GLUT_RGBA
@@ -629,7 +629,7 @@ main (int argc, char** argv)
   range_likelihood_->setComputeOnCPU (false);
   range_likelihood_->setSumOnCPU (true);
   range_likelihood_->setUseColor (true);
-  
+
   initialize (argc, argv);
 
   glutReshapeFunc (on_reshape);

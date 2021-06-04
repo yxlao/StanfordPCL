@@ -207,7 +207,7 @@ void check_global_interpolation2d()
 
   // interpolation without knot parameters
   {
-    const Spline2d spline = SplineFitting<Spline2d>::Interpolate(points,3);  
+    const Spline2d spline = SplineFitting<Spline2d>::Interpolate(points,3);
 
     for (Eigen::DenseIndex i=0; i<points.cols(); ++i)
     {
@@ -219,7 +219,7 @@ void check_global_interpolation2d()
 
   // interpolation with given knot parameters
   {
-    const Spline2d spline = SplineFitting<Spline2d>::Interpolate(points,3,chord_lengths);  
+    const Spline2d spline = SplineFitting<Spline2d>::Interpolate(points,3,chord_lengths);
 
     for (Eigen::DenseIndex i=0; i<points.cols(); ++i)
     {

@@ -805,13 +805,13 @@ template<> struct random_impl<bool>
 template<> struct scalar_fuzzy_impl<bool>
 {
   typedef bool RealScalar;
-  
+
   template<typename OtherScalar>
   static inline bool isMuchSmallerThan(const bool& x, const bool&, const bool&)
   {
     return !x;
   }
-  
+
   static inline bool isApprox(bool x, bool y, bool)
   {
     return x == y;
@@ -821,7 +821,7 @@ template<> struct scalar_fuzzy_impl<bool>
   {
     return (!x) || y;
   }
-  
+
 };
 
 /****************************************************************************

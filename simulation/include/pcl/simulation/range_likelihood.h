@@ -90,7 +90,7 @@ namespace pcl
           camera_cx_ = camera_cx_in;
           camera_cy_ = camera_cy_in;
         }
-        
+
         /**
          * Set the cost function to be used - one of 4 hard coded currently
          */
@@ -226,7 +226,7 @@ namespace pcl
 
     template<class T> T
     sqr(T val) { return val*val; }
-    
+
   } // namespace - simulation
 
 } // namespace - pcl

@@ -19,7 +19,7 @@ bool setUnseenToMaxRange = false;
 
 typedef pcl::PointXYZ PointType;
 
-void 
+void
 printUsage (const char* progName)
 {
   std::cout << "\n\nUsage: "<<progName<<" [options] <scene.pcd>\n\n"
@@ -37,7 +37,7 @@ printUsage (const char* progName)
             << "\n\n";
 }
 
-int 
+int
 main (int argc, char** argv)
 {
   // --------------------------------------
@@ -68,7 +68,7 @@ main (int argc, char** argv)
   if (pcl::console::parse (argc, argv, "-r", angular_resolution) >= 0)
     std::cout << "Setting angular resolution to "<<angular_resolution<<"deg.\n";
   angular_resolution = pcl::deg2rad (angular_resolution);
-  
+
 
   // -----------------------
   // -----Read pcd file-----
@@ -101,7 +101,7 @@ main (int argc, char** argv)
     printUsage (argv[0]);
     return 1;
   }
-  
+
   // -----------------------------------------------
   // -----Create RangeImage from the PointCloud-----
   // -----------------------------------------------
@@ -109,13 +109,13 @@ main (int argc, char** argv)
   float min_range = 0.0f;
   int border_size = 1;
   boost::shared_ptr<pcl::RangeImage> range_image_ptr (new pcl::RangeImage);
-  pcl::RangeImage& range_image = *range_image_ptr;   
+  pcl::RangeImage& range_image = *range_image_ptr;
   range_image.createFromPointCloud (point_cloud, angular_resolution, pcl::deg2rad (360.0f), pcl::deg2rad (180.0f),
                                    scene_sensor_pose, coordinate_frame, noise_level, min_range, border_size);
   range_image.integrateFarRanges (far_ranges);
   if (setUnseenToMaxRange)
     range_image.setUnseenToMaxRange ();
-  
+
   // Extract NARF features:
   std::cout << "Now extracting NARFs in every image point.\n";
   std::vector<std::vector<pcl::Narf*> > narfs;
@@ -140,7 +140,7 @@ main (int argc, char** argv)
   std::cout << "100%\n";
   std::cout << "Done.\n\n Now you can click on points in the image to visualize how the descriptor is "
        << "extracted and see the descriptor distances to every other point..\n";
-  
+
   //---------------------
   // -----Show image-----
   // --------------------
@@ -154,13 +154,13 @@ main (int argc, char** argv)
   //--------------------
   // -----Main loop-----
   //--------------------
-  while (true) 
+  while (true)
   {
     range_image_widget.spinOnce ();  // process GUI events
     surface_patch_widget.spinOnce ();  // process GUI events
     descriptor_widget.spinOnce ();  // process GUI events
     pcl_sleep(0.01);
-    
+
     //if (!range_image_widget.mouse_click_happened)
       continue;
     //range_image_widget.mouse_click_happened = false;
@@ -172,10 +172,10 @@ main (int argc, char** argv)
       continue;
       //Vector3f clicked_3d_point;
       //range_image.getPoint (clicked_pixel_x, clicked_pixel_y, clicked_3d_point);
-    
+
     //surface_patch_widget.show (false);
     //descriptor_widget.show (false);"
-    
+
     int selected_index = clicked_pixel_y*range_image.width + clicked_pixel_x;
     pcl::Narf narf;
     if (!narf.extractFromRangeImage (range_image, clicked_pixel_x, clicked_pixel_y,
@@ -183,7 +183,7 @@ main (int argc, char** argv)
     {
       continue;
     }
-    
+
     int surface_patch_pixel_size = narf.getSurfacePatchPixelSize ();
     float surface_patch_world_size = narf.getSurfacePatchWorldSize ();
     surface_patch_widget.showFloatImage (narf.getSurfacePatch (), surface_patch_pixel_size, surface_patch_pixel_size,
@@ -209,7 +209,7 @@ main (int argc, char** argv)
       //surface_patch_widget.markLine (radius-0.5, radius-0.5, radius-0.5f + 2.0f*radius*sinf (rotations[i]),
                                                 //radius-0.5f - 2.0f*radius*cosf (rotations[i]), pcl::visualization::Vector3ub (255,0,0));
     }
-    
+
     descriptor_widget.showFloatImage (narf.getDescriptor (), narf.getDescriptorSize (), 1, -0.1f, 0.3f, true);
 
     //===================================
@@ -218,7 +218,7 @@ main (int argc, char** argv)
     const std::vector<pcl::Narf*>& narfs_of_selected_point = narfs[selected_index];
     if (narfs_of_selected_point.empty ())
       continue;
-    
+
     //descriptor_distances_widget.show (false);
     float* descriptor_distance_image = new float[range_image.points.size ()];
     for (unsigned int point_index=0; point_index<range_image.points.size (); ++point_index)

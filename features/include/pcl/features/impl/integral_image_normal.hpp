@@ -349,7 +349,7 @@ pcl::IntegralImageNormalEstimation<PointInT, PointOutT>::computePointNormal (
     }
 
     pcl::flipNormalTowardsViewpoint (input_->points[point_index], vpx_, vpy_, vpz_, normal_x, normal_y, normal_z);
-    
+
     const float scale = 1.0f / sqrtf (normal_length);
 
     normal.normal_x = normal_x * scale;
@@ -387,7 +387,7 @@ pcl::IntegralImageNormalEstimation<PointInT, PointOutT>::computePointNormal (
 
     //pcl::flipNormalTowardsViewpoint (input_->points[point_index], vpx_, vpy_, vpz_, normal_vector);
     pcl::flipNormalTowardsViewpoint (input_->points[point_index], vpx_, vpy_, vpz_, nx, ny, nz);
-    
+
     normal.normal_x = nx;
     normal.normal_y = ny;
     normal.normal_z = nz;
@@ -404,7 +404,7 @@ pcl::IntegralImageNormalEstimation<PointInT, PointOutT>::computePointNormal (
 template <typename T>
 void
 sumArea (int start_x, int start_y, int end_x, int end_y, const int width, const int height,
-  const boost::function<T(unsigned, unsigned, unsigned, unsigned)> &f, 
+  const boost::function<T(unsigned, unsigned, unsigned, unsigned)> &f,
   T & result)
 {
   //if (start_x < 0 && end_x < 0)
@@ -520,7 +520,7 @@ pcl::IntegralImageNormalEstimation<PointInT, PointOutT>::computePointNormalMirro
 
     unsigned count = 0;
     sumArea<unsigned>(start_x, start_y, end_x, end_y, width, height, boost::bind(&IntegralImage2D<float, 3>::getFiniteElementsCountSE, &integral_image_XYZ_, _1, _2, _3, _4), count);
-    
+
     // no valid points within the rectangular reagion?
     if (count == 0)
     {
@@ -771,7 +771,7 @@ pcl::IntegralImageNormalEstimation<PointInT, PointOutT>::computePointNormalMirro
     }
 
     pcl::flipNormalTowardsViewpoint (input_->points[point_index], vpx_, vpy_, vpz_, normal_x, normal_y, normal_z);
-    
+
     const float scale = 1.0f / sqrtf (normal_length);
 
     normal.normal_x = normal_x * scale;
@@ -849,7 +849,7 @@ pcl::IntegralImageNormalEstimation<PointInT, PointOutT>::computeFeature (PointCl
 {
   output.sensor_origin_ = input_->sensor_origin_;
   output.sensor_orientation_ = input_->sensor_orientation_;
-  
+
   float bad_point = std::numeric_limits<float>::quiet_NaN ();
 
   // compute depth-change map

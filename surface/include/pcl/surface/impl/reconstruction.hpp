@@ -48,7 +48,7 @@ pcl::SurfaceReconstruction<PointInT>::reconstruct (pcl::PolygonMesh &output)
   // Copy the header
   output.header = input_->header;
 
-  if (!initCompute ()) 
+  if (!initCompute ())
   {
     output.cloud.width = output.cloud.height = 0;
     output.cloud.data.clear ();
@@ -89,7 +89,7 @@ pcl::SurfaceReconstruction<PointInT>::reconstruct (pcl::PointCloud<PointInT> &po
   // Copy the header
   points.header = input_->header;
 
-  if (!initCompute ()) 
+  if (!initCompute ())
   {
     points.width = points.height = 0;
     points.clear ();
@@ -128,7 +128,7 @@ pcl::MeshConstruction<PointInT>::reconstruct (pcl::PolygonMesh &output)
   // Copy the header
   output.header = input_->header;
 
-  if (!initCompute ()) 
+  if (!initCompute ())
   {
     output.cloud.width = output.cloud.height = 1;
     output.cloud.data.clear ();
@@ -165,7 +165,7 @@ pcl::MeshConstruction<PointInT>::reconstruct (pcl::PolygonMesh &output)
 template <typename PointInT> void
 pcl::MeshConstruction<PointInT>::reconstruct (std::vector<pcl::Vertices> &polygons)
 {
-  if (!initCompute ()) 
+  if (!initCompute ())
   {
     polygons.clear ();
     return;

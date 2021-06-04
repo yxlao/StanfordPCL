@@ -44,7 +44,7 @@
 
 #include <pcl/console/parse.h>
 
-enum 
+enum
 {
   REDDIFF_MODE,
   ONLYDIFF_MODE,
@@ -62,7 +62,7 @@ class OpenNIChangeViewer
       noise_filter_ = noise_filter;
     }
 
-    void 
+    void
     cloud_cb_ (const pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr &cloud)
     {
       std::cerr << cloud->points.size() << " -- ";
@@ -83,7 +83,7 @@ class OpenNIChangeViewer
 
       pcl::PointCloud<pcl::PointXYZRGBA>::Ptr filtered_cloud;
 
-      switch (mode_) 
+      switch (mode_)
       {
         case REDDIFF_MODE:
           filtered_cloud.reset (new pcl::PointCloud<pcl::PointXYZRGBA> (*cloud));
@@ -109,23 +109,23 @@ class OpenNIChangeViewer
             viewer.showCloud (filtered_cloud);
           break;
       }
-      
+
       // switch buffers - reset tree
       octree->switchBuffers ();
     }
-    
-    void 
+
+    void
     run ()
     {
       pcl::Grabber* interface = new pcl::OpenNIGrabber();
 
-      boost::function<void (const pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr&)> f = 
+      boost::function<void (const pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr&)> f =
         boost::bind (&OpenNIChangeViewer::cloud_cb_, this, _1);
 
       boost::signals2::connection c = interface->registerCallback (f);
-      
+
       interface->start ();
-      
+
       while (!viewer.wasStopped())
       {
         boost::this_thread::sleep(boost::posix_time::seconds(1));
@@ -141,7 +141,7 @@ class OpenNIChangeViewer
     int noise_filter_;
 };
 
-int 
+int
 main (int argc, char* argv[])
 {
 

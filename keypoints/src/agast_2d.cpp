@@ -79,7 +79,7 @@ pcl::AgastKeypoint2D<pcl::PointXYZ, pcl::PointUV>::detectKeypoints (pcl::PointCl
 /////////////////////////////////////////////////////////////////////////////////////////
 void
 pcl::keypoints::agast::AbstractAgastDetector::detectKeypoints (
-    const std::vector<unsigned char> & intensity_data, 
+    const std::vector<unsigned char> & intensity_data,
     pcl::PointCloud<pcl::PointUV> &output)
 {
   detect (&(intensity_data[0]), output.points);
@@ -91,7 +91,7 @@ pcl::keypoints::agast::AbstractAgastDetector::detectKeypoints (
 /////////////////////////////////////////////////////////////////////////////////////////
 void
 pcl::keypoints::agast::AbstractAgastDetector::detectKeypoints (
-    const std::vector<float> & intensity_data, 
+    const std::vector<float> & intensity_data,
     pcl::PointCloud<pcl::PointUV> &output)
 {
   detect (&(intensity_data[0]), output.points);
@@ -244,13 +244,13 @@ pcl::keypoints::agast::AbstractAgastDetector::applyNonMaxSuppression (
 /////////////////////////////////////////////////////////////////////////////////////////
 void
 pcl::keypoints::agast::AbstractAgastDetector::applyNonMaxSuppression (
-  const std::vector<unsigned char>& intensity_data, 
+  const std::vector<unsigned char>& intensity_data,
   const pcl::PointCloud<pcl::PointUV> &input,
   pcl::PointCloud<pcl::PointUV> &output)
 {
   std::vector<ScoreIndex> scores;
   computeCornerScores (&(intensity_data[0]), input.points, scores);
-  
+
   // If a threshold for the maximum number of keypoints is given
   if (nr_max_keypoints_ <= scores.size ()) //std::numeric_limits<unsigned int>::max ())
   {
@@ -272,13 +272,13 @@ pcl::keypoints::agast::AbstractAgastDetector::applyNonMaxSuppression (
 /////////////////////////////////////////////////////////////////////////////////////////
 void
 pcl::keypoints::agast::AbstractAgastDetector::applyNonMaxSuppression (
-  const std::vector<float>& intensity_data, 
+  const std::vector<float>& intensity_data,
   const pcl::PointCloud<pcl::PointUV> &input,
   pcl::PointCloud<pcl::PointUV> &output)
 {
   std::vector<ScoreIndex> scores;
   computeCornerScores (&(intensity_data[0]), input.points, scores);
-  
+
   // If a threshold for the maximum number of keypoints is given
   if (nr_max_keypoints_ <= scores.size ()) //std::numeric_limits<unsigned int>::max ())
   {
@@ -301,7 +301,7 @@ pcl::keypoints::agast::AbstractAgastDetector::applyNonMaxSuppression (
 void
 pcl::keypoints::agast::AbstractAgastDetector::computeCornerScores (
   const unsigned char* im,
-  const std::vector<pcl::PointUV, Eigen::aligned_allocator<pcl::PointUV> > &corners_all, 
+  const std::vector<pcl::PointUV, Eigen::aligned_allocator<pcl::PointUV> > &corners_all,
   std::vector<ScoreIndex> &scores)
 {
   unsigned int n = 0;
@@ -332,7 +332,7 @@ pcl::keypoints::agast::AbstractAgastDetector::computeCornerScores (
 void
 pcl::keypoints::agast::AbstractAgastDetector::computeCornerScores (
   const float* im,
-  const std::vector<pcl::PointUV, Eigen::aligned_allocator<pcl::PointUV> > &corners_all, 
+  const std::vector<pcl::PointUV, Eigen::aligned_allocator<pcl::PointUV> > &corners_all,
   std::vector<ScoreIndex> &scores)
 {
   unsigned int n = 0;
@@ -373,7 +373,7 @@ namespace pcl
       // Helper method for AgastDetector7_12s::detect
       template <typename T1, typename T2> void
       AgastDetector7_12s_detect (
-          const T1* im, 
+          const T1* im,
           int img_width, int img_height,
           double threshold,
           int_fast16_t s_offset0,
@@ -416,14 +416,14 @@ namespace pcl
         width    = img_width;
 
         for (y = 2; y < height_b; y++)
-        {                    
+        {
           x = 1;
-          while (1)              
-          {                  
+          while (1)
+          {
       homogeneous:
       {
-            x++;      
-            if (x > width_b)  
+            x++;
+            if (x > width_b)
               break;
             else
             {
@@ -1460,9 +1460,9 @@ namespace pcl
       }
       structured:
       {
-            x++;      
-            if (x > width_b)  
-              break;    
+            x++;
+            if (x > width_b)
+              break;
             else
             {
               register const T1* const p = im + y * width + x;
@@ -2457,10 +2457,10 @@ namespace pcl
             h.u = float (x);
             h.v = float (y);
             corners.push_back (h);
-            total++;            
-            goto structured;        
-          }                  
-        }                    
+            total++;
+            goto structured;
+          }
+        }
       }
 
       ///////////////////////////////////////////////////////////////////////////////////
@@ -8141,8 +8141,8 @@ void
 pcl::keypoints::agast::AgastDetector7_12s::detect (const unsigned char* im, std::vector<pcl::PointUV, Eigen::aligned_allocator<pcl::PointUV> > & corners) const
 {
   return (pcl::keypoints::agast::AgastDetector7_12s_detect<unsigned char, int> (
-        im, int (width_), int (height_), threshold_, 
-        s_offset0_, 
+        im, int (width_), int (height_), threshold_,
+        s_offset0_,
         s_offset1_,
         s_offset2_,
         s_offset3_,
@@ -8162,8 +8162,8 @@ void
 pcl::keypoints::agast::AgastDetector7_12s::detect (const float* im, std::vector<pcl::PointUV, Eigen::aligned_allocator<pcl::PointUV> > & corners) const
 {
   return (pcl::keypoints::agast::AgastDetector7_12s_detect<float, float> (
-        im, int (width_), int (height_), threshold_, 
-        s_offset0_, 
+        im, int (width_), int (height_), threshold_,
+        s_offset0_,
         s_offset1_,
         s_offset2_,
         s_offset3_,
@@ -8183,8 +8183,8 @@ int
 pcl::keypoints::agast::AgastDetector7_12s::computeCornerScore (const unsigned char* p) const
 {
   return (pcl::keypoints::agast::AgastDetector7_12s_computeCornerScore<unsigned char, int> (
-        p, bmax_, threshold_, 
-        s_offset0_, 
+        p, bmax_, threshold_,
+        s_offset0_,
         s_offset1_,
         s_offset2_,
         s_offset3_,
@@ -8203,8 +8203,8 @@ int
 pcl::keypoints::agast::AgastDetector7_12s::computeCornerScore (const float* p) const
 {
   return (pcl::keypoints::agast::AgastDetector7_12s_computeCornerScore<float, float> (
-        p, bmax_, threshold_, 
-        s_offset0_, 
+        p, bmax_, threshold_,
+        s_offset0_,
         s_offset1_,
         s_offset2_,
         s_offset3_,
@@ -8231,7 +8231,7 @@ namespace pcl
       // Helper method for AgastDetector5_8::detect
       template <typename T1, typename T2> void
       AgastDetector5_8_detect (
-          const T1* im, 
+          const T1* im,
           int img_width, int img_height,
           double threshold,
           int_fast16_t s_offset0,
@@ -8269,7 +8269,7 @@ namespace pcl
         {
           x = 0;
           while (1)
-          { 
+          {
       homogeneous:
       {
             x++;
@@ -8608,7 +8608,7 @@ namespace pcl
       }
       structured:
       {
-            x++;      
+            x++;
             if (x > xsize_b)
               break;
             else
@@ -9000,7 +9000,7 @@ namespace pcl
       // Helper method for AgastDetector5_8::computeCornerScore
       template <typename T1, typename T2> int
       AgastDetector5_8_computeCornerScore (
-          const T1* p, 
+          const T1* p,
           double im_bmax,
           double score_threshold,
           int_fast16_t s_offset0,
@@ -9393,8 +9393,8 @@ void
 pcl::keypoints::agast::AgastDetector5_8::detect (const unsigned char* im, std::vector<pcl::PointUV, Eigen::aligned_allocator<pcl::PointUV> > & corners) const
 {
   return (pcl::keypoints::agast::AgastDetector5_8_detect<unsigned char, int> (
-        im, int (width_), int (height_), threshold_, 
-        s_offset0_, 
+        im, int (width_), int (height_), threshold_,
+        s_offset0_,
         s_offset1_,
         s_offset2_,
         s_offset3_,
@@ -9410,8 +9410,8 @@ void
 pcl::keypoints::agast::AgastDetector5_8::detect (const float* im, std::vector<pcl::PointUV, Eigen::aligned_allocator<pcl::PointUV> > & corners) const
 {
   return (pcl::keypoints::agast::AgastDetector5_8_detect<float, float> (
-        im, int (width_), int (height_), threshold_, 
-        s_offset0_, 
+        im, int (width_), int (height_), threshold_,
+        s_offset0_,
         s_offset1_,
         s_offset2_,
         s_offset3_,
@@ -9427,8 +9427,8 @@ int
 pcl::keypoints::agast::AgastDetector5_8::computeCornerScore (const unsigned char* p) const
 {
   return (pcl::keypoints::agast::AgastDetector5_8_computeCornerScore<unsigned char, int> (
-        p, bmax_, threshold_, 
-        s_offset0_, 
+        p, bmax_, threshold_,
+        s_offset0_,
         s_offset1_,
         s_offset2_,
         s_offset3_,
@@ -9443,8 +9443,8 @@ int
 pcl::keypoints::agast::AgastDetector5_8::computeCornerScore (const float* p) const
 {
   return (pcl::keypoints::agast::AgastDetector5_8_computeCornerScore<float, float> (
-        p, bmax_, threshold_, 
-        s_offset0_, 
+        p, bmax_, threshold_,
+        s_offset0_,
         s_offset1_,
         s_offset2_,
         s_offset3_,
@@ -9467,7 +9467,7 @@ namespace pcl
       // Helper method for OastDetector9_16::detect
       template <typename T1, typename T2> void
       OastDetector9_16_detect (
-          const T1* im, 
+          const T1* im,
           int img_width, int img_height,
           double threshold,
           int_fast16_t s_offset0,
@@ -11560,8 +11560,8 @@ namespace pcl
                 else
                 continue;
             }
-            if (total == n_expected_corners)   
-            {                
+            if (total == n_expected_corners)
+            {
               if (n_expected_corners == 0)
               {
                 n_expected_corners = 512;
@@ -11585,7 +11585,7 @@ namespace pcl
       // Helper method for OastDetector9_16::computeCornerScore
       template <typename T1, typename T2> int
       OastDetector9_16_computeCornerScore (
-          const T1* p, 
+          const T1* p,
           double im_bmax,
           double score_threshold,
           int_fast16_t s_offset0,
@@ -13708,8 +13708,8 @@ void
 pcl::keypoints::agast::OastDetector9_16::detect (const unsigned char* im, std::vector<pcl::PointUV, Eigen::aligned_allocator<pcl::PointUV> > & corners) const
 {
   return (pcl::keypoints::agast::OastDetector9_16_detect<unsigned char, int> (
-        im, int (width_), int (height_), threshold_, 
-        s_offset0_, 
+        im, int (width_), int (height_), threshold_,
+        s_offset0_,
         s_offset1_,
         s_offset2_,
         s_offset3_,
@@ -13733,8 +13733,8 @@ void
 pcl::keypoints::agast::OastDetector9_16::detect (const float* im, std::vector<pcl::PointUV, Eigen::aligned_allocator<pcl::PointUV> > & corners) const
 {
   return (pcl::keypoints::agast::OastDetector9_16_detect<float, float> (
-        im, int (width_), int (height_), threshold_, 
-        s_offset0_, 
+        im, int (width_), int (height_), threshold_,
+        s_offset0_,
         s_offset1_,
         s_offset2_,
         s_offset3_,
@@ -13758,8 +13758,8 @@ int
 pcl::keypoints::agast::OastDetector9_16::computeCornerScore (const unsigned char* p) const
 {
   return (pcl::keypoints::agast::OastDetector9_16_computeCornerScore<unsigned char, int> (
-        p, bmax_, threshold_, 
-        s_offset0_, 
+        p, bmax_, threshold_,
+        s_offset0_,
         s_offset1_,
         s_offset2_,
         s_offset3_,
@@ -13782,8 +13782,8 @@ int
 pcl::keypoints::agast::OastDetector9_16::computeCornerScore (const float* p) const
 {
   return (pcl::keypoints::agast::OastDetector9_16_computeCornerScore<float, float> (
-        p, bmax_, threshold_, 
-        s_offset0_, 
+        p, bmax_, threshold_,
+        s_offset0_,
         s_offset1_,
         s_offset2_,
         s_offset3_,

@@ -10,7 +10,7 @@
 #ifndef EIGEN_UMFPACKSUPPORT_H
 #define EIGEN_UMFPACKSUPPORT_H
 
-namespace Eigen { 
+namespace Eigen {
 
 /* TODO extract L, extract U, compute det, etc... */
 
@@ -188,7 +188,7 @@ class UmfPackLU : internal::noncopyable
       return m_q;
     }
 
-    /** Computes the sparse Cholesky decomposition of \a matrix 
+    /** Computes the sparse Cholesky decomposition of \a matrix
      *  Note that the matrix should be column-major, and in compressed format for best performance.
      *  \sa SparseMatrix::makeCompressed().
      */
@@ -236,7 +236,7 @@ class UmfPackLU : internal::noncopyable
         umfpack_free_symbolic(&m_symbolic,Scalar());
       if(m_numeric)
         umfpack_free_numeric(&m_numeric,Scalar());
-      
+
       grapInput(matrix);
 
       int errorCode = 0;
@@ -294,7 +294,7 @@ class UmfPackLU : internal::noncopyable
       m_innerIndexPtr = 0;
       m_valuePtr      = 0;
     }
-    
+
     void grapInput(const MatrixType& mat)
     {
       m_copyMatrix.resize(mat.rows(), mat.cols());
@@ -332,7 +332,7 @@ class UmfPackLU : internal::noncopyable
     int m_factorizationIsOk;
     int m_analysisIsOk;
     mutable bool m_extractedDataAreDirty;
-    
+
   private:
     UmfPackLU(UmfPackLU& ) { }
 };

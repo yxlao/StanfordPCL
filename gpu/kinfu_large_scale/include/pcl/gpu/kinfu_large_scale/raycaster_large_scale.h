@@ -47,26 +47,26 @@
 //~ {
   //~ namespace gpu
   //~ {
-//~ 
+//~
     //~ /** \brief TODO
-      //~ * \author 
+      //~ * \author
       //~ */
     //~ union PCL_EXPORTS RayCasterLS
     //~ {
       //~ public:
-//~ 
+//~
       //~ /** \brief Runs raycasting algorithm from given camera pose. It writes results to internal fiels.
         //~ * \param[in] volume tsdf volume container
         //~ * \param[in] camera_pose camera pose
-        //~ */ 
-      //~ void 
+        //~ */
+      //~ void
       //~ run(const TsdfVolume& volume, const Eigen::Affine3f& camera_pose, pcl::gpu::tsdf_buffer* buffer);
-//~ 
+//~
       //~ /** \brief vertex map of 3D points*/
       //~ RayCaster raycaster_;
-//~ 
+//~
     //~ };
-//~ 
+//~
   //~ }
 //~ }
 

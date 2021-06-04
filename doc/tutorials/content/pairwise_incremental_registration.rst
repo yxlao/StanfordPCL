@@ -58,7 +58,7 @@ Registering functions
 *********************
 
 Let's see how are our functions organized.
-   
+
 
 | The main function checks the user input, loads the data in a vector and starts the pair-registration process..
 | After a transform is found for a pair, the pair is transformed into the first cloud's frame, and the global transformation is updated.
@@ -67,7 +67,7 @@ Let's see how are our functions organized.
    :language: cpp
    :lines: 326-374
 
-| Loading data is pretty straightforward. We iterate other the program's arguments. 
+| Loading data is pretty straightforward. We iterate other the program's arguments.
 | For each argument, we check if it links to a pcd file. If so, we create a PCD object that is added to the vector of clouds.
 
 .. literalinclude:: sources/pairwise_incremental_registration/pairwise_incremental_registration.cpp
@@ -90,7 +90,7 @@ We now arrive to the actual pair registration.
         reg.setTransformationEpsilon (1e-6);
         // Set the maximum distance between two correspondences (src<->tgt) to 10cm
         // Note: adjust this based on the size of your datasets
-        reg.setMaxCorrespondenceDistance (0.1);  
+        reg.setMaxCorrespondenceDistance (0.1);
         // Set the point representation
         reg.setPointRepresentation (boost::make_shared<const MyPointRepresentation> (point_representation));
 
@@ -101,27 +101,27 @@ We now arrive to the actual pair registration.
 | To this end, the ICP is limited to 2 registration iterations:
 
    .. code-block:: cpp
-   
+
         reg.setMaximumIterations (2);
-        
+
 And is manually iterated (30 times in our case):
 
    .. code-block:: cpp
-   
+
 				for (int i = 0; i < 30; ++i)
 				{
 					[...]
 					points_with_normals_src = reg_result;
 					// Estimate
 					reg.setInputCloud (points_with_normals_src);
-					reg.align (*reg_result); 
+					reg.align (*reg_result);
 					[...]
 				}
 
 During each iteration, we keep track of and accumulate the transformations returned by the ICP:
 
    .. code-block:: cpp
-   
+
 		 Eigen::Matrix4f Ti = Eigen::Matrix4f::Identity (), prev, targetToSource;
 		 [...]
 		 for (int i = 0; i < 30; ++i)
@@ -135,22 +135,22 @@ During each iteration, we keep track of and accumulate the transformations retur
 | we refine the matching process by choosing closer correspondences between the source and the target:
 
    .. code-block:: cpp
-   
+
 		for (int i = 0; i < 30; ++i)
 		{
 		 [...]
 		 if (fabs ((reg.getLastIncrementalTransformation () - prev).sum ()) < reg.getTransformationEpsilon ())
 		   reg.setMaxCorrespondenceDistance (reg.getMaxCorrespondenceDistance () - 0.001);
-     
+
 		 prev = reg.getLastIncrementalTransformation ();
 		 [...]
 		}
 
-| Once the best transformation has been found, we invert it (to get the transformation from target to source) and apply it to the target cloud. 
+| Once the best transformation has been found, we invert it (to get the transformation from target to source) and apply it to the target cloud.
 | The transformed target is then added to the source and returned to the main function with the transformation.
 
    .. code-block:: cpp
-   
+
 			//
 			// Get the transformation from target to source
 			targetToSource = Ti.inverse();
@@ -172,8 +172,8 @@ Create CMakeLists.txt file and add the following line in it:
 .. literalinclude:: sources/pairwise_incremental_registration/CMakeLists.txt
    :language: cmake
    :linenos:
-   
-Note that the line 
+
+Note that the line
 
 .. code-block:: cmake
 
@@ -187,7 +187,7 @@ is usefull only on 32-bit systems, that would (sometimes) trigger the following 
 
 Copy the files from `svn.pointclouds.org/data/tutorials/pairwise
 <http://svn.pointclouds.org/data/tutorials/pairwise/>`_ in your working folder.
-  
+
 
 After you have made the executable (cmake ., make), you can run it. Simply do::
 
@@ -197,20 +197,20 @@ You will see something similar to:
 
 .. image:: images/pairwise_incremental_registration/1.png
   :height: 300
-  
+
 .. image:: images/pairwise_incremental_registration/2.png
   :height: 300
-  
+
 .. image:: images/pairwise_incremental_registration/3.png
   :height: 300
-  
-  
+
+
 Visualize the final results by running::
 
   $ pcd_viewer [1-4].pcd	
-  
+
 .. image:: images/pairwise_incremental_registration/4.png
   :height: 300
-  
+
 .. image:: images/pairwise_incremental_registration/5.png
   :height: 300

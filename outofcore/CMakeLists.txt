@@ -33,7 +33,7 @@ if(build)
         )
 
     set(LIB_NAME pcl_${SUBSYS_NAME})
-    
+
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
     PCL_ADD_LIBRARY(${LIB_NAME} ${SUBSYS_NAME} ${srcs} ${incs} ${impl_incs})
     #PCL_ADD_SSE_FLAGS(${LIB_NAME})
@@ -45,5 +45,5 @@ if(build)
     PCL_ADD_INCLUDES(${SUBSYS_NAME} ${SUBSYS_NAME}/impl ${impl_incs})
 
     add_subdirectory(tools)
-    
+
 endif(build)

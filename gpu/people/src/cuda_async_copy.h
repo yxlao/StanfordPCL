@@ -53,18 +53,18 @@ namespace pcl
     public:
       AsyncCopy(T* ptr, size_t size) : ptr_(ptr)
       {
-        cudaSafeCall( cudaHostRegister(ptr_, size, 0) );        
+        cudaSafeCall( cudaHostRegister(ptr_, size, 0) );
         cudaSafeCall( cudaStreamCreate(&stream_) );
       }
 
       AsyncCopy(std::vector<T>& data) : ptr_(&data[0])
       {
-        cudaSafeCall( cudaHostRegister(ptr_, data.size(), 0) );        
+        cudaSafeCall( cudaHostRegister(ptr_, data.size(), 0) );
         cudaSafeCall( cudaStreamCreate(&stream_) );
       }
 
       ~AsyncCopy()
-      {          
+      {
         cudaSafeCall( cudaHostUnregister(ptr_) );
         cudaSafeCall( cudaStreamDestroy(stream_) );
       }
@@ -79,12 +79,12 @@ namespace pcl
         cudaSafeCall( cudaMemcpy2DAsync(ptr_, arr.cols(), arr.ptr(), arr.step(), arr.colsBytes(), arr.rows(), cudaMemcpyDeviceToHost, stream_) );
       }
 
-      void upload(const DeviceArray<T>& arr) const 
+      void upload(const DeviceArray<T>& arr) const
       {
           cudaSafeCall( cudaMemcpyAsync(arr.ptr(), ptr_, arr.size(), cudaMemcpyHostToDevice, stream_) );	
       }
 
-      void upload(const DeviceArray2D<T>& arr) const 
+      void upload(const DeviceArray2D<T>& arr) const
       {
         cudaSafeCall( cudaMemcpy2DAsync(arr.ptr(), arr.step(), ptr_, arr.cols(), arr.colsBytes(), arr.rows(), cudaMemcpyHostToDevice, stream_) );
       }

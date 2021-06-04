@@ -533,7 +533,7 @@ template<typename DerType, typename T>
 inline AutoDiffScalar<DerType> (max)(const T& x, const AutoDiffScalar<DerType>& y)    { return (x > y ? x : y); }
 
 #define sign(x) x >= 0 ? 1 : -1 // required for abs function below
-  
+
 EIGEN_AUTODIFF_DECLARE_GLOBAL_UNARY(abs,
   using std::abs;
   return ReturnType(abs(x.value()), x.derivatives() * (sign(x.value())));)
@@ -588,11 +588,11 @@ atan2(const AutoDiffScalar<DerTypeA>& a, const AutoDiffScalar<DerTypeB>& b)
   typedef AutoDiffScalar<Matrix<Scalar,Dynamic,1> > PlainADS;
   PlainADS ret;
   ret.value() = atan2(a.value(), b.value());
-  
+
   Scalar tmp2 = a.value() * a.value();
   Scalar tmp3 = b.value() * b.value();
   Scalar tmp4 = tmp3/(tmp2+tmp3);
-  
+
   if (tmp4!=0)
     ret.derivatives() = (a.derivatives() * b.value() - a.value() * b.derivatives()) * (tmp2+tmp3);
 
@@ -608,7 +608,7 @@ EIGEN_AUTODIFF_DECLARE_GLOBAL_UNARY(asin,
   using std::sqrt;
   using std::asin;
   return ReturnType(asin(x.value()),x.derivatives() * (Scalar(1)/sqrt(1-internal::abs2(x.value()))));)
-  
+
 EIGEN_AUTODIFF_DECLARE_GLOBAL_UNARY(acos,
   using std::sqrt;
   using std::acos;

@@ -39,18 +39,18 @@ pcl::cloud_composer::SelectionEvent::findIndicesInItem (CloudItem* cloud_item, p
       if (idx < indices.size ())
       {
         used_indices.append (indices[idx]);
-        id_list.append (indices[idx]);        
+        id_list.append (indices[idx]);
       }
       else
         qCritical () << "More found points in selection than are possible from cloud items!";
     }
-      
+
   }*/
   if (id_selected_data_map_.contains (cloud_item->getId ()))
   {
     vtkPolyData* points_in_item = id_selected_data_map_.value (cloud_item->getId ());
     vtkIdTypeArray* point_ids  = vtkIdTypeArray::SafeDownCast(points_in_item->GetPointData ()->GetArray ("vtkIdFilter_Ids"));
-  
+
     indices->indices.resize (point_ids->GetNumberOfTuples ());
     for(int i =0; i < point_ids->GetNumberOfTuples (); ++i)
     {
@@ -59,5 +59,5 @@ pcl::cloud_composer::SelectionEvent::findIndicesInItem (CloudItem* cloud_item, p
     }
     //qDebug () << points_in_item->GetNumberOfPoints () << " selected points in "<<cloud_item->getId ();
   }
-  
+
 }

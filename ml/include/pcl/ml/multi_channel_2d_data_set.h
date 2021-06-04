@@ -34,7 +34,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  */
-  
+
 #ifndef PCL_ML_MULTI_CHANNEL_2D_DATA_SET_H_
 #define PCL_ML_MULTI_CHANNEL_2D_DATA_SET_H_
 
@@ -68,7 +68,7 @@ namespace pcl
         width_ = width;
         height_ = height;
       }
-  
+
       /** \brief Returns a pointer to the internal data at the specified location.
         * \param[in] col_index The column index.
         * \param[in] row_index The row index.
@@ -134,11 +134,11 @@ namespace pcl
       /** \brief Destructor. */
       virtual ~MultiChannel2DDataSet () {}
 
-      /** \brief Adds a new two-dimensional data block to the data set. 
+      /** \brief Adds a new two-dimensional data block to the data set.
         * \param[in] width The width of the new data block.
         * \param[in] height The height of the new data block.
         */
-      void 
+      void
       addData (const size_t width, const size_t height)
       {
         MultiChannel2DData<DATA_TYPE, NUM_OF_CHANNELS> * data = new MultiChannel2DData<DATA_TYPE, NUM_OF_CHANNELS> ();
@@ -162,7 +162,7 @@ namespace pcl
         * \param[in] col The column of the desired location.
         * \param[in] row The row of the desired location.
         */
-      inline DATA_TYPE * 
+      inline DATA_TYPE *
       operator() (const size_t data_set_id, const size_t col, const size_t row)
       {
         return (*data_set_[data_set_id]) (col, row);
@@ -173,7 +173,7 @@ namespace pcl
         * \param[in] col The column of the desired location.
         * \param[in] row The row of the desired location.
         */
-      inline const DATA_TYPE * 
+      inline const DATA_TYPE *
       operator() (const size_t data_set_id, const size_t col, const size_t row) const
       {
         return (*data_set_[data_set_id]) (col, row);
@@ -185,7 +185,7 @@ namespace pcl
         * \param[in] row The row of the desired location.
         * \param[in] channel The channel index.
         */
-      inline DATA_TYPE & 
+      inline DATA_TYPE &
       operator() (const size_t data_set_id, const size_t col, const size_t row, const size_t channel)
       {
         return (*data_set_[data_set_id]) (col, row, channel);
@@ -197,7 +197,7 @@ namespace pcl
         * \param[in] row The row of the desired location.
         * \param[in] channel The channel index.
         */
-      inline const DATA_TYPE & 
+      inline const DATA_TYPE &
       operator() (const size_t data_set_id, const size_t col, const size_t row, const size_t channel) const
       {
         return (*data_set_[data_set_id]) (col, row, channel);

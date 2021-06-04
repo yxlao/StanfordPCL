@@ -48,7 +48,7 @@ namespace pcl
         __device__ void CopyKernel(const T* in, T *out, int length)
         {
             int STRIDE = gridDim.x * blockDim.x;
-            for (int idx = (blockIdx.x * blockDim.x) + threadIdx.x; idx < length; idx += STRIDE) 
+            for (int idx = (blockIdx.x * blockDim.x) + threadIdx.x; idx < length; idx += STRIDE)
             {
                 out[idx] = in[idx];
             }
@@ -61,7 +61,7 @@ namespace pcl
             int pos = beg;
 
             int STRIDE = blockDim.x;
-            for (int idx = threadIdx.x; idx < length; idx += STRIDE, pos += STRIDE) 
+            for (int idx = threadIdx.x; idx < length; idx += STRIDE, pos += STRIDE)
             {
                 out[idx] = pos + threadIdx.x;
             }
@@ -74,7 +74,7 @@ namespace pcl
             int pos = beg;
 
             int STRIDE = blockDim.x;
-            for (int idx = threadIdx.x; idx < length; idx += STRIDE, pos += STRIDE) 
+            for (int idx = threadIdx.x; idx < length; idx += STRIDE, pos += STRIDE)
             {
                 out[idx] = ((pos + threadIdx.x) << 8) + level;
             }

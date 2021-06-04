@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2012-, Open Perception, Inc.
- * 
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -80,7 +80,7 @@ class BRISKDemo
       boost::mutex::scoped_lock lock (cloud_mutex_);
       cloud_ = cloud;
 
-      // Compute BRISK keypoints 
+      // Compute BRISK keypoints
       BriskKeypoint2D<PointT> brisk;
       brisk.setThreshold (60);
       brisk.setOctaves (4);
@@ -113,7 +113,7 @@ class BRISKDemo
     {
       int u = int (x);
       int v = int (y);
-      
+
       PointT pt;
       pt.x = pt.y = pt.z = 0;
 
@@ -121,13 +121,13 @@ class BRISKDemo
       const PointT &p2 = (*cloud)(u+1, v);
       const PointT &p3 = (*cloud)(u,   v+1);
       const PointT &p4 = (*cloud)(u+1, v+1);
-      
+
       float fx = x - float (u), fy = y - float (v);
       float fx1 = 1.0f - fx, fy1 = 1.0f - fy;
 
       float w1 = fx1 * fy1, w2 = fx * fy1, w3 = fx1 * fy, w4 = fx * fy;
       float weight = 0;
-      
+
       if (isFinite (p1))
       {
         pt.x += p1.x * w1;
@@ -164,7 +164,7 @@ class BRISKDemo
         weight = 1.0f / weight;
         pt.x *= weight; pt.y *= weight; pt.z *= weight;
       }
- 
+
       return (pt);
     }
 
@@ -197,13 +197,13 @@ class BRISKDemo
         keypoints3d.height = 1;
       }
     }
-    
+
     /////////////////////////////////////////////////////////////////////////
     void
     run ()
     {
       grabber_.start ();
-      
+
       bool image_init = false, cloud_init = false;
       bool keypts = true;
 
@@ -257,7 +257,7 @@ class BRISKDemo
           }
           keypts = !keypts;
 
-          
+
           get3DKeypoints (cloud, keypoints, *keypoints3d);
           visualization::PointCloudColorHandlerCustom<PointT> blue (keypoints3d, 0, 0, 255);
           if (!cloud_viewer_.updatePointCloud (keypoints3d, blue, "keypoints"))
@@ -272,19 +272,19 @@ class BRISKDemo
       }
 
       grabber_.stop ();
-      
+
       cloud_connection.disconnect ();
     }
-    
+
     visualization::PCLVisualizer cloud_viewer_;
     Grabber& grabber_;
     boost::mutex cloud_mutex_;
     CloudConstPtr cloud_;
-    
+
     visualization::ImageViewer image_viewer_;
 
     PointCloud<KeyPointT>::Ptr keypoints_;
-        
+
   private:
     boost::signals2::connection cloud_connection;
 };
@@ -299,7 +299,7 @@ main (int, char**)
 
   openni_viewer.init ();
   openni_viewer.run ();
-  
+
   return (0);
 }
 /* ]--- */

@@ -113,9 +113,9 @@ class MultiRansac
       }
     }
 
-    template <template <typename> class Storage> void 
+    template <template <typename> class Storage> void
     cloud_cb (const boost::shared_ptr<openni_wrapper::Image>& image,
-              const boost::shared_ptr<openni_wrapper::DepthImage>& depth_image, 
+              const boost::shared_ptr<openni_wrapper::DepthImage>& depth_image,
               float constant)
     {
       static unsigned count = 0;
@@ -177,7 +177,7 @@ class MultiRansac
           if (use_viewer)
           {
             std::cerr << "getting inliers.. ";
-            
+
             std::vector<typename SampleConsensusModel1PointPlane<Storage>::IndicesPtr> planes;
             typename Storage<int>::type region_mask;
             markInliers<Storage> (data, region_mask, planes);
@@ -289,8 +289,8 @@ class MultiRansac
       //toPCL (*data, *output);
       //viewer.showCloud (output);
     }
-    
-    void 
+
+    void
     run (bool use_device, bool use_viewer)
     {
       this->use_viewer = use_viewer;
@@ -348,14 +348,14 @@ class MultiRansac
     pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr logo_cloud_;
     DisparityToCloud d2c;
     pcl::visualization::CloudViewer viewer;
-   
+
     boost::mutex m_mutex;
     pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr normal_cloud;
     bool new_cloud;
     bool use_viewer;
 };
 
-int 
+int
 main (int argc, char **argv)
 {
   pcl_sleep (1);

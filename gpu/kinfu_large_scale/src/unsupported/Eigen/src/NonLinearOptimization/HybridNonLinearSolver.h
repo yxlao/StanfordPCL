@@ -13,9 +13,9 @@
 #ifndef EIGEN_HYBRIDNONLINEARSOLVER_H
 #define EIGEN_HYBRIDNONLINEARSOLVER_H
 
-namespace Eigen { 
+namespace Eigen {
 
-namespace HybridNonLinearSolverSpace { 
+namespace HybridNonLinearSolverSpace {
     enum Status {
         Running = -1,
         ImproperInputParameters = 0,
@@ -95,7 +95,7 @@ public:
     Index njev;
     Index iter;
     Scalar fnorm;
-    bool useExternalScaling; 
+    bool useExternalScaling;
 private:
     FunctorType &functor;
     Index n;

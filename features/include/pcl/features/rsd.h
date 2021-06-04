@@ -151,11 +151,11 @@ namespace pcl
       /** \brief Set the number of subdivisions for the considered distance interval.
         * \param[in] nr_subdiv the number of subdivisions
         */
-      inline void 
+      inline void
       setNrSubdivisions (int nr_subdiv) { nr_subdiv_ = nr_subdiv; }
 
       /** \brief Get the number of subdivisions for the considered distance interval. */
-      inline int 
+      inline int
       getNrSubdivisions () const { return (nr_subdiv_); }
 
       /** \brief Set the maximum radius, above which everything can be considered planar.
@@ -163,16 +163,16 @@ namespace pcl
         * \note on accurate 3D data (e.g. openni sernsors) a search radius as low as 0.01 still gives good results.
         * \param[in] plane_radius the new plane radius
         */
-      inline void 
+      inline void
       setPlaneRadius (double plane_radius) { plane_radius_ = plane_radius; }
 
       /** \brief Get the maximum radius, above which everything can be considered planar. */
-      inline double 
+      inline double
       getPlaneRadius () const { return (plane_radius_); }
 
       /** \brief Disables the setting of the number of k nearest neighbors to use for the feature estimation. */
-      inline void 
-      setKSearch (int) 
+      inline void
+      setKSearch (int)
       {
         PCL_ERROR ("[pcl::%s::setKSearch] RSD does not work with k nearest neighbor search. Use setRadiusSearch() instead!\n", getClassName ().c_str ());
       }
@@ -199,7 +199,7 @@ namespace pcl
         * setSearchMethod ()
         * \param output the resultant point cloud model dataset that contains the RSD feature estimates (r_min and r_max values)
         */
-      void 
+      void
       computeFeature (PointCloudOut &output);
 
       /** \brief The list of full distance-angle histograms for all points. */
@@ -216,9 +216,9 @@ namespace pcl
       bool save_histograms_;
 
       /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &output) {}
     public:
       EIGEN_MAKE_ALIGNED_OPERATOR_NEW

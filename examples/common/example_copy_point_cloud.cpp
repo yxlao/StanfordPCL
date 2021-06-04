@@ -116,7 +116,7 @@ badConversion ()
 {
   typedef pcl::PointCloud<pcl::PointXYZ> CloudType;
   CloudType::Ptr cloud (new CloudType);
-  
+
   CloudType::PointType p;
   p.x = 1; p.y = 2; p.z = 3;
   cloud->push_back(p);
@@ -125,7 +125,7 @@ badConversion ()
   typedef pcl::PointCloud<pcl::Normal> CloudType2;
   CloudType2::Ptr cloud2(new CloudType2);
   copyPointCloud(*cloud, *cloud2);
-  
+
   CloudType2::PointType p_retrieved = cloud2->points[0];
   std::cout << p_retrieved.x << " " << p_retrieved.y << " " << p_retrieved.z << std::endl;
 }

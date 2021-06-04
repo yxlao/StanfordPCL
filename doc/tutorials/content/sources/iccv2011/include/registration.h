@@ -20,7 +20,7 @@
  *   min_sample_distance
  *     The minimum distance between any two random samples
  *   max_correspondence_distance
- *     The 
+ *     The
  *   nr_interations
  *     The number of RANSAC iterations to perform
  * Return: A transformation matrix that will roughly align the points in source to the points in target
@@ -34,7 +34,7 @@ computeInitialAlignment (const PointCloudPtr & source_points, const LocalDescrip
   sac_ia.setMinSampleDistance (min_sample_distance);
   sac_ia.setMaxCorrespondenceDistance (max_correspondence_distance);
   sac_ia.setMaximumIterations (nr_iterations);
-  
+
   sac_ia.setInputCloud (source_points);
   sac_ia.setSourceFeatures (source_descriptors);
 
@@ -47,7 +47,7 @@ computeInitialAlignment (const PointCloudPtr & source_points, const LocalDescrip
   return (sac_ia.getFinalTransformation ());
 }
 
-/* Use IterativeClosestPoint to find a precise alignment from the source cloud to the target cloud, 
+/* Use IterativeClosestPoint to find a precise alignment from the source cloud to the target cloud,
  * starting with an intial guess
  * Inputs:
  *   source_points
@@ -57,7 +57,7 @@ computeInitialAlignment (const PointCloudPtr & source_points, const LocalDescrip
  *   intial_alignment
  *     An initial estimate of the transformation matrix that aligns the source points to the target points
  *   max_correspondence_distance
- *     A threshold on the distance between any two corresponding points.  Any corresponding points that are further 
+ *     A threshold on the distance between any two corresponding points.  Any corresponding points that are further
  *     apart than this threshold will be ignored when computing the source-to-target transformation
  *   outlier_rejection_threshold
  *     A threshold used to define outliers during RANSAC outlier rejection
@@ -68,7 +68,7 @@ computeInitialAlignment (const PointCloudPtr & source_points, const LocalDescrip
  * Return: A transformation matrix that will precisely align the points in source to the points in target
  */
 Eigen::Matrix4f
-refineAlignment (const PointCloudPtr & source_points, const PointCloudPtr & target_points, 
+refineAlignment (const PointCloudPtr & source_points, const PointCloudPtr & target_points,
                  const Eigen::Matrix4f &initial_alignment, float max_correspondence_distance,
                  float outlier_rejection_threshold, float transformation_epsilon, float max_iterations)
 {

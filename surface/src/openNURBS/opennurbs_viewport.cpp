@@ -67,7 +67,7 @@ static void unitize2d( double x, double y, double* ux, double* uy )
       s = (s < 0.0) ? -1.0 : 1.0;
     }
   }
-  if ( ux ) 
+  if ( ux )
     *ux = c;
   if ( uy )
     *uy = s;
@@ -89,10 +89,10 @@ bool ON__IsCameraFramePerpindicular( const ON_3dVector& unit_vector0,const ON_3d
   return ( fabs(unit_vector0.x*unit_vector1.x + unit_vector0.y*unit_vector1.y + unit_vector0.z*unit_vector1.z) <= 1.0e-6 );
 }
 
-bool 
-ON_GetViewportRotationAngles( 
+bool
+ON_GetViewportRotationAngles(
     const ON_3dVector& X, // X,Y,Z must be a right handed orthonormal basis
-    const ON_3dVector& Y, 
+    const ON_3dVector& Y,
     const ON_3dVector& Z,
     double* angle1, // returns rotation about world Z
     double* angle2, // returns rotation about world X ( 0 <= a2 <= pi )
@@ -146,14 +146,14 @@ ON_GetViewportRotationAngles(
     }
   }
 
-  if ( bValidFrame ) 
+  if ( bValidFrame )
   {
     // Usually "Z" = opposite of unitized camera direction.
     //         "Y" = camera up made ortho to "Z" and unitized.
     //         "X" = YxZ.
     // So, when possible, I solve for angles in terms
     // of "Z" and "Y" since "X" will generally have the most noise.
-    //         
+    //
     // Use C = R3*R2*R1 to get sin(a2), cos(a2).
     cos_a2 = Z.z;
     sin_a2 = len2d(Z.x,Z.y);
@@ -198,7 +198,7 @@ ON_GetViewportRotationAngles(
     sin_a3 = -sin_a3;
     cos_a3 = -cos_a3;
   }
-  
+
   if ( angle1 )
     *angle1 = atan2( sin_a1, cos_a1 );
   if ( angle2 )
@@ -223,7 +223,7 @@ void ON_Viewport::SetPerspectiveClippingPlaneConstraints(
 
 void ON_Viewport::SetPerspectiveMinNearOverFar(double min_near_over_far)
 {
-  if (    ON_IsValid(min_near_over_far) 
+  if (    ON_IsValid(min_near_over_far)
        && min_near_over_far > ON_ZERO_TOLERANCE
        && min_near_over_far < 1.0-ON_ZERO_TOLERANCE
      )
@@ -259,8 +259,8 @@ const double ON_Viewport::DefaultMinNearDist = 0.0001;
 const double ON_Viewport::DefaultMinNearOverFar = 0.0001;
 
 // For 32 bit float based OpenGL drivers, the value of
-// the ON_Viewport::DefaultMinNearOverFar constant must 
-// be <0.01 and >= 0.0001.  
+// the ON_Viewport::DefaultMinNearOverFar constant must
+// be <0.01 and >= 0.0001.
 // If you change this value, you need to retest RR 8902 on OpenGL
 // drivers that (internally) use float precision transformations.
 // Some OpenGL drivers, like the Microsoft software emulation
@@ -326,7 +326,7 @@ ON_Viewport::~ON_Viewport()
 
 ON_Viewport& ON_Viewport::operator=( const ON_Viewport& src )
 {
-  if ( this != &src ) 
+  if ( this != &src )
   {
     ON_Object::operator=(src);
 
@@ -382,7 +382,7 @@ ON_BOOL32 ON_Viewport::Read( ON_BinaryArchive& file )
   int major_version = 0;
   int minor_version = 1;
   bool rc = file.Read3dmChunkVersion(&major_version,&minor_version);
-  if (rc && major_version==1) 
+  if (rc && major_version==1)
   {
     // common to all 1.x versions
     int i=0;
@@ -411,7 +411,7 @@ ON_BOOL32 ON_Viewport::Read( ON_BinaryArchive& file )
     if (rc) rc = file.ReadInt( &m_port_bottom );
     if (rc) rc = file.ReadInt( &m_port_top );
     if (rc) rc = file.ReadInt( &m_port_near );
-    if (rc) rc = file.ReadInt( &m_port_far );   
+    if (rc) rc = file.ReadInt( &m_port_far );
 
     if (rc && minor_version >= 1 )
     {
@@ -420,7 +420,7 @@ ON_BOOL32 ON_Viewport::Read( ON_BinaryArchive& file )
 
       if (rc && minor_version >= 2 )
       {
-        // 1.2 fields 
+        // 1.2 fields
         bool b;
         b = false;
         if (rc) rc = file.ReadBool(&b);
@@ -476,7 +476,7 @@ ON_BOOL32 ON_Viewport::Write( ON_BinaryArchive& file ) const
 {
   int i;
   bool rc = file.Write3dmChunkVersion(1,2);
-  if (rc) 
+  if (rc)
   {
     i = m_bValidCamera?1:0;
     if (rc) rc = file.WriteInt( i );
@@ -508,12 +508,12 @@ ON_BOOL32 ON_Viewport::Write( ON_BinaryArchive& file ) const
     if (rc) rc = file.WriteInt( m_port_bottom );
     if (rc) rc = file.WriteInt( m_port_top );
     if (rc) rc = file.WriteInt( m_port_near );
-    if (rc) rc = file.WriteInt( m_port_far );    
+    if (rc) rc = file.WriteInt( m_port_far );
 
     // 1.1 fields
     if (rc) rc = file.WriteUuid(m_viewport_id);
 
-    // 1.2 fields 
+    // 1.2 fields
     bool b;
 
     b = CameraUpIsLocked();
@@ -582,7 +582,7 @@ int ON_Viewport::Dimension() const
 bool ON_Viewport::GetNearPlane( ON_Plane& near_plane ) const
 {
   bool rc = IsValidFrustum() && IsValidCamera();
-  if ( rc ) 
+  if ( rc )
   {
     near_plane.origin = m_CamLoc - m_frus_near*m_CamZ;
     near_plane.xaxis = m_CamX;
@@ -593,8 +593,8 @@ bool ON_Viewport::GetNearPlane( ON_Plane& near_plane ) const
   return rc;
 }
 
-bool ON_Viewport::GetNearPlaneEquation( 
-  ON_PlaneEquation& near_plane_equation 
+bool ON_Viewport::GetNearPlaneEquation(
+  ON_PlaneEquation& near_plane_equation
   ) const
 {
   bool rc = m_bValidCamera && m_bValidFrustum;
@@ -610,7 +610,7 @@ bool ON_Viewport::GetNearPlaneEquation(
 bool ON_Viewport::GetFarPlane( ON_Plane& far_plane ) const
 {
   bool rc = IsValidFrustum() && IsValidCamera();
-  if ( rc ) 
+  if ( rc )
   {
     far_plane.origin = m_CamLoc - m_frus_far*m_CamZ;
     far_plane.xaxis = m_CamX;
@@ -621,8 +621,8 @@ bool ON_Viewport::GetFarPlane( ON_Plane& far_plane ) const
   return rc;
 }
 
-bool ON_Viewport::GetFarPlaneEquation( 
-  ON_PlaneEquation& far_plane_equation 
+bool ON_Viewport::GetFarPlaneEquation(
+  ON_PlaneEquation& far_plane_equation
   ) const
 {
   bool rc = m_bValidCamera && m_bValidFrustum;
@@ -635,13 +635,13 @@ bool ON_Viewport::GetFarPlaneEquation(
 }
 
 
-bool ON_Viewport::GetViewPlane( 
+bool ON_Viewport::GetViewPlane(
   double view_plane_depth,
-  ON_Plane& view_plane 
+  ON_Plane& view_plane
   ) const
 {
   bool rc = IsValidFrustum() && IsValidCamera();
-  if ( rc ) 
+  if ( rc )
   {
     view_plane.origin = m_CamLoc - view_plane_depth*m_CamZ;
     view_plane.xaxis = m_CamX;
@@ -652,9 +652,9 @@ bool ON_Viewport::GetViewPlane(
   return rc;
 }
 
-bool ON_Viewport::GetViewPlaneEquation( 
+bool ON_Viewport::GetViewPlaneEquation(
   double view_plane_depth,
-  ON_PlaneEquation& view_plane_equation 
+  ON_PlaneEquation& view_plane_equation
   ) const
 {
   bool rc = m_bValidCamera && m_bValidFrustum;
@@ -667,7 +667,7 @@ bool ON_Viewport::GetViewPlaneEquation(
 }
 
 
-bool ON_Viewport::GetNearRect( 
+bool ON_Viewport::GetNearRect(
        ON_3dPoint& left_bottom,
        ON_3dPoint& right_bottom,
        ON_3dPoint& left_top,
@@ -689,7 +689,7 @@ bool ON_Viewport::GetNearRect(
   return rc;
 }
 
-bool ON_Viewport::GetFarRect( 
+bool ON_Viewport::GetFarRect(
        ON_3dPoint& left_bottom,
        ON_3dPoint& right_bottom,
        ON_3dPoint& left_top,
@@ -743,7 +743,7 @@ bool ON_Viewport::GetViewPlaneRect(
 }
 
 
-ON_BOOL32 ON_Viewport::GetBBox( 
+ON_BOOL32 ON_Viewport::GetBBox(
        double* boxmin,
        double* boxmax,
        ON_BOOL32 bGrowBox
@@ -756,9 +756,9 @@ ON_BOOL32 ON_Viewport::GetBBox(
   corners[8] = m_CamLoc;
   if (rc)
   {
-    rc = ON_GetPointListBoundingBox( 
-            3, 0, 9, 
-            3, &corners[0].x, 
+    rc = ON_GetPointListBoundingBox(
+            3, 0, 9,
+            3, &corners[0].x,
             boxmin, boxmax,  bGrowBox?true:false
             );
   }
@@ -789,13 +789,13 @@ ON_BOOL32 ON_Viewport::Transform( const ON_Xform& xform )
     if ( m_bLockCamDir )
       d = -m_CamZ;
 
-    if (    !u.IsValid() || !d.IsValid() 
-         || u.IsTiny()   || d.IsTiny() 
-         || ON_CrossProduct(u,d).IsTiny() ) 
+    if (    !u.IsValid() || !d.IsValid()
+         || u.IsTiny()   || d.IsTiny()
+         || ON_CrossProduct(u,d).IsTiny() )
     {
       rc = false;
     }
-    else 
+    else
     {
       if ( m_bLockCamUp && !m_bLockCamDir )
       {
@@ -818,7 +818,7 @@ ON_BOOL32 ON_Viewport::Transform( const ON_Xform& xform )
       if ( !m_bLockCamUp)
         SetCameraUp(u);
       rc = SetCameraFrame();
-      if ( !rc ) 
+      if ( !rc )
       {
         // restore input settings
         m_CamLoc = c0;
@@ -935,7 +935,7 @@ bool ON_Viewport::SetCameraFrame()
   if ( !CamX.Unitize() )
     return false;
 
-  // Gaurd against garbage resulting from nearly parallel 
+  // Gaurd against garbage resulting from nearly parallel
   // and/or ultra short short dir and up.
   if ( !ON__IsCameraFrameUnitVectorHelper(CamX) )
     return false;
@@ -1016,7 +1016,7 @@ void ON_Viewport::SetCameraLocationLock( bool bLockCameraLocation )
   m_bLockCamLoc = bLockCameraLocation ? true : false;
 }
 
-void ON_Viewport::SetCameraDirectionLock( bool bLockCameraDirection ) 
+void ON_Viewport::SetCameraDirectionLock( bool bLockCameraDirection )
 {
   m_bLockCamDir = bLockCameraDirection ? true : false;
 }
@@ -1030,7 +1030,7 @@ void ON_Viewport::SetFrustumLeftRightSymmetry( bool bForceLeftRightSymmetry )
 {
   if ( bForceLeftRightSymmetry )
     m_frustum_symmetry_flags |= 0x02; // set bit 2
-  else 
+  else
     m_frustum_symmetry_flags &= 0xFD; // clear bit 2
 }
 
@@ -1038,7 +1038,7 @@ void ON_Viewport::SetFrustumTopBottomSymmetry( bool bForceTopBottomSymmetry )
 {
   if ( bForceTopBottomSymmetry )
     m_frustum_symmetry_flags |= 0x01; // set bit 1
-  else 
+  else
     m_frustum_symmetry_flags &= 0xFE; // clear bit 1
 }
 
@@ -1090,18 +1090,18 @@ bool ON_Viewport::DollyFrustum( double dollyDistance )
 {
   bool rc = false;
   double new_near, new_far, scale;
-  if ( m_bValidFrustum ) 
+  if ( m_bValidFrustum )
   {
     new_near = m_frus_near + dollyDistance;
     new_far  = m_frus_far + dollyDistance;
-    if ( IsPerspectiveProjection() && new_near < m__MIN_NEAR_DIST ) 
+    if ( IsPerspectiveProjection() && new_near < m__MIN_NEAR_DIST )
     {
       new_near = m__MIN_NEAR_DIST;
     }
-    scale = ( IsPerspectiveProjection() ) 
-          ? new_near/m_frus_near 
+    scale = ( IsPerspectiveProjection() )
+          ? new_near/m_frus_near
           : 1.0;
-    if ( new_near > 0.0 && new_far > new_near && scale > 0.0 ) 
+    if ( new_near > 0.0 && new_far > new_near && scale > 0.0 )
     {
       m_frus_near = new_near;
       m_frus_far  = new_far;
@@ -1160,7 +1160,7 @@ ON_3dVector ON_Viewport::CameraZ() const
   return m_CamZ;
 }
 
-bool ON_Viewport::IsCameraFrameWorldPlan( 
+bool ON_Viewport::IsCameraFrameWorldPlan(
       int* xindex,
       int* yindex,
       int* zindex
@@ -1212,7 +1212,7 @@ bool ON_Viewport::IsCameraFrameWorldPlan(
 }
 
 
-bool ON_Viewport::GetCameraExtents( 
+bool ON_Viewport::GetCameraExtents(
     // returns bounding box in camera coordinates - this is useful information
     // for setting view frustrums to include the point list
     int count,            // count = number of 3d points
@@ -1238,7 +1238,7 @@ bool ON_Viewport::GetCameraExtents(
   return rc;
 }
 
-bool ON_Viewport::GetCameraExtents( 
+bool ON_Viewport::GetCameraExtents(
     // returns bounding box in camera coordinates - this is useful information
     // for setting view frustrums to include the point list
     const ON_BoundingBox& wbox, // world coordinate bounding box
@@ -1254,7 +1254,7 @@ bool ON_Viewport::GetCameraExtents(
   return rc;
 }
 
-bool ON_Viewport::GetCameraExtents( 
+bool ON_Viewport::GetCameraExtents(
     // returns bounding box in camera coordinates - this is useful information
     // for setting view frustrums to include the point list
     ON_3dPoint& worldSphereCenter,
@@ -1293,17 +1293,17 @@ static void UpdateTargetPointHelper( ON_Viewport& vp, double target_distance )
   ON_3dPoint old_tp = vp.TargetPoint();
 
   // Put the target directly in front of the camera.
-  // The target_tol test is here to avoid making insignificant 
+  // The target_tol test is here to avoid making insignificant
   // changes that appear in the user interface and upset users
   // who find 1.00000000001 to be grossly different from 1.0.
   double target_tol = 1.0e-5*(vp.FrustumWidth()+vp.FrustumHeight())
                     + ON_ZERO_TOLERANCE;
   ON_3dPoint new_tp = vp.CameraLocation() - target_distance*vp.CameraZ();
-  if ( new_tp.IsValid() 
+  if ( new_tp.IsValid()
        && (!old_tp.IsValid() || new_tp.DistanceTo(old_tp) > target_tol)
      )
   {
-    vp.SetTargetPoint(new_tp); 
+    vp.SetTargetPoint(new_tp);
   }
 }
 
@@ -1314,7 +1314,7 @@ bool ON_Viewport::ChangeToParallelProjection( bool bSymmetricFrustum )
   SetCameraUpLock(false);
   SetCameraDirectionLock(false);
 
-  if (    ON::parallel_view == m_projection 
+  if (    ON::parallel_view == m_projection
        && (bSymmetricFrustum?true:false) == FrustumIsLeftRightSymmetric()
        && (bSymmetricFrustum?true:false) == FrustumIsTopBottomSymmetric()
      )
@@ -1324,7 +1324,7 @@ bool ON_Viewport::ChangeToParallelProjection( bool bSymmetricFrustum )
   }
 
   // if needed, make frustum symmetric
-  // If bSymmetricFrustum is true and the input frustum is not symmetric, 
+  // If bSymmetricFrustum is true and the input frustum is not symmetric,
   // then this will dolly the camera location.
   ChangeToSymmetricFrustum(bSymmetricFrustum,bSymmetricFrustum,ON_UNSET_VALUE);
   SetFrustumTopBottomSymmetry(bSymmetricFrustum);
@@ -1332,11 +1332,11 @@ bool ON_Viewport::ChangeToParallelProjection( bool bSymmetricFrustum )
 
   const ON::view_projection old_projection = m_projection;
   double target_distance = TargetDistance(true);
-  if ( !ON_IsValid(target_distance) 
+  if ( !ON_IsValid(target_distance)
        || !m_bValidFrustum
        || !ON_IsValid(m_frus_near)
        || m_frus_near <= 0.0
-       || target_distance <= m_frus_near 
+       || target_distance <= m_frus_near
        )
   {
     target_distance = 0.0; // makes it easier to check for valid target distance
@@ -1362,9 +1362,9 @@ bool ON_Viewport::ChangeToParallelProjection( bool bSymmetricFrustum )
         // parallel projection. If needed, SetFrustum() will make the
         // frustum symmetric
         double s = target_distance/m_frus_near;
-        double l = m_frus_left*s; 
-        double r = m_frus_right*s; 
-        double t = m_frus_top*s; 
+        double l = m_frus_left*s;
+        double r = m_frus_right*s;
+        double t = m_frus_top*s;
         double b = m_frus_bottom*s;
         if ( !SetFrustum( l, r, b, t, m_frus_near, m_frus_far ))
           rc = false;
@@ -1393,7 +1393,7 @@ static bool ChangeFromParallelToPerspectiveHelper( ON_Viewport& vp, double targe
 
   // Using width because it works for both two point and ordinary perspective
   const double width = fabs(frus_right - frus_left);
-  const ON_3dPoint width_point = ( ON_IsValid(target_distance) && target_distance > 0.0) 
+  const ON_3dPoint width_point = ( ON_IsValid(target_distance) && target_distance > 0.0)
                                ? vp.CameraLocation() - target_distance*vp.CameraZ()
                                : ON_3dPoint::UnsetPoint;
 
@@ -1409,9 +1409,9 @@ static bool ChangeFromParallelToPerspectiveHelper( ON_Viewport& vp, double targe
   if ( ON_IsValid(lens_length) && lens_length > 0.0 )
   {
     rc = vp.SetCamera35mmLensLength(lens_length);
-    if ( rc 
+    if ( rc
          && width_point.IsValid()
-         && !vp.CameraLocationIsLocked() 
+         && !vp.CameraLocationIsLocked()
          && vp.GetFrustum(&frus_left,&frus_right,&frus_bottom,&frus_top,&frus_near,&frus_far)
          && frus_near > 0.0
        )
@@ -1435,7 +1435,7 @@ static bool ChangeFromParallelToPerspectiveHelper( ON_Viewport& vp, double targe
   return rc;
 }
 
-bool ON_Viewport::ChangeToPerspectiveProjection( 
+bool ON_Viewport::ChangeToPerspectiveProjection(
           double target_distance,
           bool bSymmetricFrustum,
           double lens_length
@@ -1446,15 +1446,15 @@ bool ON_Viewport::ChangeToPerspectiveProjection(
   SetCameraUpLock(false);
   SetCameraDirectionLock(false);
 
-  if (    ON::perspective_view == m_projection 
+  if (    ON::perspective_view == m_projection
        && (bSymmetricFrustum?true:false) == FrustumIsLeftRightSymmetric()
        && (bSymmetricFrustum?true:false) == FrustumIsTopBottomSymmetric()
      )
   {
     double current_lens_length = lens_length;
-    if ( ON_IsValid(lens_length) 
-         && lens_length > 0.0 
-         && GetCamera35mmLensLength(&current_lens_length) 
+    if ( ON_IsValid(lens_length)
+         && lens_length > 0.0
+         && GetCamera35mmLensLength(&current_lens_length)
          && fabs(current_lens_length - lens_length) > 0.125
         )
     {
@@ -1467,7 +1467,7 @@ bool ON_Viewport::ChangeToPerspectiveProjection(
   if ( !ON_IsValid(target_distance) || target_distance <= 0.0 )
     target_distance = TargetDistance(true);
 
-  // If needed, make frustum symmetric.  This may move the 
+  // If needed, make frustum symmetric.  This may move the
   // camera location in a direction perpendicular to m_CamZ.
   ChangeToSymmetricFrustum(bSymmetricFrustum,bSymmetricFrustum,target_distance);
   SetFrustumTopBottomSymmetry(bSymmetricFrustum);
@@ -1553,7 +1553,7 @@ bool GetTwoPointPerspectiveUpAndDirHelper( const ON_3dVector& up,
   return false;
 }
 
-bool ON_Viewport::ChangeToTwoPointPerspectiveProjection( 
+bool ON_Viewport::ChangeToTwoPointPerspectiveProjection(
         double target_distance,
         ON_3dVector up,
         double lens_length
@@ -1566,9 +1566,9 @@ bool ON_Viewport::ChangeToTwoPointPerspectiveProjection(
   if ( IsTwoPointPerspectiveProjection() )
   {
     double current_lens_length = lens_length;
-    if ( ON_IsValid(lens_length) 
-         && lens_length > 0.0 
-         && GetCamera35mmLensLength(&current_lens_length) 
+    if ( ON_IsValid(lens_length)
+         && lens_length > 0.0
+         && GetCamera35mmLensLength(&current_lens_length)
          && fabs(current_lens_length - lens_length) > 0.125
         )
     {
@@ -1581,7 +1581,7 @@ bool ON_Viewport::ChangeToTwoPointPerspectiveProjection(
   if ( !ON_IsValid(target_distance) || target_distance <= 0.0 )
     target_distance = TargetDistance(true);
 
-  // if needed, make frustum left/right symmetric. This may move the 
+  // if needed, make frustum left/right symmetric. This may move the
   // camera location in a direction perpendicular to m_CamZ.
   ChangeToSymmetricFrustum(true,false,target_distance);
   SetFrustumLeftRightSymmetry(true);
@@ -1648,12 +1648,12 @@ bool ON_Viewport::SetProjection( ON::view_projection projection )
     return true;
 
   bool rc = false;
-  if ( projection == ON::perspective_view ) 
+  if ( projection == ON::perspective_view )
   {
     rc = true;
     m_projection = ON::perspective_view;
   }
-  else 
+  else
   {
     rc = (projection == ON::parallel_view);
     m_projection = ON::parallel_view;
@@ -1679,9 +1679,9 @@ bool ON_Viewport::IsPerspectiveProjection() const
 
 bool ON_Viewport::IsTwoPointPerspectiveProjection() const
 {
-  bool rc =    IsPerspectiveProjection() 
-            && CameraUpIsLocked() 
-            && FrustumIsLeftRightSymmetric() 
+  bool rc =    IsPerspectiveProjection()
+            && CameraUpIsLocked()
+            && FrustumIsLeftRightSymmetric()
             && !FrustumIsTopBottomSymmetric();
   return rc;
 }
@@ -1696,21 +1696,21 @@ bool ON_Viewport::SetFrustum(
       )
 {
   bool rc = false;
-  if (  
+  if (
           ON_IsValid(frus_left)
        && ON_IsValid(frus_right)
        && ON_IsValid(frus_top)
        && ON_IsValid(frus_bottom)
        && ON_IsValid(frus_near)
        && ON_IsValid(frus_far)
-       && frus_left < frus_right 
-       && frus_bottom < frus_top 
-       && 0.0 < frus_near 
-       && frus_near < frus_far 
-     ) 
+       && frus_left < frus_right
+       && frus_bottom < frus_top
+       && 0.0 < frus_near
+       && frus_near < frus_far
+     )
   {
-    if ( IsPerspectiveProjection() 
-         && (frus_near <= 1.0e-8 || frus_far > 1.0001e8*frus_near) 
+    if ( IsPerspectiveProjection()
+         && (frus_near <= 1.0e-8 || frus_far > 1.0001e8*frus_near)
        )
     {
       ON_ERROR("ON_Viewport::SetFrustum - Beyond float precision perspective frus_near/frus_far values - will crash MS OpenGL");
@@ -1784,16 +1784,16 @@ double ON_Viewport::FrustumFar()    const { return m_frus_far;  }
 double ON_Viewport::FrustumWidth()  const { return m_frus_right-m_frus_left; }
 double ON_Viewport::FrustumHeight() const { return m_frus_top-m_frus_bottom; }
 
-double ON_Viewport::FrustumMinimumDiameter() const 
-{ 
-  double w = fabs(m_frus_right-m_frus_left); 
+double ON_Viewport::FrustumMinimumDiameter() const
+{
+  double w = fabs(m_frus_right-m_frus_left);
   double h = fabs(m_frus_top-m_frus_bottom);
   return (w<=h)?w:h;
 }
 
 double ON_Viewport::FrustumMaximumDiameter() const
-{ 
-  double w = fabs(m_frus_right-m_frus_left); 
+{
+  double w = fabs(m_frus_right-m_frus_left);
   double h = fabs(m_frus_top-m_frus_bottom);
   return (w<=h)?w:h;
 }
@@ -1880,10 +1880,10 @@ bool ON_Viewport::GetFrustumCenter( double* frus_center ) const
   return true;
 }
 
-bool ON_Viewport::SetScreenPort( 
-      int port_left, 
+bool ON_Viewport::SetScreenPort(
+      int port_left,
       int port_right,
-      int port_bottom, 
+      int port_bottom,
       int port_top,
       int port_near, // = 0
       int port_far   // = 0
@@ -1897,7 +1897,7 @@ bool ON_Viewport::SetScreenPort(
   m_port_right  = port_right;
   m_port_bottom = port_bottom;
   m_port_top    = port_top;
-  if ( port_near || port_near != port_far ) 
+  if ( port_near || port_near != port_far )
   {
     m_port_near   = port_near;
     m_port_far    = port_far;
@@ -1906,7 +1906,7 @@ bool ON_Viewport::SetScreenPort(
   return m_bValidPort;
 }
 
-bool ON_Viewport::GetScreenPort( 
+bool ON_Viewport::GetScreenPort(
       int* port_left,
       int* port_right,
       int* port_bottom,
@@ -1947,7 +1947,7 @@ bool ON_Viewport::GetScreenPortAspect(double& aspect) const
   const double width = m_port_right - m_port_left;
   const double height = m_port_top - m_port_bottom;
   aspect = ( m_bValidPort && ON_IsValid(height) && ON_IsValid(width) && height != 0.0 )
-         ? fabs(width/height) 
+         ? fabs(width/height)
          : 0.0;
   return (m_bValidPort && aspect != 0.0);
 }
@@ -1969,7 +1969,7 @@ INPUT:
     Rhino viewport target point (3d point that is center of view rotations)
   rhvp_angle1, rhvp_angle2, rhvp_angle3
     Rhino viewport angle settings
-  rhvp_viewsize 
+  rhvp_viewsize
     In perspective, rhvp_viewsize = tangent(half lens angle).
     In parallel, rhvp_viewsize = 1/2 * minimum(frustum width,frustum height)
   rhvp_cameradistance ( > 0 )
@@ -1980,7 +1980,7 @@ INPUT:
   vp.SetProjection( projection );
   /*
   width, height
-    width and height of viewport  
+    width and height of viewport
     ( = RhinoViewport->width, RhinoViewport->height )
   z_buffer_depth
     depth for the z buffer.  0xFFFF is currently used for Rhino
@@ -1992,15 +1992,15 @@ INPUT:
   // that are using this class to actually draw a picture, can make a subsequent
   // call to SetScreenPort().
 
-  const double height = (screen_width < 1 || screen_height < 1) 
+  const double height = (screen_width < 1 || screen_height < 1)
                       ? 1000.0 : (double)screen_height;
-  const double width  = (screen_width < 1 || screen_height < 1) 
+  const double width  = (screen_width < 1 || screen_height < 1)
                       ? 1000.0 : (double)screen_width;
   //const int z_buffer_depth = 0xFFFF; // value Rhino "Shade" command uses
 
   // Use this function to obtain standard view information from a Rhino VIEWPORT
   // view. The Rhino viewport has many entries.  As of 17 October, 1997 all Rhino
-  // world to clipping transformation information is derived from the VIEWPORT 
+  // world to clipping transformation information is derived from the VIEWPORT
   // fields:
   //
   //   target, angle1, angle2, angle3, viewsize, and cameradist.
@@ -2045,9 +2045,9 @@ INPUT:
   // Camera coordinates "Z" = -CameraDirection
 
   // Rhino 1.0 did not support skew projections.  In other words, the
-  // view frustum is symmetric and ray that begins at CameraLocation and 
+  // view frustum is symmetric and ray that begins at CameraLocation and
   // goes along CameraDirection runs along the frustum's central axis.
-  // The aspect ratio of the view frustum equals 
+  // The aspect ratio of the view frustum equals
   // (screen port width)/(screen port height)
   // This means frus_left = -frus_right, frus_bottom = -frus_top, and
   // frus_top/frus_right = height/width
@@ -2056,8 +2056,8 @@ INPUT:
   // the depth of the pixel is important, then the near and far clipping
   // plane will need to be adjusted later.
   // Rhino 1.0 didn't have a far clipping plane in wire frame (which explains
-  // why you can get perspective views reversed through the origin by using 
-  // the SetCameraTarget() command.  It's near clipping plane is set to 
+  // why you can get perspective views reversed through the origin by using
+  // the SetCameraTarget() command.  It's near clipping plane is set to
   // a miniscule value.  For mesh rendering, it must come up with some
   // sort of reasonable near and far clipping planes because the zbuffer
   // is used correctly.  When time permits, I'll dig through the rendering
@@ -2088,9 +2088,9 @@ INPUT:
   frustum_bottom = -frustum_top;
 
 
-  vp.SetFrustum( 
-         frustum_left,   frustum_right, 
-         frustum_bottom, frustum_top, 
+  vp.SetFrustum(
+         frustum_left,   frustum_right,
+         frustum_bottom, frustum_top,
          near_clipping_distance, far_clipping_distance );
 
   // Windows specific stuff that requires knowing size of client area in pixels
@@ -2101,9 +2101,9 @@ INPUT:
   return (vp.IsValid()?true:false);
 }
 
-bool ON_Viewport::GetCameraAngle( 
+bool ON_Viewport::GetCameraAngle(
        double* angle,
-       double* angle_h, 
+       double* angle_h,
        double* angle_w
        ) const
 {
@@ -2115,7 +2115,7 @@ bool ON_Viewport::GetCameraAngle(
   if ( angle_w )
     *angle_w = 0.0;
   double half_w, half_h, left, right, bot, top, near_dist;
-  if ( GetFrustum( &left, &right, &bot, &top, &near_dist, NULL ) ) 
+  if ( GetFrustum( &left, &right, &bot, &top, &near_dist, NULL ) )
   {
     half_w = ( right > -left ) ? right : -left;
     half_h = ( top   > -bot  ) ? top   : -bot;
@@ -2133,7 +2133,7 @@ bool ON_Viewport::GetCameraAngle(
   return rc;
 }
 
-bool ON_Viewport::GetCameraAngle( 
+bool ON_Viewport::GetCameraAngle(
        double* angle
        ) const
 {
@@ -2185,7 +2185,7 @@ bool ON_Viewport::GetCamera35mmLensLength( double* lens_length ) const
   if ( !lens_length )
     return false;
   *lens_length = 0.0;
-  if ( !GetFrustum( &frus_left, &frus_right, &frus_bottom, &frus_top, 
+  if ( !GetFrustum( &frus_left, &frus_right, &frus_bottom, &frus_top,
                      &frus_near, &frus_far ) )
     return false;
   if ( frus_near <= 0.0 )
@@ -2216,7 +2216,7 @@ bool ON_Viewport::SetCamera35mmLensLength( double lens_length )
   double frus_left, frus_right, frus_bottom, frus_top, frus_near, frus_far;
   if ( !ON_IsValid(lens_length) || lens_length <= 0.0 )
     return false;
-  if ( !GetFrustum( &frus_left, &frus_right, &frus_bottom, &frus_top, 
+  if ( !GetFrustum( &frus_left, &frus_right, &frus_bottom, &frus_top,
                      &frus_near, &frus_far ) )
     return false;
   if ( frus_near <= 0.0 )
@@ -2241,7 +2241,7 @@ bool ON_Viewport::SetCamera35mmLensLength( double lens_length )
   return SetFrustum( frus_left, frus_right, frus_bottom, frus_top, frus_near, frus_far );
 }
 
-bool ON_Viewport::GetXform( 
+bool ON_Viewport::GetXform(
        ON::coordinate_system srcCS,
        ON::coordinate_system destCS,
        ON_Xform& xform
@@ -2252,7 +2252,7 @@ bool ON_Viewport::GetXform(
 
   xform.Identity();
 
-  switch( srcCS ) 
+  switch( srcCS )
   {
   case ON::world_cs:
   case ON::camera_cs:
@@ -2262,7 +2262,7 @@ bool ON_Viewport::GetXform(
   default:
     return false;
   }
-  switch( destCS ) 
+  switch( destCS )
   {
   case ON::world_cs:
   case ON::camera_cs:
@@ -2277,14 +2277,14 @@ bool ON_Viewport::GetXform(
     return true;
 
 
-  switch ( srcCS ) 
+  switch ( srcCS )
   {
 
   case ON::world_cs:
     if ( !m_bValidCamera )
       break;
 
-    switch ( destCS ) 
+    switch ( destCS )
     {
     case ON::camera_cs:
       xform.WorldToCamera( m_CamLoc, m_CamX, m_CamY, m_CamZ );
@@ -2317,7 +2317,7 @@ bool ON_Viewport::GetXform(
     if ( !m_bValidCamera )
       break;
 
-    switch ( destCS ) 
+    switch ( destCS )
     {
     case ON::world_cs:
       xform.CameraToWorld( m_CamLoc, m_CamX, m_CamY, m_CamZ );
@@ -2325,10 +2325,10 @@ bool ON_Viewport::GetXform(
       break;
 
     case ON::clip_cs:
-      if ( m_bValidFrustum ) 
+      if ( m_bValidFrustum )
       {
         ON_Xform cam2clip;
-        cam2clip.CameraToClip( 
+        cam2clip.CameraToClip(
           IsPerspectiveProjection(),
           m_frus_left, m_frus_right,
           m_frus_bottom, m_frus_top,
@@ -2353,7 +2353,7 @@ bool ON_Viewport::GetXform(
     break;
 
   case ON::clip_cs:
-    switch ( destCS ) 
+    switch ( destCS )
     {
     case ON::world_cs:
       rc = GetXform( ON::clip_cs,   ON::camera_cs, x0 );
@@ -2364,7 +2364,7 @@ bool ON_Viewport::GetXform(
       break;
 
     case ON::camera_cs:
-      if ( m_bValidFrustum ) 
+      if ( m_bValidFrustum )
       {
         ON_Xform clip2cam;
         clip2cam.ClipToCamera(
@@ -2378,10 +2378,10 @@ bool ON_Viewport::GetXform(
       break;
 
     case ON::screen_cs:
-      if ( m_bValidPort ) 
+      if ( m_bValidPort )
       {
-        xform.ClipToScreen( 
-          m_port_left, m_port_right, 
+        xform.ClipToScreen(
+          m_port_left, m_port_right,
           m_port_bottom, m_port_top,
           m_port_near, m_port_far );
         rc = true;
@@ -2395,7 +2395,7 @@ bool ON_Viewport::GetXform(
     break;
 
   case ON::screen_cs:
-    switch ( destCS ) 
+    switch ( destCS )
     {
     case ON::world_cs:
       rc = GetXform( ON::screen_cs, ON::camera_cs, x0 );
@@ -2414,7 +2414,7 @@ bool ON_Viewport::GetXform(
     case ON::clip_cs:
       if ( m_bValidPort ) {
         xform.ScreenToClip(
-          m_port_left, m_port_right, 
+          m_port_left, m_port_right,
           m_port_bottom, m_port_top,
           m_port_near, m_port_far );
         rc = true;
@@ -2462,7 +2462,7 @@ static double clipDist( const double* camLoc, const double* camZ, const double* 
 }
 
 
-bool ON_Viewport::SetFrustumNearFar( 
+bool ON_Viewport::SetFrustumNearFar(
        const double* box_min,
        const double* box_max
        )
@@ -2526,7 +2526,7 @@ bool ON_Viewport::SetFrustumNearFar(
   return rc;
 }
 
-bool ON_Viewport::SetFrustumNearFar( 
+bool ON_Viewport::SetFrustumNearFar(
        const double* center,
        double        radius
        )
@@ -2535,9 +2535,9 @@ bool ON_Viewport::SetFrustumNearFar(
   double n, f, d;
   double camLoc[3], camZ[3], P[3];
 
-  if ( !center 
-       || !ON_IsValid(center[0]) 
-       || !ON_IsValid(center[1]) 
+  if ( !center
+       || !ON_IsValid(center[0])
+       || !ON_IsValid(center[1])
        || !ON_IsValid(center[2])
        || !ON_IsValid(radius)
      )
@@ -2545,7 +2545,7 @@ bool ON_Viewport::SetFrustumNearFar(
     return false;
   }
 
-  if ( GetCameraFrame( camLoc, NULL, NULL, camZ ) ) 
+  if ( GetCameraFrame( camLoc, NULL, NULL, camZ ) )
   {
     d = fabs(radius);
     P[0] = center[0] + d*camZ[0];
@@ -2577,9 +2577,9 @@ bool ON_Viewport::SetFrustumNearFar( double n, double f )
   // This is a bare bones setter.  Except for the perspective 0 < n < f
   // requirement, do not add checking here.
   //
-  // Use the ON_Viewport::SetFrustumNearFar( near_dist, 
-  //                                         far_dist, 
-  //                                         min_near_dist, 
+  // Use the ON_Viewport::SetFrustumNearFar( near_dist,
+  //                                         far_dist,
+  //                                         min_near_dist,
   //                                         min_near_over_far,
   //                                         target_dist );
   //
@@ -2587,14 +2587,14 @@ bool ON_Viewport::SetFrustumNearFar( double n, double f )
 
   double d, frus_left, frus_right, frus_bottom, frus_top, frus_near, frus_far;
   bool rc = false;
-  if ( ON_IsValid(n) && ON_IsValid(f) && n > 0.0 && f > n ) 
+  if ( ON_IsValid(n) && ON_IsValid(f) && n > 0.0 && f > n )
   {
-    if ( GetFrustum( &frus_left,   &frus_right, 
-                      &frus_bottom, &frus_top, 
-                      &frus_near,   &frus_far ) ) 
+    if ( GetFrustum( &frus_left,   &frus_right,
+                      &frus_bottom, &frus_top,
+                      &frus_near,   &frus_far ) )
     {
       // preserve valid frustum
-      if ( IsPerspectiveProjection() ) 
+      if ( IsPerspectiveProjection() )
       {
         d = n/frus_near;
         frus_left *= d;
@@ -2604,11 +2604,11 @@ bool ON_Viewport::SetFrustumNearFar( double n, double f )
       }
       frus_near = n;
       frus_far = f;
-      rc = SetFrustum( frus_left,   frus_right, 
-                       frus_bottom, frus_top, 
+      rc = SetFrustum( frus_left,   frus_right,
+                       frus_bottom, frus_top,
                        frus_near,   frus_far );
     }
-    else 
+    else
     {
       if ( IsPerspectiveProjection() && (n <= 1.0e-8 || f > 1.0001e8*n) )
       {
@@ -2623,8 +2623,8 @@ bool ON_Viewport::SetFrustumNearFar( double n, double f )
 }
 
 
-bool ON_Viewport::ChangeToSymmetricFrustum( 
-    bool bLeftRightSymmetric, 
+bool ON_Viewport::ChangeToSymmetricFrustum(
+    bool bLeftRightSymmetric,
     bool bTopBottomSymmetric,
     double target_distance
     )
@@ -2683,7 +2683,7 @@ bool ON_Viewport::ChangeToSymmetricFrustum(
       ON_3dPoint cam_loc = m_CamLoc + dx*m_CamX + dy*m_CamY;
       SetCameraLocation(cam_loc);
     }
-  } 
+  }
 
   return true;
 }
@@ -2695,9 +2695,9 @@ bool ON_Viewport::GetWorldToScreenScale( const ON_3dPoint& P, double* scale ) co
     ON_Xform w2s;
     ON_3dVector X;
     ON_3dPoint Q, ScrC, ScrQ;
-    if (!GetCameraFrame( NULL, X, NULL, NULL )) 
+    if (!GetCameraFrame( NULL, X, NULL, NULL ))
       return false;
-    if (!GetXform( ON::world_cs, ON::screen_cs, w2s )) 
+    if (!GetXform( ON::world_cs, ON::screen_cs, w2s ))
       return false;
     Q = P+X;
     ScrC = w2s*P;
@@ -2707,8 +2707,8 @@ bool ON_Viewport::GetWorldToScreenScale( const ON_3dPoint& P, double* scale ) co
   return true;
 }
 
-bool ON_Viewport::GetCoordinateSprite( 
-                     int size, 
+bool ON_Viewport::GetCoordinateSprite(
+                     int size,
                      int scrx, int scry,
                      int indx[3], // axis order by depth
                      double scr_coord[3][2] ) const
@@ -2724,9 +2724,9 @@ bool ON_Viewport::GetCoordinateSprite(
   ON_Xform w2s;
   if (!GetFrustumCenter( C ) )
     return false;
-  if (!GetCameraFrame( NULL, X, NULL, Z )) 
+  if (!GetCameraFrame( NULL, X, NULL, Z ))
     return false;
-  if (!GetXform( ON::world_cs, ON::screen_cs, w2s )) 
+  if (!GetXform( ON::world_cs, ON::screen_cs, w2s ))
     return false;
 
   // indx[] determines order that axes are drawn
@@ -2755,11 +2755,11 @@ bool ON_Viewport::GetCoordinateSprite(
   Scr[0] = w2s*XP;
   Scr[1] = w2s*YP;
   Scr[2] = w2s*ZP;
-  
+
   double dx = scrx - ScrC.x;
   double dy = scry - ScrC.y;
   for (i=0;i<3;i++) {
-    scr_coord[i][0] = dx + Scr[i].x; 
+    scr_coord[i][0] = dx + Scr[i].x;
     scr_coord[i][1] = dy + Scr[i].y;
   }
 
@@ -2795,7 +2795,7 @@ static ON_BOOL32 GetRelativeScreenCoordinates(
   s1 = ((double)(x1 - port_left))/((double)(port_right - port_left));
   t0 = ((double)(y0 - port_bottom))/((double)(port_top - port_bottom));
   t1 = ((double)(y1 - port_bottom))/((double)(port_top - port_bottom));
-  
+
   double tol = 0.001;
   if ( fabs(s0) <= tol ) s0 = 0.0; else if (fabs(s0-1.0) <= tol ) s0 = 1.0;
   if ( fabs(s1) <= tol ) s1 = 0.0; else if (fabs(s1-1.0) <= tol ) s1 = 1.0;
@@ -2811,8 +2811,8 @@ static ON_BOOL32 GetRelativeScreenCoordinates(
 bool ON_Viewport::ZoomToScreenRect( int x0, int y0, int x1, int y1 )
 {
   int port_left, port_right, port_bottom, port_top, port_near, port_far;
-  if ( !GetScreenPort( &port_left, &port_right, 
-                       &port_bottom, &port_top, 
+  if ( !GetScreenPort( &port_left, &port_right,
+                       &port_bottom, &port_top,
                        &port_near, &port_far ) )
     return false;
 
@@ -2836,8 +2836,8 @@ bool ON_Viewport::ZoomToScreenRect( int x0, int y0, int x1, int y1 )
   y0 += dy;
   y1 += dy;
   double frus_left, frus_right, frus_bottom, frus_top, frus_near, frus_far;
-  if ( !GetFrustum( &frus_left,   &frus_right, 
-                     &frus_bottom, &frus_top, 
+  if ( !GetFrustum( &frus_left,   &frus_right,
+                     &frus_bottom, &frus_top,
                      &frus_near,   &frus_far ) )
     return false;
   double s0,t0,s1,t1;
@@ -2897,8 +2897,8 @@ ON_BOOL32 ON_Viewport::DollyToScreenRect( double view_plane_distance,
   y1 += dy;
 
   double frus_left, frus_right, frus_bottom, frus_top, frus_near, frus_far;
-  if ( !GetFrustum( &frus_left,   &frus_right, 
-                     &frus_bottom, &frus_top, 
+  if ( !GetFrustum( &frus_left,   &frus_right,
+                     &frus_bottom, &frus_top,
                      &frus_near,   &frus_far ) )
     return false;
 
@@ -3004,11 +3004,11 @@ bool ON_Viewport::Extents( double angle, const ON_3dPoint& center, double radius
 
   double target_dist, near_dist, far_dist;
 
-  if ( radius <= 0.0 || 
-       angle  <= 0.0 || 
+  if ( radius <= 0.0 ||
+       angle  <= 0.0 ||
        angle  >= 0.5*ON_PI*(1.0-ON_SQRT_EPSILON) )
     return false;
-  
+
   target_dist = radius/sin(angle);
   if ( !IsPerspectiveProjection() )
   {
@@ -3099,7 +3099,7 @@ void ON_Viewport::Dump( ON_TextLog& dump ) const
   dump.PopIndent();
 }
 
-bool ON_Viewport::GetPointDepth(       
+bool ON_Viewport::GetPointDepth(
        ON_3dPoint point,
        double* near_dist,
        double* far_dist,
@@ -3119,7 +3119,7 @@ bool ON_Viewport::GetPointDepth(
   return rc;
 }
 
-bool ON_Viewport::GetPointDepth(       
+bool ON_Viewport::GetPointDepth(
        ON_3dPoint point,
        double* view_plane_depth
        ) const
@@ -3135,7 +3135,7 @@ bool ON_Viewport::GetPointDepth(
   return rc;
 }
 
-bool ON_Viewport::GetBoundingBoxDepth(       
+bool ON_Viewport::GetBoundingBoxDepth(
        ON_BoundingBox bbox,
        double* near_dist,
        double* far_dist,
@@ -3182,7 +3182,7 @@ bool ON_Viewport::GetBoundingBoxDepth(
 
     S[4].ON_3dVector::operator=(-m_CamZ);
     S[4].d = -S[4].ON_3dVector::operator*(m_CamLoc);
-    
+
     Pcount = 0;
     Pin = 0;
     Pout = 0;
@@ -3191,7 +3191,7 @@ bool ON_Viewport::GetBoundingBoxDepth(
     {
       k = 0;
       if ( (v[0][i] = S[0].ValueAt(C[i])) >= -tol )
-        k |= 1;      
+        k |= 1;
       else
         Pout |= 1;
       if ( (v[1][i] = S[1].ValueAt(C[i])) >= -tol )
@@ -3267,8 +3267,8 @@ bool ON_Viewport::GetBoundingBoxDepth(
         // of both planes whose intersection defines the line L[i].
         // The fast integer test helps cull unnecessary calls to
         // the expensive ON_Intersect() function.
-        if (    Linout[i] == (k & Linout[i]) 
-             && ON_Intersect(bbox,L[i],tol,(ON_Interval*)t) 
+        if (    Linout[i] == (k & Linout[i])
+             && ON_Intersect(bbox,L[i],tol,(ON_Interval*)t)
            )
         {
           if ( bPerspectiveProjection )
@@ -3363,7 +3363,7 @@ bool ON_Viewport::GetBoundingBoxDepth(
   return rc;
 }
 
-bool ON_Viewport::GetSphereDepth( 
+bool ON_Viewport::GetSphereDepth(
        ON_Sphere sphere,
        double* near_dist,
        double* far_dist,
@@ -3381,7 +3381,7 @@ bool ON_Viewport::GetSphereDepth(
   return rc;
 }
 
-bool ON_Viewport::SetFrustumNearFar( 
+bool ON_Viewport::SetFrustumNearFar(
        double near_dist,
        double far_dist,
        double min_near_dist,
@@ -3405,7 +3405,7 @@ bool ON_Viewport::SetFrustumNearFar(
                             ? m__MIN_NEAR_DIST
                             : ON_Viewport::DefaultMinNearDist;
   const double MIN_NEAR_OVER_FAR = (    ON_IsValid(m__MIN_NEAR_OVER_FAR)
-                                     && m__MIN_NEAR_OVER_FAR > tiny 
+                                     && m__MIN_NEAR_OVER_FAR > tiny
                                      && m__MIN_NEAR_OVER_FAR < 1.0-tiny )
                                  ? m__MIN_NEAR_OVER_FAR
                                  : ON_Viewport::DefaultMinNearOverFar;
@@ -3417,8 +3417,8 @@ bool ON_Viewport::SetFrustumNearFar(
     min_near_dist = MIN_NEAR_DIST;
   }
 
-  if (    !ON_IsValid(min_near_over_far) 
-       || min_near_over_far <= tiny 
+  if (    !ON_IsValid(min_near_over_far)
+       || min_near_over_far <= tiny
        || min_near_over_far >= 1.0-tiny )
   {
     min_near_over_far = MIN_NEAR_OVER_FAR;
@@ -3437,7 +3437,7 @@ bool ON_Viewport::SetFrustumNearFar(
       {
         far_dist =  2.0*target_dist - near_dist;
       }
-      if ( near_dist < min_near_over_far*far_dist ) 
+      if ( near_dist < min_near_over_far*far_dist )
         far_dist = near_dist/min_near_over_far;
     }
     // The 1.0001 fudge factor is to ensure successive calls to this function
@@ -3469,7 +3469,7 @@ bool ON_Viewport::SetFrustumNearFar(
 
         if ( near_dist/target_dist < min_near_over_far )
         {
-          if ( target_dist/far_dist <= sqrt(min_near_over_far) 
+          if ( target_dist/far_dist <= sqrt(min_near_over_far)
                && far_dist <= 4.0*target_dist )
           {
             // assume far_dist is good and just move up near_dist
@@ -3500,7 +3500,7 @@ bool ON_Viewport::SetFrustumNearFar(
               // should never happen
               ON_ERROR("ON_Viewport::SetFrustumNearFar arithmetic problem 1.");
             }
-            s = 1.0; 
+            s = 1.0;
           }
 
           // 19 Jan 2010, Mikko:
@@ -3539,7 +3539,7 @@ bool ON_Viewport::SetFrustumNearFar(
 
           if ( n < min_near_over_far*f )
             n = min_near_over_far*f;
-          else 
+          else
             f = n/min_near_over_far;
 
           near_dist = n;
@@ -3610,8 +3610,8 @@ bool ON_Viewport::SetFrustumNearFar(
 }
 
 
-bool ON_Viewport::GetFrustumLeftPlane( 
-  ON_Plane& left_plane 
+bool ON_Viewport::GetFrustumLeftPlane(
+  ON_Plane& left_plane
   ) const
 {
   bool rc = m_bValidCamera && m_bValidFrustum;
@@ -3638,7 +3638,7 @@ bool ON_Viewport::GetFrustumLeftPlane(
   return rc;
 }
 
-bool ON_Viewport::GetFrustumLeftPlaneEquation( 
+bool ON_Viewport::GetFrustumLeftPlaneEquation(
   ON_PlaneEquation& left_plane_equation
   ) const
 {
@@ -3665,8 +3665,8 @@ bool ON_Viewport::GetFrustumLeftPlaneEquation(
 }
 
 
-bool ON_Viewport::GetFrustumRightPlane( 
-  ON_Plane& right_plane 
+bool ON_Viewport::GetFrustumRightPlane(
+  ON_Plane& right_plane
   ) const
 {
   bool rc = m_bValidCamera && m_bValidFrustum;
@@ -3693,7 +3693,7 @@ bool ON_Viewport::GetFrustumRightPlane(
   return rc;
 }
 
-bool ON_Viewport::GetFrustumRightPlaneEquation( 
+bool ON_Viewport::GetFrustumRightPlaneEquation(
   ON_PlaneEquation& right_plane_equation
   ) const
 {
@@ -3720,8 +3720,8 @@ bool ON_Viewport::GetFrustumRightPlaneEquation(
 }
 
 
-bool ON_Viewport::GetFrustumBottomPlane( 
-  ON_Plane& bottom_plane 
+bool ON_Viewport::GetFrustumBottomPlane(
+  ON_Plane& bottom_plane
   ) const
 {
   bool rc = m_bValidCamera && m_bValidFrustum;
@@ -3749,7 +3749,7 @@ bool ON_Viewport::GetFrustumBottomPlane(
 }
 
 
-bool ON_Viewport::GetFrustumBottomPlaneEquation( 
+bool ON_Viewport::GetFrustumBottomPlaneEquation(
   ON_PlaneEquation& bottom_plane_equation
   ) const
 {
@@ -3776,8 +3776,8 @@ bool ON_Viewport::GetFrustumBottomPlaneEquation(
 }
 
 
-bool ON_Viewport::GetFrustumTopPlane( 
-  ON_Plane& top_plane 
+bool ON_Viewport::GetFrustumTopPlane(
+  ON_Plane& top_plane
   ) const
 {
   bool rc = m_bValidCamera && m_bValidFrustum;
@@ -3804,7 +3804,7 @@ bool ON_Viewport::GetFrustumTopPlane(
   return rc;
 }
 
-bool ON_Viewport::GetFrustumTopPlaneEquation( 
+bool ON_Viewport::GetFrustumTopPlaneEquation(
   ON_PlaneEquation& top_plane_equation
   ) const
 {
@@ -3870,8 +3870,8 @@ void ON_Viewport::GetViewScale( double* x, double* y ) const
 bool ON_Viewport::SetViewScale( double x, double y )
 {
   // 22 May Dale Lear
-  //   View scaling should have been done by adjusting the 
-  //   frustum left/right top/bottom but I was stupid and added a clipmodxform 
+  //   View scaling should have been done by adjusting the
+  //   frustum left/right top/bottom but I was stupid and added a clipmodxform
   //   that is more trouble than it is worth.
   //   Someday I will fix this.  In the mean time, I want all scaling requests
   //   to flow through SetViewScale/GetViewScale so I can easly find and fix
@@ -3884,9 +3884,9 @@ bool ON_Viewport::SetViewScale( double x, double y )
   //   when calling GetViewScale.  Removing the requirement to have one of the
   //   values == 1
   bool rc = false;
-  if (    !IsPerspectiveProjection() 
-       && x > ON_ZERO_TOLERANCE && ON_IsValid(x) 
-       && y > ON_ZERO_TOLERANCE && ON_IsValid(y) 
+  if (    !IsPerspectiveProjection()
+       && x > ON_ZERO_TOLERANCE && ON_IsValid(x)
+       && y > ON_ZERO_TOLERANCE && ON_IsValid(y)
        // && (1.0 == x || 1.0 == y)
        )
   {
@@ -3901,8 +3901,8 @@ bool ON_Viewport::SetViewScale( double x, double y )
 double ON_Viewport::ClipCoordDepthBias( double relative_depth_bias, double clip_z, double clip_w ) const
 {
   double d;
-  if ( m_frus_far > m_frus_near 
-       && 0.0 != relative_depth_bias 
+  if ( m_frus_far > m_frus_near
+       && 0.0 != relative_depth_bias
        && 0.0 != clip_w
      )
   {
@@ -3917,7 +3917,7 @@ double ON_Viewport::ClipCoordDepthBias( double relative_depth_bias, double clip_
       //
       // This function returns (r/s - z/w)*w
       //
-      // If you are actually doing this calculation and trying to 
+      // If you are actually doing this calculation and trying to
       // get the formula used in the code below, it helps to notice
       // that (f+n)/(f-n) = a/b.
       //
@@ -3928,7 +3928,7 @@ double ON_Viewport::ClipCoordDepthBias( double relative_depth_bias, double clip_
       // but the effect is actually better when the goal is to
       // make wires that are on shaded surfaces appear because
       // their horizons are not altered.
-      // 
+      //
       // This method is more complicated that adding a constant
       // depth buffer bias but is required for high quality images
       // when values of far/near get to be around 1e4 or larger.
@@ -3953,9 +3953,9 @@ double ON_Viewport::ClipCoordDepthBias( double relative_depth_bias, double clip_
   return d;
 }
 
-bool ON_Viewport::GetClipCoordDepthBiasXform( 
+bool ON_Viewport::GetClipCoordDepthBiasXform(
     double relative_depth_bias,
-    ON_Xform& clipbias 
+    ON_Xform& clipbias
     ) const
 {
   bool rc = false;
@@ -4047,7 +4047,7 @@ ON_3dPoint ON_Viewport::FrustumCenterPoint( double target_distance ) const
   if (!m_bValidCamera || !m_bValidFrustum)
     return target_point;
 
-  if ( ON_UNSET_VALUE == target_distance && m_bValidFrustum 
+  if ( ON_UNSET_VALUE == target_distance && m_bValidFrustum
        && m_frus_near > 0.0 && m_frus_far >= m_frus_near
      )
   {
@@ -4066,10 +4066,10 @@ ON_3dPoint ON_Viewport::FrustumCenterPoint( double target_distance ) const
     s  = (ON::perspective_view == m_projection && m_frus_near > 0.0)
        ? 0.5*target_distance/m_frus_near
        : 0.5;
-    dx = FrustumIsLeftRightSymmetric() 
+    dx = FrustumIsLeftRightSymmetric()
        ?  0.0
        : s*(m_frus_right+m_frus_left);
-    dy = FrustumIsTopBottomSymmetric() 
+    dy = FrustumIsTopBottomSymmetric()
        ?  0.0
        : s*(m_frus_top+m_frus_bottom);
   }
@@ -4107,8 +4107,8 @@ double ON_Viewport::TargetDistance( bool bUseFrustumCenterFallback ) const
       if ( bUseFrustumCenterFallback && (!ON_IsValid(d) || d <= 0.0) )
         d = ON_UNSET_VALUE;
     }
-    if ( bUseFrustumCenterFallback 
-        && ON_UNSET_VALUE == d 
+    if ( bUseFrustumCenterFallback
+        && ON_UNSET_VALUE == d
         && m_frus_far >= m_frus_near
         )
     {
@@ -4128,7 +4128,7 @@ bool ON_Viewport::SetViewportId( const ON_UUID& id)
   // it is set.
   bool rc = (0 == memcmp(&m_viewport_id,&id,sizeof(m_viewport_id)));
   if ( !rc && m_viewport_id == ON_nil_uuid )
-  {  
+  {
     m_viewport_id = id;
     rc = true;
   }
@@ -4155,7 +4155,7 @@ public:
   double m_negcotangle;
 };
 
-static 
+static
 int comparePptAngle( const void* pa, const void* pb )
 {
   double a = ((const ON_PgonPt*)pa)->m_negcotangle;
@@ -4168,10 +4168,10 @@ int comparePptAngle( const void* pa, const void* pb )
   return ((a>b) ? 1 : ((a==b) ? 0 : -1));
 }
 
-bool ON_IntersectViewFrustumPlane( 
+bool ON_IntersectViewFrustumPlane(
     const ON_Viewport& vp,
-    const ON_PlaneEquation& plane_equation, 
-    ON_SimpleArray<ON_3dPoint>& points 
+    const ON_PlaneEquation& plane_equation,
+    ON_SimpleArray<ON_3dPoint>& points
     )
 {
 
@@ -4197,7 +4197,7 @@ bool ON_IntersectViewFrustumPlane(
   if ( !plane.IsValid() )
     return false;
 
-  s = ON::perspective_view == vp.Projection() 
+  s = ON::perspective_view == vp.Projection()
     ? far_dist/near_dist
     : 1.0;
   F[0] = C + left*X  + bottom*Y + near_dist*Z;
@@ -4244,7 +4244,7 @@ bool ON_IntersectViewFrustumPlane(
   for ( i = 0; i < ppt_count; i++ )
   {
     plane.ClosestPointTo( ppt_list[i].m_P, &ppt_list[i].m_Q.x, &ppt_list[i].m_Q.y );
-    if (     ppt_list[i].m_Q.y < ppt_list[i0].m_Q.y 
+    if (     ppt_list[i].m_Q.y < ppt_list[i0].m_Q.y
          || (ppt_list[i].m_Q.y == ppt_list[i0].m_Q.y && ppt_list[i].m_Q.x < ppt_list[i0].m_Q.x) )
       i0 = i;
   }
@@ -4304,7 +4304,7 @@ bool ON_IntersectViewFrustumPlane(
   return true;
 }
 
-void ON_Viewport::GetPerspectiveClippingPlaneConstraints( 
+void ON_Viewport::GetPerspectiveClippingPlaneConstraints(
   ON_3dPoint camera_location,
   unsigned int depth_buffer_bit_depth,
   double* min_near_dist,

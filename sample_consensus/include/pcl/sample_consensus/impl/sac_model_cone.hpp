@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2009-2012, Willow Garage, Inc.
- *  
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -370,9 +370,9 @@ pcl::SampleConsensusModelCone<PointT, PointNT>::projectPoints (
     // Iterate through the 3d points and calculate the distances from them to the cone
     for (size_t i = 0; i < inliers.size (); ++i)
     {
-      Eigen::Vector4f pt (input_->points[inliers[i]].x, 
-                          input_->points[inliers[i]].y, 
-                          input_->points[inliers[i]].z, 
+      Eigen::Vector4f pt (input_->points[inliers[i]].x,
+                          input_->points[inliers[i]].y,
+                          input_->points[inliers[i]].z,
                           1);
 
       float k = (pt.dot (axis_dir) - apexdotdir) * dirdotdir;
@@ -481,7 +481,7 @@ pcl::SampleConsensusModelCone<PointT, PointNT>::pointToAxisDistance (
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointT, typename PointNT> bool 
+template <typename PointT, typename PointNT> bool
 pcl::SampleConsensusModelCone<PointT, PointNT>::isModelValid (const Eigen::VectorXf &model_coefficients)
 {
   // Needs a valid model coefficients
@@ -490,7 +490,7 @@ pcl::SampleConsensusModelCone<PointT, PointNT>::isModelValid (const Eigen::Vecto
     PCL_ERROR ("[pcl::SampleConsensusModelCone::isModelValid] Invalid number of model coefficients given (%zu)!\n", model_coefficients.size ());
     return (false);
   }
- 
+
   // Check against template, if given
   if (eps_angle_ > 0.0)
   {

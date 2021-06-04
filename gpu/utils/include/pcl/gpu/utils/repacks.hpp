@@ -53,9 +53,9 @@ namespace pcl
         const int NoCP = 0xFFFFFFFF;
 
         /** \brief Returns field copy operation code. */
-        inline int cp(int from, int to) 
-        { 
-            return ((to & 0xF) << 4) + (from & 0xF); 
+        inline int cp(int from, int to)
+        {
+            return ((to & 0xF) << 4) + (from & 0xF);
         }
 
         /* Combines several field copy operations to one int (called rule) */
@@ -65,7 +65,7 @@ namespace pcl
         }
 
         /* Combines performs all field copy operations in given rule array (can be 0, 1, or 16 copies) */
-        void copyFieldsImpl(int in_size, int out_size, int rules[4], int size, const void* input, void* output); 
+        void copyFieldsImpl(int in_size, int out_size, int rules[4], int size, const void* input, void* output);
 
         template<typename PointIn, typename PointOut>
         void copyFieldsEx(const DeviceArray<PointIn>& src, DeviceArray<PointOut>& dst, int rule1, int rule2 = NoCP, int rule3 = NoCP, int rule4 = NoCP)

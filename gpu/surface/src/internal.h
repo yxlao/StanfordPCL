@@ -67,14 +67,14 @@ namespace pcl
 		  FacetStream(size_t buffer_size);
 
           // indeces: in each col indeces of vertexes for sigle facet
-		  DeviceArray2D<int>  verts_inds;		  
+		  DeviceArray2D<int>  verts_inds;		
 
-		  DeviceArray<int> head_points;		  
+		  DeviceArray<int> head_points;		
 		  size_t facet_count;
 
 		  DeviceArray2D<int>  empty_facets;
 		  DeviceArray<int> empty_count;
-		  
+		
 		  DeviceArray<int>  scan_buffer;
 
 		  void setInitialFacets(const InitalSimplex& simplex);
@@ -84,18 +84,18 @@ namespace pcl
 		  bool canSplit();
 		  void splitFacets();
 	  private:
-		  
+		
           //for compation (double buffering)
 		  DeviceArray2D<int>  verts_inds2;
 		  DeviceArray<float4> facet_planes2;
-		  DeviceArray<int> head_points2;		  
+		  DeviceArray<int> head_points2;		
 	  };	
-	 
+	
 	  struct PointStream
 	  {
 	  public:
 		  PointStream(const Cloud& cloud);
-		  
+		
 		  const Cloud cloud;
 		  FacetsDists facets_dists;
 		  Perm perm;
@@ -108,11 +108,11 @@ namespace pcl
 		  void computeInitalSimplex();
 
 		  void initalClassify();
-		  
+		
 
 		  int searchFacetHeads(size_t facet_count, DeviceArray<int>& head_points);
 
-		  void classify(FacetStream& fs);	  		  
+		  void classify(FacetStream& fs);	  		
 	  };	 	  	
 
 
@@ -121,4 +121,4 @@ namespace pcl
   }
 }
 
-#endif /* PCL_GPU_SURFACE_INTERNAL_H_ */ 
+#endif /* PCL_GPU_SURFACE_INTERNAL_H_ */

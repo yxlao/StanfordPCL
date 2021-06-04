@@ -30,7 +30,7 @@ public:
 
   /////////////////////////////////////////////////////////////////
   //
-  // ON_Object virtual functions 
+  // ON_Object virtual functions
   //
 
   /*
@@ -41,9 +41,9 @@ public:
     text_log - [in] if the object is not valid and text_log
         is not NULL, then a brief englis description of the
         reason the object is not valid is appened to the log.
-        The information appended to text_log is suitable for 
-        low-level debugging purposes by programmers and is 
-        not intended to be useful as a high level user 
+        The information appended to text_log is suitable for
+        low-level debugging purposes by programmers and is
+        not intended to be useful as a high level user
         interface tool.
   Returns:
     @untitled table
@@ -59,7 +59,7 @@ public:
   // Use ON_BinaryArchive::WriteObject() and ON_BinaryArchive::ReadObject()
   // for top level serialization.  These Read()/Write() members should just
   // write/read specific definitions.  In particular, they should not write/
-  // read any chunk typecode or length information.  The default 
+  // read any chunk typecode or length information.  The default
   // implementations return false and do nothing.
   ON_BOOL32 Write(
          ON_BinaryArchive&  // serialize definition to binary archive
@@ -77,7 +77,7 @@ public:
 
   /////////////////////////////////////////////////////////////////
   //
-  // ON_Geometry virtual functions 
+  // ON_Geometry virtual functions
   //
   int Dimension() const;
 
@@ -87,10 +87,10 @@ public:
          ON_BOOL32 = false  // true means grow box
          ) const;
 
-  ON_BOOL32 Transform( 
+  ON_BOOL32 Transform(
          const ON_Xform&
          );
- 
+
   /////////////////////////////////////////////////////////
   //
   // Interface
@@ -104,7 +104,7 @@ public:
   //
   ON_BOOL32 Enable( ON_BOOL32 = true ); // returns previous state
   ON_BOOL32 IsEnabled() const;
-  
+
   /////////////////////////////////////////////////////////
   //
   // style, location, and direction
@@ -136,10 +136,10 @@ public:
   Returns:
     true if successful.
   */
-  ON_BOOL32 GetLightXform( 
+  ON_BOOL32 GetLightXform(
            const ON_Viewport& vp,
-           ON::coordinate_system dest_cs, 
-           ON_Xform& xform 
+           ON::coordinate_system dest_cs,
+           ON_Xform& xform
            ) const;
 
   void SetLocation( const ON_3dPoint& );
@@ -155,7 +155,7 @@ public:
   double PowerWatts() const;
   double PowerLumens() const;
   double PowerCandela() const;
-  
+
   void SetPowerWatts( double );
   void SetPowerLumens( double );
   void SetPowerCandela( double );
@@ -197,8 +197,8 @@ public:
 
   //////////
   // The spot exponent varies from 0.0 to 128.0 and provides
-  // an exponential interface for controling the focus or 
-  // concentration of a spotlight (like the 
+  // an exponential interface for controling the focus or
+  // concentration of a spotlight (like the
   // OpenGL GL_SPOT_EXPONENT parameter).  The spot exponent
   // and hot spot parameters are linked; changing one will
   // change the other.
@@ -209,7 +209,7 @@ public:
 
   //////////
   // The hot spot setting runs from 0.0 to 1.0 and is used to
-  // provides a linear interface for controling the focus or 
+  // provides a linear interface for controling the focus or
   // concentration of a spotlight.
   // A hot spot setting of 0.0 corresponds to a spot exponent of 128.
   // A hot spot setting of 1.0 corresponds to a spot exponent of 0.0.
@@ -240,7 +240,7 @@ public:
   //
   void SetShadowIntensity(double);
   double ShadowIntensity() const;
-                                 
+
 
   /////////////////////////////////////////////////////////
   //
@@ -268,7 +268,7 @@ public:
   ON_Color m_ambient;
   ON_Color m_diffuse;
   ON_Color m_specular;
-  
+
   ON_3dVector m_direction; // ignored for "point" and "ambient" lights
   ON_3dPoint  m_location;  // ignored for "directional" and "ambient" lights
   ON_3dVector m_length;    // only for linear and rectangular lights

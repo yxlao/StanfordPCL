@@ -54,7 +54,7 @@ assemble the covariance matrix :math:`\mathcal{C}` as follows:
 Where :math:`k` is the number of point neighbors considered *in the
 neighborhood of* :math:`\boldsymbol{p}_i`, :math:`\overline{\boldsymbol{p}}`
 represents the 3D centroid of the nearest neighbors, :math:`\lambda_j` is the
-:math:`j`-th eigenvalue of the covariance matrix, and :math:`\vec{{\mathsf v}_j}` 
+:math:`j`-th eigenvalue of the covariance matrix, and :math:`\vec{{\mathsf v}_j}`
 the :math:`j`-th eigenvector.
 
 To estimate a covariance matrix from a set of points in PCL, you can use:
@@ -136,7 +136,7 @@ The specifics of the nearest-neighbor estimation problem raise the question of
 the *right scale factor*: given a sampled point cloud dataset , what are the
 correct **k** (given via **pcl::Feature::setKSearch**) or **r** (given via
 **pcl::Feature::setRadiusSearch**) values that should be used in determining
-the set of nearest neighbors of a point? 
+the set of nearest neighbors of a point?
 
 This issue is of extreme importance and constitutes a limiting factor in the
 automatic estimation (i.e., without user given thresholds) of a point feature
@@ -189,7 +189,7 @@ points in the input dataset.
      pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne;
      ne.setInputCloud (cloud);
 
-     // Create an empty kdtree representation, and pass it to the normal estimation object. 
+     // Create an empty kdtree representation, and pass it to the normal estimation object.
      // Its content will be filled inside the object, based on the given input dataset (as no other search surface is given).
      pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ> ());
      ne.setSearchMethod (tree);

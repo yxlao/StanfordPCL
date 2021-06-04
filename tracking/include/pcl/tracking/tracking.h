@@ -44,7 +44,7 @@
 
 #ifdef BUILD_Maintainer
 #  if defined __GNUC__
-#      pragma GCC system_header 
+#      pragma GCC system_header
 #  elif defined _MSC_VER
 #    pragma warning(push, 1)
 #  endif

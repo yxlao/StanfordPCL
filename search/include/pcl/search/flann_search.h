@@ -102,7 +102,7 @@ namespace pcl
             */
             virtual IndexPtr createIndex (MatrixConstPtr data)=0;
 
-          /** \brief destructor 
+          /** \brief destructor
             */
             virtual ~FlannIndexCreator () {}
         };
@@ -180,7 +180,7 @@ namespace pcl
           * \param[out] k_sqr_distances the resultant squared distances to the neighboring points, k_sqr_distances[i] corresponds to the neighbors of the query point i
           */
         virtual void
-        nearestKSearch (const PointCloud& cloud, const std::vector<int>& indices, int k, 
+        nearestKSearch (const PointCloud& cloud, const std::vector<int>& indices, int k,
                         std::vector< std::vector<int> >& k_indices, std::vector< std::vector<float> >& k_sqr_distances) const;
 
         /** \brief Search for all the nearest neighbors of the query point in a given radius.
@@ -194,7 +194,7 @@ namespace pcl
           * \return number of neighbors found in radius
           */
         int
-        radiusSearch (const PointT& point, double radius, 
+        radiusSearch (const PointT& point, double radius,
                       std::vector<int> &k_indices, std::vector<float> &k_sqr_distances,
                       unsigned int max_nn = 0) const;
 

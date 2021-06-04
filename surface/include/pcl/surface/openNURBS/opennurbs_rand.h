@@ -57,7 +57,7 @@ Parameters:
   rand_context - [in/out]
     random number context.  The first time rand_context is
     used it must be either initialized by calling on_random_number_seed()
-    or rand_context->mti must be set to 0xFFFFFFFF.  Otherwise do not 
+    or rand_context->mti must be set to 0xFFFFFFFF.  Otherwise do not
     modify randcontext between calls to on_random_number.
 Returns:
   A random number.

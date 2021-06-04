@@ -70,7 +70,7 @@ namespace pcl
     * \endcode
     *
     * In addition, the user can specify more constraints, such as:
-    * 
+    *
     *   - an axis along which we need to search for a plane perpendicular to (\ref setAxis);
     *   - an angle \a tolerance threshold between the plane's normal and the above given axis (\ref setEpsAngle);
     *   - a distance we expect the plane to be from the origin (\ref setDistanceFromOrigin);
@@ -103,7 +103,7 @@ namespace pcl
       /** \brief Constructor for base SampleConsensusModelNormalParallelPlane.
         * \param[in] cloud the input point cloud dataset
         */
-      SampleConsensusModelNormalParallelPlane (const PointCloudConstPtr &cloud) : 
+      SampleConsensusModelNormalParallelPlane (const PointCloudConstPtr &cloud) :
         SampleConsensusModelPlane<PointT> (cloud),
         SampleConsensusModelFromNormals<PointT, PointNT> (),
         axis_ (Eigen::Vector4f::Zero ()),
@@ -116,7 +116,7 @@ namespace pcl
         * \param[in] cloud the input point cloud dataset
         * \param[in] indices a vector of point indices to be used from \a cloud
         */
-      SampleConsensusModelNormalParallelPlane (const PointCloudConstPtr &cloud, const std::vector<int> &indices) : 
+      SampleConsensusModelNormalParallelPlane (const PointCloudConstPtr &cloud, const std::vector<int> &indices) :
         SampleConsensusModelPlane<PointT> (cloud, indices),
         SampleConsensusModelFromNormals<PointT, PointNT> (),
         axis_ (Eigen::Vector4f::Zero ()),

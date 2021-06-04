@@ -15,7 +15,7 @@
 #define M_PI 3.141592653589793238462643383279503L
 #endif
 
-namespace Eigen { 
+namespace Eigen {
 
 /** \ingroup MatrixFunctions_Module
   * \class MatrixLogarithmAtomic
@@ -132,7 +132,7 @@ void MatrixLogarithmAtomic<MatrixType>::compute2x2(const MatrixType& A, MatrixTy
   }
 }
 
-/** \brief Compute logarithm of triangular matrices with size > 2. 
+/** \brief Compute logarithm of triangular matrices with size > 2.
   * \details This uses a inverse scale-and-square algorithm. */
 template <typename MatrixType>
 void MatrixLogarithmAtomic<MatrixType>::computeBig(const MatrixType& A, MatrixType& result)
@@ -152,7 +152,7 @@ void MatrixLogarithmAtomic<MatrixType>::computeBig(const MatrixType& A, MatrixTy
     if (normTminusI < maxNormForPade) {
       degree = getPadeDegree(normTminusI);
       int degree2 = getPadeDegree(normTminusI / RealScalar(2));
-      if ((degree - degree2 <= 1) || (numberOfExtraSquareRoots == 1)) 
+      if ((degree - degree2 <= 1) || (numberOfExtraSquareRoots == 1))
 	break;
       ++numberOfExtraSquareRoots;
     }
@@ -172,7 +172,7 @@ int MatrixLogarithmAtomic<MatrixType>::getPadeDegree(float normTminusI)
 {
   const float maxNormForPade[] = { 2.5111573934555054e-1 /* degree = 3 */ , 4.0535837411880493e-1,
             5.3149729967117310e-1 };
-  for (int degree = 3; degree <= maxPadeDegree; ++degree) 
+  for (int degree = 3; degree <= maxPadeDegree; ++degree)
     if (normTminusI <= maxNormForPade[degree - minPadeDegree])
       return degree;
   assert(false); // this line should never be reached
@@ -236,7 +236,7 @@ void MatrixLogarithmAtomic<MatrixType>::computePade(MatrixType& result, const Ma
     case 11: computePade11(result, T); break;
     default: assert(false); // should never happen
   }
-} 
+}
 
 template <typename MatrixType>
 void MatrixLogarithmAtomic<MatrixType>::computePade3(MatrixType& result, const MatrixType& T)
@@ -439,7 +439,7 @@ public:
     * \param[in]  A  %Matrix (expression) forming the argument of the matrix logarithm.
     */
   MatrixLogarithmReturnValue(const Derived& A) : m_A(A) { }
-  
+
   /** \brief Compute the matrix logarithm.
     *
     * \param[out]  result  Logarithm of \p A, where \A is as specified in the constructor.
@@ -456,7 +456,7 @@ public:
     typedef Matrix<ComplexScalar, Dynamic, Dynamic, Options, RowsAtCompileTime, ColsAtCompileTime> DynMatrixType;
     typedef MatrixLogarithmAtomic<DynMatrixType> AtomicType;
     AtomicType atomic;
-    
+
     const PlainObject Aevaluated = m_A.eval();
     MatrixFunction<PlainObject, AtomicType> mf(Aevaluated, atomic);
     mf.compute(result);
@@ -464,10 +464,10 @@ public:
 
   Index rows() const { return m_A.rows(); }
   Index cols() const { return m_A.cols(); }
-  
+
 private:
   typename internal::nested<Derived>::type m_A;
-  
+
   MatrixLogarithmReturnValue& operator=(const MatrixLogarithmReturnValue&);
 };
 

@@ -285,7 +285,7 @@ namespace pcl
             {
             }
 
-            /** \brief Operator< for comparing priority queue entries with each other. 
+            /** \brief Operator< for comparing priority queue entries with each other.
               * \param[in] rhs the priority queue to compare this against
               */
             bool
@@ -329,7 +329,7 @@ namespace pcl
             }
 
             /** \brief Operator< for comparing priority queue entries with each other.
-              * \param[in] rhs priority queue to compare this against 
+              * \param[in] rhs priority queue to compare this against
               */
             bool
             operator< (const prioPointQueueEntry& rhs) const

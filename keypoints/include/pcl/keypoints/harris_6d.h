@@ -126,7 +126,7 @@ namespace pcl
     float threshold_;
     bool refine_;
     bool nonmax_;
-    unsigned int threads_;    
+    unsigned int threads_;
     boost::shared_ptr<pcl::PointCloud<NormalT> > normals_;
     boost::shared_ptr<pcl::PointCloud<pcl::IntensityGradient> > intensity_gradients_;
   } ;

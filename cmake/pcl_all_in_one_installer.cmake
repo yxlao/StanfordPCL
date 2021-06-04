@@ -40,7 +40,7 @@ if(BUILD_all_in_one_installer)
 
     set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "  IntCmp $OpenNI_selected 0 noinstall_openni_packages\n")
 
-    file(DOWNLOAD ${OPENNI_URL} "${CMAKE_CURRENT_BINARY_DIR}/${OPENNI_PACKAGE}" 
+    file(DOWNLOAD ${OPENNI_URL} "${CMAKE_CURRENT_BINARY_DIR}/${OPENNI_PACKAGE}"
         STATUS _openni_download_status LOG _openni_download_log
         EXPECTED_MD5 ${OPENNI_MD5}
        )
@@ -48,18 +48,18 @@ if(BUILD_all_in_one_installer)
     list(GET _openni_download_status 1 _error_message)
     if(_error_code EQUAL 0)
         install(
-            FILES "${CMAKE_CURRENT_BINARY_DIR}/${OPENNI_PACKAGE}" 
+            FILES "${CMAKE_CURRENT_BINARY_DIR}/${OPENNI_PACKAGE}"
             DESTINATION 3rdParty/OpenNI
             COMPONENT OpenNI
         )
         list(APPEND PCL_3RDPARTY_COMPONENTS OpenNI)
-        set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS 
+        set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS
             "${CPACK_NSIS_EXTRA_INSTALL_COMMANDS}\n    ExecWait 'msiexec /i \\\"$INSTDIR\\\\3rdParty\\\\OpenNI\\\\${OPENNI_PACKAGE}\\\" '")
     else(_error_code EQUAL 0)
         message("WARNING : Could not download ${OPENNI_URL}, error code : ${_error_code}, error message : ${_error_message}")
     endif(_error_code EQUAL 0)
 
-    file(DOWNLOAD ${OPENNI_SENSOR_URL} "${CMAKE_CURRENT_BINARY_DIR}/${OPENNI_SENSOR_PACKAGE}" 
+    file(DOWNLOAD ${OPENNI_SENSOR_URL} "${CMAKE_CURRENT_BINARY_DIR}/${OPENNI_SENSOR_PACKAGE}"
         STATUS _openni_download_status LOG _openni_download_log
         EXPECTED_MD5 ${OPENNI_SENSOR_MD5}
        )
@@ -72,7 +72,7 @@ if(BUILD_all_in_one_installer)
             COMPONENT OpenNI
         )
         list(APPEND PCL_3RDPARTY_COMPONENTS OpenNI)
-        set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS 
+        set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS
             "${CPACK_NSIS_EXTRA_INSTALL_COMMANDS}\n    ExecWait 'msiexec /i \\\"$INSTDIR\\\\3rdParty\\\\OpenNI\\\\${OPENNI_SENSOR_PACKAGE}\\\" '")
     else(_error_code EQUAL 0)
         message("WARNING : Could not download ${OPENNI_SENSOR_URL}, error code : ${_error_code}, error message : ${_error_message}")

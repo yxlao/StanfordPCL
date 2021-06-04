@@ -41,7 +41,7 @@ namespace pcl
     private:
       std::vector<Model::Ptr> models_;
     };
-  
+
   } // namespace - simulation
 } // namespace - pcl
 

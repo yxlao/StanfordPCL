@@ -37,7 +37,7 @@ Computing higher level representation from the object's appearance (texture + de
 
  * **densely** - at every point/vertex in the input data;
  * at certain **interest points** (i.e., keypoints).
- 
+
 The detected keypoint might also contain some meta-information required by some descriptors, like scale or orientation.
 
 3. Descriptors
@@ -97,7 +97,7 @@ different areas. Here are some requested metrics:
  * average rank of correct id
  * area under curve of cumulative histogram of rank of correct id
 
-Object Recognition API 
+Object Recognition API
 ======================
 
 Here we describe a proposed set of classes that could be easily extended and

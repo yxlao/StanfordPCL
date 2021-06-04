@@ -37,7 +37,7 @@
  * $Id: transformation_estimation_point_to_plane_lls.h 7116 2012-09-10 21:18:41Z rusu $
  *
  */
-#ifndef PCL_REGISTRATION_TRANSFORMATION_ESTIMATION_POINT_TO_PLANE_LLS_H_ 
+#ifndef PCL_REGISTRATION_TRANSFORMATION_ESTIMATION_POINT_TO_PLANE_LLS_H_
 #define PCL_REGISTRATION_TRANSFORMATION_ESTIMATION_POINT_TO_PLANE_LLS_H_
 
 #include <pcl/registration/transformation_estimation.h>
@@ -51,7 +51,7 @@ namespace pcl
     /** \brief @b TransformationEstimationPointToPlaneLLS implements a Linear Least Squares (LLS) approximation
       * for minimizing the point-to-plane distance between two clouds of corresponding points with normals.
       *
-      * For additional details, see 
+      * For additional details, see
       *   "Linear Least-Squares Optimization for Point-to-Plane ICP Surface Registration", Kok-Lim Low, 2004
       *
       * \note The class is templated on the source and target point types as well as on the output scalar of the transformation matrix (i.e., float or double). Default: float.
@@ -66,7 +66,7 @@ namespace pcl
         typedef boost::shared_ptr<const TransformationEstimationPointToPlaneLLS<PointSource, PointTarget, Scalar> > ConstPtr;
 
         typedef typename TransformationEstimation<PointSource, PointTarget, Scalar>::Matrix4 Matrix4;
-        
+
         TransformationEstimationPointToPlaneLLS () {};
         virtual ~TransformationEstimationPointToPlaneLLS () {};
 
@@ -123,15 +123,15 @@ namespace pcl
             Matrix4 &transformation_matrix) const;
 
       protected:
-        
+
         /** \brief Estimate a rigid rotation transformation between a source and a target
           * \param[in] source_it an iterator over the source point cloud dataset
           * \param[in] target_it an iterator over the target point cloud dataset
           * \param[out] transformation_matrix the resultant transformation matrix
           */
-        void 
-        estimateRigidTransformation (ConstCloudIterator<PointSource>& source_it, 
-                                     ConstCloudIterator<PointTarget>& target_it, 
+        void
+        estimateRigidTransformation (ConstCloudIterator<PointSource>& source_it,
+                                     ConstCloudIterator<PointTarget>& target_it,
                                      Matrix4 &transformation_matrix) const;
 
         /** \brief Construct a 4 by 4 tranformation matrix from the provided rotation and translation.

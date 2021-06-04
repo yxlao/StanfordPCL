@@ -39,7 +39,7 @@
 
 #include <pcl/common/eigen.h>
 
-namespace pcl 
+namespace pcl
 {
   /** \brief Calculates the weighted average and the covariance matrix
     *
@@ -49,7 +49,7 @@ namespace pcl
     * \ingroup common
     */
   template <typename real, int dimension>
-  class VectorAverage 
+  class VectorAverage
   {
      public:
         //-----CONSTRUCTOR&DESTRUCTOR-----
@@ -57,28 +57,28 @@ namespace pcl
         VectorAverage ();
         /** Destructor */
         ~VectorAverage () {}
-        
+
         //-----METHODS-----
         /** Reset the object to work with a new data set */
-        inline void 
+        inline void
         reset ();
-        
+
         /** Get the mean of the added vectors */
         inline const
         Eigen::Matrix<real, dimension, 1>& getMean () const { return mean_;}
-        
+
         /** Get the covariance matrix of the added vectors */
         inline const
         Eigen::Matrix<real, dimension, dimension>& getCovariance () const { return covariance_;}
-        
+
         /** Get the summed up weight of all added vectors */
         inline real
         getAccumulatedWeight () const { return accumulatedWeight_;}
-        
+
         /** Get the number of added vectors */
         inline unsigned int
         getNoOfSamples () { return noOfSamples_;}
-        
+
         /** Add a new sample */
         inline void
         add (const Eigen::Matrix<real, dimension, 1>& sample, real weight=1.0);
@@ -87,17 +87,17 @@ namespace pcl
         inline void
         doPCA (Eigen::Matrix<real, dimension, 1>& eigen_values, Eigen::Matrix<real, dimension, 1>& eigen_vector1,
                Eigen::Matrix<real, dimension, 1>& eigen_vector2, Eigen::Matrix<real, dimension, 1>& eigen_vector3) const;
-        
+
         /** Do Principal component analysis */
         inline void
         doPCA (Eigen::Matrix<real, dimension, 1>& eigen_values) const;
-        
+
         /** Get the eigenvector corresponding to the smallest eigenvalue */
         inline void
         getEigenVector1 (Eigen::Matrix<real, dimension, 1>& eigen_vector1) const;
-        
+
         //-----VARIABLES-----
-        
+
      protected:
         //-----METHODS-----
         //-----VARIABLES-----

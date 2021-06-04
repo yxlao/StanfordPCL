@@ -58,7 +58,7 @@ int ON_3dmRevisionHistory::NewRevision()
   }
   m_last_edit_time = current_time;
 
-#if defined(ON_OS_WINDOWS)  
+#if defined(ON_OS_WINDOWS)
   // use Windows ::GetUserNameW() to get current user name
   wchar_t current_user[512];
   memset( current_user, 0, sizeof(current_user) );
@@ -111,7 +111,7 @@ void ON_3dmRevisionHistory::Dump( ON_TextLog& dump ) const
   dump.Print("Created by: %S\n", s );
   dump.Print("Created on: "); dump.PrintTime(m_create_time); dump.Print("\n");
 
-  
+
   s = m_sLastEditedBy;
   if ( !s ) s = L"";
   dump.Print("Last edited by: %S\n", s );
@@ -126,7 +126,7 @@ void ON_3dmRevisionHistory::Dump( ON_TextLog& dump ) const
 //
 
 ON_3dmNotes::ON_3dmNotes()
-            : m_bVisible(0), 
+            : m_bVisible(0),
               m_bHTML(0),
               m_window_left(0),
               m_window_top(0),
@@ -135,7 +135,7 @@ ON_3dmNotes::ON_3dmNotes()
 {}
 
 ON_3dmNotes::ON_3dmNotes( const ON_3dmNotes& src )
-            : m_bVisible(0), 
+            : m_bVisible(0),
               m_bHTML(0),
               m_window_left(0),
               m_window_top(0),
@@ -371,7 +371,7 @@ ON_BOOL32 ON_3dmProperties::Read(ON_BinaryArchive& file )
     switch(tcode) {
 
     case TCODE_PROPERTIES_OPENNURBS_VERSION:
-      { 
+      {
         int on_version = 0;
         if ( value > 299912319 || (value != 0 && value < 200101010) )
         {
@@ -385,27 +385,27 @@ ON_BOOL32 ON_3dmProperties::Read(ON_BinaryArchive& file )
         ON_SetBinaryArchiveOpenNURBSVersion(file,on_version);
       }
       break;
-      
+
     case TCODE_PROPERTIES_REVISIONHISTORY: // file creation/revision information
       m_RevisionHistory.Read(file);
       break;
-      
+
     case TCODE_PROPERTIES_NOTES: // file notes
       m_Notes.Read(file);
       break;
-      
+
     case TCODE_PROPERTIES_PREVIEWIMAGE: // uncompressed preview image
       m_PreviewImage.ReadUncompressed(file);
       break;
-      
+
     case TCODE_PROPERTIES_COMPRESSED_PREVIEWIMAGE: // compressed preview image
       m_PreviewImage.ReadCompressed(file);
       break;
-      
+
     case TCODE_PROPERTIES_APPLICATION: // application that created 3dm file
       m_Application.Read(file);
       break;
-      
+
     default:
       // information added in future will be skipped by file.EndRead3dmChunk()
       break;

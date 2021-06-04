@@ -52,7 +52,7 @@
 namespace pcl
 {
   namespace gpu
-  {        
+  {
     /** \brief KinfuTracker class encapsulates implementation of Microsoft Kinect Fusion algorithm
       * \author Anatoly Baskeheev, Itseez Ltd, (myname.mysurname@mycompany.com)
       */
@@ -70,12 +70,12 @@ namespace pcl
 
         /** \brief Constructor
           * \param[in] rows height of depth image
-          * \param[in] cols width of depth image          
+          * \param[in] cols width of depth image
           */
         KinfuTracker (int rows = 480, int cols = 640);
 
         /** \brief Sets Depth camera intrinsics
-          * \param[in] fx focal length x 
+          * \param[in] fx focal length x
           * \param[in] fy focal length y
           * \param[in] cx principal point x
           * \param[in] cy principal point y
@@ -88,10 +88,10 @@ namespace pcl
           */
         void
         setInitalCameraPose (const Eigen::Affine3f& pose);
-                        
-		/** \brief Sets truncation threshold for depth image for ICP step only! This helps 
+
+		/** \brief Sets truncation threshold for depth image for ICP step only! This helps
 		  *  to filter measurements that are outside tsdf volume. Pass zero to disable the truncation.
-          * \param[in] max_icp_distance_ Maximal distance, higher values are reset to zero (means no measurement). 
+          * \param[in] max_icp_distance_ Maximal distance, higher values are reset to zero (means no measurement).
           */
         void
         setDepthTruncationForICP (float max_icp_distance = 0.f);
@@ -102,19 +102,19 @@ namespace pcl
           */
         void
         setIcpCorespFilteringParams (float distThreshold, float sineOfAngle);
-        
-        /** \brief Sets integration threshold. TSDF volume is integrated iff a camera movement metric exceedes the threshold value. 
+
+        /** \brief Sets integration threshold. TSDF volume is integrated iff a camera movement metric exceedes the threshold value.
           * The metric represents the following: M = (rodrigues(Rotation).norm() + alpha*translation.norm())/2, where alpha = 1.f (hardcoded constant)
-          * \param[in] threshold a value to compare with the metric. Suitable values are ~0.001          
+          * \param[in] threshold a value to compare with the metric. Suitable values are ~0.001
           */
         void
         setCameraMovementThreshold(float threshold = 0.001f);
 
-        /** \brief Performs initialization for color integration. Must be called before calling color integration. 
+        /** \brief Performs initialization for color integration. Must be called before calling color integration.
           * \param[in] max_weight max weighe for color integration. -1 means default weight.
           */
         void
-        initColorIntegration(int max_weight = -1);        
+        initColorIntegration(int max_weight = -1);
 
         /** \brief Returns cols passed to ctor */
         int
@@ -159,13 +159,13 @@ namespace pcl
 
         /** \brief Returns color volume storage */
         ColorVolume& colorVolume();
-        
+
         /** \brief Renders 3D scene to display to human
           * \param[out] view output array with image
           */
         void
         getImage (View& view) const;
-        
+
         /** \brief Returns point cloud abserved from last camera pose
           * \param[out] cloud output array for points
           */
@@ -179,7 +179,7 @@ namespace pcl
         getLastFrameNormals (DeviceArray2D<NormalType>& normals) const;
 
       private:
-        
+
         /** \brief Number of pyramid levels */
         enum { LEVELS = 3 };
 
@@ -188,7 +188,7 @@ namespace pcl
 
         /** \brief Vertex or Normal Map type */
         typedef DeviceArray2D<float> MapArr;
-        
+
         typedef Eigen::Matrix<float, 3, 3, Eigen::RowMajor> Matrix3frm;
         typedef Eigen::Vector3f Vector3f;
 
@@ -208,7 +208,7 @@ namespace pcl
         /** \brief Tsdf volume container. */
         TsdfVolume::Ptr tsdf_volume_;
         ColorVolume::Ptr color_volume_;
-                
+
         /** \brief Initial camera rotation in volume coo space. */
         Matrix3frm init_Rcam_;
 
@@ -221,7 +221,7 @@ namespace pcl
         float  distThres_;
         /** \brief angle threshold in correspondences filtering. Represents max sine of angle between normals. */
         float angleThres_;
-        
+
         /** \brief Depth pyramid. */
         std::vector<DepthMap> depths_curr_;
         /** \brief Vertex maps pyramid for current frame in global coordinate space. */
@@ -233,7 +233,7 @@ namespace pcl
         std::vector<MapArr> vmaps_g_prev_;
         /** \brief Normal maps pyramid for previous frame in global coordinate space. */
         std::vector<MapArr> nmaps_g_prev_;
-                
+
         /** \brief Vertex maps pyramid for current frame in current coordinate space. */
         std::vector<MapArr> vmaps_curr_;
         /** \brief Normal maps pyramid for current frame in current coordinate space. */
@@ -241,10 +241,10 @@ namespace pcl
 
         /** \brief Array of buffers with ICP correspondences for each pyramid level. */
         std::vector<CorespMap> coresps_;
-        
+
         /** \brief Buffer for storing scaled depth image */
         DeviceArray2D<float> depthRawScaled_;
-        
+
         /** \brief Temporary buffer for ICP */
         DeviceArray2D<double> gbuf_;
         /** \brief Buffer to store MLS matrix. */
@@ -252,16 +252,16 @@ namespace pcl
 
         /** \brief Array of camera rotation matrices for each moment of time. */
         std::vector<Matrix3frm> rmats_;
-        
+
         /** \brief Array of camera translations for each moment of time. */
         std::vector<Vector3f> tvecs_;
 
         /** \brief Camera movement threshold. TSDF is integrated iff a camera movement metric exceedes some value. */
         float integration_metric_threshold_;
-        
+
         /** \brief Allocates all GPU internal buffers.
           * \param[in] rows_arg
-          * \param[in] cols_arg          
+          * \param[in] cols_arg
           */
         void
         allocateBufffers (int rows_arg, int cols_arg);
@@ -270,7 +270,7 @@ namespace pcl
         /** \brief Performs the tracker reset to initial  state. It's used if case of camera tracking fail.
           */
         void
-        reset ();       
+        reset ();
     };
   }
 };

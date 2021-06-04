@@ -9,7 +9,7 @@ PCL_SUBSYS_DEPEND(build ${SUBSYS_NAME} DEPS ${SUBSYS_DEPS})
 PCL_ADD_DOC(${SUBSYS_NAME})
 
 if(build)
-    set(incs 
+    set(incs
         include/pcl/${SUBSYS_NAME}/dt/decision_forest.h
         include/pcl/${SUBSYS_NAME}/dt/decision_forest_evaluator.h
         include/pcl/${SUBSYS_NAME}/dt/decision_forest_trainer.h
@@ -41,7 +41,7 @@ if(build)
 	include/pcl/${SUBSYS_NAME}/kmeans.h
         )
 
-    set(impl_incs 
+    set(impl_incs
         include/pcl/${SUBSYS_NAME}/impl/dt/decision_forest_evaluator.hpp
         include/pcl/${SUBSYS_NAME}/impl/dt/decision_forest_trainer.hpp
         include/pcl/${SUBSYS_NAME}/impl/dt/decision_tree_evaluator.hpp

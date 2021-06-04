@@ -137,13 +137,13 @@
 {
   self.opacitySlider.hidden = NO;
   self.opacityLabel.hidden = NO;
-  
+
   self.voxelButtons.hidden = NO;
   self.voxelLabel.hidden = NO;
-  
+
   self.ransacButtons.hidden = NO;
   self.ransacLabel.hidden = NO;
-  
+
   self.opacitySlider.value = 1.0;
   self.voxelButtons.selectedSegmentIndex = 2;
   self.ransacButtons.selectedSegmentIndex = 0;
@@ -224,7 +224,7 @@
   }
   else
   {
-    [self endCloudMode];  
+    [self endCloudMode];
   }
 
 
@@ -300,14 +300,14 @@
 }
 
 -(void) startRansacSpinIndicator
-{  
+{
   self.ransacIndicator.hidden = NO;
   [self.ransacIndicator performSelectorOnMainThread:@selector(startAnimating) withObject:nil waitUntilDone:NO];
 }
 
 -(void) stopSpinIndicator
 {
-  self.voxelIndicator.hidden = YES;  
+  self.voxelIndicator.hidden = YES;
   self.ransacIndicator.hidden = YES;
   [self.voxelIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
   [self.ransacIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
@@ -325,7 +325,7 @@
 
   vesKiwiPCLApp* app = [self.glView getApp];
   vesKiwiPCLDemo::Ptr rep = app->getPCLDemo();
-  
+
   if (rep)
   {
     [self startVoxelSpinIndicator];
@@ -341,7 +341,7 @@
         [self.glView scheduleRender];
       });
     });
-    
+
     [self.glView scheduleRender];
   }
 }
@@ -357,7 +357,7 @@
 
   vesKiwiPCLApp* app = [self.glView getApp];
   vesKiwiPCLDemo::Ptr rep = app->getPCLDemo();
-  
+
   if (rep)
   {
     [self startRansacSpinIndicator];
@@ -365,7 +365,7 @@
     dispatch_async(self->myQueue, ^{
 
       [self->glView disableRendering];
-      rep->setPlaneDistanceThreshold(distanceThreshold);    
+      rep->setPlaneDistanceThreshold(distanceThreshold);
       [self->glView enableRendering];
 
       dispatch_async(dispatch_get_main_queue(), ^{
@@ -373,7 +373,7 @@
         [self.glView scheduleRender];
       });
     });
-  
+
 
   }
 }
@@ -387,7 +387,7 @@
 {
   // no url; go with the default dataset
   if (!url)
-    {    
+    {
     NSString* defaultFile = [[NSBundle mainBundle] pathForResource:@"pointcloud.pcd" ofType:nil];
     [self loadDatasetWithPath:defaultFile];
     return YES;

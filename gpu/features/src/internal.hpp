@@ -44,13 +44,13 @@
 
 #undef PI
 #ifndef PI
-    #define PI 3.1415926535897931f               
+    #define PI 3.1415926535897931f
 #endif
 
 namespace pcl
 {
     namespace device
-    {   
+    {
         using pcl::gpu::DeviceArray;
         using pcl::gpu::DeviceArray2D;
         using pcl::gpu::NeighborIndices;
@@ -59,7 +59,7 @@ namespace pcl
         typedef float4 NormalType;
         typedef float4 PointXYZRGB;
 
-        typedef DeviceArray< PointType> PointCloud;        
+        typedef DeviceArray< PointType> PointCloud;
         typedef DeviceArray<NormalType> Normals;
         typedef DeviceArray<int> Indices;
 
@@ -106,10 +106,10 @@ namespace pcl
 
         // normals estimation
         void computeNormals(const PointCloud& cloud, const NeighborIndices& nn_indices, Normals& normals);
-        void flipNormalTowardsViewpoint(const PointCloud& cloud, const float3& vp, Normals& normals);        
+        void flipNormalTowardsViewpoint(const PointCloud& cloud, const float3& vp, Normals& normals);
         void flipNormalTowardsViewpoint(const PointCloud& cloud, const Indices& indices, const float3& vp, Normals& normals);
 
-        // pfh estimation        
+        // pfh estimation
         void repackToAosForPfh(const PointCloud& cloud, const Normals& normals, const NeighborIndices& neighbours, DeviceArray2D<float>& data_rpk, int& max_elems_rpk);
         void computePfh125(const DeviceArray2D<float>& data_rpk, int max_elems_rpk, const NeighborIndices& neighbours, DeviceArray2D<PFHSignature125>& features);
 
@@ -121,19 +121,19 @@ namespace pcl
         void computeSPFH(const PointCloud& surface, const Normals& normals, const Indices& indices, const NeighborIndices& neighbours, DeviceArray2D<FPFHSignature33>& spfh33);
         void computeFPFH(const PointCloud& cloud, const NeighborIndices& neighbours, const DeviceArray2D<FPFHSignature33>& spfh, DeviceArray2D<FPFHSignature33>& features);
 
-        void computeFPFH(const PointCloud& cloud, const Indices& indices, const PointCloud& surface, 
+        void computeFPFH(const PointCloud& cloud, const Indices& indices, const PointCloud& surface,
             const NeighborIndices& neighbours, DeviceArray<int>& lookup, const DeviceArray2D<FPFHSignature33>& spfh, DeviceArray2D<FPFHSignature33>& features);
 
         int computeUniqueIndices(size_t surface_size, const NeighborIndices& neighbours, DeviceArray<int>& unique_indices, DeviceArray<int>& lookup);
 
-        // ppf estimation         
+        // ppf estimation
         void computePPF(const PointCloud& input, const Normals& normals, const Indices& indices, DeviceArray<PPFSignature>& output);
-        void computePPFRGB(const PointXYZRGBCloud& input, const Normals& normals, const Indices& indices, DeviceArray<PPFRGBSignature>& output);        
-        void computePPFRGBRegion(const PointXYZRGBCloud& cloud, const Normals& normals, const Indices& indices, 
+        void computePPFRGB(const PointXYZRGBCloud& input, const Normals& normals, const Indices& indices, DeviceArray<PPFRGBSignature>& output);
+        void computePPFRGBRegion(const PointXYZRGBCloud& cloud, const Normals& normals, const Indices& indices,
             const NeighborIndices& nn_indices, DeviceArray<PPFRGBSignature>& output);
 
         //PrincipalCurvatures estimation
-        void computePointPrincipalCurvatures(const Normals& normals, const Indices& indices, const NeighborIndices& neighbours, 
+        void computePointPrincipalCurvatures(const Normals& normals, const Indices& indices, const NeighborIndices& neighbours,
             DeviceArray<PrincipalCurvatures>& output, DeviceArray2D<float>& proj_normals_buf);
 
 
@@ -141,7 +141,7 @@ namespace pcl
         template<typename PointT> void compute3DCentroid(const DeviceArray<PointT>& cloud, float3& centroid);
         template<typename PointT> void compute3DCentroid(const DeviceArray<PointT>& cloud,  const Indices& indices, float3& centroid);
 
-        template<typename PointT> float3 getMaxDistance(const DeviceArray<PointT>& cloud, const float3& pivot);        
+        template<typename PointT> float3 getMaxDistance(const DeviceArray<PointT>& cloud, const float3& pivot);
         template<typename PointT> float3 getMaxDistance(const DeviceArray<PointT>& cloud, const Indices& indices, const float3& pivot);
 
         struct VFHEstimationImpl
@@ -157,7 +157,7 @@ namespace pcl
             bool normalize_distances;
             bool size_component;
             bool normalize_bins;
-       
+
             void compute(DeviceArray<VFHSignature308>& feature);
         };
 

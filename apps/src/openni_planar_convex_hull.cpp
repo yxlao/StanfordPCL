@@ -71,7 +71,7 @@ class OpenNIPlanarSegmentation
       proj_.setModelType (pcl::SACMODEL_PLANE);
     }
 
-    void 
+    void
     cloud_cb_ (const CloudConstPtr& cloud)
     {
       set (cloud);
@@ -102,7 +102,7 @@ class OpenNIPlanarSegmentation
       seg_.setInputCloud (temp_cloud);
       seg_.segment (*inliers, *coefficients);
 
-      // Project the model inliers 
+      // Project the model inliers
       proj_.setInputCloud (temp_cloud);
       proj_.setModelCoefficients (coefficients);
       proj_.filter (*temp_cloud2);
@@ -121,9 +121,9 @@ class OpenNIPlanarSegmentation
 
       boost::function<void (const CloudConstPtr&)> f = boost::bind (&OpenNIPlanarSegmentation::cloud_cb_, this, _1);
       boost::signals2::connection c = interface->registerCallback (f);
-      
+
       interface->start ();
-      
+
       while (!viewer.wasStopped ())
       {
         if (cloud_)
@@ -169,7 +169,7 @@ usage (char ** argv)
     cout << "No devices connected." << endl;
 }
 
-int 
+int
 main (int argc, char ** argv)
 {
   if (argc < 2)
@@ -179,7 +179,7 @@ main (int argc, char ** argv)
   }
 
   std::string arg (argv[1]);
-  
+
   if (arg == "--help" || arg == "-h")
   {
     usage (argv);

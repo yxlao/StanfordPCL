@@ -23,7 +23,7 @@ static void ON_DebuggerBreakpoint() {} // <- Good location for a debugger breakp
 //   If an error condition occurs during a openNURBS Geometry Library
 //   computation, the ON_Error() function is called, the computation is
 //   stopped, and an error code (negative integer ) is returned.  If a
-//   warning condition occurs during a Trout Lake Geometry Library 
+//   warning condition occurs during a Trout Lake Geometry Library
 //   computation, the ON_Warning() function is called and the computation
 //   continues.
 //
@@ -42,16 +42,16 @@ static int ON_MATH_ERROR_COUNT = 0;
 #if defined(ON_DEBUG)
 
 // debug build defaults
-static int ON_DEBUG_BREAK_ON_FIRST_ERROR_OPTION = 1; 
-static int ON_DEBUG_BREAK_OPTION = 0; 
-static int ON_DEBUG_ERROR_MESSAGE_OPTION = 1; 
+static int ON_DEBUG_BREAK_ON_FIRST_ERROR_OPTION = 1;
+static int ON_DEBUG_BREAK_OPTION = 0;
+static int ON_DEBUG_ERROR_MESSAGE_OPTION = 1;
 
 #else
 
 // release build defaults
-static int ON_DEBUG_BREAK_ON_FIRST_ERROR_OPTION = 0; 
-static int ON_DEBUG_BREAK_OPTION = 0; 
-static int ON_DEBUG_ERROR_MESSAGE_OPTION = 0; 
+static int ON_DEBUG_BREAK_ON_FIRST_ERROR_OPTION = 0;
+static int ON_DEBUG_BREAK_OPTION = 0;
+static int ON_DEBUG_ERROR_MESSAGE_OPTION = 0;
 
 #endif
 
@@ -104,15 +104,15 @@ void ON_EnableDebugErrorMessage( int bEnableDebugErrorMessage )
   ON_DEBUG_ERROR_MESSAGE_OPTION = bEnableDebugErrorMessage ? 1 : 0;
 }
 
-// The sMessage[] string is used by ON_Error() and ON_Warning() 
-// to hold the message.  The static function ON_FormatMessage() 
-// is used to do most of the actual formatting.  
+// The sMessage[] string is used by ON_Error() and ON_Warning()
+// to hold the message.  The static function ON_FormatMessage()
+// is used to do most of the actual formatting.
 
 #define MAX_MSG_LENGTH 2048
 static char sMessage[MAX_MSG_LENGTH];
 static bool ON_FormatMessage(const char*, va_list );
 
-void ON_MathError( 
+void ON_MathError(
         const char* sModuleName,
         const char* sErrorType,
         const char* sFunctionName
@@ -129,10 +129,10 @@ void ON_MathError(
 
   ON_Error(__FILE__,__LINE__,
            "Math library or floating point ERROR # %d module=%s type=%s function=%s",
-           ON_MATH_ERROR_COUNT, 
+           ON_MATH_ERROR_COUNT,
            sModuleName, // rhino.exe, opennurbs.dll, etc.
-           sErrorType,   
-           sFunctionName 
+           sErrorType,
+           sFunctionName
            );
 }	
 
@@ -156,7 +156,7 @@ bool ON_IsNotValid()
 
 static bool ON_PrintErrorHeader(
     int type, // 0 = warning, 1 = error, 2 = assert
-    const char* sFileName, 
+    const char* sFileName,
     int line_number,
     const char* sFunctionName
     )
@@ -224,7 +224,7 @@ static bool ON_PrintErrorHeader(
   return bPrintMessage;
 }
 
-void ON_Error(const char* sFileName, int line_number, 
+void ON_Error(const char* sFileName, int line_number,
               const char* sFormat, ...)
 {
   ON_IncrementErrorCount();
@@ -233,7 +233,7 @@ void ON_Error(const char* sFileName, int line_number,
 
   if ( bPrintMessage )
   {
-    if (sFormat && sFormat[0]) 
+    if (sFormat && sFormat[0])
     {
       // append formatted error message to sMessage[]
       va_list args;
@@ -246,7 +246,7 @@ void ON_Error(const char* sFileName, int line_number,
   }
 }
 
-void ON_ErrorEx(const char* sFileName, int line_number, const char* sFunctionName, 
+void ON_ErrorEx(const char* sFileName, int line_number, const char* sFunctionName,
               const char* sFormat, ...)
 {
   ON_IncrementErrorCount();
@@ -255,7 +255,7 @@ void ON_ErrorEx(const char* sFileName, int line_number, const char* sFunctionNam
 
   if ( bPrintMessage )
   {
-    if (sFormat && sFormat[0]) 
+    if (sFormat && sFormat[0])
     {
       // append formatted error message to sMessage[]
       va_list args;
@@ -268,7 +268,7 @@ void ON_ErrorEx(const char* sFileName, int line_number, const char* sFunctionNam
   }
 }
 
-void ON_Warning(const char* sFileName, int line_number, 
+void ON_Warning(const char* sFileName, int line_number,
                 const char* sFormat, ...)
 {
   ON_IncrementWarningCount();
@@ -277,7 +277,7 @@ void ON_Warning(const char* sFileName, int line_number,
 
   if ( bPrintMessage )
   {
-    if (sFormat && sFormat[0]) 
+    if (sFormat && sFormat[0])
     {
       // append formatted error message to sMessage[]
       va_list args;
@@ -300,7 +300,7 @@ void ON_WarningEx(const char* sFileName, int line_number, const char* sFunctionN
 
   if ( bPrintMessage )
   {
-    if (sFormat && sFormat[0]) 
+    if (sFormat && sFormat[0])
     {
       // append formatted error message to sMessage[]
       va_list args;
@@ -314,10 +314,10 @@ void ON_WarningEx(const char* sFileName, int line_number, const char* sFunctionN
 }
 
 void ON_Assert(int bCondition,
-               const char* sFileName, int line_number, 
+               const char* sFileName, int line_number,
                const char* sFormat, ...)
 {
-  if ( !bCondition ) 
+  if ( !bCondition )
   {
     ON_IncrementErrorCount();
 
@@ -325,7 +325,7 @@ void ON_Assert(int bCondition,
 
     if ( bPrintMessage )
     {
-      if (sFormat && sFormat[0]) 
+      if (sFormat && sFormat[0])
       {
         // append formatted error message to sMessage[]
         va_list args;
@@ -343,7 +343,7 @@ void ON_AssertEx(int bCondition,
                const char* sFileName, int line_number, const char* sFunctionName,
                const char* sFormat, ...)
 {
-  if ( !bCondition ) 
+  if ( !bCondition )
   {
     ON_IncrementErrorCount();
 
@@ -351,7 +351,7 @@ void ON_AssertEx(int bCondition,
 
     if ( bPrintMessage )
     {
-      if (sFormat && sFormat[0]) 
+      if (sFormat && sFormat[0])
       {
         // append formatted error message to sMessage[]
         va_list args;

@@ -52,7 +52,7 @@ pcl::modeler::Parameter::setModelData(QWidget *editor, QAbstractItemModel *model
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 std::string
-pcl::modeler::IntParameter::valueTip() 
+pcl::modeler::IntParameter::valueTip()
 {
   return QString("value range: [%1, %3]").arg(low_).arg(high_).toStdString();
 }
@@ -101,7 +101,7 @@ pcl::modeler::IntParameter::toModelData()
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 std::string
-pcl::modeler::BoolParameter::valueTip() 
+pcl::modeler::BoolParameter::valueTip()
 {
   return QString("bool value").toStdString();
 }
@@ -146,7 +146,7 @@ pcl::modeler::BoolParameter::toModelData()
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 std::string
-pcl::modeler::DoubleParameter::valueTip() 
+pcl::modeler::DoubleParameter::valueTip()
 {
   return QString("value range: [%1, %3]").arg(low_).arg(high_).toStdString();
 }
@@ -196,7 +196,7 @@ pcl::modeler::DoubleParameter::toModelData()
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 std::string
-pcl::modeler::ColorParameter::valueTip() 
+pcl::modeler::ColorParameter::valueTip()
 {
   return ("Color");
 }

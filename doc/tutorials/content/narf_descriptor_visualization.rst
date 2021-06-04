@@ -60,6 +60,6 @@ Also have a look at::
 
   $ ./narf_descriptor_visualization -h
 
-for a list of parameters. 
+for a list of parameters.
 
 

@@ -45,9 +45,9 @@
 namespace pcl
 {
   /** \brief
-    * \param[in] p1 
+    * \param[in] p1
     * \param[in] n1
-    * \param[in] p2 
+    * \param[in] p2
     * \param[in] n2
     * \param[out] f1
     * \param[out] f2
@@ -99,9 +99,9 @@ namespace pcl
       computeFeature (PointCloudOut &output);
 
       /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &) {}
   };
 
@@ -137,9 +137,9 @@ namespace pcl
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &output);
 
       /** \brief Make the compute (&PointCloudOut); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       compute (pcl::PointCloud<pcl::Normal> &) {}
   };
 }

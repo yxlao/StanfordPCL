@@ -1,5 +1,5 @@
 .. toctree::
-  
+
 The following links describe a set of basic PCL tutorials. Please note that
 their source codes may already be provided as part of the PCL regular releases,
 so check there before you start copy & pasting the code. The list of tutorials
@@ -46,7 +46,7 @@ Basic Usage
              Author: *Razvan G. Mihalyi*
 
              Compatibility: > PCL 1.6
-             
+
              Takes the reader through all of the PCL modules and offers basic explanations on their functionalities.
      ======  ======
 
@@ -62,7 +62,7 @@ Basic Usage
              Author: *Radu B. Rusu*
 
              Compatibility: > PCL 1.0
-             
+
              Presents the basic data structures in PCL and discusses their usage with a simple code example.
      ======  ======
 
@@ -77,7 +77,7 @@ Basic Usage
              Author: *Nizar Sallem*
 
              Compatibility: > PCL 1.0
-             
+
              In this tutorial, we will learn how to link your own project to PCL using cmake.
      ======  ======
 
@@ -92,7 +92,7 @@ Basic Usage
              Author: *Nizar Sallem*
 
              Compatibility: > PCL 1.0
-             
+
              In this tutorial, we will explain the basic PCL cmake options, and ways to tweak them to fit your project.
      ======  ======
 
@@ -107,7 +107,7 @@ Basic Usage
              Authors: *Alessio Placitelli* and *Mourad Boufarguine*
 
              Compatibility: > PCL 1.0
-             
+
              In this tutorial, we will explain how to compile PCL's 3rd party dependencies from source on Microsoft Windows.
      ======  ======
 
@@ -121,8 +121,8 @@ Basic Usage
 
              Author: *Mourad Boufarguine*
 
-             Compatibility: > PCL 1.0 
-             
+             Compatibility: > PCL 1.0
+
              In this tutorial, we will explain how to compile PCL on Microsoft Windows.
      ======  ======
 
@@ -137,7 +137,7 @@ Basic Usage
              Author: *Justin Rosen*
 
              Compatibility: > PCL 1.0
-             
+
              This tutorial explains how to build the Point Cloud Library **from MacPorts and source** on Mac OS X platforms.
      ======  ======
 
@@ -172,7 +172,7 @@ Advanced Usage
              Author: *Radu B. Rusu*
 
              Compatibility: > PCL 0.9, < PCL 2.0
-             
+
              This document explains what templated point types are in PCL, why do they exist, and how to create and use your own `PointT` point type.
      ======  ======
 
@@ -187,7 +187,7 @@ Advanced Usage
              Author: *Radu B. Rusu, Luca Penasa*
 
              Compatibility: > PCL 0.9, < PCL 2.0
-             
+
              This short guide is to serve as both a HowTo and a FAQ for writing new PCL classes, either from scratch, or by adapting old code.
      ======  ======
 
@@ -200,7 +200,7 @@ Features
 --------
 
   * :ref:`how_3d_features_work`
-    
+
      ======  ======
      |fe_1|  Title: **How 3D features work**
 
@@ -210,12 +210,12 @@ Features
 
              This document presents a basic introduction to the 3D feature estimation methodologies in PCL.
      ======  ======
-     
+
      .. |fe_1| image:: images/good_features_small.png
                :height: 100px
 
   * :ref:`normal_estimation`
-    
+
      ======  ======
      |fe_2|  Title: **Estimating Surface Normals in a PointCloud**
 
@@ -225,13 +225,13 @@ Features
 
              This tutorial discusses the theoretical and implementation details of the surface normal estimation module in PCL.
      ======  ======
-     
+
      .. |fe_2| image:: images/normal_estimation.png
                :height: 100px
 
 
   * :ref:`normal_estimation_using_integral_images`
-    
+
      ======  ======
      |fe_3|  Title: **Normal Estimation Using Integral Images**
 
@@ -241,12 +241,12 @@ Features
 
              In this tutorial we will learn how to compute normals for an organized point cloud using integral images.
      ======  ======
-     
+
      .. |fe_3| image:: images/normal_estimation_ii.png
                :height: 100px
 
   * :ref:`pfh_estimation`
-    
+
      ======  ======
      |fe_4|  Title: **Point Feature Histograms (PFH) descriptors**
 
@@ -256,12 +256,12 @@ Features
 
              This tutorial introduces a family of 3D feature descriptors called PFH (Point Feature Histograms) and discusses their implementation details from PCL's perspective.
      ======  ======
-     
+
      .. |fe_4| image:: images/pfh_estimation.png
                :height: 100px
 
   * :ref:`fpfh_estimation`
-    
+
      ======  ======
      |fe_5|  Title: **Fast Point Feature Histograms (FPFH) descriptors**
 
@@ -271,12 +271,12 @@ Features
 
              This tutorial introduces the FPFH (Fast Point Feature Histograms) 3D descriptor and discusses their implementation details from PCL's perspective.
      ======  ======
-     
+
      .. |fe_5| image:: images/fpfh_estimation.jpg
                :height: 100px
 
   * :ref:`vfh_estimation`
-    
+
      ======  ======
      |fe_6|  Title: **Estimating VFH signatures for a set of points**
 
@@ -286,12 +286,12 @@ Features
 
              This document describes the Viewpoint Feature Histogram (VFH) descriptor, a novel representation for point clusters for the problem of Cluster (e.g., Object) Recognition and 6DOF Pose Estimation.
      ======  ======
-     
+
      .. |fe_6| image:: images/vfh_estimation.png
                :height: 100px
-  
+
   * :ref:`narf_feature_extraction`
-    
+
      ======  ======
      |fe_7|  Title: **How to extract NARF features from a range image**
 
@@ -301,12 +301,12 @@ Features
 
              In this tutorial, we will learn how to extract NARF features from a range image.
      ======  ======
-     
+
      .. |fe_7| image:: images/narf_keypoint_extraction.png
                :height: 100px
 
   * :ref:`feature_evaluation_framework`
-    
+
      ======  ======
      |fe_8|  Title: **How to benchmark feature descriptor algorithms**
 
@@ -316,17 +316,17 @@ Features
 
              In this tutorial, we will go over how to use the FeatureEvaluationFramework class to benchmark various feature descriptor algorithms.
      ======  ======
-     
+
      .. |fe_8| image:: images/feature_evaluation/class_hierarchy.png
                :height: 100px
-               
+
 .. _filtering_tutorial:
 
 Filtering
 ---------
 
   * :ref:`passthrough`
-    
+
      ======  ======
      |fi_1|  Title: **Filtering a PointCloud using a PassThrough filter**
 
@@ -336,12 +336,12 @@ Filtering
 
              In this tutorial, we will learn how to remove points whose values fall inside/outside a user given interval along a specified dimension.
      ======  ======
-     
+
      .. |fi_1| image:: images/passthrough.png
                :height: 100px
 
   * :ref:`voxelgrid`
-    
+
      ======  ======
      |fi_2|  Title: **Downsampling a PointCloud using a VoxelGrid filter**
 
@@ -351,13 +351,13 @@ Filtering
 
              In this tutorial, we will learn how to downsample (i.e., reduce the number of points) a Point Cloud.
      ======  ======
-     
+
      .. |fi_2| image:: images/voxel_grid.jpg
                :height: 100px
-    
 
-  * :ref:`statistical_outlier_removal` 
-    
+
+  * :ref:`statistical_outlier_removal`
+
      ======  ======
      |fi_3|  Title: **Removing sparse outliers using StatisticalOutlierRemoval**
 
@@ -367,7 +367,7 @@ Filtering
 
              In this tutorial, we will learn how to remove sparse outliers from noisy data, using StatisticalRemoval.
      ======  ======
-     
+
      .. |fi_3| image:: images/statistical_removal.jpg
                :height: 100px
 
@@ -382,7 +382,7 @@ Filtering
 
              In this tutorial, we will learn how to project points to a parametric model (i.e., plane).
      ======  ======
-     
+
      .. |fi_4| image:: images/project_inliers.png
                :height: 100px
 
@@ -397,12 +397,12 @@ Filtering
 
              In this tutorial, we will learn how to extract a set of indices given by a segmentation algorithm.
      ======  ======
-     
+
      .. |fi_5| image:: images/extract_indices.jpg
                :height: 100px
 
-  * :ref:`remove_outliers` 
-    
+  * :ref:`remove_outliers`
+
      ======  ======
      |fi_6|  Title: **Removing outliers using a Conditional or RadiusOutlier removal**
 
@@ -412,7 +412,7 @@ Filtering
 
              In this tutorial, we will learn how to remove outliers from noisy data, using ConditionalRemoval, RadiusOutlierRemoval.
      ======  ======
-     
+
      .. |fi_6| image:: images/radius_outlier.png
                :height: 100px
 
@@ -432,7 +432,7 @@ I/O
 
              This document describes the PCD file format, and the way it is used inside PCL.
      ======  ======
-     
+
      .. |i_o0| image:: images/PCD_icon.png
                :height: 100px
 
@@ -447,7 +447,7 @@ I/O
 
              In this tutorial, we will learn how to read a Point Cloud from a PCD file.
      ======  ======
-     
+
      .. |i_o1| image:: images/read_pcd.jpg
                :height: 100px
 
@@ -462,7 +462,7 @@ I/O
 
              In this tutorial, we will learn how to write a Point Cloud to a PCD file.
      ======  ======
-     
+
      .. |i_o2| image:: images/write_pcd.jpg
                :height: 100px
 
@@ -502,7 +502,7 @@ Keypoints
 ---------
 
   * :ref:`narf_keypoint_extraction`
-    
+
      ======  ======
      |kp_1|  Title: **How to extract NARF keypoints from a range image**
 
@@ -512,7 +512,7 @@ Keypoints
 
              In this tutorial, we will learn how to extract NARF keypoints from a range image.
      ======  ======
-     
+
      .. |kp_1| image:: images/narf_keypoint_extraction.png
                :height: 100px
 
@@ -532,7 +532,7 @@ KdTree
 
              In this tutorial, we will learn how to search using the nearest neighbor method for k-d trees
      ======  ======
-     
+
      .. |kd_1| image:: images/kdtree_search.png
                :height: 100px
 
@@ -542,7 +542,7 @@ Octree
 ------
 
   * :ref:`octree_compression`
-  
+
      ======  ======
      |oc_1|  Title: **Point cloud compression**
 
@@ -552,12 +552,12 @@ Octree
 
              In this tutorial, we will learn how to compress a single point cloud and streams of point clouds.
      ======  ======
-     
+
      .. |oc_1| image:: images/compression_tutorial.png
                :height: 100px
 
   * :ref:`octree_search`
-  
+
      ======  ======
      |oc_2|  Title: **Octrees for spatial partitioning and neighbor search**
 
@@ -567,12 +567,12 @@ Octree
 
              In this tutorial, we will learn how to use octrees for spatial partitioning and nearest neighbor search.
      ======  ======
-     
+
      .. |oc_2| image:: images/octree_img.png
                :height: 100px
-               
+
   * :ref:`octree_change_detection`
-  
+
      ======  ======
      |oc_3|  Title: **Spatial change detection on unorganized point cloud data**
 
@@ -582,7 +582,7 @@ Octree
 
              In this tutorial, we will learn how to use octrees for detecting spatial changes within point clouds.
      ======  ======
-     
+
      .. |oc_3| image:: images/changedetectionThumb.png
                :height: 100px
 
@@ -599,8 +599,8 @@ Range Images
              Author: *Bastian Steder*
 
              Compatibility: > PCL 1.0
-             
-             This tutorial demonstrates how to create a range image from a point cloud and a given sensor position. 
+
+             This tutorial demonstrates how to create a range image from a point cloud and a given sensor position.
      ======  ======
 
      .. |ri_1| image:: images/range_image_visualization.png
@@ -614,8 +614,8 @@ Range Images
              Author: *Bastian Steder*
 
              Compatibility: > PCL 1.3
-             
-             This tutorial demonstrates how to extract borders (traversals from foreground to background) from a range image. 
+
+             This tutorial demonstrates how to extract borders (traversals from foreground to background) from a range image.
      ======  ======
 
      .. |ri_2| image:: images/range_image_border_points.png
@@ -713,7 +713,7 @@ Sample Consensus
 ----------------
 
   * :ref:`random_sample_consensus`
-    
+
      ======  ======
      |sc_1|  Title: **How to use Random Sample Consensus model**
 
@@ -723,17 +723,17 @@ Sample Consensus
 
              In this tutorial we learn how to use a RandomSampleConsensus with a plane model to obtain the cloud fitting to this model.
      ======  ======
-     
+
      .. |sc_1| image:: images/ransac_outliers_plane.png
                :height: 100px
 
 .. _segmentation_tutorial:
-  
+
 Segmentation
 ------------
 
   * :ref:`planar_segmentation`
-    
+
      ======  ======
      |se_1|  Title: **Plane model segmentation**
 
@@ -743,7 +743,7 @@ Segmentation
 
              In this tutorial, we will learn how to segment arbitrary plane models from a given point cloud dataset.
      ======  ======
-     
+
      .. |se_1| image:: images/planar_segmentation.jpg
                :height: 100px
 
@@ -758,7 +758,7 @@ Segmentation
 
              In this tutorial, we will learn how to segment arbitrary cylindrical models from a given point cloud dataset.
      ======  ======
-     
+
      .. |se_2| image:: images/cylinder_segmentation.jpg
                :height: 100px
 
@@ -773,7 +773,7 @@ Segmentation
 
              In this tutorial we will learn how to extract Euclidean clusters with the ``pcl::EuclideanClusterExtraction`` class.
      ======  ======
-     
+
      .. |se_3| image:: images/cluster_extraction.jpg
                :height: 100px
 
@@ -838,7 +838,7 @@ Surface
 
              In this tutorial, we will learn how to construct and run a Moving Least Squares (MLS) algorithm to obtain smoothed XYZ coordinates and normals.
      ======  ======
-     
+
      .. |su_1| image:: images/resampling.jpg
                :height: 100px
 
@@ -853,7 +853,7 @@ Surface
 
              In this tutorial we will learn how to calculate a simple 2D concave or convex hull polygon for a set of points supported by a plane.
      ======  ======
-     
+
      .. |su_2| image:: images/convex_hull_2d.jpg
                :height: 100px
 
@@ -868,7 +868,7 @@ Surface
 
              In this tutorial we will learn how to run a greedy triangulation algorithm on a PointCloud with normals to obtain a triangle mesh based on projections of the local neighborhood.
      ======  ======
-     
+
      .. |su_3| image:: images/greedy_triangulation.png
                :height: 100px
 
@@ -921,7 +921,7 @@ Visualization
 
      .. |vi_3| image:: images/pcl_visualizer_viewports.png
                :height: 100px
- 
+
   * :ref:`pcl_plotter`
 
      ======  ======
@@ -935,7 +935,7 @@ Visualization
      ======  ======
 
      .. |vi_4| image:: images/pcl_plotter_comprational.png
-               :height: 100px               
+               :height: 100px
 
 .. _applications_tutorial:
 
@@ -958,7 +958,7 @@ Applications
                :height: 100px
 
   * :ref:`vfh_recognition`
-    
+
      ======  ======
      |ap_2|  Title: **Cluster Recognition and 6DOF Pose Estimation using VFH descriptors**
 
@@ -968,12 +968,12 @@ Applications
 
              In this tutorial we show how the Viewpoint Feature Histogram (VFH) descriptor can be used to recognize similar clusters in terms of their geometry.
      ======  ======
-     
+
      .. |ap_2| image:: images/vfh_recognition.jpg
                :height: 100px
 
   * :ref:`mobile_streaming`
-    
+
      ======  ======
      |ap_3|  Title: **Point Cloud Streaming to Mobile Devices with Real-time Visualization**
 
@@ -983,12 +983,12 @@ Applications
 
              This tutorial describes how to send point cloud data over the network from a desktop server to a client running on a mobile device.
      ======  ======
-     
+
      .. |ap_3| image:: images/mobile_streaming_1.png
                :height: 100px
-               
+
   * :ref:`using_kinfu_large_scale`
-     
+
      ======  ======
      |ap_4|  Title: **Using Kinfu Large Scale to generate a textured mesh**
 
@@ -998,7 +998,7 @@ Applications
 
              This tutorial demonstrates how to use KinFu Large Scale to produce a mesh from a room, and apply texture information in post-processing for a more appealing visual result.
      ======  ======
-     
+
      .. |ap_4| image:: images/using_kinfu_large_scale.png
                :height: 100px
 
@@ -1017,5 +1017,5 @@ Applications
     * :ref:`narf_descriptor`
       How to extract NARF descriptors from points in a range images
     * :ref:`octree_search`
-      Octrees for spatial partitioning and neighbor search.     
+      Octrees for spatial partitioning and neighbor search.
 

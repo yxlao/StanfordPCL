@@ -110,7 +110,7 @@ class SimpleOpenNIViewer
       boost::mutex::scoped_lock lock (image_mutex_);
       image_ = image;
     }
-    
+
     boost::shared_ptr<openni_wrapper::Image>
     getLatestImage ()
     {
@@ -118,10 +118,10 @@ class SimpleOpenNIViewer
       boost::shared_ptr<openni_wrapper::Image> temp_image;
       temp_image.swap (image_);
       return (temp_image);
-    }    
+    }
 #endif
-    
-    void 
+
+    void
     keyboard_callback (const pcl::visualization::KeyboardEvent& event, void* cookie)
     {
       string* message = (string*)cookie;
@@ -135,7 +135,7 @@ class SimpleOpenNIViewer
       else
         cout << " released" << endl;
     }
-    
+
     void mouse_callback (const pcl::visualization::MouseEvent& mouse_event, void* cookie)
     {
       string* message = (string*) cookie;
@@ -170,11 +170,11 @@ class SimpleOpenNIViewer
 
       string mouseMsg3D("Mouse coordinates in PCL Visualizer");
       string keyMsg3D("Key event for PCL Visualizer");
-      cloud_viewer_.registerMouseCallback (&SimpleOpenNIViewer::mouse_callback, *this, (void*)(&mouseMsg3D));    
+      cloud_viewer_.registerMouseCallback (&SimpleOpenNIViewer::mouse_callback, *this, (void*)(&mouseMsg3D));
       cloud_viewer_.registerKeyboardCallback(&SimpleOpenNIViewer::keyboard_callback, *this, (void*)(&keyMsg3D));
       boost::function<void (const CloudConstPtr&) > cloud_cb = boost::bind (&SimpleOpenNIViewer::cloud_callback, this, _1);
       boost::signals2::connection cloud_connection = grabber_.registerCallback (cloud_cb);
-      
+
 #if !((VTK_MAJOR_VERSION == 5)&&(VTK_MINOR_VERSION <= 4))
       boost::signals2::connection image_connection;
       if (grabber_.providesCallback<void (const boost::shared_ptr<openni_wrapper::Image>&)>())
@@ -188,10 +188,10 @@ class SimpleOpenNIViewer
       }
       unsigned char* rgb_data = 0;
       unsigned rgb_data_size = 0;
-#endif        
-      
+#endif
+
       grabber_.start ();
-      
+
       while (!cloud_viewer_.wasStopped(1))
       {
         if (cloud_)
@@ -200,11 +200,11 @@ class SimpleOpenNIViewer
           //the call to get() sets the cloud_ to null;
           cloud_viewer_.showCloud (getLatestCloud ());
         }
-#if !((VTK_MAJOR_VERSION == 5)&&(VTK_MINOR_VERSION <= 4))        
+#if !((VTK_MAJOR_VERSION == 5)&&(VTK_MINOR_VERSION <= 4))
         if (image_)
         {
           boost::shared_ptr<openni_wrapper::Image> image = getLatestImage ();
-          
+
           if (image->getEncoding() == openni_wrapper::Image::RGB)
           {
             image_viewer_.showRGBImage(image->getMetaData().Data(), image->getWidth(), image->getHeight());
@@ -221,29 +221,29 @@ class SimpleOpenNIViewer
           }
           // This will crash: image_viewer_.spinOnce (10);
         }
-#endif        
+#endif
       }
 
       grabber_.stop();
-      
+
       cloud_connection.disconnect();
-#if !((VTK_MAJOR_VERSION == 5)&&(VTK_MINOR_VERSION <= 4))      
+#if !((VTK_MAJOR_VERSION == 5)&&(VTK_MINOR_VERSION <= 4))
       image_connection.disconnect();
       if (rgb_data)
         delete[] rgb_data;
-#endif      
+#endif
     }
 
     pcl::visualization::CloudViewer cloud_viewer_;
     pcl::OpenNIGrabber& grabber_;
     boost::mutex cloud_mutex_;
     CloudConstPtr cloud_;
-    
-#if !((VTK_MAJOR_VERSION == 5)&&(VTK_MINOR_VERSION <= 4))    
+
+#if !((VTK_MAJOR_VERSION == 5)&&(VTK_MINOR_VERSION <= 4))
     boost::mutex image_mutex_;
     boost::shared_ptr<openni_wrapper::Image> image_;
     pcl::visualization::ImageViewer image_viewer_;
-#endif    
+#endif
 };
 
 void
@@ -287,7 +287,7 @@ main(int argc, char ** argv)
   pcl::OpenNIGrabber::Mode depth_mode = pcl::OpenNIGrabber::OpenNI_Default_Mode;
   pcl::OpenNIGrabber::Mode image_mode = pcl::OpenNIGrabber::OpenNI_Default_Mode;
   bool xyz = false;
-  
+
   if (argc >= 2)
   {
     device_id = argv[1];
@@ -333,7 +333,7 @@ main(int argc, char ** argv)
         }
         else
           cout << "No devices connected." << endl;
-        
+
         cout <<"Virtual Devices available: ONI player" << endl;
       }
       return 0;
@@ -345,19 +345,19 @@ main(int argc, char ** argv)
     if (driver.getNumberDevices() > 0)
       cout << "Device Id not set, using first device." << endl;
   }
-  
+
   unsigned mode;
   if (pcl::console::parse(argc, argv, "-depthmode", mode) != -1)
     depth_mode = (pcl::OpenNIGrabber::Mode) mode;
 
   if (pcl::console::parse(argc, argv, "-imagemode", mode) != -1)
     image_mode = (pcl::OpenNIGrabber::Mode) mode;
-  
+
   if (pcl::console::find_argument(argc, argv, "-xyz") != -1)
     xyz = true;
-  
+
   pcl::OpenNIGrabber grabber (device_id, depth_mode, image_mode);
-  
+
   if (xyz) // only if xyz flag is set, since grabber provides at least XYZ and XYZI pointclouds
   {
     SimpleOpenNIViewer<pcl::PointXYZ> v (grabber);

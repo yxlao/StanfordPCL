@@ -9,7 +9,7 @@ PCL_SUBSYS_DEPEND(build ${SUBSYS_NAME} DEPS ${SUBSYS_DEPS})
 PCL_ADD_DOC(${SUBSYS_NAME})
 
 if(build)
-    set(srcs 
+    set(srcs
         src/tracking.cpp
         src/particle_filter.cpp
         src/particle_filter_omp.cpp
@@ -22,7 +22,7 @@ if(build)
         src/hsv_color_coherence.cpp
         )
 
-    set(incs 
+    set(incs
         include/pcl/${SUBSYS_NAME}/boost.h
         include/pcl/${SUBSYS_NAME}/tracking.h
         include/pcl/${SUBSYS_NAME}/tracker.h
@@ -38,7 +38,7 @@ if(build)
         include/pcl/${SUBSYS_NAME}/kld_adaptive_particle_filter_omp.h
         )
 
-    set(impl_incs 
+    set(impl_incs
         include/pcl/${SUBSYS_NAME}/impl/tracking.hpp
         include/pcl/${SUBSYS_NAME}/impl/tracker.hpp
         include/pcl/${SUBSYS_NAME}/impl/coherence.hpp

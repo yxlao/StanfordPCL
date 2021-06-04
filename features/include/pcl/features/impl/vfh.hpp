@@ -74,7 +74,7 @@ pcl::VFHEstimation<PointInT, PointNT, PointOutT>::compute (PointCloudOut &output
 
   // Resize the output dataset
   // Important! We should only allocate precisely how many elements we will need, otherwise
-  // we risk at pre-allocating too much memory which could lead to bad_alloc 
+  // we risk at pre-allocating too much memory which could lead to bad_alloc
   // (see http://dev.pointclouds.org/issues/657)
   output.width = output.height = 1;
   output.is_dense = input_->is_dense;
@@ -111,7 +111,7 @@ pcl::VFHEstimation<PointInT, PointNT, PointOutT>::computePointSPFHSignature (con
   //resulting in different normalization factors for point clouds that are just rotated about that axis.
 
   double distance_normalization_factor = 1.0;
-  if (normalize_distances_) 
+  if (normalize_distances_)
   {
     Eigen::Vector4f max_pt;
     pcl::getMaxDistance (cloud, indices, centroid_p, max_pt);
@@ -183,7 +183,7 @@ pcl::VFHEstimation<PointInT, PointNT, PointOutT>::computeFeature (PointCloudOut 
   // ---[ Step 1a : compute the centroid in XYZ space
   Eigen::Vector4f xyz_centroid;
 
-  if (use_given_centroid_) 
+  if (use_given_centroid_)
     xyz_centroid = centroid_to_use_;
   else
     compute3DCentroid (*surface_, *indices_, xyz_centroid);          // Estimate the XYZ centroid

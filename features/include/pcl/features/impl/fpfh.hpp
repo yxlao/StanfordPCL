@@ -56,7 +56,7 @@ pcl::FPFHEstimation<PointInT, PointNT, PointOutT>::computePairFeatures (
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointInT, typename PointNT, typename PointOutT> void 
+template <typename PointInT, typename PointNT, typename PointOutT> void
 pcl::FPFHEstimation<PointInT, PointNT, PointOutT>::computePointSPFHSignature (
     const pcl::PointCloud<PointInT> &cloud, const pcl::PointCloud<PointNT> &normals,
     int p_idx, int row, const std::vector<int> &indices,
@@ -185,7 +185,7 @@ pcl::FPFHEstimation<PointInT, PointNT, PointOutT>::computeSPFHSignatures (std::v
   // (We need an SPFH signature for every point that is a neighbor of any point in input_[indices_])
   if (surface_ != input_ ||
       indices_->size () != surface_->points.size ())
-  { 
+  {
     for (size_t idx = 0; idx < indices_->size (); ++idx)
     {
       int p_idx = (*indices_)[idx];
@@ -251,12 +251,12 @@ pcl::FPFHEstimation<PointInT, PointNT, PointOutT>::computeFeature (PointCloudOut
       {
         for (int d = 0; d < fpfh_histogram_.size (); ++d)
           output.points[idx].histogram[d] = std::numeric_limits<float>::quiet_NaN ();
-    
+
         output.is_dense = false;
         continue;
       }
 
-      // ... and remap the nn_indices values so that they represent row indices in the spfh_hist_* matrices 
+      // ... and remap the nn_indices values so that they represent row indices in the spfh_hist_* matrices
       // instead of indices into surface_->points
       for (size_t i = 0; i < nn_indices.size (); ++i)
         nn_indices[i] = spfh_hist_lookup[nn_indices[i]];
@@ -279,12 +279,12 @@ pcl::FPFHEstimation<PointInT, PointNT, PointOutT>::computeFeature (PointCloudOut
       {
         for (int d = 0; d < fpfh_histogram_.size (); ++d)
           output.points[idx].histogram[d] = std::numeric_limits<float>::quiet_NaN ();
-    
+
         output.is_dense = false;
         continue;
       }
 
-      // ... and remap the nn_indices values so that they represent row indices in the spfh_hist_* matrices 
+      // ... and remap the nn_indices values so that they represent row indices in the spfh_hist_* matrices
       // instead of indices into surface_->points
       for (size_t i = 0; i < nn_indices.size (); ++i)
         nn_indices[i] = spfh_hist_lookup[nn_indices[i]];
@@ -335,7 +335,7 @@ pcl::FPFHEstimation<PointInT, PointNT, Eigen::MatrixXf>::computeFeatureEigen (pc
         continue;
       }
 
-      // ... and remap the nn_indices values so that they represent row indices in the spfh_hist_* matrices 
+      // ... and remap the nn_indices values so that they represent row indices in the spfh_hist_* matrices
       // instead of indices into surface_->points
       for (size_t i = 0; i < nn_indices.size (); ++i)
         nn_indices[i] = spfh_hist_lookup[nn_indices[i]];
@@ -357,7 +357,7 @@ pcl::FPFHEstimation<PointInT, PointNT, Eigen::MatrixXf>::computeFeatureEigen (pc
         continue;
       }
 
-      // ... and remap the nn_indices values so that they represent row indices in the spfh_hist_* matrices 
+      // ... and remap the nn_indices values so that they represent row indices in the spfh_hist_* matrices
       // instead of indices into surface_->points
       for (size_t i = 0; i < nn_indices.size (); ++i)
         nn_indices[i] = spfh_hist_lookup[nn_indices[i]];
@@ -372,5 +372,5 @@ pcl::FPFHEstimation<PointInT, PointNT, Eigen::MatrixXf>::computeFeatureEigen (pc
 
 #define PCL_INSTANTIATE_FPFHEstimation(T,NT,OutT) template class PCL_EXPORTS pcl::FPFHEstimation<T,NT,OutT>;
 
-#endif    // PCL_FEATURES_IMPL_FPFH_H_ 
+#endif    // PCL_FEATURES_IMPL_FPFH_H_
 

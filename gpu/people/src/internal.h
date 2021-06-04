@@ -54,9 +54,9 @@ namespace pcl
     typedef DeviceArray2D<uchar4> Image;
 
     typedef DeviceArray2D<unsigned short> Depth;
-    typedef DeviceArray2D<unsigned char>  Labels;      
+    typedef DeviceArray2D<unsigned char>  Labels;
     typedef DeviceArray2D<float>          HueImage;
-    typedef DeviceArray2D<unsigned char>  Mask;  
+    typedef DeviceArray2D<unsigned char>  Mask;
 
     typedef DeviceArray2D<char4> MultiLabels;
 
@@ -78,7 +78,7 @@ namespace pcl
     void colorLMap(const Labels& labels, const DeviceArray<uchar4>& cmap, Image& rgb);
     void mixedColorMap(const Labels& labels, const DeviceArray<uchar4>& map, const Image& rgba, Image& output);
 
-    ////////////// connected components ///////////////////        
+    ////////////// connected components ///////////////////
 
     struct ConnectedComponents
     {
@@ -101,8 +101,8 @@ namespace pcl
     struct Dilatation
     {
         typedef DeviceArray<unsigned char> Kernel;
-        enum 
-        { 
+        enum
+        {
           KSIZE_X = 5,
           KSIZE_Y = 5,
           ANCH_X = KSIZE_X/2,

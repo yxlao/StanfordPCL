@@ -131,7 +131,7 @@ enum NppStInterpMode
 
 
 /** Size of a buffer required for interpolation.
- * 
+ *
  * Requires several such buffers. See \see NppStInterpolationState.
  *
  * \param srcSize           [IN]  Frame size (both frames must be of the same size)
@@ -176,17 +176,17 @@ NCVStatus nppiStInterpolateFrames(const NppStInterpolationState *pState);
  * \return NCV status code
  */
 NCV_EXPORTS
-NCVStatus nppiStFilterRowBorder_32f_C1R(const Ncv32f *pSrc, 
-                                        NcvSize32u srcSize, 
+NCVStatus nppiStFilterRowBorder_32f_C1R(const Ncv32f *pSrc,
+                                        NcvSize32u srcSize,
                                         Ncv32u nSrcStep,
-                                        Ncv32f *pDst, 
-                                        NcvSize32u dstSize, 
+                                        Ncv32f *pDst,
+                                        NcvSize32u dstSize,
                                         Ncv32u nDstStep,
-                                        NcvRect32u oROI, 
+                                        NcvRect32u oROI,
                                         NppStBorderType borderType,
-                                        const Ncv32f *pKernel, 
+                                        const Ncv32f *pKernel,
                                         Ncv32s nKernelSize,
-                                        Ncv32s nAnchor, 
+                                        Ncv32s nAnchor,
                                         Ncv32f multiplier);
 
 
@@ -224,14 +224,14 @@ NCVStatus nppiStFilterColumnBorder_32f_C1R(const Ncv32f *pSrc,
 
 
 /** Size of buffer required for vector image warping.
- * 
+ *
  * \param srcSize           [IN]  Source image size
  * \param nStep             [IN]  Source image line step
  * \param hpSize            [OUT] Where to store computed size (host memory)
  *
  * \return NCV status code
  */
-NCV_EXPORTS 
+NCV_EXPORTS
 NCVStatus nppiStVectorWarpGetBufferSize(NcvSize32u srcSize,
                                         Ncv32u nSrcStep,
                                         Ncv32u *hpSize);
@@ -315,7 +315,7 @@ NCVStatus nppiStVectorWarp_PSF2x2_32f_C1(const Ncv32f *pSrc,
  * \param xFactor           [IN]  Row scale factor
  * \param yFactor           [IN]  Column scale factor
  * \param interpolation     [IN]  Interpolation type
- * 
+ *
  * \return NCV status code
  */
 NCV_EXPORTS

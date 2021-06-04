@@ -64,7 +64,7 @@
 namespace pcl
 {
   namespace gpu
-  {        
+  {
     struct FramedTransformation {
 	  enum RegistrationType { Kinfu = 0, DirectApply = 1, InitializeOnly = 2, IncrementalOnly = 3 };
 	  enum ActionFlag {
@@ -85,7 +85,7 @@ namespace pcl
       Eigen::Matrix4f transformation_;
 	  FramedTransformation() : type_( Kinfu ), flag_( 0 ) {}
       FramedTransformation( int id1, int id2, int f, Eigen::Matrix4f t ) : id1_( id1 ), id2_( id2 ), frame_( f ), transformation_( t ), type_( DirectApply ), flag_( 0 ) {}
-      FramedTransformation( int id1, int id2, int f, Eigen::Matrix4f t, RegistrationType tp, int flg ) 
+      FramedTransformation( int id1, int id2, int f, Eigen::Matrix4f t, RegistrationType tp, int flg )
 		  : id1_( id1 ), id2_( id2 ), frame_( f ), transformation_( t ), type_( tp ), flag_( flg ) {}
     };
 
@@ -254,7 +254,7 @@ namespace pcl
 
 	public:
 		bool IsValidPoint( int i ) {
-			if ( _isnan( points_[ i ].p_[ 0 ] ) || _isnan( points_[ i ].p_[ 1 ] ) || _isnan( points_[ i ].p_[ 2 ] ) || 
+			if ( _isnan( points_[ i ].p_[ 0 ] ) || _isnan( points_[ i ].p_[ 1 ] ) || _isnan( points_[ i ].p_[ 2 ] ) ||
 				_isnan( points_[ i ].n_[ 0 ] ) || _isnan( points_[ i ].n_[ 1 ] ) || _isnan( points_[ i ].n_[ 2 ] ) )
 				return false;
 			else
@@ -367,37 +367,37 @@ namespace pcl
 			pt[ 3 ] /= unit_length_;
 			pt[ 4 ] /= unit_length_;
 			pt[ 5 ] /= unit_length_;
-			point.nval_[ 0 ] = 
-				- pt[ 3 ] * ( 1 - residual[ 1 ] ) * ( 1 - residual[ 2 ] ) 
-				- pt[ 4 ] * ( 1 - residual[ 0 ] ) * ( 1 - residual[ 2 ] ) 
+			point.nval_[ 0 ] =
+				- pt[ 3 ] * ( 1 - residual[ 1 ] ) * ( 1 - residual[ 2 ] )
+				- pt[ 4 ] * ( 1 - residual[ 0 ] ) * ( 1 - residual[ 2 ] )
 				- pt[ 5 ] * ( 1 - residual[ 0 ] ) * ( 1 - residual[ 1 ] );
-			point.nval_[ 1 ] = 
-				- pt[ 3 ] * ( 1 - residual[ 1 ] ) * ( residual[ 2 ] ) 
-				- pt[ 4 ] * ( 1 - residual[ 0 ] ) * ( residual[ 2 ] ) 
+			point.nval_[ 1 ] =
+				- pt[ 3 ] * ( 1 - residual[ 1 ] ) * ( residual[ 2 ] )
+				- pt[ 4 ] * ( 1 - residual[ 0 ] ) * ( residual[ 2 ] )
 				+ pt[ 5 ] * ( 1 - residual[ 0 ] ) * ( 1 - residual[ 1 ] );
-			point.nval_[ 2 ] = 
-				- pt[ 3 ] * ( residual[ 1 ] ) * ( 1 - residual[ 2 ] ) 
-				+ pt[ 4 ] * ( 1 - residual[ 0 ] ) * ( 1 - residual[ 2 ] ) 
+			point.nval_[ 2 ] =
+				- pt[ 3 ] * ( residual[ 1 ] ) * ( 1 - residual[ 2 ] )
+				+ pt[ 4 ] * ( 1 - residual[ 0 ] ) * ( 1 - residual[ 2 ] )
 				- pt[ 5 ] * ( 1 - residual[ 0 ] ) * ( residual[ 1 ] );
-			point.nval_[ 3 ] = 
-				- pt[ 3 ] * ( residual[ 1 ] ) * ( residual[ 2 ] ) 
-				+ pt[ 4 ] * ( 1 - residual[ 0 ] ) * ( residual[ 2 ] ) 
+			point.nval_[ 3 ] =
+				- pt[ 3 ] * ( residual[ 1 ] ) * ( residual[ 2 ] )
+				+ pt[ 4 ] * ( 1 - residual[ 0 ] ) * ( residual[ 2 ] )
 				+ pt[ 5 ] * ( 1 - residual[ 0 ] ) * ( residual[ 1 ] );
-			point.nval_[ 4 ] = 
-				  pt[ 3 ] * ( 1 - residual[ 1 ] ) * ( 1 - residual[ 2 ] ) 
-				- pt[ 4 ] * ( residual[ 0 ] ) * ( 1 - residual[ 2 ] ) 
+			point.nval_[ 4 ] =
+				  pt[ 3 ] * ( 1 - residual[ 1 ] ) * ( 1 - residual[ 2 ] )
+				- pt[ 4 ] * ( residual[ 0 ] ) * ( 1 - residual[ 2 ] )
 				- pt[ 5 ] * ( residual[ 0 ] ) * ( 1 - residual[ 1 ] );
-			point.nval_[ 5 ] = 
-				  pt[ 3 ] * ( 1 - residual[ 1 ] ) * ( residual[ 2 ] ) 
-				- pt[ 4 ] * ( residual[ 0 ] ) * ( residual[ 2 ] ) 
+			point.nval_[ 5 ] =
+				  pt[ 3 ] * ( 1 - residual[ 1 ] ) * ( residual[ 2 ] )
+				- pt[ 4 ] * ( residual[ 0 ] ) * ( residual[ 2 ] )
 				+ pt[ 5 ] * ( residual[ 0 ] ) * ( 1 - residual[ 1 ] );
-			point.nval_[ 6 ] = 
-				  pt[ 3 ] * ( residual[ 1 ] ) * ( 1 - residual[ 2 ] ) 
-				+ pt[ 4 ] * ( residual[ 0 ] ) * ( 1 - residual[ 2 ] ) 
+			point.nval_[ 6 ] =
+				  pt[ 3 ] * ( residual[ 1 ] ) * ( 1 - residual[ 2 ] )
+				+ pt[ 4 ] * ( residual[ 0 ] ) * ( 1 - residual[ 2 ] )
 				- pt[ 5 ] * ( residual[ 0 ] ) * ( residual[ 1 ] );
-			point.nval_[ 7 ] = 
-				  pt[ 3 ] * ( residual[ 1 ] ) * ( residual[ 2 ] ) 
-				+ pt[ 4 ] * ( residual[ 0 ] ) * ( residual[ 2 ] ) 
+			point.nval_[ 7 ] =
+				  pt[ 3 ] * ( residual[ 1 ] ) * ( residual[ 2 ] )
+				+ pt[ 4 ] * ( residual[ 0 ] ) * ( residual[ 2 ] )
 				+ pt[ 5 ] * ( residual[ 0 ] ) * ( residual[ 1 ] );
 
 			point.n_[ 0 ] = pt[ 3 ];
@@ -436,9 +436,9 @@ namespace pcl
         typedef pcl::PointXYZ PointType;
         typedef pcl::Normal NormalType;
 
-        void 
+        void
         performLastScan (){perform_last_scan_ = true; PCL_WARN ("Kinfu will exit after next shift\n");}
-        
+
 		bool
 		intersect( int bbox[ 6 ] );
 
@@ -519,7 +519,7 @@ namespace pcl
         KinfuTracker (const Eigen::Vector3f &volumeSize, const float shiftingDistance, int rows = 480, int cols = 640);
 
         /** \brief Sets Depth camera intrinsics
-          * \param[in] fx focal length x 
+          * \param[in] fx focal length x
           * \param[in] fy focal length y
           * \param[in] cx principal point x
           * \param[in] cy principal point y
@@ -532,10 +532,10 @@ namespace pcl
           */
         void
         setInitialCameraPose (const Eigen::Affine3f& pose);
-                        
-		/** \brief Sets truncation threshold for depth image for ICP step only! This helps 
+
+		/** \brief Sets truncation threshold for depth image for ICP step only! This helps
 		  *  to filter measurements that are outside tsdf volume. Pass zero to disable the truncation.
-          * \param[in] max_icp_distance_ Maximal distance, higher values are reset to zero (means no measurement). 
+          * \param[in] max_icp_distance_ Maximal distance, higher values are reset to zero (means no measurement).
           */
         void
         setDepthTruncationForICP (float max_icp_distance = 0.f);
@@ -549,19 +549,19 @@ namespace pcl
           */
         void
         setIcpCorespFilteringParams (float distThreshold, float sineOfAngle);
-        
-        /** \brief Sets integration threshold. TSDF volume is integrated iff a camera movement metric exceedes the threshold value. 
+
+        /** \brief Sets integration threshold. TSDF volume is integrated iff a camera movement metric exceedes the threshold value.
           * The metric represents the following: M = (rodrigues(Rotation).norm() + alpha*translation.norm())/2, where alpha = 1.f (hardcoded constant)
-          * \param[in] threshold a value to compare with the metric. Suitable values are ~0.001          
+          * \param[in] threshold a value to compare with the metric. Suitable values are ~0.001
           */
         void
         setCameraMovementThreshold(float threshold = 0.001f);
 
-        /** \brief Performs initialization for color integration. Must be called before calling color integration. 
+        /** \brief Performs initialization for color integration. Must be called before calling color integration.
           * \param[in] max_weight max weighe for color integration. -1 means default weight.
           */
         void
-        initColorIntegration(int max_weight = -1);        
+        initColorIntegration(int max_weight = -1);
 
 		void
 		initSLAC( int slac_num );
@@ -589,7 +589,7 @@ namespace pcl
 
         bool operator() (const DepthMap& depth, const View * pcolor = NULL, FramedTransformation * frame_ptr = NULL);
 
-        bool operator() ( 
+        bool operator() (
 			const cv::Mat& image0, const cv::Mat& _depth0, const cv::Mat& validMask0,
 			const cv::Mat& image1, const cv::Mat& _depth1, const cv::Mat& validMask1,
 			const cv::Mat& cameraMatrix, float minDepth, float maxDepth, float maxDepthDiff,
@@ -637,7 +637,7 @@ namespace pcl
 
         /** \brief Returns color volume storage */
         ColorVolume& colorVolume();
-        
+
         /** \brief Renders 3D scene to display to human
           * \param[out] view output array with image
           */
@@ -655,16 +655,16 @@ namespace pcl
           */
         void
         getLastFrameNormals (DeviceArray2D<NormalType>& normals) const;
-        
-        
+
+
         /** \brief Returns pointer to the cyclical buffer structure
           */
-        pcl::gpu::tsdf_buffer* 
-        getCyclicalBufferStructure () 
+        pcl::gpu::tsdf_buffer*
+        getCyclicalBufferStructure ()
         {
           return (cyclical_.getBuffer ());
         }
-        
+
         /** \brief Extract the world and mesh it.
           */
         void
@@ -723,12 +723,12 @@ namespace pcl
 
 		/** \brief Immediate shifting */
 		bool force_shift_;
-        
+
         /** \brief Cyclical buffer object */
         pcl::gpu::CyclicalBuffer cyclical_;
 		pcl::gpu::CyclicalBuffer cyclical2_;
-        
-        
+
+
         /** \brief Number of pyramid levels */
         enum { LEVELS = 3 };
 
@@ -737,7 +737,7 @@ namespace pcl
 
         /** \brief Vertex or Normal Map type */
         typedef DeviceArray2D<float> MapArr;
-        
+
         typedef Eigen::Matrix<float, 3, 3, Eigen::RowMajor> Matrix3frm;
         typedef Eigen::Vector3f Vector3f;
 
@@ -760,7 +760,7 @@ namespace pcl
         TsdfVolume::Ptr tsdf_volume_;
 		TsdfVolume::Ptr tsdf_volume2_;
         ColorVolume::Ptr color_volume_;
-                
+
         /** \brief Initial camera rotation in volume coo space. */
         Matrix3frm init_Rcam_;
 
@@ -776,7 +776,7 @@ namespace pcl
         float  distThres_;
         /** \brief angle threshold in correspondences filtering. Represents max sine of angle between normals. */
         float angleThres_;
-        
+
         /** \brief Depth pyramid. */
         std::vector<DepthMap> depths_curr_;
         /** \brief Vertex maps pyramid for current frame in global coordinate space. */
@@ -788,7 +788,7 @@ namespace pcl
         std::vector<MapArr> vmaps_g_prev_;
         /** \brief Normal maps pyramid for previous frame in global coordinate space. */
         std::vector<MapArr> nmaps_g_prev_;
-                
+
         /** \brief Vertex maps pyramid for current frame in current coordinate space. */
         std::vector<MapArr> vmaps_curr_;
         /** \brief Normal maps pyramid for current frame in current coordinate space. */
@@ -796,10 +796,10 @@ namespace pcl
 
         /** \brief Array of buffers with ICP correspondences for each pyramid level. */
         std::vector<CorespMap> coresps_;
-        
+
         /** \brief Buffer for storing scaled depth image */
         DeviceArray2D<float> depthRawScaled_;
-        
+
         /** \brief Temporary buffer for ICP */
         DeviceArray2D<float> gbuf_;
         /** \brief Buffer to store MLS matrix. */
@@ -852,10 +852,10 @@ namespace pcl
 		DeviceArray<Normal> normals_device_;
 		template<typename MergedT, typename PointT>
 		typename PointCloud<MergedT>::Ptr merge(const PointCloud<PointT>& points, const PointCloud<PointT>& normals)
-		{    
+		{
 			typename PointCloud<MergedT>::Ptr merged_ptr(new PointCloud<MergedT>());
 
-			pcl::copyPointCloud (points, *merged_ptr);      
+			pcl::copyPointCloud (points, *merged_ptr);
 			for (size_t i = 0; i < normals.size (); ++i) {
 				merged_ptr->points[i].normal_x = normals.points[i].x;
 				merged_ptr->points[i].normal_y = normals.points[i].y;
@@ -870,16 +870,16 @@ namespace pcl
 
 		/** \brief Array of camera rotation matrices for each moment of time. */
         std::vector<Matrix3frm> rmats_;
-        
+
         /** \brief Array of camera translations for each moment of time. */
         std::vector<Vector3f> tvecs_;
 
         /** \brief Camera movement threshold. TSDF is integrated iff a camera movement metric exceedes some value. */
         float integration_metric_threshold_;
-        
+
         /** \brief Allocates all GPU internal buffers.
           * \param[in] rows_arg
-          * \param[in] cols_arg          
+          * \param[in] cols_arg
           */
         void
         allocateBufffers (int rows_arg, int cols_arg);
@@ -887,11 +887,11 @@ namespace pcl
         /** \brief Performs the tracker reset to initial  state. It's used if case of camera tracking fail.
           */
         void
-        reset ();     
-                
+        reset ();
+
         /** \brief When set to true, KinFu will extract the whole world and mesh it. */
         bool perform_last_scan_;
-        
+
         /** \brief When set to true, KinFu notifies that it is finished scanning and can be stopped. */
         bool finished_;
 
@@ -900,7 +900,7 @@ namespace pcl
 
         /** \brief Size of the TSDF volume in meters. */
         float volume_size_;
-        
+
       public:
 		EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 

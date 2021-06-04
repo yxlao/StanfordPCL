@@ -72,7 +72,7 @@
 //----------------------------------------------------------------------------
 + (id)cocoaServerWithRenderWindow:(vtkCocoaRenderWindow *)inRenderWindow
 {
-  vtkCocoaServerFix *server = [[[vtkCocoaServerFix alloc] 
+  vtkCocoaServerFix *server = [[[vtkCocoaServerFix alloc]
                             initWithRenderWindow:inRenderWindow]
                             autorelease];
   return (server);
@@ -86,15 +86,15 @@
   if (renWin != NULL)
   {
     win = reinterpret_cast<NSWindow*> (renWin->GetRootWindow ());
-  
+
     // We don't want to be informed of every window closing, so check for nil.
     if (win != nil)
     {
       // Register for the windowWillClose notification in order to stop
       // the run loop if the window closes.
       NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-      [nc addObserver:self selector:@selector(windowWillClose:) 
-                               name:NSWindowWillCloseNotification 
+      [nc addObserver:self selector:@selector(windowWillClose:)
+                               name:NSWindowWillCloseNotification
                              object:win];
     }
   }
@@ -131,22 +131,22 @@
 - (void)windowWillClose:(NSNotification*)aNotification
 {
   (void)aNotification;
-  
+
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
   [nc removeObserver:self name:NSWindowWillCloseNotification object:nil];
-  
+
   if (renWin)
   {
     int windowCreated = renWin->GetWindowCreated ();
     if (windowCreated)
     {
       [self breakEventLoop];
-      
+
       // The NSWindow is closing, so prevent anyone from accidently using it
       renWin->SetRootWindow(NULL);
     }
   }
-} 
+}
 
 @end
 
@@ -159,10 +159,10 @@ class vtkCocoaRenderWindowInteractorFix : public vtkCocoaRenderWindowInteractor
     static vtkCocoaRenderWindowInteractorFix *New ();
     vtkTypeMacro (vtkCocoaRenderWindowInteractorFix, vtkCocoaRenderWindowInteractor);
 
-    virtual void 
+    virtual void
     Start ();
 
-    virtual void 
+    virtual void
     TerminateApp ();
 
   protected:
@@ -171,7 +171,7 @@ class vtkCocoaRenderWindowInteractorFix : public vtkCocoaRenderWindowInteractor
 
   private:
     vtkCocoaRenderWindowInteractorFix (const vtkCocoaRenderWindowInteractorFix&);  // Not implemented.
-    void 
+    void
     operator = (const vtkCocoaRenderWindowInteractorFix&);  // Not implemented.
 };
 
@@ -179,7 +179,7 @@ class vtkCocoaRenderWindowInteractorFix : public vtkCocoaRenderWindowInteractor
 vtkStandardNewMacro (vtkCocoaRenderWindowInteractorFix);
 
 //----------------------------------------------------------------------------
-void 
+void
 vtkCocoaRenderWindowInteractorFix::Start ()
 {
   vtkCocoaRenderWindow *renWin = vtkCocoaRenderWindow::SafeDownCast (this->GetRenderWindow ());
@@ -197,14 +197,14 @@ vtkCocoaRenderWindowInteractorFix::Start ()
 }
 
 //----------------------------------------------------------------------------
-void 
+void
 vtkCocoaRenderWindowInteractorFix::TerminateApp ()
 {
   vtkCocoaRenderWindow *renWin = vtkCocoaRenderWindow::SafeDownCast (this->RenderWindow);
   if (renWin)
   {
     vtkCocoaServerFix *server = reinterpret_cast<vtkCocoaServerFix*> (this->GetCocoaServer ());
-    [server stop]; 
+    [server stop];
   }
 }
 

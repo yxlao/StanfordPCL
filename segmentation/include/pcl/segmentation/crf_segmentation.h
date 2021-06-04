@@ -52,7 +52,7 @@
 namespace pcl
 {
   /** \brief
-    * 
+    *
     */
   template <typename PointT>
   class PCL_EXPORTS CrfSegmentation
@@ -60,13 +60,13 @@ namespace pcl
     public:
 
     //typedef boost::shared_ptr<std::vector<int> > pcl::IndicesPtr;
-    
+
 
       /** \brief Constructor that sets default values for member variables. */
       CrfSegmentation ();
 
       /** \brief This destructor destroys the cloud...
-        * 
+        *
         */
       ~CrfSegmentation ();
 
@@ -111,7 +111,7 @@ namespace pcl
       createUnaryPotentials (std::vector<float> &unary,
                              std::vector<int> &colors,
                              unsigned int n_labels);
-      
+
 
       /** \brief Set the smoothness kernel parameters.
        * \param[in] standard deviation x
@@ -132,7 +132,7 @@ namespace pcl
        * \param[in] weight
         */
       void
-      setAppearanceKernelParameters (float sx, float sy, float sz, 
+      setAppearanceKernelParameters (float sx, float sy, float sz,
                                      float sr, float sg, float sb,
                                      float w);
 
@@ -141,7 +141,7 @@ namespace pcl
       setSurfaceKernelParameters (float sx, float sy, float sz,
                                   float snx, float sny, float snz,
                                   float w);
-      
+
 
     protected:
       /** \brief Voxel grid to discretize the scene */
@@ -158,7 +158,7 @@ namespace pcl
       typename pcl::PointCloud<pcl::PointNormal>::Ptr filtered_normal_;
 
       /** \brief indices of the filtered cloud. */
-      //typename pcl::VoxelGrid::IndicesPtr cloud_indices_;      
+      //typename pcl::VoxelGrid::IndicesPtr cloud_indices_;
 
       /** \brief Voxel grid leaf size */
       Eigen::Vector4f voxel_grid_leaf_size_;
@@ -175,7 +175,7 @@ namespace pcl
 
       std::vector<Eigen::Vector3f> normal_;
 
-      /** \brief smoothness kernel parameters 
+      /** \brief smoothness kernel parameters
        * [0] = standard deviation x
        * [1] = standard deviation y
        * [2] = standard deviation z
@@ -183,7 +183,7 @@ namespace pcl
        */
       float smoothness_kernel_param_[4];
 
-      /** \brief appearance kernel parameters 
+      /** \brief appearance kernel parameters
        * [0] = standard deviation x
        * [1] = standard deviation y
        * [2] = standard deviation z
@@ -195,10 +195,10 @@ namespace pcl
       float appearance_kernel_param_[7];
 
       float surface_kernel_param_[7];
-      
-      
+
+
       unsigned int n_iterations_;
-      
+
 
       /** \brief Contains normals of the points that will be segmented. */
       //typename pcl::PointCloud<pcl::Normal>::Ptr normals_;

@@ -105,8 +105,8 @@ pcl::getMinMax3D (const typename pcl::PointCloud<PointT>::ConstPtr &cloud,
       }
 
       // Check if the point is invalid
-      if (!pcl_isfinite (cloud->points[i].x) || 
-          !pcl_isfinite (cloud->points[i].y) || 
+      if (!pcl_isfinite (cloud->points[i].x) ||
+          !pcl_isfinite (cloud->points[i].y) ||
           !pcl_isfinite (cloud->points[i].z))
         continue;
       // Create the point structure and get the min/max
@@ -119,7 +119,7 @@ pcl::getMinMax3D (const typename pcl::PointCloud<PointT>::ConstPtr &cloud,
   max_pt = max_p;
 }
 
-struct cloud_point_index_idx 
+struct cloud_point_index_idx
 {
   unsigned int idx;
   unsigned int cloud_point_index;
@@ -202,8 +202,8 @@ pcl::VoxelGrid<PointT>::applyFilter (PointCloud &output)
     {
       if (!input_->is_dense)
         // Check if the point is invalid
-        if (!pcl_isfinite (input_->points[cp].x) || 
-            !pcl_isfinite (input_->points[cp].y) || 
+        if (!pcl_isfinite (input_->points[cp].x) ||
+            !pcl_isfinite (input_->points[cp].y) ||
             !pcl_isfinite (input_->points[cp].z))
           continue;
 
@@ -224,7 +224,7 @@ pcl::VoxelGrid<PointT>::applyFilter (PointCloud &output)
         if ((distance_value > filter_limit_max_) || (distance_value < filter_limit_min_))
           continue;
       }
-      
+
       int ijk0 = static_cast<int> (floor (input_->points[cp].x * inverse_leaf_size_[0]) - min_b_[0]);
       int ijk1 = static_cast<int> (floor (input_->points[cp].y * inverse_leaf_size_[1]) - min_b_[1]);
       int ijk2 = static_cast<int> (floor (input_->points[cp].z * inverse_leaf_size_[2]) - min_b_[2]);
@@ -244,8 +244,8 @@ pcl::VoxelGrid<PointT>::applyFilter (PointCloud &output)
     {
       if (!input_->is_dense)
         // Check if the point is invalid
-        if (!pcl_isfinite (input_->points[cp].x) || 
-            !pcl_isfinite (input_->points[cp].y) || 
+        if (!pcl_isfinite (input_->points[cp].x) ||
+            !pcl_isfinite (input_->points[cp].y) ||
             !pcl_isfinite (input_->points[cp].z))
           continue;
 
@@ -267,10 +267,10 @@ pcl::VoxelGrid<PointT>::applyFilter (PointCloud &output)
   // we need to skip all the same, adjacenent idx values
   unsigned int total = 0;
   unsigned int index = 0;
-  while (index < index_vector.size ()) 
+  while (index < index_vector.size ())
   {
     unsigned int i = index + 1;
-    while (i < index_vector.size () && index_vector[i].idx == index_vector[index].idx) 
+    while (i < index_vector.size () && index_vector[i].idx == index_vector[index].idx)
       ++i;
     ++total;
     index = i;
@@ -281,7 +281,7 @@ pcl::VoxelGrid<PointT>::applyFilter (PointCloud &output)
   if (save_leaf_layout_)
   {
     try
-    { 
+    {
       // Resizing won't reset old elements to -1.  If leaf_layout_ has been used previously, it needs to be re-initialized to -1
       uint32_t new_layout_size = div_b_[0]*div_b_[1]*div_b_[2];
       //This is the number of elements that need to be re-initialized to -1
@@ -289,21 +289,21 @@ pcl::VoxelGrid<PointT>::applyFilter (PointCloud &output)
       for (uint32_t i = 0; i < reinit_size; i++)
       {
         leaf_layout_[i] = -1;
-      }        
-      leaf_layout_.resize (new_layout_size, -1);           
+      }
+      leaf_layout_.resize (new_layout_size, -1);
     }
     catch (std::bad_alloc&)
     {
-      throw PCLException("VoxelGrid bin size is too low; impossible to allocate memory for layout", 
+      throw PCLException("VoxelGrid bin size is too low; impossible to allocate memory for layout",
         "voxel_grid.hpp", "applyFilter");	
     }
     catch (std::length_error&)
     {
-      throw PCLException("VoxelGrid bin size is too low; impossible to allocate memory for layout", 
+      throw PCLException("VoxelGrid bin size is too low; impossible to allocate memory for layout",
         "voxel_grid.hpp", "applyFilter");	
     }
   }
-  
+
   index = 0;
   Eigen::VectorXf centroid = Eigen::VectorXf::Zero (centroid_size);
   Eigen::VectorXf temporary = Eigen::VectorXf::Zero (centroid_size);
@@ -311,13 +311,13 @@ pcl::VoxelGrid<PointT>::applyFilter (PointCloud &output)
   for (unsigned int cp = 0; cp < index_vector.size ();)
   {
     // calculate centroid - sum values from all input points, that have the same idx value in index_vector array
-    if (!downsample_all_data_) 
+    if (!downsample_all_data_)
     {
       centroid[0] = input_->points[index_vector[cp].cloud_point_index].x;
       centroid[1] = input_->points[index_vector[cp].cloud_point_index].y;
       centroid[2] = input_->points[index_vector[cp].cloud_point_index].z;
     }
-    else 
+    else
     {
       // ---[ RGB special case
       if (rgba_index >= 0)
@@ -333,15 +333,15 @@ pcl::VoxelGrid<PointT>::applyFilter (PointCloud &output)
     }
 
     unsigned int i = cp + 1;
-    while (i < index_vector.size () && index_vector[i].idx == index_vector[cp].idx) 
+    while (i < index_vector.size () && index_vector[i].idx == index_vector[cp].idx)
     {
-      if (!downsample_all_data_) 
+      if (!downsample_all_data_)
       {
         centroid[0] += input_->points[index_vector[i].cloud_point_index].x;
         centroid[1] += input_->points[index_vector[i].cloud_point_index].y;
         centroid[2] += input_->points[index_vector[i].cloud_point_index].z;
       }
-      else 
+      else
       {
         // ---[ RGB special case
         if (rgba_index >= 0)
@@ -367,17 +367,17 @@ pcl::VoxelGrid<PointT>::applyFilter (PointCloud &output)
 
     // store centroid
     // Do we need to process all the fields?
-    if (!downsample_all_data_) 
+    if (!downsample_all_data_)
     {
       output.points[index].x = centroid[0];
       output.points[index].y = centroid[1];
       output.points[index].z = centroid[2];
     }
-    else 
+    else
     {
       pcl::for_each_type<FieldList> (pcl::NdCopyEigenPointFunctor <PointT> (centroid, output.points[index]));
       // ---[ RGB special case
-      if (rgba_index >= 0) 
+      if (rgba_index >= 0)
       {
         // pack r/g/b into rgb
         float r = centroid[centroid_size-3], g = centroid[centroid_size-2], b = centroid[centroid_size-1];

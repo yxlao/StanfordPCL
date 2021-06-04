@@ -228,7 +228,7 @@ namespace pcl
         makeInfinite (PointOut& p)
         {
           p.x = p.y = p.z = std::numeric_limits<float>::quiet_NaN ();
-        }      
+        }
     };
   }
 }

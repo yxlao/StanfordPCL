@@ -37,21 +37,21 @@
 
 #ifndef PCL_ML_DT_DECISION_FOREST_TRAINER_HPP_
 #define PCL_ML_DT_DECISION_FOREST_TRAINER_HPP_
-  
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <class FeatureType, class DataSet, class LabelType, class ExampleIndex, class NodeType>
 pcl::DecisionForestTrainer<FeatureType, DataSet, LabelType, ExampleIndex, NodeType>::DecisionForestTrainer ()
   : num_of_trees_to_train_ (1)
   , decision_tree_trainer_ ()
 {
-  
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <class FeatureType, class DataSet, class LabelType, class ExampleIndex, class NodeType>
 pcl::DecisionForestTrainer<FeatureType, DataSet, LabelType, ExampleIndex, NodeType>::~DecisionForestTrainer ()
 {
-  
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////

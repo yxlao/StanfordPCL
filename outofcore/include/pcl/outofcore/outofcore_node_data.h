@@ -50,10 +50,10 @@ namespace pcl
 {
   namespace outofcore
   {
-    /** \class OctreeNodeMetadata 
+    /** \class OctreeNodeMetadata
      *
      *  \brief Encapsulated class to read JSON metadata into memory, and write the JSON metadata for each
-     *  node. 
+     *  node.
      *
      *  This class encapsulates the outofcore node metadata
      *  serialization/deserialization. At the time it was written,
@@ -85,66 +85,66 @@ namespace pcl
         ~OutofcoreOctreeNodeMetadata ();
 
         /** \brief Get the lower bounding box corner */
-        Eigen::Vector3d 
+        Eigen::Vector3d
         getBoundingBoxMin () const;
         /** \brief Set the lower bounding box corner */
-        void 
+        void
         setBoundingBoxMin (const Eigen::Vector3d min_bb);
         /** \brief Get the upper bounding box corner */
-        Eigen::Vector3d 
+        Eigen::Vector3d
         getBoundingBoxMax () const;
         /** \brief Set the upper bounding box corner */
-        void 
+        void
         setBoundingBoxMax (const Eigen::Vector3d max_bb);
 
         /** \brief Get the lower and upper corners of the bounding box enclosing this node */
-        void 
+        void
         getBoundingBox (Eigen::Vector3d &min_bb, Eigen::Vector3d &max_bb) const;
         /** \brief Set the lower and upper corners of the bounding box */
-        void 
+        void
         setBoundingBox (const Eigen::Vector3d min_bb, const Eigen::Vector3d max_bb);
-        
+
         /** \brief Get the directory path name; this is the parent_path of  */
-        boost::filesystem::path 
+        boost::filesystem::path
         getDirectoryPathname () const;
         /** \brief Set the directory path name */
-        void 
+        void
         setDirectoryPathname (const boost::filesystem::path directory_pathname);
 
         /** \brief Get the path to the PCD file */
-        boost::filesystem::path 
+        boost::filesystem::path
         getPCDFilename () const;
         /** \brief Set the point filename; extension .pcd */
-        void 
+        void
         setPCDFilename (const boost::filesystem::path point_filename);
 
         /** \brief et the outofcore version read from the "version" field of the JSON object */
-        int 
+        int
         getOutofcoreVersion () const;
         /** \brief Set the outofcore version stored in the "version" field of the JSON object */
-        void 
+        void
         setOutofcoreVersion (const int version);
 
         /** \brief Sets the name of the JSON file */
-        boost::filesystem::path 
+        boost::filesystem::path
         getMetadataFilename () const;
         /** \brief Gets the name of the JSON file */
-        void 
+        void
         setMetadataFilename (const boost::filesystem::path path_to_metadata);
-        
+
         /** \brief Get the midpoint of this node's bounding box */
-        Eigen::Vector3d 
+        Eigen::Vector3d
         getVoxelCenter () const;
-        
+
         /** \brief Writes the data to a JSON file located at \ref metadata_filename_ */
-        void 
+        void
         serializeMetadataToDisk ();
 
         /** \brief Loads the data from a JSON file located at \ref metadata_filename_ */
-        int 
+        int
         loadMetadataFromDisk ();
         /** \brief Loads the data from a JSON file located at \ref metadata_filename_ */
-        int 
+        int
         loadMetadataFromDisk (const boost::filesystem::path path_to_metadata);
 
       protected:
@@ -164,10 +164,10 @@ namespace pcl
         int outofcore_version_;
 
         /** \brief Computes the midpoint; used when bounding box is changed */
-        void 
+        void
         updateVoxelCenter ();
     };
   }//namespace outofcore
 }//namespace pcl
-  
+
 #endif // PCL_OUTOFCORE_OCTREE_NODE_METADATA_H_

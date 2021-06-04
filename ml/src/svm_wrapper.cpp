@@ -225,7 +225,7 @@ pcl::SVM::adaptInputToLibSVM (std::vector<SVMData> training_set, svm_problem &pr
     prob.x[i] = Malloc (struct svm_node, training_set[i].SV.size() + 1);
 
     int k = 0;
-    
+
     for (int j = 0; j < training_set[i].SV.size(); j++)
       if (training_set[i].SV[j].idx != -1 && pcl_isfinite (training_set[i].SV[j].value))
       {
@@ -236,7 +236,7 @@ pcl::SVM::adaptInputToLibSVM (std::vector<SVMData> training_set, svm_problem &pr
           prob.x[i][k].value = training_set[i].SV[j].value;
         k++;
       }
-      
+
     prob.x[i][k].index = -1;
   }
 };
@@ -250,7 +250,7 @@ pcl::SVMTrain::trainClassifier ()
     PCL_ERROR ("[pcl::%s::trainClassifier] Training data not set!\n", getClassName ().c_str ());
     return 0;
   }
-  
+
   scaleFactors (training_set_, scaling_);
   adaptInputToLibSVM (training_set_, prob_);
 
@@ -309,7 +309,7 @@ pcl::SVM::loadProblem (const char *filename, svm_problem &prob)
   prob.l = 0;
 
   line_ = Malloc (char, max_line_len_);
-  
+
   // readline function writes one line in var. "line_"
   while (readline (fp) != NULL)
   {
@@ -464,7 +464,7 @@ pcl::SVM::saveProblem (const char *filename, bool labelled = 0)
     PCL_ERROR ("[pcl::%s] Can't open/create file %s.\n", getClassName ().c_str (), filename);
     return 0;
   }
-    
+
 
   for (int j = 0; j < training_set_.size() ; j++)
   {
@@ -540,7 +540,7 @@ pcl::SVMClassify::loadClassifierModel (const char *filename)
     PCL_ERROR ("[pcl::%s::loadClassifierModel] Can't open classifier model %s.\n", getClassName ().c_str (), filename);
     return 0;
   }
-  
+
   model_ = *out;
   free (out);
 
@@ -570,18 +570,18 @@ pcl::SVMClassify::classificationTest ()
     PCL_ERROR ("[pcl::%s::classificationTest] Classifier model has no data.\n", getClassName ().c_str ());
     return 0;
   }
-  
+
   if (prob_.l == 0)
   {
     PCL_ERROR ("[pcl::%s::classificationTest] Input dataset has no data.\n", getClassName ().c_str ());
     return 0;
   }
-  
+
   if (!labelled_training_set_)
   {
     PCL_ERROR ("[pcl::%s::classificationTest] Input dataset is not labelled.\n", getClassName ().c_str ());
     return 0;
-  }  
+  }
 
   if (predict_probability_)
   {
@@ -696,13 +696,13 @@ pcl::SVMClassify::classification ()
     PCL_ERROR ("[pcl::%s::classification] Classifier model has no data.\n", getClassName ().c_str ());
     return 0;
   }
-  
+
   if (prob_.l == 0)
   {
     PCL_ERROR ("[pcl::%s::classification] Input dataset has no data.\n", getClassName ().c_str ());
     return 0;
   }
-  
+
 
   if (predict_probability_)
   {
@@ -786,7 +786,7 @@ pcl::SVMClassify::classification (pcl::SVMData in)
     PCL_ERROR ("[pcl::%s::classification] Classifier model has no data.\n", getClassName ().c_str ());
     exit(0);
   }
-  
+
   if (predict_probability_)
   {
     if (svm_check_probability_model (&model_) == 0)

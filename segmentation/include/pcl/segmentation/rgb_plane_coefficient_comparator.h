@@ -45,7 +45,7 @@
 
 namespace pcl
 {
-  /** \brief RGBPlaneCoefficientComparator is a Comparator that operates on plane coefficients, 
+  /** \brief RGBPlaneCoefficientComparator is a Comparator that operates on plane coefficients,
     * for use in planar segmentation.  Also takes into account RGB, so we can segmented different colored co-planar regions.
     * In conjunction with OrganizedConnectedComponentSegmentation, this allows planes to be segmented from organized data.
     *
@@ -57,11 +57,11 @@ namespace pcl
     public:
       typedef typename Comparator<PointT>::PointCloud PointCloud;
       typedef typename Comparator<PointT>::PointCloudConstPtr PointCloudConstPtr;
-      
+
       typedef typename pcl::PointCloud<PointNT> PointCloudN;
       typedef typename PointCloudN::Ptr PointCloudNPtr;
       typedef typename PointCloudN::ConstPtr PointCloudNConstPtr;
-      
+
       typedef boost::shared_ptr<RGBPlaneCoefficientComparator<PointT, PointNT> > Ptr;
       typedef boost::shared_ptr<const RGBPlaneCoefficientComparator<PointT, PointNT> > ConstPtr;
 
@@ -79,11 +79,11 @@ namespace pcl
       /** \brief Constructor for RGBPlaneCoefficientComparator.
         * \param[in] plane_coeff_d a reference to a vector of d coefficients of plane equations.  Must be the same size as the input cloud and input normals.  a, b, and c coefficients are in the input normals.
         */
-      RGBPlaneCoefficientComparator (boost::shared_ptr<std::vector<float> >& plane_coeff_d) 
+      RGBPlaneCoefficientComparator (boost::shared_ptr<std::vector<float> >& plane_coeff_d)
         : PlaneCoefficientComparator<PointT, PointNT> (plane_coeff_d), color_threshold_ (50.0f)
       {
       }
-      
+
       /** \brief Destructor for RGBPlaneCoefficientComparator. */
       virtual
       ~RGBPlaneCoefficientComparator ()
@@ -126,7 +126,7 @@ namespace pcl
                  && (normals_->points[idx1].getNormalVector3fMap ().dot (normals_->points[idx2].getNormalVector3fMap () ) > angular_threshold_ )
                  && (color_dist < color_threshold_));
       }
-      
+
     protected:
       float color_threshold_;
   };

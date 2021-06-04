@@ -790,7 +790,7 @@ TEST (VoxelGrid_XYZNormal, Filters)
   PointCloud<PointNormal> output;
   input->reserve (16);
   input->is_dense = false;
-  
+
   PointNormal point;
   PointNormal ground_truth[2][2][2];
   for (unsigned zIdx = 0; zIdx < 2; ++zIdx)
@@ -805,25 +805,25 @@ TEST (VoxelGrid_XYZNormal, Filters)
         // y = 1, z = 0 -> orthogonal normals
         // y = 1, z = 1 -> random normals
         PointNormal& voxel = ground_truth [xIdx][yIdx][zIdx];
-        
+
         point.x = xIdx * 1.99;
         point.y = yIdx * 1.99;
         point.z = zIdx * 1.99;
         point.normal_x = getRandomNumber (1.0, -1.0);
         point.normal_y = getRandomNumber (1.0, -1.0);
         point.normal_z = getRandomNumber (1.0, -1.0);
-        
+
         float norm = 1.0f / sqrt (point.normal_x * point.normal_x + point.normal_y * point.normal_y + point.normal_z * point.normal_z );
         point.normal_x *= norm;
         point.normal_y *= norm;
         point.normal_z *= norm;
-        
+
 //        std::cout << "adding point: " << point.x << " , " << point.y << " , " << point.z
 //                  << " -- " << point.normal_x << " , " << point.normal_y << " , " << point.normal_z << std::endl;
         input->push_back (point);
-        
+
         voxel = point;
-        
+
         if (xIdx != 0)
         {
           point.x = getRandomNumber (0.99) + float (xIdx);
@@ -858,11 +858,11 @@ TEST (VoxelGrid_XYZNormal, Filters)
         voxel.x += point.x;
         voxel.y += point.y;
         voxel.z += point.z;
-        
+
         voxel.x *= 0.5;
         voxel.y *= 0.5;
         voxel.z *= 0.5;
-        
+
         if (yIdx == 0 && zIdx == 0)
         {
           voxel.normal_x = std::numeric_limits<float>::quiet_NaN ();
@@ -875,13 +875,13 @@ TEST (VoxelGrid_XYZNormal, Filters)
           point.normal_x *= norm;
           point.normal_y *= norm;
           point.normal_z *= norm;
-          
+
           voxel.normal_x += point.normal_x;
           voxel.normal_y += point.normal_y;
           voxel.normal_z += point.normal_z;
-          
+
           norm = 1.0f / sqrt (voxel.normal_x * voxel.normal_x + voxel.normal_y * voxel.normal_y + voxel.normal_z * voxel.normal_z );
-          
+
           voxel.normal_x *= norm;
           voxel.normal_y *= norm;
           voxel.normal_z *= norm;
@@ -891,17 +891,17 @@ TEST (VoxelGrid_XYZNormal, Filters)
         input->push_back (point);
 //        std::cout << "voxel: " << voxel.x << " , " << voxel.y << " , " << voxel.z
 //                  << " -- " << voxel.normal_x << " , " << voxel.normal_y << " , " << voxel.normal_z << std::endl;
-        
+
       }
     }
   }
-    
+
   VoxelGrid<PointNormal> grid;
   grid.setLeafSize (1.0f, 1.0f, 1.0f);
   grid.setFilterLimits (0.0, 2.0);
   grid.setInputCloud (input);
   grid.filter (output);
-  
+
   // check the output
   for (unsigned idx = 0, zIdx = 0; zIdx < 2; ++zIdx)
   {
@@ -915,7 +915,7 @@ TEST (VoxelGrid_XYZNormal, Filters)
         EXPECT_EQ (voxel.x, point.x);
         EXPECT_EQ (voxel.y, point.y);
         EXPECT_EQ (voxel.z, point.z);
-        
+
         if (pcl_isfinite(voxel.normal_x) || pcl_isfinite (point.normal_x))
         {
           EXPECT_EQ (voxel.normal_x, point.normal_x);
@@ -925,10 +925,10 @@ TEST (VoxelGrid_XYZNormal, Filters)
       }
     }
   }
-  
+
   toROSMsg (*input, cloud_blob_);
   cloud_blob_ptr_.reset (new PointCloud2 (cloud_blob_));
-  
+
   VoxelGrid<PointCloud2> grid2;
   PointCloud2 output_blob;
 
@@ -951,7 +951,7 @@ TEST (VoxelGrid_XYZNormal, Filters)
         EXPECT_EQ (voxel.x, point.x);
         EXPECT_EQ (voxel.y, point.y);
         EXPECT_EQ (voxel.z, point.z);
-        
+
         if (pcl_isfinite(voxel.normal_x) || pcl_isfinite (point.normal_x))
         {
           EXPECT_EQ (voxel.normal_x, point.normal_x);
@@ -2007,7 +2007,7 @@ TEST (ConditionalRemovalTfQuadraticXYZComparison, Filters)
   cyl_comp->setComparisonMatrix (planeMatrix);
   cyl_comp->setComparisonVector (planeVector);
   cyl_comp->setComparisonScalar (-2 * 5.0);
-  cyl_comp->setComparisonOperator (ComparisonOps::LT); 
+  cyl_comp->setComparisonOperator (ComparisonOps::LT);
 
   condrem.filter (output);
 

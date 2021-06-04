@@ -70,14 +70,14 @@ pcl::registration::TransformationEstimationLM<PointSource, PointTarget, MatScala
   if (cloud_src.points.size () != cloud_tgt.points.size ())
   {
     PCL_ERROR ("[pcl::registration::TransformationEstimationLM::estimateRigidTransformation] ");
-    PCL_ERROR ("Number or points in source (%zu) differs than target (%zu)!\n", 
+    PCL_ERROR ("Number or points in source (%zu) differs than target (%zu)!\n",
                cloud_src.points.size (), cloud_tgt.points.size ());
     return;
   }
   if (cloud_src.points.size () < 4)     // need at least 4 samples
   {
     PCL_ERROR ("[pcl::registration::TransformationEstimationLM::estimateRigidTransformation] ");
-    PCL_ERROR ("Need at least 4 points to estimate a transform! Source and target have %zu points!\n", 
+    PCL_ERROR ("Need at least 4 points to estimate a transform! Source and target have %zu points!\n",
                cloud_src.points.size ());
     return;
   }
@@ -85,7 +85,7 @@ pcl::registration::TransformationEstimationLM<PointSource, PointTarget, MatScala
   int n_unknowns = warp_point_->getDimension ();
   Eigen::VectorXd x (n_unknowns);
   x.setZero ();
-  
+
   // Set temporary pointers
   tmp_src_ = &cloud_src;
   tmp_tgt_ = &cloud_tgt;
@@ -99,7 +99,7 @@ pcl::registration::TransformationEstimationLM<PointSource, PointTarget, MatScala
   PCL_DEBUG ("[pcl::registration::TransformationEstimationLM::estimateRigidTransformation]");
   PCL_DEBUG ("LM solver finished with exit code %i, having a residual norm of %g. \n", info, lm.fvec.norm ());
   PCL_DEBUG ("Final solution: [%f", x[0]);
-  for (int i = 1; i < n_unknowns; ++i) 
+  for (int i = 1; i < n_unknowns; ++i)
     PCL_DEBUG (" %f", x[i]);
   PCL_DEBUG ("]\n");
 
@@ -180,7 +180,7 @@ pcl::registration::TransformationEstimationLM<PointSource, PointTarget, MatScala
   PCL_DEBUG ("[pcl::registration::TransformationEstimationLM::estimateRigidTransformation]");
   PCL_DEBUG ("LM solver finished with exit code %i, having a residual norm of %g. \n", info, lm.fvec.norm ());
   PCL_DEBUG ("Final solution: [%f", x[0]);
-  for (int i = 1; i < n_unknowns; ++i) 
+  for (int i = 1; i < n_unknowns; ++i)
     PCL_DEBUG (" %f", x[i]);
   PCL_DEBUG ("]\n");
 
@@ -215,7 +215,7 @@ pcl::registration::TransformationEstimationLM<PointSource, PointTarget, MatScala
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointSource, typename PointTarget, typename MatScalar> int 
+template <typename PointSource, typename PointTarget, typename MatScalar> int
 pcl::registration::TransformationEstimationLM<PointSource, PointTarget, MatScalar>::OptimizationFunctor::operator () (
     const Eigen::VectorXd &x, Eigen::VectorXd &fvec) const
 {
@@ -235,7 +235,7 @@ pcl::registration::TransformationEstimationLM<PointSource, PointTarget, MatScala
     // Transform the source point based on the current warp parameters
     PointSource p_src_warped;
     estimator_->warp_point_->warpPoint (p_src, p_src_warped);
-    
+
     // Estimate the distance (cost function)
     fvec[i] = estimator_->computeDistance (p_src_warped, p_tgt);
   }
@@ -265,7 +265,7 @@ pcl::registration::TransformationEstimationLM<PointSource, PointTarget, MatScala
     // Transform the source point based on the current warp parameters
     PointSource p_src_warped;
     estimator_->warp_point_->warpPoint (p_src, p_src_warped);
-    
+
     // Estimate the distance (cost function)
     fvec[i] = estimator_->computeDistance (p_src_warped, p_tgt);
   }

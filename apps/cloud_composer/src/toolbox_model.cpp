@@ -11,7 +11,7 @@ pcl::cloud_composer::ToolBoxModel::ToolBoxModel (QTreeView* tool_view, QTreeView
 , parameter_view_ (parameter_view_)
 , project_model_ (0)
 {
-  
+
 }
 
 pcl::cloud_composer::ToolBoxModel::ToolBoxModel (const ToolBoxModel&)
@@ -30,18 +30,18 @@ pcl::cloud_composer::ToolBoxModel::addTool (ToolFactory* tool_factory)
   QIcon new_tool_icon = QIcon (tool_factory->getIconName ());
   QStandardItem* new_tool_item = new QStandardItem (new_tool_icon, tool_factory->getPluginName ());
   new_tool_item->setEditable (false);
-  
+
   new_tool_item->setData (QVariant::fromValue (tool_factory), FACTORY);
-  PropertiesModel* new_tool_parameters= tool_factory->createToolParameterModel (this);  
+  PropertiesModel* new_tool_parameters= tool_factory->createToolParameterModel (this);
   new_tool_item->setData (QVariant::fromValue (new_tool_parameters), PARAMETER_MODEL);
-  
+
   tool_items.insert (new_tool_item);
   QStandardItem* group_item = addToolGroup (tool_factory->getToolGroupName ());
-  group_item->appendRow (new_tool_item); 
+  group_item->appendRow (new_tool_item);
   //Expand the view for this tool group
   QModelIndex group_index = this->indexFromItem(group_item);
   tool_view_->setExpanded (group_index, true);
-  
+
 }
 
 void
@@ -49,7 +49,7 @@ pcl::cloud_composer::ToolBoxModel::setSelectionModel (QItemSelectionModel* selec
 {
   selection_model_ = selection_model;
 }
-  
+
 QStandardItem*
 pcl::cloud_composer::ToolBoxModel::addToolGroup (QString tool_group_name)
 {
@@ -67,12 +67,12 @@ pcl::cloud_composer::ToolBoxModel::addToolGroup (QString tool_group_name)
   {
     qWarning () << "Multiple tool groups with same name in ToolBoxModel!!";
   }
-  
+
   return matches_name.value (0);
-  
+
 }
 
-void 
+void
 pcl::cloud_composer::ToolBoxModel::activeProjectChanged(ProjectModel* new_model, ProjectModel* previous_model)
 {
   //Disconnect old project model signal for selection change
@@ -82,14 +82,14 @@ pcl::cloud_composer::ToolBoxModel::activeProjectChanged(ProjectModel* new_model,
                 this, SLOT (selectedItemChanged (QItemSelection,QItemSelection)));
     disconnect (project_model_, SIGNAL (modelChanged()),
                 this, SLOT (modelChanged()));
-    
-  } 
+
+  }
   qDebug () << "Active project changed in ToolBox Model!";
   project_model_ = new_model;
-  
+
   //Update enabled tools, make connection for doing this automatically
   if (project_model_)
-  {  
+  {
     updateEnabledTools (project_model_->getSelectionModel ()->selection ());
     connect (project_model_->getSelectionModel (), SIGNAL (selectionChanged (QItemSelection,QItemSelection)),
                 this, SLOT (selectedItemChanged (QItemSelection,QItemSelection)));
@@ -107,7 +107,7 @@ pcl::cloud_composer::ToolBoxModel::selectedToolChanged (const QModelIndex & curr
   {
     qCritical () << "Toolbox parameter view not set!!!";
     return;
-  }  
+  }
   QVariant parameter_model = current.data (PARAMETER_MODEL);
   parameter_view_->setModel ( parameter_model.value <PropertiesModel*> ());
   parameter_view_->expandAll ();
@@ -127,17 +127,17 @@ pcl::cloud_composer::ToolBoxModel::toolAction ()
   PropertiesModel* parameter_model = (current_index.data (PARAMETER_MODEL)).value <PropertiesModel*> ();
   //
   AbstractTool* tool = tool_factory->createTool (parameter_model);
-  
+
   emit enqueueToolAction (tool);
 }
 
-void 
+void
 pcl::cloud_composer::ToolBoxModel::selectedItemChanged ( const QItemSelection & selected, const QItemSelection & deselected )
 {
   updateEnabledTools (selected);
 }
 
-void 
+void
 pcl::cloud_composer::ToolBoxModel::enableAllTools ()
 {
   foreach (QStandardItem* tool, tool_items)
@@ -149,7 +149,7 @@ pcl::cloud_composer::ToolBoxModel::enableAllTools ()
 void
 pcl::cloud_composer::ToolBoxModel::modelChanged ()
 {
-  updateEnabledTools (project_model_->getSelectionModel ()->selection ());  
+  updateEnabledTools (project_model_->getSelectionModel ()->selection ());
 }
 void
 pcl::cloud_composer::ToolBoxModel::updateEnabledTools (const QItemSelection current_selection)
@@ -166,11 +166,11 @@ pcl::cloud_composer::ToolBoxModel::updateEnabledTools (const QItemSelection curr
     }
   }
   enableAllTools ();
-  QList <QStandardItem*> enabled_tools = tool_items.toList (); 
+  QList <QStandardItem*> enabled_tools = tool_items.toList ();
   QMap <QStandardItem*,QString> disabled_tools;
   QMutableListIterator<QStandardItem*> enabled_itr(enabled_tools);
   //Go through tools, removing from enabled list if they fail to pass tests
-  while (enabled_itr.hasNext()) 
+  while (enabled_itr.hasNext())
   {
     QStandardItem* tool_item = enabled_itr.next ();
     ToolFactory* tool_factory = (tool_item->data (FACTORY)).value <ToolFactory*> ();
@@ -190,7 +190,7 @@ pcl::cloud_composer::ToolBoxModel::updateEnabledTools (const QItemSelection curr
     }
     //Check if any of selected items have required children
     else if ( required_children_types.size () > 0)
-    {  
+    {
       QList <QStandardItem*> matching_selected_items = type_items_map.values (input_type);
       bool found_valid_items = false;
       QList <CloudComposerItem::ItemType> missing_children = required_children_types;
@@ -199,7 +199,7 @@ pcl::cloud_composer::ToolBoxModel::updateEnabledTools (const QItemSelection curr
         QList <CloudComposerItem::ItemType> found_children_types;
         if (!item->hasChildren ())
           continue;
-        
+
         //Find types of all children
         for (int i = 0; i < item->rowCount(); ++i)
           found_children_types.append ( static_cast<CloudComposerItem::ItemType>(item->child (i)->type ()));
@@ -244,7 +244,7 @@ pcl::cloud_composer::ToolBoxModel::updateEnabledTools (const QItemSelection curr
       tool->setEnabled (false);
     }
   }
-  
-  
-  
+
+
+
 }

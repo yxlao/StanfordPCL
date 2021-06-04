@@ -46,8 +46,8 @@ namespace pcl
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     __global__ void
-    bilateralKernel (const PtrStepSz<ushort> src, 
-                     PtrStep<ushort> dst, 
+    bilateralKernel (const PtrStepSz<ushort> src,
+                     PtrStep<ushort> dst,
                      float sigma_space2_inv_half, float sigma_color2_inv_half)
     {
       int x = threadIdx.x + blockIdx.x * blockDim.x;
@@ -161,7 +161,7 @@ pcl::device::pyrDown (const DepthMap& src, DepthMap& dst)
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::device::truncateDepth(DepthMap& depth, float max_distance)
 {
   dim3 block (32, 8);

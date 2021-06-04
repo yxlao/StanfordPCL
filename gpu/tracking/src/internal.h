@@ -20,13 +20,13 @@ namespace pcl
 		typedef float4 NormalType;
 		
 		
-		void 
+		void
 			initParticles (PtrSz<curandState> rng_states,
 			DeviceArray<float>& initial_noise_mean, DeviceArray<float>& initial_noise_covariance,
 			const StateType& representative_state,
 			DeviceArray<StateType>& particles);
 
-		void 
+		void
 			computeTracking ( const DeviceArray2D<PointType>& ref, const DeviceArray2D<PixelRGB>& ref_color,
 			const DeviceArray2D<PointType>& input, const DeviceArray2D<PixelRGB>& input_color,
 			PtrSz<curandState> rng_states, const DeviceArray<float>& step_noise_covariance,
@@ -38,11 +38,11 @@ namespace pcl
 			resample (StateXYZ& motion_xyz, StateRPY& motion_rpy, float motion_ratio,
 			int num_particles, PtrSz<StateXYZ>& particles_xyz_, PtrSz<StateRPY>& particles_rpy_, PtrSz<float>& particles_weight_);
 		void
-			weight (const PtrSz<PointType>& input, const PtrSz<PixelRGB>& input_color, 
+			weight (const PtrSz<PointType>& input, const PtrSz<PixelRGB>& input_color,
 			const PtrSz<PointType>& ref, const PtrSz<PixelRGB>& ref_color,
 			int num_particles, PtrSz<StateXYZ>& particles_xyz_, PtrSz<StateRPY>& particles_rpy_, PtrSz<float>& particles_weight_);
 		void
-			update (int num_particles, PtrSz<StateXYZ>& particles_xyz_, PtrSz<StateRPY>& particles_rpy_, PtrSz<float>& particles_weight_, 
+			update (int num_particles, PtrSz<StateXYZ>& particles_xyz_, PtrSz<StateRPY>& particles_rpy_, PtrSz<float>& particles_weight_,
 			StateXYZ& representative_state_xyz, StateRPY& representative_state_rpy,
 			StateXYZ& motion_xyz, StateRPY& motion_rpy);
 			*/			

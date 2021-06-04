@@ -54,7 +54,7 @@ namespace pcl
     template<typename PointT>
     boost::mutex OutofcoreOctreeRamContainer<PointT>::rng_mutex_;
 
-    template<typename PointT> 
+    template<typename PointT>
     boost::mt19937 OutofcoreOctreeRamContainer<PointT>::rand_gen_ (static_cast<unsigned int>(std::time( NULL)));
 
     template<typename PointT> void
@@ -111,9 +111,9 @@ namespace pcl
 ////////////////////////////////////////////////////////////////////////////////
 
     template<typename PointT> void
-    OutofcoreOctreeRamContainer<PointT>::readRangeSubSample (const boost::uint64_t start, 
+    OutofcoreOctreeRamContainer<PointT>::readRangeSubSample (const boost::uint64_t start,
                                                       const boost::uint64_t count,
-                                                      const double percent, 
+                                                      const double percent,
                                                       AlignedPointTVector& v)
     {
       /** \todo change the subsampling technique to use built in PCL sampling */

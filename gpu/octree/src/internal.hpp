@@ -44,9 +44,9 @@
 namespace pcl
 {
     namespace device
-    {   
+    {
         struct OctreeGlobal
-        {             
+        {
             int *nodes;
             int *codes;
             int *begs;
@@ -60,8 +60,8 @@ namespace pcl
         };
 
         struct OctreeGlobalWithBox : public OctreeGlobal
-        {    
-            float3 minp, maxp;    
+        {
+            float3 minp, maxp;
         };
 
 
@@ -73,9 +73,9 @@ namespace pcl
 
             typedef PointArray PointCloud;
             typedef PointArray Queries;
-                       
+
             typedef DeviceArray<float> Radiuses;
-            typedef DeviceArray<int> BatchResult;            
+            typedef DeviceArray<int> BatchResult;
             typedef DeviceArray<int> BatchResultSizes;
             typedef DeviceArray<float> BatchResultSqrDists;
             typedef DeviceArray<int> Indices;
@@ -87,32 +87,32 @@ namespace pcl
             OctreeImpl() {};
             ~OctreeImpl() {};
 
-            void setCloud(const PointCloud& input_points);           
+            void setCloud(const PointCloud& input_points);
             void build();
             void radiusSearchHost(const PointType& center, float radius, std::vector<int>& out, int max_nn) const;
             void approxNearestSearchHost(const PointType& query, int& out_index, float& sqr_dist) const;
-            
+
             void radiusSearch(const Queries& queries, float radius, NeighborIndices& results);
             void radiusSearch(const Queries& queries, const Radiuses& radiuses, NeighborIndices& results);
 
             void radiusSearch(const Queries& queries, const Indices& indices, float radius, NeighborIndices& results);
 
             void approxNearestSearch(const Queries& queries, NeighborIndices& results) const;
-            
+
             void nearestKSearchBatch(const Queries& queries, int k, NeighborIndices& results) const;
-            
-            //just reference 
+
+            //just reference
             PointCloud points;
 
             // data
             DeviceArray2D<float> points_sorted;
             DeviceArray<int> codes;
             DeviceArray<int> indices;
-                        
-            OctreeGlobalWithBox octreeGlobal;    
+
+            OctreeGlobalWithBox octreeGlobal;
 
             //storage
-            DeviceArray2D<int> storage;            
+            DeviceArray2D<int> storage;
 
             struct OctreeDataHost
             {
@@ -121,10 +121,10 @@ namespace pcl
 
                 std::vector<int> begs;
                 std::vector<int> ends;	
-                
+
 
                 std::vector<int> indices;	
-                
+
                 std::vector<float> points_sorted;
                 int points_sorted_step;
 
@@ -132,8 +132,8 @@ namespace pcl
 
             } host_octree;
 
-                        
-            void internalDownload(); 
+
+            void internalDownload();
         private:
             template<typename BatchType>
             void radiusSearchEx(BatchType& batch, const Queries& queries, NeighborIndices& results);

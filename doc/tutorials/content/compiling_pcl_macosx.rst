@@ -48,7 +48,7 @@ The following libraries are **Required** to build PCL.
    Cross-platform, open-source build system.
 
    .. note::
-  
+
       Though not a dependency per se, the PCL community relies heavily on CMake
       for the libraries build process.
 
@@ -123,34 +123,34 @@ Install CMake
 ::
 
    $ sudo port install cmake
-   
-   
+
+
 Install Boost
 -------------
 ::
 
    $ sudo port install boost
-   
-   
+
+
 Install Eigen
 -------------
 ::
 
    $ sudo port install eigen3
-   
+
 Install FLANN
 -------------
 ::
 
    $ sudo port install flann
-   
+
 Install VTK
 -----------
 
 To install via MacPorts::
 
    $ sudo port install vtk5 +qt4_mac
-   
+
 To install from source download the source from
 http://www.vtk.org/VTK/resources/software.html
 
@@ -165,7 +165,7 @@ Within the CMake configuration:
    Press [c] for initial configuration
 
    Press [t] to get into advanced mode and change the following::
-   
+
       VTK_USE_CARBON:OFF
       VTK_USE_COCOA:ON
       VTK_USE_X:OFF
@@ -177,17 +177,17 @@ Within the CMake configuration:
       not require visualisation, you may omit this step.
 
    Press [g] to generate the make files.
-   
+
    Press [q] to quit.
 
 Then run::
-   
+
    $ make && make install
-   
+
 Install Qhull
 -------------
 ::
-   
+
    $ sudo port install qhull
 
 Install libusb
@@ -210,7 +210,7 @@ Extract, build, fix permissions and install OpenNI::
    $ chmod -R a+x Bin Lib
    $ chmod a+x Include/MacOSX Include/Linux-*
    $ sudo ./install
-   
+
 In addition the following primesense xml config found within the patched OpenNI
 download needs its permissions fixed and copied to the correct location to for
 the Kinect to work on Mac OS X::
@@ -239,7 +239,7 @@ Checkout the PCL source from the trunk::
 
    $ svn co http://svn.pointclouds.org/pcl/trunk pcl
    $ cd pcl
-   
+
 Create the build directories, configure CMake, build and install::
 
    $ mkdir build
@@ -247,7 +247,7 @@ Create the build directories, configure CMake, build and install::
    $ cmake ..
    $ make
    $ sudo make install
-   
+
 The customization of the build process is out of the scope of this tutorial and
 is covered in greater detail in the :ref:`building_pcl` tutorial.
 
@@ -307,7 +307,7 @@ After installed you can build the tutorials::
    $ make Tutorials
 
 .. note::
-   
+
    Sphinx can be installed via MacPorts but is a bit of a pain getting all the
    PYTHON_PATH's in order
 

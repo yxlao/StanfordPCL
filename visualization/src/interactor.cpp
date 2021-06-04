@@ -45,17 +45,17 @@ namespace pcl
 {
   namespace visualization
   {
-    // Standard VTK macro for *New () 
+    // Standard VTK macro for *New ()
     vtkStandardNewMacro (PCLVisualizerInteractor);
-    
+
 /*    void
     PCLVisualizerInteractor::TerminateApp ()
     {
       stopped = true;
     }
-*/    
+*/
     //////////////////////////////////////////////////////////////////////////
-    void 
+    void
     PCLVisualizerInteractor::stopLoop ()
     {
 #if defined _WIN32 || defined VTK_USE_COCOA || defined VTK_USE_CARBON
@@ -82,7 +82,7 @@ namespace pcl
 
 #if defined _WIN32 || defined VTK_USE_COCOA || defined VTK_USE_CARBON
     //////////////////////////////////////////////////////////////////////////
-    void 
+    void
     PCLVisualizerInteractor::Start ()
     {
       // Let the compositing handle the event loop if it wants to.
@@ -100,7 +100,7 @@ namespace pcl
 
       MSG msg;
       this->BreakLoopFlag=0;
-      
+
       while (GetMessage (&msg, NULL, 0, 0) && this->BreakLoopFlag == 0)
       {
         TranslateMessage (&msg);
@@ -109,7 +109,7 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////
-    void 
+    void
     PCLVisualizerInteractor::SetBreakLoopFlag (int f)
     {
       if (f)
@@ -119,7 +119,7 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////
-    void 
+    void
     PCLVisualizerInteractor::BreakLoopFlagOff ()
     {
       this->BreakLoopFlag = 0;
@@ -127,7 +127,7 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////
-    void 
+    void
     PCLVisualizerInteractor::BreakLoopFlagOn ()
     {
       this->BreakLoopFlag = 1;

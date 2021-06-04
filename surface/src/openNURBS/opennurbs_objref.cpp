@@ -16,7 +16,7 @@
 
 #include <pcl/surface/openNURBS/opennurbs.h>
 
-ON_COMPONENT_INDEX::ON_COMPONENT_INDEX() 
+ON_COMPONENT_INDEX::ON_COMPONENT_INDEX()
                    : m_type(ON_COMPONENT_INDEX::invalid_type),
                      m_index(-1)
 {
@@ -25,7 +25,7 @@ ON_COMPONENT_INDEX::ON_COMPONENT_INDEX()
 ON_COMPONENT_INDEX::ON_COMPONENT_INDEX(
                                        ON_COMPONENT_INDEX::TYPE type,
                                        int index
-                                       ) 
+                                       )
                    : m_type(type),
                      m_index(index)
 {
@@ -71,7 +71,7 @@ ON_COMPONENT_INDEX::TYPE ON_COMPONENT_INDEX::Type(int i)
 void ON_COMPONENT_INDEX::Set(
                                        ON_COMPONENT_INDEX::TYPE type,
                                        int index
-                                       ) 
+                                       )
 {
   m_type = type;
   m_index = index;
@@ -165,38 +165,38 @@ bool  ON_COMPONENT_INDEX::IsGroupMemberComponentIndex() const
 
 bool  ON_COMPONENT_INDEX::IsExtrusionProfileComponentIndex() const
 {
-  return ( (   ON_COMPONENT_INDEX::extrusion_bottom_profile  == m_type 
+  return ( (   ON_COMPONENT_INDEX::extrusion_bottom_profile  == m_type
             || ON_COMPONENT_INDEX::extrusion_top_profile     == m_type
             )
-            && m_index >= 0 
+            && m_index >= 0
          );
 }
 
 bool  ON_COMPONENT_INDEX::IsExtrusionPathComponentIndex() const
 {
-  return ( ON_COMPONENT_INDEX::extrusion_path  == m_type 
-           && m_index >= -1 
+  return ( ON_COMPONENT_INDEX::extrusion_path  == m_type
+           && m_index >= -1
            && m_index <= 1
          );
 }
 
 bool  ON_COMPONENT_INDEX::IsExtrusionWallEdgeComponentIndex() const
 {
-  return ( ON_COMPONENT_INDEX::extrusion_wall_edge  == m_type 
-           && m_index >= 0 
+  return ( ON_COMPONENT_INDEX::extrusion_wall_edge  == m_type
+           && m_index >= 0
          );
 }
 
 bool  ON_COMPONENT_INDEX::IsExtrusionWallSurfaceComponentIndex() const
 {
-  return ( ON_COMPONENT_INDEX::extrusion_wall_surface  == m_type 
+  return ( ON_COMPONENT_INDEX::extrusion_wall_surface  == m_type
            && m_index >= 0
          );
 }
 
 bool  ON_COMPONENT_INDEX::IsExtrusionWallComponentIndex() const
 {
-  return ( (   ON_COMPONENT_INDEX::extrusion_wall_edge == m_type 
+  return ( (   ON_COMPONENT_INDEX::extrusion_wall_edge == m_type
              || ON_COMPONENT_INDEX::extrusion_wall_surface == m_type
            )
            && m_index >= 0
@@ -205,15 +205,15 @@ bool  ON_COMPONENT_INDEX::IsExtrusionWallComponentIndex() const
 
 bool  ON_COMPONENT_INDEX::IsExtrusionComponentIndex() const
 {
-  return ( (   ON_COMPONENT_INDEX::extrusion_bottom_profile  == m_type 
+  return ( (   ON_COMPONENT_INDEX::extrusion_bottom_profile  == m_type
             || ON_COMPONENT_INDEX::extrusion_top_profile     == m_type
             || ON_COMPONENT_INDEX::extrusion_wall_edge       == m_type
             || ON_COMPONENT_INDEX::extrusion_wall_surface    == m_type
             || ON_COMPONENT_INDEX::extrusion_cap_surface     == m_type
             || ON_COMPONENT_INDEX::extrusion_path            == m_type
             )
-            && 
-            (  m_index >= 0 
+            &&
+            (  m_index >= 0
               || (-1 == m_index && ON_COMPONENT_INDEX::extrusion_path == m_type)
             )
          );
@@ -398,7 +398,7 @@ bool ON_ObjRefEvaluationParameter::Read( ON_BinaryArchive& archive )
   return rc;
 }
 
-ON_ObjRef::ON_ObjRef() 
+ON_ObjRef::ON_ObjRef()
           : m_uuid(ON_nil_uuid),
             m_geometry(0),
             m_parent_geometry(0),
@@ -428,7 +428,7 @@ void ON_ObjRef::Destroy()
 }
 
 
-ON_ObjRef::ON_ObjRef( const ON_ObjRef& src ) 
+ON_ObjRef::ON_ObjRef( const ON_ObjRef& src )
           : m_uuid(src.m_uuid),
             m_geometry(src.m_geometry),
             m_parent_geometry(src.m_parent_geometry),
@@ -449,11 +449,11 @@ ON_ObjRef::ON_ObjRef( const ON_ObjRef& src )
   }
 }
 
-ON_ObjRef& ON_ObjRef::operator=( const ON_ObjRef& src ) 
+ON_ObjRef& ON_ObjRef::operator=( const ON_ObjRef& src )
 {
   if ( this != &src )
   {
-    // Remove any reference this ON_ObjRef class 
+    // Remove any reference this ON_ObjRef class
     // may currently have.
     DecrementProxyReferenceCount();
 
@@ -522,9 +522,9 @@ bool ON_ObjRef_IRefID::Read( ON_BinaryArchive& archive )
 
   int major_version = 0;
   int minor_version = 0;
-  bool rc = archive.BeginRead3dmChunk( 
-                          TCODE_ANONYMOUS_CHUNK, 
-                          &major_version, 
+  bool rc = archive.BeginRead3dmChunk(
+                          TCODE_ANONYMOUS_CHUNK,
+                          &major_version,
                           &minor_version );
   if ( !rc )
     return false;
@@ -821,7 +821,7 @@ bool ON_ObjRef::SetParentIRef( const ON_InstanceRef& iref,
   {
     // nested irefs
     if (    0 == m__proxy2
-         || 0 == m__proxy_ref_count 
+         || 0 == m__proxy_ref_count
          || *m__proxy_ref_count <= 0 )
     {
       return false;
@@ -835,23 +835,23 @@ bool ON_ObjRef::SetParentIRef( const ON_InstanceRef& iref,
   }
   else if ( ON_COMPONENT_INDEX::invalid_type == m_component_index.m_type )
   {
-    // handle top level objects    
+    // handle top level objects
     while ( m__proxy1 || m__proxy2 || m__proxy_ref_count )
     {
       // It it's an brep proxy for an extrusion object, then keep going.
       if (    0 != m__proxy1
-           && 0 == m__proxy2 
-           && 0 != m__proxy_ref_count 
-           && 1 == *m__proxy_ref_count 
+           && 0 == m__proxy2
+           && 0 != m__proxy_ref_count
+           && 1 == *m__proxy_ref_count
            && m__proxy1 != m_geometry
            && 0 != ON_Brep::Cast(m_geometry)
            )
       {
         // 13 July 2011 - Part of the fix for bug 87827
         // is to break here instead of returning false
-        // because we have something like a brep proxy 
+        // because we have something like a brep proxy
         // of an extrusion.
-        break;        
+        break;
       }
       return false;
     }
@@ -993,21 +993,21 @@ bool ON_ObjRef::SetParentIRef( const ON_InstanceRef& iref,
 
 const ON_Object* ON_ObjRef::ProxyObject(int proxy_object_index) const
 {
-  return ( (1 == proxy_object_index) 
-           ? m__proxy1 
-           : ((2==proxy_object_index) ? m__proxy2 : 0) 
+  return ( (1 == proxy_object_index)
+           ? m__proxy1
+           : ((2==proxy_object_index) ? m__proxy2 : 0)
          );
 }
 
-void ON_ObjRef::SetProxy( 
-          ON_Object* proxy1, 
-          ON_Object* proxy2, 
-          bool bCountReferences 
+void ON_ObjRef::SetProxy(
+          ON_Object* proxy1,
+          ON_Object* proxy2,
+          bool bCountReferences
           )
 {
   if ( m__proxy1 || m__proxy2 || m__proxy_ref_count )
   {
-    // Remove any reference this ON_ObjRef class 
+    // Remove any reference this ON_ObjRef class
     // may currently have.
     DecrementProxyReferenceCount();
   }
@@ -1023,9 +1023,9 @@ void ON_ObjRef::SetProxy(
 
 void ON_ObjRef::DecrementProxyReferenceCount()
 {
-  if ( 0 != m__proxy_ref_count ) 
+  if ( 0 != m__proxy_ref_count )
   {
-    if (*m__proxy_ref_count > 1) 
+    if (*m__proxy_ref_count > 1)
     {
       // Including this class, there are *m__proxy_ref_count
       // ON_ObjRef classes using m__proxy and m_geometry.
@@ -1043,7 +1043,7 @@ void ON_ObjRef::DecrementProxyReferenceCount()
       // to NULL.
 
       // Setting *m__proxy_ref_count to zero, prevents crashes
-      // if somebody incorrectly uses memcpy() instead of the 
+      // if somebody incorrectly uses memcpy() instead of the
       // copy constructor or operator= to duplicate this class.
       *m__proxy_ref_count = 0;
       if ( m__proxy1 )

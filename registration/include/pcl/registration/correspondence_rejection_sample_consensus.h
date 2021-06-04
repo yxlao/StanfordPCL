@@ -84,51 +84,51 @@ namespace pcl
           * \param[in] original_correspondences the set of initial correspondences given
           * \param[out] remaining_correspondences the resultant filtered set of remaining correspondences
           */
-        inline void 
-        getRemainingCorrespondences (const pcl::Correspondences& original_correspondences, 
+        inline void
+        getRemainingCorrespondences (const pcl::Correspondences& original_correspondences,
                                      pcl::Correspondences& remaining_correspondences);
 
         /** \brief Provide a source point cloud dataset (must contain XYZ data!)
           * \param[in] cloud a cloud containing XYZ data
           */
-        virtual inline void 
+        virtual inline void
         setInputCloud (const PointCloudConstPtr &cloud) { input_ = cloud; }
 
         /** \brief Provide a target point cloud dataset (must contain XYZ data!)
           * \param[in] cloud a cloud containing XYZ data
           */
-        virtual inline void 
+        virtual inline void
         setTargetCloud (const PointCloudConstPtr &cloud) { target_ = cloud; }
 
         /** \brief Set the maximum distance between corresponding points.
           * Correspondences with distances below the threshold are considered as inliers.
           * \param[in] threshold Distance threshold in the same dimension as source and target data sets.
           */
-        inline void 
+        inline void
         setInlierThreshold (double threshold) { inlier_threshold_ = threshold; };
 
         /** \brief Get the maximum distance between corresponding points.
           * \return Distance threshold in the same dimension as source and target data sets.
           */
-        inline double 
+        inline double
         getInlierThreshold() { return inlier_threshold_; };
 
         /** \brief Set the maximum number of iterations.
           * \param[in] max_iterations Maximum number if iterations to run
           */
-        inline void 
+        inline void
         setMaxIterations (int max_iterations) {max_iterations_ = std::max(max_iterations, 0); };
 
         /** \brief Get the maximum number of iterations.
           * \return max_iterations Maximum number if iterations to run
           */
-        inline int 
+        inline int
         getMaxIterations () { return max_iterations_; };
 
         /** \brief Get the best transformation after RANSAC rejection.
           * \return The homogeneous 4x4 transformation yielding the largest number of inliers.
           */
-        inline Eigen::Matrix4f 
+        inline Eigen::Matrix4f
         getBestTransformation () { return best_transformation_; };
 
       protected:
@@ -136,7 +136,7 @@ namespace pcl
         /** \brief Apply the rejection algorithm.
           * \param[out] correspondences the set of resultant correspondences.
           */
-        inline void 
+        inline void
         applyRejection (pcl::Correspondences &correspondences)
         {
           getRemainingCorrespondences (*input_correspondences_, correspondences);

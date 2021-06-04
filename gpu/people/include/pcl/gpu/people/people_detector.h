@@ -30,7 +30,7 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- * 
+ *
  * @author: Koen Buys
  */
 
@@ -72,7 +72,7 @@ namespace pcl
       class PCL_EXPORTS PeopleDetector
       {
         public:
-          typedef boost::shared_ptr<PeopleDetector> Ptr;                              
+          typedef boost::shared_ptr<PeopleDetector> Ptr;
 
           typedef pcl::PointXYZ PointType;
           typedef DeviceArray2D<unsigned short> Depth;
@@ -86,13 +86,13 @@ namespace pcl
 
           /** \brief Class constructor. */
           PeopleDetector ();
-          
+
           /** \brief Class destructor. */
-          ~PeopleDetector () {}                   
+          ~PeopleDetector () {}
 
           /** \brief User must set non standard intrinsics */
           void
-          setIntrinsics (float fx, float fy, float cx = -1, float cy = -1);                    
+          setIntrinsics (float fx, float fy, float cx = -1, float cy = -1);
 
           /** \brief Possible will be removed because of extra overheads */
           int
@@ -103,7 +103,7 @@ namespace pcl
 
           int
           process (const Depth& depth, const Image& rgba);
-         
+
           /** \brief Set the tolerance for the delta on the Hue in Seeded Hue Segmentation step */
           inline void
           setDeltaHueTolerance (unsigned int delta_hue_tolerance)
@@ -117,11 +117,11 @@ namespace pcl
           {
             return (delta_hue_tolerance_);
           }
-              
+
           /** \brief Class getName method. */
           inline const std::string getClassName () const { return "PeopleDetector"; }
 
-        public:       
+        public:
           typedef DeviceArray2D<unsigned char> Labels;
           typedef DeviceArray2D<unsigned char> Mask;
           typedef DeviceArray2D<float> Hue;
@@ -130,21 +130,21 @@ namespace pcl
           bool first_iteration;
           float fx_, fy_, cx_, cy_;
           unsigned int  delta_hue_tolerance_;
-                   
+
           DeviceArray<unsigned char> kernelRect5x5_;
 
           PointCloud<PointType> cloud_host_;
           PointCloud<float> hue_host_;
           PointCloud<unsigned short> depth_host_;
           PointCloud<unsigned char> flowermat_host_;
-                    
+
           DeviceArray2D<PointType> cloud_device_;
 
           Hue hue_device_;
 
           Depth depth_device1_;
           Depth depth_device2_;
-          
+
           Mask fg_mask_;
           Mask fg_mask_grown_;
 
@@ -157,13 +157,13 @@ namespace pcl
           int
           processProb ();
 
-          void 
+          void
           allocate_buffers (int rows = 480, int cols = 640);
 
-          void 
+          void
           shs5 (const pcl::PointCloud<pcl::PointXYZ> &cloud, const std::vector<int>& indices, unsigned char *mask);
 
-          //!!! only for debug purposes TODO: remove this. 
+          //!!! only for debug purposes TODO: remove this.
           friend class PeoplePCDApp;
       };
     }

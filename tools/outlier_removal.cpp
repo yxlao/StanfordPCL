@@ -101,11 +101,11 @@ compute (const sensor_msgs::PointCloud2::ConstPtr &input, sensor_msgs::PointClou
   PointCloud<PointXYZ>::Ptr xyz_cloud_pre (new pcl::PointCloud<PointXYZ> ()),
       xyz_cloud (new pcl::PointCloud<PointXYZ> ());
   fromROSMsg (*input, *xyz_cloud_pre);
-  
+
   std::vector<int> index_vector;
   removeNaNFromPointCloud<PointXYZ> (*xyz_cloud_pre, *xyz_cloud, index_vector);
 
-      
+
   TicToc tt;
   tt.tic ();
   PointCloud<PointXYZ>::Ptr xyz_cloud_filtered (new PointCloud<PointXYZ> ());
@@ -133,7 +133,7 @@ compute (const sensor_msgs::PointCloud2::ConstPtr &input, sensor_msgs::PointClou
     PCL_ERROR ("%s is not a valid filter name! Quitting!\n", method.c_str ());
     return;
   }
-    
+
   print_info ("[done, "); print_value ("%g", tt.toc ()); print_info (" ms : "); print_value ("%d", xyz_cloud_filtered->width * xyz_cloud_filtered->height); print_info (" points]\n");
 
   toROSMsg (*xyz_cloud_filtered, output);
@@ -181,7 +181,7 @@ main (int argc, char** argv)
   int mean_k = default_mean_k;
   double std_dev_mul = default_std_dev_mul;
   int negative = default_negative;
-  
+
 
   parse_argument (argc, argv, "-method", method);
   parse_argument (argc, argv, "-radius", radius);
@@ -189,8 +189,8 @@ main (int argc, char** argv)
   parse_argument (argc, argv, "-mean_k", mean_k);
   parse_argument (argc, argv, "-std_dev_mul", std_dev_mul);
   parse_argument (argc, argv, "-inliers", negative);
-  
-  
+
+
 
   // Load the first file
   sensor_msgs::PointCloud2::Ptr cloud (new sensor_msgs::PointCloud2);

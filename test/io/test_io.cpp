@@ -89,17 +89,17 @@ TEST (PCL, ComplexPCDFileASCII)
   EXPECT_EQ (blob.fields[1].offset, 4 * 33);
   EXPECT_EQ (blob.fields[1].count, 10);
   EXPECT_EQ (blob.fields[1].datatype, sensor_msgs::PointField::FLOAT32);
-  
+
   EXPECT_EQ (blob.fields[2].name, "x");
   EXPECT_EQ (blob.fields[2].offset, 4 * 33 + 10 * 1);
   EXPECT_EQ (blob.fields[2].count, 1);
   EXPECT_EQ (blob.fields[2].datatype, sensor_msgs::PointField::FLOAT32);
-  
+
   EXPECT_EQ (blob.fields[3].name, "y");
   EXPECT_EQ (blob.fields[3].offset, 4 * 33 + 10 * 1 + 4);
   EXPECT_EQ (blob.fields[3].count, 1);
   EXPECT_EQ (blob.fields[3].datatype, sensor_msgs::PointField::FLOAT32);
-  
+
   EXPECT_EQ (blob.fields[4].name, "z");
   EXPECT_EQ (blob.fields[4].offset, 4 * 33 + 10 * 1 + 4 + 4);
   EXPECT_EQ (blob.fields[4].count, 1);
@@ -121,39 +121,39 @@ TEST (PCL, ComplexPCDFileASCII)
   for (size_t i = 0; i < blob.fields[fpfh_idx].count; ++i)
     memcpy (&val[i], &blob.data[0 * blob.point_step + blob.fields[fpfh_idx + 0].offset + i * sizeof (float)], sizeof (float));
 
-  EXPECT_EQ (val[0], 0); 
-  EXPECT_EQ (val[1], 0); 
-  EXPECT_EQ (val[2], 0); 
-  EXPECT_EQ (val[3], 0); 
-  EXPECT_EQ (val[4], 0); 
-  EXPECT_EQ (val[5], 100); 
-  EXPECT_EQ (val[6], 0); 
-  EXPECT_EQ (val[7], 0); 
-  EXPECT_EQ (val[8], 0); 
-  EXPECT_EQ (val[9], 0); 
-  EXPECT_EQ (val[10], 0); 
-  EXPECT_EQ (val[11], 0); 
-  EXPECT_EQ (val[12], 0); 
-  EXPECT_EQ (val[13], 0); 
-  EXPECT_EQ (val[14], 0); 
-  EXPECT_EQ (val[15], 0); 
-  EXPECT_EQ (val[16], 100); 
-  EXPECT_EQ (val[17], 0); 
-  EXPECT_EQ (val[18], 0); 
-  EXPECT_EQ (val[19], 0); 
-  EXPECT_EQ (val[20], 0); 
-  EXPECT_EQ (val[21], 0); 
-  EXPECT_EQ (val[22], 0); 
-  EXPECT_EQ (val[23], 0); 
-  EXPECT_EQ (val[24], 0); 
-  EXPECT_EQ (val[25], 0); 
-  EXPECT_EQ (val[26], 0); 
-  EXPECT_EQ (val[27], 100); 
-  EXPECT_EQ (val[28], 0); 
-  EXPECT_EQ (val[29], 0); 
-  EXPECT_EQ (val[30], 0); 
-  EXPECT_EQ (val[31], 0); 
-  EXPECT_EQ (val[32], 0); 
+  EXPECT_EQ (val[0], 0);
+  EXPECT_EQ (val[1], 0);
+  EXPECT_EQ (val[2], 0);
+  EXPECT_EQ (val[3], 0);
+  EXPECT_EQ (val[4], 0);
+  EXPECT_EQ (val[5], 100);
+  EXPECT_EQ (val[6], 0);
+  EXPECT_EQ (val[7], 0);
+  EXPECT_EQ (val[8], 0);
+  EXPECT_EQ (val[9], 0);
+  EXPECT_EQ (val[10], 0);
+  EXPECT_EQ (val[11], 0);
+  EXPECT_EQ (val[12], 0);
+  EXPECT_EQ (val[13], 0);
+  EXPECT_EQ (val[14], 0);
+  EXPECT_EQ (val[15], 0);
+  EXPECT_EQ (val[16], 100);
+  EXPECT_EQ (val[17], 0);
+  EXPECT_EQ (val[18], 0);
+  EXPECT_EQ (val[19], 0);
+  EXPECT_EQ (val[20], 0);
+  EXPECT_EQ (val[21], 0);
+  EXPECT_EQ (val[22], 0);
+  EXPECT_EQ (val[23], 0);
+  EXPECT_EQ (val[24], 0);
+  EXPECT_EQ (val[25], 0);
+  EXPECT_EQ (val[26], 0);
+  EXPECT_EQ (val[27], 100);
+  EXPECT_EQ (val[28], 0);
+  EXPECT_EQ (val[29], 0);
+  EXPECT_EQ (val[30], 0);
+  EXPECT_EQ (val[31], 0);
+  EXPECT_EQ (val[32], 0);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -441,7 +441,7 @@ TEST (PCL, IO)
   EXPECT_EQ (cloud_blob.fields[intensity_idx].name, "intensity");
   EXPECT_EQ (cloud_blob.fields[intensity_idx].datatype, sensor_msgs::PointField::FLOAT32);
   EXPECT_EQ (cloud_blob.fields[intensity_idx].count, uint32_t (1));
-  
+
   fromROSMsg (cloud_blob, cloud);
   for (size_t i = 0; i < nr_p; ++i)
     EXPECT_EQ (cloud.points[i].intensity, i);
@@ -906,8 +906,8 @@ TEST (PCL, PLYReaderWriter)
   EXPECT_EQ (cloud_blob.width, cloud.width);    // test for toROSMsg ()
   EXPECT_EQ (cloud_blob.height, cloud.height);  // test for toROSMsg ()
   EXPECT_EQ (cloud_blob.is_dense, cloud.is_dense);  // test for toROSMsg ()
-  EXPECT_EQ (cloud_blob.data.size (), 
-             cloud_blob.width * cloud_blob.height * sizeof (PointXYZI));  
+  EXPECT_EQ (cloud_blob.data.size (),
+             cloud_blob.width * cloud_blob.height * sizeof (PointXYZI));
 
   // test for toROSMsg ()
   PLYWriter writer;
@@ -917,7 +917,7 @@ TEST (PCL, PLYReaderWriter)
   reader.read ("test_pcl_io.ply", cloud_blob2);
   //PLY DOES preserve organiziation
   EXPECT_EQ (cloud_blob.width * cloud_blob.height, cloud_blob2.width * cloud_blob2.height);
-  EXPECT_EQ (cloud_blob.is_dense, cloud.is_dense);   
+  EXPECT_EQ (cloud_blob.is_dense, cloud.is_dense);
   EXPECT_EQ (size_t (cloud_blob2.data.size ()),         // PointXYZI is 16*2 (XYZ+1, Intensity+3)
              cloud_blob2.width * cloud_blob2.height * sizeof (PointXYZ));  // test for loadPLYFile ()
 
@@ -952,7 +952,7 @@ POINT_CLOUD_REGISTER_POINT_STRUCT (PointXYZFPFH33,
 inline std::ostream& operator << (std::ostream& os, const PointXYZFPFH33& p)
 {
   os << "(" << p.x << "," << p.y << "," << p.z << ")";
-  for (int i = 0; i < 33; ++i) 
+  for (int i = 0; i < 33; ++i)
     os << (i == 0 ? "(" :"") << p.histogram[i] << (i < 32 ? ", " : ")");
   return os;
 }
@@ -980,7 +980,7 @@ TEST (PCL, ExtendedIO)
   EXPECT_EQ (int (cloud.height), 1);
   EXPECT_EQ (cloud.is_dense, true);
   EXPECT_EQ (int (cloud.points.size ()), 2);
-  
+
   EXPECT_EQ (cloud.points[0].x, 1); EXPECT_EQ (cloud.points[0].y, 1); EXPECT_EQ (cloud.points[0].z, 1);
   EXPECT_EQ (cloud.points[1].x, 2); EXPECT_EQ (cloud.points[1].y, 2); EXPECT_EQ (cloud.points[1].z, 2);
   for (int i = 0; i < 33; ++i)
@@ -1006,7 +1006,7 @@ TEST (PCL, EigenConversions)
   getPointCloudAsEigen (blob, mat);
   EXPECT_EQ (mat.cols (), int (cloud.points.size ()));
   EXPECT_EQ (mat.rows (), 4);
-  
+
   for (size_t i = 0; i < cloud.points.size (); ++i)
   {
     EXPECT_EQ (mat (0, i), cloud.points[i].x);
@@ -1014,7 +1014,7 @@ TEST (PCL, EigenConversions)
     EXPECT_EQ (mat (2, i), cloud.points[i].z);
     EXPECT_EQ (mat (3, i), 1);
   }
-  
+
   getEigenAsPointCloud (mat, blob);
   fromROSMsg (blob, cloud);
   for (size_t i = 0; i < cloud.points.size (); ++i)
@@ -1027,7 +1027,7 @@ TEST (PCL, EigenConversions)
   getPointCloudAsEigen (blob, mat);
   EXPECT_EQ (mat.cols (), int (cloud.points.size ()));
   EXPECT_EQ (mat.rows (), 4);
-  
+
   for (size_t i = 0; i < cloud.points.size (); ++i)
   {
     EXPECT_EQ (mat (0, i), cloud.points[i].x);
@@ -1204,7 +1204,7 @@ TEST (PCL, Locale)
     cloud.points[0].x = std::numeric_limits<float>::quiet_NaN ();
     cloud.points[0].y = std::numeric_limits<float>::quiet_NaN ();
     cloud.points[0].z = std::numeric_limits<float>::quiet_NaN ();
-  
+
     for (size_t i = 1; i < nr_p; ++i)
     {
       cloud.points[i].x = static_cast<float> (1024 * rand () / (RAND_MAX + 1.0));
@@ -1247,7 +1247,7 @@ TEST (PCL, Locale)
     EXPECT_EQ (cloud2.height, cloud.height);
     EXPECT_EQ (cloud2.is_dense, false);
     EXPECT_EQ (cloud2.points.size (), cloud.points.size ());
-  
+
     EXPECT_TRUE (pcl_isnan(cloud2.points[0].x));
     EXPECT_TRUE (pcl_isnan(cloud2.points[0].y));
     EXPECT_TRUE (pcl_isnan(cloud2.points[0].z));

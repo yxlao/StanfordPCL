@@ -77,18 +77,18 @@ main (int argc, char** argv)
     print_help ();
     return (-1);
   }
-  
+
   // Creating world model object
   pcl::WorldModel<pcl::PointXYZI> wm;
-  
+
   //Adding current cloud to the world model
   wm.addSlice(cloud);
-  
+
   std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> clouds;
   std::vector<Eigen::Vector3f> transforms;
 
   /*
-  //Get world as a vector of cubes 
+  //Get world as a vector of cubes
   wm.getWorldAsCubes (pcl::device::VOLUME_X, clouds, transforms, 0.025); // 2.5% overlapp (12 cells with a 512-wide cube)
 
   //Creating the standalone marching cubes instance
@@ -119,8 +119,8 @@ main (int argc, char** argv)
   //~ //Creating the output
   //~ boost::shared_ptr<pcl::PolygonMesh> mesh_ptr_;
   //~ std::vector< boost::shared_ptr<pcl::PolygonMesh> > meshes;
-  
-  //Get world as a vector of cubes 
+
+  //Get world as a vector of cubes
   //wm.getWorldAsCubes (pcl::device::VOLUME_X, clouds, transforms, 0.025); // 2.5% overlapp (12 cells with a 512-wide cube)
   wm.getWorldAsCubes (pcl::device::VOLUME_X, clouds, transforms, 0.025, m_cubes);
 

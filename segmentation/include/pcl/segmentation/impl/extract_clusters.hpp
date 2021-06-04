@@ -42,10 +42,10 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT> void
-pcl::extractEuclideanClusters (const PointCloud<PointT> &cloud, 
+pcl::extractEuclideanClusters (const PointCloud<PointT> &cloud,
                                const boost::shared_ptr<search::Search<PointT> > &tree,
                                float tolerance, std::vector<PointIndices> &clusters,
-                               unsigned int min_pts_per_cluster, 
+                               unsigned int min_pts_per_cluster,
                                unsigned int max_pts_per_cluster)
 {
   if (tree->getInputCloud ()->points.size () != cloud.points.size ())
@@ -113,11 +113,11 @@ pcl::extractEuclideanClusters (const PointCloud<PointT> &cloud,
 //////////////////////////////////////////////////////////////////////////////////////////////
 /** @todo: fix the return value, make sure the exit is not needed anymore*/
 template <typename PointT> void
-pcl::extractEuclideanClusters (const PointCloud<PointT> &cloud, 
+pcl::extractEuclideanClusters (const PointCloud<PointT> &cloud,
                                const std::vector<int> &indices,
                                const boost::shared_ptr<search::Search<PointT> > &tree,
                                float tolerance, std::vector<PointIndices> &clusters,
-                               unsigned int min_pts_per_cluster, 
+                               unsigned int min_pts_per_cluster,
                                unsigned int max_pts_per_cluster)
 {
   // \note If the tree was created over <cloud, indices>, we guarantee a 1-1 mapping between what the tree returns
@@ -202,10 +202,10 @@ pcl::extractEuclideanClusters (const PointCloud<PointT> &cloud,
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-template <typename PointT> void 
+template <typename PointT> void
 pcl::EuclideanClusterExtraction<PointT>::extract (std::vector<PointIndices> &clusters)
 {
-  if (!initCompute () || 
+  if (!initCompute () ||
       (input_ != 0   && input_->points.empty ()) ||
       (indices_ != 0 && indices_->empty ()))
   {

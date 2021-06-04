@@ -38,10 +38,10 @@
  * @file tree.h
  * @brief This file contains the function prototypes for the tree building functions.
  */
- 
+
 #ifndef PCL_GPU_PEOPLE_LABEL_TREE_H_
 #define PCL_GPU_PEOPLE_LABEL_TREE_H_
- 
+
 // our headers
 #include "pcl/gpu/people/label_blob2.h"   //this one defines the blob structure
 #include "pcl/gpu/people/label_common.h"  //this one defines the LUT's
@@ -67,12 +67,12 @@ namespace pcl
 {
   namespace gpu
   {
-    namespace people    
-    {           
+    namespace people
+    {
      /**
        * @brief This structure containts all parameters to describe the segmented tree
        */
-      struct Tree2 
+      struct Tree2
       {
         //Inline constructor
         Tree2() : id(NO_CHILD), lid(NO_CHILD), nr_parts(0)
@@ -80,7 +80,7 @@ namespace pcl
           for(int i=0;i<NUM_PARTS;i++)
             parts_lid[i] = NO_CHILD;
         }
-       
+
         int     id;                     // specific identification number of this tree
         part_t  label;                  // labels which part the root of this tree is
         int     lid;                    // label id, which number of this type of part is this
@@ -111,7 +111,7 @@ namespace pcl
         os << " max " << t.max(0) << " , " << t.max(1) << " , " << t.max(2) << " , " << t.max(3) << std::endl;
         os << " indices length " << t.indices.indices.size() << std::endl;
         return (os);
-      }     
+      }
 
       /**
        * @brief This function sets the children of the leaf nodes to leaf, meaning that we came to the correct end
@@ -245,7 +245,7 @@ namespace pcl
         }
         // go over all parents in this vector
         for(size_t p = 0; p < sorted[parent_label].size(); p++){
-          float best_value = std::numeric_limits<float>::max(); 
+          float best_value = std::numeric_limits<float>::max();
           int best_child_id = NO_CHILD;
           int best_child_lid = 0;                               // this must be as low as possible, still overruled by id
           float value = 0.0;
@@ -365,7 +365,7 @@ namespace pcl
             case 21:                                // this is the FaceLT
             case 22:                                // this is the FaceRT
               leafBlobVector(sorted, p);            //fill in the children of leafs
-              break; 
+              break;
             case 23:					// this is the Rchest
               evaluateBlobVector(sorted, p, 11, 0);	//Child 0 is Rarm
               evaluateBlobVector(sorted, p, 8, 1);	//Child 1 is Rhips
@@ -373,7 +373,7 @@ namespace pcl
             case 24:					// this is the Lchest
               evaluateBlobVector(sorted, p, 15, 0);	//Child 0 is Larm
               evaluateBlobVector(sorted, p, 9, 1);	//Child 1 is Lhips
-              break; 
+              break;
             // FROM HERE ALL THE REGULAR MIDDLE NODES  ///
             case 1:                               //this is the Lleg
               evaluateBlobVector(sorted,p, 0, 0); //Child 0 is Lfeet
@@ -585,7 +585,7 @@ namespace pcl
         // iterate over the number of pixels that are part of this label
         const std::vector<int>& indices = blob.indices.indices;
         tree.indices.indices.insert(tree.indices.indices.end(), indices.begin(), indices.end());
-        
+
         if(nr_children == 0)
           return 0;
 

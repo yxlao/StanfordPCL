@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2012-, Open Perception, Inc.
- * 
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -79,7 +79,7 @@ class SUSANDemo
       boost::mutex::scoped_lock lock (cloud_mutex_);
       cloud_ = cloud;
 
-      // Compute SUSAN keypoints 
+      // Compute SUSAN keypoints
       SUSAN<PointT, KeyPointT> susan;
       susan.setInputCloud (cloud);
       susan.setNumberOfThreads (6);
@@ -104,13 +104,13 @@ class SUSANDemo
       ss << state;
       return (ss.str ());
     }
-    
+
     /////////////////////////////////////////////////////////////////////////
     void
     run ()
     {
       grabber_.start ();
-      
+
       bool image_init = false, cloud_init = false;
       bool keypts = true;
 
@@ -123,7 +123,7 @@ class SUSANDemo
         {
           cloud_.swap (cloud);
           keypoints_.swap (keypoints);
-        
+
           cloud_mutex_.unlock ();
         }
 
@@ -178,16 +178,16 @@ class SUSANDemo
       grabber_.stop ();
       cloud_connection.disconnect ();
     }
-    
+
     visualization::PCLVisualizer cloud_viewer_;
     Grabber& grabber_;
     boost::mutex cloud_mutex_;
     CloudConstPtr cloud_;
-    
+
     visualization::ImageViewer image_viewer_;
 
     PointCloud<KeyPointT>::Ptr keypoints_;
-        
+
   private:
     boost::signals2::connection cloud_connection;
 };
@@ -202,7 +202,7 @@ main (int, char**)
 
   openni_viewer.init ();
   openni_viewer.run ();
-  
+
   return (0);
 }
 /* ]--- */

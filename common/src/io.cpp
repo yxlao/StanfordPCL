@@ -67,8 +67,8 @@ bool fieldComp (const sensor_msgs::PointField* i, const sensor_msgs::PointField*
 
 //////////////////////////////////////////////////////////////////////////
 bool
-pcl::concatenateFields (const sensor_msgs::PointCloud2 &cloud1, 
-                        const sensor_msgs::PointCloud2 &cloud2, 
+pcl::concatenateFields (const sensor_msgs::PointCloud2 &cloud1,
+                        const sensor_msgs::PointCloud2 &cloud2,
                         sensor_msgs::PointCloud2 &cloud_out)
 {
   // If the cloud's sizes differ (points wise), then exit with error
@@ -77,14 +77,14 @@ pcl::concatenateFields (const sensor_msgs::PointCloud2 &cloud1,
     PCL_ERROR ("[pcl::concatenateFields] Dimensions of input clouds do not match: cloud1 (w, %d, h, %d), cloud2 (w, %d, h, %d)\n", cloud1.width, cloud1.height, cloud2.width, cloud2.height );
     return (false);
   }
-  
+
 
   if (cloud1.is_bigendian != cloud2.is_bigendian)
   {
     PCL_ERROR ("[pcl::concatenateFields] Endianness of clouds does not match\n");
     return (false);
   }
-  
+
   // Else, copy the second cloud (width, height, header stay the same)
   // we do this since fields from the second cloud are supposed to overwrite
   // those of the first
@@ -155,7 +155,7 @@ pcl::concatenateFields (const sensor_msgs::PointCloud2 &cloud1,
 
   //the total size of extra data should be the size of data per point
   //multiplied by the total number of points in the cloud
-  uint32_t cloud1_unique_data_size = cloud1_unique_point_step * cloud1.width * cloud1.height; 
+  uint32_t cloud1_unique_data_size = cloud1_unique_point_step * cloud1.width * cloud1.height;
 
   // Point step must increase with the length of each matching field
   cloud_out.point_step = cloud2.point_step + cloud1_unique_point_step;
@@ -179,7 +179,7 @@ pcl::concatenateFields (const sensor_msgs::PointCloud2 &cloud1,
     cloud_out.fields[cloud2.fields.size () + d].offset = offset;
     offset += field_sizes[d];
   }
- 
+
   // Iterate over each point and perform the appropriate memcpys
   int point_offset = 0;
   for (size_t cp = 0; cp < cloud_out.width * cloud_out.height; ++cp)
@@ -194,7 +194,7 @@ pcl::concatenateFields (const sensor_msgs::PointCloud2 &cloud1,
       const sensor_msgs::PointField& f = *cloud1_unique_fields[i];
       int local_data_size = f.count * pcl::getFieldSize (f.datatype);
       int padding_size = field_sizes[i] - local_data_size;
-      
+
       memcpy (&cloud_out.data[point_offset + field_offset], &cloud1.data[cp * cloud1.point_step + f.offset], local_data_size);
       field_offset +=  local_data_size;
 
@@ -216,8 +216,8 @@ pcl::concatenateFields (const sensor_msgs::PointCloud2 &cloud1,
 
 //////////////////////////////////////////////////////////////////////////
 bool
-pcl::concatenatePointCloud (const sensor_msgs::PointCloud2 &cloud1, 
-                            const sensor_msgs::PointCloud2 &cloud2, 
+pcl::concatenatePointCloud (const sensor_msgs::PointCloud2 &cloud1,
+                            const sensor_msgs::PointCloud2 &cloud2,
                             sensor_msgs::PointCloud2 &cloud_out)
 {
   //if one input cloud has no points, but the other input does, just return the cloud with points
@@ -237,14 +237,14 @@ pcl::concatenatePointCloud (const sensor_msgs::PointCloud2 &cloud1,
     PCL_ERROR ("[pcl::concatenatePointCloud] Number of fields in cloud1 (%u) != Number of fields in cloud2 (%u)\n", cloud1.fields.size (), cloud2.fields.size ());
     return (false);
   }
-  
+
   for (size_t i = 0; i < cloud1.fields.size (); ++i)
     if (cloud1.fields[i].name != cloud2.fields[i].name)
     {
-      PCL_ERROR ("[pcl::concatenatePointCloud] Name of field %d in cloud1, %s, does not match name in cloud2, %s\n", i, cloud1.fields[i].name.c_str (), cloud2.fields[i].name.c_str ());      
+      PCL_ERROR ("[pcl::concatenatePointCloud] Name of field %d in cloud1, %s, does not match name in cloud2, %s\n", i, cloud1.fields[i].name.c_str (), cloud2.fields[i].name.c_str ());
       return (false);
     }
-  
+
   // Copy cloud1 into cloud_out
   cloud_out = cloud1;
   size_t nrpts = cloud_out.data.size ();
@@ -277,8 +277,8 @@ pcl::getPointCloudAsEigen (const sensor_msgs::PointCloud2 &in, Eigen::MatrixXf &
     return (false);
   }
 
-  if (in.fields[x_idx].datatype != sensor_msgs::PointField::FLOAT32 || 
-      in.fields[y_idx].datatype != sensor_msgs::PointField::FLOAT32 || 
+  if (in.fields[x_idx].datatype != sensor_msgs::PointField::FLOAT32 ||
+      in.fields[y_idx].datatype != sensor_msgs::PointField::FLOAT32 ||
       in.fields[z_idx].datatype != sensor_msgs::PointField::FLOAT32)
   {
     PCL_ERROR ("X-Y-Z coordinates not floats. Currently only floats are supported.\n");
@@ -305,7 +305,7 @@ pcl::getPointCloudAsEigen (const sensor_msgs::PointCloud2 &in, Eigen::MatrixXf &
 }
 
 //////////////////////////////////////////////////////////////////////////
-bool 
+bool
 pcl::getEigenAsPointCloud (Eigen::MatrixXf &in, sensor_msgs::PointCloud2 &out)
 {
   // Get X-Y-Z indices
@@ -319,8 +319,8 @@ pcl::getEigenAsPointCloud (Eigen::MatrixXf &in, sensor_msgs::PointCloud2 &out)
     return (false);
   }
 
-  if (out.fields[x_idx].datatype != sensor_msgs::PointField::FLOAT32 || 
-      out.fields[y_idx].datatype != sensor_msgs::PointField::FLOAT32 || 
+  if (out.fields[x_idx].datatype != sensor_msgs::PointField::FLOAT32 ||
+      out.fields[y_idx].datatype != sensor_msgs::PointField::FLOAT32 ||
       out.fields[z_idx].datatype != sensor_msgs::PointField::FLOAT32)
   {
     PCL_ERROR ("X-Y-Z coordinates not floats. Currently only floats are supported.\n");
@@ -352,15 +352,15 @@ pcl::getEigenAsPointCloud (Eigen::MatrixXf &in, sensor_msgs::PointCloud2 &out)
 }
 
 //////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::copyPointCloud (
-    const sensor_msgs::PointCloud2 &cloud_in, 
-    const std::vector<int> &indices, 
+    const sensor_msgs::PointCloud2 &cloud_in,
+    const std::vector<int> &indices,
     sensor_msgs::PointCloud2 &cloud_out)
 {
   cloud_out.header       = cloud_in.header;
   cloud_out.height       = 1;
-  cloud_out.width        = static_cast<uint32_t> (indices.size ()); 
+  cloud_out.width        = static_cast<uint32_t> (indices.size ());
   cloud_out.fields       = cloud_in.fields;
   cloud_out.is_bigendian = cloud_in.is_bigendian;
   cloud_out.point_step   = cloud_in.point_step;
@@ -375,15 +375,15 @@ pcl::copyPointCloud (
 }
 
 //////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::copyPointCloud (
-    const sensor_msgs::PointCloud2 &cloud_in, 
-    const std::vector<int, Eigen::aligned_allocator<int> > &indices, 
+    const sensor_msgs::PointCloud2 &cloud_in,
+    const std::vector<int, Eigen::aligned_allocator<int> > &indices,
     sensor_msgs::PointCloud2 &cloud_out)
 {
   cloud_out.header       = cloud_in.header;
   cloud_out.height       = 1;
-  cloud_out.width        = static_cast<uint32_t> (indices.size ()); 
+  cloud_out.width        = static_cast<uint32_t> (indices.size ());
   cloud_out.fields       = cloud_in.fields;
   cloud_out.is_bigendian = cloud_in.is_bigendian;
   cloud_out.point_step   = cloud_in.point_step;
@@ -398,8 +398,8 @@ pcl::copyPointCloud (
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void 
-pcl::copyPointCloud (const sensor_msgs::PointCloud2 &cloud_in, 
+void
+pcl::copyPointCloud (const sensor_msgs::PointCloud2 &cloud_in,
                      sensor_msgs::PointCloud2 &cloud_out)
 {
   cloud_out.header       = cloud_in.header;

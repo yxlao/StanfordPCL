@@ -28,14 +28,14 @@ int main (int argc, char** argv)
 
   pcl::io::savePCDFileASCII ("input.pcd", cloud);
   std::cout << "INFO: Saved " << cloud.points.size () << " data points to test_pcd.pcd." << std::endl;
-  
+
   pcl::gpu::Octree::PointCloud cloud_device;
   cloud_device.upload(cloud.points);
-  
+
   pcl::gpu::Octree octree_device;
   octree_device.setCloud(cloud_device);
   octree_device.build();
- 
+
   // Create two query points
   std::vector<pcl::PointXYZ> query_host;
   query_host.resize (3);
@@ -47,7 +47,7 @@ int main (int argc, char** argv)
   query_host[1].z = 1;
   query_host[2].x = 500;
   query_host[2].y = 200;
-  
+
   pcl::gpu::Octree::Queries queries_device;
   queries_device.upload(query_host);
 
@@ -61,10 +61,10 @@ int main (int argc, char** argv)
   radiuses_device.upload(radius);
 
   const int max_answers = 500*200;
-  
+
   // Output buffer on the device
   pcl::gpu::NeighborIndices result_device(queries_device.size(), max_answers);
-  
+
   // Do the actual search
   octree_device.radiusSearch(queries_device, radiuses_device, max_answers, result_device);
 
@@ -73,7 +73,7 @@ int main (int argc, char** argv)
   result_device.data.download(data);
 
   std::cout << "INFO: Data generated" << std::endl;
-  
+
   std::cout<< "INFO: found : " << data.size() << " data.size" << std::endl;
   std::cout<< "INFO: found : " << sizes.size() << " sizes.size" << std::endl;
 

@@ -59,7 +59,7 @@ pcl::computeRSD (boost::shared_ptr<const pcl::PointCloud<PointInT> > &surface, b
     radii.r_min = 0;
     return histogram;
   }
-  
+
   // Initialize minimum and maximum angle values in each distance bin
   std::vector<std::vector<double> > min_max_angle_by_dist (nr_subdiv);
   min_max_angle_by_dist[0].resize (2);
@@ -138,7 +138,7 @@ pcl::computeRSD (boost::shared_ptr<const pcl::PointCloud<PointInT> > &surface, b
     radii.r_max = min_radius;
     radii.r_min = max_radius;
   }
-  
+
   return histogram;
 }
 
@@ -152,7 +152,7 @@ pcl::computeRSD (boost::shared_ptr<const pcl::PointCloud<PointNT> > &normals,
   Eigen::MatrixXf histogram;
   if (compute_histogram)
     histogram = Eigen::MatrixXf::Zero (nr_subdiv, nr_subdiv);
-  
+
   // Check if enough points are provided or not
   if (indices.size () < 2)
   {
@@ -160,7 +160,7 @@ pcl::computeRSD (boost::shared_ptr<const pcl::PointCloud<PointNT> > &normals,
     radii.r_min = 0;
     return histogram;
   }
-  
+
   // Initialize minimum and maximum angle values in each distance bin
   std::vector<std::vector<double> > min_max_angle_by_dist (nr_subdiv);
   min_max_angle_by_dist[0].resize (2);
@@ -171,7 +171,7 @@ pcl::computeRSD (boost::shared_ptr<const pcl::PointCloud<PointNT> > &normals,
     min_max_angle_by_dist[di][0] = +DBL_MAX;
     min_max_angle_by_dist[di][1] = -DBL_MAX;
   }
-  
+
   // Compute distance by normal angle distribution for points
   std::vector<int>::const_iterator i, begin (indices.begin()), end (indices.end());
   for(i = begin+1; i != end; ++i)
@@ -237,7 +237,7 @@ pcl::computeRSD (boost::shared_ptr<const pcl::PointCloud<PointNT> > &normals,
     radii.r_max = min_radius;
     radii.r_min = max_radius;
   }
-  
+
   return histogram;
 }
 
@@ -265,7 +265,7 @@ pcl::RSDEstimation<PointInT, PointNT, PointOutT>::computeFeature (PointCloudOut 
     // Reserve space for the output histogram dataset
     histograms_.reset (new std::vector<Eigen::MatrixXf, Eigen::aligned_allocator<Eigen::MatrixXf> >);
     histograms_->reserve (output.points.size ());
-    
+
     // Iterating over the entire index vector
     for (size_t idx = 0; idx < indices_->size (); ++idx)
     {
@@ -290,4 +290,4 @@ pcl::RSDEstimation<PointInT, PointNT, PointOutT>::computeFeature (PointCloudOut 
 
 #define PCL_INSTANTIATE_RSDEstimation(T,NT,OutT) template class PCL_EXPORTS pcl::RSDEstimation<T,NT,OutT>;
 
-#endif    // PCL_FEATURES_IMPL_VFH_H_ 
+#endif    // PCL_FEATURES_IMPL_VFH_H_

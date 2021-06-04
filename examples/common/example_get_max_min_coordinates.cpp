@@ -3,7 +3,7 @@
 #include <pcl/point_types.h>
 #include <pcl/common/common.h>
 
-int 
+int
 main (int, char**)
 {
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud;

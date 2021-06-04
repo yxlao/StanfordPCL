@@ -44,7 +44,7 @@ namespace pcl
   class PCL_EXPORTS SolverDidntConvergeException : public PCLException
   {
     public:
-    
+
     SolverDidntConvergeException (const std::string& error_description,
                                   const std::string& file_name = "",
                                   const std::string& function_name = "" ,
@@ -59,7 +59,7 @@ namespace pcl
   class PCL_EXPORTS NotEnoughPointsException : public PCLException
   {
     public:
-    
+
     NotEnoughPointsException (const std::string& error_description,
                               const std::string& file_name = "",
                               const std::string& function_name = "" ,

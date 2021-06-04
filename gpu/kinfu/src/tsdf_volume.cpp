@@ -54,7 +54,7 @@ pcl::gpu::TsdfVolume::TsdfVolume(const Vector3i& resolution) : resolution_(resol
   int volume_z = resolution_(2);
 
   volume_.create (volume_y * volume_z, volume_x);
-  
+
   const Vector3f default_volume_size = Vector3f::Constant (3.f); //meters
   const float    default_tranc_dist  = 0.03f; //meters
 
@@ -68,7 +68,7 @@ pcl::gpu::TsdfVolume::TsdfVolume(const Vector3i& resolution) : resolution_(resol
 
 void
 pcl::gpu::TsdfVolume::setSize(const Vector3f& size)
-{  
+{
   size_ = size;
   setTsdfTruncDist(tranc_dist_);
 }
@@ -82,7 +82,7 @@ pcl::gpu::TsdfVolume::setTsdfTruncDist (float distance)
   float cy = size_(1) / resolution_(1);
   float cz = size_(2) / resolution_(2);
 
-  tranc_dist_ = std::max (distance, 2.1f * std::max (cx, std::max (cy, cz)));  
+  tranc_dist_ = std::max (distance, 2.1f * std::max (cx, std::max (cy, cz)));
 
   /*if (tranc_dist_ != distance)
 	  PCL_WARN ("Tsdf truncation distance can't be less than 2 * voxel_size. Passed value '%f', but setting minimal possible '%f'.\n", distance, tranc_dist_);*/
@@ -90,7 +90,7 @@ pcl::gpu::TsdfVolume::setTsdfTruncDist (float distance)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-pcl::gpu::DeviceArray2D<int> 
+pcl::gpu::DeviceArray2D<int>
 pcl::gpu::TsdfVolume::data() const
 {
   return volume_;
@@ -116,7 +116,7 @@ pcl::gpu::TsdfVolume::getResolution() const
 
 const Eigen::Vector3f
 pcl::gpu::TsdfVolume::getVoxelSize() const
-{    
+{
   return size_.array () / resolution_.array().cast<float>();
 }
 
@@ -130,7 +130,7 @@ pcl::gpu::TsdfVolume::getTsdfTruncDist () const
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void 
+void
 pcl::gpu::TsdfVolume::reset()
 {
   device::initVolume(volume_);
@@ -335,7 +335,7 @@ pcl::gpu::TsdfVolume::downloadTsdfAndWeighs (std::vector<float>& tsdf, std::vect
   for(int i = 0; i < (int) tsdf.size(); ++i)
   {
     short2 elem = *reinterpret_cast<short2*>(&tsdf[i]);
-    tsdf[i] = (float)(elem.x)/device::DIVISOR;    
-    weights[i] = (short)(elem.y);    
+    tsdf[i] = (float)(elem.x)/device::DIVISOR;
+    weights[i] = (short)(elem.y);
   }
 }

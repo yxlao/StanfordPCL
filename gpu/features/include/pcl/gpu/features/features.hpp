@@ -47,7 +47,7 @@ namespace pcl
 {
     namespace gpu
     {
-        ////////////////////////////////////////////////////////////////////////////////////////////  
+        ////////////////////////////////////////////////////////////////////////////////////////////
         /** \brief @b Feature represents the base feature class.  */
 
         struct PCL_EXPORTS Feature
@@ -76,7 +76,7 @@ namespace pcl
             Octree octree_;
         };
 
-        ////////////////////////////////////////////////////////////////////////////////////////////  
+        ////////////////////////////////////////////////////////////////////////////////////////////
         /** \brief @b Feature represents the base feature class that takes normals as input also.  */
 
         struct PCL_EXPORTS FeatureFromNormals : public Feature
@@ -88,28 +88,28 @@ namespace pcl
             Normals normals_;
         };
 
-        ////////////////////////////////////////////////////////////////////////////////////////////  
+        ////////////////////////////////////////////////////////////////////////////////////////////
         /** \brief @b Class for normal estimation.  */
         class PCL_EXPORTS NormalEstimation : public Feature
         {
         public:
-            // float x, y, z, curvature; -> sizeof(PointXYZ) = 4 * sizeof(float)            
-            typedef Feature::NormalType NormalType; 
+            // float x, y, z, curvature; -> sizeof(PointXYZ) = 4 * sizeof(float)
+            typedef Feature::NormalType NormalType;
 
             NormalEstimation();
             void compute(Normals& normals);
-            void setViewPoint(float  vpx, float  vpy, float  vpz);  
-            void getViewPoint(float& vpx, float& vpy, float& vpz);      
+            void setViewPoint(float  vpx, float  vpy, float  vpz);
+            void getViewPoint(float& vpx, float& vpy, float& vpz);
 
             static void computeNormals(const PointCloud& cloud, const NeighborIndices& nn_indices, Normals& normals);
-            static void flipNormalTowardsViewpoint(const PointCloud& cloud, float vp_x, float vp_y, float vp_z, Normals& normals);            
+            static void flipNormalTowardsViewpoint(const PointCloud& cloud, float vp_x, float vp_y, float vp_z, Normals& normals);
             static void flipNormalTowardsViewpoint(const PointCloud& cloud, const Indices& indices, float vp_x, float vp_y, float vp_z, Normals& normals);
-        private:              
+        private:
             float vpx_, vpy_, vpz_;
             NeighborIndices nn_indices_;
-        };        
+        };
 
-        ////////////////////////////////////////////////////////////////////////////////////////////  
+        ////////////////////////////////////////////////////////////////////////////////////////////
         /** \brief @b Class for PFH estimation.  */
         class PCL_EXPORTS PFHEstimation : public FeatureFromNormals
         {
@@ -122,7 +122,7 @@ namespace pcl
             int max_elems_rpk;
         };
 
-        ////////////////////////////////////////////////////////////////////////////////////////////  
+        ////////////////////////////////////////////////////////////////////////////////////////////
         /** \brief @b Class for PFHRGB estimation.  */
         class PCL_EXPORTS PFHRGBEstimation : public FeatureFromNormals
         {
@@ -136,7 +136,7 @@ namespace pcl
             int max_elems_rpk;
         };
 
-        ////////////////////////////////////////////////////////////////////////////////////////////  
+        ////////////////////////////////////////////////////////////////////////////////////////////
         /** \brief @b Class for FPFH estimation.  */
         class PCL_EXPORTS FPFHEstimation : public FeatureFromNormals
         {
@@ -155,9 +155,9 @@ namespace pcl
             DeviceArray<int> lookup;
 
             DeviceArray2D<FPFHSignature33> spfh;
-        };      
+        };
 
-        //////////////////////////////////////////////////////////////////////////////////////////////  
+        //////////////////////////////////////////////////////////////////////////////////////////////
         ///** \brief @b Class for PPF estimation.  */
         class PCL_EXPORTS PPFEstimation : public FeatureFromNormals
         {
@@ -165,7 +165,7 @@ namespace pcl
             void compute(DeviceArray<PPFSignature>& features);
         };
 
-        //////////////////////////////////////////////////////////////////////////////////////////////  
+        //////////////////////////////////////////////////////////////////////////////////////////////
         ///** \brief @b Class for PPFRGB estimation.  */
 
         class PCL_EXPORTS PPFRGBEstimation : public FeatureFromNormals
@@ -176,7 +176,7 @@ namespace pcl
             void compute(DeviceArray<PPFRGBSignature>& features);
         };
 
-        //////////////////////////////////////////////////////////////////////////////////////////////  
+        //////////////////////////////////////////////////////////////////////////////////////////////
         ///** \brief @b Class for PPFRGBRegion estimation.  */
 
         class PCL_EXPORTS PPFRGBRegionEstimation : public FeatureFromNormals
@@ -187,7 +187,7 @@ namespace pcl
 
         private:
             NeighborIndices nn_indices_;
-        }; 
+        };
 
 
         //////////////////////////////////////////////////////////////////////////////////////////////
@@ -197,14 +197,14 @@ namespace pcl
         {
         public:
 
-            void compute(DeviceArray<PrincipalCurvatures>& features);                    
+            void compute(DeviceArray<PrincipalCurvatures>& features);
         private:
             NeighborIndices nn_indices_;
             DeviceArray2D<float> proj_normals_buf;
-        }; 
+        };
 
 
-        //////////////////////////////////////////////////////////////////////////////////////////////  
+        //////////////////////////////////////////////////////////////////////////////////////////////
         ///** \brief @b Class for Viewpoint Feature Histogramm estimation.  */
 
         class PCL_EXPORTS VFHEstimation : public FeatureFromNormals
@@ -222,8 +222,8 @@ namespace pcl
 
             VFHEstimation();
 
-            void setViewPoint(float  vpx, float  vpy, float  vpz);  
-            void getViewPoint(float& vpx, float& vpy, float& vpz);      
+            void setViewPoint(float  vpx, float  vpy, float  vpz);
+            void getViewPoint(float& vpx, float& vpy, float& vpz);
 
             void setUseGivenNormal (bool use);
             void setNormalToUse (const NormalType& normal);
@@ -247,7 +247,7 @@ namespace pcl
 
             NormalType normal_to_use_;
             PointType centroid_to_use_;
-        }; 
+        };
 
 
         //////////////////////////////////////////////////////////////////////////////////////////////
@@ -255,28 +255,28 @@ namespace pcl
 
         class PCL_EXPORTS SpinImageEstimation : public FeatureFromNormals
         {
-        public:  
+        public:
             typedef Histogram<153> SpinImage;
 
             SpinImageEstimation (unsigned int image_width = 8,
                 double support_angle_cos = 0.0,   // when 0, this is bogus, so not applied
                 unsigned int min_pts_neighb = 0);
-            
-            void setImageWidth (unsigned int bin_count);            
-            void setSupportAngle (float support_angle_cos);                        
-            void setMinPointCountInNeighbourhood (unsigned int min_pts_neighb);            
-            void setInputWithNormals (const PointCloud& input, const Normals& normals);                        
+
+            void setImageWidth (unsigned int bin_count);
+            void setSupportAngle (float support_angle_cos);
+            void setMinPointCountInNeighbourhood (unsigned int min_pts_neighb);
+            void setInputWithNormals (const PointCloud& input, const Normals& normals);
             void setSearchSurfaceWithNormals (const PointCloud& surface, const Normals& normals);
-            
+
             void setRotationAxis (const NormalType& axis);
-            void setInputRotationAxes (const Normals& axes);            
+            void setInputRotationAxes (const Normals& axes);
             void useNormalsAsRotationAxis();
             void setAngularDomain (bool is_angular = true);
             void setRadialStructure (bool is_radial = true);
 
             void compute(DeviceArray2D<SpinImage>& features, DeviceArray<unsigned char>& mask);
-        
-        private:            
+
+        private:
             Normals input_normals_;
             Normals rotation_axes_cloud_;
 
@@ -286,7 +286,7 @@ namespace pcl
             bool use_custom_axis_;
 			
 			/* use input normals as rotation axes*/
-            bool use_custom_axes_cloud_; 
+            bool use_custom_axes_cloud_;
 
             bool is_radial_;
 

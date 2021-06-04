@@ -57,7 +57,7 @@ pcl::gpu::TsdfVolume::TsdfVolume(const Vector3i& resolution) : resolution_(resol
   int volume_z = resolution_(2);
 
   volume_.create (volume_y * volume_z, volume_x);
-  
+
   const Vector3f default_volume_size = Vector3f::Constant (3.f); //meters
   const float    default_tranc_dist  = 0.03f; //meters
 
@@ -71,7 +71,7 @@ pcl::gpu::TsdfVolume::TsdfVolume(const Vector3i& resolution) : resolution_(resol
 
 void
 pcl::gpu::TsdfVolume::setSize(const Vector3f& size)
-{  
+{
   size_ = size;
   setTsdfTruncDist(tranc_dist_);
 }
@@ -85,12 +85,12 @@ pcl::gpu::TsdfVolume::setTsdfTruncDist (float distance)
   float cy = size_(1) / resolution_(1);
   float cz = size_(2) / resolution_(2);
 
-  tranc_dist_ = std::max (distance, 2.1f * std::max (cx, std::max (cy, cz)));  
+  tranc_dist_ = std::max (distance, 2.1f * std::max (cx, std::max (cy, cz)));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-pcl::gpu::DeviceArray2D<int> 
+pcl::gpu::DeviceArray2D<int>
 pcl::gpu::TsdfVolume::data() const
 {
   return volume_;
@@ -116,7 +116,7 @@ pcl::gpu::TsdfVolume::getResolution() const
 
 const Eigen::Vector3f
 pcl::gpu::TsdfVolume::getVoxelSize() const
-{    
+{
   return size_.array () / resolution_.array().cast<float>();
 }
 
@@ -130,7 +130,7 @@ pcl::gpu::TsdfVolume::getTsdfTruncDist () const
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void 
+void
 pcl::gpu::TsdfVolume::reset()
 {
   device::initVolume(volume_);
@@ -308,7 +308,7 @@ pcl::gpu::TsdfVolume::fetchNormalsInSpace (const DeviceArray<PointType>& cloud, 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void 
+void
 pcl::gpu::TsdfVolume::pushSlice (PointCloud<PointXYZI>::Ptr existing_data_cloud, const pcl::gpu::tsdf_buffer* buffer) const
 {
   size_t gpu_array_size = existing_data_cloud->points.size ();
@@ -338,7 +338,7 @@ pcl::gpu::TsdfVolume::fetchSliceAsCloud (DeviceArray<PointType>& cloud_buffer_xy
     cloud_buffer_xyz.create (DEFAULT_CLOUD_BUFFER_SIZE);
 
   if (cloud_buffer_intensity.empty ()) {
-    cloud_buffer_intensity.create (DEFAULT_CLOUD_BUFFER_SIZE);  
+    cloud_buffer_intensity.create (DEFAULT_CLOUD_BUFFER_SIZE);
   }
 
   float3 device_volume_size = device_cast<const float3> (size_);
@@ -354,14 +354,14 @@ pcl::gpu::TsdfVolume::fetchSliceAsCloud (DeviceArray<PointType>& cloud_buffer_xy
 	  if (newX >= 0)
 	  {
 		minBounds[ 0 ] = buffer->origin_GRID.x;
-		maxBounds[ 0 ] = newX;    
+		maxBounds[ 0 ] = newX;
 	  }
 	  else
 	  {
 		minBounds[ 0 ] = newX + buffer->voxels_size.x - 1;
 		maxBounds[ 0 ] = buffer->origin_GRID.x + buffer->voxels_size.x - 1;
 	  }
-  
+
 	  if (minBounds[ 0 ] > maxBounds[ 0 ])
 		std::swap (minBounds[ 0 ], maxBounds[ 0 ]);
 
@@ -376,7 +376,7 @@ pcl::gpu::TsdfVolume::fetchSliceAsCloud (DeviceArray<PointType>& cloud_buffer_xy
 		minBounds[ 1 ] = newY + buffer->voxels_size.y - 1;
 		maxBounds[ 1 ] = buffer->origin_GRID.y + buffer->voxels_size.y - 1;
 	  }
-  
+
 	  if(minBounds[ 1 ] > maxBounds[ 1 ])
 		std::swap (minBounds[ 1 ], maxBounds[ 1 ]);
 
@@ -430,11 +430,11 @@ pcl::gpu::TsdfVolume::fetchSliceAsCloud (DeviceArray<PointType>& cloud_buffer_xy
       PCL_DEBUG ("Z bound: [%d - %d]\n", minBounds[ 2 ], maxBounds[ 2 ]);
 
   }
-  
+
   size_t size = pcl::device::extractSliceAsCloud (volume_, device_volume_size, buffer, shiftX, shiftY, shiftZ, cloud_buffer_xyz, cloud_buffer_intensity);
-  
+
   std::cout << "SIZE IS " << size << " (maximum: " << DEFAULT_CLOUD_BUFFER_SIZE <<")" << std::endl;
-  
+
   return (size);
 }
 
@@ -488,7 +488,7 @@ pcl::gpu::TsdfVolume::downloadTsdfAndWeighs (std::vector<float>& tsdf, std::vect
   for(int i = 0; i < (int) tsdf.size(); ++i)
   {
     short2 elem = *reinterpret_cast<short2*>(&tsdf[i]);
-    tsdf[i] = (float)(elem.x)/device::DIVISOR;    
-    weights[i] = (short)(elem.y);    
+    tsdf[i] = (float)(elem.x)/device::DIVISOR;
+    weights[i] = (short)(elem.y);
   }
 }

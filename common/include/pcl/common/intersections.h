@@ -41,7 +41,7 @@
 #include <pcl/common/common.h>
 #include <pcl/common/distances.h>
 
-/** 
+/**
   * \file pcl/common/intersections.h
   * Define line with line intersection functions
   * \ingroup common
@@ -58,8 +58,8 @@ namespace pcl
     * \ingroup common
     */
   PCL_EXPORTS bool
-  lineWithLineIntersection (const Eigen::VectorXf &line_a, 
-                            const Eigen::VectorXf &line_b, 
+  lineWithLineIntersection (const Eigen::VectorXf &line_a,
+                            const Eigen::VectorXf &line_b,
                             Eigen::Vector4f &point, double sqr_eps = 1e-4);
 
   /** \brief Get the intersection of a two 3D lines in space as a 3D point
@@ -70,8 +70,8 @@ namespace pcl
     * \ingroup common
     */
   PCL_EXPORTS bool
-  lineWithLineIntersection (const pcl::ModelCoefficients &line_a, 
-                            const pcl::ModelCoefficients &line_b, 
+  lineWithLineIntersection (const pcl::ModelCoefficients &line_a,
+                            const pcl::ModelCoefficients &line_b,
                             Eigen::Vector4f &point, double sqr_eps = 1e-4);
 
   /** \brief Determine the line of intersection of two non-parallel planes using lagrange multipliers

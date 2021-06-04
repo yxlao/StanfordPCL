@@ -46,8 +46,8 @@ namespace pcl
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     __global__ void
-    bilateralKernel (const PtrStepSz<ushort> src, 
-                     PtrStep<ushort> dst, 
+    bilateralKernel (const PtrStepSz<ushort> src,
+                     PtrStep<ushort> dst,
                      float sigma_space2_inv_half, float sigma_color2_inv_half)
     {
       int x = threadIdx.x + blockIdx.x * blockDim.x;
@@ -106,10 +106,10 @@ namespace pcl
 
       int x_ma = min(src.cols, 2*x -D/2+D) - 2*x;
       int y_ma = min(src.rows, 2*y -D/2+D) - 2*y;
-            
+
       float sum = 0;
       float wall = 0;
-      
+
       float weights[] = {0.375f, 0.25f, 0.0625f} ;
 
       for(int yi = y_mi; yi < y_ma; ++yi)
@@ -118,7 +118,7 @@ namespace pcl
               int val = src.ptr (2*y + yi)[2*x + xi];
 
               if (abs (val - center) < 3 * sigma_color)
-              {                                 
+              {
                 sum += val * weights[abs(xi)] * weights[abs(yi)];
                 wall += weights[abs(xi)] * weights[abs(yi)];
               }
@@ -203,7 +203,7 @@ pcl::device::pyrDown (const DepthMap& src, DepthMap& dst)
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::device::truncateDepth(DepthMap& depth, float max_distance)
 {
   dim3 block (32, 8);

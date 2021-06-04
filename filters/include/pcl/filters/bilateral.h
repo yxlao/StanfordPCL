@@ -44,7 +44,7 @@
 namespace pcl
 {
   /** \brief A bilateral filter implementation for point cloud data. Uses the intensity data channel.
-    * \note For more information please see 
+    * \note For more information please see
     * <b>C. Tomasi and R. Manduchi. Bilateral Filtering for Gray and Color Images.
     * In Proceedings of the IEEE International Conference on Computer Vision,
     * 1998.</b>
@@ -60,10 +60,10 @@ namespace pcl
     typedef typename pcl::search::Search<PointT>::Ptr KdTreePtr;
 
     public:
-      /** \brief Constructor. 
+      /** \brief Constructor.
         * Sets sigma_s_ to 0 and sigma_r_ to MAXDBL
         */
-      BilateralFilter () : sigma_s_ (0), 
+      BilateralFilter () : sigma_s_ (0),
                            sigma_r_ (std::numeric_limits<double>::max ()),
                            tree_ ()
       {
@@ -78,24 +78,24 @@ namespace pcl
 
       /** \brief Compute the intensity average for a single point
         * \param[in] pid the point index to compute the weight for
-        * \param[in] indices the set of nearest neighor indices 
+        * \param[in] indices the set of nearest neighor indices
         * \param[in] distances the set of nearest neighbor distances
         * \return the intensity average at a given point index
         */
-      double 
+      double
       computePointWeight (const int pid, const std::vector<int> &indices, const std::vector<float> &distances);
 
       /** \brief Set the half size of the Gaussian bilateral filter window.
         * \param[in] sigma_s the half size of the Gaussian bilateral filter window to use
         */
-      inline void 
+      inline void
       setHalfSize (const double sigma_s)
       {
         sigma_s_ = sigma_s;
       }
 
       /** \brief Get the half size of the Gaussian bilateral filter window as set by the user. */
-      double 
+      double
       getHalfSize ()
       {
         return (sigma_s_);
@@ -111,7 +111,7 @@ namespace pcl
       }
 
       /** \brief Get the value of the current standard deviation parameter of the bilateral filter. */
-      double 
+      double
       getStdDev ()
       {
         return (sigma_r_);

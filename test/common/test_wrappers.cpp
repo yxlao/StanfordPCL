@@ -89,7 +89,7 @@ TEST (PointCloud, constructor_with_allocation)
 
 TEST (PointCloud, constructor_with_allocation_valued)
 {
-  PointXYZ nan_point (0.1f, 0.2f, 0.3f);  
+  PointXYZ nan_point (0.1f, 0.2f, 0.3f);
   PointCloud<PointXYZ> cloud2 (5, 80, nan_point);
   EXPECT_EQ (cloud2.width, 5);
   EXPECT_EQ (cloud2.height, 80);
@@ -102,14 +102,14 @@ TEST (PointCloud, constructor_with_allocation_valued)
     EXPECT_NEAR (pit->y, 0.2, 1e-3);
     EXPECT_NEAR (pit->z, 0.3, 1e-3);
   }
-  
+
 }
 
 TEST (PointCloud, iterators)
 {
-  EXPECT_EQ_VECTORS (cloud.begin ()->getVector3fMap (), 
+  EXPECT_EQ_VECTORS (cloud.begin ()->getVector3fMap (),
                      cloud.points.begin ()->getVector3fMap ());
-  EXPECT_EQ_VECTORS (cloud.end ()->getVector3fMap (), 
+  EXPECT_EQ_VECTORS (cloud.end ()->getVector3fMap (),
                      cloud.points.end ()->getVector3fMap ());
   PointCloud<PointXYZ>::const_iterator pit = cloud.begin ();
   PointCloud<PointXYZ>::VectorType::const_iterator pit2 = cloud.points.begin ();

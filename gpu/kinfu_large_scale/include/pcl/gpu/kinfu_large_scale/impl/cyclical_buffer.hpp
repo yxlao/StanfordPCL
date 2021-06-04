@@ -41,7 +41,7 @@
 #include <pcl/gpu/kinfu_large_scale/cyclical_buffer.h>
 
 
-bool 
+bool
 pcl::gpu::CyclicalBuffer::checkForShift (const pcl::gpu::TsdfVolume::Ptr volume, const pcl::gpu::ColorVolume::Ptr color, const Eigen::Affine3f &cam_pose, const double distance_camera_target, const bool perform_shift, const bool last_shift, const bool force_shift, const bool extract_world)
 {
   bool result = false;
@@ -52,16 +52,16 @@ pcl::gpu::CyclicalBuffer::checkForShift (const pcl::gpu::TsdfVolume::Ptr volume,
   targetPoint.y = 0.0f;
   targetPoint.z = distance_camera_target; // place the point at camera position + distance_camera_target on Z
   targetPoint = pcl::transformPoint (targetPoint, cam_pose);
-  
-  // check distance from the cube's center  
+
+  // check distance from the cube's center
   pcl::PointXYZ center_cube;
   center_cube.x = buffer_.origin_metric.x + buffer_.volume_size.x/2.0f;
   center_cube.y = buffer_.origin_metric.y + buffer_.volume_size.y/2.0f;
   center_cube.z = buffer_.origin_metric.z + buffer_.volume_size.z/2.0f;
-    
+
   if (force_shift || pcl::euclideanDistance (targetPoint, center_cube) > distance_threshold_)
     result = true;
-  
+
   if (!perform_shift)
     return (result);
 
@@ -79,17 +79,17 @@ pcl::gpu::CyclicalBuffer::performShift (const pcl::gpu::TsdfVolume::Ptr volume, 
   // compute new origin and offsets
   int offset_x, offset_y, offset_z;
   computeAndSetNewCubeMetricOrigin (target_point, offset_x, offset_y, offset_z);
-    
+
   PointCloud<PointXYZI>::Ptr current_slice (new PointCloud<PointXYZI>);
 
   if ( extract_world ) {
 	  // extract current slice from the TSDF volume (coordinates are in indices! (see fetchSliceAsCloud() )
 	  DeviceArray<PointXYZ> points;
 	  DeviceArray<float> intensities;
-	  int size;   
+	  int size;
 	  if(!last_shift)
 	  {
-		size = volume->fetchSliceAsCloud (cloud_buffer_device_xyz_, cloud_buffer_device_intensities_, &buffer_, offset_x, offset_y, offset_z); 
+		size = volume->fetchSliceAsCloud (cloud_buffer_device_xyz_, cloud_buffer_device_intensities_, &buffer_, offset_x, offset_y, offset_z);
 	  }
 	  else
 	  {
@@ -101,7 +101,7 @@ pcl::gpu::CyclicalBuffer::performShift (const pcl::gpu::TsdfVolume::Ptr volume, 
 	  PointCloud<PointXYZ>::Ptr current_slice_xyz (new PointCloud<PointXYZ>);
 	  PointCloud<PointIntensity>::Ptr current_slice_intensities (new PointCloud<PointIntensity>);
 
-	  // Retrieving XYZ 
+	  // Retrieving XYZ
 	  points.download (current_slice_xyz->points);
 	  current_slice_xyz->width = (int) current_slice_xyz->points.size ();
 	  current_slice_xyz->height = 1;
@@ -124,7 +124,7 @@ pcl::gpu::CyclicalBuffer::performShift (const pcl::gpu::TsdfVolume::Ptr volume, 
 	  current_slice->height = 1;
 
 	  // transform the slice from local to global coordinates
-	  Eigen::Affine3f global_cloud_transformation; 
+	  Eigen::Affine3f global_cloud_transformation;
 	  global_cloud_transformation.translation ()[0] = buffer_.origin_GRID_global.x;
 	  global_cloud_transformation.translation ()[1] = buffer_.origin_GRID_global.y;
 	  global_cloud_transformation.translation ()[2] = buffer_.origin_GRID_global.z;
@@ -144,7 +144,7 @@ pcl::gpu::CyclicalBuffer::performShift (const pcl::gpu::TsdfVolume::Ptr volume, 
 									offset_x, offset_y, offset_z,
 									buffer_.voxels_size.x - 1, buffer_.voxels_size.y - 1, buffer_.voxels_size.z - 1,
 									*previously_existing_slice);
-  
+
 	  //replace world model data with values extracted from the TSDF buffer slice
 	  world_model_.setSliceAsNans (buffer_.origin_GRID_global.x, buffer_.origin_GRID_global.y, buffer_.origin_GRID_global.z,
 								   offset_x, offset_y, offset_z,
@@ -153,7 +153,7 @@ pcl::gpu::CyclicalBuffer::performShift (const pcl::gpu::TsdfVolume::Ptr volume, 
   	  cout << current_slice->points.size() << endl;
 
 	  PCL_INFO ("world contains %d points after update\n", world_model_.getWorldSize ());
-	  world_model_.cleanWorldFromNans ();                               
+	  world_model_.cleanWorldFromNans ();
 	  PCL_INFO ("world contains %d points after cleaning\n", world_model_.getWorldSize ());
   }
 
@@ -217,7 +217,7 @@ pcl::gpu::CyclicalBuffer::performShift (const pcl::gpu::TsdfVolume::Ptr volume, 
 
   // shift buffer addresses
   shiftOrigin (volume, color, offset_x, offset_y, offset_z);
-  
+
   if ( extract_world ) {
 	  // push existing data in the TSDF buffer
 	  if (previously_existing_slice->points.size () != 0 ) {
@@ -226,7 +226,7 @@ pcl::gpu::CyclicalBuffer::performShift (const pcl::gpu::TsdfVolume::Ptr volume, 
   }
 }
 
-void 
+void
 pcl::gpu::CyclicalBuffer::computeAndSetNewCubeMetricOrigin (const pcl::PointXYZ &target_point, int &shiftX, int &shiftY, int &shiftZ)
 {
   // compute new origin for the cube, based on the target point
@@ -247,7 +247,7 @@ pcl::gpu::CyclicalBuffer::computeAndSetNewCubeMetricOrigin (const pcl::PointXYZ 
   new_cube_origin_meters.z = buffer_.origin_metric.z + shiftZ / ( buffer_.voxels_size.z / (float) (buffer_.volume_size.z) );
   PCL_INFO ("The new cube's metric origin is coerced to (%f, %f, %f).\n", new_cube_origin_meters.x, new_cube_origin_meters.y, new_cube_origin_meters.z);
 
-  // update the cube's metric origin 
+  // update the cube's metric origin
   buffer_.origin_metric = new_cube_origin_meters;
 }
 

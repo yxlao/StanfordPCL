@@ -61,7 +61,7 @@ public:
 
   /*
   Description:
-    Sets the curve geometry that "this" is a proxy for.  
+    Sets the curve geometry that "this" is a proxy for.
     Sets proxy domain to proxy_curve->Domain().
   Parameters:
     real_curve - [in]
@@ -70,7 +70,7 @@ public:
 
   /*
   Description:
-    Sets the curve geometry that "this" is a proxy for.  
+    Sets the curve geometry that "this" is a proxy for.
     Sets proxy domain to proxy_curve->Domain().
   Parameters:
     real_curve - [in]
@@ -82,7 +82,7 @@ public:
             as a curve is reversed from the underlying "real" curve
             geometry.
   */
-  void SetProxyCurve( const ON_Curve* real_curve, 
+  void SetProxyCurve( const ON_Curve* real_curve,
                       ON_Interval real_curve_subdomain
                       );
 
@@ -151,7 +151,7 @@ private:
   // the reverse of the m_curve parameterization.
   bool m_bReversed;
 
-  // The m_domain interval is always increasing and included in 
+  // The m_domain interval is always increasing and included in
   // m_curve->Domain().  The m_domain interval defines the portion
   // of m_curve that "this" proxy uses and it can be a proper
   // sub-interval of m_curve->Domain().
@@ -159,10 +159,10 @@ private:
 
   // The evaluation domain of this curve.  If "t" is a parameter for
   // "this" and "r" is a parameter for m_curve, then when m_bReversed==false
-	// we have 
+	// we have
   // t = m_this_domain.ParameterAt(m_real_curve_domain.NormalizedParameterAt(r))
   // r = m_real_curve_domain.ParameterAt(m_this_domain.NormalizedParameterAt(t))
-	// and when m_bReversed==true we have 
+	// and when m_bReversed==true we have
   // t = m_this_domain.ParameterAt(1 - m_real_curve_domain.NormalizedParameterAt(r))
   // r = m_real_curve_domain.ParameterAt(1 - m_this_domain.NormalizedParameterAt(t))
   ON_Interval m_this_domain;
@@ -175,17 +175,17 @@ public:
   Description:
     Get a duplicate of the curve.
   Returns:
-    A duplicate of the curve.  
+    A duplicate of the curve.
   Remarks:
     The caller must delete the returned curve.
     For non-ON_CurveProxy objects, this simply duplicates the curve using
     ON_Object::Duplicate.
-    For ON_CurveProxy objects, this duplicates the actual proxy curve 
+    For ON_CurveProxy objects, this duplicates the actual proxy curve
     geometry and, if necessary, trims and reverse the result to that
     the returned curve's parameterization and locus match the proxy curve's.
   */
   ON_Curve* DuplicateCurve() const;
-  
+
   /////////////////////////////////////////////////////////////////
   // ON_Object overrides
 
@@ -197,9 +197,9 @@ public:
     text_log - [in] if the object is not valid and text_log
         is not NULL, then a brief englis description of the
         reason the object is not valid is appened to the log.
-        The information appended to text_log is suitable for 
-        low-level debugging purposes by programmers and is 
-        not intended to be useful as a high level user 
+        The information appended to text_log is suitable for
+        low-level debugging purposes by programmers and is
+        not intended to be useful as a high level user
         interface tool.
   Returns:
     @untitled table
@@ -213,7 +213,7 @@ public:
   void Dump( ON_TextLog& ) const; // for debugging
 
   ON_BOOL32 Write( // returns false - nothing serialized
-         ON_BinaryArchive&  // open binary file 
+         ON_BinaryArchive&  // open binary file
        ) const;
 
   ON_BOOL32 Read( // returns false - nothing serialized
@@ -231,7 +231,7 @@ public:
          ON_BOOL32 = false  // true means grow box
          ) const;
 
-  ON_BOOL32 Transform( 
+  ON_BOOL32 Transform(
          const ON_Xform&
          );
 
@@ -246,9 +246,9 @@ public:
   ON_Interval Domain() const;
 
   /* virtual ON_Curve::SetDomain() override */
-  ON_BOOL32 SetDomain( 
-        double t0, 
-        double t1 
+  ON_BOOL32 SetDomain(
+        double t0,
+        double t1
         );
 
   bool SetDomain( ON_Interval domain );
@@ -257,11 +257,11 @@ public:
 
   ON_BOOL32 GetSpanVector(
     double*
-    ) const; 
+    ) const;
 
-  int Degree( // returns maximum algebraic degree of any span 
+  int Degree( // returns maximum algebraic degree of any span
                   // ( or a good estimate if curve spans are not algebraic )
-    ) const; 
+    ) const;
 
   // (optional - override if curve is piecewise smooth)
   ON_BOOL32 GetParameterTolerance( // returns tminus < tplus: parameters tminus <= s <= tplus
@@ -306,9 +306,9 @@ public:
                   // periodic.)
 
   ON_BOOL32 IsPeriodic(  // true if curve is a single periodic segment
-        void 
+        void
         ) const;
-  
+
   /*
   Description:
     Search for a derivatitive, tangent, or curvature discontinuity.
@@ -320,17 +320,17 @@ public:
           parameter at the discontinuity.
     hint - [in/out] if GetNextDiscontinuity will be called repeatedly,
        passing a "hint" with initial value *hint=0 will increase the speed
-       of the search.       
+       of the search.
     dtype - [out] if not NULL, *dtype reports the kind of discontinuity
         found at *t.  A value of 1 means the first derivative or unit tangent
         was discontinuous.  A value of 2 means the second derivative or
         curvature was discontinuous.
     cos_angle_tolerance - [in] default = cos(1 degree) Used only when
         c is ON::G1_continuous or ON::G2_continuous.  If the cosine
-        of the angle between two tangent vectors 
+        of the angle between two tangent vectors
         is <= cos_angle_tolerance, then a G1 discontinuity is reported.
     curvature_tolerance - [in] (default = ON_SQRT_EPSILON) Used only when
-        c is ON::G2_continuous or ON::Gsmooth_continuous.  
+        c is ON::G2_continuous or ON::Gsmooth_continuous.
         ON::G2_continuous:
           If K0 and K1 are curvatures evaluated
           from above and below and |K0 - K1| > curvature_tolerance,
@@ -345,7 +345,7 @@ public:
   Remarks:
     Overrides ON_Curve::GetNextDiscontinuity.
   */
-  bool GetNextDiscontinuity( 
+  bool GetNextDiscontinuity(
                   ON::continuity c,
                   double t0,
                   double t1,
@@ -371,10 +371,10 @@ public:
         greater than d2_tolerance, then the curve is not C2.
     cos_angle_tolerance - [in] default = cos(1 degree) Used only when
         c is ON::G1_continuous or ON::G2_continuous.  If the cosine
-        of the angle between two tangent vectors 
+        of the angle between two tangent vectors
         is <= cos_angle_tolerance, then a G1 discontinuity is reported.
     curvature_tolerance - [in] (default = ON_SQRT_EPSILON) Used only when
-        c is ON::G2_continuous or ON::Gsmooth_continuous.  
+        c is ON::G2_continuous or ON::Gsmooth_continuous.
         ON::G2_continuous:
           If K0 and K1 are curvatures evaluated
           from above and below and |K0 - K1| > curvature_tolerance,
@@ -391,7 +391,7 @@ public:
   */
   bool IsContinuous(
     ON::continuity c,
-    double t, 
+    double t,
     int* hint = NULL,
     double point_tolerance=ON_ZERO_TOLERANCE,
     double d1_tolerance=ON_ZERO_TOLERANCE,
@@ -410,7 +410,7 @@ public:
          double*,        // array of length stride*(ndir+1)
          int = 0,        // optional - determines which side to evaluate from
                          //         0 = default
-                         //      <  0 to evaluate from below, 
+                         //      <  0 to evaluate from below,
                          //      >  0 to evaluate from above
          int* = 0        // optional - evaluation hint (int) used to speed
                          //            repeated evaluations
@@ -434,9 +434,9 @@ public:
                    //            matches the curve's to wthe desired accuracy
                    //         2: success - returned NURBS point locus matches
                    //            the curve's to the desired accuracy but, on
-                   //            the interior of the curve's domain, the 
+                   //            the interior of the curve's domain, the
                    //            curve's parameterization and the NURBS
-                   //            parameterization may not match to the 
+                   //            parameterization may not match to the
                    //            desired accuracy.
         ON_NurbsCurve&,
         double = 0.0,
@@ -449,9 +449,9 @@ public:
                    //            matches the curve's to wthe desired accuracy
                    //         2: success - returned NURBS point locus matches
                    //            the curve's to the desired accuracy but, on
-                   //            the interior of the curve's domain, the 
+                   //            the interior of the curve's domain, the
                    //            curve's parameterization and the NURBS
-                   //            parameterization may not match to the 
+                   //            parameterization may not match to the
                    //            desired accuracy.
         ) const;
 

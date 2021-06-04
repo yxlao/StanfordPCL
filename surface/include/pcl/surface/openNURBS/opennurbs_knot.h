@@ -72,7 +72,7 @@ bool ON_GetKnotVectorSpanVector(
 Description:
   Given an evaluation parameter t in the domain of a NURBS curve,
   ON_NurbsSpanIndex(order,cv_count,knot,t,0,0) returns the integer
-  i such that (knot[i],...,knot[i+2*degree-1]),  and 
+  i such that (knot[i],...,knot[i+2*degree-1]),  and
   (cv[i],...,cv[i+degree]) are the knots and control points that
   define the span of the NURBS that are used for evaluation at t.
 Parameters:
@@ -82,7 +82,7 @@ Parameters:
   t - [in] evaluation parameter
   side - [in] determines which span is used when t is at a knot
               value;  side = 0 for the default (from above),
-              side = -1 means from below, and 
+              side = -1 means from below, and
               side = +1 means from above.
   hint - [in] Search hint, or 0 if not hint is available.
 Returns:
@@ -107,7 +107,7 @@ int ON_NextNurbsSpanIndex(
           int order,
           int cv_count,
           const double* knot,
-          int            // current span_index 
+          int            // current span_index
           );
 
 ON_DECL
@@ -115,18 +115,18 @@ int ON_GetSpanIndices( // returns span count, which is one less than length of s
           int order,
           int cv_count,
           const double* knot,
-          int*           // span_indices[cv_count-order+2]. 
-                         //Indices of knots at end of group of mult knots 
+          int*           // span_indices[cv_count-order+2].
+                         //Indices of knots at end of group of mult knots
                          //at start of span, and knot at start of group of mult knots
                          //at end of spline.
           );
 
 ON_DECL
-double ON_SuperfluousKnot( 
+double ON_SuperfluousKnot(
           int order,
           int cv_count,
           const double* knot,
-          int            // 0 = first superfluous knot 
+          int            // 0 = first superfluous knot
                          // 1 = last superfluous knot
           );
 
@@ -149,7 +149,7 @@ ON_DECL
 bool ON_IsKnotVectorUniform(
           int order,
           int cv_count,
-          const double* knot 
+          const double* knot
           );
 
 //////////
@@ -163,7 +163,7 @@ bool ON_KnotVectorHasBezierSpans(
 
 
 ON_DECL
-ON::knot_style ON_KnotVectorStyle( 
+ON::knot_style ON_KnotVectorStyle(
           int order,
           int cv_count,
           const double* knot
@@ -179,18 +179,18 @@ Parameters:
   t0 - [in]
   t1 - [in] New domain will be the interval (t0,t1).
 Returns:
-  True if input is valid and the returned knot vector 
+  True if input is valid and the returned knot vector
   has the requested domain.  False if the input is
   invalid, in which case the input knot vector is not
   changed.
 */
 ON_DECL
-bool ON_SetKnotVectorDomain( 
-          int order, 
-          int cv_count, 
-          double* knot, 
-          double t0, 
-          double t1 
+bool ON_SetKnotVectorDomain(
+          int order,
+          int cv_count,
+          double* knot,
+          double t0,
+          double t1
           );
 
 ON_DECL
@@ -209,7 +209,7 @@ bool ON_ReverseKnotVector(
           );
 
 ON_DECL
-int ON_CompareKnotVector( // returns 
+int ON_CompareKnotVector( // returns
                                       // -1: first < second
                                       //  0: first == second
                                       // +1: first > second
@@ -226,8 +226,8 @@ int ON_CompareKnotVector( // returns
 ON_DECL
 bool ON_IsValidKnotVector(
           int order,
-          int cv_count, 
-          const double* knot, 
+          int cv_count,
+          const double* knot,
           ON_TextLog* text_log = 0
           );
 
@@ -258,7 +258,7 @@ bool ON_MakeKnotVectorPeriodic(
    order - [in] (>=2) order (degree+1) of the NURBS
    cv_count - [in] (>=order) total number of control points
        in the NURBS.
-   knot - [in/out] Input is an array with room for 
+   knot - [in/out] Input is an array with room for
        ON_KnotCount(order,cv_count) doubles.  Output is
        a clamped uniform knot vector with domain
        (0, (1+cv_count-order)*delta).
@@ -284,7 +284,7 @@ bool ON_MakeClampedUniformKnotVector(
    order - [in] (>=2) order (degree+1) of the NURBS
    cv_count - [in] (>=order) total number of control points
        in the NURBS.
-   knot - [in/out] Input is an array with room for 
+   knot - [in/out] Input is an array with room for
        ON_KnotCount(order,cv_count) doubles.  Output is
        a periodic uniform knot vector with domain
        (0, (1+cv_count-order)*delta).
@@ -335,7 +335,7 @@ bool ON_ClampKnotVector(
         int,       // cv_dim ( = dim+1 for rational cvs )
         int,       // order (>=2)
         int,       // cv_count,
-        int,       // cv_stride, 
+        int,       // cv_stride,
         double*,   // cv[] NULL or array of order many cvs
         double*,   // knot[] array with room for at least knot_multiplicity new knots
         int        // end  0 = clamp start, 1 = clamp end, 2 = clamp both ends
@@ -365,10 +365,10 @@ Description:
 Parameters:
   c - [in]
     reparameterization constant (generally speaking, c should be > 0).
-    The control points are adjusted so that 
+    The control points are adjusted so that
     output_bezier(t) = input_bezier(lambda(t)), where
     lambda(t) = c*t/( (c-1)*t + 1 ).
-    Note that lambda(0) = 0, lambda(1) = 1, lambda'(t) > 0, 
+    Note that lambda(0) = 0, lambda(1) = 1, lambda'(t) > 0,
     lambda'(0) = c and lambda'(1) = 1/c.
   dim - [in]
   order - [in]
@@ -392,11 +392,11 @@ Description:
   Use a combination of scaling and reparameterization to set two rational
   Bezier weights to specified values.
 Parameters:
-  dim - [in] 
+  dim - [in]
   order - [in]
   cvstride - [in] ( >= dim+1)
   cv - [in/out]  homogeneous rational control points
-  i0 - [in] 
+  i0 - [in]
   w0 - [in]
   i1 - [in]
   w1 - [in]
@@ -410,15 +410,15 @@ Remarks:
     s * r^i0 = w0/v0
     s * r^i1 = w1/v1
   determine the scaling and reparameterization necessary to change v0,v1 to
-  w0,w1. 
+  w0,w1.
 
-  If the input Bezier has control vertices {B_0, ..., B_d}, then the 
+  If the input Bezier has control vertices {B_0, ..., B_d}, then the
   output Bezier has control vertices {s*B_0, ... s*r^i * B_i, ..., s*r^d * B_d}.
 */
 ON_DECL
 bool ON_ChangeRationalBezierCurveWeights(
           int dim, int order, int cvstride, double* cv,
-          int i0, double w0, 
+          int i0, double w0,
           int i1, double w1
           );
 
@@ -428,10 +428,10 @@ Description:
 Parameters:
   c - [in]
     reparameterization constant (generally speaking, c should be > 0).
-    The control points and knots are adjusted so that 
+    The control points and knots are adjusted so that
     output_nurbs(t) = input_nurbs(lambda(t)), where
     lambda(t) = c*t/( (c-1)*t + 1 ).
-    Note that lambda(0) = 0, lambda(1) = 1, lambda'(t) > 0, 
+    Note that lambda(0) = 0, lambda(1) = 1, lambda'(t) > 0,
     lambda'(0) = c and lambda'(1) = 1/c.
   dim - [in]
   order - [in]
@@ -447,9 +447,9 @@ See Also:
 */
 ON_DECL
 bool ON_ReparameterizeRationalNurbsCurve(
-          double c, 
-          int dim, 
-          int order, 
+          double c,
+          int dim,
+          int order,
           int cv_count,
           int cvstride,
           double* cv,
@@ -459,7 +459,7 @@ bool ON_ReparameterizeRationalNurbsCurve(
 /*
 Description:
   Use a combination of scaling and reparameterization to set the end
-  weights to the specified values.  This 
+  weights to the specified values.  This
 Parameters:
   dim - [in]
   order - [in]
@@ -479,13 +479,13 @@ See Also:
 */
 ON_DECL
 bool ON_ChangeRationalNurbsCurveEndWeights(
-          int dim, 
-          int order, 
+          int dim,
+          int order,
           int cv_count,
-          int cvstride, 
-          double* cv, 
+          int cvstride,
+          double* cv,
           double* knot,
-          double w0, 
+          double w0,
           double w1
           );
 

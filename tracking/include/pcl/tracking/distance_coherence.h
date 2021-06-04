@@ -16,7 +16,7 @@ namespace pcl
     class DistanceCoherence: public PointCoherence<PointInT>
     {
     public:
-      
+
       /** \brief initialize the weight to 1.0. */
       DistanceCoherence ()
       : PointCoherence<PointInT> ()
@@ -30,7 +30,7 @@ namespace pcl
 
       /** \brief get the weight of coherence.*/
       inline double getWeight () { return weight_; }
-      
+
     protected:
 
       /** \brief return the distance coherence between the two points.

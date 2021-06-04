@@ -7,7 +7,7 @@ set PACKAGE_VERSION=1.6.9
 set PACKAGE_ARCHIVE_BASENAME=flann-%PACKAGE_VERSION%-src
 set PACKAGE_ARCHIVE_EXT=flann-%PACKAGE_VERSION%-src.zip
 set PACKAGE_URL=http://people.cs.ubc.ca/%%7Emariusm/uploads/FLANN/%PACKAGE_ARCHIVE_EXT%
-set PACKAGE_CMAKE_ARGS=-DBUILD_C_BINDINGS=true -DBUILD_PYTHON_BINDINGS=false -DBUILD_MATLAB_BINDINGS=false 
+set PACKAGE_CMAKE_ARGS=-DBUILD_C_BINDINGS=true -DBUILD_PYTHON_BINDINGS=false -DBUILD_MATLAB_BINDINGS=false
 
 set VS2010VCVARSALL=%VS100COMNTOOLS%\..\..\VC\vcvarsall.bat
 set VS2008VCVARSALL=%VS90COMNTOOLS%\..\..\VC\vcvarsall.bat
@@ -35,7 +35,7 @@ call "%VS2010VCVARSALL%" x86
 @mkdir build-vc10-x86
 cd build-vc10-x86
 "%CMAKE_COMMAND%" ..\%PACKAGE_ARCHIVE_BASENAME% -G "Visual Studio 10" -DCPACK_GENERATOR=NSIS -DNSIS_PROGRAM="%NSIS_EXE%" %PACKAGE_CMAKE_ARGS%
-devenv %PACKAGE_NAME%.sln /build Release /project PACKAGE 
+devenv %PACKAGE_NAME%.sln /build Release /project PACKAGE
 cd ..
 
 REM ********* VC 2010 - x64 ************************
@@ -46,7 +46,7 @@ call "%VS2010VCVARSALL%" amd64
 @mkdir build-vc10-amd64
 cd build-vc10-amd64
 "%CMAKE_COMMAND%" ..\%PACKAGE_ARCHIVE_BASENAME% -G "Visual Studio 10 Win64" -DCPACK_GENERATOR=NSIS  -DNSIS_PROGRAM="%NSIS_EXE%" %PACKAGE_CMAKE_ARGS%
-devenv %PACKAGE_NAME%.sln /build Release /project PACKAGE 
+devenv %PACKAGE_NAME%.sln /build Release /project PACKAGE
 cd ..
 
 REM ******** VC 2008 - x86 *************************
@@ -57,7 +57,7 @@ REM call "%VS2008VCVARSALL%" x86
 REM @mkdir build-vc9-x86
 REM cd build-vc9-x86
 REM "%CMAKE_COMMAND%" ..\%PACKAGE_ARCHIVE_BASENAME% -G "Visual Studio 9 2008" -DCPACK_GENERATOR=NSIS  -DNSIS_PROGRAM="%NSIS_EXE%" %PACKAGE_CMAKE_ARGS%
-REM devenv %PACKAGE_NAME%.sln /build Release /project PACKAGE 
+REM devenv %PACKAGE_NAME%.sln /build Release /project PACKAGE
 REM cd ..
 
 REM ******** VC 2008 - x64 *************************
@@ -68,7 +68,7 @@ REM call "%VS2008VCVARSALL%" amd64
 REM @mkdir build-vc9-amd64
 REM cd build-vc9-amd64
 REM "%CMAKE_COMMAND%" ..\%PACKAGE_ARCHIVE_BASENAME% -G "Visual Studio 9 2008 Win64" -DCPACK_GENERATOR=NSIS  -DNSIS_PROGRAM="%NSIS_EXE%" %PACKAGE_CMAKE_ARGS%
-REM devenv %PACKAGE_NAME%.sln /build Release /project PACKAGE 
+REM devenv %PACKAGE_NAME%.sln /build Release /project PACKAGE
 REM cd ..
 
 goto end

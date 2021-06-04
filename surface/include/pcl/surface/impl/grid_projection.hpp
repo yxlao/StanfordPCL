@@ -293,13 +293,13 @@ pcl::GridProjection<PointNT>::getProjection (const Eigen::Vector4f &p,
     end_pt[1] = end_pt[0] + Eigen::Vector4f (
         end_pt_vect[0][0] * static_cast<float> (projection_distance),
         end_pt_vect[0][1] * static_cast<float> (projection_distance),
-        end_pt_vect[0][2] * static_cast<float> (projection_distance), 
+        end_pt_vect[0][2] * static_cast<float> (projection_distance),
         0.0f);
   else
     end_pt[1] = end_pt[0] - Eigen::Vector4f (
         end_pt_vect[0][0] * static_cast<float> (projection_distance),
         end_pt_vect[0][1] * static_cast<float> (projection_distance),
-        end_pt_vect[0][2] * static_cast<float> (projection_distance), 
+        end_pt_vect[0][2] * static_cast<float> (projection_distance),
         0.0f);
   getVectorAtPoint (end_pt[1], pt_union_indices, end_pt_vect[1]);
   if (end_pt_vect[1].dot (end_pt_vect[0]) < 0)
@@ -489,7 +489,7 @@ pcl::GridProjection<PointNT>::isIntersected (const std::vector<Eigen::Vector4f, 
   if (dot_prod < 0)
   {
     double ratio = length[0] / (length[0] + length[1]);
-    Eigen::Vector4f start_pt = 
+    Eigen::Vector4f start_pt =
       end_pts[0] + (end_pts[1] - end_pts[0]) * static_cast<float> (ratio);
     Eigen::Vector4f intersection_pt = Eigen::Vector4f::Zero ();
     findIntersection (0, end_pts, vect_at_end_pts, start_pt, pt_union_indices, intersection_pt);

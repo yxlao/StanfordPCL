@@ -20,7 +20,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
 // Class ON_Color
-// 
+//
 class ON_CLASS ON_Color
 {
 public:
@@ -53,7 +53,7 @@ public:
 
   /*
   Description:
-    Call this function when the color is needed in a 
+    Call this function when the color is needed in a
     Windows COLORREF format with alpha = 0;
   Returns
     A Windows COLOREF with alpha = 0.
@@ -61,7 +61,7 @@ public:
   unsigned int WindowsRGB() const;
 
   // < 0 if this < arg, 0 ir this==arg, > 0 if this > arg
-  int Compare( const ON_Color& ) const; 
+  int Compare( const ON_Color& ) const;
 
 	int Red()   const; // ( 0 to 255 )
 	int Green() const; // ( 0 to 255 )
@@ -108,9 +108,9 @@ public:
     double alpha  // alpha in range 0.0 to 1.0 (0.0 = opaque, 1.0 = transparent)
     );
 
-  // Hue() returns an angle in the range 0 to 2*pi 
+  // Hue() returns an angle in the range 0 to 2*pi
   //
-  //           0 = red, pi/3 = yellow, 2*pi/3 = green, 
+  //           0 = red, pi/3 = yellow, 2*pi/3 = green,
   //           pi = cyan, 4*pi/3 = blue,5*pi/3 = magenta,
   //           2*pi = red
   double Hue() const;
@@ -121,10 +121,10 @@ public:
   // Returns 0.0 (black) to 1.0 (white)
   double Value() const;
 
-  void SetHSV( 
+  void SetHSV(
          double h, // hue in radians 0 to 2*pi
          double s, // satuation 0.0 = gray, 1.0 = saturated
-         double v // value     
+         double v // value
          );
 
 private:

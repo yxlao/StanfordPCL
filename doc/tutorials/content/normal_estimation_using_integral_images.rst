@@ -4,7 +4,7 @@ Normal Estimation Using Integral Images
 ---------------------------------------
 
 In this tutorial we will learn how to compute normals for an organized point
-cloud using integral images. 
+cloud using integral images.
 
 
 The code
@@ -21,7 +21,7 @@ editor, and place the following inside it:
 	#include <pcl/features/integral_image_normal.h>
 	#include <pcl/visualization/cloud_viewer.h>
 		
-	int 
+	int
 	main ()
 	{
 		// load point cloud
@@ -86,7 +86,7 @@ The following normal estimation methods are available:
        AVERAGE_3D_GRADIENT,
        AVERAGE_DEPTH_CHANGE
      };
-	 
+	
 The COVARIANCE_MATRIX mode creates 9 integral images to compute the normal for
 a specific point from the covariance matrix of its local neighborhood. The
 AVERAGE_3D_GRADIENT mode creates 6 integral images to compute smoothed versions

@@ -35,7 +35,7 @@ void ON_MemoryManagerEnd(void);
 /////////////////////////////////////////////////////////////////////////////
 //
 // ALL memory managment in the openNURBS toolkit is done through calls to
-//    onmalloc(), oncalloc(), onrealloc(), onfree(), 
+//    onmalloc(), oncalloc(), onrealloc(), onfree(),
 //    onmsize(), onmemdup(), onstrdup(), ..., and the
 //    new and delete operators
 // The on*() functions are all declared in opennurbs_memory.h and defined
@@ -54,11 +54,11 @@ void ON_MemoryManagerEnd(void);
 //   If sz is zero, NULL is returned.
 //   If sz is positive and there is not enough memory to satify
 //   the allocation request, the ON_memory_error_handler(0) is called
-//   and NULL is returned.  
+//   and NULL is returned.
 //
 //   If you have implemented multiple memory pools in a custom manager,
 //   the request is sent to the current pool.
-//        
+//
 //
 // void* oncalloc( size_t num, size_t sz );
 //
@@ -69,8 +69,8 @@ void ON_MemoryManagerEnd(void);
 //
 //   If you have implemented multiple memory pools in a custom manager,
 //   the request is sent to the current pool.
-//               
-//               
+//
+//
 // void* onrealloc( void* p, size_t sz );
 //
 //   If p is NULL, then onmalloc(sz) is called.
@@ -102,7 +102,7 @@ void ON_MemoryManagerEnd(void);
 //   If p is NULL, then zero is returned.  Otherwise the
 //   the size in bytes of the memory block allocated by onmalloc(),
 //   oncalloc(), or onrealloc() is returned.
-//               
+//
 //
 // void* onmemdup( const void* src, size_t sz );
 //
@@ -111,14 +111,14 @@ void ON_MemoryManagerEnd(void);
 //   memory, and the pointer to this memory is returned.
 //   If onmalloc() returns NULL, then NULL is returned.
 //   If src is NULL or sz is zero, then NULL is returned.
-//               
+//
 //
 // char* onstrdup( const char* src );
 //
 //   If src is not NULL, then onmemdup( sc, (strlen(src)+1)*sizeof(src[0]) )
 //   is called.  If onmemdup() returns NULL, then NULL is returned.
 //   If src is NULL, then NULL is returned.
-//               
+//
 //
 */
 

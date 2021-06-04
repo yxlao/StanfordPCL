@@ -44,7 +44,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template<typename PointSource, typename PointTarget>
-pcl::NormalDistributionsTransform<PointSource, PointTarget>::NormalDistributionsTransform () 
+pcl::NormalDistributionsTransform<PointSource, PointTarget>::NormalDistributionsTransform ()
   : target_cells_ ()
   , resolution_ (1.0f)
   , step_size_ (0.1)

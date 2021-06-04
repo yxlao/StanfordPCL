@@ -64,10 +64,10 @@ namespace pcl
       Eigen::Vector3f diff = p1 -p2;
       return diff.squaredNorm ();
     }
-    /** @return the point projection on a plane defined by its origin and normal vector 
+    /** @return the point projection on a plane defined by its origin and normal vector
       * \param point Point to be projected
       * \param plane_origin The plane origin
-      * \param plane_normal The plane normal 
+      * \param plane_normal The plane normal
       * \param projected The returned projected point
       */
     template<typename PointT, typename NormalT>
@@ -78,10 +78,10 @@ namespace pcl
       float lambda = normal.dot(po);
       projected.getVector3fMap () = point.getVector3fMapConst () - (lambda * normal);
     }
-    /** @return the point projection on a plane defined by its origin and normal vector 
+    /** @return the point projection on a plane defined by its origin and normal vector
       * \param point Point to be projected
       * \param plane_origin The plane origin
-      * \param plane_normal The plane normal 
+      * \param plane_normal The plane normal
       * \param projected The returned projected point
       */
     inline void project(const Eigen::Vector3f& point, const Eigen::Vector3f &plane_origin, const Eigen::Vector3f& plane_normal, Eigen::Vector3f& projected)

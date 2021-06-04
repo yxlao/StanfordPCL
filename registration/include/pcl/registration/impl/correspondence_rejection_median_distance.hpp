@@ -44,7 +44,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 void
 pcl::registration::CorrespondenceRejectorMedianDistance::getRemainingCorrespondences (
-    const pcl::Correspondences& original_correspondences, 
+    const pcl::Correspondences& original_correspondences,
     pcl::Correspondences& remaining_correspondences)
 {
   std::vector <double> dists;

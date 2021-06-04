@@ -44,11 +44,11 @@
 #include "octree_iterator.hpp"
 
 namespace pcl { namespace device { namespace knn_search
-{   
+{
     typedef OctreeImpl::PointType PointType;
-    
+
     struct Batch
-    {           
+    {
         const PointType* queries;
 
         //int k == 1;
@@ -63,57 +63,57 @@ namespace pcl { namespace device { namespace knn_search
 
         OctreeGlobalWithBox octree;
 
-        int queries_num;                
-        mutable int* output;                        
+        int queries_num;
+        mutable int* output;
         mutable int* sizes;
     };
 
     struct KernelPolicy
     {
-        enum 
+        enum
         {
             CTA_SIZE = 512,
             WARP_SIZE = 32,
-            WARPS_COUNT = CTA_SIZE/WARP_SIZE,                    
+            WARPS_COUNT = CTA_SIZE/WARP_SIZE,
         };
     };
 
     struct Warp_knnSearch
-    {   
-    public:                        
+    {
+    public:
         typedef OctreeIteratorDeviceNS OctreeIterator;
 
         const Batch& batch;
 
-        int query_index;        
-        float3 query;  
-        
+        int query_index;
+        float3 query;
+
         float min_distance;
         int min_idx;
 
-        OctreeIterator iterator;     
+        OctreeIterator iterator;
 
-        __device__ __forceinline__ Warp_knnSearch(const Batch& batch_arg, int query_index_arg) 
+        __device__ __forceinline__ Warp_knnSearch(const Batch& batch_arg, int query_index_arg)
             : batch(batch_arg), query_index(query_index_arg), min_distance(numeric_limits<float>::max()), min_idx(0), iterator(batch.octree) { }
 
         __device__ __forceinline__ void launch(bool active)
-        {              
+        {
             if (active)
             {
                 PointType q = batch.queries[query_index];
                 query = make_float3(q.x, q.y, q.z);
             }
-            else                
-                query_index = -1;    
+            else
+                query_index = -1;
 
             while(__any(active))
-            {                
+            {
                 int leaf = -1;
-           
-                if (active)
-                    leaf = examineNode(iterator);             
 
-                processLeaf(leaf);      
+                if (active)
+                    leaf = examineNode(iterator);
+
+                processLeaf(leaf);
 
                 active = active && iterator.level >= 0;
             }
@@ -128,25 +128,25 @@ namespace pcl { namespace device { namespace knn_search
     private:
 
         __device__ __forceinline__ int examineNode(OctreeIterator& iterator)
-        {                        
+        {
             int node_idx = *iterator;
             int code = batch.octree.codes[node_idx];
 
             float3 node_minp = batch.octree.minp;
-            float3 node_maxp = batch.octree.maxp;        
+            float3 node_maxp = batch.octree.maxp;
             calcBoundingBox(iterator.level, code, node_minp, node_maxp);
 
             //if true, take nothing, and go to next
             if (checkIfNodeOutsideSphere(node_minp, node_maxp, query, min_distance))
-            {     
+            {
                 ++iterator;
-                return -1;                
-            }                    
+                return -1;
+            }
 
             //need to go to next level
             int node = batch.octree.nodes[node_idx];
-            int children_mask = node & 0xFF;            
-            bool isLeaf = children_mask == 0;            
+            int children_mask = node & 0xFF;
+            bool isLeaf = children_mask == 0;
 
             if (isLeaf)
             {
@@ -157,13 +157,13 @@ namespace pcl { namespace device { namespace knn_search
             //goto next level
             int first = node >> 8;
             int len   = __popc(children_mask);
-            iterator.gotoNextLevel(first, len);                    
+            iterator.gotoNextLevel(first, len);
             return -1;
         };
 
         __device__ __forceinline__ void processLeaf(int node_idx)
-        {   
-            int mask = __ballot(node_idx != -1);            
+        {
+            int mask = __ballot(node_idx != -1);
 
             unsigned int laneId = Warp::laneId();
             unsigned int warpId = Warp::id();
@@ -172,21 +172,21 @@ namespace pcl { namespace device { namespace knn_search
 
             while(mask)
             {
-                int active_lane = __ffs(mask) - 1; //[0..31]                        
-                mask &= ~(1 << active_lane);   
+                int active_lane = __ffs(mask) - 1; //[0..31]
+                mask &= ~(1 << active_lane);
 
                 volatile int* warp_buffer = &per_warp_buffer[warpId];
 
                 //broadcast beg
                 if (active_lane == laneId)
-                    *warp_buffer = batch.octree.begs[node_idx];                    
+                    *warp_buffer = batch.octree.begs[node_idx];
                 int beg = *warp_buffer;
 
                 //broadcast end
                 if (active_lane == laneId)
                     *warp_buffer = batch.octree.ends[node_idx];
                 int end = *warp_buffer;
-                                                                
+
                 float3 active_query;
                 volatile float* warp_buffer_float = (float*)&per_warp_buffer[warpId];
 
@@ -201,22 +201,22 @@ namespace pcl { namespace device { namespace knn_search
 
                 if (active_lane == laneId)
                     *warp_buffer_float = query.z;
-                active_query.z = *warp_buffer_float;                            
+                active_query.z = *warp_buffer_float;
 
                 //broadcast query_index
                 if (active_lane == laneId)
                     *warp_buffer = query_index;
-                float active_query_index = *warp_buffer;                            
+                float active_query_index = *warp_buffer;
 
                 float dist;
                 int offset = NearestWarpKernel<KernelPolicy::CTA_SIZE>(batch.points + beg, batch.points_step, end - beg, active_query, dist);
-                
+
                 if (active_lane == laneId)
                     if (min_distance > dist)
                     {
-                       min_distance = dist;   
+                       min_distance = dist;
                        min_idx = beg + offset;
-                    }                                                          
+                    }
             }
         }
 
@@ -241,7 +241,7 @@ namespace pcl { namespace device { namespace knn_search
 				if (dist2[tid] > d2)
 				{
 					dist2[tid] = d2;
-					index[tid] = idx;                            
+					index[tid] = idx;
 				}
 			}
 			//parallel step
@@ -252,95 +252,95 @@ namespace pcl { namespace device { namespace knn_search
 			if (lane < 16)
 			{
 				float next = dist2[tid + 16];
-				if (mind2 > next) 
-				{ 
-					dist2[tid] = mind2 = next; 
-					index[tid] = index[tid + 16]; 
-				}                        
+				if (mind2 > next)
+				{
+					dist2[tid] = mind2 = next;
+					index[tid] = index[tid + 16];
+				}
 			}
 
 			if (lane < 8)
 			{
 				float next = dist2[tid + 8];
-				if (mind2 > next) 
-				{ 
-					dist2[tid] = mind2 = next; 
-					index[tid] = index[tid + 8]; 
-				}                        
+				if (mind2 > next)
+				{
+					dist2[tid] = mind2 = next;
+					index[tid] = index[tid + 8];
+				}
 			}
 
 			if (lane < 4)
 			{
 				float next = dist2[tid + 4];
-				if (mind2 > next) 
-				{ 
-					dist2[tid] = mind2 = next; 
-					index[tid] = index[tid + 4]; 
-				}                        
+				if (mind2 > next)
+				{
+					dist2[tid] = mind2 = next;
+					index[tid] = index[tid + 4];
+				}
 			}
 
 			if (lane < 2)
 			{
 				float next = dist2[tid + 2];
-				if (mind2 > next) 
-				{ 
-					dist2[tid] = mind2 = next; 
-					index[tid] = index[tid + 2]; 
-				}                        
+				if (mind2 > next)
+				{
+					dist2[tid] = mind2 = next;
+					index[tid] = index[tid + 2];
+				}
 			}
 
 			if (lane < 1)
 			{
 				float next = dist2[tid + 1];
-				if (mind2 > next) 
-				{ 
-					dist2[tid] = mind2 = next; 
-					index[tid] = index[tid + 1]; 
-				}                        
-			}        
+				if (mind2 > next)
+				{
+					dist2[tid] = mind2 = next;
+					index[tid] = index[tid + 1];
+				}
+			}
 
             dist = sqrt(dist2[tid - lane]);
 			return index[tid - lane];
-		}          
+		}
     };
-    
-    __global__ void KernelKNN(const Batch batch) 
-    {           
+
+    __global__ void KernelKNN(const Batch batch)
+    {
         int query_index = blockIdx.x * blockDim.x + threadIdx.x;
-                                
+
         bool active = query_index < batch.queries_num;
 
-        if (__all(active == false)) 
+        if (__all(active == false))
             return;
 
         Warp_knnSearch search(batch, query_index);
-        search.launch(active); 
+        search.launch(active);
     }
 
 } } }
 
 
 void pcl::device::OctreeImpl::nearestKSearchBatch(const Queries& queries, int /*k*/, NeighborIndices& results) const
-{              
+{
     typedef pcl::device::knn_search::Batch BatchType;
 
-    BatchType batch;      
+    BatchType batch;
     batch.octree = octreeGlobal;
     batch.indices = indices;
 
-    batch.queries_num = (int)queries.size();        
+    batch.queries_num = (int)queries.size();
     batch.queries = queries;
-    
+
     batch.output = results.data;
     batch.sizes  = results.sizes;
-    
+
     batch.points = points_sorted;
     batch.points_step = points_sorted.step()/points_sorted.elem_size;
 
-    cudaSafeCall( cudaFuncSetCacheConfig(pcl::device::knn_search::KernelKNN, cudaFuncCachePreferL1) );    
+    cudaSafeCall( cudaFuncSetCacheConfig(pcl::device::knn_search::KernelKNN, cudaFuncCachePreferL1) );
 
     int block = pcl::device::knn_search::KernelPolicy::CTA_SIZE;
-    int grid = (batch.queries_num + block - 1) / block;        
+    int grid = (batch.queries_num + block - 1) / block;
 
     pcl::device::knn_search::KernelKNN<<<grid, block>>>(batch);
     cudaSafeCall( cudaGetLastError() );

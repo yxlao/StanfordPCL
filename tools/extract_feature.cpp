@@ -190,7 +190,7 @@ main (int argc, char** argv)
 
   // Perform the feature estimation
   sensor_msgs::PointCloud2 output;
-  if (feature_name == "PFHEstimation") 
+  if (feature_name == "PFHEstimation")
     computeFeatureViaNormals< PFHEstimation<PointXYZ, Normal, PFHSignature125>, PointXYZ, Normal, PFHSignature125>
       (cloud, output, argc, argv);
   else if (feature_name == "FPFHEstimation")

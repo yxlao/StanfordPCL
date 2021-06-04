@@ -57,7 +57,7 @@ namespace pcl
       using MeshProcessing::initCompute;
       /** \brief Empty constructor */
       EarClipping () : MeshProcessing (), points_ ()
-      { 
+      {
       };
 
     protected:
@@ -68,38 +68,38 @@ namespace pcl
       bool
       initCompute ();
 
-      /** \brief The actual surface reconstruction method. 
-        * \param[out] output the output polygonal mesh 
+      /** \brief The actual surface reconstruction method.
+        * \param[out] output the output polygonal mesh
         */
       void
       performProcessing (pcl::PolygonMesh &output);
 
-      /** \brief Triangulate one polygon. 
+      /** \brief Triangulate one polygon.
         * \param[in] vertices the set of vertices
         * \param[out] output the resultant polygonal mesh
         */
       void
       triangulate (const Vertices& vertices, PolygonMesh& output);
 
-      /** \brief Compute the signed area of a polygon. 
-        * \param[in] vertices the vertices representing the polygon 
+      /** \brief Compute the signed area of a polygon.
+        * \param[in] vertices the vertices representing the polygon
         */
       float
       area (const std::vector<uint32_t>& vertices);
 
-      /** \brief Check if the triangle (u,v,w) is an ear. 
-        * \param[in] u the first triangle vertex 
-        * \param[in] v the second triangle vertex 
-        * \param[in] w the third triangle vertex 
+      /** \brief Check if the triangle (u,v,w) is an ear.
+        * \param[in] u the first triangle vertex
+        * \param[in] v the second triangle vertex
+        * \param[in] w the third triangle vertex
         * \param[in] vertices a set of input vertices
         */
       bool
       isEar (int u, int v, int w, const std::vector<uint32_t>& vertices);
 
-      /** \brief Check if p is inside the triangle (u,v,w). 
-        * \param[in] u the first triangle vertex 
-        * \param[in] v the second triangle vertex 
-        * \param[in] w the third triangle vertex 
+      /** \brief Check if p is inside the triangle (u,v,w).
+        * \param[in] u the first triangle vertex
+        * \param[in] v the second triangle vertex
+        * \param[in] w the third triangle vertex
         * \param[in] p the point to check
         */
       bool

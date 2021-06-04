@@ -16,8 +16,8 @@ size_t ON_FixedSizePool::SizeofElement() const
 }
 
 
-bool ON_FixedSizePool::Create( 
-        size_t sizeof_element, 
+bool ON_FixedSizePool::Create(
+        size_t sizeof_element,
         size_t element_count_estimate,
         size_t block_element_capacity
         )
@@ -68,14 +68,14 @@ bool ON_FixedSizePool::Create(
 
   // Set m_al_count = capacity of the first block.
 
-  // If the estimated number of elements is not too big, 
+  // If the estimated number of elements is not too big,
   // then make the first block that size.
   if ( element_count_estimate > 0 )
   {
     // this is the first block and it has a custom size
     if ( 8*m_block_element_count >= element_count_estimate )
       m_al_count = element_count_estimate;
-    else 
+    else
       m_al_count = 8*m_block_element_count; // first block will be large
   }
   else
@@ -96,7 +96,7 @@ void ON_FixedSizePool::ReturnAll()
     m_it_element = 0;
     m_al_block = m_first_block;
     m_al_element_array = (void*)(((char*)m_al_block) + 2*sizeof(void*));
-    m_al_count = BlockElementCapacity(m_first_block); 
+    m_al_count = BlockElementCapacity(m_first_block);
     m_active_element_count = 0;
     m_total_element_count = 0;
   }
@@ -178,7 +178,7 @@ void* ON_FixedSizePool::AllocateElement()
           m_first_block = p;
           // If the call to Create() specified a positive element_count_estimate,
           // then m_sizeof_block needs to be reset for any future block allocations.
-          
+
         }
         else
         {
@@ -217,7 +217,7 @@ void ON_FixedSizePool::ReturnElement(void* p)
     if ( m_active_element_count <= 0 )
     {
       // If you get this error, something is seriously wrong.
-      // You may be returning the same element multiple times or 
+      // You may be returning the same element multiple times or
       // you may be returning pointers that are not from this pool.
       // In any case, you're probably going to be crashing sometime soon.
       ON_ERROR("ON_FixedSizePool::ReturnElement - no active elements exist.");
@@ -352,7 +352,7 @@ void* ON_FixedSizePool::FirstBlock( size_t* block_element_count )
 
 void* ON_FixedSizePool::NextBlock( size_t* block_element_count )
 {
-  if ( 0 != m_it_block 
+  if ( 0 != m_it_block
        && m_it_block != m_al_block
        && m_it_element == (void*)(((char*)m_it_block)+2*sizeof(void*)) )
   {

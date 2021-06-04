@@ -3,7 +3,7 @@
 
 /*
 Description:
-  Get the transformation that maps the ON_Extrusion 
+  Get the transformation that maps the ON_Extrusion
   2d xy profile to 3d world space.
 Parameters:
   P - [in] start or end of path
@@ -24,9 +24,9 @@ Returns:
 */
 ON_DECL
 bool ON_GetEndCapTransformation(
-          ON_3dPoint P, 
-          ON_3dVector T, 
-          ON_3dVector U, 
+          ON_3dPoint P,
+          ON_3dVector T,
+          ON_3dVector U,
           const ON_3dVector* Normal,
           ON_Xform& xform, // = rot3d*scale2d
           ON_Xform* scale2d,
@@ -46,7 +46,7 @@ public:
   ////////////////////////////////////////////////////////////
   //
   // overrides of virtual ON_Object functions
-  // 
+  //
   ON_BOOL32 IsValid( ON_TextLog* text_log = NULL ) const;
   void Dump( ON_TextLog& ) const;
   unsigned int SizeOf() const;
@@ -58,26 +58,26 @@ public:
   ////////////////////////////////////////////////////////////
   //
   // overrides of virtual ON_Geometry functions
-  // 
+  //
   int Dimension() const;
   ON_BOOL32 GetBBox(
         double* boxmin,
         double* boxmax,
         int bGrowBox = false
         ) const;
-	bool GetTightBoundingBox( 
-        ON_BoundingBox& tight_bbox, 
+	bool GetTightBoundingBox(
+        ON_BoundingBox& tight_bbox,
         int bGrowBox = false,
         const ON_Xform* xform = 0
         ) const;
-  ON_BOOL32 Transform( 
+  ON_BOOL32 Transform(
         const ON_Xform& xform
         );
 
   /*
   Description:
-    Build a brep form of the extrusion.  The outer profile is always 
-    the first face in the brep.  If there are inner profiles, 
+    Build a brep form of the extrusion.  The outer profile is always
+    the first face in the brep.  If there are inner profiles,
     additional brep faces are created for each profile.  If the
     outer profile is closed, then end caps are added as the last
     two faces in the brep.
@@ -90,13 +90,13 @@ public:
     If successful, a pointer to the brep form.  If unsuccessful, null.
   */
   ON_Brep* BrepForm(
-        ON_Brep* brep = NULL 
+        ON_Brep* brep = NULL
         ) const;
 
   /*
   Description:
-    Build a brep form of the extrusion.  The outer profile is always 
-    the first face in the brep.  If there are inner profiles, 
+    Build a brep form of the extrusion.  The outer profile is always
+    the first face in the brep.  If there are inner profiles,
     additional brep faces are created for each profile.  If the
     outer profile is closed, then end caps are added as the last
     two faces in the brep.
@@ -113,7 +113,7 @@ public:
   */
   ON_Brep* BrepForm(
     ON_Brep* brep,
-    bool bSmoothFaces 
+    bool bSmoothFaces
     ) const;
 
   /*
@@ -121,16 +121,16 @@ public:
     Build a sum surface form of the extrusion.
   Parameters:
     sum_surface - [in]
-      If the sum_surface pointer is not null, then the sum surface 
-      form is constructed in sum_surface.  If the sum_surface pointer 
+      If the sum_surface pointer is not null, then the sum surface
+      form is constructed in sum_surface.  If the sum_surface pointer
       is null, then an ON_SumSurface is allocated on the heap.
   Returns:
     If successful, a pointer to the sum surface form.
     If unsuccessful, null. In particular, extrusions with
     mitered ends do not have sum surface forms.
   */
-  ON_SumSurface* SumSurfaceForm( 
-    ON_SumSurface* sum_surface 
+  ON_SumSurface* SumSurfaceForm(
+    ON_SumSurface* sum_surface
     ) const;
 
   /*
@@ -166,10 +166,10 @@ public:
   ////////////////////////////////////////////////////////////
   //
   // overrides of virtual ON_Surface functions
-  // 
-  ON_BOOL32 SetDomain( 
+  //
+  ON_BOOL32 SetDomain(
         int dir,
-        double t0, 
+        double t0,
         double t1
         );
   ON_Interval Domain(
@@ -191,7 +191,7 @@ public:
         ) const;
   int Degree(
         int dir
-        ) const; 
+        ) const;
   ON_BOOL32 GetParameterTolerance(
          int dir,
          double t,
@@ -212,7 +212,7 @@ public:
   ON_BOOL32 IsPeriodic(
         int
         ) const;
-  bool GetNextDiscontinuity( 
+  bool GetNextDiscontinuity(
                   int dir,
                   ON::continuity c,
                   double t0,
@@ -225,8 +225,8 @@ public:
                   ) const;
   bool IsContinuous(
     ON::continuity c,
-    double s, 
-    double t, 
+    double s,
+    double t,
     int* hint = NULL,
     double point_tolerance=ON_ZERO_TOLERANCE,
     double d1_tolerance=ON_ZERO_TOLERANCE,
@@ -282,7 +282,7 @@ public:
   ////////////////////////////////////////////////////////////
   //
   // ON_Extrusion interface
-  // 
+  //
   void Destroy();
 
   /*
@@ -310,7 +310,7 @@ public:
     A - [in] path start
     B - [in] path end
     up - [in] up direction
-      If up is a unit vector and perpendicular to the line 
+      If up is a unit vector and perpendicular to the line
       segment from A to B, then m_up is set to up.
       Otherwise up will be adjusted so it is perpendicular
       to the line segment from A to B and unitized.
@@ -333,7 +333,7 @@ public:
     1: The second surface parameter corresponds to the path direction.
        (m_bTransposed = false)
   Remarks:
-    The default ON_Extrusion constructor sets 
+    The default ON_Extrusion constructor sets
     m_bTransposed = false which corresponds to the 1 = PathParameter().
   */
   int PathParameter() const;
@@ -347,10 +347,10 @@ public:
     Set miter plane normal.
   Parameters:
     N - [in] If ON_UNSET_VECTOR or N is parallel to the z-axis,
-             then the miter plane is the default plane 
+             then the miter plane is the default plane
              perpendicular to the path.
              If N is valid and the z coordinate of a unitized
-             N is greater than m_Nz_tol, then the miter plane 
+             N is greater than m_Nz_tol, then the miter plane
              normal is set.
     end - [in] 0 = set miter plane at the start of the path.
                1 = set miter plane at the end of the path.
@@ -400,7 +400,7 @@ public:
 
     Use CapCount() to determine how many end caps there are.
     Use ProfileCount() to determine how many profiles there are.
-    Use ProfileSmoothSegmentCount() to determine how many 
+    Use ProfileSmoothSegmentCount() to determine how many
     smooth subsegments are in a profile. Each smooth subsegment
     becomes a wall face in the brep form.
 
@@ -474,7 +474,7 @@ public:
   Description:
     Set the outer profile of the extrusion.
   Paramters:
-    outer_profile - [in] 
+    outer_profile - [in]
       curve in the xy plane or a 2d curve.
     bCap - [in]
       If outer_profile is a closed curve, then bCap
@@ -501,8 +501,8 @@ public:
     inner_profile - [in]
       closed curve in the xy plane or a 2d curve.
   Returns:
-    True if the profile was set. In this case the 
-    ON_Extrusion class  manages the curve and ~ON_Extrusion will 
+    True if the profile was set. In this case the
+    ON_Extrusion class  manages the curve and ~ON_Extrusion will
     delete it. The extrusion must already have an outer profile.
     If the extrusion already has a profile, the set will
     fail.
@@ -545,7 +545,7 @@ public:
     1: The second surface parameter corresponds to the profile direction.
        (m_bTransposed = true)
   Remarks:
-    The default ON_Extrusion constructor sets 
+    The default ON_Extrusion constructor sets
     m_bTransposed = false which corresponds to the 0 = ProfileParameter().
   */
   int ProfileParameter() const;
@@ -574,7 +574,7 @@ public:
       and s = 1.0 returns the top profile.
   Returns:
     NULL if the input parameters or the ON_Extrusion class is
-    not valid.  Otherwise a pointer to a 3d curve for 
+    not valid.  Otherwise a pointer to a 3d curve for
     the requested profile. This curve is on the heap and
     the caller is responsible for deleting this curve.
   */
@@ -586,7 +586,7 @@ public:
       component index identifying a 3d extrusion profile curve.
   Returns:
     NULL if the component index or the ON_Extrusion class is
-    not valid.  Otherwise a pointer to a 3d curve for 
+    not valid.  Otherwise a pointer to a 3d curve for
     the requested profile. This curve is on the heap and
     the caller is responsible for deleting this curve.
   */
@@ -598,7 +598,7 @@ public:
       component index identifying a wall edge curve.
   Returns:
     NULL if the component index or the ON_Extrusion class is
-    not valid.  Otherwise a pointer to a 3d curve for 
+    not valid.  Otherwise a pointer to a 3d curve for
     the requested wall edge. This curve is on the heap and
     the caller is responsible for deleting this curve.
   */
@@ -610,7 +610,7 @@ public:
       component index identifying a wall surface.
   Returns:
     NULL if the component index or the ON_Extrusion class is
-    not valid.  Otherwise a pointer to a surface for 
+    not valid.  Otherwise a pointer to a surface for
     the requested wall surface. This curve is on the heap and
     the caller is responsible for deleting this curve.
   */
@@ -622,7 +622,7 @@ public:
       If null, a line curve will be allocated using new.
   Returns:
     Null if the extrusion path is not valid.  Otherwise
-    a pointer to an ON_LineCurve that is set to the 
+    a pointer to an ON_LineCurve that is set to the
     extrusion's path. The caller must delete this curve.
   */
   ON_LineCurve* PathLineCurve(ON_LineCurve* line_curve) const;
@@ -632,7 +632,7 @@ public:
     profile_parameter - [in]
       parameter on profile curve
   Returns:
-      -1: if the profile_parameter does not correspond 
+      -1: if the profile_parameter does not correspond
           to a point on the profile curve.
     >= 0: index of the profile curve with domain containing
           this paramter.  When the profile_parameter corresponds
@@ -685,10 +685,10 @@ public:
 
   /*
   Description:
-    Test a polycurve to determine if it meets the necessary 
+    Test a polycurve to determine if it meets the necessary
     conditions to be used as a multi-segment profile in a extrusion.
   Returns:
-    True if the returned polycurve can be used a a multi-segment 
+    True if the returned polycurve can be used a a multi-segment
     profile in a extrusion.
   */
   static bool IsValidPolyCurveProfile( const ON_PolyCurve& polycurve, ON_TextLog* text_log = 0 );
@@ -698,7 +698,7 @@ public:
     If possible, modify a polycurve so it meets the necessary conditions
     to be used as a multi-segment profile in a extrusion.
   Returns:
-    True if the returned polycurve can be used a a multi-segment 
+    True if the returned polycurve can be used a a multi-segment
     profile in a extrusion.
   */
   static bool CleanupPolyCurveProfile( ON_PolyCurve& polycurve );
@@ -729,7 +729,7 @@ public:
   //   must exactly match the polycurve's segment domain,
   //   every segment must be continuous and closed,
   //   the first segement curve must have counter-clockwise
-  //   orientation, and the rest must have clockwise 
+  //   orientation, and the rest must have clockwise
   //   orientations.
   int m_profile_count;
   ON_Curve* m_profile;
@@ -769,7 +769,7 @@ public:
     cylinder - [in] cylinder.IsFinite() must be true
     bCapBottom - [in] if true, the end at cylinder.m_height[0] will be capped
     bCapTop - [in] if true, the end at cylinder.m_height[1] will be capped
-    extrusion - [in] 
+    extrusion - [in]
       If the input extrusion pointer is null, one will be allocated on the heap
       and it is the caller's responsibility to delte it at an appropriate time.
       If the input point is not null, this extrusion will be used and the same
@@ -795,11 +795,11 @@ public:
             ...
           }
   */
-  static ON_Extrusion* Cylinder( 
-    const ON_Cylinder& cylinder, 
+  static ON_Extrusion* Cylinder(
+    const ON_Cylinder& cylinder,
     bool bCapBottom,
     bool bCapTop,
-    ON_Extrusion* extrusion = 0 
+    ON_Extrusion* extrusion = 0
     );
 
   /*
@@ -814,7 +814,7 @@ public:
       the cylinder will be the outside of the pipe.
     bCapBottom - [in] if true, the end at cylinder.m_height[0] will be capped
     bCapTop - [in] if true, the end at cylinder.m_height[1] will be capped
-    extrusion - [in] 
+    extrusion - [in]
       If the input extrusion pointer is null, one will be allocated on the heap
       and it is the caller's responsibility to delte it at an appropriate time.
       If the input point is not null, this extrusion will be used and the same
@@ -841,12 +841,12 @@ public:
             ...
           }
   */
-  static ON_Extrusion* Pipe( 
-    const ON_Cylinder& cylinder, 
+  static ON_Extrusion* Pipe(
+    const ON_Cylinder& cylinder,
     double other_radius,
     bool bCapBottom,
     bool bCapTop,
-    ON_Extrusion* extrusion = 0 
+    ON_Extrusion* extrusion = 0
     );
 };
 

@@ -71,7 +71,7 @@ extern "C"
 
     // max features scaled
     int max;
-    
+
     svm_scaling() : max(0)
     {
     }

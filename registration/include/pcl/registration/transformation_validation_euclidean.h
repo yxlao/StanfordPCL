@@ -50,11 +50,11 @@ namespace pcl
   {
     /** \brief TransformationValidationEuclidean computes an L2SQR norm between a source and target
       * dataset.
-      * 
-      * To prevent points with bad correspondences to contribute to the overall score, the class also 
+      *
+      * To prevent points with bad correspondences to contribute to the overall score, the class also
       * accepts a maximum_range parameter given via \ref setMaxRange that is used as a cutoff value for
       * nearest neighbor distance comparisons.
-      * 
+      *
       * The output score is normalized with respect to the number of valid correspondences found.
       *
       * Usage example:
@@ -73,7 +73,7 @@ namespace pcl
     {
       public:
         typedef typename TransformationValidation<PointSource, PointTarget, Scalar>::Matrix4 Matrix4;
-        
+
         typedef boost::shared_ptr<TransformationValidation<PointSource, PointTarget, Scalar> > Ptr;
         typedef boost::shared_ptr<const TransformationValidation<PointSource, PointTarget, Scalar> > ConstPtr;
 
@@ -89,7 +89,7 @@ namespace pcl
           * Sets the \a max_range parameter to double::max, \a threshold_ to NaN
           * and initializes the internal search \a tree to a FLANN kd-tree.
           */
-        TransformationValidationEuclidean () : 
+        TransformationValidationEuclidean () :
           max_range_ (std::numeric_limits<double>::max ()),
           threshold_ (std::numeric_limits<double>::quiet_NaN ()),
           tree_ (new pcl::KdTreeFLANN<PointTarget>)
@@ -98,7 +98,7 @@ namespace pcl
 
         virtual ~TransformationValidationEuclidean () {};
 
-        /** \brief Set the maximum allowable distance between a point and its correspondence in the 
+        /** \brief Set the maximum allowable distance between a point and its correspondence in the
           * target in order for a correspondence to be considered \a valid. Default: double::max.
           * \param[in] max_range the new maximum allowable distance
           */
@@ -108,7 +108,7 @@ namespace pcl
           max_range_ = max_range;
         }
 
-        /** \brief Get the maximum allowable distance between a point and its 
+        /** \brief Get the maximum allowable distance between a point and its
           * correspondence, as set by the user.
           */
         inline double
@@ -153,7 +153,7 @@ namespace pcl
             const PointCloudTargetConstPtr &cloud_tgt,
             const Matrix4 &transformation_matrix) const;
 
-        /** \brief Comparator function for deciding which score is better after running the 
+        /** \brief Comparator function for deciding which score is better after running the
           * validation on multiple transforms.
           *
           * \param[in] score1 the first value
@@ -191,12 +191,12 @@ namespace pcl
         }
 
       protected:
-        /** \brief The maximum allowable distance between a point and its correspondence in the target 
+        /** \brief The maximum allowable distance between a point and its correspondence in the target
           * in order for a correspondence to be considered \a valid. Default: double::max.
           */
         double max_range_;
 
-        /** \brief The threshold for which a specific transformation is valid. 
+        /** \brief The threshold for which a specific transformation is valid.
           * Set to NaN by default, as we must require the user to set it.
           */
         double threshold_;
@@ -212,7 +212,7 @@ namespace pcl
           public:
             typedef boost::shared_ptr<MyPointRepresentation> Ptr;
             typedef boost::shared_ptr<const MyPointRepresentation> ConstPtr;
-            
+
             MyPointRepresentation ()
             {
               nr_dimensions_ = 3;

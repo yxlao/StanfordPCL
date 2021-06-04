@@ -63,7 +63,7 @@ class SimpleKinectTool
     	}
     	imshow ("test", cv_image);
     }
-    
+
     void run (const std::string& device_id)
     {
 	    cv::namedWindow("test", CV_WINDOW_AUTOSIZE);
@@ -74,7 +74,7 @@ class SimpleKinectTool
       boost::signals2::connection c = interface->registerCallback (f);
 
       interface->start ();
-      
+
       while (true)
       {
         //sleep (1);

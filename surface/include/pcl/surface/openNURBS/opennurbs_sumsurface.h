@@ -31,9 +31,9 @@ public:
 public:
 
   // for expert users
-  // surface-PointAt(s,t) 
+  // surface-PointAt(s,t)
   //  = m_curve[0]->PointAt(s) + m_curve[1]->PointAt(t) + m_basepoint;
-  ON_Curve*  m_curve[2]; // m_curve[0] and m_curve[1] are deleted by ~ON_SumSuface.  
+  ON_Curve*  m_curve[2]; // m_curve[0] and m_curve[1] are deleted by ~ON_SumSuface.
                          // Use a ON_ProxyCurve if this is problem.
   ON_3dVector m_basepoint;
   ON_BoundingBox m_bbox; // lazy evaluation used in ON_SumSurface::BoundingBox()
@@ -89,7 +89,7 @@ public:
   Returns:
     true if a valid surface is created.
   */
-  ON_BOOL32 Create( const ON_Curve& curve, 
+  ON_BOOL32 Create( const ON_Curve& curve,
                const ON_Curve& path_curve
                );
 
@@ -106,8 +106,8 @@ public:
   Returns:
     true if a valid surface is created.
   */
-  ON_BOOL32 Create( 
-          ON_Curve* pCurve, 
+  ON_BOOL32 Create(
+          ON_Curve* pCurve,
           ON_Curve* pPathCurve
           );
 
@@ -135,9 +135,9 @@ public:
     text_log - [in] if the object is not valid and text_log
         is not NULL, then a brief englis description of the
         reason the object is not valid is appened to the log.
-        The information appended to text_log is suitable for 
-        low-level debugging purposes by programmers and is 
-        not intended to be useful as a high level user 
+        The information appended to text_log is suitable for
+        low-level debugging purposes by programmers and is
+        not intended to be useful as a high level user
         interface tool.
   Returns:
     @untitled table
@@ -151,7 +151,7 @@ public:
   // Use ON_BinaryArchive::WriteObject() and ON_BinaryArchive::ReadObject()
   // for top level serialization.  These Read()/Write() members should just
   // write/read specific definitions.  In particular, they should not write/
-  // read any chunk typecode or length information.  The default 
+  // read any chunk typecode or length information.  The default
   // implementations return false and do nothing.
   ON_BOOL32 Write(
          ON_BinaryArchive&  // serialize definition to binary archive
@@ -175,7 +175,7 @@ public:
 
   void ClearBoundingBox();
 
-  ON_BOOL32 Transform( 
+  ON_BOOL32 Transform(
          const ON_Xform&
          );
 
@@ -190,9 +190,9 @@ public:
   // overrides of virtual ON_Surface functions
   //
 
-  ON_BOOL32 SetDomain( 
+  ON_BOOL32 SetDomain(
     int dir, // 0 sets first parameter's domain, 1 gets second parameter's domain
-    double t0, 
+    double t0,
     double t1
     );
 
@@ -204,15 +204,15 @@ public:
     int // 0 gets first parameter's domain, 1 gets second parameter's domain
     ) const; // number of smooth spans in curve
 
-  ON_BOOL32 GetSpanVector( // span "knots" 
+  ON_BOOL32 GetSpanVector( // span "knots"
     int, // 0 gets first parameter's domain, 1 gets second parameter's domain
-    double* // array of length SpanCount() + 1 
-    ) const; // 
+    double* // array of length SpanCount() + 1
+    ) const; //
 
-  int Degree( // returns maximum algebraic degree of any span 
+  int Degree( // returns maximum algebraic degree of any span
                   // ( or a good estimate if curve spans are not algebraic )
     int // 0 gets first parameter's domain, 1 gets second parameter's domain
-    ) const; 
+    ) const;
 
   ON_BOOL32 GetParameterTolerance( // returns tminus < tplus: parameters tminus <= s <= tplus
          int,     // 0 gets first parameter, 1 gets second parameter
@@ -251,48 +251,48 @@ public:
         int        // side of parameter space to test
                    // 0 = south, 1 = east, 2 = north, 3 = west
         ) const;
-  
+
   /*
   Description:
-    Search for a derivatitive, tangent, or curvature 
+    Search for a derivatitive, tangent, or curvature
     discontinuity.
   Parameters:
     dir - [in] If 0, then "u" parameter is checked.  If 1, then
                the "v" parameter is checked.
     c - [in] type of continity to test for.
     t0 - [in] Search begins at t0. If there is a discontinuity
-              at t0, it will be ignored.  This makes it 
+              at t0, it will be ignored.  This makes it
               possible to repeatedly call GetNextDiscontinuity
               and step through the discontinuities.
-    t1 - [in] (t0 != t1)  If there is a discontinuity at t1 is 
+    t1 - [in] (t0 != t1)  If there is a discontinuity at t1 is
               will be ingored unless c is a locus discontinuity
               type and t1 is at the start or end of the curve.
     t - [out] if a discontinuity is found, then *t reports the
           parameter at the discontinuity.
-    hint - [in/out] if GetNextDiscontinuity will be called 
+    hint - [in/out] if GetNextDiscontinuity will be called
        repeatedly, passing a "hint" with initial value *hint=0
-       will increase the speed of the search.       
-    dtype - [out] if not NULL, *dtype reports the kind of 
-        discontinuity found at *t.  A value of 1 means the first 
-        derivative or unit tangent was discontinuous.  A value 
-        of 2 means the second derivative or curvature was 
+       will increase the speed of the search.
+    dtype - [out] if not NULL, *dtype reports the kind of
+        discontinuity found at *t.  A value of 1 means the first
+        derivative or unit tangent was discontinuous.  A value
+        of 2 means the second derivative or curvature was
         discontinuous.  A value of 0 means teh curve is not
         closed, a locus discontinuity test was applied, and
         t1 is at the start of end of the curve.
     cos_angle_tolerance - [in] default = cos(1 degree) Used only
         when c is ON::G1_continuous or ON::G2_continuous.  If the
-        cosine of the angle between two tangent vectors is 
+        cosine of the angle between two tangent vectors is
         <= cos_angle_tolerance, then a G1 discontinuity is reported.
-    curvature_tolerance - [in] (default = ON_SQRT_EPSILON) Used 
-        only when c is ON::G2_continuous.  If K0 and K1 are 
-        curvatures evaluated from above and below and 
-        |K0 - K1| > curvature_tolerance, then a curvature 
+    curvature_tolerance - [in] (default = ON_SQRT_EPSILON) Used
+        only when c is ON::G2_continuous.  If K0 and K1 are
+        curvatures evaluated from above and below and
+        |K0 - K1| > curvature_tolerance, then a curvature
         discontinuity is reported.
   Returns:
     Parametric continuity tests c = (C0_continuous, ..., G2_continuous):
 
-      true if a parametric discontinuity was found strictly 
-      between t0 and t1. Note well that all curves are 
+      true if a parametric discontinuity was found strictly
+      between t0 and t1. Note well that all curves are
       parametrically continuous at the ends of their domains.
 
     Locus continuity tests c = (C0_locus_continuous, ...,G2_locus_continuous):
@@ -300,11 +300,11 @@ public:
       true if a locus discontinuity was found strictly between
       t0 and t1 or at t1 is the at the end of a curve.
       Note well that all open curves (IsClosed()=false) are locus
-      discontinuous at the ends of their domains.  All closed 
-      curves (IsClosed()=true) are at least C0_locus_continuous at 
+      discontinuous at the ends of their domains.  All closed
+      curves (IsClosed()=true) are at least C0_locus_continuous at
       the ends of their domains.
   */
-  bool GetNextDiscontinuity( 
+  bool GetNextDiscontinuity(
                   int dir,
                   ON::continuity c,
                   double t0,
@@ -332,7 +332,7 @@ public:
         greater than d2_tolerance, then the surface is not C2.
     cos_angle_tolerance - [in] default = cos(1 degree) Used only when
         c is ON::G1_continuous or ON::G2_continuous.  If the cosine
-        of the angle between two normal vectors 
+        of the angle between two normal vectors
         is <= cos_angle_tolerance, then a G1 discontinuity is reported.
     curvature_tolerance - [in] (default = ON_SQRT_EPSILON) Used only when
         c is ON::G2_continuous.  If K0 and K1 are curvatures evaluated
@@ -345,8 +345,8 @@ public:
   */
   bool IsContinuous(
     ON::continuity c,
-    double s, 
-    double t, 
+    double s,
+    double t,
     int* hint = NULL,
     double point_tolerance=ON_ZERO_TOLERANCE,
     double d1_tolerance=ON_ZERO_TOLERANCE,
@@ -381,7 +381,7 @@ public:
                            //   e.g., point on IsoCurve(0,c) at t is srf(t,c)
                            // 1 first parameter is constant and second parameter varies
                            //   e.g., point on IsoCurve(1,c) at t is srf(c,t)
-         double            // value of constant parameter 
+         double            // value of constant parameter
          ) const;
 
   int GetNurbForm( // returns 0: unable to create NURBS representation
@@ -390,9 +390,9 @@ public:
                    //            matches the surface's to wthe desired accuracy
                    //         2: success - returned NURBS point locus matches
                    //            the surfaces's to the desired accuracy but, on
-                   //            the interior of the surface's domain, the 
+                   //            the interior of the surface's domain, the
                    //            surface's parameterization and the NURBS
-                   //            parameterization may not match to the 
+                   //            parameterization may not match to the
                    //            desired accuracy.
         ON_NurbsSurface&,
         double = 0.0
@@ -404,9 +404,9 @@ public:
                    //            matches the surface's to wthe desired accuracy
                    //         2: success - returned NURBS point locus matches
                    //            the surfaces's to the desired accuracy but, on
-                   //            the interior of the surface's domain, the 
+                   //            the interior of the surface's domain, the
                    //            surface's parameterization and the NURBS
-                   //            parameterization may not match to the 
+                   //            parameterization may not match to the
                    //            desired accuracy.
         ) const;
 
@@ -434,7 +434,7 @@ public:
         the portions of the surface with parameters (s,t) satisfying
         s < Domain(0).Min() or s > Domain(0).Max() are trimmed away.
         If dir is 1, then the portions of the surface with parameters
-        (s,t) satisfying t < Domain(1).Min() or t > Domain(1).Max() 
+        (s,t) satisfying t < Domain(1).Min() or t > Domain(1).Max()
         are trimmed away.
   */
   ON_BOOL32 Trim(
@@ -450,11 +450,11 @@ public:
                    (the first surface parameter).
                 1  new Domain(1) will include domain.
                    (the second surface parameter).
-     domain - [in] if domain is not included in surface domain, 
-     surface will be extended so that its domain includes domain.  
-     Will not work if surface is closed in direction dir. 
+     domain - [in] if domain is not included in surface domain,
+     surface will be extended so that its domain includes domain.
+     Will not work if surface is closed in direction dir.
      Original surface is identical to the restriction of the
-     resulting surface to the original surface domain, 
+     resulting surface to the original surface domain,
    Returns:
      true if successful.
      */
@@ -465,7 +465,7 @@ public:
 
   /*
   Description:
-    Splits (divides) the surface into two parts at the 
+    Splits (divides) the surface into two parts at the
     specified parameter.
 
   Parameters:

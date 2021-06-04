@@ -51,7 +51,7 @@ computeConcaveHull (const PointCloudPtr & input, float alpha)
 }
 
 pcl::PolygonMesh::Ptr
-greedyTriangulation (const SurfaceElementsPtr & surfels, float radius, float mu, int max_nearest_neighbors, 
+greedyTriangulation (const SurfaceElementsPtr & surfels, float radius, float mu, int max_nearest_neighbors,
                      float max_surface_angle, float min_angle, float max_angle)
 
 {

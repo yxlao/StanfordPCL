@@ -84,8 +84,8 @@ pcl::UniformSampling<PointInT>::detectKeypoints (PointCloudOut &output)
   {
     if (!input_->is_dense)
       // Check if the point is invalid
-      if (!pcl_isfinite (input_->points[(*indices_)[cp]].x) || 
-          !pcl_isfinite (input_->points[(*indices_)[cp]].y) || 
+      if (!pcl_isfinite (input_->points[(*indices_)[cp]].x) ||
+          !pcl_isfinite (input_->points[(*indices_)[cp]].y) ||
           !pcl_isfinite (input_->points[(*indices_)[cp]].z))
         continue;
 

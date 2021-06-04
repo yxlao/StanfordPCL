@@ -43,22 +43,22 @@
 
 #include "octree_iterator.hpp"
 
-namespace pcl 
+namespace pcl
 {
     namespace device
-    {           
+    {
         typedef OctreeImpl::PointType PointType;
 
         template<typename RadiusStrategy, typename FetchStrategy>
         struct Batch : public RadiusStrategy, public FetchStrategy
-        {               
+        {
             const int *indices;
-            PtrStep<float> points;            
+            PtrStep<float> points;
             OctreeGlobalWithBox octree;
 
             int max_results;
             mutable int* output;
-            mutable int* output_sizes;        
+            mutable int* output_sizes;
         };
 
         struct DirectQuery
@@ -106,7 +106,7 @@ namespace pcl
 
         struct KernelPolicy
         {
-            enum 
+            enum
             {
                 CTA_SIZE = 512,
 
@@ -119,10 +119,10 @@ namespace pcl
             };
 
             struct SmemStorage
-            {                             
+            {
                 volatile int per_warp_buffer[WARPS_COUNT];
                 volatile int cta_buffer[CTA_SIZE];
-            };                                
+            };
         };
 
         __shared__ KernelPolicy::SmemStorage storage;
@@ -130,15 +130,15 @@ namespace pcl
 
         template<typename BatchType>
         struct Warp_radiusSearch
-        {   
-        public:                
+        {
+        public:
             typedef OctreeIteratorDeviceNS OctreeIterator;
 
             const BatchType& batch;
-            OctreeIterator iterator;        
+            OctreeIterator iterator;
 
             int found_count;
-            int query_index;        
+            int query_index;
             float3 query;
             float radius;
 
@@ -146,98 +146,98 @@ namespace pcl
                 : batch(batch_arg), iterator(/**/batch.octree/*storage.paths*/), found_count(0), query_index(query_index_arg){}
 
             __device__ __forceinline__ void launch(bool active)
-            {                                 
+            {
                 if (active)
                 {
-                    query = batch.fetch(query_index);                    
+                    query = batch.fetch(query_index);
                     radius = batch.getRadius(query_index);
                 }
-                else                
+                else
                     query_index = -1;
 
                 while(__any(active))
-                {                
-                    int leaf = -1;                
+                {
+                    int leaf = -1;
 
                     if (active)
-                        leaf = examineNode(iterator);             
+                        leaf = examineNode(iterator);
 
-                    processLeaf(leaf);                           
+                    processLeaf(leaf);
 
                     active = active && iterator.level >= 0 && found_count < batch.max_results;
-                }            
+                }
 
                 if (query_index != -1)
                     batch.output_sizes[query_index] = found_count;
-            }    
+            }
 
         private:
 
             __device__ __forceinline__ int examineNode(OctreeIterator& iterator)
-            {                        
+            {
                 using namespace pcl::gpu;
 
                 int node_idx = *iterator;
                 int code = batch.octree.codes[node_idx];
 
                 float3 node_minp = batch.octree.minp;
-                float3 node_maxp = batch.octree.maxp;        
+                float3 node_maxp = batch.octree.maxp;
                 calcBoundingBox(iterator.level, code, node_minp, node_maxp);
 
                 //if true, take nothing, and go to next
                 if (checkIfNodeOutsideSphere(node_minp, node_maxp, query, radius))
-                {     
+                {
                     ++iterator;
-                    return -1;                
+                    return -1;
                 }
 
                 if (checkIfNodeInsideSphere(node_minp, node_maxp, query, radius))
-                {   
-                    ++iterator;       
+                {
+                    ++iterator;
                     return node_idx; //return node to copy
-                }                              
+                }
 
                 //need to go to next level
                 int node = batch.octree.nodes[node_idx];
-                int children_mask = node & 0xFF;            
-                bool isLeaf = children_mask == 0;            
+                int children_mask = node & 0xFF;
+                bool isLeaf = children_mask == 0;
 
                 if (isLeaf)
                 {
                     ++iterator;
-                    return (node_idx | KernelPolicy::CHECK_FLAG); // return node to check                                                              
+                    return (node_idx | KernelPolicy::CHECK_FLAG); // return node to check
                 }
 
                 //goto next level
                 int first = node >> 8;
                 int len   = __popc(children_mask);
-                iterator.gotoNextLevel(first, len);                    
+                iterator.gotoNextLevel(first, len);
                 return -1;
             };
 
             __device__ __forceinline__ void processLeaf(int leaf)
-            {   
-                int mask = __ballot(leaf != -1);            
+            {
+                int mask = __ballot(leaf != -1);
 
                 while(mask)
-                {                
+                {
                     unsigned int laneId = Warp::laneId();
-                    unsigned int warpId = Warp::id();            
+                    unsigned int warpId = Warp::id();
 
                     int active_lane = __ffs(mask) - 1; //[0..31]
 
-                    mask &= ~(1 << active_lane);              
+                    mask &= ~(1 << active_lane);
 
-                    //broadcast active_found_count                                
-                    if (active_lane == laneId)                
-                        storage.per_warp_buffer[warpId] = found_count;                                            
+                    //broadcast active_found_count
+                    if (active_lane == laneId)
+                        storage.per_warp_buffer[warpId] = found_count;
                     int active_found_count = storage.per_warp_buffer[warpId];
 
                     int node_idx = leaf & ~KernelPolicy::CHECK_FLAG;
 
                     //broadcast beg
                     if (active_lane == laneId)
-                        storage.per_warp_buffer[warpId] = batch.octree.begs[node_idx];                    
+                        storage.per_warp_buffer[warpId] = batch.octree.begs[node_idx];
                     int beg = storage.per_warp_buffer[warpId];
 
                     //broadcast end
@@ -252,13 +252,13 @@ namespace pcl
 
                     int length = end - beg;
 
-                    int *out = batch.output + active_query_index * batch.max_results + active_found_count;                    
+                    int *out = batch.output + active_query_index * batch.max_results + active_found_count;
                     int length_left = batch.max_results - active_found_count;
 
                     int test = __any(active_lane == laneId && (leaf & KernelPolicy::CHECK_FLAG));
 
                     if (test)
-                    {                                        
+                    {
                         float3 active_query;
 
                         //broadcast warp_query
@@ -272,36 +272,36 @@ namespace pcl
 
                         if (active_lane == laneId)
                             storage.per_warp_buffer[warpId] = __float_as_int(query.z);
-                        active_query.z = __int_as_float(storage.per_warp_buffer[warpId]);                            
+                        active_query.z = __int_as_float(storage.per_warp_buffer[warpId]);
 
-                        float radius2 = batch.bradcastRadius2((float*)&storage.per_warp_buffer[warpId], (active_lane == laneId), radius);                            
+                        float radius2 = batch.bradcastRadius2((float*)&storage.per_warp_buffer[warpId], (active_lane == laneId), radius);
 
-                        length = TestWarpKernel(beg, active_query, radius2, length, out, length_left);                    
+                        length = TestWarpKernel(beg, active_query, radius2, length, out, length_left);
                     }
                     else
-                    {                            
-                        length = min(length, length_left);                        
+                    {
+                        length = min(length, length_left);
                         Warp::copy(batch.indices + beg, batch.indices + beg + length, out);
                     }
 
                     if (active_lane == laneId)
                         found_count += length;
-                }            
-            }    
+                }
+            }
 
             __device__ __forceinline__ int TestWarpKernel(int beg, const float3& active_query, float radius2, int length, int* out, int length_left)
-            {                        
+            {
                 unsigned int idx = Warp::laneId();
-                int last_threadIdx = threadIdx.x - idx + 31;            
+                int last_threadIdx = threadIdx.x - idx + 31;
 
                 int total_new = 0;
 
                 for(;;)
-                {                
+                {
                     int take = 0;
 
                     if (idx < length)
-                    {                                                                                                            
+                    {
                         float dx = batch.points.ptr(0)[beg + idx] - active_query.x;
                         float dy = batch.points.ptr(1)[beg + idx] - active_query.y;
                         float dz = batch.points.ptr(2)[beg + idx] - active_query.z;
@@ -317,7 +317,7 @@ namespace pcl
                     int offset = scan_warp<exclusive>(storage.cta_buffer);
 
                     //ensure that we copy
-                    bool out_of_bounds = (offset + total_new) >= length_left;                              
+                    bool out_of_bounds = (offset + total_new) >= length_left;
 
                     if (take && !out_of_bounds)
                         out[offset] = batch.indices[beg + idx];
@@ -327,7 +327,7 @@ namespace pcl
                     idx += Warp::STRIDE;
 
                     total_new += new_nodes;
-                    out += new_nodes;                
+                    out += new_nodes;
 
                     if (__all(idx >= length) || __any(out_of_bounds) || total_new == length_left)
                         break;
@@ -337,17 +337,17 @@ namespace pcl
         };
 
         template<typename BatchType>
-        __global__ void KernelRS(const BatchType batch) 
-        {         
+        __global__ void KernelRS(const BatchType batch)
+        {
             int query_index = blockIdx.x * blockDim.x + threadIdx.x;
 
             bool active = query_index < batch.queries.size;
 
-            if (__all(active == false)) 
+            if (__all(active == false))
                 return;
 
             Warp_radiusSearch<BatchType> search(batch, query_index);
-            search.launch(active); 
+            search.launch(active);
         }
     }
 }
@@ -359,12 +359,12 @@ void pcl::device::OctreeImpl::radiusSearchEx(BatchType& batch, const Queries& qu
     batch.octree = octreeGlobal;
 
     batch.max_results = results.max_elems;
-    batch.output = results.data;                
+    batch.output = results.data;
     batch.output_sizes = results.sizes;
 
     batch.points = points_sorted;
-    
-    
+
+
     cudaSafeCall( cudaFuncSetCacheConfig(KernelRS<BatchType>, cudaFuncCachePreferL1) );
 
     int block = KernelPolicy::CTA_SIZE;
@@ -377,13 +377,13 @@ void pcl::device::OctreeImpl::radiusSearchEx(BatchType& batch, const Queries& qu
 
 
 void pcl::device::OctreeImpl::radiusSearch(const Queries& queries, float radius, NeighborIndices& results)
-{        
+{
     typedef Batch<SharedRadius, DirectQuery> BatchType;
 
     BatchType batch;
     batch.radius = radius;
     batch.queries = queries;
-    radiusSearchEx(batch, queries, results);              
+    radiusSearchEx(batch, queries, results);
 }
 
 void pcl::device::OctreeImpl::radiusSearch(const Queries& queries, const Radiuses& radiuses, NeighborIndices& results)
@@ -393,7 +393,7 @@ void pcl::device::OctreeImpl::radiusSearch(const Queries& queries, const Radiuse
     BatchType batch;
     batch.radiuses = radiuses;
     batch.queries = queries;
-    radiusSearchEx(batch, queries, results);              
+    radiusSearchEx(batch, queries, results);
 }
 
 void pcl::device::OctreeImpl::radiusSearch(const Queries& queries, const Indices& indices, float radius, NeighborIndices& results)
@@ -402,10 +402,10 @@ void pcl::device::OctreeImpl::radiusSearch(const Queries& queries, const Indices
 
     BatchType batch;
     batch.radius = radius;
-    
+
     batch.queries = queries;
     batch.queries_indices = indices;
     batch.queries.size = indices.size();
 
-    radiusSearchEx(batch, queries, results);        
+    radiusSearchEx(batch, queries, results);
 }

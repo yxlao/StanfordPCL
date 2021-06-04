@@ -63,9 +63,9 @@ printHelp (int, char **argv)
 {
   print_error ("Syntax is: %s input.pcd output.pcd <options>\n", argv[0]);
   print_info ("  where options are:\n");
-  print_info ("                     -leaf x,y,z   = the VoxelGrid leaf size (default: "); 
+  print_info ("                     -leaf x,y,z   = the VoxelGrid leaf size (default: ");
   print_value ("%f, %f, %f", default_leaf_size, default_leaf_size, default_leaf_size); print_info (")\n");
-  print_info ("                     -normal-search X = Normal radius search (default: "); 
+  print_info ("                     -normal-search X = Normal radius search (default: ");
   print_value ("%f", default_normal_radius_search); print_info (")\n");
 }
 
@@ -98,7 +98,7 @@ loadCloud (const std::string &filename, CloudLT::Ptr &cloud)
 }
 
 void
-compute (const CloudT::Ptr &cloud, 
+compute (const CloudT::Ptr &cloud,
          const CloudLT::Ptr &anno,
          float normal_radius_search,
          float leaf_x, float leaf_y, float leaf_z,
@@ -106,7 +106,7 @@ compute (const CloudT::Ptr &cloud,
 {
   TicToc tt;
   tt.tic ();
-  
+
   print_highlight ("Computing ");
 
   pcl::PointCloud<pcl::PointNormal>::Ptr cloud_normals (new pcl::PointCloud<pcl::PointNormal>);
@@ -140,9 +140,9 @@ compute (const CloudT::Ptr &cloud,
   crf.setNumberOfIterations (10);
   crf.segmentPoints (*out);
 
-  print_info ("[done, "); 
-  print_value ("%g", tt.toc ()); 
-  print_info (" ms : "); print_value ("%d", out->width * out->height); 
+  print_info ("[done, ");
+  print_value ("%g", tt.toc ());
+  print_info (" ms : "); print_value ("%d", out->width * out->height);
   print_info (" points]\n");
 }
 
@@ -156,9 +156,9 @@ saveCloud (const std::string &filename, CloudLT::Ptr &output)
 
   PCDWriter w;
   w.write (filename, *output);
-  
-  print_info ("[done, "); 
-  print_value ("%g", tt.toc ()); print_info (" ms : "); 
+
+  print_info ("[done, ");
+  print_value ("%g", tt.toc ()); print_info (" ms : ");
   print_value ("%d", output->width * output->height); print_info (" points]\n");
 }
 
@@ -185,19 +185,19 @@ main (int argc, char** argv)
 
   // Load the input file
   CloudT::Ptr cloud (new CloudT);
-  if (!loadCloud (argv[p_file_indices[0]], cloud)) 
+  if (!loadCloud (argv[p_file_indices[0]], cloud))
     return (-1);
 
   // Load the input file
   CloudLT::Ptr cloud_anno (new CloudLT);
-  if (!loadCloud (argv[p_file_indices[1]], cloud_anno)) 
+  if (!loadCloud (argv[p_file_indices[1]], cloud_anno))
     return (-1);
 
 
   // TODO:: make this as an optional argument ??
   std::vector<int> tmp_indices;
   pcl::removeNaNFromPointCloud (*cloud, *cloud, tmp_indices);
-  
+
   // parse optional input arguments from the command line
   float normal_radius_search = static_cast<float> (default_normal_radius_search);
 

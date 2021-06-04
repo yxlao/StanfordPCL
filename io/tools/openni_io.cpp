@@ -78,8 +78,8 @@ class OpenNIIO
       if (interface_)
         interface_->stop ();
     }
-    
-    void 
+
+    void
     cloud_cb (const CloudConstPtr& cloud)
     {
       boost::mutex::scoped_lock lock (mtx_);
@@ -95,9 +95,9 @@ class OpenNIIO
 
       boost::function<void (const CloudConstPtr&)> f = boost::bind (&OpenNIIO::cloud_cb, this, _1);
       boost::signals2::connection c = interface_->registerCallback (f);
-     
+
       interface_->start ();
-      
+
       writer_.setMapSynchronization (false);    // Setting this to true will enable msync() => drop I/O performance
     }
 
@@ -171,7 +171,7 @@ main (int argc, char ** argv)
   std::string arg;
   if (argc > 1)
     arg = std::string (argv[1]);
-  
+
   if (arg == "--help" || arg == "-h")
   {
     usage (argv);

@@ -178,8 +178,8 @@ that lie outside of the predefined bounding box or contain NaN values.
 
         const pcl::PointXYZRGBA& point = cloud->points[i];
 
-        if (!pcl_isfinite (point.x) || 
-            !pcl_isfinite (point.y) || 
+        if (!pcl_isfinite (point.x) ||
+            !pcl_isfinite (point.y) ||
             !pcl_isfinite (point.z))
           continue;
 
@@ -310,7 +310,7 @@ converting touch events into high level gestures.  Most of this code is outside 
 scope of this tutorial.  This tutorial will focus on the code in the client app that is
 responsible for handling point cloud streaming.  In fact, the majority of the code that
 handles point cloud streaming is contained in a class named *vesKiwiStreamingDataRepresentation*
-found in the *kiwi* library, part of the VES and Kiwi mobile visualization framework.  
+found in the *kiwi* library, part of the VES and Kiwi mobile visualization framework.
 The *vesKiwiStreamingDataRepresentation* is usable by any mobile application.
 
 The *PointCloudStreaming* app, in *PointCloudStreaming.cpp* instantiates the

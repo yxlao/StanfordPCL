@@ -37,11 +37,11 @@
  *
  */
 
-#ifndef PCL_ROS_CONVERSIONS_H_ 
+#ifndef PCL_ROS_CONVERSIONS_H_
 #define PCL_ROS_CONVERSIONS_H_
 
 #ifdef __GNUC__
-#pragma GCC system_header 
+#pragma GCC system_header
 #endif
 
 #include <sensor_msgs/PointField.h>
@@ -63,7 +63,7 @@ namespace pcl
     struct FieldAdder
     {
       FieldAdder (std::vector<sensor_msgs::PointField>& fields) : fields_ (fields) {};
-      
+
       template<typename U> void operator() ()
       {
         sensor_msgs::PointField f;
@@ -86,8 +86,8 @@ namespace pcl
         : fields_ (fields), map_ (map)
       {
       }
-      
-      template<typename Tag> void 
+
+      template<typename Tag> void
       operator () ()
       {
         BOOST_FOREACH (const sensor_msgs::PointField& field, fields_)
@@ -111,7 +111,7 @@ namespace pcl
       std::vector<FieldMapping>& map_;
     };
 
-    inline bool 
+    inline bool
     fieldOrdering (const FieldMapping& a, const FieldMapping& b)
     {
       return (a.serialized_offset < b.serialized_offset);
@@ -119,7 +119,7 @@ namespace pcl
 
   } //namespace detail
 
-  template<typename PointT> void 
+  template<typename PointT> void
   createMapping (const std::vector<sensor_msgs::PointField>& msg_fields, MsgFieldMap& field_map)
   {
     // Create initial 1-1 mapping between serialized data segments and struct fields
@@ -163,7 +163,7 @@ namespace pcl
     * createMapping<PointT> (msg.fields, field_map);
     * \endcode
     */
-  template <typename PointT> void 
+  template <typename PointT> void
   fromROSMsg (const sensor_msgs::PointCloud2& msg, pcl::PointCloud<PointT>& cloud,
               const MsgFieldMap& field_map)
   {
@@ -221,7 +221,7 @@ namespace pcl
     * \param[in] msg the PointCloud2 binary blob
     * \param[out] cloud the resultant pcl::PointCloud<T>
     */
-  template<typename PointT> void 
+  template<typename PointT> void
   fromROSMsg (const sensor_msgs::PointCloud2& msg, pcl::PointCloud<PointT>& cloud)
   {
     MsgFieldMap field_map;
@@ -233,7 +233,7 @@ namespace pcl
     * \param[in] cloud the input pcl::PointCloud<T>
     * \param[out] msg the resultant PointCloud2 binary blob
     */
-  template<typename PointT> void 
+  template<typename PointT> void
   toROSMsg (const pcl::PointCloud<PointT>& cloud, sensor_msgs::PointCloud2& msg)
   {
     // Ease the user's burden on specifying width/height for unorganized datasets

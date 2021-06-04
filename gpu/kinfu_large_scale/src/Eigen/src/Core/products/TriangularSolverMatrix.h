@@ -10,7 +10,7 @@
 #ifndef EIGEN_TRIANGULAR_SOLVER_MATRIX_H
 #define EIGEN_TRIANGULAR_SOLVER_MATRIX_H
 
-namespace Eigen { 
+namespace Eigen {
 
 namespace internal {
 
@@ -155,7 +155,7 @@ struct triangular_solve_matrix<Scalar,Index,OnTheLeft,Mode,Conjugate,TriStorageO
           }
         }
       }
-      
+
       // R2 -= A21 * B => GEPP
       {
         Index start = IsLower ? k2+kc : 0;

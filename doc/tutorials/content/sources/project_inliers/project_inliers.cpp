@@ -24,8 +24,8 @@ int
 
   std::cerr << "Cloud before projection: " << std::endl;
   for (size_t i = 0; i < cloud->points.size (); ++i)
-    std::cerr << "    " << cloud->points[i].x << " " 
-                        << cloud->points[i].y << " " 
+    std::cerr << "    " << cloud->points[i].x << " "
+                        << cloud->points[i].y << " "
                         << cloud->points[i].z << std::endl;
 
   // Create a set of planar coefficients with X=Y=0,Z=1
@@ -44,8 +44,8 @@ int
 
   std::cerr << "Cloud after projection: " << std::endl;
   for (size_t i = 0; i < cloud_projected->points.size (); ++i)
-    std::cerr << "    " << cloud_projected->points[i].x << " " 
-                        << cloud_projected->points[i].y << " " 
+    std::cerr << "    " << cloud_projected->points[i].x << " "
+                        << cloud_projected->points[i].y << " "
                         << cloud_projected->points[i].z << std::endl;
 
   return (0);

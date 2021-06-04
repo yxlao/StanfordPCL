@@ -50,7 +50,7 @@ findCorrespondences (const CloudPtr &src,
   CorrespondenceEstimationBackProjection<PointT, PointT, PointT> est;
   est.setInputSource (src);
   est.setInputTarget (tgt);
-  
+
   est.setSourceNormals (src);
   est.setTargetNormals (tgt);
   est.setKSearch (10);
@@ -71,7 +71,7 @@ rejectBadCorrespondences (const CorrespondencesPtr &all_correspondences,
 
   rej.getCorrespondences (remaining_correspondences);
   return;
-  
+
   CorrespondencesPtr remaining_correspondences_temp (new Correspondences);
   rej.getCorrespondences (*remaining_correspondences_temp);
   PCL_DEBUG ("[rejectBadCorrespondences] Number of correspondences remaining after rejection: %d\n", remaining_correspondences_temp->size ());
@@ -116,7 +116,7 @@ view (const CloudConstPtr &src, const CloudConstPtr &tgt, const CorrespondencesP
   vis->setPointCloudRenderingProperties (PCL_VISUALIZER_POINT_SIZE, 6, "source");
   TicToc tt;
   tt.tic ();
-  if (!vis->updateCorrespondences<PointT> (src, tgt, *correspondences, 1)) 
+  if (!vis->updateCorrespondences<PointT> (src, tgt, *correspondences, 1))
     vis->addCorrespondences<PointT> (src, tgt, *correspondences, 1, "correspondences");
   tt.toc_print ();
   vis->setShapeRenderingProperties (PCL_VISUALIZER_LINE_WIDTH, 5, "correspondences");
@@ -126,11 +126,11 @@ view (const CloudConstPtr &src, const CloudConstPtr &tgt, const CorrespondencesP
 
 ////////////////////////////////////////////////////////////////////////////////
 void
-icp (const PointCloud<PointT>::Ptr &src, 
+icp (const PointCloud<PointT>::Ptr &src,
      const PointCloud<PointT>::Ptr &tgt,
      Eigen::Matrix4d &transform)
 {
-  CorrespondencesPtr all_correspondences (new Correspondences), 
+  CorrespondencesPtr all_correspondences (new Correspondences),
                      good_correspondences (new Correspondences);
 
   PointCloud<PointT>::Ptr output (new PointCloud<PointT>);
@@ -159,8 +159,8 @@ icp (const PointCloud<PointT>::Ptr &src,
 
     // Find transformation
     findTransformation (output, tgt, good_correspondences, transform);
- 
-    // Obtain the final transformation    
+
+    // Obtain the final transformation
     final_transform = transform * final_transform;
 
     // Transform the data
@@ -168,7 +168,7 @@ icp (const PointCloud<PointT>::Ptr &src,
 
     // Check if convergence has been reached
     ++iterations;
-  
+
     // Visualize the results
     view (output, tgt, good_correspondences);
   }
@@ -184,7 +184,7 @@ saveTransform (const std::string &file, const Eigen::Matrix4d &transform)
   ofs.open (file.c_str (), ios::trunc | ios::binary);
   for (int i = 0; i < 4; ++i)
     for (int j = 0; j < 4; ++j)
-      ofs.write (reinterpret_cast<const char*>(&transform (i, j)), sizeof (double));  
+      ofs.write (reinterpret_cast<const char*>(&transform (i, j)), sizeof (double));
   ofs.close ();
 }
 
@@ -219,7 +219,7 @@ main (int argc, char** argv)
     print_error ("Example: %s source.pcd target.pcd output.transform\n", argv[0]);
     return (-1);
   }
-  
+
   // Load the files
   print_info ("Loading %s as source and %s as target...\n", argv[p_pcd_file_indices[0]], argv[p_pcd_file_indices[1]]);
   src.reset (new PointCloud<PointT>);

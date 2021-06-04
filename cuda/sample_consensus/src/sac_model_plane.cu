@@ -51,9 +51,9 @@ namespace pcl
   namespace cuda
   {
     //////////////////////////////////////////////////////////////////////////
-    template <template <typename> class Storage> 
+    template <template <typename> class Storage>
     SampleConsensusModelPlane<Storage>::SampleConsensusModelPlane (
-        const PointCloudConstPtr &cloud) : 
+        const PointCloudConstPtr &cloud) :
       SampleConsensusModel<Storage> (cloud)
     {
     }
@@ -107,8 +107,8 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////
-    template <template <typename> class Storage> 
-    //template <typename Tuple> 
+    template <template <typename> class Storage>
+    //template <typename Tuple>
     float4
     CreatePlaneHypothesis<Storage>::operator () (int t)
     {
@@ -167,22 +167,22 @@ namespace pcl
       h.resize (max_iterations);
 
       typename Storage<int>::type randoms (max_iterations);
-      // a sequence counting up from 0 
-      thrust::counting_iterator<int> index_sequence_begin (0); 
-      // transform the range [0,1,2,...N] 
-      // to a range of random numbers 
-      thrust::transform (index_sequence_begin, 
-                         index_sequence_begin + max_iterations, 
-                         randoms.begin (), 
+      // a sequence counting up from 0
+      thrust::counting_iterator<int> index_sequence_begin (0);
+      // transform the range [0,1,2,...N]
+      // to a range of random numbers
+      thrust::transform (index_sequence_begin,
+                         index_sequence_begin + max_iterations,
+                         randoms.begin (),
                          parallel_random_generator ((int) time (0)));
-      
+
       thrust::counting_iterator<int> first (0);
       // Input: Point Cloud, Indices
       // Output: Hypotheses
       transform (//first, first + max_iterations,
                  randoms.begin (), randoms.begin () + max_iterations,
-                 h.begin (), 
-                 CreatePlaneHypothesis<Storage> (thrust::raw_pointer_cast (&input_->points[0]), 
+                 h.begin (),
+                 CreatePlaneHypothesis<Storage> (thrust::raw_pointer_cast (&input_->points[0]),
                                                  thrust::raw_pointer_cast (&(*indices_)[0]),
                                                  (int) indices_->size (), std::numeric_limits<float>::quiet_NaN ()));
       return (true);
@@ -244,7 +244,7 @@ namespace pcl
 
       return (int) count_if (
           make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())),
-          make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())) + 
+          make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())) +
                              indices_->size (),
           CountPlanarInlier (coefficients, threshold));
     }
@@ -260,7 +260,7 @@ namespace pcl
       return (int)
         (thrust::count_if (
           thrust::make_zip_iterator (thrust::make_tuple (input_->points.begin (), indices_->begin ())),
-          thrust::make_zip_iterator (thrust::make_tuple (input_->points.begin (), indices_->begin ())) + 
+          thrust::make_zip_iterator (thrust::make_tuple (input_->points.begin (), indices_->begin ())) +
                              indices_->size (),
           CountPlanarInlier (h[idx], threshold)));
     }
@@ -294,9 +294,9 @@ namespace pcl
       // Send the data to the device
       transform (
           make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())),
-          make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())) + 
+          make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())) +
                              nr_points,
-          inliers_stencil->begin (), 
+          inliers_stencil->begin (),
           CheckPlanarInlier (coefficients, threshold));
 
       if (!inliers)
@@ -306,7 +306,7 @@ namespace pcl
       typename Indices::iterator it = copy_if (inliers_stencil->begin (), inliers_stencil->end (), inliers->begin (), isInlier ());
       // Copy data
       //it = remove_copy (inliers_stencil->begin (), inliers_stencil->end (), inliers->begin (), -1);
-      
+
       inliers->resize (it - inliers->begin ());
       return (int) inliers->size();
     }
@@ -341,9 +341,9 @@ namespace pcl
       // Send the data to the device
       transform (
           make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())),
-          make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())) + 
+          make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())) +
                              nr_points,
-          inliers_stencil->begin (), 
+          inliers_stencil->begin (),
           CheckPlanarInlier (coefficients, threshold));
 
       if (!inliers)
@@ -384,9 +384,9 @@ namespace pcl
 
       transform (
           make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())),
-          make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())) + 
+          make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())) +
                              nr_points,
-          inliers_stencil->begin (), 
+          inliers_stencil->begin (),
           CheckPlanarInlier (coefficients, threshold));
       return nr_points - (int) thrust::count (inliers_stencil->begin (), inliers_stencil->end (), -1);
     }

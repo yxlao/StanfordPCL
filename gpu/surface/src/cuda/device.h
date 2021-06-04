@@ -51,7 +51,7 @@ namespace pcl
       * \param[in] v2 3D point volume tsdf volume container
       * \param[in] p point for sign check of plane coefs (should lie in positive subspace)
       * \return a,b,c,d coefs vector
-      */ 
+      */
     __device__ __host__ __forceinline__
     float4 compute_plane(const float3& v, const float3& v1, const float3& v2, const float3& p)
     {
@@ -82,7 +82,7 @@ namespace pcl
     __device__ __host__ __forceinline__ float compue_inv_normal_norm(const float4& p) { return 1.f/sqrt(p.x*p.x + p.y*p.y + p.z*p.z); }
 
 
-    __device__ __host__ __forceinline__ float4& operator*=(float4& p, float v) { p.x*=v; p.y*=v; p.z*=v; p.w*=v; return p; }    
+    __device__ __host__ __forceinline__ float4& operator*=(float4& p, float v) { p.x*=v; p.y*=v; p.z*=v; p.w*=v; return p; }
 
   }
 };

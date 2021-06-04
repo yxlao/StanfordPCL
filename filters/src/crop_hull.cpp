@@ -34,7 +34,7 @@
   *  POSSIBILITY OF SUCH DAMAGE.
   *
   */
-  
+
 #include <pcl/impl/instantiate.hpp>
 #include <pcl/point_types.h>
 #include <pcl/filters/crop_hull.h>

@@ -49,7 +49,7 @@ The lines:
    :lines: 12-29
 
 fill in the PointCloud structure with random point values, and set the appropriate parameters (width, height, is_dense).  Also, they output the number of points saved, and their actual data values.
-   
+
 Then:
 
 .. literalinclude:: sources/iterative_closest_point/iterative_closest_point.cpp

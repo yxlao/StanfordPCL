@@ -38,8 +38,8 @@
 #include <pcl/common/intersections.h>
 
 bool
-pcl::lineWithLineIntersection (const Eigen::VectorXf &line_a, 
-                               const Eigen::VectorXf &line_b, 
+pcl::lineWithLineIntersection (const Eigen::VectorXf &line_a,
+                               const Eigen::VectorXf &line_b,
                                Eigen::Vector4f &point, double sqr_eps)
 {
   Eigen::Vector4f p1, p2;
@@ -57,8 +57,8 @@ pcl::lineWithLineIntersection (const Eigen::VectorXf &line_a,
 }
 
 bool
-pcl::lineWithLineIntersection (const pcl::ModelCoefficients &line_a, 
-                               const pcl::ModelCoefficients &line_b, 
+pcl::lineWithLineIntersection (const pcl::ModelCoefficients &line_a,
+                               const pcl::ModelCoefficients &line_b,
                                Eigen::Vector4f &point, double sqr_eps)
 {
   Eigen::VectorXf coeff1 = Eigen::VectorXf::Map (&line_a.values[0], line_a.values.size ());
@@ -66,8 +66,8 @@ pcl::lineWithLineIntersection (const pcl::ModelCoefficients &line_a,
   return (lineWithLineIntersection (coeff1, coeff2, point, sqr_eps));
 }
 
-bool 
-pcl::planeWithPlaneIntersection (const Eigen::Vector4f &plane_a, 
+bool
+pcl::planeWithPlaneIntersection (const Eigen::Vector4f &plane_a,
                                  const Eigen::Vector4f &plane_b,
                                  Eigen::VectorXf &line,
                                  double angular_tolerance)
@@ -111,4 +111,4 @@ pcl::planeWithPlaneIntersection (const Eigen::Vector4f &plane_a,
   line[4] = line_direction[1];
   line[5] = line_direction[2];
   return true;
-} 
+}

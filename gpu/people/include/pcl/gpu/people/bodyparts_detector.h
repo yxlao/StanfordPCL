@@ -30,7 +30,7 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- * 
+ *
  * @author: Koen Buys, Anatoly Baksheev
  */
 
@@ -65,9 +65,9 @@ namespace pcl
       class PCL_EXPORTS RDFBodyPartsDetector
       {
         public:
-          typedef boost::shared_ptr<RDFBodyPartsDetector> Ptr;          
+          typedef boost::shared_ptr<RDFBodyPartsDetector> Ptr;
           typedef std::vector<std::vector<Blob2, Eigen::aligned_allocator<Blob2> > > BlobMatrix;
-          
+
           typedef DeviceArray2D<unsigned char> Labels;
           typedef DeviceArray2D<unsigned short> Depth;
           typedef DeviceArray2D<pcl::RGB> Image;
@@ -113,7 +113,7 @@ namespace pcl
           size_t getNumberTrees() const;
           const BlobMatrix& getBlobMatrix() const;
 
-          
+
           /** \brief This contains the final body part labels **/
           Labels labels_;
           /** \brief This contains the smoothed final body part labels **/
@@ -131,7 +131,7 @@ namespace pcl
 
         private:
           boost::shared_ptr<device::MultiTreeLiveProc> impl_;
-          
+
           int max_cluster_size_;
           float cluster_tolerance_;
 

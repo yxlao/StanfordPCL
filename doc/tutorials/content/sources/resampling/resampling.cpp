@@ -8,7 +8,7 @@ main (int argc, char** argv)
 {
   // Load input file into a PointCloud<T> with an appropriate type
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ> ());
-  // Load bun0.pcd -- should be available with the PCL archive in test 
+  // Load bun0.pcd -- should be available with the PCL archive in test
   pcl::io::loadPCDFile ("bun0.pcd", *cloud);
 
   // Create a KD-Tree
@@ -19,7 +19,7 @@ main (int argc, char** argv)
 
   // Init object (second point type is for the normals, even if unused)
   pcl::MovingLeastSquares<pcl::PointXYZ, pcl::PointNormal> mls;
- 
+
   mls.setComputeNormals (true);
 
   // Set parameters

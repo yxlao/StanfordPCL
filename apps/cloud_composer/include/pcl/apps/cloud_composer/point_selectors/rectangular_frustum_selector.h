@@ -48,31 +48,31 @@ namespace pcl
 {
   namespace cloud_composer
   {
-      
+
     class PCL_EXPORTS RectangularFrustumSelector : public vtkInteractorStyleRubberBandPick
-    {     
+    {
       public:
         static RectangularFrustumSelector* New();
         vtkTypeMacro(RectangularFrustumSelector,vtkInteractorStyleRubberBandPick);
-        
+
         RectangularFrustumSelector ();
-        
+
         virtual ~RectangularFrustumSelector ();
-               
+
         /** \brief Pass a pointer to the actor map
           * \param[in] actors the actor map that will be used with this style
           */
-        inline void 
+        inline void
         setCloudActorMap (const pcl::visualization::CloudActorMapPtr &actors) { actors_ = actors; }
 
         /** \brief Get the cloud actor map pointer. */
-        inline pcl::visualization::CloudActorMapPtr 
+        inline pcl::visualization::CloudActorMapPtr
         getCloudActorMap () const { return (actors_); }
 
-        /** \brief Pass a set of renderers to the interactor style. 
+        /** \brief Pass a set of renderers to the interactor style.
           * \param[in] rens the vtkRendererCollection to use
           */
-        void 
+        void
         setRendererCollection (vtkSmartPointer<vtkRendererCollection> &rens) { renderers_ = rens; }
 
         /** \brief Function called on left mouse button release, ie, end of rectangular drag */
@@ -83,18 +83,17 @@ namespace pcl
         int selection_complete_event_;
       private:
 
-        
+
         /** \brief Actor map stored internally. */
         pcl::visualization::CloudActorMapPtr actors_;
-        
+
         /** \brief Collection of vtkRenderers stored internally. */
         vtkSmartPointer<vtkRendererCollection> renderers_;
     };
-    
+
   }
-  
+
 }
 
 #endif // RECTANGULAR_FRUSTRUM_SELECTOR_H_
-        
-        
+

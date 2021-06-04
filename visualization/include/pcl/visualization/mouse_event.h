@@ -77,48 +77,48 @@ namespace pcl
           * \param[in] ctrl   whether the CTRL key was pressed at that time where event got fired
           * \param[in] shift  whether the Shift key was pressed at that time where event got fired
           */
-        inline MouseEvent (const Type& type, const MouseButton& button, 
-                           unsigned int x, unsigned int y, 
+        inline MouseEvent (const Type& type, const MouseButton& button,
+                           unsigned int x, unsigned int y,
                            bool alt, bool ctrl, bool shift);
 
         /**
           * \return type of mouse event
           */
-        inline const Type& 
+        inline const Type&
         getType () const;
 
         /**
           * \brief Sets the mouse event type
           */
-        inline void 
+        inline void
         setType (const Type& type);
-        
+
         /**
           * \return the Button that caused the action
           */
-        inline const MouseButton& 
+        inline const MouseButton&
         getButton () const;
 
         /** \brief Set the button that caused the event */
-        inline void 
+        inline void
         setButton (const MouseButton& button);
 
         /**
           * \return the x position of the mouse pointer at that time where the event got fired
           */
-        inline unsigned int 
+        inline unsigned int
         getX () const;
 
         /**
           * \return the y position of the mouse pointer at that time where the event got fired
           */
-        inline unsigned int 
+        inline unsigned int
         getY () const;
 
         /**
           * \return returns the keyboard modifiers state at that time where the event got fired
           */
-        inline unsigned int 
+        inline unsigned int
         getKeyboardModifiers () const;
 
       protected:
@@ -130,7 +130,7 @@ namespace pcl
     };
 
     MouseEvent::MouseEvent (const Type& type, const MouseButton& button,
-                            unsigned x, unsigned y, 
+                            unsigned x, unsigned y,
                             bool alt, bool ctrl, bool shift)
     : type_ (type)
     , button_ (button)
@@ -148,43 +148,43 @@ namespace pcl
         key_state_ |= KeyboardEvent::Shift;
     }
 
-    const MouseEvent::Type& 
+    const MouseEvent::Type&
     MouseEvent::getType () const
     {
       return (type_);
     }
 
-    void 
+    void
     MouseEvent::setType (const Type& type)
     {
       type_ = type;
     }
-    
-    const MouseEvent::MouseButton& 
+
+    const MouseEvent::MouseButton&
     MouseEvent::getButton () const
     {
       return (button_);
     }
 
-    void 
+    void
     MouseEvent::setButton (const MouseButton& button)
     {
       button_ = button;
     }
-    
-    unsigned int 
+
+    unsigned int
     MouseEvent::getX () const
     {
       return (pointer_x_);
     }
 
-    unsigned int 
+    unsigned int
     MouseEvent::getY () const
     {
       return (pointer_y_);
     }
 
-    unsigned int 
+    unsigned int
     MouseEvent::getKeyboardModifiers () const
     {
       return (key_state_);

@@ -97,7 +97,7 @@ pcl::registration::CorrespondenceEstimation<PointSource, PointTarget>::determine
   std::vector<float> distance (1);
   pcl::Correspondence corr;
   unsigned int nr_valid_correspondences = 0;
-  
+
   // Check if the template types are the same. If true, avoid a copy.
   // Both point types MUST be registered using the POINT_CLOUD_REGISTER_POINT_STRUCT macro!
   if (isSamePointType<PointSource, PointTarget> ())
@@ -118,13 +118,13 @@ pcl::registration::CorrespondenceEstimation<PointSource, PointTarget>::determine
   else
   {
     PointTarget pt;
-    
+
     // Iterate over the input set of source indices
     for (std::vector<int>::const_iterator idx = indices_->begin (); idx != indices_->end (); ++idx)
     {
       // Copy the source data to a target PointTarget format so we can search in the tree
       pcl::for_each_type <FieldListTarget> (pcl::NdConcatenateFunctor <PointSource, PointTarget> (
-            input_->points[*idx], 
+            input_->points[*idx],
             pt));
 
       tree_->nearestKSearch (pt, 1, index, distance);
@@ -148,11 +148,11 @@ pcl::registration::CorrespondenceEstimation<PointSource, PointTarget>::determine
 {
   if (!initCompute ())
     return;
-  
+
   typedef typename pcl::traits::fieldList<PointSource>::type FieldListSource;
   typedef typename pcl::traits::fieldList<PointTarget>::type FieldListTarget;
   typedef typename pcl::intersect<FieldListSource, FieldListTarget>::type FieldList;
-  
+
   // setup tree for reciprocal search
   pcl::KdTreeFLANN<PointSource> tree_reciprocal;
   // Set the internal point representation of choice
@@ -199,13 +199,13 @@ pcl::registration::CorrespondenceEstimation<PointSource, PointTarget>::determine
   {
     PointTarget pt_src;
     PointSource pt_tgt;
-   
+
     // Iterate over the input set of source indices
     for (std::vector<int>::const_iterator idx = indices_->begin (); idx != indices_->end (); ++idx)
     {
       // Copy the source data to a target PointTarget format so we can search in the tree
       pcl::for_each_type <FieldList> (pcl::NdConcatenateFunctor <PointSource, PointTarget> (
-            input_->points[*idx], 
+            input_->points[*idx],
             pt_src));
 
       tree_->nearestKSearch (pt_src, 1, index, distance);

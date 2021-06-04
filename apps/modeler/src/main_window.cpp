@@ -73,7 +73,7 @@ pcl::modeler::MainWindow::~MainWindow()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::MainWindow::connectFileMenuActions()
 {
   connect(ui_->actionOpenPointCloud, SIGNAL(triggered()), ui_->scene_tree_, SLOT(slotOpenPointCloud()));
@@ -92,7 +92,7 @@ pcl::modeler::MainWindow::connectFileMenuActions()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::MainWindow::connectViewMenuActions()
 {
   connect(ui_->actionCreateRenderWindow, SIGNAL(triggered()), this, SLOT(slotCreateRenderWindow()));
@@ -100,7 +100,7 @@ pcl::modeler::MainWindow::connectViewMenuActions()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::MainWindow::connectEditMenuActions()
 {
   connect(ui_->actionICPRegistration, SIGNAL(triggered()), ui_->scene_tree_, SLOT(slotICPRegistration()));
@@ -111,21 +111,21 @@ pcl::modeler::MainWindow::connectEditMenuActions()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::MainWindow::slotOpenProject()
 {
 
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::MainWindow::slotSaveProject()
 {
 
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::MainWindow::slotCloseProject()
 {
 
@@ -176,7 +176,7 @@ pcl::modeler::MainWindow::slotCreateRenderWindow()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::MainWindow::slotOpenRecentPointCloud()
 {
   QAction* action = qobject_cast<QAction*>(sender());
@@ -187,7 +187,7 @@ pcl::modeler::MainWindow::slotOpenRecentPointCloud()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::MainWindow::slotOpenRecentProject()
 {
   QAction* action = qobject_cast<QAction*>(sender());
@@ -198,7 +198,7 @@ pcl::modeler::MainWindow::slotOpenRecentProject()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::MainWindow::createRecentPointCloudActions()
 {
   for (size_t i = 0; i < MAX_RECENT_NUMBER; ++ i)
@@ -213,7 +213,7 @@ pcl::modeler::MainWindow::createRecentPointCloudActions()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::MainWindow::updateRecentPointCloudActions()
 {
   updateRecentActions(recent_pointcloud_actions_, recent_files_);
@@ -222,7 +222,7 @@ pcl::modeler::MainWindow::updateRecentPointCloudActions()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::MainWindow::createRecentProjectActions()
 {
   for (size_t i = 0; i < MAX_RECENT_NUMBER; ++ i)
@@ -237,7 +237,7 @@ pcl::modeler::MainWindow::createRecentProjectActions()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::MainWindow::updateRecentProjectActions()
 {
   updateRecentActions(recent_project_actions_, recent_projects_);
@@ -246,14 +246,14 @@ pcl::modeler::MainWindow::updateRecentProjectActions()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 pcl::modeler::MainWindow::openProjectImpl (const QString&)
 {
   return (true);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::MainWindow::updateRecentActions (std::vector<boost::shared_ptr<QAction> >& recent_actions, QStringList& recent_items)
 {
   QMutableStringListIterator recent_items_it (recent_items);
@@ -281,7 +281,7 @@ pcl::modeler::MainWindow::updateRecentActions (std::vector<boost::shared_ptr<QAc
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-QString 
+QString
 pcl::modeler::MainWindow::getRecentFolder()
 {
   QString recent_filename;
@@ -297,7 +297,7 @@ pcl::modeler::MainWindow::getRecentFolder()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::MainWindow::loadGlobalSettings()
 {
   QSettings global_settings("PCL", "Modeler");
@@ -312,7 +312,7 @@ pcl::modeler::MainWindow::loadGlobalSettings()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::MainWindow::saveGlobalSettings()
 {
   QSettings global_settings("PCL", "Modeler");
@@ -325,14 +325,14 @@ pcl::modeler::MainWindow::saveGlobalSettings()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::MainWindow::slotOnWorkerStarted()
 {
   statusBar()->showMessage(QString("Working thread running..."));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::MainWindow::slotOnWorkerFinished()
 {
   statusBar()->showMessage(QString("Working thread finished..."));

@@ -37,7 +37,7 @@ The interesting part begins here:
   narf_keypoint_detector.getParameters ().support_size = support_size;
   //narf_keypoint_detector.getParameters ().add_points_on_straight_edges = true;
   //narf_keypoint_detector.getParameters ().distance_for_additional_points = 0.5;
-  
+
   pcl::PointCloud<int> keypoint_indices;
   narf_keypoint_detector.compute (keypoint_indices);
   std::cout << "Found "<<keypoint_indices.points.size ()<<" key points.\n";
@@ -55,7 +55,7 @@ if you want. Next we create the object where the indices of the determined
 keypoints will be saved and compute them. In the last step we output the number
 of found keypoints.
 
-The remaining code just visualizes the results in a range image widget and also in a 3D viewer. 
+The remaining code just visualizes the results in a range image widget and also in a 3D viewer.
 
 
 Compiling and running the program

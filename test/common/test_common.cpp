@@ -56,8 +56,8 @@ TEST (PCL, PointXYZRGB)
   PointXYZRGB p;
 
   uint8_t r = 127, g = 64, b = 254;
-  uint32_t rgb = (static_cast<uint32_t> (r) << 16 | 
-                  static_cast<uint32_t> (g) << 8 | 
+  uint32_t rgb = (static_cast<uint32_t> (r) << 16 |
+                  static_cast<uint32_t> (g) << 8 |
                   static_cast<uint32_t> (b));
   p.rgb = *reinterpret_cast<float*>(&rgb);
 
@@ -90,8 +90,8 @@ TEST (PCL, PointXYZRGBNormal)
   PointXYZRGBNormal p;
 
   uint8_t r = 127, g = 64, b = 254;
-  uint32_t rgb = (static_cast<uint32_t> (r) << 16 | 
-                  static_cast<uint32_t> (g) << 8 | 
+  uint32_t rgb = (static_cast<uint32_t> (r) << 16 |
+                  static_cast<uint32_t> (g) << 8 |
                   static_cast<uint32_t> (b));
   p.rgb = *reinterpret_cast<float*>(&rgb);
 
@@ -219,7 +219,7 @@ TEST (PCL, PointCloud)
     EXPECT_EQ (mat_xyz (0, 0), 0);
     EXPECT_EQ (mat_xyz (2, cloud.width - 1), 3 * cloud.width - 1);    // = 29
   }
-  
+
 #ifdef NDEBUG
   if (Eigen::MatrixXf::Flags & Eigen::RowMajorBit)
   {
@@ -510,7 +510,7 @@ TEST (PCL, compute3DCentroidDouble)
   EXPECT_EQ (centroid [0], 0.0);
   EXPECT_EQ (centroid [1], 1.0);
   EXPECT_EQ (centroid [2], 0.0);
-  
+
   pindices.indices = indices;
   EXPECT_EQ (compute3DCentroid (cloud, indices, centroid), 4);
 
@@ -547,13 +547,13 @@ TEST (PCL, compute3DCentroidCloudIterator)
   indices [3] = 7;
 
   ConstCloudIterator<PointXYZ> it (cloud, indices);
-  
+
   EXPECT_EQ (compute3DCentroid (it, centroid_f), 4);
 
   EXPECT_EQ (centroid_f[0], 0.0f);
   EXPECT_EQ (centroid_f[1], 1.0f);
   EXPECT_EQ (centroid_f[2], 0.0f);
-  
+
   Eigen::Vector4d centroid_d;
   it.reset ();
   EXPECT_EQ (compute3DCentroid (it, centroid_d), 4);
@@ -1045,7 +1045,7 @@ TEST (PCL, CopyIfFieldExists)
   p.normal_x = 1.0; p.normal_y = 0.0; p.normal_z = 0.0;
 
   typedef pcl::traits::fieldList<PointXYZRGBNormal>::type FieldList;
-  bool is_x = false, is_y = false, is_z = false, is_rgb = false, 
+  bool is_x = false, is_y = false, is_z = false, is_rgb = false,
        is_normal_x = false, is_normal_y = false, is_normal_z = false;
 
   float x_val, y_val, z_val, normal_x_val, normal_y_val, normal_z_val, rgb_val;
@@ -1075,7 +1075,7 @@ TEST (PCL, CopyIfFieldExists)
   pcl::for_each_type<FieldList> (CopyIfFieldExists<PointXYZRGBNormal, float> (p, "normal_z", is_normal_z, normal_z_val));
   EXPECT_EQ (is_normal_z, true);
   EXPECT_EQ (normal_z_val, 0.0);
-  
+
   pcl::for_each_type<FieldList> (CopyIfFieldExists<PointXYZRGBNormal, float> (p, "x", x_val));
   EXPECT_EQ (x_val, 1.0);
 
@@ -1132,7 +1132,7 @@ TEST (PCL, IsSamePointType)
   EXPECT_FALSE (status);
   status = isSamePointType<PointXYZRGB, PointXYZRGB> ();
   EXPECT_TRUE (status);
-  
+
   // Even though it's the "same" type, rgb != rgba
   status = isSamePointType<PointXYZRGB, PointXYZRGBA> ();
   EXPECT_FALSE (status);

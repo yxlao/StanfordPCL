@@ -297,7 +297,7 @@ pcl::octree::OctreePointCloud<PointT, LeafContainerT, BranchContainerT, OctreeT>
                                                                           const double minY_arg,
                                                                           const double minZ_arg,
                                                                           const double maxX_arg,
-                                                                          const double maxY_arg, 
+                                                                          const double maxY_arg,
                                                                           const double maxZ_arg)
 {
   // bounding box cannot be changed once the octree contains elements

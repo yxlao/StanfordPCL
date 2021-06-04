@@ -10,7 +10,7 @@
 #ifndef EIGEN_EULERANGLES_H
 #define EIGEN_EULERANGLES_H
 
-namespace Eigen { 
+namespace Eigen {
 
 /** \geometry_module \ingroup Geometry_Module
   *

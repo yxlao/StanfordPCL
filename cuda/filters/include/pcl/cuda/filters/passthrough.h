@@ -72,8 +72,8 @@ namespace pcl_cuda
     operator () (const PointCloudSOA<Device>::tuple_type& tuple)
     {
       using thrust::get;
-      return (!isfinite (get<0> (tuple)) || 
-              !isfinite (get<1> (tuple)) || 
+      return (!isfinite (get<0> (tuple)) ||
+              !isfinite (get<1> (tuple)) ||
               !isfinite (get<2> (tuple)));
     }
   };
@@ -102,13 +102,13 @@ namespace pcl_cuda
       /** \brief Filter a Point Cloud.
         * \param output the resultant point cloud message
         */
-      void 
+      void
       applyFilter (PointCloud &output)
       {
         std::cerr << "applyFilter" << std::endl;
       }
   };
-  
+
   ///////////////////////////////////////////////////////////////////////////////////////////
   template <>
   class PassThrough<PointCloudAOS<Device> >: public Filter<PointCloudAOS<Device> >
@@ -124,7 +124,7 @@ namespace pcl_cuda
       /** \brief Filter a Point Cloud.
         * \param output the resultant point cloud message
         */
-      void 
+      void
       applyFilter (PointCloud &output)
       {
         // Allocate enough space
@@ -138,7 +138,7 @@ namespace pcl_cuda
         //std::cerr << input_->points.size () << " " << output.points.size () << std::endl;
       }
   };
- 
+
   //////////////////////////////////////////////////////////////////////////////////////////
   template <>
   class PassThrough<PointCloudSOA<Device> >: public Filter<PointCloudSOA<Device> >
@@ -161,7 +161,7 @@ namespace pcl_cuda
       /** \brief Filter a Point Cloud.
         * \param output the resultant point cloud message
         */
-      void 
+      void
       applyFilter (PointCloud &output)
       {
         if (!zip_)
@@ -173,7 +173,7 @@ namespace pcl_cuda
           nr_points = thrust::copy_if (input_->points_y.begin (), input_->points_y.end (), output.points_y.begin (), isFiniteSOA ());
           nr_points = thrust::copy_if (input_->points_z.begin (), input_->points_z.end (), output.points_z.begin (), isFiniteSOA ());
           output.resize (nr_points - output.points_z.begin ());
-        
+
           //std::cerr << "[applyFilterSOA]: ";
           //std::cerr << input_->size () << " " << output.size () << std::endl;
         }

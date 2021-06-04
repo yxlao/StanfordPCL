@@ -64,11 +64,11 @@ printHelp (int, char **argv)
   print_error ("Syntax is: %s input.pcd output.pcd <options>\n", argv[0]);
   print_info ("  where options are:\n");
   print_info ("                     -label = point cloud with labeled objects \n");
-  print_info ("                     -k X = k-means cluster size (default: "); 
+  print_info ("                     -k X = k-means cluster size (default: ");
   print_value ("%d", static_cast<int> (default_cluster_size)); print_info (")\n");
-  print_info ("                     -normal-search X = Normal radius search (default: "); 
+  print_info ("                     -normal-search X = Normal radius search (default: ");
   print_value ("%f", default_normal_radius_search); print_info (")\n");
-  print_info ("                     -fpfh-search X = FPFH radius search (default: "); 
+  print_info ("                     -fpfh-search X = FPFH radius search (default: ");
   print_value ("%f", default_fpfh_radius_search); print_info (")\n");
 }
 
@@ -109,7 +109,7 @@ compute (const CloudT::Ptr &input, std::vector<FeatureT, Eigen::aligned_allocato
 {
   TicToc tt;
   tt.tic ();
-  
+
   print_highlight ("Computing ");
 
   UnaryClassifier<PointT> classifier;
@@ -120,12 +120,12 @@ compute (const CloudT::Ptr &input, std::vector<FeatureT, Eigen::aligned_allocato
   classifier.setLabelField (label);
 
   FeatureT::Ptr feature (new FeatureT);
-  classifier.train (feature);  
+  classifier.train (feature);
   output.push_back (*feature);
 
-  print_info ("[done, "); 
-  print_value ("%g", tt.toc ()); 
-  print_info (" ms : "); print_value ("%d", feature->width * feature->height); 
+  print_info ("[done, ");
+  print_value ("%g", tt.toc ());
+  print_info (" ms : "); print_value ("%d", feature->width * feature->height);
   print_info (" features]\n");
 }
 
@@ -149,12 +149,12 @@ compute (const CloudLT::Ptr &input, std::vector<FeatureT, Eigen::aligned_allocat
   classifier.trainWithLabel (output);
 
   print_highlight ("Computing ");
-  print_info ("[done, "); 
-  print_value ("%g", tt.toc ()); 
-  print_info (" ms , "); 
-  print_value ("%d", output.size ()); 
-  print_info (" objects : "); 
-  print_value ("%d", output[0].width * output[0].height); 
+  print_info ("[done, ");
+  print_value ("%g", tt.toc ());
+  print_info (" ms , ");
+  print_value ("%d", output.size ());
+  print_info (" objects : ");
+  print_value ("%d", output[0].width * output[0].height);
   print_info (" features]\n");
 }
 
@@ -170,10 +170,10 @@ saveCloud (const std::string &filename, std::vector<FeatureT, Eigen::aligned_all
     PCDWriter w;
     w.write (filename, output[0]);
 
-    print_info ("[done, "); 
-    print_value ("%g", tt.toc ()); 
-    print_info (" ms : "); print_value ("%d", output[0].width * output[0].height); 
-    print_info (" features]\n");    
+    print_info ("[done, ");
+    print_value ("%g", tt.toc ());
+    print_info (" ms : "); print_value ("%d", output[0].width * output[0].height);
+    print_info (" features]\n");
   }
   else
   {
@@ -188,12 +188,12 @@ saveCloud (const std::string &filename, std::vector<FeatureT, Eigen::aligned_all
       PCDWriter w;
       w.write (fname, output[i]);
 
-      print_info ("[done, "); 
-      print_value ("%g", tt.toc ()); 
-      print_info (" ms , "); 
-      print_value ("%d", i); 
-      print_info (" objects : "); 
-      print_value ("%d", output[i].width * output[i].height); 
+      print_info ("[done, ");
+      print_value ("%g", tt.toc ());
+      print_info (" ms , ");
+      print_value ("%d", i);
+      print_info (" objects : ");
+      print_value ("%d", output[i].width * output[i].height);
       print_info (" features]\n");
     }
   }
@@ -230,9 +230,9 @@ main (int argc, char** argv)
     {
       print_error ("Need one input PCD file and one output file name to continue.\n");
       return (-1);
-    }    
+    }
   }
-  
+
   // parse optional input arguments from the command line
   unsigned int k = default_cluster_size;
   float normal_radius_search = static_cast<float> (default_normal_radius_search);
@@ -253,17 +253,17 @@ main (int argc, char** argv)
   {
     // Load the input file
     CloudT::Ptr cloud (new CloudT);
-    if (!loadCloud (argv[p_file_indices[0]], cloud)) 
+    if (!loadCloud (argv[p_file_indices[0]], cloud))
       return (-1);
-    
+
     // compute the features
     compute (cloud, features, k, normal_radius_search, fpfh_radius_search, label);
   }
   else
   {
-    // Load the input file  
+    // Load the input file
     CloudLT::Ptr cloudL (new CloudLT);
-    if (!loadCloud (argv[p_file_indices[0]], cloudL)) 
+    if (!loadCloud (argv[p_file_indices[0]], cloudL))
       return (-1);
 
     // compute the features

@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2011, Willow Garage, Inc.
- * 
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -85,7 +85,7 @@ namespace pcl
       {
         int x = threadIdx.x + blockIdx.x * CTA_SIZE_X;
         int y = threadIdx.y + blockIdx.y * CTA_SIZE_Y;
-       
+
 #if __CUDA_ARCH__ < 200
         __shared__ int cta_buffer[CTA_SIZE];
 #endif
@@ -93,8 +93,8 @@ namespace pcl
 #if __CUDA_ARCH__ >= 120
         if (__all (x >= VOLUME_X) || __all (y >= VOLUME_Y))
           return;
-#else         
-        if (Emulation::All(x >= VOLUME_X, cta_buffer) || 
+#else
+        if (Emulation::All(x >= VOLUME_X, cta_buffer) ||
             Emulation::All(y >= VOLUME_Y, cta_buffer))
             return;
 #endif
@@ -275,7 +275,7 @@ namespace pcl
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 size_t
-pcl::device::extractCloud (const PtrStep<short2>& volume, const float3& volume_size, 
+pcl::device::extractCloud (const PtrStep<short2>& volume, const float3& volume_size,
                            PtrSz<PointType> output)
 {
   FullScan6 fs;
@@ -435,7 +435,7 @@ namespace pcl
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template<typename NormalType> void
-pcl::device::extractNormals (const PtrStep<short2>& volume, const float3& volume_size, 
+pcl::device::extractNormals (const PtrStep<short2>& volume, const float3& volume_size,
                              const PtrSz<PointType>& points, NormalType* output)
 {
   ExtractNormals<NormalType> en;
@@ -590,7 +590,7 @@ namespace pcl
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void
-pcl::device::extractNormalsInSpace (const PtrStep<short2>& volume, const float3& volume_size, 
+pcl::device::extractNormalsInSpace (const PtrStep<short2>& volume, const float3& volume_size,
                              const PtrSz<PointType>& points)
 {
   ExtractNormalsInSpace en;

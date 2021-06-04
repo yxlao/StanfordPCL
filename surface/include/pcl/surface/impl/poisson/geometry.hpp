@@ -412,7 +412,7 @@ namespace pcl {
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////
-    template<class Real> int 
+    template<class Real> int
     Triangulation<Real>::factor (const int& tIndex, int& p1, int& p2, int& p3)
     {
       if (triangles[tIndex].eIndex[0]<0 || triangles[tIndex].eIndex[1]<0 || triangles[tIndex].eIndex[2]<0)

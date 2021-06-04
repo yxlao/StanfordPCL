@@ -2,12 +2,12 @@
  * Demo program for simulation library
  * A virtual camera generates simulated point clouds
  * No visual output, point clouds saved to file
- * 
+ *
  * three different demo modes:
  * 0 - static camera, 100 poses
  * 1 - circular camera flying around the scene, 16 poses
  * 2 - camera translates between 2 poses using slerp, 20 poses
- * pcl_sim_terminal_demo 2 ../../../../kmcl/models/table_models/meta_model.ply  
+ * pcl_sim_terminal_demo 2 ../../../../kmcl/models/table_models/meta_model.ply
  */
 
 #include <Eigen/Dense>
@@ -150,7 +150,7 @@ void write_depth_image(const float* depth_buffer)
 
       int pval = t_gamma[kd];
       int lb = pval & 0xff;
-      switch (pval>>8) 
+      switch (pval>>8)
       {
         case 0:
             depth_img[3*i+2] = 255;
@@ -272,7 +272,7 @@ void capture (Eigen::Isometry3d pose_in, string point_cloud_fname)
   delete [] reference;
 
 
-  // Benchmark Values for sim_terminal_demo ( march 27 2012): >>> used PolygonMeshModel<< 
+  // Benchmark Values for sim_terminal_demo ( march 27 2012): >>> used PolygonMeshModel<<
   // 27840 triangle faces
   // 13670 vertices
 
@@ -305,7 +305,7 @@ void capture (Eigen::Isometry3d pose_in, string point_cloud_fname)
     range_likelihood_->getColorBuffer ();
     range_likelihood_->getDepthBuffer ();
 
-    // Add noise directly to the CPU depth buffer 
+    // Add noise directly to the CPU depth buffer
     range_likelihood_->addNoise ();
 
     // Optional argument to save point cloud in global frame:
@@ -325,9 +325,9 @@ void capture (Eigen::Isometry3d pose_in, string point_cloud_fname)
   }
   if (demo_other_stuff && write_cloud)
   {
-    write_score_image (range_likelihood_->getScoreBuffer ());  
-    write_rgb_image (range_likelihood_->getColorBuffer ());  
-    write_depth_image (range_likelihood_->getDepthBuffer ());  
+    write_score_image (range_likelihood_->getScoreBuffer ());
+    write_rgb_image (range_likelihood_->getColorBuffer ());
+    write_depth_image (range_likelihood_->getDepthBuffer ());
 
     // Demo interacton with RangeImage:
     pcl::RangeImagePlanar rangeImage;
@@ -401,7 +401,7 @@ generate_halo(
     double x = halo_r*cos(t);
     double y = halo_r*sin(t);
     double z = halo_dz;
-    double pitch =atan2( halo_dz,halo_r); 
+    double pitch =atan2( halo_dz,halo_r);
     double yaw = atan2(-y,-x);
 
     Eigen::Isometry3d pose;
@@ -413,7 +413,7 @@ generate_halo(
     Vector3d v(x,y,z);
     v += focus_center;
     pose.translation() = v;
-    poses.push_back(pose);  
+    poses.push_back(pose);
   }
   return ;//poses;
 }
@@ -433,7 +433,7 @@ main (int argc, char** argv)
     printHelp (argc, argv);
     return (-1);
   }
-  int mode=atoi(argv[1]); 
+  int mode=atoi(argv[1]);
 
   for (int i=0; i<2048; i++)
   {
@@ -484,8 +484,8 @@ main (int argc, char** argv)
   initialize (argc, argv);
 
   // simulation mode:
-  // 0 100 fixed poses 
-  // 1 a 'halo' camera 
+  // 0 100 fixed poses
+  // 1 a 'halo' camera
   // 2 slerp between two different poses
   std::vector<Eigen::Isometry3d, Eigen::aligned_allocator<Eigen::Isometry3d> > poses;
   if (mode==0)
@@ -495,14 +495,14 @@ main (int argc, char** argv)
     pose.setIdentity();
     Matrix3d m;
     //ypr:
-    m = AngleAxisd(-9.14989, Vector3d::UnitZ())     * AngleAxisd(0.20944, Vector3d::UnitY())    * AngleAxisd(0, Vector3d::UnitX());  
+    m = AngleAxisd(-9.14989, Vector3d::UnitZ())     * AngleAxisd(0.20944, Vector3d::UnitY())    * AngleAxisd(0, Vector3d::UnitX());
     pose *= m;
     Vector3d v;
     v << 1.31762, 0.382931, 1.89533;
-    pose.translation() = v;  
+    pose.translation() = v;
     for (int i=0;i< 100;i++)
     { // duplicate the pose 100 times
-      poses.push_back(pose); 
+      poses.push_back(pose);
     }
   }
   else if(mode==1)
@@ -531,7 +531,7 @@ main (int argc, char** argv)
     int n_poses = 20;
     for (double i=0; i<=1;i+= 1/((double) n_poses -1) )
     {
-      Eigen::Quaterniond rot3; 
+      Eigen::Quaterniond rot3;
       Eigen::Quaterniond r1(pose1.rotation());
       Eigen::Quaterniond r2(pose2.rotation());
       rot3 = r1.slerp(i,r2);

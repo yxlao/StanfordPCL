@@ -9,7 +9,7 @@
 #include <pcl/features/fpfh.h>
 #include <pcl/features/vfh.h>
 #include <pcl/search/kdtree.h>
-/* Use NormalEstimation to estimate a cloud's surface normals 
+/* Use NormalEstimation to estimate a cloud's surface normals
  * Inputs:
  *   input
  *     The input point cloud
@@ -72,17 +72,17 @@ detectKeypoints (const PointCloudPtr & points, const SurfaceNormalsPtr & normals
  *   keypoints
  *     A cloud of keypoints specifying the positions at which the descriptors should be computed
  *   feature_radius
- *     The size of the neighborhood from which the local descriptors will be computed 
+ *     The size of the neighborhood from which the local descriptors will be computed
  * Return: A pointer to a LocalDescriptors (a cloud of LocalDescriptorT points)
  */
 LocalDescriptorsPtr
-computeLocalDescriptors (const PointCloudPtr & points, const SurfaceNormalsPtr & normals, 
+computeLocalDescriptors (const PointCloudPtr & points, const SurfaceNormalsPtr & normals,
                          const PointCloudPtr & keypoints, float feature_radius)
 {
   pcl::FPFHEstimation<PointT, NormalT, LocalDescriptorT> fpfh_estimation;
   fpfh_estimation.setSearchMethod (pcl::search::Search<PointT>::Ptr (new pcl::search::KdTree<PointT>));
   fpfh_estimation.setRadiusSearch (feature_radius);
-  fpfh_estimation.setSearchSurface (points);  
+  fpfh_estimation.setSearchSurface (points);
   fpfh_estimation.setInputNormals (normals);
   fpfh_estimation.setInputCloud (keypoints);
   LocalDescriptorsPtr local_descriptors (new LocalDescriptors);
@@ -122,7 +122,7 @@ struct ObjectFeatures
   GlobalDescriptorsPtr global_descriptor;
 };
 
-/* Estimate normals, detect keypoints, and compute local and global descriptors 
+/* Estimate normals, detect keypoints, and compute local and global descriptors
  * Return: An ObjectFeatures struct containing all the features
  */
 ObjectFeatures

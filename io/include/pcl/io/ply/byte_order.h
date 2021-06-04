@@ -32,7 +32,7 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- *  
+ *
  * $Id: byte_order.h 7013 2012-08-29 12:54:58Z jspricke $
  *
  */
@@ -67,7 +67,7 @@ namespace pcl
 #endif
         network_byte_order = big_endian_byte_order
       };
-      
+
       template <std::size_t N>
       void swap_byte_order (char* bytes);
 
@@ -86,7 +86,7 @@ namespace pcl
         std::swap (bytes[0], bytes[3]);
         std::swap (bytes[1], bytes[2]);
       }
-      
+
       template <>
         inline void swap_byte_order<8> (char* bytes)
       {
@@ -95,7 +95,7 @@ namespace pcl
         std::swap (bytes[2], bytes[5]);
         std::swap (bytes[3], bytes[4]);
       }
-      
+
       template <typename T>
       void swap_byte_order (T& value)
       {

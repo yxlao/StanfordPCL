@@ -358,7 +358,7 @@ cholmod_dense *cholmod_read_dense
     cholmod_common *Common
 ) ;
 
-cholmod_dense *cholmod_l_read_dense (FILE *, cholmod_common *) ; 
+cholmod_dense *cholmod_l_read_dense (FILE *, cholmod_common *) ;
 
 /* -------------------------------------------------------------------------- */
 /* cholmod_read_matrix: read a sparse or dense matrix from a file */

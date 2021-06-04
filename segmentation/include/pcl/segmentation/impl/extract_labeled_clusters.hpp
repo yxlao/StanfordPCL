@@ -41,11 +41,11 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT> void
-pcl::extractLabeledEuclideanClusters (const PointCloud<PointT> &cloud, 
+pcl::extractLabeledEuclideanClusters (const PointCloud<PointT> &cloud,
                                       const boost::shared_ptr<search::Search<PointT> > &tree,
-                                      float tolerance, 
+                                      float tolerance,
                                       std::vector<std::vector<PointIndices> > &labeled_clusters,
-                                      unsigned int min_pts_per_cluster, 
+                                      unsigned int min_pts_per_cluster,
                                       unsigned int max_pts_per_cluster,
                                       unsigned int)
 {
@@ -119,10 +119,10 @@ pcl::extractLabeledEuclideanClusters (const PointCloud<PointT> &cloud,
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-template <typename PointT> void 
+template <typename PointT> void
 pcl::LabeledEuclideanClusterExtraction<PointT>::extract (std::vector<std::vector<PointIndices> > &labeled_clusters)
 {
-  if (!initCompute () || 
+  if (!initCompute () ||
       (input_ != 0   && input_->points.empty ()) ||
       (indices_ != 0 && indices_->empty ()))
   {

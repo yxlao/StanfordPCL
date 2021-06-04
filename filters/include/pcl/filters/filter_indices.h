@@ -75,8 +75,8 @@ namespace pcl
         * \param[in] extract_removed_indices Set to true if you want to be able to extract the indices of points being removed (default = false).
         */
       FilterIndices (bool extract_removed_indices = false) :
-          negative_ (false), 
-          keep_organized_ (false), 
+          negative_ (false),
+          keep_organized_ (false),
           user_filter_value_ (std::numeric_limits<float>::quiet_NaN ())
       {
         extract_removed_indices_ = extract_removed_indices;
@@ -195,8 +195,8 @@ namespace pcl
         * \param[in] extract_removed_indices Set to true if you want to extract the indices of points being removed (default = false).
         */
       FilterIndices (bool extract_removed_indices = false) :
-          negative_ (false), 
-          keep_organized_ (false), 
+          negative_ (false),
+          keep_organized_ (false),
           user_filter_value_ (std::numeric_limits<float>::quiet_NaN ())
       {
         extract_removed_indices_ = extract_removed_indices;

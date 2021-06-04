@@ -136,7 +136,7 @@ public:
 
 #if defined(ON_DLL_TEMPLATE)
 // This stuff is here because of a limitation in the way Microsoft
-// handles templates and DLLs.  See Microsoft's knowledge base 
+// handles templates and DLLs.  See Microsoft's knowledge base
 // article ID Q168958 for details.
 #pragma warning( push )
 #pragma warning( disable : 4231 )
@@ -244,17 +244,17 @@ public:
     ONX_Model::Write
     ONX_Model::m_crc_error_count
   */
-  bool Read( 
+  bool Read(
          ON_BinaryArchive& archive,
          ON_TextLog* error_log = NULL
          );
 
-  bool Read( 
+  bool Read(
          const char* filename,
          ON_TextLog* error_log = NULL
          );
 
-  bool Read( 
+  bool Read(
          const wchar_t* filename,
          ON_TextLog* error_log = NULL
          );
@@ -262,24 +262,24 @@ public:
   /*
   Description:
     Writes contents of this model to an openNURBS archive.
-    I STRONGLY suggested that you call Polish() before calling 
+    I STRONGLY suggested that you call Polish() before calling
     Write so that your file has all the "fluff" that makes it
     complete.  If the model is not valid, then Write will refuse
     to write it.
   Parameters:
     archive - [in] archive to write to
     version - [in] Version of the openNURBS archive to write.
-                   Must be 2, 3 or 4.  
+                   Must be 2, 3 or 4.
                    Rhino 2.x can read version 2 files.
                    Rhino 3.x can read version 2 and 3 files.
                    Rhino 4.x can read version 2, 3 and 4 files.
                    Use version 4 when possible.
-    sStartSectionComment - [in] 
+    sStartSectionComment - [in]
                    Brief ASCII desciption of your app, today's date,
                    etc.
     error_log - [out] any archive writing errors are logged here.
   Returns:
-    True if archive is written with no error. 
+    True if archive is written with no error.
     False if errors occur.
     Error details are logged in error_log.
   Example:
@@ -312,9 +312,9 @@ public:
                 const char* sStartSectionComment = "...";
                 int version = 5; // 2, 3, 4 or 5 are valid
                 ON_BinaryFile archive( ON::write3dm, fp );
-                ok = model.write( archive, 
-                                  version, 
-                                  sStartSectionComment, 
+                ok = model.write( archive,
+                                  version,
+                                  sStartSectionComment,
                                   error_log );
                 ON::CloseFile( fp );
               }
@@ -325,21 +325,21 @@ public:
     ONX_Model::IsValid
     ONX_Model::Read
   */
-  bool Write( 
+  bool Write(
          ON_BinaryArchive& archive,
          int version = 5,
          const char* sStartSectionComment = NULL,
          ON_TextLog* error_log = NULL
          );
 
-  bool Write( 
+  bool Write(
          const char* filename,
          int version = 5,
          const char* sStartSectionComment = NULL,
          ON_TextLog* error_log = NULL
          );
 
-  bool Write( 
+  bool Write(
          const wchar_t* filename,
          int version = 5,
          const char* sStartSectionComment = NULL,
@@ -360,8 +360,8 @@ public:
 
   /*
   Description:
-    Quickly fills in the little details, like making sure there is 
-    at least one layer and table indices make sense.  
+    Quickly fills in the little details, like making sure there is
+    at least one layer and table indices make sense.
     For a full blown check and repair, call Audit(true).
   See Also:
     ONX_Model::Audit
@@ -399,14 +399,14 @@ public:
           14      some m_material_table[i].m_material_id was nil or not unique.
           15      some m_light_table[i].m_light_id was nil or not unique.
   Returns:
-    True if model is valid and false if the model has serious 
+    True if model is valid and false if the model has serious
     @untitled table
     <0      model has serious errors
     =0      model is ok
     >0      number of problems that were found.
   */
   virtual
-  int Audit( 
+  int Audit(
         bool bAttemptRepair,
         int* repair_count,
         ON_TextLog* text_log,
@@ -478,9 +478,9 @@ public:
     attributes - [in] object attributes.
     material - [out] render material
   */
-  void GetRenderMaterial( 
+  void GetRenderMaterial(
         const ON_3dmObjectAttributes& attributes,
-        ON_Material& material 
+        ON_Material& material
         ) const;
 
   /*
@@ -490,9 +490,9 @@ public:
     object_index - [in] m_object_table[] index
     material - [out] render material
   */
-  void GetRenderMaterial( 
+  void GetRenderMaterial(
         int object_index,
-        ON_Material& material 
+        ON_Material& material
         ) const;
 
   /*
@@ -502,9 +502,9 @@ public:
     attributes - [in] object attributes.
     linetype - [out] linetype
   */
-  void GetLinetype( 
+  void GetLinetype(
         const ON_3dmObjectAttributes& attributes,
-        ON_Linetype& linetype 
+        ON_Linetype& linetype
         ) const;
 
   /*
@@ -516,7 +516,7 @@ public:
   */
   void GetLinetype(
         int object_index,
-        ON_Linetype& linetype 
+        ON_Linetype& linetype
         ) const;
 
   /*
@@ -539,7 +539,7 @@ public:
   */
   ON_Color WireframeColor(int object_index) const;
 
-  /* 
+  /*
   Description:
     Get index of object in m_object_table from object_uuid.
   Parameters:
@@ -548,11 +548,11 @@ public:
     Index of the object or -1 if it is not found.
   */
   virtual
-  int ObjectIndex( 
-    ON_UUID object_uuid 
+  int ObjectIndex(
+    ON_UUID object_uuid
     ) const;
 
-  /* 
+  /*
   Description:
     Get instance definition from instance definition table.
   Parameters:
@@ -574,11 +574,11 @@ public:
     Index of the instance definition or -1 if it is not found.
   */
   virtual
-  int IDefIndex( 
-    ON_UUID idef_uuid 
+  int IDefIndex(
+    ON_UUID idef_uuid
     ) const;
 
-  /* 
+  /*
   Description:
     Get instance definition index from instance definition name.
   Parameters:
@@ -587,18 +587,18 @@ public:
     Index of the instance definition or -1 if it is not found.
   */
   virtual
-  int IDefIndex( 
+  int IDefIndex(
     const wchar_t* idef_name
     ) const;
 
-  /* 
+  /*
   Description:
     Get instance definition name that is not currently in use.
   */
   virtual
   void GetUnusedIDefName( ON_wString& idef_name ) const;
 
-  /* 
+  /*
   Description:
     See if the instance reference iref refers to an instance
     definition.
@@ -614,12 +614,12 @@ public:
     -2         invalid idef found
   */
   virtual
-  int UsesIDef( 
+  int UsesIDef(
         const ON_InstanceRef& iref,
         ON_UUID idef_uuid
         ) const;
 
-  /* 
+  /*
   Description:
     Get layer definition from layer table.
   Parameters:
@@ -641,11 +641,11 @@ public:
     Index of the layer or -1 if it is not found.
   */
   virtual
-  int LayerIndex( 
+  int LayerIndex(
     const wchar_t* layer_name
     ) const;
 
-  /* 
+  /*
   Description:
     Get layer name that is not currently in use.
   */
@@ -662,14 +662,14 @@ public:
     Attach a user string to the document.
   Parameters:
     key - [in] id used to retrieve this string.
-    string_value - [in] 
+    string_value - [in]
       If NULL, the string with this id will be removed.
   Returns:
     True if successful.
   */
-  bool SetDocumentUserString( 
-    const wchar_t* key, 
-    const wchar_t* string_value 
+  bool SetDocumentUserString(
+    const wchar_t* key,
+    const wchar_t* string_value
     );
 
   /*
@@ -681,9 +681,9 @@ public:
   Returns:
     True if a string with id was found.
   */
-  bool GetDocumentUserString( 
-    const wchar_t* key, 
-    ON_wString& string_value 
+  bool GetDocumentUserString(
+    const wchar_t* key,
+    ON_wString& string_value
     ) const;
 
   /*
@@ -710,21 +710,21 @@ public:
 
   // text dump of entire model
   void Dump( ON_TextLog& ) const;
-  
+
   // text dump of model properties and settings
   void DumpSummary( ON_TextLog& ) const;
 
   // text dump of bitmap table
-  void DumpBitmapTable( ON_TextLog& ) const; 
+  void DumpBitmapTable( ON_TextLog& ) const;
 
   // text dump of texture mapping table
-  void DumpTextureMappingTable( ON_TextLog& ) const; 
+  void DumpTextureMappingTable( ON_TextLog& ) const;
 
   // text dump of render material table
-  void DumpMaterialTable( ON_TextLog& ) const; 
+  void DumpMaterialTable( ON_TextLog& ) const;
 
   // text dump of line type table
-  void DumpLinetypeTable( ON_TextLog& ) const; 
+  void DumpLinetypeTable( ON_TextLog& ) const;
 
   // text dump of layer table
   void DumpLayerTable( ON_TextLog& ) const;
@@ -804,8 +804,8 @@ Returns:
   True if the string is a valid name.
 */
 ON_DECL
-bool ONX_IsValidName( 
-          const wchar_t* name 
+bool ONX_IsValidName(
+          const wchar_t* name
           );
 
 #endif

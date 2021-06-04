@@ -42,7 +42,7 @@ namespace Eigen
   {
     typedef typename KnotVectorType::Scalar Scalar;
 
-    knots.resize(parameters.size()+degree+1);      
+    knots.resize(parameters.size()+degree+1);
 
     for (DenseIndex j=1; j<parameters.size()-degree; ++j)
       knots(j+degree) = parameters.segment(j,degree).mean();
@@ -59,7 +59,7 @@ namespace Eigen
    * \param[out] chord_lengths The resulting chord lenggth vector.
    *
    * \sa Les Piegl and Wayne Tiller, The NURBS book (2nd ed.), 1997, 9.2.1 Global Curve Interpolation to Point Data
-   **/   
+   **/
   template <typename PointArrayType, typename KnotVectorType>
   void ChordLengths(const PointArrayType& pts, KnotVectorType& chord_lengths)
   {
@@ -83,7 +83,7 @@ namespace Eigen
   /**
    * \brief Spline fitting methods.
    * \ingroup Splines_Module
-   **/     
+   **/
   template <typename SplineType>
   struct SplineFitting
   {
@@ -117,9 +117,9 @@ namespace Eigen
   template <typename PointArrayType>
   SplineType SplineFitting<SplineType>::Interpolate(const PointArrayType& pts, DenseIndex degree, const KnotVectorType& knot_parameters)
   {
-    typedef typename SplineType::KnotVectorType::Scalar Scalar;      
+    typedef typename SplineType::KnotVectorType::Scalar Scalar;
     typedef typename SplineType::BasisVectorType BasisVectorType;
-    typedef typename SplineType::ControlPointVectorType ControlPointVectorType;      
+    typedef typename SplineType::ControlPointVectorType ControlPointVectorType;
 
     typedef Matrix<Scalar,Dynamic,Dynamic> MatrixType;
 

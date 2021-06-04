@@ -59,7 +59,7 @@ namespace pcl
       Eigen::Matrix<T, N, N> hessian;
       Eigen::Matrix<T, N, 1>    grad;
       T value;
-      
+
       static ValueAndDerivatives<N,T>
       Zero ()
       {
@@ -101,7 +101,7 @@ namespace pcl
           : min_n_ (3), n_ (0), pt_indices_ (), mean_ (), covar_inv_ ()
         {
         }
-        
+
         /** \brief Store a point index to use later for estimating distribution parameters.
           * \param[in] i Point index to store
           */
@@ -110,7 +110,7 @@ namespace pcl
         {
           pt_indices_.push_back (i);
         }
-        
+
         /** \brief Estimate the normal distribution parameters given the point indices provided. Memory of point indices is cleared.
           * \param[in] cloud                    Point cloud corresponding to indices passed to addIdx.
           * \param[in] min_covar_eigvalue_mult  Set the smallest eigenvalue to this times the largest.
@@ -120,7 +120,7 @@ namespace pcl
         {
           Eigen::Vector2d sx  = Eigen::Vector2d::Zero ();
           Eigen::Matrix2d sxx = Eigen::Matrix2d::Zero ();
-          
+
           std::vector<size_t>::const_iterator i;
           for (i = pt_indices_.begin (); i != pt_indices_.end (); i++)
           {
@@ -128,7 +128,7 @@ namespace pcl
             sx  += p;
             sxx += p * p.transpose ();
           }
-          
+
           n_ = pt_indices_.size ();
 
           if (n_ >= min_n_)
@@ -165,7 +165,7 @@ namespace pcl
         {
           if (n_ < min_n_)
             return ValueAndDerivatives<3,double>::Zero ();
-          
+
           ValueAndDerivatives<3,double> r;
           const double x = transformed_pt.x;
           const double y = transformed_pt.y;
@@ -179,10 +179,10 @@ namespace pcl
           jacobian <<
             1, 0, -(x * sin_theta + y*cos_theta),
             0, 1,   x * cos_theta - y*sin_theta;
-          
+
           for (size_t i = 0; i < 3; i++)
             r.grad[i] = double (qt_cvi * jacobian.col (i)) * exp_qt_cvi_q;
-          
+
           // second derivative only for i == j == 2:
           const Eigen::Vector2d d2q_didj (
               y * sin_theta - x*cos_theta,
@@ -196,7 +196,7 @@ namespace pcl
                 (-qt_cvi * ((i==2 && j==2)? d2q_didj : Eigen::Vector2d::Zero ())) +
                 (-jacobian.col (j).transpose () * covar_inv_ * jacobian.col (i))
               );
-          
+
           return r;
         }
 
@@ -208,12 +208,12 @@ namespace pcl
         Eigen::Vector2d mean_;
         Eigen::Matrix2d covar_inv_;
     };
-    
+
     /** \brief Build a set of normal distributions modelling a 2D point cloud,
       * and provide the value and derivatives of the model at any point via the
       * test (...) function.
       */
-    template <typename PointT> 
+    template <typename PointT>
     class NDTSingleGrid: public boost::noncopyable
     {
       typedef typename pcl::PointCloud<PointT> PointCloud;
@@ -248,7 +248,7 @@ namespace pcl
             for (int y = 0; y < cells_[1]; y++)
               normal_distributions_.coeffRef (x,y).estimateParams (*cloud);
         }
-        
+
         /** \brief Return the 'score' (denormalised likelihood) and derivatives of score of the point p given this distribution.
           * \param[in] transformed_pt   Location to evaluate at.
           * \param[in] cos_theta        sin(theta) of the current rotation angle of rigid transformation: to avoid repeated evaluation
@@ -270,7 +270,7 @@ namespace pcl
         /** \brief Return the normal distribution covering the location of point p
           * \param[in] p a point
           */
-        NormalDist* 
+        NormalDist*
         normalDistForPoint (PointT const& p) const
         {
           // this would be neater in 3d...
@@ -300,7 +300,7 @@ namespace pcl
       * The value and derivatives of the model at any point can be evaluated
       * with the test (...) function.
       */
-    template <typename PointT> 
+    template <typename PointT>
     class NDT2D: public boost::noncopyable
     {
       typedef typename pcl::PointCloud<PointT> PointCloud;
@@ -326,7 +326,7 @@ namespace pcl
           single_grids_[2] = boost::make_shared<SingleGrid> (cloud, about +dy,    extent, step);
           single_grids_[3] = boost::make_shared<SingleGrid> (cloud, about +dx+dy, extent, step);
         }
-        
+
         /** \brief Return the 'score' (denormalised likelihood) and derivatives of score of the point p given this distribution.
           * \param[in] transformed_pt   Location to evaluate at.
           * \param[in] cos_theta        sin(theta) of the current rotation angle of rigid transformation: to avoid repeated evaluation
@@ -380,13 +380,13 @@ pcl::NormalDistributionsTransform2D<PointSource, PointTarget>::computeTransforma
   {
     transformation_ = guess;
     transformPointCloud (output, intm_cloud, transformation_);
-  } 
+  }
 
   // build Normal Distribution Transform of target cloud:
   ndt2d::NDT2D<PointTarget> target_ndt (target_, grid_centre_, grid_extent_, grid_step_);
-  
+
   // can't seem to use .block<> () member function on transformation_
-  // directly... gcc bug? 
+  // directly... gcc bug?
   Eigen::Matrix4f& transformation = transformation_;
 
 
@@ -406,12 +406,12 @@ pcl::NormalDistributionsTransform2D<PointSource, PointTarget>::computeTransforma
   {
     const double cos_theta = std::cos (xytheta_transformation[2]);
     const double sin_theta = std::sin (xytheta_transformation[2]);
-    previous_transformation_ = transformation;    
+    previous_transformation_ = transformation;
 
     ndt2d::ValueAndDerivatives<3, double> score = ndt2d::ValueAndDerivatives<3, double>::Zero ();
     for (size_t i = 0; i < intm_cloud.size (); i++)
       score += target_ndt.test (intm_cloud[i], cos_theta, sin_theta);
-    
+
     PCL_DEBUG ("[pcl::NormalDistributionsTransform2D::computeTransformation] NDT score %f (x=%f,y=%f,r=%f)\n",
       float (score.value), xytheta_transformation[0], xytheta_transformation[1], xytheta_transformation[2]
     );
@@ -443,12 +443,12 @@ pcl::NormalDistributionsTransform2D<PointSource, PointTarget>::computeTransforma
       assert (solver.eigenvalues ()[0].real () >= 0 &&
               solver.eigenvalues ()[1].real () >= 0 &&
               solver.eigenvalues ()[2].real () >= 0);
-      
+
       Eigen::Vector3d delta_transformation (-score.hessian.inverse () * score.grad);
       Eigen::Vector3d new_transformation = xytheta_transformation + newton_lambda_.cwiseProduct (delta_transformation);
 
       xytheta_transformation = new_transformation;
-      
+
       // update transformation matrix from x, y, theta:
       transformation.block<3,3> (0,0).matrix () = Eigen::Matrix3f (Eigen::AngleAxisf (static_cast<float> (xytheta_transformation[2]), Eigen::Vector3f::UnitZ ()));
       transformation.block<3,1> (0,3).matrix () = Eigen::Vector3f (static_cast<float> (xytheta_transformation[0]), static_cast<float> (xytheta_transformation[1]), 0.0f);
@@ -460,11 +460,11 @@ pcl::NormalDistributionsTransform2D<PointSource, PointTarget>::computeTransforma
       PCL_ERROR ("[pcl::NormalDistributionsTransform2D::computeTransformation] no overlap: try increasing the size or reducing the step of the grid\n");
       break;
     }
-    
+
     transformPointCloud (output, intm_cloud, transformation);
 
     nr_iterations_++;
-    
+
     if (update_visualizer_ != 0)
       update_visualizer_ (output, *indices_, *target_, *indices_);
 
@@ -479,4 +479,4 @@ pcl::NormalDistributionsTransform2D<PointSource, PointTarget>::computeTransforma
 }
 
 #endif    // PCL_NDT_2D_IMPL_H_
- 
+

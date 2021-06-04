@@ -44,9 +44,9 @@
 #define PCL_POISSON_ALLOCATOR_H_
 #include <vector>
 
-namespace pcl 
+namespace pcl
 {
-  namespace poisson 
+  namespace poisson
   {
     class AllocatorState
     {
@@ -80,9 +80,9 @@ namespace pcl
         }
 
         /** This method is the allocators destructor. It frees up any of the memory that
-          * it has allocated. 
+          * it has allocated.
           */
-        void 
+        void
         reset ()
         {
           for (size_t i = 0; i < memory.size (); i++)
@@ -93,7 +93,7 @@ namespace pcl
         }
 
         /** This method returns the memory state of the allocator. */
-        AllocatorState 
+        AllocatorState
         getState () const
         {
           AllocatorState s;
@@ -105,9 +105,9 @@ namespace pcl
         /** This method rolls back the allocator so that it makes all of the memory previously
           * allocated available for re-allocation. Note that it does it not call the constructor
           * again, so after this method has been called, assumptions about the state of the values
-          * in memory are no longer valid. 
+          * in memory are no longer valid.
           */
-        void 
+        void
         rollBack ()
         {
           if(memory.size ())
@@ -128,9 +128,9 @@ namespace pcl
         /** This method rolls back the allocator to the previous memory state and makes all of the memory previously
           * allocated available for re-allocation. Note that it does it not call the constructor
           * again, so after this method has been called, assumptions about the state of the values
-          * in memory are no longer valid. 
+          * in memory are no longer valid.
           */
-        void 
+        void
         rollBack (const AllocatorState& state)
         {
           if (state.index < index || (state.index == index && state.remains < remains))
@@ -172,9 +172,9 @@ namespace pcl
         }
 
         /** This method initiallizes the constructor and the blockSize variable specifies the
-          * the number of objects that should be pre-allocated at a time. 
+          * the number of objects that should be pre-allocated at a time.
           */
-        void 
+        void
         set (const int& blockSize)
         {
           reset ();
@@ -188,13 +188,13 @@ namespace pcl
           * more memory. Note that if the number of objects requested is larger than the value blockSize with which
           * the allocator was initialized, the request for memory will fail.
           */
-        T* 
+        T*
         newElements (const int& elements = 1)
         {
           T* mem;
           if (!elements)
             return (NULL);
-         
+
           if (elements>blockSize)
           {
             fprintf (stderr, "Allocator Error, elements bigger than block-size: %d>%d\n", elements,blockSize);

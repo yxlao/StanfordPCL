@@ -15,7 +15,7 @@ Major changes
 ^^^^^^^^^^^^^^^^^^^
 
 The :pcl:`PointCloud <pcl::PointCloud>` class represents the base class in PCL
-for holding **nD** (n dimensional) data. 
+for holding **nD** (n dimensional) data.
 
 The 1.x API includes the following data members:
  * :pcl:`Header <std_msgs::Header>` (coming from ROS)
@@ -72,39 +72,39 @@ Proposals for the 2.x API:
      color_space = ( "uint8 with rgb distance", { "r", "g", "b" }, [[(0,255,0), ... , (128,255,32)] ... [(12,54,31) ... (255,0,192)]] )
 
 
-1.2 PointTypes 
+1.2 PointTypes
 ^^^^^^^^^^^^^^
 
   #. Eigen::Vector4f or Eigen::Vector3f ??
-  
+
   #. Large points cause significant perfomance penalty for GPU. Let's assume that point sizes up to 16 bytes are suitable. This is some compromise between SOA and AOS. Structures like pcl::Normal (size = 32) is not desirable. SOA is better in this case.
 
 
 1.3 GPU support
 ^^^^^^^^^^^^^^^
- #. Containers for GPU memory. pcl::gpu::DeviceMemory/DeviceMemory2D/DeviceArray<T>/DeviceArray2D<T> (Thrust containers are incinvinient).         
- 
+ #. Containers for GPU memory. pcl::gpu::DeviceMemory/DeviceMemory2D/DeviceArray<T>/DeviceArray2D<T> (Thrust containers are incinvinient).
+
       * DeviceArray2D<T> is container for organized point cloud data (supports row alignment)
-  
+
  #. PointCloud Channels for GPU memory. Say, with "_gpu" postfix.
- 
-     * cloud["xyz_gpu"] => gets channel with 3D x,y,z data allocated on GPU.     
+
+     * cloud["xyz_gpu"] => gets channel with 3D x,y,z data allocated on GPU.
      * GPU functions (ex. gpu::computeNormals) create new channel in cloud (ex. "normals_gpu") and write there. Users can preallocate the channel and data inside it in order to save time on allocations.
      * Users must manually invoke uploading/downloading data to/from GPU. This provides better understanding how much each operation costs.
-          
+
  #. Two layers in GPU part:  host layer(nvcc-independent interface) and device(for advanced use, for sharing code compiled by nvcc):
- 
+
      * namespace pcl::cuda (can depend on CUDA headers) or pcl::gpu (completely independent from CUDA, OpenCL support in future?).
      * namespace pcl::device for device layer, only headers.
-      
- #. Async operation support???
-     
 
-1.4 Keypoints and features 
+ #. Async operation support???
+
+
+1.4 Keypoints and features
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
  #. The name Feature is a bit misleading, since it has tons of meanings. Alternatives are Descriptor or FeatureDescription.
  #. In the feature description, there is no need in separate FeatureFromNormals class and setNormals() method, since all the required channels are contained in one input. We still need separate setSearchSurface() though.
- #. There exist different types of keypoints (corners, blobs, regions), so keypoint detector might return some meta-information besides the keypoint locations (scale, orientation etc.). Some channels of that meta-information are required by some descriptors. There are options how to deliver that information from keypoints to descriptor, but it should be easy to pass it if a user doesn't change anything. This interface should be uniform to allow for switching implementations and automated benchmarking. Still one might want to set, say, custom orientations, different from what detector returned. 
+ #. There exist different types of keypoints (corners, blobs, regions), so keypoint detector might return some meta-information besides the keypoint locations (scale, orientation etc.). Some channels of that meta-information are required by some descriptors. There are options how to deliver that information from keypoints to descriptor, but it should be easy to pass it if a user doesn't change anything. This interface should be uniform to allow for switching implementations and automated benchmarking. Still one might want to set, say, custom orientations, different from what detector returned.
 	
 	to be continued...
 

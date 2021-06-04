@@ -5,10 +5,10 @@ Point Cloud Compression
 
 Point clouds consist of huge data sets describing three dimensional points associated with
 additional information such as distance, color, normals, etc. Additionally, they can be created at high rate and therefore occupy a significant amount
-of memory resources. Once point clouds have to be stored or transmitted over rate-limited communication channels, 
-methods for compressing this kind of data become highly interesting. The Point Cloud Library provides point cloud compression functionality. It allows for encoding all kinds of point clouds including "unorganized" point clouds that are characterized by 
-non-existing point references, varying point size, resolution, density and/or point ordering. Furthermore, the underlying octree data structure 
-enables to efficiently merge point cloud data from several sources. 
+of memory resources. Once point clouds have to be stored or transmitted over rate-limited communication channels,
+methods for compressing this kind of data become highly interesting. The Point Cloud Library provides point cloud compression functionality. It allows for encoding all kinds of point clouds including "unorganized" point clouds that are characterized by
+non-existing point references, varying point size, resolution, density and/or point ordering. Furthermore, the underlying octree data structure
+enables to efficiently merge point cloud data from several sources.
 
 
 |octreeCompression|
@@ -16,7 +16,7 @@ enables to efficiently merge point cloud data from several sources.
      .. |octreeCompression| image:: images/compression_tutorial.png
 
 In the following, we explain how single point clouds as well
-as streams of points clouds can be efficiently compressed. 
+as streams of points clouds can be efficiently compressed.
 In the presented example, we capture point clouds with the OpenNIGrabber to be compressed using the PCL point cloud compression techniques.
 
 
@@ -33,27 +33,27 @@ First, create a file, let's say, ``point_cloud_compression.cpp`` and place the f
 The explanation
 ---------------
 
-Now, let's discuss the code in detail. Let's start at the main() function: First we create a new SimpleOpenNIViewer instance and call its run() method. 
+Now, let's discuss the code in detail. Let's start at the main() function: First we create a new SimpleOpenNIViewer instance and call its run() method.
 
 .. literalinclude:: sources/point_cloud_compression/point_cloud_compression.cpp
    :language: cpp
    :lines: 92-99
 
 In the run() function, we create instances of the OctreePointCloudCompression class for encoding and decoding.
-They can take compression profiles as an arguments for configuring the compression algorithm. The provided compression profiles predefine 
-common parameter sets for point clouds captured by openNI devices. In this example, we use the **MED_RES_ONLINE_COMPRESSION_WITH_COLOR** profile which 
-applies a coordinate encoding precision of 5 cubic millimeter and enables color component encoding. It is further optimized for fast online compression. 
-A full list of compression profiles including their configuration can be found in the file 
-"/io/include/pcl/compression/compression_profiles.h". 
-A full parametrization of the compression algorithm is also possible in the OctreePointCloudCompression constructor using the MANUAL_CONFIGURATION profile. 
+They can take compression profiles as an arguments for configuring the compression algorithm. The provided compression profiles predefine
+common parameter sets for point clouds captured by openNI devices. In this example, we use the **MED_RES_ONLINE_COMPRESSION_WITH_COLOR** profile which
+applies a coordinate encoding precision of 5 cubic millimeter and enables color component encoding. It is further optimized for fast online compression.
+A full list of compression profiles including their configuration can be found in the file
+"/io/include/pcl/compression/compression_profiles.h".
+A full parametrization of the compression algorithm is also possible in the OctreePointCloudCompression constructor using the MANUAL_CONFIGURATION profile.
 For further details on advanced parametrization, please have a look at section "Advanced Parametrization".
 
 .. literalinclude:: sources/point_cloud_compression/point_cloud_compression.cpp
    :language: cpp
    :lines: 50-57
 
-   
-The following code instantiates a new grabber for an OpenNI device and starts the interface callback loop. 
+
+The following code instantiates a new grabber for an OpenNI device and starts the interface callback loop.
 
 .. literalinclude:: sources/point_cloud_compression/point_cloud_compression.cpp
    :language: cpp
@@ -61,7 +61,7 @@ The following code instantiates a new grabber for an OpenNI device and starts th
 
 In the callback function executed by the OpenNIGrabber capture loop, we first compress the captured point cloud into a stringstream buffer. That follows a
 decompression step, which decodes the compressed binary data into a new point cloud object. The decoded point cloud is then sent to the point cloud viewer.
- 
+
 .. literalinclude:: sources/point_cloud_compression/point_cloud_compression.cpp
    :language: cpp
    :lines: 24-44
@@ -76,7 +76,7 @@ Add the following lines to your CMakeLists.txt file:
    :language: cmake
    :linenos:
 
-   
+
 After you have made the executable, you can run it. Simply do::
 
   $ ./point_cloud_compression
@@ -135,9 +135,9 @@ You will see something similar to::
 
 Compression Profiles:
 --------------------------------------------------------
-Compression profiles define parameter sets for the PCL point cloud encoder. They are optimized for compression of 
+Compression profiles define parameter sets for the PCL point cloud encoder. They are optimized for compression of
 common point clouds retrieved from the OpenNI grabber.
-Please note, that the decoder does not need to be parametrized as it detects and adopts the configuration used during encoding.  
+Please note, that the decoder does not need to be parametrized as it detects and adopts the configuration used during encoding.
 The following compression profiles are available:
 
 	- **LOW_RES_ONLINE_COMPRESSION_WITHOUT_COLOR** 1 cubic centimeter resolution, no color, fast online encoding
@@ -165,13 +165,13 @@ The following compression profiles are available:
 	- **HIGH_RES_OFFLINE_COMPRESSION_WITH_COLOR** 1 cubic milimeter resolution, color, efficient offline encoding
 	
 	- **MANUAL_CONFIGURATION** enables manual configuration for advanced parametrization
- 
+
 
 Advanced parametrization:
 --------------------------------------------------------	
 
-In order to have full access to all compression related parameters, the constructor of the OctreePointCloudCompression class can initialized with additional 
-compression parameters. Please note, that for enabling advanced parametrization, the compressionProfile_arg argument **needs** to be set to **MANUAL_CONFIGURATION**. 
+In order to have full access to all compression related parameters, the constructor of the OctreePointCloudCompression class can initialized with additional
+compression parameters. Please note, that for enabling advanced parametrization, the compressionProfile_arg argument **needs** to be set to **MANUAL_CONFIGURATION**.
 
 .. code-block:: cpp
 
@@ -183,28 +183,28 @@ compression parameters. Please note, that for enabling advanced parametrization,
                                      const unsigned int iFrameRate_arg,
                                      bool doColorEncoding_arg,
                                      const unsigned char colorBitResolution_arg
-                                    ) 
-                               
+                                    )
 
-The advanced parametrization is explained in the following: 
+
+The advanced parametrization is explained in the following:
 
 	- **compressionProfile_arg**: This parameter should be set to **MANUAL_CONFIGURATION** for enabling advanced parametrization.
 	
 	- **showStatistics_arg**: Print compression related statistics to stdout.
 	
-	- **pointResolution_arg**: Define coding precision for point coordinates. This parameter should be set to a value below the sensor noise. 
+	- **pointResolution_arg**: Define coding precision for point coordinates. This parameter should be set to a value below the sensor noise.
 	
-	- **octreeResolution_arg**: This parameter defines the voxel size of the deployed octree. A lower voxel resolution enables faster compression at, however, 
+	- **octreeResolution_arg**: This parameter defines the voxel size of the deployed octree. A lower voxel resolution enables faster compression at, however,
 	  decreased compression performance. This enables a trade-off between high frame/update rates and compression efficiency.
-	  
-	- **doVoxelGridDownDownSampling_arg**: If activated, only the hierarchical octree data structure is encoded. The decoder generated points at the voxel centers. In this
-	  way, the point cloud becomes downsampled during compression while archieving high compression performance. 
-	  
-	- **iFrameRate_arg**: The point cloud compression scheme differentially encodes point clouds.  In this way, differences between the incoming point cloud and the previously encoded pointcloud is encoded in order to archive maximum compression performance. The iFrameRate_arg allows to specify the rate of frames in the stream at which incoming point clouds are **not** differentially encoded (similar to I/P-frames in video coding).   
-	    
-	- **doColorEncoding_arg**: This option enables color component encoding.   	 
 	
-	- **colorBitResolution_arg**: This parameter defines the amount of bits per color component to be encoded. 
+	- **doVoxelGridDownDownSampling_arg**: If activated, only the hierarchical octree data structure is encoded. The decoder generated points at the voxel centers. In this
+	  way, the point cloud becomes downsampled during compression while archieving high compression performance.
+	
+	- **iFrameRate_arg**: The point cloud compression scheme differentially encodes point clouds.  In this way, differences between the incoming point cloud and the previously encoded pointcloud is encoded in order to archive maximum compression performance. The iFrameRate_arg allows to specify the rate of frames in the stream at which incoming point clouds are **not** differentially encoded (similar to I/P-frames in video coding).
+	
+	- **doColorEncoding_arg**: This option enables color component encoding.   	
+	
+	- **colorBitResolution_arg**: This parameter defines the amount of bits per color component to be encoded.
 
 Command line tool for PCL point cloud stream compression
 --------------------------------------------------------
@@ -218,8 +218,8 @@ list of options (note: the output on screen may differ)::
 
   usage: ./openni_stream_compression [mode] [profile] [parameters]
 
-  I/O: 
-      -f file  : file name 
+  I/O:
+      -f file  : file name
 
   file compression mode:
       -x: encode point cloud stream to file
@@ -229,8 +229,8 @@ list of options (note: the output on screen may differ)::
       -s       : start server on localhost
       -c host  : connect to server and display decoded cloud stream
 
-  optional compression profile: 
-      -p profile : select compression profile:       
+  optional compression profile:
+      -p profile : select compression profile:
                      -"lowC"  Low resolution with color
                      -"lowNC" Low resolution without color
                      -"medC" Medium resolution with color
@@ -249,20 +249,20 @@ list of options (note: the output on screen may differ)::
       -e       : show input cloud during encoding
 
   example:
-      ./openni_stream_compression -x -p highC -t -f pc_compressed.pcc 
+      ./openni_stream_compression -x -p highC -t -f pc_compressed.pcc
 
 In order to stream compressed point cloud via TCP/IP, you can start the server with::
 
   $ ./openni_stream_compression -s
-     
-It will listen on port 6666 for incoming connections. Now start the client with::     
+
+It will listen on port 6666 for incoming connections. Now start the client with::
 
   $ ./openni_stream_compression -c SERVER_NAME
-  
-and remotely captured point clouds will be locally shown in the point cloud viewer.  
-     
+
+and remotely captured point clouds will be locally shown in the point cloud viewer.
+
 Conclusion
 ----------
 
-This PCL point cloud compression enables to efficiently compress point clouds of any type and point cloud streams.      
+This PCL point cloud compression enables to efficiently compress point clouds of any type and point cloud streams.
 

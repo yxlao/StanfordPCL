@@ -41,7 +41,7 @@
 #define PCL_REGISTRATION_BOOST_H_
 
 #if defined __GNUC__
-#  pragma GCC system_header 
+#  pragma GCC system_header
 #endif
 
 //#include <boost/graph/adjacency_list.hpp>

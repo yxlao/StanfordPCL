@@ -49,8 +49,8 @@ namespace pcl
     {
       int x = threadIdx.x + blockIdx.x * blockDim.x;
       int y = threadIdx.y + blockIdx.y * blockDim.y;
-      
-      
+
+
       if (x < VOLUME_X && y < VOLUME_Y)
       {
           T *pos = volume.ptr(y) + x;
@@ -60,7 +60,7 @@ namespace pcl
           for(int z = 0; z < VOLUME_Z; ++z, pos+=z_step)
              pack_tsdf (0.f, 0, *pos);
       }
-    }   
+    }
   }
 }
 
@@ -69,7 +69,7 @@ pcl::device::initVolume (PtrStep<short2> volume)
 {
   dim3 block (32, 16);
   dim3 grid (1, 1, 1);
-  grid.x = divUp (VOLUME_X, block.x);      
+  grid.x = divUp (VOLUME_X, block.x);
   grid.y = divUp (VOLUME_Y, block.y);
 
   initializeVolume<<<grid, block>>>(volume);
@@ -260,16 +260,16 @@ namespace pcl
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void
 pcl::device::integrateTsdfVolume (const PtrStepSz<ushort>& depth_raw, const Intr& intr, const float3& volume_size,
-                                  const Mat33& Rcurr_inv, const float3& tcurr, float tranc_dist, 
+                                  const Mat33& Rcurr_inv, const float3& tcurr, float tranc_dist,
                                   PtrStep<short2> volume)
 {
   Tsdf tsdf;
 
-  tsdf.volume = volume;  
+  tsdf.volume = volume;
   tsdf.cell_size.x = volume_size.x / VOLUME_X;
   tsdf.cell_size.y = volume_size.y / VOLUME_Y;
   tsdf.cell_size.z = volume_size.z / VOLUME_Z;
-  
+
   tsdf.intr = intr;
 
   tsdf.Rcurr_inv = Rcurr_inv;
@@ -446,7 +446,7 @@ namespace pcl
 
                 if (Dp_scaled != 0 && sdf >= -tranc_dist) //meters
                 {
-                    float tsdf = fmin (1.0f, sdf * tranc_dist_inv);                                              
+                    float tsdf = fmin (1.0f, sdf * tranc_dist_inv);
 
                     bool integrate = true;
                     if ((x > 0 &&  x < VOLUME_X-2) && (y > 0 && y < VOLUME_Y-2) && (z > 0 && z < VOLUME_Z-2))
@@ -459,19 +459,19 @@ namespace pcl
                         unpack_tsdf (*(pos + elem_step), Fn, Wn);
                         unpack_tsdf (*(pos - elem_step), Fp, Wp);
 
-                        if (Wn > 16 && Wp > 16) 
+                        if (Wn > 16 && Wp > 16)
                             normal.z = (Fn - Fp)/cell_size.z;
 
                         unpack_tsdf (*(pos + volume.step/sizeof(short2) ), Fn, Wn);
                         unpack_tsdf (*(pos - volume.step/sizeof(short2) ), Fp, Wp);
 
-                        if (Wn > 16 && Wp > 16) 
+                        if (Wn > 16 && Wp > 16)
                             normal.y = (Fn - Fp)/cell_size.y;
 
                         unpack_tsdf (*(pos + 1), Fn, Wn);
                         unpack_tsdf (*(pos - 1), Fp, Wp);
 
-                        if (Wn > 16 && Wp > 16) 
+                        if (Wn > 16 && Wp > 16)
                             normal.x = (Fn - Fp)/cell_size.x;
 
                         if (normal.x != qnan && normal.y != qnan && normal.z != qnan)
@@ -514,7 +514,7 @@ namespace pcl
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void
 pcl::device::integrateTsdfVolume (const PtrStepSz<ushort>& depth, const Intr& intr,
-                                  const float3& volume_size, const Mat33& Rcurr_inv, const float3& tcurr, 
+                                  const float3& volume_size, const Mat33& Rcurr_inv, const float3& tcurr,
                                   float tranc_dist,
                                   PtrStep<short2> volume, DeviceArray2D<float>& depthScaled)
 {
@@ -523,7 +523,7 @@ pcl::device::integrateTsdfVolume (const PtrStepSz<ushort>& depth, const Intr& in
   dim3 block_scale (32, 8);
   dim3 grid_scale (divUp (depth.cols, block_scale.x), divUp (depth.rows, block_scale.y));
 
-  //scales depth along ray and converts mm -> meters. 
+  //scales depth along ray and converts mm -> meters.
   scaleDepth<<<grid_scale, block_scale>>>(depth, depthScaled, intr);
   cudaSafeCall ( cudaGetLastError () );
 
@@ -536,7 +536,7 @@ pcl::device::integrateTsdfVolume (const PtrStepSz<ushort>& depth, const Intr& in
   dim3 block (16, 16);
   dim3 grid (divUp (VOLUME_X, block.x), divUp (VOLUME_Y, block.y));
 
-  tsdf23<<<grid, block>>>(depthScaled, volume, tranc_dist, Rcurr_inv, tcurr, intr, cell_size);    
+  tsdf23<<<grid, block>>>(depthScaled, volume, tranc_dist, Rcurr_inv, tcurr, intr, cell_size);
   //tsdf23normal_hack<<<grid, block>>>(depthScaled, volume, tranc_dist, Rcurr_inv, tcurr, intr, cell_size);
 
   cudaSafeCall ( cudaGetLastError () );

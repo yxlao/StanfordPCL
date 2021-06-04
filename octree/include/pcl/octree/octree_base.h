@@ -127,7 +127,7 @@ namespace pcl
         }
 
         /** \brief Copy operator. */
-        inline OctreeBase& 
+        inline OctreeBase&
         operator = (const OctreeBase &source)
         {
           leafCount_ = source.leafCount_;
@@ -266,7 +266,7 @@ namespace pcl
         deserializeTree (std::vector<char>& binaryTreeIn_arg, std::vector<DataT>& dataVector_arg);
 
       protected:
-        
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Protected octree methods based on octree keys
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -484,7 +484,7 @@ namespace pcl
           if (branch_arg.hasChild(childIdx_arg))
           {
             OctreeNode* branchChild = branch_arg[childIdx_arg];
-            
+
             switch (branchChild->getNodeType ())
             {
               case BRANCH_NODE:

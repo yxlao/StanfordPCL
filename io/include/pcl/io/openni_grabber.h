@@ -124,7 +124,7 @@ namespace pcl
       getName () const;
 
       /** \brief Obtain the number of frames per second (FPS). */
-      virtual float 
+      virtual float
       getFramesPerSecond () const;
 
       /** \brief Get a boost shared pointer to the \ref OpenNIDevice object. */
@@ -210,22 +210,22 @@ namespace pcl
       checkIRStreamRequired ();
 
       /** \brief Convert a Depth image to a pcl::PointCloud<pcl::PointXYZ>
-        * \param[in] depth the depth image to convert 
+        * \param[in] depth the depth image to convert
         */
       boost::shared_ptr<pcl::PointCloud<pcl::PointXYZ> >
       convertToXYZPointCloud (const boost::shared_ptr<openni_wrapper::DepthImage> &depth) const;
 
       /** \brief Convert a Depth + RGB image pair to a pcl::PointCloud<PointT>
-        * \param[in] image the RGB image to convert 
-        * \param[in] depth_image the depth image to convert 
+        * \param[in] image the RGB image to convert
+        * \param[in] depth_image the depth image to convert
         */
       template <typename PointT> typename pcl::PointCloud<PointT>::Ptr
       convertToXYZRGBPointCloud (const boost::shared_ptr<openni_wrapper::Image> &image,
                                  const boost::shared_ptr<openni_wrapper::DepthImage> &depth_image) const;
 
       /** \brief Convert a Depth + Intensity image pair to a pcl::PointCloud<pcl::PointXYZI>
-        * \param[in] image the IR image to convert 
-        * \param[in] depth_image the depth image to convert 
+        * \param[in] image the IR image to convert
+        * \param[in] depth_image the depth image to convert
         */
       boost::shared_ptr<pcl::PointCloud<pcl::PointXYZI> >
       convertToXYZIPointCloud (const boost::shared_ptr<openni_wrapper::IRImage> &image,
@@ -239,7 +239,7 @@ namespace pcl
       boost::shared_ptr<pcl::PointCloud<Eigen::MatrixXf> >
       convertToEigenPointCloud (const boost::shared_ptr<openni_wrapper::Image> &image,
                                 const boost::shared_ptr<openni_wrapper::DepthImage> &depth_image) const;
-      
+
       Synchronizer<boost::shared_ptr<openni_wrapper::Image>, boost::shared_ptr<openni_wrapper::DepthImage> > rgb_sync_;
       Synchronizer<boost::shared_ptr<openni_wrapper::IRImage>, boost::shared_ptr<openni_wrapper::DepthImage> > ir_sync_;
 
@@ -252,7 +252,7 @@ namespace pcl
       unsigned image_height_;
       unsigned depth_width_;
       unsigned depth_height_;
-      
+
       bool image_required_;
       bool depth_required_;
       bool ir_required_;

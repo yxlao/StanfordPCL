@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2012, Willow Garage, Inc.
- *  
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -47,7 +47,7 @@ namespace pcl
 {
   namespace recognition
   {
-    /** \brief HoughSpace3D is a 3D voting space. Cast votes can be interpolated in order to better deal with approximations introduced by bin quantization. A weight can also be associated with each vote. 
+    /** \brief HoughSpace3D is a 3D voting space. Cast votes can be interpolated in order to better deal with approximations introduced by bin quantization. A weight can also be associated with each vote.
       * \author Federico Tombari (original), Tommaso Cavallari (PCL port)
       * \ingroup recognition
       */
@@ -55,12 +55,12 @@ namespace pcl
     {
 
       public:
-      
+
         EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-      
+
         /** \brief Constructor
           *
-          * \param[in] min_coord minimum (x,y,z) coordinates of the Hough space 
+          * \param[in] min_coord minimum (x,y,z) coordinates of the Hough space
           * \param[in] bin_size  size of each bing of the Hough space.
           * \param[in] max_coord maximum (x,y,z) coordinates of the Hough space.
           */
@@ -71,7 +71,7 @@ namespace pcl
         reset ();
 
         /** \brief Casting a vote for a given position in the Hough space.
-          * 
+          *
           * \param[in] single_vote_coord coordinates of the vote being cast (in absolute coordinates)
           * \param[in] weight weight associated with the vote.
           * \param[in] voter_id the numeric id of the voter. Useful to trace back the voting correspondence, if the vote is returned by findMaxima as part of a maximum of the Hough Space.
@@ -81,7 +81,7 @@ namespace pcl
         vote (const Eigen::Vector3d &single_vote_coord, double weight, int voter_id);
 
         /** \brief Vote for a given position in the 3D space. The weight is interpolated between the bin pointed by single_vote_coord and its neighbors.
-          * 
+          *
           * \param[in] single_vote_coord coordinates of the vote being cast.
           * \param[in] weight weight associated with the vote.
           * \param[in] voter_id the numeric id of the voter. Useful to trace back the voting correspondence, if the vote is returned by findMaxima as a part of a maximum of the Hough Space.
@@ -91,11 +91,11 @@ namespace pcl
         voteInt (const Eigen::Vector3d &single_vote_coord, double weight, int voter_id);
 
         /** \brief Find the bins with most votes.
-          * 
-          * \param[in] min_threshold the minimum number of votes to be included in a bin in order to have its value returned. 
+          *
+          * \param[in] min_threshold the minimum number of votes to be included in a bin in order to have its value returned.
           * If set to a value between -1 and 0 the Hough space maximum_vote is found and the returned values are all the votes greater than -min_threshold * maximum_vote.
           * \param[out] maxima_values the list of Hough Space bin values greater than min_threshold.
-          * \param[out] maxima_voter_ids for each value returned, a list of the voter ids who cast a vote in that position. 
+          * \param[out] maxima_voter_ids for each value returned, a list of the voter ids who cast a vote in that position.
           * \return The min_threshold used, either set by the user or found by this method.
           */
         double
@@ -129,9 +129,9 @@ namespace pcl
 
   /** \brief Class implementing a 3D correspondence grouping algorithm that can deal with multiple instances of a model template
     * found into a given scene. Each correspondence casts a vote for a reference point in a 3D Hough Space.
-	* The remaining 3 DOF are taken into account by associating each correspondence with a local Reference Frame. 
+	* The remaining 3 DOF are taken into account by associating each correspondence with a local Reference Frame.
     * The suggested PointModelRfT is pcl::ReferenceFrame
-    * 
+    *
     * \note If you use this code in any academic work, please cite the original paper:
     *   - F. Tombari, L. Di Stefano:
     *     Object recognition in 3D scenes with occlusions and clutter by Hough voting.
@@ -159,7 +159,7 @@ namespace pcl
       typedef typename pcl::CorrespondenceGrouping<PointModelT, PointSceneT>::SceneCloudConstPtr SceneCloudConstPtr;
 
       /** \brief Constructor */
-      Hough3DGrouping () 
+      Hough3DGrouping ()
         : input_rf_ ()
         , scene_rf_ ()
         , needs_training_ (true)
@@ -187,10 +187,10 @@ namespace pcl
         input_rf_.reset();
       }
 
-      /** \brief Provide a pointer to the input dataset's reference frames. 
+      /** \brief Provide a pointer to the input dataset's reference frames.
         * Each point in the reference frame cloud should be the reference frame of
         * the correspondent point in the input dataset.
-        * 
+        *
         * \param[in] input_rf the pointer to the input cloud's reference frames.
         */
       inline void
@@ -201,10 +201,10 @@ namespace pcl
         hough_space_initialized_ = false;
       }
 
-      /** \brief Getter for the input dataset's reference frames. 
+      /** \brief Getter for the input dataset's reference frames.
         * Each point in the reference frame cloud should be the reference frame of
         * the correspondent point in the input dataset.
-        * 
+        *
         * \return the pointer to the input cloud's reference frames.
         */
       inline ModelRfCloudConstPtr
@@ -212,9 +212,9 @@ namespace pcl
       {
         return (input_rf_);
       }
-      
+
       /** \brief Provide a pointer to the scene dataset (i.e. the cloud in which the algorithm has to search for instances of the input model)
-        * 
+        *
         * \param[in] scene the const boost shared pointer to a PointCloud message.
         */
       inline void
@@ -225,10 +225,10 @@ namespace pcl
         scene_rf_.reset();
       }
 
-      /** \brief Provide a pointer to the scene dataset's reference frames. 
+      /** \brief Provide a pointer to the scene dataset's reference frames.
         * Each point in the reference frame cloud should be the reference frame of
         * the correspondent point in the scene dataset.
-        * 
+        *
         * \param[in] scene_rf the pointer to the scene cloud's reference frames.
         */
       inline void
@@ -238,10 +238,10 @@ namespace pcl
         hough_space_initialized_ = false;
       }
 
-      /** \brief Getter for the scene dataset's reference frames. 
+      /** \brief Getter for the scene dataset's reference frames.
         * Each point in the reference frame cloud should be the reference frame of
         * the correspondent point in the scene dataset.
-        * 
+        *
         * \return the pointer to the scene cloud's reference frames.
         */
       inline SceneRfCloudConstPtr
@@ -250,10 +250,10 @@ namespace pcl
         return (scene_rf_);
       }
 
-      /** \brief Provide a pointer to the precomputed correspondences between points in the input dataset and 
+      /** \brief Provide a pointer to the precomputed correspondences between points in the input dataset and
         * points in the scene dataset. The correspondences are going to be clustered into different model instances
         * by the algorithm.
-        * 
+        *
         * \param[in] corrs the correspondences between the model and the scene.
         */
       inline void
@@ -264,9 +264,9 @@ namespace pcl
       }
 
       /** \brief Sets the minimum number of votes in the Hough space needed to infer the presence of a model instance into the scene cloud.
-        * 
+        *
         * \param[in] threshold the threshold for the Hough space voting, if set between -1 and 0 the maximum vote in the entire space is automatically
-        * calculated and -threshold 
+        * calculated and -threshold
 		* the maximum value is used as a threshold. This means that a value between -1 and 0 should be used only if at least one instance of the model is always present in the scene, or if this false positive can be filtered later        */
       inline void
       setHoughThreshold (double threshold)
@@ -275,7 +275,7 @@ namespace pcl
       }
 
       /** \brief Gets the minimum number of votes in the Hough space needed to infer the presence of a model instance into the scene cloud.
-        * 
+        *
         * \return the threshold for the Hough space voting.
         */
       inline double
@@ -285,7 +285,7 @@ namespace pcl
       }
 
       /** \brief Sets the size of each bin into the Hough space.
-        * 
+        *
         * \param[in] bin_size the size of each Hough space's bin.
         */
       inline void
@@ -296,7 +296,7 @@ namespace pcl
       }
 
       /** \brief Gets the size of each bin into the Hough space.
-        * 
+        *
         * \return the size of each Hough space's bin.
         */
       inline double
@@ -307,7 +307,7 @@ namespace pcl
 
       /** \brief Sets whether the vote casting procedure interpolates
         * the score between neighboring bins of the Hough space or not.
-        * 
+        *
         * \param[in] use_interpolation the algorithm should interpolate the vote score between neighboring bins.
         */
       inline void
@@ -319,7 +319,7 @@ namespace pcl
 
       /** \brief Gets whether the vote casting procedure interpolates
         * the score between neighboring bins of the Hough space or not.
-        * 
+        *
         * \return if the algorithm should interpolate the vote score between neighboring bins.
         */
       inline bool
@@ -329,7 +329,7 @@ namespace pcl
       }
 
       /** \brief Sets whether the vote casting procedure uses the correspondence's distance as a score.
-        * 
+        *
         * \param[in] use_distance_weight the algorithm should use the weighted distance when calculating the Hough voting score.
         */
       inline void
@@ -340,7 +340,7 @@ namespace pcl
       }
 
       /** \brief Gets whether the vote casting procedure uses the correspondence's distance as a score.
-        * 
+        *
         * \return if the algorithm should use the weighted distance when calculating the Hough voting score.
         */
       inline bool
@@ -377,7 +377,7 @@ namespace pcl
 
       /** \brief If the Local reference frame has not been set for either the model cloud or the scene cloud,
         * this algorithm makes the computation itself but needs a suitable search radius to do so.
-        * \attention This parameter NEEDS to be set if the reference frames are not precomputed externally, 
+        * \attention This parameter NEEDS to be set if the reference frames are not precomputed externally,
         * otherwise the recognition results won't be correct.
         *
         * \param[in] local_rf_search_radius the search radius for the local reference frame calculation.
@@ -392,7 +392,7 @@ namespace pcl
 
       /** \brief If the Local reference frame has not been set for either the model cloud or the scene cloud,
         * this algorithm makes the computation itself but needs a suitable search radius to do so.
-        * \attention This parameter NEEDS to be set if the reference frames are not precomputed externally, 
+        * \attention This parameter NEEDS to be set if the reference frames are not precomputed externally,
         * otherwise the recognition results won't be correct.
         *
         * \return the search radius for the local reference frame calculation.
@@ -403,16 +403,16 @@ namespace pcl
         return (local_rf_search_radius_);
       }
 
-      /** \brief Call this function after setting the input, the input_rf and the hough_bin_size parameters to perform an off line training of the algorithm. This might be useful if one wants to perform once and for all a pre-computation of votes that only concern the models, increasing the on-line efficiency of the grouping algorithm. 
+      /** \brief Call this function after setting the input, the input_rf and the hough_bin_size parameters to perform an off line training of the algorithm. This might be useful if one wants to perform once and for all a pre-computation of votes that only concern the models, increasing the on-line efficiency of the grouping algorithm.
         * The algorithm is automatically trained on the first invocation of the recognize method or the cluster method if this training function has not been manually invoked.
-        * 
+        *
         * \return true if the training had been successful or false if errors have occurred.
         */
       bool
       train ();
 
       /** \brief The main function, recognizes instances of the model into the scene set by the user.
-        * 
+        *
         * \param[out] transformations a vector containing one transformation matrix for each instance of the model recognized into the scene.
         *
         * \return true if the recognition had been successful or false if errors have occurred.
@@ -421,7 +421,7 @@ namespace pcl
       recognize (std::vector<Eigen::Matrix4f, Eigen::aligned_allocator<Eigen::Matrix4f> > &transformations);
 
       /** \brief The main function, recognizes instances of the model into the scene set by the user.
-        * 
+        *
         * \param[out] transformations a vector containing one transformation matrix for each instance of the model recognized into the scene.
         * \param[out] clustered_corrs a vector containing the correspondences for each instance of the model found within the input data (the same output of clusterCorrespondences).
         *
@@ -477,15 +477,15 @@ namespace pcl
       bool hough_space_initialized_;
 
       /** \brief Cluster the input correspondences in order to distinguish between different instances of the model into the scene.
-        * 
+        *
         * \param[out] model_instances a vector containing the clustered correspondences for each model found on the scene.
         * \return true if the clustering had been successful or false if errors have occurred.
-        */ 
+        */
       void
       clusterCorrespondences (std::vector<Correspondences> &model_instances);
 
       ///** \brief Finds the transformation matrix between the input and the scene cloud for a set of correspondences using a RANSAC algorithm.
-      //  * 
+      //  *
       //  * \param[in] the scene cloud in which the PointSceneT has been converted to PointModelT.
       //  * \param[in] corrs a set of correspondences.
       //  * \param[out] transform the transformation matrix between the input cloud and the scene cloud that aligns the found correspondences.
@@ -502,7 +502,7 @@ namespace pcl
       houghVoting ();
 
       /** \brief Computes the reference frame for an input cloud.
-        * 
+        *
         * \param[in] input the input cloud.
         * \param[out] rf the resulting reference frame.
         */

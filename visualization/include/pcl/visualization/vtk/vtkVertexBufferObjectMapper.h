@@ -56,7 +56,7 @@ public:
   void SetInput(vtkPolyData *input);
   void SetInput(vtkDataSet *input);
   vtkPolyData *GetInput();
-  
+
   void SetProgram(vtkSmartPointer<vtkShaderProgram2> program)
   {
     this->program = program;
@@ -70,16 +70,16 @@ public:
   // Return bounding box (array of six doubles) of data expressed as
   // (xmin,xmax, ymin,ymax, zmin,zmax).
   virtual double *GetBounds();
-  virtual void GetBounds(double bounds[6]) 
+  virtual void GetBounds(double bounds[6])
     {this->Superclass::GetBounds(bounds);};
-  
+
   // Description:
   // Make a shallow copy of this mapper.
 //  void ShallowCopy(vtkAbstractMapper *m);
 
   // Description:
   // Select a data array from the point/cell data
-  // and map it to a generic vertex attribute. 
+  // and map it to a generic vertex attribute.
   // vertexAttributeName is the name of the vertex attribute.
   // dataArrayName is the name of the data array.
   // fieldAssociation indicates when the data array is a point data array or
@@ -103,7 +103,7 @@ public:
 //  // Remove all vertex attributes.
 //  virtual void RemoveAllVertexAttributeMappings();
 
-protected:  
+protected:
   vtkVertexBufferObjectMapper();
   ~vtkVertexBufferObjectMapper() {};
 

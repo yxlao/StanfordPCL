@@ -319,7 +319,7 @@ main (int argc, char **argv)
   bRawImageEncoding = false;
   bGrayScaleConversion = false;
 
-  if (pcl::console::find_argument (argc, argv, "-e")>0) 
+  if (pcl::console::find_argument (argc, argv, "-e")>0)
     bShowInputCloud = true;
 
   if (pcl::console::find_argument (argc, argv, "-r")>0)
@@ -328,14 +328,14 @@ main (int argc, char **argv)
   if (pcl::console::find_argument (argc, argv, "-g")>0)
     bGrayScaleConversion = true;
 
-  if (pcl::console::find_argument (argc, argv, "-s")>0) 
+  if (pcl::console::find_argument (argc, argv, "-s")>0)
   {
     bEnDecode = true;
     bServerFileMode = true;
     validArguments = true;
   }
 
-  if (pcl::console::parse_argument (argc, argv, "-c", hostName)>0) 
+  if (pcl::console::parse_argument (argc, argv, "-c", hostName)>0)
   {
     bEnDecode = false;
     bServerFileMode = true;
@@ -347,27 +347,27 @@ main (int argc, char **argv)
     doColorEncoding = true;
   }
 
-  if (pcl::console::find_argument (argc, argv, "-x")>0) 
+  if (pcl::console::find_argument (argc, argv, "-x")>0)
   {
     bEnDecode = true;
     bServerFileMode = false;
     validArguments = true;
   }
 
-  if (pcl::console::find_argument (argc, argv, "-d")>0) 
+  if (pcl::console::find_argument (argc, argv, "-d")>0)
   {
     bEnDecode = false;
     bServerFileMode = false;
     validArguments = true;
   }
 
-  if (pcl::console::find_argument (argc, argv, "-t")>0) 
+  if (pcl::console::find_argument (argc, argv, "-t")>0)
     showStatistics = true;
 
   pcl::console::parse_argument (argc, argv, "-f", fileName);
 
 
-  if (pcl::console::find_argument (argc, argv, "-?")>0) 
+  if (pcl::console::find_argument (argc, argv, "-?")>0)
   {
     print_usage ("");
     return 1;
@@ -382,19 +382,19 @@ main (int argc, char **argv)
   organizedCoder = new OrganizedPointCloudCompression<PointXYZRGBA> ();
 
 
-  if (!bServerFileMode) 
+  if (!bServerFileMode)
   {
-    if (bEnDecode) 
+    if (bEnDecode)
     {
       // ENCODING
       ofstream compressedPCFile;
       compressedPCFile.open (fileName.c_str(), ios::out | ios::trunc | ios::binary);
 
-      if (!bShowInputCloud) 
+      if (!bShowInputCloud)
       {
         EventHelper v (compressedPCFile, organizedCoder, doColorEncoding, showStatistics, bRawImageEncoding, bGrayScaleConversion);
         v.run ();
-      } 
+      }
       else
       {
         SimpleOpenNIViewer v (compressedPCFile, organizedCoder, doColorEncoding, showStatistics, bRawImageEncoding, bGrayScaleConversion);
@@ -437,11 +437,11 @@ main (int argc, char **argv)
 
         std::cout << "Connected!" << std::endl;
 
-        if (!bShowInputCloud) 
+        if (!bShowInputCloud)
         {
           EventHelper v (socketStream, organizedCoder, doColorEncoding, showStatistics, bRawImageEncoding, bGrayScaleConversion);
           v.run ();
-        } 
+        }
         else
         {
           SimpleOpenNIViewer v (socketStream, organizedCoder, doColorEncoding, showStatistics, bRawImageEncoding, bGrayScaleConversion);
@@ -471,7 +471,7 @@ main (int argc, char **argv)
 
         pcl::visualization::CloudViewer viewer ("Decoded Point Cloud - PCL Compression Viewer");
 
-        while (!socketStream.fail()) 
+        while (!socketStream.fail())
         {
           FPS_CALC ("drawing");
           PointCloud<PointXYZRGBA>::Ptr cloudOut (new PointCloud<PointXYZRGBA> ());

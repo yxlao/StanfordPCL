@@ -81,7 +81,7 @@ namespace pcl
         typedef typename pcl::PointCloud<NormalT>::Ptr NormalsPtr;
 				typedef typename pcl::PointCloud<NormalT>::ConstPtr NormalsConstPtr;
 
-        /** \brief Empty constructor. 
+        /** \brief Empty constructor.
           *
           * \note
           * Sets the number of neighbors to be considered in the target point cloud (k_) to 10.
@@ -121,22 +121,22 @@ namespace pcl
           * \param[in] max_distance maximum distance between the normal on the source point cloud and the corresponding point in the target
           * point cloud
           */
-        void 
+        void
         determineCorrespondences (pcl::Correspondences &correspondences,
                                   double max_distance = std::numeric_limits<double>::max ());
 
         /** \brief Determine the reciprocal correspondences between input and target cloud.
-          * A correspondence is considered reciprocal if both Src_i has Tgt_i as a 
+          * A correspondence is considered reciprocal if both Src_i has Tgt_i as a
           * correspondence, and Tgt_i has Src_i as one.
           *
           * \param[out] correspondences the found correspondences (index of query and target point, distance)
           * \param[in] max_distance maximum allowed distance between correspondences
           */
-        virtual void 
+        virtual void
         determineReciprocalCorrespondences (pcl::Correspondences &correspondences,
                                             double max_distance = std::numeric_limits<double>::max ());
 
-        /** \brief Set the number of nearest neighbours to be considered in the target 
+        /** \brief Set the number of nearest neighbours to be considered in the target
           * point cloud. By default, we use k = 10 nearest neighbors.
           *
           * \param[in] k the number of nearest neighbours to be considered
@@ -144,8 +144,8 @@ namespace pcl
         inline void
         setKSearch (unsigned int k) { k_ = k; }
 
-        /** \brief Get the number of nearest neighbours considered in the target point 
-          * cloud for computing correspondences. By default we use k = 10 nearest 
+        /** \brief Get the number of nearest neighbours considered in the target point
+          * cloud for computing correspondences. By default we use k = 10 nearest
           * neighbors.
           */
         inline void
@@ -178,10 +178,10 @@ namespace pcl
        private:
 
         /** \brief The normals computed at each point in the source cloud */
-        NormalsConstPtr source_normals_; 
+        NormalsConstPtr source_normals_;
 
         /** \brief The normals computed at each point in the target cloud */
-        NormalsConstPtr target_normals_; 
+        NormalsConstPtr target_normals_;
 
         /** \brief The number of neighbours to be considered in the target point cloud */
         unsigned int k_;

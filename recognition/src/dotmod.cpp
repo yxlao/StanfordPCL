@@ -4,7 +4,7 @@
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
  *
- *  All rights reserved. 
+ *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -57,7 +57,7 @@ pcl::DOTMOD::
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-size_t 
+size_t
 pcl::DOTMOD::
 createAndAddTemplate (const std::vector<pcl::DOTModality*> & modalities,
                       const std::vector<pcl::MaskMap*> & masks,
@@ -110,7 +110,7 @@ createAndAddTemplate (const std::vector<pcl::DOTModality*> & modalities,
 //////////////////////////////////////////////////////////////////////////////////////////////
 void
 pcl::DOTMOD::
-detectTemplates (const std::vector<DOTModality*> & modalities, 
+detectTemplates (const std::vector<DOTModality*> & modalities,
                  const float template_response_threshold,
                  std::vector<DOTMODDetection> & detections,
                  const size_t bin_size ) const
@@ -129,8 +129,8 @@ detectTemplates (const std::vector<DOTModality*> & modalities,
   }
 
   //std::cerr << "1" << std::endl;
-  
-  
+
+
   const size_t width = maps[0].getWidth ();
   const size_t height = maps[0].getHeight ();
   const size_t nr_templates = templates_.size ();
@@ -196,7 +196,7 @@ detectTemplates (const std::vector<DOTModality*> & modalities,
   }
 
   //std::cerr << "best_response: " << best_response << std::endl;
-  
+
   //std::cerr << "<< detectTemplates (...)" << std::endl;
 }
 

@@ -1306,7 +1306,7 @@ TEST (PCL, BOARDLocalReferenceFrameEstimationEigen)
   EXPECT_NEAR (point_253_conf, bunny_LRF.points (253, 0), 1E-3);
   EXPECT_NEAR_VECTORS (point_253_x, bunny_LRF.points.block<1,3> (253, 1), 1E-3);
   EXPECT_NEAR_VECTORS (point_253_y, bunny_LRF.points.block<1,3> (253, 4), 1E-3);
-  EXPECT_NEAR_VECTORS (point_253_z, bunny_LRF.points.block<1,3> (253, 7), 1E-3);  
+  EXPECT_NEAR_VECTORS (point_253_z, bunny_LRF.points.block<1,3> (253, 7), 1E-3);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////

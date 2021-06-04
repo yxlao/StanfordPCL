@@ -86,7 +86,7 @@ namespace pcl
 
         // Generalized Identity Operations
 
-        using thrust::identity;    
+        using thrust::identity;
         using thrust::project1st;
         using thrust::project2nd;
 
@@ -97,8 +97,8 @@ namespace pcl
         struct plusWeighted : public plus<T>
         {
             W w;
-            __device__ __host__ __forceinline__ plusWeighted(W weight) : w(weight) {}                
-            __device__ __host__ __forceinline__ float operator()(const T& f1, const T& f2) const 
+            __device__ __host__ __forceinline__ plusWeighted(W weight) : w(weight) {}
+            __device__ __host__ __forceinline__ float operator()(const T& f1, const T& f2) const
             {
                 return f1 + f2 * w;
             }

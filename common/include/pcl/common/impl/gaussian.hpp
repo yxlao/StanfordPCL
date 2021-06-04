@@ -4,7 +4,7 @@
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
  *
- *  All rights reserved. 
+ *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -42,7 +42,7 @@
 
 #include <pcl/exceptions.h>
 
-template <typename PointT> void 
+template <typename PointT> void
 pcl::GaussianKernel::convolveRows(const pcl::PointCloud<PointT> &input,
                                   boost::function <float (const PointT& p)> field_accessor,
                                   const Eigen::VectorXf& kernel,
@@ -75,7 +75,7 @@ pcl::GaussianKernel::convolveRows(const pcl::PointCloud<PointT> &input,
   }
 }
 
-template <typename PointT> void 
+template <typename PointT> void
 pcl::GaussianKernel::convolveCols(const pcl::PointCloud<PointT> &input,
                                   boost::function <float (const PointT& p)> field_accessor,
                                   const Eigen::VectorXf& kernel,

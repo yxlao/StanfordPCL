@@ -525,14 +525,14 @@ namespace pcl
       }
       printf ("\n");
     }
-    
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     template <int Degree> PPolynomial<Degree>
     PPolynomial<Degree>::ConstantFunction (const double &radius)
     {
       if (Degree < 0)
         throw "Could not set degree %d polynomial as constant\n";
-      
+
       PPolynomial q;
       q.set (2);
 

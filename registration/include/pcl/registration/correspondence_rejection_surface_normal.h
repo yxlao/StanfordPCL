@@ -66,7 +66,7 @@ namespace pcl
       public:
 
         /** \brief Empty constructor. Sets the threshold to 1.0. */
-        CorrespondenceRejectorSurfaceNormal () 
+        CorrespondenceRejectorSurfaceNormal ()
           : threshold_ (1.0)
           , data_container_ ()
         {
@@ -77,11 +77,11 @@ namespace pcl
           * \param[in] original_correspondences the set of initial correspondences given
           * \param[out] remaining_correspondences the resultant filtered set of remaining correspondences
           */
-        inline void 
-        getRemainingCorrespondences (const pcl::Correspondences& original_correspondences, 
+        inline void
+        getRemainingCorrespondences (const pcl::Correspondences& original_correspondences,
                                      pcl::Correspondences& remaining_correspondences);
 
-        /** \brief Set the thresholding angle between the normals for correspondence rejection. 
+        /** \brief Set the thresholding angle between the normals for correspondence rejection.
           * \param[in] threshold cosine of the thresholding angle between the normals for rejection
           */
         inline void
@@ -92,17 +92,17 @@ namespace pcl
         getThreshold () const { return threshold_; };
 
         /** \brief Initialize the data container object for the point type and the normal type. */
-        template <typename PointT, typename NormalT> inline void 
+        template <typename PointT, typename NormalT> inline void
         initializeDataContainer ()
         {
           data_container_.reset (new DataContainer<PointT, NormalT>);
         }
 
         /** \brief Provide a source point cloud dataset (must contain XYZ
-          * data!), used to compute the correspondence distance.  
+          * data!), used to compute the correspondence distance.
           * \param[in] cloud a cloud containing XYZ data
           */
-        template <typename PointT> inline void 
+        template <typename PointT> inline void
         setInputCloud (const typename pcl::PointCloud<PointT>::ConstPtr &input)
         {
           if (!data_container_)
@@ -111,10 +111,10 @@ namespace pcl
         }
 
         /** \brief Provide a target point cloud dataset (must contain XYZ
-          * data!), used to compute the correspondence distance.  
+          * data!), used to compute the correspondence distance.
           * \param[in] target a cloud containing XYZ data
           */
-        template <typename PointT> inline void 
+        template <typename PointT> inline void
         setInputTarget (const typename pcl::PointCloud<PointT>::ConstPtr &target)
         {
           if (!data_container_)
@@ -125,7 +125,7 @@ namespace pcl
         /** \brief Set the normals computed on the input point cloud
           * \param[in] normals the normals computed for the input cloud
           */
-        template <typename PointT, typename NormalT> inline void 
+        template <typename PointT, typename NormalT> inline void
         setInputNormals (const typename pcl::PointCloud<NormalT>::ConstPtr &normals)
         {
           if (!data_container_)
@@ -136,7 +136,7 @@ namespace pcl
         /** \brief Set the normals computed on the target point cloud
           * \param[in] normals the normals computed for the input cloud
           */
-        template <typename PointT, typename NormalT> inline void 
+        template <typename PointT, typename NormalT> inline void
         setTargetNormals (const typename pcl::PointCloud<NormalT>::ConstPtr &normals)
         {
           if (!data_container_)
@@ -146,8 +146,8 @@ namespace pcl
 
         /** \brief Get the normals computed on the input point cloud */
         template <typename NormalT> inline typename pcl::PointCloud<NormalT>::Ptr
-        getInputNormals () const 
-        { 
+        getInputNormals () const
+        {
           if (!data_container_)
             PCL_ERROR ("[pcl::%s::setInputCloud] Initilize the data container object by calling intializeDataContainer () before using this function.\n", getClassName ().c_str ());
           return (boost::static_pointer_cast<DataContainer<pcl::PointXYZ, NormalT> > (data_container_)->getInputNormals ());
@@ -155,8 +155,8 @@ namespace pcl
 
         /** \brief Get the normals computed on the target point cloud */
         template <typename NormalT> inline typename pcl::PointCloud<NormalT>::Ptr
-        getTargetNormals () const 
-        { 
+        getTargetNormals () const
+        {
           if (!data_container_)
             PCL_ERROR ("[pcl::%s::setInputCloud] Initilize the data container object by calling intializeDataContainer () before using this function.\n", getClassName ().c_str ());
           return (boost::static_pointer_cast<DataContainer<pcl::PointXYZ, NormalT> > (data_container_)->getTargetNormals ());
@@ -167,7 +167,7 @@ namespace pcl
         /** \brief Apply the rejection algorithm.
           * \param[out] correspondences the set of resultant correspondences.
           */
-        inline void 
+        inline void
         applyRejection (pcl::Correspondences &correspondences)
         {
           getRemainingCorrespondences (*input_correspondences_, correspondences);

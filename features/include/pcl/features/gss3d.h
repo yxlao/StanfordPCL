@@ -80,7 +80,7 @@ namespace pcl
       typedef typename FeatureFromNormals<PointInT, PointNT, PointOutT>::PointCloudN PointCloudN;
       typedef typename FeatureFromNormals<PointInT, PointNT, PointOutT>::PointCloudNPtr PointCloudNPtr;
 
-      /** \brief Empty constructor. 
+      /** \brief Empty constructor.
         * \param[in] scales
         * \param[in] window_size
         */
@@ -149,9 +149,9 @@ namespace pcl
 
     private:
       /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &output) {}
   };
 }

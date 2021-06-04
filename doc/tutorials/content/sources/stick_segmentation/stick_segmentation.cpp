@@ -19,7 +19,7 @@ class ConditionThresholdHSV : public pcl::ConditionBase<PointT>
 {
   public:
     typedef typename boost::shared_ptr<ConditionThresholdHSV<PointT> > Ptr;
-    
+
     ConditionThresholdHSV (float min_h, float max_h, float min_s, float max_s, float min_v, float max_v) :
       min_h_(min_h), max_h_(max_h), min_s_(min_s), max_s_(max_s), min_v_(min_v), max_v_(max_v)
     {
@@ -30,31 +30,31 @@ class ConditionThresholdHSV : public pcl::ConditionBase<PointT>
       while (max_h_ < 0) max_h_ += 360;
       while (max_h_ >= 360) max_h_ -= 360;
     }
-    
+
     // Evaluate whether the color of the given point falls within the specified thresholds
     virtual bool evaluate(const PointT & p) const
     {
       float h, s, v;
       rgb2hsv (p.r, p.g, p.b, h, s, v);
-      return (!pcl_isnan(h) && !pcl_isnan(s) && !pcl_isnan(v) && 
+      return (!pcl_isnan(h) && !pcl_isnan(s) && !pcl_isnan(v) &&
               ((min_h_ < max_h_) ? ((min_h_ <= h) && (h <= max_h_)) : ((min_h_ <= h) || (h <= max_h_))) &&
               (min_s_ <= s) && (s <= max_s_) &&
               (min_v_ <= v) && (v <= max_v_));
     }
-    
+
     void rgb2hsv (uint8_t r, uint8_t g, uint8_t b, float & h, float & s, float & v) const
     {
       float maxval = (r > g) ? ((r > b) ? r : b) : ((g > b) ? g : b);
       float minval = (r < g) ? ((r < b) ? r : b) : ((g < b) ? g : b);
       float minmaxdiff = maxval - minval;
-      
+
       if (maxval == minval)
       {
         h = 0;
         s = 0;
         v = maxval;
         return;
-      }   
+      }
       else if (maxval == r)
       {
         h = 60.0*((g - b)/minmaxdiff);
@@ -77,7 +77,7 @@ class ConditionThresholdHSV : public pcl::ConditionBase<PointT>
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 filterRed (const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &input, pcl::PointCloud<pcl::PointXYZRGB>::Ptr &output)
 {
   pcl::ConditionalRemoval<pcl::PointXYZRGB> removal_filter;
@@ -90,7 +90,7 @@ filterRed (const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &input, pcl::PointCloud<
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 filterGreen (const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &input, pcl::PointCloud<pcl::PointXYZRGB>::Ptr &output)
 {
   pcl::ConditionalRemoval<pcl::PointXYZRGB> removal_filter;
@@ -104,7 +104,7 @@ filterGreen (const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &input, pcl::PointClou
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void
-downsample (const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &input, 
+downsample (const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &input,
             pcl::PointCloud<pcl::PointXYZRGB>::Ptr &output)
 {
   pcl::VoxelGrid<pcl::PointXYZRGB> pass;
@@ -117,7 +117,7 @@ downsample (const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &input,
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void
-extractLargestCluster (const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &input, 
+extractLargestCluster (const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &input,
                        const pcl::PointIndices::Ptr &inliers_all,
                        pcl::PointIndices &inliers)
 {
@@ -132,7 +132,7 @@ extractLargestCluster (const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &input,
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void
-compute (const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &input, 
+compute (const pcl::PointCloud<pcl::PointXYZRGB>::Ptr &input,
          pcl::PointCloud<pcl::PointXYZRGB>::Ptr &output,
          pcl::ModelCoefficients &coefficients,
          pcl::PointIndices &inliers)
@@ -195,7 +195,7 @@ main (int argc, char** argv)
   for (size_t i = 0; i < p_file_indices.size (); ++i)
   {
     pcl::io::loadPCDFile (argv[p_file_indices[i]], *cloud);
-    
+
     // Compute
     pcl::console::TicToc tt;
     tt.tic ();
@@ -225,7 +225,7 @@ main (int argc, char** argv)
     p.setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 10.0, "filter");
     p.setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_OPACITY, 0.2, "filter");
 
-    if (!p.updatePointCloud (line, "line inliers")) 
+    if (!p.updatePointCloud (line, "line inliers"))
       p.addPointCloud (line, "line inliers");
 
     pcl::PointXYZRGB pmin, pmax;

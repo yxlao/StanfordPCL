@@ -107,11 +107,11 @@ void
 ON_SurfaceProxy::Dump( ON_TextLog& dump ) const
 {
   dump.Print("ON_SurfaceProxy uses %x\n",m_surface);
-  if (m_surface ) 
+  if (m_surface )
     m_surface->Dump(dump);
 }
 
-ON_BOOL32 
+ON_BOOL32
 ON_SurfaceProxy::Write(
        ON_BinaryArchive&  // open binary file
      ) const
@@ -119,7 +119,7 @@ ON_SurfaceProxy::Write(
   return false;
 }
 
-ON_BOOL32 
+ON_BOOL32
 ON_SurfaceProxy::Read(
        ON_BinaryArchive&  // open binary file
      )
@@ -127,13 +127,13 @@ ON_SurfaceProxy::Read(
   return false;
 }
 
-int 
+int
 ON_SurfaceProxy::Dimension() const
 {
   return ( m_surface ) ? m_surface->Dimension() : 0;
 }
 
-ON_BOOL32 
+ON_BOOL32
 ON_SurfaceProxy::GetBBox( // returns true if successful
          double* boxmin,    // minimum
          double* boxmax,    // maximum
@@ -144,7 +144,7 @@ ON_SurfaceProxy::GetBBox( // returns true if successful
 }
 
 ON_BOOL32
-ON_SurfaceProxy::Transform( 
+ON_SurfaceProxy::Transform(
     const ON_Xform& // xform - formal parameter intentionally ignored in this virtual function
     )
 {
@@ -159,7 +159,7 @@ ON_SurfaceProxy::Domain( int dir ) const
   if ( m_bTransposed ) {
     dir = (dir) ? 0 : 1;
   }
-  if ( m_surface ) 
+  if ( m_surface )
     d = m_surface->Domain(dir);
   return d;
 }
@@ -192,7 +192,7 @@ ON_SurfaceProxy::Degree( int dir ) const
 }
 
 
-ON_BOOL32 
+ON_BOOL32
 ON_SurfaceProxy::GetParameterTolerance(
          int dir,
          double t,  // t = parameter in domain
@@ -206,7 +206,7 @@ ON_SurfaceProxy::GetParameterTolerance(
   return ( m_surface ) ? m_surface->GetParameterTolerance(dir,t,tminus,tplus) : false;
 }
 
-ON_BOOL32 
+ON_BOOL32
 ON_SurfaceProxy::IsClosed( int dir ) const
 {
   if ( m_bTransposed ) {
@@ -215,7 +215,7 @@ ON_SurfaceProxy::IsClosed( int dir ) const
   return ( m_surface ) ? m_surface->IsClosed( dir ) : false;
 }
 
-ON_Surface::ISO 
+ON_Surface::ISO
 ON_SurfaceProxy::IsIsoparametric( // returns isoparametric status of 2d curve
         const ON_Curve& crv,
         const ON_Interval* subdomain
@@ -266,7 +266,7 @@ ON_SurfaceProxy::IsIsoparametric( // returns isoparametric status of 2d curve
 	return iso;
 }
 
-ON_Surface::ISO 
+ON_Surface::ISO
 ON_SurfaceProxy::IsIsoparametric( // returns isoparametric status based on bounding box
         const ON_BoundingBox& box
         ) const
@@ -327,7 +327,7 @@ ON_BOOL32 ON_SurfaceProxy::IsPlanar(
   return rc;
 }
 
-ON_BOOL32 
+ON_BOOL32
 ON_SurfaceProxy::IsPeriodic( int dir ) const
 {
   if ( m_bTransposed ) {
@@ -336,7 +336,7 @@ ON_SurfaceProxy::IsPeriodic( int dir ) const
   return ( m_surface ) ? m_surface->IsPeriodic( dir ) : false;
 }
 
-bool ON_SurfaceProxy::GetNextDiscontinuity( 
+bool ON_SurfaceProxy::GetNextDiscontinuity(
                 int dir,
                 ON::continuity c,
                 double t0,
@@ -359,7 +359,7 @@ bool ON_SurfaceProxy::GetNextDiscontinuity(
   return rc;
 }
 
-ON_BOOL32 
+ON_BOOL32
 ON_SurfaceProxy::IsSingular( int side ) const
 {
   if ( m_bTransposed ) {
@@ -382,7 +382,7 @@ ON_SurfaceProxy::IsSingular( int side ) const
 }
 
 ON_BOOL32
-ON_SurfaceProxy::Reverse( 
+ON_SurfaceProxy::Reverse(
     int // dir - formal parameter intentionally ignored in this virtual function
     )
 {
@@ -398,8 +398,8 @@ ON_SurfaceProxy::Transpose()
 
 bool ON_SurfaceProxy::IsContinuous(
     ON::continuity desired_continuity,
-    double s, 
-    double t, 
+    double s,
+    double t,
     int* hint, // default = NULL,
     double point_tolerance, // default=ON_ZERO_TOLERANCE
     double d1_tolerance, // default==ON_ZERO_TOLERANCE
@@ -426,7 +426,7 @@ bool ON_SurfaceProxy::IsContinuous(
 
 
 
-ON_BOOL32 
+ON_BOOL32
 ON_SurfaceProxy::Evaluate( // returns false if unable to evaluate
        double s, double t, // evaluation parameters
        int der_count,  // number of derivatives (>=0)
@@ -434,7 +434,7 @@ ON_SurfaceProxy::Evaluate( // returns false if unable to evaluate
        double* v,      // v[] array of length stride*(ndir+1)
        int side,       // optional - determines which side to evaluate from
                        //         0 = default
-                       //      <  0 to evaluate from below, 
+                       //      <  0 to evaluate from below,
                        //      >  0 to evaluate from above
        int* hint       // optional - evaluation hint (int) used to speed
                        //            repeated evaluations
@@ -467,16 +467,16 @@ ON_Curve* ON_SurfaceProxy::IsoCurve(
   return isocurve;
 }
 
-int 
+int
 ON_SurfaceProxy::GetNurbForm( // returns 0: unable to create NURBS representation
                    //            with desired accuracy.
                    //         1: success - returned NURBS parameterization
                    //            matches the surface's to wthe desired accuracy
                    //         2: success - returned NURBS point locus matches
                    //            the surfaces's to the desired accuracy but, on
-                   //            the interior of the surface's domain, the 
+                   //            the interior of the surface's domain, the
                    //            surface's parameterization and the NURBS
-                   //            parameterization may not match to the 
+                   //            parameterization may not match to the
                    //            desired accuracy.
         ON_NurbsSurface& nurbs,
         double tolerance
@@ -489,16 +489,16 @@ ON_SurfaceProxy::GetNurbForm( // returns 0: unable to create NURBS representatio
   return rc;
 }
 
-int 
+int
 ON_SurfaceProxy::HasNurbForm( // returns 0: unable to create NURBS representation
                    //            with desired accuracy.
                    //         1: success - returned NURBS parameterization
                    //            matches the surface's to wthe desired accuracy
                    //         2: success - returned NURBS point locus matches
                    //            the surfaces's to the desired accuracy but, on
-                   //            the interior of the surface's domain, the 
+                   //            the interior of the surface's domain, the
                    //            surface's parameterization and the NURBS
-                   //            parameterization may not match to the 
+                   //            parameterization may not match to the
                    //            desired accuracy.
         ) const
 
@@ -516,7 +516,7 @@ bool ON_SurfaceProxy::GetSurfaceParameterFromNurbFormParameter(
   bool rc = false;
   if ( m_surface )
   {
-    rc = m_bTransposed 
+    rc = m_bTransposed
        ? m_surface->GetSurfaceParameterFromNurbFormParameter(nurbs_t,nurbs_s,surface_t,surface_s)
        : m_surface->GetSurfaceParameterFromNurbFormParameter(nurbs_s,nurbs_t,surface_s,surface_t);
   }
@@ -531,7 +531,7 @@ bool ON_SurfaceProxy::GetNurbFormParameterFromSurfaceParameter(
   bool rc = false;
   if ( m_surface )
   {
-    rc = m_bTransposed 
+    rc = m_bTransposed
        ? m_surface->GetNurbFormParameterFromSurfaceParameter(surface_t,surface_s,nurbs_t,nurbs_s)
        : m_surface->GetNurbFormParameterFromSurfaceParameter(surface_s,surface_t,nurbs_s,nurbs_t);
   }

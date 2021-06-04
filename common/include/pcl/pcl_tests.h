@@ -46,7 +46,7 @@ namespace pcl
     * We took some liberty with upcasing names to make them look like googletest
     * macros names so that reader is not confused.
     *
-    * \author Nizar Sallem 
+    * \author Nizar Sallem
     */
   namespace test
   {

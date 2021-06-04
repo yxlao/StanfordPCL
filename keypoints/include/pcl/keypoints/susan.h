@@ -44,13 +44,13 @@
 
 namespace pcl
 {
-  /** \brief SUSAN implements a RGB-D extension of the SUSAN detector inluding normal 
-    * directions variation in top of intensity variation. 
-    * It is different from Harris in that it exploits normals directly so it is faster.  
+  /** \brief SUSAN implements a RGB-D extension of the SUSAN detector inluding normal
+    * directions variation in top of intensity variation.
+    * It is different from Harris in that it exploits normals directly so it is faster.
     * Original paper "SUSAN — A New Approach to Low Level Image Processing", Smith,
-    * Stephen M. and Brady, J. Michael 
+    * Stephen M. and Brady, J. Michael
     *
-    * \author Nizar Sallem 
+    * \author Nizar Sallem
     * \ingroup keypoints
     */
   template <typename PointInT, typename PointOutT, typename NormalT = pcl::Normal, typename IntensityT= pcl::common::IntensityFieldAccessor<PointInT> >
@@ -82,9 +82,9 @@ namespace pcl
         * \param[in] angular_threshold to test if normals are parallel
         * \param[in] intensity_threshold to test if points are of same color
         */
-      SUSAN (float radius = 0.01f, 
-             float distance_threshold = 0.001f, 
-             float angular_threshold = 0.0001f, 
+      SUSAN (float radius = 0.01f,
+             float distance_threshold = 0.001f,
+             float angular_threshold = 0.0001f,
              float intensity_threshold = 7.0f)
         : distance_threshold_ (distance_threshold)
         , angular_threshold_ (angular_threshold)
@@ -103,30 +103,30 @@ namespace pcl
       /** \brief set the radius for normal estimation and non maxima supression.
         * \param[in] radius
         */
-      void 
+      void
       setRadius (float radius);
 
-      void 
+      void
       setDistanceThreshold (float distance_threshold);
 
-      /** \brief set the angular_threshold value for detecting corners. Normals are considered as 
+      /** \brief set the angular_threshold value for detecting corners. Normals are considered as
         * parallel if 1 - angular_threshold <= (Ni.Nj) <= 1
         * \param[in] angular_threshold
         */
-      void 
+      void
       setAngularThreshold (float angular_threshold);
 
-      /** \brief set the intensity_threshold value for detecting corners. 
+      /** \brief set the intensity_threshold value for detecting corners.
         * \param[in] intensity_threshold
         */
-      void 
+      void
       setIntensityThreshold (float intensity_threshold);
 
       /**
         * \brief set normals if precalculated normals are available.
         * \param normals
         */
-      void 
+      void
       setNormals (const PointCloudNConstPtr &normals);
 
       virtual void
@@ -141,22 +141,22 @@ namespace pcl
       /** \brief Apply non maxima suppression to the responses to keep strongest corners.
         * \note in SUSAN points with less response or stronger corners
         */
-      void 
+      void
       setNonMaxSupression (bool nonmax);
-    
-      /** \brief Filetr false positive using geometric criteria. 
-        * The nucleus and the centroid should at least distance_threshold_ from each other AND all the 
+
+      /** \brief Filetr false positive using geometric criteria.
+        * The nucleus and the centroid should at least distance_threshold_ from each other AND all the
         * points belonging to the USAN must be within the segment [nucleus centroid].
-        * \param[in] validate 
+        * \param[in] validate
         */
       void
       setGeometricValidation (bool validate);
-    
+
     protected:
       bool
       initCompute ();
 
-      void 
+      void
       detectKeypoints (PointCloudOut &output);
       /** \brief return true if a point lies within the line between the nucleus and the centroid
         * \param[in] nucleus coordinate of the nucleus
@@ -182,8 +182,8 @@ namespace pcl
       bool nonmax_;
       /// intensity field accessor
       IntensityT intensity_;
-      /** \brief Set to a value different than -1 if the output cloud has a "label" field and we have 
-        * to save the keypoints indices. 
+      /** \brief Set to a value different than -1 if the output cloud has a "label" field and we have
+        * to save the keypoints indices.
         */
       int label_idx_;
       /** \brief The list of fields present in the output point cloud data. */

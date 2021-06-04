@@ -43,7 +43,7 @@
 
 namespace pcl
 {
-  /** \brief 
+  /** \brief
     *
     *
     * \author Christian Potthast (potthast@usc.edu)
@@ -62,7 +62,7 @@ namespace pcl
       /** \brief Filter cloud and initializes voxel structure.
        * \param[out] output cloud containing centroids of voxels containing a sufficient number of points
        */
-      void 
+      void
       applyFilter (PointCloud &output);
 
   };

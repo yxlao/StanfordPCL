@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2011, Willow Garage, Inc.
- * 
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -58,7 +58,7 @@ namespace pcl
       struct plus
       {
         __forceinline__ __device__ float
-        operator () (const float_type &lhs, const volatile float_type& rhs) const 
+        operator () (const float_type &lhs, const volatile float_type& rhs) const
         {
           return (lhs + rhs);
         }
@@ -191,7 +191,7 @@ namespace pcl
     };
 
     __global__ void
-    combinedKernel (const Combined cs) 
+    combinedKernel (const Combined cs)
     {
       cs ();
     }
@@ -239,7 +239,7 @@ namespace pcl
     };
 
     __global__ void
-    TransformEstimatorKernel2 (const TranformReduction tr) 
+    TransformEstimatorKernel2 (const TranformReduction tr)
     {
       tr ();
     }
@@ -256,7 +256,7 @@ namespace pcl
       struct plus
       {
         __forceinline__ __device__ float
-        operator () (const float_type &lhs, const volatile float_type& rhs) const 
+        operator () (const float_type &lhs, const volatile float_type& rhs) const
         {
           return (lhs + rhs);
         }
@@ -381,7 +381,7 @@ namespace pcl
     };
 
     __global__ void
-    combinedKernel2 (const Combined2 cs) 
+    combinedKernel2 (const Combined2 cs)
     {
       cs ();
     }
@@ -398,7 +398,7 @@ namespace pcl
       struct plus
       {
         __forceinline__ __device__ float
-        operator () (const float_type &lhs, const volatile float_type& rhs) const 
+        operator () (const float_type &lhs, const volatile float_type& rhs) const
         {
           return (lhs + rhs);
         }
@@ -523,7 +523,7 @@ namespace pcl
     };
 
     __global__ void
-    combinedKernelPrevSpace (const CombinedPrevSpace cs) 
+    combinedKernelPrevSpace (const CombinedPrevSpace cs)
     {
       cs ();
     }
@@ -534,12 +534,12 @@ namespace pcl
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void
-pcl::device::estimateCombined (const Mat33& Rcurr, const float3& tcurr, 
-                               const MapArr& vmap_curr, const MapArr& nmap_curr, 
+pcl::device::estimateCombined (const Mat33& Rcurr, const float3& tcurr,
+                               const MapArr& vmap_curr, const MapArr& nmap_curr,
                                const Mat33& Rprev_inv, const float3& tprev, const Intr& intr,
-                               const MapArr& vmap_g_prev, const MapArr& nmap_g_prev, 
+                               const MapArr& vmap_g_prev, const MapArr& nmap_g_prev,
                                float distThres, float angleThres,
-                               DeviceArray2D<float_type>& gbuf, DeviceArray<float_type>& mbuf, 
+                               DeviceArray2D<float_type>& gbuf, DeviceArray<float_type>& mbuf,
                                float_type* matrixA_host, float_type* vectorB_host)
 {
   int cols = vmap_curr.cols ();
@@ -648,12 +648,12 @@ pcl::device::estimateCombined (const Mat33& Rcurr, const float3& tcurr,
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void
-pcl::device::estimateCombinedPrevSpace (const Mat33& Rcurr, const float3& tcurr, 
-                               const MapArr& vmap_curr, const MapArr& nmap_curr, 
+pcl::device::estimateCombinedPrevSpace (const Mat33& Rcurr, const float3& tcurr,
+                               const MapArr& vmap_curr, const MapArr& nmap_curr,
                                const Mat33& Rprev_inv, const float3& tprev, const Intr& intr,
-                               const MapArr& vmap_g_prev, const MapArr& nmap_g_prev, 
+                               const MapArr& vmap_g_prev, const MapArr& nmap_g_prev,
                                float distThres, float angleThres,
-                               DeviceArray2D<float_type>& gbuf, DeviceArray<float_type>& mbuf, 
+                               DeviceArray2D<float_type>& gbuf, DeviceArray<float_type>& mbuf,
                                float_type* matrixA_host, float_type* vectorB_host)
 {
   int cols = vmap_curr.cols ();

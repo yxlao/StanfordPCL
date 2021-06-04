@@ -47,10 +47,10 @@ namespace pcl
   // if s = 0 > h = -1 (undefined)
 
   /** \brief Convert a XYZRGB point type to a XYZI
-    * \param[in] in the input XYZRGB point 
+    * \param[in] in the input XYZRGB point
     * \param[out] out the output XYZI point
     */
-  inline void 
+  inline void
   PointXYZRGBtoXYZI (PointXYZRGB&  in,
                      PointXYZI&    out)
   {
@@ -58,12 +58,12 @@ namespace pcl
     out.intensity = 0.299f * in.r + 0.587f * in.g + 0.114f * in.b;
   }
 
-  
+
   /** \brief Convert a XYZRGB point type to a XYZHSV
-    * \param[in] in the input XYZRGB point 
+    * \param[in] in the input XYZRGB point
     * \param[out] out the output XYZHSV point
     */
-  inline void 
+  inline void
   PointXYZRGBtoXYZHSV (PointXYZRGB& in,
                        PointXYZHSV& out)
   {
@@ -87,7 +87,7 @@ namespace pcl
       out.h = static_cast<float> (in.g - in.b) / (out.v - min);
     else if (in.g == out.v)
       out.h = static_cast<float> (2.0f + float (in.b - in.r) / float (out.v - min));
-    else 
+    else
       out.h = static_cast<float> (4.0f + float (in.r - in.g) / float (out.v - min));
     out.h *= 60;
     if (out.h < 0)
@@ -96,10 +96,10 @@ namespace pcl
 
 
   /** \brief Convert a XYZHSV point type to a XYZRGB
-    * \param[in] in the input XYZHSV point 
+    * \param[in] in the input XYZHSV point
     * \param[out] out the output XYZRGB point
     */
-  inline void 
+  inline void
   PointXYZHSVtoXYZRGB (PointXYZHSV&  in,
                        PointXYZRGB&  out)
   {
@@ -107,7 +107,7 @@ namespace pcl
     {
       out.r = out.g = out.b = static_cast<uint8_t> (in.v);
       return;
-    } 
+    }
     float a = in.h / 60;
     int   i = static_cast<int> (floorf (a));
     float f = a - static_cast<float> (i);
@@ -126,9 +126,9 @@ namespace pcl
       }
       case 1:
       {
-        out.r = static_cast<uint8_t> (255 * q); 
-        out.g = static_cast<uint8_t> (255 * in.v); 
-        out.b = static_cast<uint8_t> (255 * p); 
+        out.r = static_cast<uint8_t> (255 * q);
+        out.g = static_cast<uint8_t> (255 * in.v);
+        out.b = static_cast<uint8_t> (255 * p);
         break;
       }
       case 2:
@@ -148,17 +148,17 @@ namespace pcl
       case 4:
       {
         out.r = static_cast<uint8_t> (255 * t);
-        out.g = static_cast<uint8_t> (255 * p); 
-        out.b = static_cast<uint8_t> (255 * in.v); 
+        out.g = static_cast<uint8_t> (255 * p);
+        out.b = static_cast<uint8_t> (255 * in.v);
         break;
       }
       default:
       {
-        out.r = static_cast<uint8_t> (255 * in.v); 
-        out.g = static_cast<uint8_t> (255 * p); 
+        out.r = static_cast<uint8_t> (255 * in.v);
+        out.g = static_cast<uint8_t> (255 * p);
         out.b = static_cast<uint8_t> (255 * q);
         break;
-      }      
+      }
     }
   }
 
@@ -167,7 +167,7 @@ namespace pcl
     * \param[in] in the input XYZRGB point cloud
     * \param[out] out the output XYZHSV point cloud
     */
-  inline void 
+  inline void
   PointCloudXYZRGBtoXYZHSV (PointCloud<PointXYZRGB>& in,
                             PointCloud<PointXYZHSV>& out)
   {
@@ -184,7 +184,7 @@ namespace pcl
     * \param[in] in the input XYZRGB point cloud
     * \param[out] out the output XYZI point cloud
     */
-  inline void 
+  inline void
   PointCloudXYZRGBtoXYZI (PointCloud<PointXYZRGB>& in,
                           PointCloud<PointXYZI>& out)
   {

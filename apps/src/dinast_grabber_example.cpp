@@ -108,7 +108,7 @@ convertImageToCloud (const unsigned char *image, pcl::PointCloud<pcl::PointXYZI>
         pxl[7] = image[ipx + IMAGE_WIDTH - 1];
         pxl[8] = image[ipx + IMAGE_WIDTH + 1];
 
-        for (int ii = 0; ii < 9; ii++) 
+        for (int ii = 0; ii < 9; ii++)
           measure += pxl[ii];
         measure /= 9;
 #else
@@ -139,7 +139,7 @@ convertImageToCloud (const unsigned char *image, pcl::PointCloud<pcl::PointXYZI>
       static const double dist_max_2d = 1 / 160.0; /// @todo Why not 200?
       //static const double dist_max_2d = 1 / 200.0;
       static const double FOV = 64.0 * M_PI / 180.0; // diagonal FOV?
-  
+
       double theta_colati = FOV * r1 * dist_max_2d;
       double c_theta = cos (theta_colati);
       double s_theta = sin (theta_colati);
@@ -167,20 +167,20 @@ convertImageToCloud (const unsigned char *image, pcl::PointCloud<pcl::PointXYZI>
   }
 }
 
-/* --[ */ 
+/* --[ */
 
 int
-main (int argc, char** argv) 
+main (int argc, char** argv)
 {
 
   pcl::DinastGrabber grabber;
-  
+
   grabber.findDevice (1);
-  
+
   grabber.openDevice();
 
   std::cerr << "Device version/revision number: " << grabber.getDeviceVersion () << std::endl;
-  
+
   grabber.start ();
 
   pcl::visualization::ImageViewer vis_img ("Dinast Image Viewer");
@@ -190,18 +190,18 @@ main (int argc, char** argv)
   unsigned char *img2 = (unsigned char*)malloc (IMAGE_SIZE);
 
   pcl::PointCloud<pcl::PointXYZI>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZI>);
-  
+
   while (true)
   {
     if (grabber.readImage ( img1, img2) == 0)
       continue;
 
      convertImageToCloud (img1, *cloud);
-    
-    
+
+
     FPS_CALC ("grabber + visualization");
     vis_img.showMonoImage (img1, IMAGE_WIDTH, IMAGE_HEIGHT);
-    
+
     pcl::visualization::PointCloudColorHandlerGenericField<pcl::PointXYZI> handler (cloud, "intensity");
     if (!vis_cld.updatePointCloud (cloud, handler, "DinastCloud"))
     {
@@ -211,9 +211,9 @@ main (int argc, char** argv)
 
     vis_img.spinOnce ();
     vis_cld.spinOnce ();
-    
+
   }
-  
+
   grabber.stop ();
   grabber.closeDevice ();
 

@@ -50,12 +50,12 @@ namespace pcl
   namespace gpu
   {
     namespace people
-    {      
+    {
       /**
        * @brief This structure containts all parameters to describe blobs and their parent/child relations
        * @todo: clean this out in the end, perhaps place the children in a separate struct
        */
-      struct Blob2 
+      struct Blob2
       {
         int    id;                      // specific identification number of this blob
         part_t label;                   // labels which part this blob is, defined in common.
@@ -71,7 +71,7 @@ namespace pcl
         int    child_lid[MAX_CHILD];    // lid of the best found child
         float  child_dist[MAX_CHILD];   // result of evaluation function of this child
         char   child_label[MAX_CHILD];  // makes displaying the tree easier
-      
+
         pcl::PointIndices indices;      // The indices of the pointcloud
         Eigen::Vector4f   min;          // The min of the bounding box
         Eigen::Vector4f   max;          // The max of the bounding box
@@ -92,7 +92,7 @@ namespace pcl
           os << " child " << i << " id " << b.child_id[i] << " lid " << b.child_lid[i] << " dist " << b.child_dist[i] << " label " << b.child_label[i] << std::endl;
         }
         return (os);
-      }      
+      }
     } // end namespace people
   } // end namespace gpu
 } // end namespace pcl

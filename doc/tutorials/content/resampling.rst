@@ -20,7 +20,7 @@ use a resampling algorithm, which attempts to recreate the missing parts of the
 surface by higher order polynomial interpolations between the surrounding data
 points. By performing resampling, these small errors can be corrected and the
 "double walls" artifacts resulted from registering multiple scans together can
-be smoothed. 
+be smoothed.
 
 .. image:: images/resampling_1.png
 
@@ -34,9 +34,9 @@ we obtain:
 
 .. image:: images/resampling_2.png
 
-To approximate the surface defined by a local neighborhood of points 
+To approximate the surface defined by a local neighborhood of points
 **p1**, **p2** ... **pk** at a point **q** we use a bivariate polynomial height function
-defined on a on a robustly computed reference plane. 
+defined on a on a robustly computed reference plane.
 
 .. raw:: html
 
@@ -64,7 +64,7 @@ Now, let's break down the code piece by piece.
    :language: cpp
    :lines: 10-12
 
-   
+
 as the example PCD has only XYZ coordinates, we load it into a
 PointCloud<PointXYZ>. These fields are mandatory for the method, other ones are
 allowed and will be preserved.
@@ -86,7 +86,7 @@ dimensions of the input are smoothed in the output.
    :language: cpp
    :lines: 27
 
-   
+
 polynomial fitting could be disabled for speeding up smoothing. Please consult
 the code API (:pcl:`MovingLeastSquares <pcl::MovingLeastSquares>`) for default
 values and additional parameters to control the smoothing process.
@@ -95,7 +95,7 @@ values and additional parameters to control the smoothing process.
    :language: cpp
    :lines: 34-36
 
-   
+
 if the normals and the original dimensions need to be in the same cloud, the
 fields have to be concatenated.
 

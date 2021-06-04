@@ -15,7 +15,7 @@ editor, and place the following code inside it:
    :language: cpp
    :linenos:
 
-   
+
 Explanation
 -----------
 
@@ -25,15 +25,15 @@ Lets look at this in parts:
    :language: cpp
    :lines: 1-17
 
-   
-This includes the necessary range image header, starts the main and generates a point cloud that represents a rectangle.  
+
+This includes the necessary range image header, starts the main and generates a point cloud that represents a rectangle.
 
 
 .. literalinclude:: sources/range_image_creation/range_image_creation.cpp
    :language: cpp
    :lines: 20-27
 
-   
+
 This part defines the parameters for the range image we want to create.
 
 The angular resolution is supposed to be 1 degree, meaning the beams represented by neighboring pixels differ by one degree.
@@ -68,11 +68,11 @@ Add the following lines to your CMakeLists.txt file:
 .. literalinclude:: sources/range_image_creation/CMakeLists.txt
    :language: cmake
    :linenos:
-   
-   
+
+
 After you have made the executable, you can run it. Simply do::
 
-  $ ./range_image_creation 
+  $ ./range_image_creation
 
 You should see the following::
 

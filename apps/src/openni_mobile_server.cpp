@@ -73,8 +73,8 @@ CopyPointCloudToBuffers (pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr cloud, Poi
 
     const pcl::PointXYZRGBA& point = cloud->points[i];
 
-    if (!pcl_isfinite (point.x) || 
-        !pcl_isfinite (point.y) || 
+    if (!pcl_isfinite (point.x) ||
+        !pcl_isfinite (point.y) ||
         !pcl_isfinite (point.z))
       continue;
 
@@ -121,7 +121,7 @@ class PCLMobileServer
     {
       voxel_grid_filter_.setLeafSize (leaf_size_x, leaf_size_y, leaf_size_z);
     }
-    
+
     void
     handleIncomingCloud (const CloudConstPtr& new_cloud)
     {
@@ -236,7 +236,7 @@ usage (char ** argv)
 }
 
 
-int 
+int
 main (int argc, char ** argv)
 {
   if (pcl::console::find_argument (argc, argv, "-h") != -1)

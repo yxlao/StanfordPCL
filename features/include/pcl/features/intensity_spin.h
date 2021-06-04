@@ -43,12 +43,12 @@
 
 namespace pcl
 {
-  /** \brief IntensitySpinEstimation estimates the intensity-domain spin image descriptors for a given point cloud 
-    * dataset containing points and intensity.  For more information about the intensity-domain spin image descriptor, 
+  /** \brief IntensitySpinEstimation estimates the intensity-domain spin image descriptors for a given point cloud
+    * dataset containing points and intensity.  For more information about the intensity-domain spin image descriptor,
     * see:
     *
-    *   Svetlana Lazebnik, Cordelia Schmid, and Jean Ponce. 
-    *   A sparse texture representation using local affine regions. 
+    *   Svetlana Lazebnik, Cordelia Schmid, and Jean Ponce.
+    *   A sparse texture representation using local affine regions.
     *   In IEEE Transactions on Pattern Analysis and Machine Intelligence, volume 27, pages 1265-1278, August 2005.
     * \author Michael Dixon
     * \ingroup features
@@ -66,7 +66,7 @@ namespace pcl
 
       using Feature<PointInT, PointOutT>::tree_;
       using Feature<PointInT, PointOutT>::search_radius_;
-      
+
       typedef typename pcl::PointCloud<PointInT> PointCloudIn;
       typedef typename Feature<PointInT, PointOutT>::PointCloudOut PointCloudOut;
 
@@ -77,7 +77,7 @@ namespace pcl
       };
 
       /** \brief Estimate the intensity-domain spin image descriptor for a given point based on its spatial
-        * neighborhood of 3D points and their intensities. 
+        * neighborhood of 3D points and their intensities.
         * \param[in] cloud the dataset containing the Cartesian coordinates and intensity values of the points
         * \param[in] radius the radius of the feature
         * \param[in] sigma the standard deviation of the Gaussian smoothing kernel to use during the soft histogram update
@@ -86,41 +86,41 @@ namespace pcl
         * \param[in] squared_distances the squared distances from the query point to each point in the neighborhood
         * \param[out] intensity_spin_image the resultant intensity-domain spin image descriptor
         */
-      void 
-      computeIntensitySpinImage (const PointCloudIn &cloud, 
-                                 float radius, float sigma, int k, 
-                                 const std::vector<int> &indices, 
-                                 const std::vector<float> &squared_distances, 
+      void
+      computeIntensitySpinImage (const PointCloudIn &cloud,
+                                 float radius, float sigma, int k,
+                                 const std::vector<int> &indices,
+                                 const std::vector<float> &squared_distances,
                                  Eigen::MatrixXf &intensity_spin_image);
 
       /** \brief Set the number of bins to use in the distance dimension of the spin image
         * \param[in] nr_distance_bins the number of bins to use in the distance dimension of the spin image
         */
-      inline void 
+      inline void
       setNrDistanceBins (size_t nr_distance_bins) { nr_distance_bins_ = static_cast<int> (nr_distance_bins); };
 
       /** \brief Returns the number of bins in the distance dimension of the spin image. */
-      inline int 
+      inline int
       getNrDistanceBins () { return (nr_distance_bins_); };
 
       /** \brief Set the number of bins to use in the intensity dimension of the spin image.
         * \param[in] nr_intensity_bins the number of bins to use in the intensity dimension of the spin image
         */
-      inline void 
+      inline void
       setNrIntensityBins (size_t nr_intensity_bins) { nr_intensity_bins_ = static_cast<int> (nr_intensity_bins); };
 
       /** \brief Returns the number of bins in the intensity dimension of the spin image. */
-      inline int 
+      inline int
       getNrIntensityBins () { return (nr_intensity_bins_); };
 
-      /** \brief Set the standard deviation of the Gaussian smoothing kernel to use when constructing the spin images.  
+      /** \brief Set the standard deviation of the Gaussian smoothing kernel to use when constructing the spin images.
         * \param[in] sigma the standard deviation of the Gaussian smoothing kernel to use when constructing the spin images
         */
-      inline void 
+      inline void
       setSmoothingBandwith (float sigma) { sigma_ = sigma; };
 
       /** \brief Returns the standard deviation of the Gaussian smoothing kernel used to construct the spin images.  */
-      inline float 
+      inline float
       getSmoothingBandwith () { return (sigma_); };
 
 
@@ -128,9 +128,9 @@ namespace pcl
         *  using the surface in setSearchSurface (), and the spatial locator in setSearchMethod ().
         * \param[out] output the resultant point cloud model dataset that contains the intensity-domain spin image features
         */
-      void 
+      void
       computeFeature (PointCloudOut &output);
-    
+
       /** \brief The number of distance bins in the descriptor. */
       int nr_distance_bins_;
 
@@ -142,18 +142,18 @@ namespace pcl
 
     private:
       /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &) {}
   };
 
-  /** \brief IntensitySpinEstimation estimates the intensity-domain spin image descriptors for a given point cloud 
-    * dataset containing points and intensity.  For more information about the intensity-domain spin image descriptor, 
+  /** \brief IntensitySpinEstimation estimates the intensity-domain spin image descriptors for a given point cloud
+    * dataset containing points and intensity.  For more information about the intensity-domain spin image descriptor,
     * see:
     *
-    *   Svetlana Lazebnik, Cordelia Schmid, and Jean Ponce. 
-    *   A sparse texture representation using local affine regions. 
+    *   Svetlana Lazebnik, Cordelia Schmid, and Jean Ponce.
+    *   A sparse texture representation using local affine regions.
     *   In IEEE Transactions on Pattern Analysis and Machine Intelligence, volume 27, pages 1265-1278, August 2005.
     * \author Michael Dixon
     * \ingroup features
@@ -178,13 +178,13 @@ namespace pcl
         *  using the surface in setSearchSurface (), and the spatial locator in setSearchMethod ().
         * \param[out] output the resultant point cloud model dataset that contains the intensity-domain spin image features
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &output);
-    
+
       /** \brief Make the compute (&PointCloudOut); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       compute (pcl::PointCloud<pcl::Normal> &) {}
   };
 }

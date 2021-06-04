@@ -45,7 +45,7 @@
 
 namespace pcl
 {
-  /** \brief EdgeAwarePlaneComparator is a Comparator that operates on plane coefficients, 
+  /** \brief EdgeAwarePlaneComparator is a Comparator that operates on plane coefficients,
     * for use in planar segmentation.
     * In conjunction with OrganizedConnectedComponentSegmentation, this allows planes to be segmented from organized data.
     *
@@ -57,11 +57,11 @@ namespace pcl
     public:
       typedef typename Comparator<PointT>::PointCloud PointCloud;
       typedef typename Comparator<PointT>::PointCloudConstPtr PointCloudConstPtr;
-      
+
       typedef typename pcl::PointCloud<PointNT> PointCloudN;
       typedef typename PointCloudN::Ptr PointCloudNPtr;
       typedef typename PointCloudN::ConstPtr PointCloudNConstPtr;
-      
+
       typedef boost::shared_ptr<EdgeAwarePlaneComparator<PointT, PointNT> > Ptr;
       typedef boost::shared_ptr<const EdgeAwarePlaneComparator<PointT, PointNT> > ConstPtr;
 
@@ -76,10 +76,10 @@ namespace pcl
       {
       }
 
-      /** \brief Empty constructor for PlaneCoefficientComparator. 
+      /** \brief Empty constructor for PlaneCoefficientComparator.
         * \param[in] distance_map the distance map to use
         */
-      EdgeAwarePlaneComparator (const float *distance_map) : 
+      EdgeAwarePlaneComparator (const float *distance_map) :
         distance_map_ (distance_map)
       {
       }
@@ -90,7 +90,7 @@ namespace pcl
       {
       }
 
-      /** \brief Set a distance map to use. For an example of a valid distance map see 
+      /** \brief Set a distance map to use. For an example of a valid distance map see
         * \ref OrganizedIntegralImageNormalEstimation
         * \param[in] distance_map the distance map to use
         */
@@ -106,7 +106,7 @@ namespace pcl
       {
         return (distance_map_);
       }
-      
+
     protected:
       /** \brief Compare two neighboring points, by using normal information, curvature, and euclidean distance information.
         * \param[in] idx1 The index of the first point.
@@ -125,10 +125,10 @@ namespace pcl
 
         bool curvature_ok = normals_->points[idx1].curvature < 0.04;
         bool plane_d_ok = fabs ((*plane_coeff_d_)[idx1] - (*plane_coeff_d_)[idx2]) < 0.04;
-        
+
         if (distance_map_[idx1] < 5)    // 5 pixels
           curvature_ok = false;
-        
+
         return (dist_ok && normal_ok && curvature_ok && plane_d_ok);
       }
 

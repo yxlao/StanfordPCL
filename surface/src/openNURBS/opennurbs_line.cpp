@@ -73,10 +73,10 @@ ON_3dVector ON_Line::Tangent() const
 ON_3dPoint ON_Line::PointAt( double t ) const
 {
   // 26 Feb 2003 Dale Lear
-  //     Changed 
+  //     Changed
   //          return (1-t)*from + t*to;
   //     to the following so that axis aligned lines will
-  //     return exact answers for large values of t.  
+  //     return exact answers for large values of t.
   //     See RR 9683.
   const double s = 1.0-t;
   return  ON_3dPoint( (from.x == to.x) ? from.x : s*from.x + t*to.x,
@@ -177,7 +177,7 @@ bool ON_Line::Translate(
 int ON_ArePointsOnLine( // returns 0=no, 1 = yes, 2 = pointset is (to tolerance) a single point on the line
         int dim,     // 2 or 3
         int is_rat,
-        int count, 
+        int count,
         int stride, const double* point,
         const ON_BoundingBox& bbox, // if needed, use ON_GetBoundingBox(dim,is_rat,count,stride,point)
         const ON_Line& line,  // line to test
@@ -390,7 +390,7 @@ double ON_Line::MinimumDistanceTo( const ON_Line& L ) const
     if (x < d )
       d = x;
   }
- 
+
   return d;
 }
 
@@ -528,7 +528,7 @@ bool ON_Line::IsFartherThan( double d, const ON_Line& L ) const
       x = t;
     }
   }
- 
+
   return (x > d);
 }
 

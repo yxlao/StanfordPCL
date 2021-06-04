@@ -16,11 +16,11 @@ Project settings
 ----------------
 Let us say the project is placed under /PATH/TO/MY/GRAND/PROJECT that
 contains a lonely cpp file name ``pcd_write.cpp`` (copy it from the
-:ref:`writing_pcd` tutorial). In the same folder, create a file named 
+:ref:`writing_pcd` tutorial). In the same folder, create a file named
 CMakeLists.txt that contains:
 
 .. code-block:: cmake
-   
+
    cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
    project(MY_GRAND_PROJECT)
    find_package(PCL 1.3 REQUIRED COMPONENTS common io)
@@ -36,15 +36,15 @@ The explanation
 Now, let's see what we did.
 
 .. code-block:: cmake
-   
+
    cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
-   
+
 This is mandatory for cmake, and since we are making very basic
 project we don't need features from cmake 2.8 or higher.
 
 .. code-block:: cmake
-   
-   project(MY_GRAND_PROJECT)  
+
+   project(MY_GRAND_PROJECT)
 
 This line names your project and sets some useful cmake variables
 such as those to refer to the source directory
@@ -68,7 +68,7 @@ gracefully if it can't be found. As PCL is modular one can request:
    include_directories(${PCL_INCLUDE_DIRS})
    link_directories(${PCL_LIBRARY_DIRS})
    add_definitions(${PCL_DEFINITIONS})
-   
+
 When PCL is found, several related variables are set:
 
 * `PCL_FOUND`: set to 1 if PCL is found, otherwise unset
@@ -77,7 +77,7 @@ When PCL is found, several related variables are set:
 * `PCL_LIBRARIES`: set to the file names of the built and installed PCL libraries
 * `PCL_LIBRARY_DIRS`: set to the paths to where PCL libraries and 3rd
   party dependencies reside
-* `PCL_VERSION`: the version of the found PCL 
+* `PCL_VERSION`: the version of the found PCL
 * `PCL_COMPONENTS`: lists all available components
 * `PCL_DEFINITIONS`: lists the needed preprocessor definitions and compiler flags
 
@@ -182,7 +182,7 @@ Run CMake GUI, and fill these fields :
 
   - ``Where is the source code`` : this is the folder containing the CMakeLists.txt file and the sources.
   - ``Where to build the binaries`` : this is where the Visual Studio project files will be generated
-  
+
 Then, click ``Configure``. You will be prompted for a generator/compiler. Then click the ``Generate``
 button. If there is no errors, the project files will be generated into the ``Where to build the binaries``
 folder.

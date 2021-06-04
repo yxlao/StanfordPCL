@@ -39,7 +39,7 @@ namespace mets {
   /// @defgroup local_search Local Search
   /// @{
 
-  /// @brief Local search algorithm. 
+  /// @brief Local search algorithm.
   ///
   /// With customary phase alternation
   /// and move managers generated neighborhood this can be used to do
@@ -52,7 +52,7 @@ namespace mets {
     /// @brief Creates a local search instance
     ///
     /// @param working The working solution (this will be modified
-    /// during search) 
+    /// during search)
     ///
     /// @param best_so_far A different solution
     /// instance used to store the best solution found
@@ -71,10 +71,10 @@ namespace mets {
     /// purposely not implemented (see Effective C++)
     local_search(const local_search&);
     local_search& operator=(const local_search&);
-    
+
     /// @brief This method starts the local search process.
     ///
-    /// To have a real local search you should provide an 
+    /// To have a real local search you should provide an
     /// move_manager_type than enumerates all feasible
     /// moves.
     ///
@@ -88,7 +88,7 @@ namespace mets {
   };
 
   /// @}
-  
+
 }
 
 template<typename move_manager_t>
@@ -99,9 +99,9 @@ mets::local_search<move_manager_t>::local_search(evaluable_solution& working,
 						 bool short_circuit)
   : abstract_search<move_manager_t>(working, recorder, moveman),
     short_circuit_m(short_circuit), epsilon_m(epsilon)
-{ 
+{
   typedef abstract_search<move_manager_t> base_t;
-  base_t::step_m = 0; 
+  base_t::step_m = 0;
 }
 
 template<typename move_manager_t>
@@ -114,7 +114,7 @@ mets::local_search<move_manager_t>::search()
 
   base_t::solution_recorder_m.accept(base_t::working_solution_m);
 
-  gol_type best_cost = 
+  gol_type best_cost =
     static_cast<mets::evaluable_solution&>(base_t::working_solution_m)
     .cost_function();
 
@@ -134,15 +134,15 @@ mets::local_search<move_manager_t>::search()
 	      if(short_circuit_m) break;
 	    }
 	} // end for each move
-      
-      if(best_movit != base_t::moves_m.end()) 
+
+      if(best_movit != base_t::moves_m.end())
 	{
 	  (*best_movit)->apply(base_t::working_solution_m);
 	  base_t::solution_recorder_m.accept(base_t::working_solution_m);
 	  base_t::current_move_m = best_movit;
 	  this->notify();
 	}
-      
+
     } while(best_movit != base_t::moves_m.end());
 }
 #endif

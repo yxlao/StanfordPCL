@@ -342,14 +342,14 @@ pcl::PLYReader::vertexAlphaCallback (pcl::io::ply::uint8 alpha)
   static uint32_t a, rgba;
   a = uint32_t (alpha);
   // get anscient rgb value and store it in rgba
-  memcpy (&rgba, 
-          &cloud_->data[vertex_count_ * cloud_->point_step + rgb_offset_before_], 
+  memcpy (&rgba,
+          &cloud_->data[vertex_count_ * cloud_->point_step + rgb_offset_before_],
           sizeof (pcl::io::ply::float32));
   // append alpha
   rgba = rgba | a << 24;
   // put rgba back
-  memcpy (&cloud_->data[vertex_count_ * cloud_->point_step + rgb_offset_before_], 
-          &rgba, 
+  memcpy (&cloud_->data[vertex_count_ * cloud_->point_step + rgb_offset_before_],
+          &rgba,
           sizeof (uint32_t));
 }
 
@@ -1358,7 +1358,7 @@ pcl::io::savePLYFile (const std::string &file_name, const pcl::PolygonMesh &mesh
         //   break;
         ++xyz;
       }
-      else if ((mesh.cloud.fields[d].datatype == sensor_msgs::PointField::FLOAT32) && 
+      else if ((mesh.cloud.fields[d].datatype == sensor_msgs::PointField::FLOAT32) &&
                 (mesh.cloud.fields[d].name == "rgb"))
 
       {
@@ -1487,7 +1487,7 @@ pcl::io::savePLYFileBinary (const std::string &file_name, const pcl::PolygonMesh
         //   break;
         ++xyz;
       }
-      else if ((mesh.cloud.fields[d].datatype == sensor_msgs::PointField::FLOAT32) && 
+      else if ((mesh.cloud.fields[d].datatype == sensor_msgs::PointField::FLOAT32) &&
                 (mesh.cloud.fields[d].name == "rgb"))
 
       {

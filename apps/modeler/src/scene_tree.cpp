@@ -114,7 +114,7 @@ pcl::modeler::SceneTree::slotOnItemDoubleClicked(QTreeWidgetItem * item)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 pcl::modeler::SceneTree::openPointCloud(const QString& filename)
 {
   QList<RenderWindowItem*> selected_render_window_items = selectedRenderWindowItems();
@@ -134,7 +134,7 @@ pcl::modeler::SceneTree::openPointCloud(const QString& filename)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 pcl::modeler::SceneTree::savePointCloud(const QString& filename)
 {
   QList<CloudMeshItem*> selected_cloud_mesh_items = selectedTypeItems<CloudMeshItem>();
@@ -143,7 +143,7 @@ pcl::modeler::SceneTree::savePointCloud(const QString& filename)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::SceneTree::slotOpenPointCloud()
 {
   MainWindow* main_window = &MainWindow::getInstance();
@@ -151,8 +151,8 @@ pcl::modeler::SceneTree::slotOpenPointCloud()
 
   if (selected_render_window_items.empty())
   {
-    QMessageBox::warning(main_window, 
-    tr("Failed to Open Point Cloud"), 
+    QMessageBox::warning(main_window,
+    tr("Failed to Open Point Cloud"),
     tr("Please specify in which render window(s) you want to open the point cloud(s)"));
     return;
   }
@@ -184,8 +184,8 @@ pcl::modeler::SceneTree::slotOpenPointCloud()
     ++ filenames_it)
   {
     if (!openPointCloud(*filenames_it))
-      QMessageBox::warning(main_window, 
-      tr("Failed to Open Point Cloud"), 
+      QMessageBox::warning(main_window,
+      tr("Failed to Open Point Cloud"),
       tr("Can not open point cloud file %1, please check if it's in valid .pcd format!").arg(*filenames_it));
   }
 
@@ -193,15 +193,15 @@ pcl::modeler::SceneTree::slotOpenPointCloud()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::SceneTree::slotImportPointCloud()
 {
   MainWindow* main_window = &MainWindow::getInstance();
 
   if (selectedRenderWindowItems().empty())
   {
-    QMessageBox::warning(main_window, 
-      tr("Failed to Import Point Cloud"), 
+    QMessageBox::warning(main_window,
+      tr("Failed to Import Point Cloud"),
       tr("Please specify in which render window(s) you want to import the point cloud(s)"));
     return;
   }
@@ -219,8 +219,8 @@ pcl::modeler::SceneTree::slotImportPointCloud()
     ++ filenames_it)
   {
     if (!openPointCloud(*filenames_it))
-      QMessageBox::warning(main_window, 
-      tr("Failed to Import Point Cloud"), 
+      QMessageBox::warning(main_window,
+      tr("Failed to Import Point Cloud"),
       tr("Can not import point cloud file %1, please check if it's in valid .pcd format!").arg(*filenames_it));
   }
 
@@ -228,15 +228,15 @@ pcl::modeler::SceneTree::slotImportPointCloud()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::SceneTree::slotSavePointCloud()
 {
   MainWindow* main_window = &MainWindow::getInstance();
 
   if (selectedTypeItems<CloudMeshItem>().empty())
   {
-    QMessageBox::warning(main_window, 
-      tr("Failed to Save Point Cloud"), 
+    QMessageBox::warning(main_window,
+      tr("Failed to Save Point Cloud"),
       tr("Please specify the point cloud(s) you want to save"));
     return;
   }
@@ -255,7 +255,7 @@ pcl::modeler::SceneTree::slotSavePointCloud()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::SceneTree::closePointCloud(const QList<CloudMeshItem*>& items)
 {
   QList<RenderWindowItem*> render_window_items;
@@ -280,12 +280,12 @@ pcl::modeler::SceneTree::closePointCloud(const QList<CloudMeshItem*>& items)
   {
     (*render_window_items_it)->getRenderWindow()->render();
   }
-  
+
   return;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::modeler::SceneTree::slotClosePointCloud()
 {
   MainWindow* main_window = &MainWindow::getInstance();
@@ -293,8 +293,8 @@ pcl::modeler::SceneTree::slotClosePointCloud()
 
   if (selected_cloud_mesh_items.empty())
   {
-    QMessageBox::warning(main_window, 
-      tr("Failed to Close Point Cloud"), 
+    QMessageBox::warning(main_window,
+      tr("Failed to Close Point Cloud"),
       tr("Please specify the point cloud(s) you want to close"));
     return;
   }
@@ -323,7 +323,7 @@ pcl::modeler::SceneTree::slotICPRegistration()
     expandItem(*selected_render_window_items_it);
     connect(worker, SIGNAL(finished()), new CloudMeshItemUpdater(cloud_mesh_item), SLOT(updateCloudMeshItem()));
   }
-  
+
   thread_controller->runWorker(worker);
 
   return;

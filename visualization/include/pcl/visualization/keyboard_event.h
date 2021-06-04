@@ -64,49 +64,49 @@ namespace pcl
           * \param[in] ctrl      whether the ctrl was pressed at the time where this event was triggered
           * \param[in] shift     whether the shift was pressed at the time where this event was triggered
           */
-        inline KeyboardEvent (bool action, const std::string& key_sym, unsigned char key, 
+        inline KeyboardEvent (bool action, const std::string& key_sym, unsigned char key,
                               bool alt, bool ctrl, bool shift);
 
         /**
           * \return   whether the alt key was pressed at the time where this event was triggered
           */
-        inline bool 
+        inline bool
         isAltPressed () const;
-        
+
         /**
           * \return whether the ctrl was pressed at the time where this event was triggered
           */
-        inline bool 
+        inline bool
         isCtrlPressed () const;
-        
+
         /**
           * \return whether the shift was pressed at the time where this event was triggered
           */
-        inline bool 
+        inline bool
         isShiftPressed () const;
 
         /**
           * \return the ASCII Code of the key that caused the event. If 0, then it was a special key, like ALT, F1, F2,... PgUp etc. Then the name of the key is in the keysym field.
           */
-        inline unsigned char 
+        inline unsigned char
         getKeyCode () const;
-        
+
         /**
           * \return name of the key that caused the event
           */
-        inline const std::string& 
+        inline const std::string&
         getKeySym () const;
-        
+
         /**
           * \return true if a key-press caused the event, false otherwise
           */
-        inline bool 
+        inline bool
         keyDown () const;
-        
+
         /**
           * \return true if a key-release caused the event, false otherwise
           */
-        inline bool 
+        inline bool
         keyUp () const;
 
       protected:
@@ -117,7 +117,7 @@ namespace pcl
         std::string key_sym_;
     };
 
-    KeyboardEvent::KeyboardEvent (bool action, const std::string& key_sym, unsigned char key, 
+    KeyboardEvent::KeyboardEvent (bool action, const std::string& key_sym, unsigned char key,
                                   bool alt, bool ctrl, bool shift)
       : action_ (action)
       , modifiers_ (0)
@@ -134,47 +134,47 @@ namespace pcl
         modifiers_ |= Shift;
     }
 
-    bool 
+    bool
     KeyboardEvent::isAltPressed () const
     {
       return (modifiers_ & Alt) != 0;
     }
 
-    bool 
+    bool
     KeyboardEvent::isCtrlPressed () const
     {
       return (modifiers_ & Ctrl) != 0;
     }
 
-    bool 
+    bool
     KeyboardEvent::isShiftPressed () const
     {
       return (modifiers_ & Shift) != 0;
     }
 
-    unsigned char 
+    unsigned char
     KeyboardEvent::getKeyCode () const
     {
       return (key_code_);
     }
 
-    const std::string& 
+    const std::string&
     KeyboardEvent::getKeySym () const
     {
       return (key_sym_);
     }
 
-    bool 
+    bool
     KeyboardEvent::keyDown () const
     {
       return (action_);
     }
 
-    bool 
+    bool
     KeyboardEvent::keyUp () const
     {
       return (!action_);
-    }  
+    }
   } // namespace visualization
 } // namespace pcl
 

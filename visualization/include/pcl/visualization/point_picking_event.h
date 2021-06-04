@@ -48,9 +48,9 @@ namespace pcl
     class PCL_EXPORTS PointPickingCallback : public vtkCommand
     {
       public:
-        static PointPickingCallback *New () 
-        { 
-          return (new PointPickingCallback); 
+        static PointPickingCallback *New ()
+        {
+          return (new PointPickingCallback);
         }
 
         PointPickingCallback () : x_ (0), y_ (0), z_ (0), idx_ (-1), pick_first_ (false) {}
@@ -78,7 +78,7 @@ namespace pcl
         PointPickingEvent (int idx, float x, float y, float z) : idx_ (idx), idx2_ (-1), x_ (x), y_ (y), z_ (z), x2_ (), y2_ (), z2_ () {}
 
         PointPickingEvent (int idx1, int idx2, float x1, float y1, float z1, float x2, float y2, float z2) :
-          idx_ (idx1), idx2_ (idx2), x_ (x1), y_ (y1), z_ (z1), x2_ (x2), y2_ (y2), z2_ (z2) 
+          idx_ (idx1), idx2_ (idx2), x_ (x1), y_ (y1), z_ (z1), x2_ (x2), y2_ (y2), z2_ (z2)
         {}
 
         /** \brief Obtain the ID of a point that the user just clicked on. */

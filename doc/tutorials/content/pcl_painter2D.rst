@@ -23,7 +23,7 @@ Following is the usual way of using PCLPainter2D class.
     //3. call a display*() (display (), spin (), spinOnce ()) method for the display of the canvas
     painter.display ();
 	
-  
+
 Discussions
 -----------
 
@@ -38,7 +38,7 @@ So, Lets see how 2D drawing works in VTK! The VTK user needs to first:
   :width: 350px
   :align: center
 
-It would be really nice to have a vtkContextItem class which cuts off the overhead of subclassing and allows user to draw directly from the function calls. Unfortunately, we don't have any (out of vtkChart, vtkPlot, vtkAxis,..., etc.) vtkContextItem class with that kind of behavior. 
+It would be really nice to have a vtkContextItem class which cuts off the overhead of subclassing and allows user to draw directly from the function calls. Unfortunately, we don't have any (out of vtkChart, vtkPlot, vtkAxis,..., etc.) vtkContextItem class with that kind of behavior.
 
 Thus, it maybe wise to have a class like Painter2D which can avoid subclassing in PCL and its rendering could be further optimized in the future.
 
@@ -64,14 +64,14 @@ Compile and run the code by the following commands ::
   $ cmake .
   $ make
   $ ./pcl_painter2D_demo
-  
-  
+
+
 Video
 -----
 
-The following video shows the the output of the demo.  
+The following video shows the the output of the demo.
 
 
 .. raw:: html
-    
+
     <iframe width="420" height="315" src="http://www.youtube.com/embed/0kPwTds7HSk" frameborder="0" allowfullscreen></iframe>

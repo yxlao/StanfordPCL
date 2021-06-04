@@ -51,7 +51,7 @@ namespace pcl
   {
     protected:
       using Region3D<PointT>::centroid_;
-      using Region3D<PointT>::covariance_; 
+      using Region3D<PointT>::covariance_;
       using Region3D<PointT>::count_;
       using PlanarPolygon<PointT>::contour_;
       using PlanarPolygon<PointT>::coefficients_;
@@ -61,7 +61,7 @@ namespace pcl
       PlanarRegion () : contour_labels_ ()
       {}
 
-      /** \brief Constructor for Planar region from a Region3D and a PlanarPolygon. 
+      /** \brief Constructor for Planar region from a Region3D and a PlanarPolygon.
         * \param[in] region a Region3D for the input data
         * \param[in] polygon a PlanarPolygon for the input region
         */
@@ -74,7 +74,7 @@ namespace pcl
         contour_ = polygon.contour;
         coefficients_ = polygon.coefficients;
       }
-      
+
       /** \brief Destructor. */
       virtual ~PlanarRegion () {}
 
@@ -96,10 +96,10 @@ namespace pcl
         contour_ = contour;
         coefficients_ = coefficients;
       }
-      
+
     private:
-      /** \brief The labels (good=true, bad=false) for whether or not this boundary was observed, 
-        * or was due to edge of frame / occlusion boundary. 
+      /** \brief The labels (good=true, bad=false) for whether or not this boundary was observed,
+        * or was due to edge of frame / occlusion boundary.
         */
       std::vector<bool> contour_labels_;
 

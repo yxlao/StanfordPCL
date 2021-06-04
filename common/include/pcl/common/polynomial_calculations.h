@@ -39,21 +39,21 @@
 #include <pcl/common/eigen.h>
 #include <pcl/common/bivariate_polynomial.h>
 
-namespace pcl 
+namespace pcl
 {
   /** \brief This provides some functionality for polynomials,
     *         like finding roots or approximating bivariate polynomials
-    *  \author Bastian Steder 
+    *  \author Bastian Steder
     *  \ingroup common
     */
   template <typename real>
-  class PolynomialCalculationsT 
+  class PolynomialCalculationsT
   {
     public:
       // =====CONSTRUCTOR & DESTRUCTOR=====
       PolynomialCalculationsT ();
       ~PolynomialCalculationsT ();
-      
+
       // =====PUBLIC STRUCTS=====
       //! Parameters used in this class
       struct Parameters
@@ -66,7 +66,7 @@ namespace pcl
         real zero_value;       //!< Every value below this is considered to be zero
         real sqr_zero_value;   //!< sqr of the above
       };
-      
+
       // =====PUBLIC METHODS=====
       /** Solves an equation of the form ax^4 + bx^3 + cx^2 +dx + e = 0
        *  See http://en.wikipedia.org/wiki/Quartic_equation#Summary_of_Ferrari.27s_method */
@@ -86,7 +86,7 @@ namespace pcl
       /** Solves an equation of the form ax + b = 0 */
       inline void
       solveLinearEquation (real a, real b, std::vector<real>& roots) const;
-      
+
       /** Get the bivariate polynomial approximation for Z(X,Y) from the given sample points.
        *  The parameters a,b,c,... for the polynom are returned.
        *  The order is, e.g., for degree 1: ax+by+c and for degree 2: ax²+bxy+cx+dy²+ey+f.
@@ -95,7 +95,7 @@ namespace pcl
       inline BivariatePolynomialT<real>
       bivariatePolynomialApproximation (std::vector<Eigen::Matrix<real, 3, 1> >& samplePoints,
                                         unsigned int polynomial_degree, bool& error) const;
-      
+
       //! Same as above, using a reference for the return value
       inline bool
       bivariatePolynomialApproximation (std::vector<Eigen::Matrix<real, 3, 1> >& samplePoints,
@@ -104,23 +104,23 @@ namespace pcl
       //! Set the minimum value under which values are considered zero
       inline void
       setZeroValue (real new_zero_value) { parameters_.setZeroValue(new_zero_value); }
-      
-    protected:  
+
+    protected:
       // =====PROTECTED METHODS=====
       //! check if fabs(d)<zeroValue
       inline bool
-      isNearlyZero (real d) const 
-      { 
+      isNearlyZero (real d) const
+      {
         return (fabs (d) < parameters_.zero_value);
       }
-      
+
       //! check if sqrt(fabs(d))<zeroValue
       inline bool
-      sqrtIsNearlyZero (real d) const 
-      { 
+      sqrtIsNearlyZero (real d) const
+      {
         return (fabs (d) < parameters_.sqr_zero_value);
       }
-      
+
       // =====PROTECTED MEMBERS=====
       Parameters parameters_;
   };

@@ -67,7 +67,7 @@ namespace pcl
       typedef typename pcl::PointCloud<PointT> PointCloud;
       typedef typename PointCloud::Ptr PointCloudPtr;
       typedef typename PointCloud::ConstPtr PointCloudConstPtr;
-      
+
       typedef typename pcl::PointCloud<PointLT> PointCloudL;
       typedef typename PointCloudL::Ptr PointCloudLPtr;
       typedef typename PointCloudL::ConstPtr PointCloudLConstPtr;
@@ -75,7 +75,7 @@ namespace pcl
       typedef typename pcl::Comparator<PointT> Comparator;
       typedef typename Comparator::Ptr ComparatorPtr;
       typedef typename Comparator::ConstPtr ComparatorConstPtr;
-      
+
       /** \brief Constructor for OrganizedConnectedComponentSegmentation
         * \param[in] compare A pointer to the comparator to be used for segmentation.  Must be an instance of pcl::Comparator.
         */
@@ -98,7 +98,7 @@ namespace pcl
       {
         compare_ = compare;
       }
-      
+
       /** \brief Get the comparator.*/
       ComparatorConstPtr
       getComparator () const { return (compare_); }
@@ -109,19 +109,19 @@ namespace pcl
         */
       void
       segment (pcl::PointCloud<PointLT>& labels, std::vector<pcl::PointIndices>& label_indices) const;
-      
+
       /** \brief Find the boundary points / contour of a connected component
         * \param[in] start_idx the first (lowest) index of the connected component for which a boundary shoudl be returned
         * \param[in] labels the Label cloud produced by segmentation
         * \param[out] boundary_indices the indices of the boundary points for the label corresponding to start_idx
         */
       static void
-      findLabeledRegionBoundary (int start_idx, PointCloudLPtr labels, pcl::PointIndices& boundary_indices);      
-      
+      findLabeledRegionBoundary (int start_idx, PointCloudLPtr labels, pcl::PointIndices& boundary_indices);
+
 
     protected:
       ComparatorConstPtr compare_;
-      
+
       inline unsigned
       findRoot (const std::vector<unsigned>& runs, unsigned index) const
       {
@@ -140,7 +140,7 @@ namespace pcl
         , d_y (dy)
         , d_index (didx)
         {}
-        
+
         int d_x;
         int d_y;
         int d_index; // = dy * width + dx: pre-calculated

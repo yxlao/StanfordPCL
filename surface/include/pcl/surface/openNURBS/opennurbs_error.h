@@ -45,10 +45,10 @@ ON_BEGIN_EXTERNC
 // that is appropriate for debugging your application.
 */
 ON_DECL
-void ON_ErrorMessage( 
+void ON_ErrorMessage(
        int,         /* 0 = warning message, 1 = serious error message, 2 = assert failure */
-       const char*  
-       ); 
+       const char*
+       );
 
 /*
 Returns:
@@ -66,7 +66,7 @@ int     ON_GetWarningCount(void);
 
 /*
 Returns:
-  Number of math library or floating point errors that have 
+  Number of math library or floating point errors that have
   been handled since program started.
 */
 ON_DECL
@@ -132,7 +132,7 @@ void    ON_AssertEx( int,        // if false, error is flagged
                   );
 
 ON_DECL
-void    ON_MathError( 
+void    ON_MathError(
         const char*, /* sModuleName */
         const char*, /* sErrorType */
         const char*  /* sFunctionName */

@@ -42,10 +42,10 @@ using std::cerr;
 #include <pcl/features/narf.h>
 #include <pcl/range_image/range_image.h>
 
-namespace pcl 
+namespace pcl
 {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-NarfDescriptor::NarfDescriptor (const RangeImage* range_image, const std::vector<int>* indices) : 
+NarfDescriptor::NarfDescriptor (const RangeImage* range_image, const std::vector<int>* indices) :
   BaseClass (), range_image_ (), parameters_ ()
 {
   setRangeImage (range_image, indices);
@@ -57,7 +57,7 @@ NarfDescriptor::~NarfDescriptor ()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 NarfDescriptor::setRangeImage (const RangeImage* range_image, const std::vector<int>* indices)
 {
   range_image_ = range_image;
@@ -69,13 +69,13 @@ NarfDescriptor::setRangeImage (const RangeImage* range_image, const std::vector<
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 NarfDescriptor::computeFeature(NarfDescriptor::PointCloudOut& output)
 {
   //std::cout << __PRETTY_FUNCTION__ << " called.\n";
-  
+
   output.points.clear();
-  
+
   if (range_image_==NULL)
   {
     std::cerr << __PRETTY_FUNCTION__
@@ -115,21 +115,21 @@ NarfDescriptor::computeFeature(NarfDescriptor::PointCloudOut& output)
       }
     }
   }
-  
+
   // Copy to NARF36 struct
   output.points.resize(feature_list.size());
   for (unsigned int i=0; i<feature_list.size(); ++i)
   {
     feature_list[i]->copyToNarf36(output.points[i]);
   }
-  
+
   // Cleanup
   for (size_t i=0; i<feature_list.size(); ++i)
     delete feature_list[i];
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 NarfDescriptor::compute(NarfDescriptor::PointCloudOut& output)
 {
   computeFeature(output);

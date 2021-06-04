@@ -83,7 +83,7 @@ namespace pcl
         // Get X samples which satisfy the model criteria
         sac_model_->getSamples (iterations_, selection);
 
-        if (selection.empty ()) 
+        if (selection.empty ())
         {
           std::cerr << "[pcl::cuda::RandomSampleConsensus::computeModel] No samples could be selected!" << std::endl;
           break;

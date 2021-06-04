@@ -43,7 +43,7 @@
 #if defined(__GNUC__)
     #define cudaSafeCall(expr)  pcl::gpu::___cudaSafeCall(expr, __FILE__, __LINE__, __func__)
 #else /* defined(__CUDACC__) || defined(__MSVC__) */
-    #define cudaSafeCall(expr)  pcl::gpu::___cudaSafeCall(expr, __FILE__, __LINE__)    
+    #define cudaSafeCall(expr)  pcl::gpu::___cudaSafeCall(expr, __FILE__, __LINE__)
 #endif
 
 namespace pcl
@@ -54,14 +54,14 @@ namespace pcl
         {
             if (cudaSuccess != err)
                 error(cudaGetErrorString(err), file, line, func);
-        }        
+        }
 
         static inline int divUp(int total, int grain) { return (total + grain - 1) / grain; }
     }
 
     namespace device
     {
-        using pcl::gpu::divUp;        
+        using pcl::gpu::divUp;
     }
 }
 

@@ -68,7 +68,7 @@ ON_BOOL32 ON_Group::Read(
   int major_version = 0;
   int minor_version = 0;
   ON_BOOL32 rc = file.Read3dmChunkVersion(&major_version,&minor_version);
-  if ( major_version == 1 ) 
+  if ( major_version == 1 )
   {
     if (rc) rc = file.ReadInt( &m_group_index );
     if (rc) rc = file.ReadString( m_group_name );

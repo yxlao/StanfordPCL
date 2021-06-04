@@ -87,7 +87,7 @@ class SimpleOpenNIViewer
     }
 
     void
-    image_callback (const boost::shared_ptr<openni_wrapper::Image> &image, 
+    image_callback (const boost::shared_ptr<openni_wrapper::Image> &image,
                     const boost::shared_ptr<openni_wrapper::DepthImage> &depth_image, float)
     {
       FPS_CALC ("image callback");
@@ -114,13 +114,13 @@ class SimpleOpenNIViewer
       depth_data_ = pcl::visualization::FloatImageUtils::getVisualImage (
           reinterpret_cast<const unsigned short*> (depth_image->getDepthMetaData ().Data ()),
             depth_image->getWidth (), depth_image->getHeight (),
-            std::numeric_limits<unsigned short>::min (), 
+            std::numeric_limits<unsigned short>::min (),
             // Scale so that the colors look brigher on screen
-            std::numeric_limits<unsigned short>::max () / 10, 
+            std::numeric_limits<unsigned short>::max () / 10,
             true);
     }
-    
-    void 
+
+    void
     keyboard_callback (const pcl::visualization::KeyboardEvent& event, void* cookie)
     {
       string* message = static_cast<string*> (cookie);
@@ -134,8 +134,8 @@ class SimpleOpenNIViewer
       else
         cout << " released" << endl;
     }
-    
-    void 
+
+    void
     mouse_callback (const pcl::visualization::MouseEvent& mouse_event, void* cookie)
     {
       string* message = static_cast<string*> (cookie);
@@ -155,12 +155,12 @@ class SimpleOpenNIViewer
       image_viewer_.registerKeyboardCallback(&SimpleOpenNIViewer::keyboard_callback, *this, static_cast<void*> (&keyMsg2D));
       depth_image_viewer_.registerMouseCallback (&SimpleOpenNIViewer::mouse_callback, *this, static_cast<void*> (&mouseMsg2D));
       depth_image_viewer_.registerKeyboardCallback(&SimpleOpenNIViewer::keyboard_callback, *this, static_cast<void*> (&keyMsg2D));
-        
+
       boost::function<void (const boost::shared_ptr<openni_wrapper::Image>&, const boost::shared_ptr<openni_wrapper::DepthImage>&, float) > image_cb = boost::bind (&SimpleOpenNIViewer::image_callback, this, _1, _2, _3);
       boost::signals2::connection image_connection = grabber_.registerCallback (image_cb);
-      
+
       grabber_.start ();
-           
+
       while (!image_viewer_.wasStopped () && !depth_image_viewer_.wasStopped ())
       {
         boost::shared_ptr<openni_wrapper::Image> image;
@@ -202,14 +202,14 @@ class SimpleOpenNIViewer
 
         image_viewer_.spinOnce ();
         depth_image_viewer_.spinOnce ();
-        
+
         boost::this_thread::sleep (boost::posix_time::microseconds (100));
       }
 
       grabber_.stop ();
-      
+
       image_connection.disconnect ();
-      
+
       if (rgb_data_)
         delete[] rgb_data_;
       if (depth_data_)
@@ -265,7 +265,7 @@ main (int argc, char ** argv)
 {
   std::string device_id ("");
   pcl::OpenNIGrabber::Mode image_mode = pcl::OpenNIGrabber::OpenNI_Default_Mode;
-  
+
   if (argc >= 2)
   {
     device_id = argv[1];
@@ -306,7 +306,7 @@ main (int argc, char ** argv)
         }
         else
           cout << "No devices connected." << endl;
-        
+
         cout <<"Virtual Devices available: ONI player" << endl;
       }
       return (0);
@@ -318,11 +318,11 @@ main (int argc, char ** argv)
     if (driver.getNumberDevices() > 0)
       cout << "Device Id not set, using first device." << endl;
   }
-  
+
   unsigned mode;
   if (pcl::console::parse (argc, argv, "-imagemode", mode) != -1)
     image_mode = static_cast<pcl::OpenNIGrabber::Mode> (mode);
-  
+
   int depthformat = openni_wrapper::OpenNIDevice::OpenNI_12_bit_depth;
   pcl::console::parse_argument (argc, argv, "-depthformat", depthformat);
 

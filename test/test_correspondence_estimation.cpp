@@ -56,9 +56,9 @@ TEST (CorrespondenceEstimation, CorrespondenceEstimationNormalShooting)
       cloud2->points.push_back (pcl::PointXYZ (i, 2, z)); // Ideally this should be the corresponding point to the point defined in the previous line
     }
   }
-        
+
   pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne;
-  ne.setInputCloud (cloud1); 
+  ne.setInputCloud (cloud1);
 
   pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ> ());
   ne.setSearchMethod (tree);

@@ -94,17 +94,17 @@ namespace pcl
       void setWindowWidth (int window_width);
 
       ///Set window height
-      void setWindowHeight (int window_height);      
+      void setWindowHeight (int window_height);
 
       ///Set number of pixels to skip
       void setSkippedPixels (int skipped_pixels);
 
       ///Set minimal distance between candidate keypoints
       void setMinimalDistance (int min_distance);
-      
+
       /** \brief set the threshold value for detecting corners. This is only evaluated if non maxima suppression is turned on.
         * \brief note non maxima suppression needs to be activated in order to use this feature.
-        * \param[in] threshold 
+        * \param[in] threshold
         */
       void setThreshold (float threshold);
 
@@ -114,7 +114,7 @@ namespace pcl
         */
       void setNonMaxSupression (bool = false);
 
-      /** \brief whether the detected key points should be refined or not. If turned of, the key points are a subset of 
+      /** \brief whether the detected key points should be refined or not. If turned of, the key points are a subset of
         * the original point cloud. Otherwise the key points may be arbitrary.
         * \brief note non maxima supression needs to be on in order to use this feature.
         * \param[in] do_refine
@@ -128,36 +128,36 @@ namespace pcl
       setNumberOfThreads (unsigned int nr_threads = 0) { threads_ = nr_threads; }
 
     protected:
-      bool 
+      bool
       initCompute ();
-      void 
+      void
       detectKeypoints (PointCloudOut &output);
       /** \brief gets the corner response for valid input points*/
-      void 
+      void
       responseHarris (PointCloudOut &output, float& highest_response) const;
-      void 
+      void
       responseNoble (PointCloudOut &output, float& highest_response) const;
-      void 
+      void
       responseLowe (PointCloudOut &output, float& highest_response) const;
-      void 
+      void
       responseTomasi (PointCloudOut &output, float& highest_response) const;
 //      void refineCorners (PointCloudOut &corners) const;
-      /** \brief calculates the upper triangular part of unnormalized 
-        * covariance matrix over intensities given by the 2D coordinates 
+      /** \brief calculates the upper triangular part of unnormalized
+        * covariance matrix over intensities given by the 2D coordinates
         * and window_width_ and window_height_
         */
-      void 
+      void
       computeSecondMomentMatrix (std::size_t pos, float* coefficients) const;
-      /// threshold for non maxima suppression 
+      /// threshold for non maxima suppression
       float threshold_;
-      /// corner refinement 
+      /// corner refinement
       bool refine_;
       /// non maximas suppression
       bool nonmax_;
       /// cornerness computation methode
       ResponseMethod method_;
       /// number of threads to be used
-      unsigned int threads_;      
+      unsigned int threads_;
 
     private:
       Eigen::MatrixXf derivatives_rows_;
@@ -165,12 +165,12 @@ namespace pcl
       /// intermediate holder for computed responses
       boost::shared_ptr<pcl::PointCloud<PointOutT> > response_;
       /// comparator for responses intensity
-      bool 
+      bool
       greaterIntensityAtIndices (int a, int b) const
       {
         return (response_->at (a).intensity > response_->at (b).intensity);
-      }      
-      /// Window width 
+      }
+      /// Window width
       int window_width_;
       /// Window height
       int window_height_;

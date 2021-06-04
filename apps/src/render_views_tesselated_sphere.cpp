@@ -16,7 +16,7 @@
 #if VTK_MAJOR_VERSION==6 || (VTK_MAJOR_VERSION==5 && VTK_MINOR_VERSION>4)
 #include <vtkHardwareSelector.h>
 #include <vtkSelectionNode.h>
-#else 
+#else
 #include <vtkVisibleCellSelector.h>
 #endif
 #include <vtkSelection.h>
@@ -406,7 +406,7 @@ pcl::apps::RenderViewsTesselatedSphere::generateViews() {
         visible_area += vtkTriangle::TriangleArea (p0, p1, p2);
       }
 
-#else 
+#else
       vtkSmartPointer<vtkHardwareSelector> hardware_selector = vtkSmartPointer<vtkHardwareSelector>::New ();
       hardware_selector->ClearBuffers();
       vtkSmartPointer<vtkSelection> hdw_selection = vtkSmartPointer<vtkSelection>::New ();

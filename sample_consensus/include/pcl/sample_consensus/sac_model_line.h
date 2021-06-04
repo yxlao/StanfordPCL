@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
- * 
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -88,16 +88,16 @@ namespace pcl
         * \param[in] samples the point indices found as possible good candidates for creating a valid model
         * \param[out] model_coefficients the resultant model coefficients
         */
-      bool 
-      computeModelCoefficients (const std::vector<int> &samples, 
+      bool
+      computeModelCoefficients (const std::vector<int> &samples,
                                 Eigen::VectorXf &model_coefficients);
 
       /** \brief Compute all squared distances from the cloud data to a given line model.
         * \param[in] model_coefficients the coefficients of a line model that we need to compute distances to
         * \param[out] distances the resultant estimated squared distances
         */
-      void 
-      getDistancesToModel (const Eigen::VectorXf &model_coefficients, 
+      void
+      getDistancesToModel (const Eigen::VectorXf &model_coefficients,
                            std::vector<double> &distances);
 
       /** \brief Select all the points which respect the given model coefficients as inliers.
@@ -105,19 +105,19 @@ namespace pcl
         * \param[in] threshold a maximum admissible distance threshold for determining the inliers from the outliers
         * \param[out] inliers the resultant model inliers
         */
-      void 
-      selectWithinDistance (const Eigen::VectorXf &model_coefficients, 
-                            const double threshold, 
+      void
+      selectWithinDistance (const Eigen::VectorXf &model_coefficients,
+                            const double threshold,
                             std::vector<int> &inliers);
 
-      /** \brief Count all the points which respect the given model coefficients as inliers. 
-        * 
+      /** \brief Count all the points which respect the given model coefficients as inliers.
+        *
         * \param[in] model_coefficients the coefficients of a model that we need to compute distances to
         * \param[in] threshold maximum admissible distance threshold for determining the inliers from the outliers
         * \return the resultant number of inliers
         */
       virtual int
-      countWithinDistance (const Eigen::VectorXf &model_coefficients, 
+      countWithinDistance (const Eigen::VectorXf &model_coefficients,
                            const double threshold);
 
       /** \brief Recompute the line coefficients using the given inlier set and return them to the user.
@@ -126,9 +126,9 @@ namespace pcl
         * \param[in] model_coefficients the initial guess for the model coefficients
         * \param[out] optimized_coefficients the resultant recomputed coefficients after optimization
         */
-      void 
-      optimizeModelCoefficients (const std::vector<int> &inliers, 
-                                 const Eigen::VectorXf &model_coefficients, 
+      void
+      optimizeModelCoefficients (const std::vector<int> &inliers,
+                                 const Eigen::VectorXf &model_coefficients,
                                  Eigen::VectorXf &optimized_coefficients);
 
       /** \brief Create a new point cloud with inliers projected onto the line model.
@@ -137,10 +137,10 @@ namespace pcl
         * \param[out] projected_points the resultant projected points
         * \param[in] copy_data_fields set to true if we need to copy the other data fields
         */
-      void 
-      projectPoints (const std::vector<int> &inliers, 
-                     const Eigen::VectorXf &model_coefficients, 
-                     PointCloud &projected_points, 
+      void
+      projectPoints (const std::vector<int> &inliers,
+                     const Eigen::VectorXf &model_coefficients,
+                     PointCloud &projected_points,
                      bool copy_data_fields = true);
 
       /** \brief Verify whether a subset of indices verifies the given line model coefficients.
@@ -148,20 +148,20 @@ namespace pcl
         * \param[in] model_coefficients the line model coefficients
         * \param[in] threshold a maximum admissible distance threshold for determining the inliers from the outliers
         */
-      bool 
-      doSamplesVerifyModel (const std::set<int> &indices, 
-                            const Eigen::VectorXf &model_coefficients, 
+      bool
+      doSamplesVerifyModel (const std::set<int> &indices,
+                            const Eigen::VectorXf &model_coefficients,
                             const double threshold);
 
       /** \brief Return an unique id for this model (SACMODEL_LINE). */
-      inline pcl::SacModel 
+      inline pcl::SacModel
       getModelType () const { return (SACMODEL_LINE); }
 
     protected:
       /** \brief Check whether a model is valid given the user constraints.
         * \param[in] model_coefficients the set of model coefficients
         */
-      inline bool 
+      inline bool
       isModelValid (const Eigen::VectorXf &model_coefficients)
       {
         if (model_coefficients.size () != 6)

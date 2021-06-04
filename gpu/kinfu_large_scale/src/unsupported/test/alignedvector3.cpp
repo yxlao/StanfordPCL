@@ -22,7 +22,7 @@ void alignedvector3()
            r4(RefType::Random()), r5(RefType::Random()), r6(RefType::Random());
   FastType f1(r1), f2(r2), f3(r3), f4(r4), f5(r5), f6(r6);
   Mat33 m1(Mat33::Random());
-  
+
   VERIFY_IS_APPROX(f1,r1);
   VERIFY_IS_APPROX(f4,r4);
 
@@ -34,10 +34,10 @@ void alignedvector3()
   VERIFY_IS_APPROX(f4-=f5+f1,r4-=r5+r1);
   VERIFY_IS_APPROX(f5+f1-s1*f2,r5+r1-s1*r2);
   VERIFY_IS_APPROX(f5+f1/s2-s1*f2,r5+r1/s2-s1*r2);
-  
+
   VERIFY_IS_APPROX(m1*f4,m1*r4);
   VERIFY_IS_APPROX(f4.transpose()*m1,r4.transpose()*m1);
-  
+
   VERIFY_IS_APPROX(f2.dot(f3),r2.dot(r3));
   VERIFY_IS_APPROX(f2.cross(f3),r2.cross(r3));
   VERIFY_IS_APPROX(f2.norm(),r2.norm());
@@ -45,7 +45,7 @@ void alignedvector3()
   VERIFY_IS_APPROX(f2.normalized(),r2.normalized());
 
   VERIFY_IS_APPROX((f2+f1).normalized(),(r2+r1).normalized());
-  
+
   f2.normalize();
   r2.normalize();
   VERIFY_IS_APPROX(f2,r2);

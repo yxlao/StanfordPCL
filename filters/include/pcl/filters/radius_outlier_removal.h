@@ -203,7 +203,7 @@ namespace pcl
     public:
       /** \brief Empty constructor. */
       RadiusOutlierRemoval (bool extract_removed_indices = false) :
-        Filter<sensor_msgs::PointCloud2>::Filter (extract_removed_indices), 
+        Filter<sensor_msgs::PointCloud2>::Filter (extract_removed_indices),
         search_radius_ (0.0), min_pts_radius_ (1), tree_ ()
       {
         filter_name_ = "RadiusOutlierRemoval";
@@ -236,7 +236,7 @@ namespace pcl
       }
 
       /** \brief Get the minimum number of neighbors that a point needs to have in the given search radius to be
-        * considered an inlier and avoid being filtered. 
+        * considered an inlier and avoid being filtered.
         */
       inline double
       getMinNeighborsInRadius ()
@@ -249,7 +249,7 @@ namespace pcl
       double search_radius_;
 
       /** \brief The minimum number of neighbors that a point needs to have in the given search radius to be considered
-        * an inlier. 
+        * an inlier.
         */
       int min_pts_radius_;
 

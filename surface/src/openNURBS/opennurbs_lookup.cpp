@@ -23,9 +23,9 @@ static bool IdIsNotZero(const ON_UUID* id)
   // id is not null.
   const unsigned char* p = (const unsigned char*)id;
   unsigned int i = (unsigned int)sizeof(ON_UUID);
-  while (i--) 
+  while (i--)
   {
-    if (0 != *p++) 
+    if (0 != *p++)
       return true;
   }
   return false;
@@ -62,57 +62,57 @@ static ON__UINT16 IdCRC(const ON_UUID* id)
   //current_remainder=0;
   //r1 = ON_CRC16_CCITT_TABLE[(current_remainder & ((ON__UINT16)0xff00))>>8];
   //current_remainder = (current_remainder << 8) ^ (*b++);
-  //current_remainder ^= r1;  
+  //current_remainder ^= r1;
   //r1 = ON_CRC16_CCITT_TABLE[(current_remainder & ((ON__UINT16)0xff00))>>8];
   //current_remainder = (current_remainder << 8) ^ (*b++);
-  //current_remainder ^= r1;  
+  //current_remainder ^= r1;
 
   // The commented out lines above reduce to these two lines.
-  current_remainder = *b++; 
+  current_remainder = *b++;
   current_remainder = (current_remainder << 8) ^ (*b++);
 
   r1 = ON_CRC16_CCITT_TABLE[(current_remainder & ((ON__UINT16)0xff00))>>8];
   current_remainder = (current_remainder << 8) ^ (*b++);
-  current_remainder ^= r1;  
+  current_remainder ^= r1;
   r1 = ON_CRC16_CCITT_TABLE[(current_remainder & ((ON__UINT16)0xff00))>>8];
   current_remainder = (current_remainder << 8) ^ (*b++);
-  current_remainder ^= r1;  
+  current_remainder ^= r1;
   r1 = ON_CRC16_CCITT_TABLE[(current_remainder & ((ON__UINT16)0xff00))>>8];
   current_remainder = (current_remainder << 8) ^ (*b++);
-  current_remainder ^= r1;  
+  current_remainder ^= r1;
   r1 = ON_CRC16_CCITT_TABLE[(current_remainder & ((ON__UINT16)0xff00))>>8];
   current_remainder = (current_remainder << 8) ^ (*b++);
-  current_remainder ^= r1;  
+  current_remainder ^= r1;
   r1 = ON_CRC16_CCITT_TABLE[(current_remainder & ((ON__UINT16)0xff00))>>8];
   current_remainder = (current_remainder << 8) ^ (*b++);
-  current_remainder ^= r1;  
+  current_remainder ^= r1;
   r1 = ON_CRC16_CCITT_TABLE[(current_remainder & ((ON__UINT16)0xff00))>>8];
   current_remainder = (current_remainder << 8) ^ (*b++);
-  current_remainder ^= r1;  
+  current_remainder ^= r1;
   r1 = ON_CRC16_CCITT_TABLE[(current_remainder & ((ON__UINT16)0xff00))>>8];
   current_remainder = (current_remainder << 8) ^ (*b++);
-  current_remainder ^= r1;  
+  current_remainder ^= r1;
   r1 = ON_CRC16_CCITT_TABLE[(current_remainder & ((ON__UINT16)0xff00))>>8];
   current_remainder = (current_remainder << 8) ^ (*b++);
-  current_remainder ^= r1;  
+  current_remainder ^= r1;
   r1 = ON_CRC16_CCITT_TABLE[(current_remainder & ((ON__UINT16)0xff00))>>8];
   current_remainder = (current_remainder << 8) ^ (*b++);
-  current_remainder ^= r1;  
+  current_remainder ^= r1;
   r1 = ON_CRC16_CCITT_TABLE[(current_remainder & ((ON__UINT16)0xff00))>>8];
   current_remainder = (current_remainder << 8) ^ (*b++);
-  current_remainder ^= r1;  
+  current_remainder ^= r1;
   r1 = ON_CRC16_CCITT_TABLE[(current_remainder & ((ON__UINT16)0xff00))>>8];
   current_remainder = (current_remainder << 8) ^ (*b++);
-  current_remainder ^= r1;  
+  current_remainder ^= r1;
   r1 = ON_CRC16_CCITT_TABLE[(current_remainder & ((ON__UINT16)0xff00))>>8];
   current_remainder = (current_remainder << 8) ^ (*b++);
-  current_remainder ^= r1;  
+  current_remainder ^= r1;
   r1 = ON_CRC16_CCITT_TABLE[(current_remainder & ((ON__UINT16)0xff00))>>8];
   current_remainder = (current_remainder << 8) ^ (*b++);
-  current_remainder ^= r1;  
+  current_remainder ^= r1;
   r1 = ON_CRC16_CCITT_TABLE[(current_remainder & ((ON__UINT16)0xff00))>>8];
   current_remainder = (current_remainder << 8) ^ (*b);
-  current_remainder ^= r1;  
+  current_remainder ^= r1;
 
   return current_remainder;
 }
@@ -178,7 +178,7 @@ void ON_SerialNumberMap::SN_BLOCK::CullBlockHelper()
   // Search the m_an[] array for elements whose m_u_type
   // value is zero and remove them from the array.
   //
-  // This is a high speed helper function.  
+  // This is a high speed helper function.
   // The calling function must verfy m_purged > 0.
   //
   // This function removes all m_sn[] elements
@@ -247,7 +247,7 @@ void ON_SerialNumberMap::SN_BLOCK::SortBlockHelper()
 {
   // Sort m_sn[] by serial number.
   //
-  // This is a high speed helper function.  
+  // This is a high speed helper function.
   //
   // The calling function verify:
   //   m_sorted is zero
@@ -259,7 +259,7 @@ void ON_SerialNumberMap::SN_BLOCK::SortBlockHelper()
   // handle almost sorted arrays. In the past,
   // heap sort was the best choice, but the qsort()
   // in VS 2010 is now a better choice than heap sort.
-   
+
   if ( m_count > 1 )
   {
 #if 1
@@ -275,18 +275,18 @@ void ON_SerialNumberMap::SN_BLOCK::SortBlockHelper()
 
     k = m_count >> 1;
     i_end = m_count-1;
-    for (;;) 
+    for (;;)
     {
       if (k)
       {
         --k;
         e_tmp = e[k];
-      } 
-      else 
+      }
+      else
       {
         e_tmp = e[i_end];
         e[i_end] = e[0];
-        if (!(--i_end)) 
+        if (!(--i_end))
         {
           e[0] = e_tmp;
           break;
@@ -304,8 +304,8 @@ void ON_SerialNumberMap::SN_BLOCK::SortBlockHelper()
           e[i] = e[j];
           i = j;
           j = (j<<1) + 1;
-        } 
-        else 
+        }
+        else
           j = i_end + 1;
       }
       e[i] = e_tmp;
@@ -327,7 +327,7 @@ static bool ON_SerialNumberMap_IsNotValidBlock()
   return ON_IsNotValid(); // <- Good place for a debugger breakpoint
 }
 
-bool ON_SerialNumberMap::SN_BLOCK::IsValidBlock(ON_TextLog* textlog, 
+bool ON_SerialNumberMap::SN_BLOCK::IsValidBlock(ON_TextLog* textlog,
                                                 struct SN_ELEMENT*const* hash_table,
                                                 size_t* active_id_count) const
 {
@@ -434,7 +434,7 @@ bool ON_SerialNumberMap::SN_BLOCK::IsValidBlock(ON_TextLog* textlog,
           return ON_SerialNumberMap_IsNotValidBlock();
         }
       }
-      else 
+      else
       {
         if (textlog)
           textlog->Print("SN_BLOCK m_sn[%d].m_id_active != 0 but m_id = 0.\n",i);
@@ -489,7 +489,7 @@ struct ON_SerialNumberMap::SN_ELEMENT* ON_SerialNumberMap::SN_BLOCK::BinarySearc
 {
   // Perform a binary search on the serial number values in the m_sn[] array.
   //
-  // This is a high speed helper function.  
+  // This is a high speed helper function.
   //
   // The calling function verify:
   //   m_sn[] is sorted by serial number (1 == m_sorted)
@@ -515,7 +515,7 @@ struct ON_SerialNumberMap::SN_ELEMENT* ON_SerialNumberMap::SN_BLOCK::BinarySearc
       e += j;
       i -= j;
     }
-    else 
+    else
     {
       return e + j;
     }
@@ -645,7 +645,7 @@ struct ON_SerialNumberMap::SN_ELEMENT* ON_SerialNumberMap::FindElementHelper(uns
       eblk_array += j;
       i -= j;
     }
-    else 
+    else
     {
       m_e_blk = eblk;
       return eblk->BinarySearchBlockHelper(sn);
@@ -688,8 +688,8 @@ struct ON_SerialNumberMap::SN_ELEMENT* ON_SerialNumberMap::FirstElement() const
     }
   }
 
-  if ( m_sn_block0.m_count > m_sn_block0.m_purged 
-       && (!e || m_sn_block0.m_sn0 < e->m_sn) 
+  if ( m_sn_block0.m_count > m_sn_block0.m_purged
+       && (!e || m_sn_block0.m_sn0 < e->m_sn)
      )
   {
     // It's possible the element is in m_sn_block0.
@@ -705,7 +705,7 @@ struct ON_SerialNumberMap::SN_ELEMENT* ON_SerialNumberMap::FirstElement() const
     {
       // sort elements in m_sn_block0.
       const_cast<ON_SerialNumberMap*>(this)->InvalidateHashTableHelper();
-      const_cast<ON_SerialNumberMap*>(this)->m_sn_block0.SortBlockHelper();      
+      const_cast<ON_SerialNumberMap*>(this)->m_sn_block0.SortBlockHelper();
     }
     if ( !e || m_sn_block0.m_sn0 <  e->m_sn )
     {
@@ -738,7 +738,7 @@ struct ON_SerialNumberMap::SN_ELEMENT* ON_SerialNumberMap::LastElement() const
     {
       // sort m_sn_block0
       const_cast<ON_SerialNumberMap*>(this)->InvalidateHashTableHelper();
-      const_cast<ON_SerialNumberMap*>(this)->m_sn_block0.SortBlockHelper();      
+      const_cast<ON_SerialNumberMap*>(this)->m_sn_block0.SortBlockHelper();
     }
     e = const_cast<struct SN_ELEMENT*>(&m_sn_block0.m_sn[m_sn_block0.m_count-1]);
   }
@@ -801,7 +801,7 @@ struct ON_SerialNumberMap::SN_ELEMENT* ON_SerialNumberMap::FindId(ON_UUID id) co
 
 size_t ON_SerialNumberMap::GetElements(
         unsigned int sn0,
-        unsigned int sn1, 
+        unsigned int sn1,
         size_t max_count,
         ON_SimpleArray<SN_ELEMENT>& elements
         ) const
@@ -823,7 +823,7 @@ size_t ON_SerialNumberMap::GetElements(
       if ( ei && ei->m_sn_active )
         elements.Append(*ei);
     }
-    return (elements.Count() - elements_count0); 
+    return (elements.Count() - elements_count0);
   }
 
   ek = 0;
@@ -957,7 +957,7 @@ size_t ON_SerialNumberMap::GetElements(
         ei = 0;
       }
     }
-    else 
+    else
     {
       if ( ek->m_sn_active )
         elements.Append(*ek); // elements.Append(*ei); // changed by thomas.moerwald
@@ -973,17 +973,17 @@ size_t ON_SerialNumberMap::GetElements(
         k = m_snblk_list[j]->m_count; // always > 0
         ek = &m_snblk_list[j]->m_sn[0];
       }
-      else 
+      else
       {
         ek = 0;
       }
     }
   }
-  
+
   return (elements.Count() - elements_count0);
 }
 
-struct ON_SerialNumberMap::SN_ELEMENT* 
+struct ON_SerialNumberMap::SN_ELEMENT*
 ON_SerialNumberMap::RemoveSerialNumberAndId(unsigned int sn)
 {
   struct SN_ELEMENT* e = FindElementHelper(sn);
@@ -1026,7 +1026,7 @@ ON_SerialNumberMap::RemoveSerialNumberAndId(unsigned int sn)
       }
 
       // save this id.  When objects are replaced, this id will
-      // be added back and saving it in m_inactive_id will 
+      // be added back and saving it in m_inactive_id will
       // prevent having to check for it in the hash table.
       m_inactive_id = e->m_id;
     }
@@ -1052,7 +1052,7 @@ ON_SerialNumberMap::RemoveSerialNumberAndId(unsigned int sn)
         // Note: We cannot empty blocks in the m_sn_list[] because
         //       this class has code that assumes the blocks
         //       in m_sn_list[] have m_count >= 1.  This makes
-        //       the class generally faster.  There is code in 
+        //       the class generally faster.  There is code in
         //       FindElementHelper() the keeps the m_sn_list[]
         //       blocks relatively tidy.
         m_sn_count  -= (m_e_blk->m_count-1);
@@ -1068,7 +1068,7 @@ ON_SerialNumberMap::RemoveSerialNumberAndId(unsigned int sn)
   return 0;
 }
 
-struct ON_SerialNumberMap::SN_ELEMENT* 
+struct ON_SerialNumberMap::SN_ELEMENT*
 ON_SerialNumberMap::RemoveId(unsigned int sn, ON_UUID id)
 {
   struct SN_ELEMENT* e=0;
@@ -1263,7 +1263,7 @@ bool ON_SerialNumberMap::IsValid(ON_TextLog* textlog) const
 size_t ON_SerialNumberMap::GarbageCollectMoveHelper(ON_SerialNumberMap::SN_BLOCK* dst,ON_SerialNumberMap::SN_BLOCK* src)
 {
   // This helper is used by GarbageCollectHelper and moves
-  // as many entries as possible from src to dst.  
+  // as many entries as possible from src to dst.
   // Returns: the number of entries transfered.
   size_t i,j,n;
   if ( src && dst )
@@ -1293,7 +1293,7 @@ size_t ON_SerialNumberMap::GarbageCollectMoveHelper(ON_SerialNumberMap::SN_BLOCK
         dst->m_sn0 = dst->m_sn[0].m_sn; // set m_sn0 because input dst could have count 0
         dst->m_sn1 = dst->m_sn[dst->m_count-1].m_sn;
       }
-      else 
+      else
       {
         if ( dst->m_sn0 > src->m_sn0 )
           dst->m_sn0 = src->m_sn0;
@@ -1341,7 +1341,7 @@ void ON_SerialNumberMap::GarbageCollectHelper()
     if ( !m_sn_block0.m_sorted )
       m_sn_block0.SortBlockHelper();
     if ( 0 == m_snblk_list_count )
-      m_maxsn = m_sn_block0.m_sn1; 
+      m_maxsn = m_sn_block0.m_sn1;
     if ( m_sn_block0.m_count < 7*(SN_BLOCK_CAPACITY/8) )
       return;
   }
@@ -1349,7 +1349,7 @@ void ON_SerialNumberMap::GarbageCollectHelper()
   {
     m_sn_block0.SortBlockHelper();
     if ( 0 == m_snblk_list_count )
-      m_maxsn = m_sn_block0.m_sn1; 
+      m_maxsn = m_sn_block0.m_sn1;
   }
 
   // Remove all purged serial numbers from every block
@@ -1388,8 +1388,8 @@ void ON_SerialNumberMap::GarbageCollectHelper()
     }
   }
 
-  if (    m_snblk_list_count > 0 
-       && m_snblk_list[m_snblk_list_count-1]->m_sn1 > m_sn_block0.m_sn0 
+  if (    m_snblk_list_count > 0
+       && m_snblk_list[m_snblk_list_count-1]->m_sn1 > m_sn_block0.m_sn0
      )
   {
     // Merge the serial number lists so the blocks in m_sn_list[]
@@ -1402,11 +1402,11 @@ void ON_SerialNumberMap::GarbageCollectHelper()
       if ( m_snblk_list[i]->m_sn1 < m_sn_block0.m_sn0 )
         continue;
 
-      // Move some entries in m_sn_block0.m_sn[] 
+      // Move some entries in m_sn_block0.m_sn[]
       // to m_snblk_list[i]->m_sn[].
       SN_BLOCK* blk = m_snblk_list[i];
-      const unsigned int sn1 = (i < m_snblk_list_count-1) 
-                             ? m_snblk_list[i+1]->m_sn0 
+      const unsigned int sn1 = (i < m_snblk_list_count-1)
+                             ? m_snblk_list[i+1]->m_sn0
                              : (m_sn_block0.m_sn1+1);
       snarray_count = j = k = 0;
       while(j < blk->m_count && k < m_sn_block0.m_count )
@@ -1440,8 +1440,8 @@ void ON_SerialNumberMap::GarbageCollectHelper()
         while ( k < m_sn_block0.m_count && m_sn_block0.m_sn[k].m_sn < sn1 )
           snarray[snarray_count++] = m_sn_block0.m_sn[k++];
       }
-      n = (snarray_count > SN_BLOCK_CAPACITY) 
-        ? SN_BLOCK_CAPACITY 
+      n = (snarray_count > SN_BLOCK_CAPACITY)
+        ? SN_BLOCK_CAPACITY
         : snarray_count;
       if ( k < m_sn_block0.m_count )
       {
@@ -1545,7 +1545,7 @@ struct ON_SerialNumberMap::SN_ELEMENT* ON_SerialNumberMap::AddSerialNumber(unsig
     if ( SN_BLOCK_CAPACITY == m_sn_block0.m_count )
     {
       // make room in m_sn_block0 for the new serial number
-      GarbageCollectHelper();    
+      GarbageCollectHelper();
     }
 
     if ( 0 == m_sn_block0.m_count )
@@ -1564,7 +1564,7 @@ struct ON_SerialNumberMap::SN_ELEMENT* ON_SerialNumberMap::AddSerialNumber(unsig
         if ( sn < m_sn_block0.m_sn0 )
           m_sn_block0.m_sn0 = sn;
         m_sn_block0.m_sorted = 0;
-      }        
+      }
     }
     if ( sn > m_maxsn )
       m_maxsn = sn;
@@ -1587,8 +1587,8 @@ struct ON_SerialNumberMap::SN_ELEMENT* ON_SerialNumberMap::AddSerialNumberAndId(
   {
     if ( IdIsNotZero(&id) )
     {
-      if (    m_active_id_count > 0 
-           && 0 != memcmp(&m_inactive_id,&id,sizeof(m_inactive_id)) 
+      if (    m_active_id_count > 0
+           && 0 != memcmp(&m_inactive_id,&id,sizeof(m_inactive_id))
          )
       {
         // Need to determine if id is already in use.
@@ -1603,7 +1603,7 @@ struct ON_SerialNumberMap::SN_ELEMENT* ON_SerialNumberMap::AddSerialNumberAndId(
             break;
           }
         }
-      }        
+      }
     }
     else
     {
@@ -1838,7 +1838,7 @@ void ON_SerialNumberMap::Dump(ON_TextLog& text_log) const
   text_log.Print("m_bHashTableIsValid = %d\n",m_bHashTableIsValid);
   text_log.Print("m_snblk_list_capacity = %d\n",m_snblk_list_capacity);
   text_log.Print("m_snblk_list_count = %d\n",m_snblk_list_count);
-  
+
   text_log.Print("m_sn_block0\n");
   text_log.PushIndent();
   m_sn_block0.Dump(text_log);

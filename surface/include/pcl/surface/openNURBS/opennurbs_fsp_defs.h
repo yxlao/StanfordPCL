@@ -17,19 +17,19 @@
 #if !defined(ON_FSP_DEFS_INC_)
 #define ON_FSP_DEFS_INC_
 
-template <class T> 
+template <class T>
 ON_SimpleFixedSizePool<T>::ON_SimpleFixedSizePool()
 : ON_FixedSizePool()
 {}
 
 template <class T>
 ON_SimpleFixedSizePool<T>::~ON_SimpleFixedSizePool()
-{ 
+{
   ON_FixedSizePool::Destroy();
 }
 
 template <class T>
-bool ON_SimpleFixedSizePool<T>::Create( 
+bool ON_SimpleFixedSizePool<T>::Create(
   size_t element_count_estimate,
   size_t block_element_count
   )

@@ -47,7 +47,7 @@
 
 
 
-static QStringList ITEM_TYPES_STRINGS(QStringList() 
+static QStringList ITEM_TYPES_STRINGS(QStringList()
       << "Cloud Composer Item"
       << "Cloud Item"
       << "Normals Item"
@@ -59,15 +59,15 @@ namespace pcl
   namespace cloud_composer
   {
     class PropertiesModel;
-    namespace ItemDataRole 
-    { 
+    namespace ItemDataRole
+    {
       enum
-      { 
+      {
         PROPERTIES = Qt::UserRole,
         ITEM_ID,
         CLOUD_BLOB,
         CLOUD_TEMPLATED,
-        GEOMETRY_HANDLER, 
+        GEOMETRY_HANDLER,
         COLOR_HANDLER,
         ORIGIN,
         ORIENTATION,
@@ -76,11 +76,11 @@ namespace pcl
     };
     class PCL_EXPORTS CloudComposerItem : public QStandardItem
     {
-      public:  
-        
-  
-        enum ItemType 
-        { 
+      public:
+
+
+        enum ItemType
+        {
           CLOUD_COMPOSER_ITEM = QStandardItem::UserType,
           CLOUD_ITEM,
           NORMALS_ITEM,
@@ -90,22 +90,22 @@ namespace pcl
         CloudComposerItem (const QString name = "default item");
         CloudComposerItem (const CloudComposerItem& to_copy);
         virtual ~CloudComposerItem ();
-        
-        inline virtual int 
+
+        inline virtual int
         type () const { return CLOUD_COMPOSER_ITEM; }
-      
+
         /** \brief Convenience function to get Item's ID String */
         inline QString
         getId () const { return data (ItemDataRole::ITEM_ID).toString (); }
-        
+
         /** \brief Convenience function to get Item's Property Pointer */
         inline PropertiesModel*
         getPropertiesModel () const { return properties_; }
-        
+
         /** \brief Returns all children of item type type*/
         QList <CloudComposerItem*>
         getChildren (ItemType type) const;
-        
+
         virtual CloudComposerItem*
         clone () const;
 
@@ -113,21 +113,21 @@ namespace pcl
     //    template <typename CloudPtrT>
     //    CloudPtrT
     //    getCloudPtr () const;
-        
+
         /** \brief Paint View function - reimpliment in item subclass if it can be displayed in PCLVisualizer*/
         virtual void
         paintView (boost::shared_ptr<pcl::visualization::PCLVisualizer> vis) const;
-        
+
         /** \brief Remove from View function - reimpliment in item subclass if it can be displayed in PCLVisualizer*/
         virtual void
         removeFromView (boost::shared_ptr<pcl::visualization::PCLVisualizer> vis) const;
-        
+
         /** \brief Inspector additional tabs paint function - reimpliment in item subclass if item has additional tabs to show in Inspector*/
         virtual QMap <QString, QWidget*>
         getInspectorTabs ();
-              
+
         /** \brief The property model calls this when a property changes */
-        inline void 
+        inline void
         propertyChanged ()
         {
           emitDataChanged ();
@@ -136,11 +136,11 @@ namespace pcl
 
         /** \brief Model for storing the properties of the item - pointer kept for convenience   */
         PropertiesModel* properties_;
-        
+
     };
-    
-    
-   
+
+
+
     /** \brief Templated helper class for converting QVariant to/from pointer classes   */
     template <class T> class VPtr
     {
@@ -155,7 +155,7 @@ namespace pcl
           return (qVariantFromValue (static_cast<void*>(ptr)));
         }
     };
-    
+
   }
 }
 

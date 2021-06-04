@@ -3,15 +3,15 @@
 
   \section secVisualizationPresentation Overview
 
-  The <b>pcl_visualization</b> library was built for the purpose of being able to quickly prototype and visualize the 
-  results of algorithms operating on 3D point cloud data. Similar to OpenCV's <b>highgui</b> routines for displaying 
+  The <b>pcl_visualization</b> library was built for the purpose of being able to quickly prototype and visualize the
+  results of algorithms operating on 3D point cloud data. Similar to OpenCV's <b>highgui</b> routines for displaying
   2D images and for drawing basic 2D shapes on screen, the library offers:
 
   <ul>
-  <li> methods for rendering and setting visual properties (colors, point sizes, opacity, etc) for any n-D point cloud 
+  <li> methods for rendering and setting visual properties (colors, point sizes, opacity, etc) for any n-D point cloud
        datasets in pcl::PointCloud<T> format;
        \image html http://www.pointclouds.org/documentation/overview/_images/bunny.jpg
-  <li> methods for drawing basic 3D shapes on screen (e.g., cylinders, spheres,lines, polygons, etc) either from sets 
+  <li> methods for drawing basic 3D shapes on screen (e.g., cylinders, spheres,lines, polygons, etc) either from sets
        of points or from parametric equations;
        \image html http://www.pointclouds.org/documentation/overview/_images/shapes.jpg
   <li> a histogram visualization module (PCLHistogramVisualizer) for 2D plots;

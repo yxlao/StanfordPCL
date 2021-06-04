@@ -97,8 +97,8 @@ class NormalEstimation
       }
     }
 
-    template <template <typename> class Storage> void 
-    file_cloud_cb (const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud) 
+    template <template <typename> class Storage> void
+    file_cloud_cb (const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud)
     {
       pcl::PointCloud<pcl::PointXYZRGB>::Ptr output (new pcl::PointCloud<pcl::PointXYZRGB>);
       PointCloudAOS<Host> data_host;
@@ -134,9 +134,9 @@ class NormalEstimation
       new_cloud = true;
     }
 
-    template <template <typename> class Storage> void 
+    template <template <typename> class Storage> void
     cloud_cb (const boost::shared_ptr<openni_wrapper::Image>& image,
-              const boost::shared_ptr<openni_wrapper::DepthImage>& depth_image, 
+              const boost::shared_ptr<openni_wrapper::DepthImage>& depth_image,
               float constant)
     {
       static int smoothing_nr_iterations = 10;
@@ -177,8 +177,8 @@ class NormalEstimation
       toPCL (*data, *normals, *normal_cloud);
       new_cloud = true;
     }
-    
-    void 
+
+    void
     run (bool use_device, bool use_file)
     {
       if (use_file)
@@ -190,7 +190,7 @@ class NormalEstimation
 
         std::string path = "./frame_0.pcd";
         filegrabber = new pcl::PCDGrabber<pcl::PointXYZRGB > (path, frames_per_second, repeat);
-        
+
         if (use_device)
         {
           std::cerr << "[NormalEstimation] Using GPU..." << std::endl;
@@ -232,7 +232,7 @@ class NormalEstimation
         viewer.runOnVisualizationThread (boost::bind(&NormalEstimation::viz_cb, this, _1), "viz_cb");
 
         grabber->start ();
-        
+
         while (!viewer.wasStopped ())
         {
           pcl_sleep (1);
@@ -249,7 +249,7 @@ class NormalEstimation
     bool new_cloud, go_on;
 };
 
-int 
+int
 main (int argc, char **argv)
 {
   bool use_device = false;

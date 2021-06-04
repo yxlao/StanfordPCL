@@ -5,7 +5,7 @@ if(GLUT_FOUND)
   include_directories(${VTK_INCLUDE_DIRS})
 
   PCL_ADD_EXECUTABLE(pcl_sim_viewer ${SUBSYS_NAME} sim_viewer.cpp)
-  target_link_libraries (pcl_sim_viewer   
+  target_link_libraries (pcl_sim_viewer
       pcl_kdtree pcl_simulation pcl_common pcl_io pcl_visualization
       ${GLEW_LIBRARIES} ${GLUT_LIBRARIES} ${OPENGL_LIBRARIES})
 
@@ -15,7 +15,7 @@ if(GLUT_FOUND)
       ${GLEW_LIBRARIES} ${GLUT_LIBRARIES} ${OPENGL_LIBRARIES})
 
   PCL_ADD_EXECUTABLE(pcl_sim_test_performance ${SUBSYS_NAME} sim_test_performance.cpp)
-  target_link_libraries (pcl_sim_test_performance 
+  target_link_libraries (pcl_sim_test_performance
       pcl_simulation pcl_common pcl_io pcl_visualization
       ${GLEW_LIBRARIES} ${GLUT_LIBRARIES} ${OPENGL_LIBRARIES})
 

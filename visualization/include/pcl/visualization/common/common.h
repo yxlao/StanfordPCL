@@ -112,13 +112,13 @@ namespace pcl
         /** \brief Computes View matrix for Camera (Based on gluLookAt)
           * \param[out] view_mat the resultant matrix
           */
-        void 
+        void
         computeViewMatrix (Eigen::Matrix4d& view_mat) const;
 
         /** \brief Computes Projection Matrix for Camera
           *  \param[out] proj the resultant matrix
           */
-        void 
+        void
         computeProjectionMatrix (Eigen::Matrix4d& proj) const;
 
         /** \brief converts point to window coordiantes
@@ -128,7 +128,7 @@ namespace pcl
           * This function computes the projection and view matrix every time.
           * It is very inefficient to use this for every point in the point cloud!
           */
-        template<typename PointT> void 
+        template<typename PointT> void
         cvtWindowCoordinates (const PointT& pt, Eigen::Vector4d& window_cord) const;
 
         /** \brief converts point to window coordiantes
@@ -141,7 +141,7 @@ namespace pcl
           * the projection matrix * the view matrix.  However, additional
           * matrices like a camera disortion matrix can also be added.
           */
-        template<typename PointT> void 
+        template<typename PointT> void
         cvtWindowCoordinates (const PointT& pt, Eigen::Vector4d& window_cord, const Eigen::Matrix4d& composite_mat) const;
     };
   }

@@ -18,18 +18,18 @@
 
 const ON_Color ON_Color::UnsetColor(ON_UNSET_COLOR);
 
-ON_Color::ON_Color() : m_color(0) 
+ON_Color::ON_Color() : m_color(0)
 {}
 
-ON_Color::ON_Color(unsigned int colorref) : m_color(colorref) 
+ON_Color::ON_Color(unsigned int colorref) : m_color(colorref)
 {}
 
-ON_Color::ON_Color(int r, int g, int b) : m_color(0) 
+ON_Color::ON_Color(int r, int g, int b) : m_color(0)
 {
   SetRGB(r,g,b);
 }
 
-ON_Color::ON_Color(int r, int g, int b, int a) : m_color(0) 
+ON_Color::ON_Color(int r, int g, int b, int a) : m_color(0)
 {
   SetRGBA(r,g,b,a);
 }
@@ -64,25 +64,25 @@ int ON_Color::Alpha() const
 { return (m_color>>24) & 0xFF;}
 
 double ON_Color::FractionRed() const
-{ 
+{
   //return Red()/255.0;
   return (m_color & 0xFF)*0.003921568627450980392156862745; // better fodder for optimizer
 }
 
-double ON_Color::FractionGreen() const       
-{ 
+double ON_Color::FractionGreen() const
+{
   //return Green()/255.0;
   return ((m_color>>8) & 0xFF)*0.003921568627450980392156862745; // better fodder for optimizer
 }
 
-double ON_Color::FractionBlue() const       
-{ 
+double ON_Color::FractionBlue() const
+{
   //return Blue()/255.0;
   return ((m_color>>16) & 0xFF)*0.003921568627450980392156862745; // better fodder for optimizer
 }
 
-double ON_Color::FractionAlpha() const       
-{ 
+double ON_Color::FractionAlpha() const
+{
   //return Alpha()/255.0;
   return ((m_color>>24) & 0xFF)*0.003921568627450980392156862745; // better fodder for optimizer
 }
@@ -149,8 +149,8 @@ ON_Color::SetFractionalRGBA( double red, double green, double blue, double alpha
 
 double ON_Color::Hue() const
 {
-  // returns 0 to 2*pi 
-  // 0    = red,  pi/3   = yellow, 2*pi/3 = green, 
+  // returns 0 to 2*pi
+  // 0    = red,  pi/3   = yellow, 2*pi/3 = green,
   // pi   = cyan, 4*pi/3 = blue,   5*pi/3 = magenta,
   // 2*pi = red
   double h;
@@ -169,7 +169,7 @@ double ON_Color::Hue() const
     }
     else if ( g == maxrgb)
       h = 2.0 + (b - r)*d;
-    else 
+    else
       h = 4.0 + (r - g)*d;
     h *= ON_PI/3.0;
   }
@@ -206,10 +206,10 @@ double ON_Color::Value() const
   return (maxrgb/255.0);
 }
 
-void ON_Color::SetHSV( 
-       double hue,         // hue in radians 
+void ON_Color::SetHSV(
+       double hue,         // hue in radians
        double saturation, // satuation 0.0 = gray, 1.0 = saturated
-       double value       // value     
+       double value       // value
        )
 {
   int i;
@@ -227,15 +227,15 @@ void ON_Color::SetHSV(
       if ( hue < 0.0 )
         hue += 6.0;
       i = (int)floor(hue);
-    }    
-    f = hue - i;    
+    }
+    f = hue - i;
     p = value * ( 1.0 - saturation);
     q = value * ( 1.0 - ( saturation * f) );
     t = value * ( 1.0 - ( saturation * ( 1.0 - f) ) );
     switch( i)
     {
     case 0:
-      r = value; g = t; b = p; break;      
+      r = value; g = t; b = p; break;
     case 1:
       r = q; g = value; b = p; break;
     case 2:
@@ -245,10 +245,10 @@ void ON_Color::SetHSV(
     case 4:
       r = t; g = p; b = value; break;
     case 5:
-      r = value; g = p; b = q; break;      
+      r = value; g = p; b = q; break;
     default:
       r = 0; g = 0; b = 0; break; // to keep lint quiet
-    }    
+    }
   }
   SetFractionalRGB(r,g,b);
 }

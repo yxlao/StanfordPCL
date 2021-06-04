@@ -92,8 +92,8 @@ TEST (PCL, SIFTKeypoint)
 
   // Compare to previously validated output
   const size_t correct_nr_keypoints = 5;
-  const float correct_keypoints[correct_nr_keypoints][4] = 
-    { 
+  const float correct_keypoints[correct_nr_keypoints][4] =
+    {
       // { x,  y,  z,  scale }
       {-0.9425f, -0.6381f,  1.6445f,  0.0794f},
       {-0.5083f, -0.5587f,  1.8519f,  0.0500f},
@@ -127,7 +127,7 @@ TEST (PCL, SIFTKeypoint_radiusSearch)
   voxel_grid.setInputCloud (cloud);
   voxel_grid.filter (*cloud);
   tree_->setInputCloud (cloud);
-  
+
   const PointCloud<PointXYZI> & input = *cloud;
   KdTreeFLANN<PointXYZI> & tree = *tree_;
   const float base_scale = scale;

@@ -94,14 +94,14 @@ openni_wrapper::DeviceKinect::~DeviceKinect () throw ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 openni_wrapper::DeviceKinect::isImageResizeSupported (unsigned input_width, unsigned input_height, unsigned output_width, unsigned output_height) const throw ()
 {
   return (ImageBayerGRBG::resizingSupported (input_width, input_height, output_width, output_height));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 openni_wrapper::DeviceKinect::enumAvailableModes () throw ()
 {
   XnMapOutputMode output_mode;
@@ -121,7 +121,7 @@ openni_wrapper::DeviceKinect::enumAvailableModes () throw ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-boost::shared_ptr<openni_wrapper::Image> 
+boost::shared_ptr<openni_wrapper::Image>
 openni_wrapper::DeviceKinect::getCurrentImage (boost::shared_ptr<xn::ImageMetaData> image_data) const throw ()
 {
   return (boost::shared_ptr<Image> (new ImageBayerGRBG (image_data, debayering_method_)));

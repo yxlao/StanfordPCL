@@ -74,7 +74,7 @@ namespace pcl
       Eigen::Matrix3f KinectVGAProjectionMatrix, KinectSXGAProjectionMatrix;
 
       /** \brief Constructor. */
-      BilateralUpsampling () 
+      BilateralUpsampling ()
         : KinectVGAProjectionMatrix ()
         , KinectSXGAProjectionMatrix ()
         , window_size_ (5)

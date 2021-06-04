@@ -37,7 +37,7 @@
 
 #ifndef PCL_ML_DT_DECISION_TREE_TRAINER_HPP_
 #define PCL_ML_DT_DECISION_TREE_TRAINER_HPP_
-  
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <class FeatureType, class DataSet, class LabelType, class ExampleIndex, class NodeType>
 pcl::DecisionTreeTrainer<FeatureType, DataSet, LabelType, ExampleIndex, NodeType>::DecisionTreeTrainer ()
@@ -50,14 +50,14 @@ pcl::DecisionTreeTrainer<FeatureType, DataSet, LabelType, ExampleIndex, NodeType
   , label_data_ ()
   , examples_ ()
 {
-  
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <class FeatureType, class DataSet, class LabelType, class ExampleIndex, class NodeType>
 pcl::DecisionTreeTrainer<FeatureType, DataSet, LabelType, ExampleIndex, NodeType>::~DecisionTreeTrainer ()
 {
-  
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,7 +71,7 @@ pcl::DecisionTreeTrainer<FeatureType, DataSet, LabelType, ExampleIndex, NodeType
   feature_handler_->createRandomFeatures (num_of_features_, features);
 
   // recursively build decision tree
-  NodeType root_node; 
+  NodeType root_node;
   tree.setRoot (root_node);
 
   trainDecisionTreeNode (features, examples_, label_data_, max_tree_depth_, tree.getRoot ());
@@ -170,7 +170,7 @@ pcl::DecisionTreeTrainer<FeatureType, DataSet, LabelType, ExampleIndex, NodeType
                                             flags,
                                             best_feature_threshold,
                                             branch_indices);
- } 
+ }
 
   stats_estimator_->computeAndSetNodeStats (data_set_, examples, label_data, node);
 
@@ -253,5 +253,5 @@ pcl::DecisionTreeTrainer<FeatureType, DataSet, LabelType, ExampleIndex, NodeType
     thresholds[threshold_index] = min_value + step*(threshold_index+1);
   }
 }
-  
+
 #endif

@@ -99,7 +99,7 @@ namespace pcl
         //std::cerr << "Input Points:" << std::endl;
         //for (unsigned int print_iter = 0; print_iter < nr_points; ++print_iter)
         //{
-        //  std::cerr << print_iter << " : [ " 
+        //  std::cerr << print_iter << " : [ "
         //    << host_points[print_iter].x << ", "
         //    << host_points[print_iter].y << ", "
         //    << host_points[print_iter].z << " ]" << std::endl;
@@ -134,7 +134,7 @@ namespace pcl
           std::cerr << "Samples / Coefficients:" << std::endl;
           for (unsigned int print_iter = 0; print_iter < iterations_per_batch_; ++print_iter)
           {
-            std::cerr << host_samples[print_iter] << " : [ " 
+            std::cerr << host_samples[print_iter] << " : [ "
               << host_coeffs[print_iter].x << ", "
               << host_coeffs[print_iter].y << ", "
               << host_coeffs[print_iter].z << ", "
@@ -168,10 +168,10 @@ namespace pcl
             inl_stencil.reset (); // release stencil
             hypothesis_valid[cur_batch * iterations_per_batch_ + i] = false;
           }
-          
+
           hypotheses_inliers_stencils[cur_iteration] = inl_stencil;
           hypotheses_inlier_count[cur_iteration] = n_inliers_count;
-          
+
           // Better match ?
           if (n_inliers_count > n_best_inliers_count)
           {
@@ -227,7 +227,7 @@ namespace pcl
             all_model_centroids_.push_back (centroids [extracted_model]);
             thrust::host_vector<float4> host_coeffs_extracted_model = h [extracted_model / iterations_per_batch_];
             all_model_coefficients_.push_back (host_coeffs_extracted_model [extracted_model % iterations_per_batch_]);
-           
+
 
             // so we only get it once:
             hypothesis_valid[extracted_model] = false;
@@ -250,7 +250,7 @@ namespace pcl
             int counter_inliers = 0;
 
             //for (unsigned int b = 0; b <= cur_batch; b++)
-            unsigned int b = cur_batch;  
+            unsigned int b = cur_batch;
             for (unsigned int j = 0; j < iterations_per_batch_; j++)
             {
               // todo: precheck for very similar models
@@ -281,7 +281,7 @@ namespace pcl
               {
                 //todo: recompute inliers... / deleteindices
                 // ... determine best remaining model
-                int old_score = hypotheses_inlier_count[b*iterations_per_batch_ + j]; 
+                int old_score = hypotheses_inlier_count[b*iterations_per_batch_ + j];
                 if (old_score != 0)
                 {
           //std::cerr << "inliers for model " << b*iterations_per_batch_ + j << " : " << old_score;
@@ -290,7 +290,7 @@ namespace pcl
                   hypotheses_inlier_count[b*iterations_per_batch_ + j] = n_inliers_count;
           //std::cerr << " ---> " << hypotheses_inlier_count[b * iterations_per_batch_ + j] << std::endl;
                 }
-          
+
                 // Better match ?
                 if (n_inliers_count > n_best_inliers_count)
                 {
@@ -307,7 +307,7 @@ namespace pcl
                   else
                     k = log (1.0f - probability_) / log (p_no_outliers);
                 }
-                
+
               }
             }
             //std::cerr << "invalid models: " << counter_invalid << " , inlier models: " << counter_inliers << std::endl;
@@ -337,7 +337,7 @@ namespace pcl
 
       //  for (unsigned int print_iter = 0; print_iter < iterations_per_batch_; ++print_iter)
       //  {
-      //    std::cout << host_samples[print_iter] << " : [ " 
+      //    std::cout << host_samples[print_iter] << " : [ "
       //      << host_coeffs[print_iter].x << ", "
       //      << host_coeffs[print_iter].y << ", "
       //      << host_coeffs[print_iter].z << ", "

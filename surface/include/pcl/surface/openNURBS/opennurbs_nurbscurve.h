@@ -39,10 +39,10 @@ public:
   */
   static ON_NurbsCurve* New();
   static ON_NurbsCurve* New(
-            const ON_NurbsCurve& nurbs_curve 
+            const ON_NurbsCurve& nurbs_curve
             );
   static ON_NurbsCurve* New(
-            const ON_BezierCurve& bezier_curve 
+            const ON_BezierCurve& bezier_curve
             );
   static ON_NurbsCurve* New(
             int dimension,
@@ -94,10 +94,10 @@ public:
   Returns:
     true if curves are tne same.
   */
-  bool IsDuplicate( 
-          const ON_NurbsCurve& other, 
+  bool IsDuplicate(
+          const ON_NurbsCurve& other,
           bool bIgnoreParameterization,
-          double tolerance = ON_ZERO_TOLERANCE 
+          double tolerance = ON_ZERO_TOLERANCE
           ) const;
 
   // Description:
@@ -111,7 +111,7 @@ public:
   //   bIsRational - [in] true to make a rational NURBS
   //   order - [in] (>= 2) The order=degree+1
   //   cv_count - [in] (>= order) number of control vertices
-  bool Create( 
+  bool Create(
           int dimension,
           ON_BOOL32 bIsRational,
           int order,
@@ -129,7 +129,7 @@ public:
   //   knot_delta - [in] (>0.0) knot spacing
   // Returns:
   //   true if successful
-  bool CreateClampedUniformNurbs( 
+  bool CreateClampedUniformNurbs(
           int dimension,
           int order,
           int point_count,
@@ -148,7 +148,7 @@ public:
   //   knot_delta - [in] (>0.0) knot spacing
   // Returns:
   //   true if successful
-  bool CreatePeriodicUniformNurbs( 
+  bool CreatePeriodicUniformNurbs(
           int dimension,
           int order,
           int point_count,
@@ -164,7 +164,7 @@ public:
 
   // Description:
   //   Call if memory used by ON_NurbsCurve becomes invalid.
-  void EmergencyDestroy(); 
+  void EmergencyDestroy();
 
 	ON_NurbsCurve& operator=(const ON_NurbsCurve& src);
 
@@ -187,9 +187,9 @@ public:
     text_log - [in] if the object is not valid and text_log
         is not NULL, then a brief englis description of the
         reason the object is not valid is appened to the log.
-        The information appended to text_log is suitable for 
-        low-level debugging purposes by programmers and is 
-        not intended to be useful as a high level user 
+        The information appended to text_log is suitable for
+        low-level debugging purposes by programmers and is
+        not intended to be useful as a high level user
         interface tool.
   Returns:
     @untitled table
@@ -202,7 +202,7 @@ public:
 
   // Description:
   //   virtual ON_Object::Dump override
-  void Dump( 
+  void Dump(
     ON_TextLog& dump
     ) const;
 
@@ -233,9 +233,9 @@ public:
   // Parameters:
   //   boxmin - [in/out] array of Dimension() doubles
   //   boxmax - [in/out] array of Dimension() doubles
-  //   bGrowBox - [in] (default=false) 
-  //     If true, then the union of the input bbox and the 
-  //     object's bounding box is returned in bbox.  
+  //   bGrowBox - [in] (default=false)
+  //     If true, then the union of the input bbox and the
+  //     object's bounding box is returned in bbox.
   //     If false, the object's bounding box is returned in bbox.
   // Returns:
   //   true if object has bounding box and calculation was successful
@@ -254,10 +254,10 @@ public:
   //
   // Remarks:
   //   When overriding this function, be sure to include a call
-  //   to ON_Object::TransformUserData() which takes care of 
-  //   transforming any ON_UserData that may be attached to 
+  //   to ON_Object::TransformUserData() which takes care of
+  //   transforming any ON_UserData that may be attached to
   //   the object.
-  ON_BOOL32 Transform( 
+  ON_BOOL32 Transform(
          const ON_Xform& xform
          );
 
@@ -274,7 +274,7 @@ public:
   //   i - [in] coordinate index
   //   j - [in] coordinate index
   ON_BOOL32 SwapCoordinates(
-        int i, 
+        int i,
         int j
         );
 
@@ -296,8 +296,8 @@ public:
   // Returns:
   //   true if successful.
   ON_BOOL32 SetDomain(
-        double t0, 
-        double t1 
+        double t0,
+        double t1
         );
 
   /*
@@ -312,8 +312,8 @@ public:
   Remarks:
     Overrides virtual ON_Curve::ChangeClosedCurveSeam
   */
-  ON_BOOL32 ChangeClosedCurveSeam( 
-            double t 
+  ON_BOOL32 ChangeClosedCurveSeam(
+            double t
             );
 
   // Description:
@@ -330,20 +330,20 @@ public:
   //   virtual ON_Curve::GetSpanVector override.
   //   Get number of parameters of distinct knots in NURBS curve's domain.
   // Parameters:
-  //   knot_values - [out] an array of length SpanCount()+1 is 
+  //   knot_values - [out] an array of length SpanCount()+1 is
   //       filled in with the distinct knot values in the list
   ///      (m_knot[m_order-2],...,m_knot[m_cv_count-1)
   // Returns:
   //   true if successful
   ON_BOOL32 GetSpanVector(
          double* knot_values
-         ) const; // 
+         ) const; //
 
   // Description:
   //   virtual ON_Curve::Degree override.
   // Returns:
   //   m_order-1
-  int Degree() const; 
+  int Degree() const;
 
   // Description:
   //   virtual ON_Curve::GetParameterTolerance override.
@@ -415,10 +415,10 @@ public:
   //   virtual ON_Curve::IsPeriodic override.
   // Returns:
   //   true if NURBS curve is periodic (degree > 1,
-  //   periodic knot vector, last degree many CVs 
+  //   periodic knot vector, last degree many CVs
   //   are duplicates of first degree many CVs).
   ON_BOOL32 IsPeriodic() const;
-  
+
   /*
   Description:
     Search for a derivatitive, tangent, or curvature discontinuity.
@@ -430,17 +430,17 @@ public:
           parameter at the discontinuity.
     hint - [in/out] if GetNextDiscontinuity will be called repeatedly,
        passing a "hint" with initial value *hint=0 will increase the speed
-       of the search.       
+       of the search.
     dtype - [out] if not NULL, *dtype reports the kind of discontinuity
         found at *t.  A value of 1 means the first derivative or unit tangent
         was discontinuous.  A value of 2 means the second derivative or
         curvature was discontinuous.
     cos_angle_tolerance - [in] default = cos(1 degree) Used only when
         c is ON::G1_continuous or ON::G2_continuous.  If the cosine
-        of the angle between two tangent vectors 
+        of the angle between two tangent vectors
         is <= cos_angle_tolerance, then a G1 discontinuity is reported.
     curvature_tolerance - [in] (default = ON_SQRT_EPSILON) Used only when
-        c is ON::G2_continuous or ON::Gsmooth_continuous.  
+        c is ON::G2_continuous or ON::Gsmooth_continuous.
         ON::G2_continuous:
           If K0 and K1 are curvatures evaluated
           from above and below and |K0 - K1| > curvature_tolerance,
@@ -455,7 +455,7 @@ public:
   Remarks:
     Overrides ON_Curve::GetNextDiscontinuity.
   */
-  bool GetNextDiscontinuity( 
+  bool GetNextDiscontinuity(
                   ON::continuity c,
                   double t0,
                   double t1,
@@ -481,10 +481,10 @@ public:
         greater than d2_tolerance, then the curve is not C2.
     cos_angle_tolerance - [in] default = cos(1 degree) Used only when
         c is ON::G1_continuous or ON::G2_continuous.  If the cosine
-        of the angle between two tangent vectors 
+        of the angle between two tangent vectors
         is <= cos_angle_tolerance, then a G1 discontinuity is reported.
     curvature_tolerance - [in] (default = ON_SQRT_EPSILON) Used only when
-        c is ON::G2_continuous or ON::Gsmooth_continuous.  
+        c is ON::G2_continuous or ON::Gsmooth_continuous.
         ON::G2_continuous:
           If K0 and K1 are curvatures evaluated
           from above and below and |K0 - K1| > curvature_tolerance,
@@ -501,7 +501,7 @@ public:
   */
   bool IsContinuous(
     ON::continuity c,
-    double t, 
+    double t,
     int* hint = NULL,
     double point_tolerance=ON_ZERO_TOLERANCE,
     double d1_tolerance=ON_ZERO_TOLERANCE,
@@ -556,7 +556,7 @@ public:
   //   and reversing the order of the control vertices.
   // Remarks:
   //   Domain changes from [a,b] to [-b,-a]
-  ON_BOOL32 Reverse();       
+  ON_BOOL32 Reverse();
 
   // Description:
   //   virtual ON_Curve::Evaluate override.
@@ -567,7 +567,7 @@ public:
          double*,        // array of length stride*(ndir+1)
          int = 0,        // optional - determines which side to evaluate from
                          //         0 = default
-                         //      <  0 to evaluate from below, 
+                         //      <  0 to evaluate from below,
                          //      >  0 to evaluate from above
          int* = 0        // optional - evaluation hint (int) used to speed
                          //            repeated evaluations
@@ -582,19 +582,19 @@ public:
     tolerance -[in]
       distance tolerance to use when checking control points
       between the span ends
-  Returns 
+  Returns
     true if the span is a non-degenrate line.  This means:
     - dimension = 2 or 3
     - There are full multiplicity knots at each end of the span.
-    - The length of the the line segment from the span's initial 
-      control point to the span's final control point is 
+    - The length of the the line segment from the span's initial
+      control point to the span's final control point is
       >= min_length.
     - The distance from the line segment to the interior control points
       is <= tolerance and the projections of these points onto
       the line increases monotonically.
   */
-  bool SpanIsLinear( 
-    int span_index, 
+  bool SpanIsLinear(
+    int span_index,
     double min_length,
     double tolerance
     ) const;
@@ -624,10 +624,10 @@ public:
   // Description:
   //   Where possible, analytically extends curve to include domain.
   // Parameters:
-  //   domain - [in] if domain is not included in curve domain, 
-  //   curve will be extended so that its domain includes domain.  
+  //   domain - [in] if domain is not included in curve domain,
+  //   curve will be extended so that its domain includes domain.
   //   Will not work if curve is closed. Original curve is identical
-  //   to the restriction of the resulting curve to the original curve domain, 
+  //   to the restriction of the resulting curve to the original curve domain,
   // Returns:
   //   true if successful.
   bool Extend(
@@ -642,7 +642,7 @@ public:
   // to ON_NurbsCurve::Split must either be NULL or point to an ON_NurbsCurve.
   // If the pointer is NULL, then a curve will be created
   // in Split().  You may pass "this" as one of the pointers to Split().
-  // For example, 
+  // For example,
   //
   //   ON_NurbsCurve right_side;
   //   crv.Split( crv.Domain().Mid() &crv, &right_side );
@@ -663,9 +663,9 @@ public:
                    //            matches the curve's to wthe desired accuracy
                    //         2: success - returned NURBS point locus matches
                    //            the curve's to the desired accuracy but, on
-                   //            the interior of the curve's domain, the 
+                   //            the interior of the curve's domain, the
                    //            curve's parameterization and the NURBS
-                   //            parameterization may not match to the 
+                   //            parameterization may not match to the
                    //            desired accuracy.
         ON_NurbsCurve& nurbsform,
         double tolerance = 0.0,
@@ -680,9 +680,9 @@ public:
                    //            matches the curve's to wthe desired accuracy
                    //         2: success - returned NURBS point locus matches
                    //            the curve's to the desired accuracy but, on
-                   //            the interior of the curve's domain, the 
+                   //            the interior of the curve's domain, the
                    //            curve's parameterization and the NURBS
-                   //            parameterization may not match to the 
+                   //            parameterization may not match to the
                    //            desired accuracy.
         ) const;
 
@@ -708,38 +708,38 @@ public:
   bool IsRational(  // true if NURBS curve is rational
         void
         ) const;
-  
-  int CVSize(       // number of doubles per control vertex 
+
+  int CVSize(       // number of doubles per control vertex
         void        // = IsRational() ? Dim()+1 : Dim()
         ) const;
-  
+
   int Order(        // order = degree + 1
         void
         ) const;
 	
   int CVCount(      // number of control vertices
-        void 
+        void
         ) const;
 
   int KnotCount(    // total number of knots in knot vector
         void
         ) const;
-  
+
   /*
   Description:
     Expert user function to get a pointer to control vertex
     memory.  If you are not an expert user, please use
-    ON_NurbsCurve::GetCV( ON_3dPoint& ) or 
+    ON_NurbsCurve::GetCV( ON_3dPoint& ) or
     ON_NurbsCurve::GetCV( ON_4dPoint& ).
   Parameters:
     cv_index - [in]
   Returns:
     Pointer to control vertex.
   Remarks:
-    If the NURBS curve is rational, the format of the 
+    If the NURBS curve is rational, the format of the
     returned array is a homogeneos rational point with
-    length m_dim+1.  If the NURBS curve is not rational, 
-    the format of the returned array is a nonrational 
+    length m_dim+1.  If the NURBS curve is not rational,
+    the format of the returned array is a nonrational
     euclidean point with length m_dim.
   See Also
     ON_NurbsCurve::CVStyle
@@ -843,7 +843,7 @@ public:
   // Returns:
   //   knot multiplicity = m_knot[knot_index]
   // See Also:
-  //   ON_NurbsCurve::SetKnot, ON_NurbsCurve::Knot, 
+  //   ON_NurbsCurve::SetKnot, ON_NurbsCurve::Knot,
   //   ON_NurbsCurve::InsertKnot
   int KnotMultiplicity(
         int knot_index
@@ -854,7 +854,7 @@ public:
   // Returns:
   //   pointer to knot vector array (m_knot).
   // See Also:
-  //   ON_NurbsCurve::SetKnot, ON_NurbsCurve::Knot, 
+  //   ON_NurbsCurve::SetKnot, ON_NurbsCurve::Knot,
   //   ON_NurbsCurve::InsertKnot
   const double* Knot() const;
 
@@ -870,8 +870,8 @@ public:
   //   Allocates m_knot[] if it is not big enough.
   // See Also:
   //   ON_MakeClampedUniformKnotVector
-  bool MakeClampedUniformKnotVector( 
-    double delta = 1.0 
+  bool MakeClampedUniformKnotVector(
+    double delta = 1.0
     );
 
   // Description:
@@ -886,14 +886,14 @@ public:
   //   Allocates m_knot[] if it is not big enough.
   // See Also:
   //   ON_MakePeriodicUniformKnotVector
-  bool MakePeriodicUniformKnotVector( 
-    double delta = 1.0 
+  bool MakePeriodicUniformKnotVector(
+    double delta = 1.0
     );
 
   bool IsClamped( // determine if knot vector is clamped
         int = 2 // end to check: 0 = start, 1 = end, 2 = start and end
         ) const;
-  
+
   double SuperfluousKnot(
            int // 0 = start, 1 = end
            ) const;
@@ -927,7 +927,7 @@ public:
   //   Does not change parameterization or locus of curve.
   // Returns:
   //   true if successful
-  bool InsertKnot( 
+  bool InsertKnot(
             double knot_value,
             int knot_multiplicity
             );
@@ -961,7 +961,7 @@ public:
 
   ////////
   // Converts a span of the NURBS curve into a bezier.  If
-  // the span is empty 
+  // the span is empty
   // (m_knot[span_index+m_order-2] == m_knot[span_index+m_order-1]),
   // then false is returned.
   bool ConvertSpanToBezier(
@@ -970,22 +970,22 @@ public:
       ) const;
 
   ////////
-  // Returns true if the NURBS curve has bezier spans 
+  // Returns true if the NURBS curve has bezier spans
   // (all distinct knots have multiplitity = degree)
   bool HasBezierSpans() const;
 
   /*
   Description:
-    Clamps ends and adds knots so the NURBS curve has bezier spans 
+    Clamps ends and adds knots so the NURBS curve has bezier spans
    (all distinct knots have multiplitity = degree).
   Paremeters:
     bSetEndWeightsToOne - [in] If true and the first or last weight is
-       not one, then the first and last spans are reparameterized so 
+       not one, then the first and last spans are reparameterized so
        that the end weights are one.
   Returns:
     true if successful.
-  */      
-  bool MakePiecewiseBezier( 
+  */
+  bool MakePiecewiseBezier(
         bool bSetEndWeightsToOne = false
         );
 
@@ -1004,25 +1004,25 @@ public:
     The domain, eucleanean locations of the control points,
     and locus of the curve do not change, but the weights,
     homogeneous cv values and internal knot values may change.
-    If w0 and w1 are 1 and the curve is not rational, the 
+    If w0 and w1 are 1 and the curve is not rational, the
     curve is not changed.
   */
   bool ChangeEndWeights( double w0, double w1 );
 
   /*
   Description:
-    Use a linear fractional transformation to reparameterize 
+    Use a linear fractional transformation to reparameterize
     the NURBS curve.  This does not change the curve's domain.
   Parameters:
     c - [in]
       reparameterization constant (generally speaking, c should be > 0).
-      The control points and knots are adjusted so that 
+      The control points and knots are adjusted so that
       output_nurbs(t) = input_nurbs(lambda(t)), where
       lambda(t) = c*t/( (c-1)*t + 1 ).
-      Note that lambda(0) = 0, lambda(1) = 1, lambda'(t) > 0, 
+      Note that lambda(0) = 0, lambda(1) = 1, lambda'(t) > 0,
       lambda'(0) = c and lambda'(1) = 1/c.
   Returns:
-    true if successful.  
+    true if successful.
   Remarks:
     The cv and knot values are values are changed so that
     output_nurbs(t) = input_nurbs(lambda(t)).
@@ -1070,7 +1070,7 @@ public:
 
   double* m_knot;           // Knot vector. ( The knot vector has length
                             // m_order+m_cv_count-2. )
-  
+
   // control vertex net memory
 
   int     m_cv_stride;      // The pointer to start of "CV[i]" is

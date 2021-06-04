@@ -66,13 +66,13 @@ main(int, char** argv)
     return -1;
   }
   std::cout << "points: " << cloud_xyz->points.size () <<std::endl;
-  
+
   // Parameters for sift computation
   const float min_scale = 0.01f;
   const int n_octaves = 3;
   const int n_scales_per_octave = 4;
   const float min_contrast = 0.001f;
-  
+
   // Estimate the normals of the cloud_xyz
   pcl::NormalEstimation<pcl::PointXYZ, pcl::PointNormal> ne;
   pcl::PointCloud<pcl::PointNormal>::Ptr cloud_normals (new pcl::PointCloud<pcl::PointNormal>);
@@ -108,8 +108,8 @@ main(int, char** argv)
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_temp (new pcl::PointCloud<pcl::PointXYZ>);
   copyPointCloud(result, *cloud_temp);
   std::cout << "SIFT points in the cloud_temp are " << cloud_temp->points.size () << std::endl;
-  
-  
+
+
   // Visualization of keypoints along with the original cloud
   pcl::visualization::PCLVisualizer viewer("PCL Viewer");
   pcl::visualization::PointCloudColorHandlerCustom<pcl::PointXYZ> keypoints_color_handler (cloud_temp, 0, 255, 0);
@@ -118,14 +118,14 @@ main(int, char** argv)
   viewer.addPointCloud(cloud_xyz, cloud_color_handler, "cloud");
   viewer.addPointCloud(cloud_temp, keypoints_color_handler, "keypoints");
   viewer.setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 7, "keypoints");
-  
+
   while(!viewer.wasStopped ())
   {
   viewer.spinOnce ();
   }
-  
+
 */
 
   return 0;
-  
+
 }

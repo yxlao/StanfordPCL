@@ -65,7 +65,7 @@ pcl::IterativeClosestPoint<PointSource, PointTarget>::computeTransformation (Poi
     transformPointCloud (output, output, guess);
   }
 
-  // Resize the vector of distances between correspondences 
+  // Resize the vector of distances between correspondences
   std::vector<float> previous_correspondence_distances (indices_->size ());
   correspondence_distances_.resize (indices_->size ());
 
@@ -158,14 +158,14 @@ pcl::IterativeClosestPoint<PointSource, PointTarget>::computeTransformation (Poi
       return;
     }
 
-    PCL_DEBUG ("[pcl::%s::computeTransformation] Number of correspondences %d [%f%%] out of %zu points [100.0%%], RANSAC rejected: %zu [%f%%].\n", 
-        getClassName ().c_str (), 
-        cnt, 
-        (static_cast<float> (cnt) * 100.0f) / static_cast<float> (indices_->size ()), 
-        indices_->size (), 
-        source_indices.size () - cnt, 
+    PCL_DEBUG ("[pcl::%s::computeTransformation] Number of correspondences %d [%f%%] out of %zu points [100.0%%], RANSAC rejected: %zu [%f%%].\n",
+        getClassName ().c_str (),
+        cnt,
+        (static_cast<float> (cnt) * 100.0f) / static_cast<float> (indices_->size ()),
+        indices_->size (),
+        source_indices.size () - cnt,
         static_cast<float> (source_indices.size () - cnt) * 100.0f / static_cast<float> (source_indices.size ()));
-  
+
     // Estimate the transform
     //rigid_transformation_estimation_(output, source_indices_good, *target_, target_indices_good, transformation_);
     transformation_estimation_->estimateRigidTransformation (output, source_indices_good, *target_, target_indices_good, transformation_);
@@ -173,7 +173,7 @@ pcl::IterativeClosestPoint<PointSource, PointTarget>::computeTransformation (Poi
     // Tranform the data
     transformPointCloud (output, output, transformation_);
 
-    // Obtain the final transformation    
+    // Obtain the final transformation
     final_transformation_ = transformation_ * final_transformation_;
 
     nr_iterations_++;
@@ -183,11 +183,11 @@ pcl::IterativeClosestPoint<PointSource, PointTarget>::computeTransformation (Poi
       update_visualizer_(output, source_indices_good, *target_, target_indices_good );
 
     // Various/Different convergence termination criteria
-    // 1. Number of iterations has reached the maximum user imposed number of iterations (via 
+    // 1. Number of iterations has reached the maximum user imposed number of iterations (via
     //    setMaximumIterations)
-    // 2. The epsilon (difference) between the previous transformation and the current estimated transformation 
+    // 2. The epsilon (difference) between the previous transformation and the current estimated transformation
     //    is smaller than an user imposed value (via setTransformationEpsilon)
-    // 3. The sum of Euclidean squared errors is smaller than a user defined threshold (via 
+    // 3. The sum of Euclidean squared errors is smaller than a user defined threshold (via
     //    setEuclideanFitnessEpsilon)
 
     if (nr_iterations_ >= max_iterations_ ||

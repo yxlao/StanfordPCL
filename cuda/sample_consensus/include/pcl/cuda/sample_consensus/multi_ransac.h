@@ -48,7 +48,7 @@ namespace pcl
     /** \brief @b RandomSampleConsensus represents an implementation of the
       * RANSAC (RAndom SAmple Consensus) algorithm, as described in: "Random
       * Sample Consensus: A Paradigm for Model Fitting with Applications to Image
-      * Analysis and Automated Cartography", Martin A. Fischler and Robert C. Bolles, 
+      * Analysis and Automated Cartography", Martin A. Fischler and Robert C. Bolles,
       * Comm. Of the ACM 24: 381–395, June 1981.
       * \author Radu Bogdan Rusu
       */
@@ -77,7 +77,7 @@ namespace pcl
         /** \brief RANSAC (RAndom SAmple Consensus) main constructor
           * \param model a Sample Consensus model
           */
-        MultiRandomSampleConsensus (const SampleConsensusModelPtr &model) : 
+        MultiRandomSampleConsensus (const SampleConsensusModelPtr &model) :
           SampleConsensus<Storage> (model),
           min_coverage_percent_ (0.9),
           max_batches_ (5),
@@ -91,7 +91,7 @@ namespace pcl
           * \param model a Sample Consensus model
           * \param threshold distance to model threshold
           */
-        MultiRandomSampleConsensus (const SampleConsensusModelPtr &model, double threshold) : 
+        MultiRandomSampleConsensus (const SampleConsensusModelPtr &model, double threshold) :
           SampleConsensus<Storage> (model, threshold)
         {
           // Maximum number of trials before we give up.
@@ -102,7 +102,7 @@ namespace pcl
           * \param debug_verbosity_level enable/disable on-screen debug
           * information and set the verbosity level
           */
-        bool 
+        bool
         computeModel (int debug_verbosity_level = 0);
 
         /** \brief how much (in percent) of the point cloud should be covered?
@@ -113,7 +113,7 @@ namespace pcl
         {
           min_coverage_percent_ = percent;
         }
-          
+
         /** \brief Sets the maximum number of batches that should be processed.
          *  Every Batch computes up to iterations_per_batch_ models and verifies them.
          *  If planes with a sufficiently high total inlier count are found earlier, the
@@ -142,22 +142,22 @@ namespace pcl
         inline std::vector<int>
         getAllInlierCounts () { return all_inlier_counts_; }
 
-        /** \brief Return the model coefficients of the best model found so far. 
+        /** \brief Return the model coefficients of the best model found so far.
           * \param model_coefficients the resultant model coefficients
           */
         inline std::vector<float4>
-        getAllModelCoefficients () 
-        { 
-          return all_model_coefficients_; 
+        getAllModelCoefficients ()
+        {
+          return all_model_coefficients_;
         }
 
-        /** \brief Return the model coefficients of the best model found so far. 
+        /** \brief Return the model coefficients of the best model found so far.
           * \param model_coefficients the resultant model coefficients
           */
         inline std::vector<float3>
-        getAllModelCentroids () 
-        { 
-          return all_model_centroids_; 
+        getAllModelCentroids ()
+        {
+          return all_model_centroids_;
         }
 
       private:

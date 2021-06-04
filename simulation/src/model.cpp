@@ -118,10 +118,10 @@ pcl::simulation::PolygonMeshModel::PolygonMeshModel (GLenum mode, pcl::PolygonMe
   for (size_t i=0; i<plg->cloud.fields.size () ;i++)
     if (plg->cloud.fields[i].name.compare ("rgb") == 0)
       found_rgb = true;
-  
+
   if (found_rgb)
   {
-    pcl::PointCloud<pcl::PointXYZRGB> newcloud;  
+    pcl::PointCloud<pcl::PointXYZRGB> newcloud;
     pcl::fromROSMsg (plg->cloud, newcloud);
     Eigen::Vector4f tmp;
     for(size_t i = 0; i< plg->polygons.size (); i++)
@@ -130,7 +130,7 @@ pcl::simulation::PolygonMeshModel::PolygonMeshModel (GLenum mode, pcl::PolygonMe
       SinglePoly apoly;
       apoly.nvertices_ = apoly_in.vertices.size ();
       apoly.vertices_ = new float[3*apoly_in.vertices.size ()];
-      apoly.colors_ = new float[4*apoly_in.vertices.size ()]; 
+      apoly.colors_ = new float[4*apoly_in.vertices.size ()];
 
       for(size_t j=0; j< apoly_in.vertices.size (); j++)
       { // each point
@@ -151,7 +151,7 @@ pcl::simulation::PolygonMeshModel::PolygonMeshModel (GLenum mode, pcl::PolygonMe
   }
   else
   {
-    pcl::PointCloud<pcl::PointXYZ> newcloud;  
+    pcl::PointCloud<pcl::PointXYZ> newcloud;
     pcl::fromROSMsg (plg->cloud, newcloud);
     Eigen::Vector4f tmp;
     for(size_t i=0; i< plg->polygons.size (); i++)
@@ -245,7 +245,7 @@ pcl::simulation::PointCloudModel::draw ()
 
   float att[3] = {0.0f, 0.25f, 0.0f};
   glPointParameterf(GL_POINT_SIZE_MIN, 1.0f);
-  glPointParameterf(GL_POINT_SIZE_MAX, 500.0f); 
+  glPointParameterf(GL_POINT_SIZE_MAX, 500.0f);
   glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION, att);
   glEnable(GL_POINT_SPRITE);
 

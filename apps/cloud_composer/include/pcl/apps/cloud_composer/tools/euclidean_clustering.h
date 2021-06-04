@@ -52,46 +52,46 @@ namespace pcl
       public:
         EuclideanClusteringTool (PropertiesModel* parameter_model, QObject* parent);
         virtual ~EuclideanClusteringTool ();
-        
+
         virtual QList <CloudComposerItem*>
         performAction (QList <const CloudComposerItem*> input_data, PointTypeFlags::PointType type = PointTypeFlags::NONE);
-            
+
         inline virtual QString
         getToolName () const { return "Euclidean Clustering Tool";}
     };
 
-    
+
     class EuclideanClusteringToolFactory : public QObject, public ToolFactory
     {
       Q_OBJECT
       Q_INTERFACES (pcl::cloud_composer::ToolFactory)
       public:
         SplitItemTool*
-        createTool (PropertiesModel* parameter_model, QObject* parent = 0) 
+        createTool (PropertiesModel* parameter_model, QObject* parent = 0)
         {
             return new EuclideanClusteringTool(parameter_model, parent);
         }
-        
+
         PropertiesModel*
         createToolParameterModel (QObject* parent);
-        
-        inline virtual QString 
+
+        inline virtual QString
         getPluginName () const { return "Euclidean Clustering";}
-        
-        inline virtual QString 
+
+        inline virtual QString
         getToolGroupName () const { return "Segmentation";}
-        
+
         inline virtual QString
         getIconName () const { return ":/euclidean_clustering.png"; }
-        
+
         inline virtual CloudComposerItem::ItemType
         getInputItemType () const
         {
           return CloudComposerItem::CLOUD_ITEM;
         }
-        
+
         inline virtual QList <CloudComposerItem::ItemType>
-        getRequiredInputChildrenTypes () const 
+        getRequiredInputChildrenTypes () const
         {
           return QList <CloudComposerItem::ItemType> ();
         }

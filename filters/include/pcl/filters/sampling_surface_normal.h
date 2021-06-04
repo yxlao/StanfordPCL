@@ -1,15 +1,15 @@
 /*
  * Software License Agreement (BSD License)
- * 
+ *
  * Point Cloud Library (PCL) - www.pointclouds.org
  * Copyright (c) 2009-2011, Willow Garage, Inc.
- * 
+ *
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
- * are met: 
- * 
+ * are met:
+ *
  *  * Redistributions of source code must retain the above copyright
  *    notice, this list of conditions and the following disclaimer.
  *  * Redistributions in binary form must reproduce the above
@@ -19,7 +19,7 @@
  *  * Neither the name of Willow Garage, Inc. nor the names of its
  *    contributors may be used to endorse or promote products derived
  *    from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -44,7 +44,7 @@
 
 namespace pcl
 {
-  /** \brief @b SamplingSurfaceNormal divides the input space into grids until each grid contains a maximum of N points, 
+  /** \brief @b SamplingSurfaceNormal divides the input space into grids until each grid contains a maximum of N points,
     * and samples points randomly within each grid. Normal is computed using the N points of each grid. All points
     * sampled within a grid are assigned the same normal.
     *
@@ -67,7 +67,7 @@ namespace pcl
 
     public:
       /** \brief Empty constructor. */
-      SamplingSurfaceNormal () : 
+      SamplingSurfaceNormal () :
         sample_ (10), seed_ (static_cast<unsigned int> (time (NULL))), ratio_ ()
       {
         filter_name_ = "SamplingSurfaceNormal";
@@ -163,7 +163,7 @@ namespace pcl
         }
 
         /** \brief The operator function for sorting. */
-        bool 
+        bool
         operator () (const int& p0, const int& p1)
         {
           if (dim == 0)
@@ -177,11 +177,11 @@ namespace pcl
       };
 
       /** \brief Finds the max and min values in each dimension
-        * \param[in] cloud the input cloud 
+        * \param[in] cloud the input cloud
         * \param[out] max_vec the max value vector
         * \param[out] min_vec the min value vector
         */
-      void 
+      void
       findXYZMaxMin (const PointCloud& cloud, Vector& max_vec, Vector& min_vec);
 
       /** \brief Recursively partition the point cloud, stopping when each grid contains less than sample_ points
@@ -194,20 +194,20 @@ namespace pcl
         * \param indices
         * \param[out] outcloud output the resultant point cloud
         */
-      void 
-      partition (const PointCloud& cloud, const int first, const int last, 
-                 const Vector min_values, const Vector max_values, 
+      void
+      partition (const PointCloud& cloud, const int first, const int last,
+                 const Vector min_values, const Vector max_values,
                  std::vector<int>& indices, PointCloud& outcloud);
 
       /** \brief Randomly sample the points in each grid.
-        * \param[in] data 
+        * \param[in] data
         * \param[in] first
         * \param[in] last
-        * \param[out] indices 
+        * \param[out] indices
         * \param[out] output the resultant point cloud
         */
-      void 
-      samplePartition (const PointCloud& data, const int first, const int last, 
+      void
+      samplePartition (const PointCloud& data, const int first, const int last,
                        std::vector<int>& indices, PointCloud& outcloud);
 
       /** \brief Returns the threshold for splitting in a given dimension.
@@ -215,7 +215,7 @@ namespace pcl
         * \param[in] cut_dim the input dimension (0=x, 1=y, 2=z)
         * \param[in] cut_index the input index in the cloud
         */
-      float 
+      float
       findCutVal (const PointCloud& cloud, const int cut_dim, const int cut_index);
 
       /** \brief Computes the normal for points in a grid. This is a port from features to avoid features dependency for
@@ -224,16 +224,16 @@ namespace pcl
         * \param[out] normal the computed normal
         * \param[out] curvature the computed curvature
         */
-      void 
+      void
       computeNormal (const PointCloud& cloud, Eigen::Vector4f &normal, float& curvature);
 
       /** \brief Computes the covariance matrix for points in the cloud. This is a port from features to avoid features dependency for
         * filters
         * \param[in] cloud The input cloud
-        * \param[out] covariance_matrix the covariance matrix 
+        * \param[out] covariance_matrix the covariance matrix
         * \param[out] centroid the centroid
         */
-      unsigned int 
+      unsigned int
       computeMeanAndCovarianceMatrix (const pcl::PointCloud<PointT> &cloud,
                                       Eigen::Matrix3f &covariance_matrix,
                                       Eigen::Vector4f &centroid);
@@ -244,7 +244,7 @@ namespace pcl
         * \param[out] (nx ny nz) plane_parameters the resultant plane parameters as: a, b, c, d (ax + by + cz + d = 0)
         * \param[out] curvature the estimated surface curvature as a measure of
         */
-      void 
+      void
       solvePlaneParameters (const Eigen::Matrix3f &covariance_matrix,
                             float &nx, float &ny, float &nz, float &curvature);
   };

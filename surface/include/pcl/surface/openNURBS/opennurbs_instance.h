@@ -19,7 +19,7 @@
 
 /*
 Description:
-  An ON_InstanceDefinition defines the geometry used by 
+  An ON_InstanceDefinition defines the geometry used by
   instance references.
 See Also:
   ON_InstanceRef
@@ -31,7 +31,7 @@ class ON_CLASS ON_InstanceDefinition : public ON_Geometry
 public:
 
   // IDEF_UPDATE_TYPE lists the possible relationships between
-  // the instance definition geometry and the archive 
+  // the instance definition geometry and the archive
   // (m_source_archive) containing the original defition.
   enum IDEF_UPDATE_TYPE
   {
@@ -110,7 +110,7 @@ public:
          double* boxmax,
          int bGrowBox = false
          ) const;
-  ON_BOOL32 Transform( 
+  ON_BOOL32 Transform(
          const ON_Xform& xform
          );
 
@@ -153,8 +153,8 @@ public:
     archive settings and update the  definition when appropriate.
     The checksum can be used to detect changed files.
   */
-  void SetSourceArchive( 
-        const wchar_t* source_archive, 
+  void SetSourceArchive(
+        const wchar_t* source_archive,
         ON_CheckSum checksum,
         IDEF_UPDATE_TYPE update_type
         );
@@ -184,7 +184,7 @@ public:
     bRelativePath - [in]
       true if alternate_source_archive_path is a relative path.
   */
-  void SetAlternateSourceArchivePath( 
+  void SetAlternateSourceArchivePath(
         const wchar_t* alternate_source_archive_path,
         bool bRelativePath
         );
@@ -192,7 +192,7 @@ public:
   /*
   Description:
     If there is an alternate location to look for a linked instance
-    defininition archive when it cannot be found in the location 
+    defininition archive when it cannot be found in the location
     specified by m_source_archive, then function will return the
     alterate location.
   Parameters:
@@ -200,7 +200,7 @@ public:
     bRelativePath - [out]
       true if alternate_source_archive_path is a relative path.
   */
-  bool GetAlternateSourceArchivePath( 
+  bool GetAlternateSourceArchivePath(
         ON_wString& alternate_source_archive_path,
         bool& bRelativePath
         ) const;
@@ -230,8 +230,8 @@ public:
 
   /*
   Description:
-    Set linked instance definition parent layer information. 
-    Typically this is done just before the linked idef is 
+    Set linked instance definition parent layer information.
+    Typically this is done just before the linked idef is
     saved to a file.
   Parameters:
     linked_idef_parent_layer - [in]
@@ -258,7 +258,7 @@ public:
   /*
   Description:
     Set linked instance definition layer settings.
-    Typically this is done just before the linked idef is 
+    Typically this is done just before the linked idef is
     saved to a file.
   Parameters:
     layer_settings - [in]
@@ -274,11 +274,11 @@ public:
 public:
 
   ON_UUID m_uuid;     // unique id for this instance definition
-  ON_wString m_name;  // The "name" is for human comfort.  
+  ON_wString m_name;  // The "name" is for human comfort.
                       // It can be empty and duplicates
                       // may exist. Instance reference use
                       // m_uuid to find instance definitions.
-  ON_wString m_description; 
+  ON_wString m_description;
 
   ON_wString m_url;
   ON_wString m_url_tag;     // UI link text for m_url
@@ -286,9 +286,9 @@ public:
 #if defined(ON_32BIT_POINTER)
 private:
   // 24 January 2011:
-  //   Because the Rhino 4 and 5 SDKs are fixed, the offset of 
+  //   Because the Rhino 4 and 5 SDKs are fixed, the offset of
   //   existing fields cannot be changed and the m_reserved1
-  //   value has to be located in different places for 
+  //   value has to be located in different places for
   //   32 and 64 bit builds.
   unsigned int m_reserved1;
 #endif
@@ -297,15 +297,15 @@ public:
   ON_BoundingBox m_bbox;
 
   ON_UnitSystem  m_us;
-  
-  IDEF_UPDATE_TYPE m_idef_update_type; 
+
+  IDEF_UPDATE_TYPE m_idef_update_type;
 
   int m_idef_update_depth; // Controls how much geometry is read when
                            // a linked idef is updated.
                            //   0: read everything, included nested linked idefs
                            //   1: skip nested linked idefs.
 
-  ON_wString m_source_archive;   // filename used to update idef 
+  ON_wString m_source_archive;   // filename used to update idef
                                  // (it can be empty or relative)
   bool m_source_bRelativePath;  // True if the filename in m_source_archive is
                                  // a relative the location of the 3dm file
@@ -317,9 +317,9 @@ private:
 #if defined(ON_64BIT_POINTER)
 private:
   // 24 January 2011:
-  //   Because the Rhino 4 and 5 SDKs are fixed, the offset of 
+  //   Because the Rhino 4 and 5 SDKs are fixed, the offset of
   //   existing fields cannot be changed and the m_runtime_sn
-  //   value has to be located in different places for 
+  //   value has to be located in different places for
   //   32 and 64 bit builds.
   unsigned int m_reserved1;
 #endif
@@ -367,7 +367,7 @@ public:
          double* boxmax,
          int bGrowBox = false
          ) const;
-  ON_BOOL32 Transform( 
+  ON_BOOL32 Transform(
          const ON_Xform& xform
          );
 
@@ -380,7 +380,7 @@ public:
   /////////////////////////////////////////////////////////////
   //
 
-  // Unique id of the instance definition (ON_InstanceDefinition) 
+  // Unique id of the instance definition (ON_InstanceDefinition)
   // in the instance definition table that defines the geometry
   // used by this reference.
   ON_UUID m_instance_definition_uuid;

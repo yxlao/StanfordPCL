@@ -40,7 +40,7 @@ namespace pcl
 
       /** \brief the weight of coherence */
       double weight_;
-      
+
     };
   }
 }

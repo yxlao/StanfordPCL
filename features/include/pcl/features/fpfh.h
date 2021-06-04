@@ -45,7 +45,7 @@
 
 namespace pcl
 {
-  /** \brief FPFHEstimation estimates the <b>Fast Point Feature Histogram (FPFH)</b> descriptor for a given point 
+  /** \brief FPFHEstimation estimates the <b>Fast Point Feature Histogram (FPFH)</b> descriptor for a given point
     * cloud dataset containing points and normals.
     *
     * A commonly used type for PointOutT is pcl::FPFHSignature33.
@@ -61,9 +61,9 @@ namespace pcl
     *     In Proceedings of the 22nd IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS),
     *     St. Louis, MO, USA, October 11-15 2009.
     *
-    * \attention 
+    * \attention
     * The convention for FPFH features is:
-    *   - if a query point's nearest neighbors cannot be estimated, the FPFH feature will be set to NaN 
+    *   - if a query point's nearest neighbors cannot be estimated, the FPFH feature will be set to NaN
     *     (not a number)
     *   - it is impossible to estimate a FPFH descriptor for a point that
     *     doesn't have finite 3D coordinates. Therefore, any point that contains
@@ -91,8 +91,8 @@ namespace pcl
       typedef typename Feature<PointInT, PointOutT>::PointCloudOut PointCloudOut;
 
       /** \brief Empty constructor. */
-      FPFHEstimation () : 
-        nr_bins_f1_ (11), nr_bins_f2_ (11), nr_bins_f3_ (11), 
+      FPFHEstimation () :
+        nr_bins_f1_ (11), nr_bins_f2_ (11), nr_bins_f3_ (11),
         hist_f1_ (), hist_f2_ (), hist_f3_ (), fpfh_histogram_ (),
         d_pi_ (1.0f / (2.0f * static_cast<float> (M_PI)))
       {
@@ -112,8 +112,8 @@ namespace pcl
         * \param[out] f3 the third angular feature (angle between np_idx and |p_idx - q_idx|)
         * \param[out] f4 the distance feature (p_idx - q_idx)
         */
-      bool 
-      computePairFeatures (const pcl::PointCloud<PointInT> &cloud, const pcl::PointCloud<PointNT> &normals, 
+      bool
+      computePairFeatures (const pcl::PointCloud<PointInT> &cloud, const pcl::PointCloud<PointNT> &normals,
                            int p_idx, int q_idx, float &f1, float &f2, float &f3, float &f4);
 
       /** \brief Estimate the SPFH (Simple Point Feature Histograms) individual signatures of the three angular
@@ -127,10 +127,10 @@ namespace pcl
         * \param[out] hist_f2 the resultant SPFH histogram for feature f2
         * \param[out] hist_f3 the resultant SPFH histogram for feature f3
         */
-      void 
-      computePointSPFHSignature (const pcl::PointCloud<PointInT> &cloud, 
-                                 const pcl::PointCloud<PointNT> &normals, int p_idx, int row, 
-                                 const std::vector<int> &indices, 
+      void
+      computePointSPFHSignature (const pcl::PointCloud<PointInT> &cloud,
+                                 const pcl::PointCloud<PointNT> &normals, int p_idx, int row,
+                                 const std::vector<int> &indices,
                                  Eigen::MatrixXf &hist_f1, Eigen::MatrixXf &hist_f2, Eigen::MatrixXf &hist_f3);
 
       /** \brief Weight the SPFH (Simple Point Feature Histograms) individual histograms to create the final FPFH
@@ -142,12 +142,12 @@ namespace pcl
         * \param[in] dists the distances from p_idx to all its k-neighbors
         * \param[out] fpfh_histogram the resultant FPFH histogram representing the feature at the query point
         */
-      void 
-      weightPointSPFHSignature (const Eigen::MatrixXf &hist_f1, 
-                                const Eigen::MatrixXf &hist_f2, 
-                                const Eigen::MatrixXf &hist_f3, 
-                                const std::vector<int> &indices, 
-                                const std::vector<float> &dists, 
+      void
+      weightPointSPFHSignature (const Eigen::MatrixXf &hist_f1,
+                                const Eigen::MatrixXf &hist_f2,
+                                const Eigen::MatrixXf &hist_f3,
+                                const std::vector<int> &indices,
+                                const std::vector<float> &dists,
                                 Eigen::VectorXf &fpfh_histogram);
 
       /** \brief Set the number of subdivisions for each angular feature interval.
@@ -163,7 +163,7 @@ namespace pcl
         nr_bins_f3_ = nr_bins_f3;
       }
 
-      /** \brief Get the number of subdivisions for each angular feature interval. 
+      /** \brief Get the number of subdivisions for each angular feature interval.
         * \param[out] nr_bins_f1 number of subdivisions for the first angular feature
         * \param[out] nr_bins_f2 number of subdivisions for the second angular feature
         * \param[out] nr_bins_f3 number of subdivisions for the third angular feature
@@ -184,8 +184,8 @@ namespace pcl
         * \param[out] hist_f2 the resultant SPFH histogram for feature f2
         * \param[out] hist_f3 the resultant SPFH histogram for feature f3
         */
-      void 
-      computeSPFHSignatures (std::vector<int> &spf_hist_lookup, 
+      void
+      computeSPFHSignatures (std::vector<int> &spf_hist_lookup,
                              Eigen::MatrixXf &hist_f1, Eigen::MatrixXf &hist_f2, Eigen::MatrixXf &hist_f3);
 
       /** \brief Estimate the Fast Point Feature Histograms (FPFH) descriptors at a set of points given by
@@ -193,7 +193,7 @@ namespace pcl
         * setSearchMethod ()
         * \param[out] output the resultant point cloud model dataset that contains the FPFH feature estimates
         */
-      void 
+      void
       computeFeature (PointCloudOut &output);
 
       /** \brief The number of subdivisions for each angular feature interval. */
@@ -212,17 +212,17 @@ namespace pcl
       Eigen::VectorXf fpfh_histogram_;
 
       /** \brief Float constant = 1.0 / (2.0 * M_PI) */
-      float d_pi_; 
+      float d_pi_;
 
     private:
       /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &) {}
   };
 
-  /** \brief FPFHEstimation estimates the <b>Fast Point Feature Histogram (FPFH)</b> descriptor for a given point 
+  /** \brief FPFHEstimation estimates the <b>Fast Point Feature Histogram (FPFH)</b> descriptor for a given point
     * cloud dataset containing points and normals.
     *
     * \note If you use this code in any academic work, please cite:
@@ -236,9 +236,9 @@ namespace pcl
     *     In Proceedings of the 22nd IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS),
     *     St. Louis, MO, USA, October 11-15 2009.
     *
-    * \attention 
+    * \attention
     * The convention for FPFH features is:
-    *   - if a query point's nearest neighbors cannot be estimated, the FPFH feature will be set to NaN 
+    *   - if a query point's nearest neighbors cannot be estimated, the FPFH feature will be set to NaN
     *     (not a number)
     *   - it is impossible to estimate a FPFH descriptor for a point that
     *     doesn't have finite 3D coordinates. Therefore, any point that contains
@@ -273,13 +273,13 @@ namespace pcl
         * setSearchMethod ()
         * \param output the resultant point cloud model dataset that contains the FPFH feature estimates
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &output);
 
       /** \brief Make the compute (&PointCloudOut); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       compute (pcl::PointCloud<pcl::FPFHSignature33> &) {}
   };
 }

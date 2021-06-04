@@ -99,33 +99,33 @@ namespace pcl
       /** \brief Set the input mesh that we want to process
         * \param[in] input the input polygonal mesh
         */
-      void 
-      setInputMesh (const pcl::PolygonMeshConstPtr &input) 
-      { 
-        input_mesh_ = input; 
+      void
+      setInputMesh (const pcl::PolygonMeshConstPtr &input)
+      {
+        input_mesh_ = input;
       }
 
       /** \brief Process the input surface mesh and store the results
         * \param[out] output the resultant processed surface model
         */
-      void 
+      void
       process (pcl::PolygonMesh &output);
 
     protected:
       /** \brief Initialize computation. Must be called before processing starts. */
-      virtual bool 
+      virtual bool
       initCompute ();
-      
+
       /** \brief UnInitialize computation. Must be called after processing ends. */
-      virtual void 
+      virtual void
       deinitCompute ();
 
       /** \brief Abstract surface processing method. */
-      virtual void 
+      virtual void
       performProcessing (pcl::PolygonMesh &output) = 0;
 
       /** \brief Abstract class get name method. */
-      virtual std::string 
+      virtual std::string
       getClassName () const { return (""); }
 
       /** \brief Input polygonal mesh. */

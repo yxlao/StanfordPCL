@@ -95,7 +95,7 @@ namespace pcl
       /** \brief The number of elements per channel (e.g., 1 for "xyz", 33 for "fpfh"). */
       pcl::uint32_t count;
 
-      /** \brief The type of data the channel contains. 
+      /** \brief The type of data the channel contains.
         * By convention:
         *     - INT8    = 1
         *     - UINT8   = 2

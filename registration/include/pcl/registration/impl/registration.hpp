@@ -58,7 +58,7 @@ pcl::Registration<PointSource, PointTarget>::setInputTarget (const PointCloudTar
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointSource, typename PointTarget> inline double
-pcl::Registration<PointSource, PointTarget>::getFitnessScore (const std::vector<float> &distances_a, 
+pcl::Registration<PointSource, PointTarget>::getFitnessScore (const std::vector<float> &distances_a,
                                                               const std::vector<float> &distances_b)
 {
   unsigned int nr_elem = static_cast<unsigned int> (std::min (distances_a.size (), distances_b.size ()));
@@ -89,7 +89,7 @@ pcl::Registration<PointSource, PointTarget>::getFitnessScore (double max_range)
                                           input_transformed.points[i].z, 0);
     // Find its nearest neighbor in the target
     tree_->nearestKSearch (input_transformed.points[i], 1, nn_indices, nn_dists);
-    
+
     // Deal with occlusions (incomplete targets)
     if (nn_dists[0] > max_range)
       continue;
@@ -157,7 +157,7 @@ pcl::Registration<PointSource, PointTarget>::align (PointCloudSource &output, co
   converged_ = false;
   final_transformation_ = transformation_ = previous_transformation_ = Eigen::Matrix4f::Identity ();
 
-  // Right before we estimate the transformation, we set all the point.data[3] values to 1 to aid the rigid 
+  // Right before we estimate the transformation, we set all the point.data[3] values to 1 to aid the rigid
   // transformation
   for (size_t i = 0; i < indices_->size (); ++i)
     output.points[i].data[3] = 1.0;

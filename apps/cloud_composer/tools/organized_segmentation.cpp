@@ -14,12 +14,12 @@ Q_EXPORT_PLUGIN2(cloud_composer_organized_segmentation_tool, pcl::cloud_composer
 pcl::cloud_composer::OrganizedSegmentationTool::OrganizedSegmentationTool (PropertiesModel* parameter_model, QObject* parent)
 : SplitItemTool (parameter_model, parent)
 {
-  
+
 }
 
 pcl::cloud_composer::OrganizedSegmentationTool::~OrganizedSegmentationTool ()
 {
-  
+
 }
 
 QList <pcl::cloud_composer::CloudComposerItem*>
@@ -37,27 +37,27 @@ pcl::cloud_composer::OrganizedSegmentationTool::performAction (ConstItemList inp
         return this->performTemplatedAction<pcl::PointXYZRGBA> (input_data);
     }
   }
-  
+
   QList <CloudComposerItem*> output;
-  
+
   qCritical () << "organized_segmentation requires templated types!";
-  
+
   return output;
-} 
+}
 
 /////////////////// PARAMETER MODEL /////////////////////////////////
 pcl::cloud_composer::PropertiesModel*
 pcl::cloud_composer::OrganizedSegmentationToolFactory::createToolParameterModel (QObject* parent)
 {
   PropertiesModel* parameter_model = new PropertiesModel(parent);
-  
+
   parameter_model->addProperty ("Min Inliers", 1000,  Qt::ItemIsEditable | Qt::ItemIsEnabled);
   parameter_model->addProperty ("Min Plane Size", 10000,  Qt::ItemIsEditable | Qt::ItemIsEnabled);
   parameter_model->addProperty ("Angular Threshold", 2.0,  Qt::ItemIsEditable | Qt::ItemIsEnabled);
   parameter_model->addProperty ("Distance Threshold", 0.02,  Qt::ItemIsEditable | Qt::ItemIsEnabled);
   parameter_model->addProperty ("Cluster Dist. Thresh.", 0.01,  Qt::ItemIsEditable | Qt::ItemIsEnabled);
   parameter_model->addProperty ("Min Cluster Size", 1000,  Qt::ItemIsEditable | Qt::ItemIsEnabled);
-  
-  
+
+
   return parameter_model;
 }

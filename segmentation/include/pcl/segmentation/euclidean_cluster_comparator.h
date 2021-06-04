@@ -56,11 +56,11 @@ namespace pcl
     public:
       typedef typename Comparator<PointT>::PointCloud PointCloud;
       typedef typename Comparator<PointT>::PointCloudConstPtr PointCloudConstPtr;
-      
+
       typedef typename pcl::PointCloud<PointNT> PointCloudN;
       typedef typename PointCloudN::Ptr PointCloudNPtr;
       typedef typename PointCloudN::ConstPtr PointCloudNConstPtr;
-      
+
       typedef typename pcl::PointCloud<PointLT> PointCloudL;
       typedef typename PointCloudL::Ptr PointCloudLPtr;
       typedef typename PointCloudL::ConstPtr PointCloudLConstPtr;
@@ -69,7 +69,7 @@ namespace pcl
       typedef boost::shared_ptr<const EuclideanClusterComparator<PointT, PointNT, PointLT> > ConstPtr;
 
       using pcl::Comparator<PointT>::input_;
-      
+
       /** \brief Empty constructor for EuclideanClusterComparator. */
       EuclideanClusterComparator ()
         : normals_ ()
@@ -79,21 +79,21 @@ namespace pcl
         , z_axis_ ()
       {
       }
-      
+
       /** \brief Destructor for EuclideanClusterComparator. */
       virtual
       ~EuclideanClusterComparator ()
       {
       }
 
-      virtual void 
+      virtual void
       setInputCloud (const PointCloudConstPtr& cloud)
       {
         input_ = cloud;
         Eigen::Matrix3f rot = input_->sensor_orientation_.toRotationMatrix ();
         z_axis_ = rot.col (2);
       }
-      
+
       /** \brief Provide a pointer to the input normals.
         * \param[in] normals the input normal cloud
         */
@@ -118,7 +118,7 @@ namespace pcl
       {
         angular_threshold_ = cosf (angular_threshold);
       }
-      
+
       /** \brief Get the angular threshold in radians for difference in normal direction between neighboring points, to be considered part of the same plane. */
       inline float
       getAngularThreshold () const
@@ -171,13 +171,13 @@ namespace pcl
       {
         int label1 = labels_->points[idx1].label;
         int label2 = labels_->points[idx2].label;
-        
+
         if (label1 == -1 || label2 == -1)
           return false;
-        
+
         if ( (*exclude_labels_)[label1] || (*exclude_labels_)[label2])
           return false;
-        
+
         float dx = input_->points[idx1].x - input_->points[idx2].x;
         float dy = input_->points[idx1].y - input_->points[idx2].y;
         float dz = input_->points[idx1].z - input_->points[idx2].z;
@@ -185,7 +185,7 @@ namespace pcl
 
         return (dist < distance_threshold_);
       }
-      
+
     protected:
       PointCloudNConstPtr normals_;
       PointCloudLPtr labels_;

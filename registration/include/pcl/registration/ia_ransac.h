@@ -94,9 +94,9 @@ namespace pcl
         public:
           HuberPenalty (float threshold)  : threshold_ (threshold) {}
           virtual float operator () (float e) const
-          { 
+          {
             if (e <= threshold_)
-              return (0.5 * e*e); 
+              return (0.5 * e*e);
             else
               return (0.5 * threshold_ * (2.0 * fabs (e) - threshold_));
           }
@@ -113,7 +113,7 @@ namespace pcl
 
           TruncatedError (float threshold) : threshold_ (threshold) {}
           virtual float operator () (float e) const
-          { 
+          {
             if (e <= threshold_)
               return (e / threshold_);
             else
@@ -123,11 +123,11 @@ namespace pcl
           float threshold_;
       };
 
-      typedef typename KdTreeFLANN<FeatureT>::Ptr FeatureKdTreePtr; 
+      typedef typename KdTreeFLANN<FeatureT>::Ptr FeatureKdTreePtr;
       /** \brief Constructor. */
-      SampleConsensusInitialAlignment () : 
-        input_features_ (), target_features_ (), 
-        nr_samples_(3), min_sample_distance_ (0.0f), k_correspondences_ (10), 
+      SampleConsensusInitialAlignment () :
+        input_features_ (), target_features_ (),
+        nr_samples_(3), min_sample_distance_ (0.0f), k_correspondences_ (10),
         feature_tree_ (new pcl::KdTreeFLANN<FeatureT>),
         error_functor_ ()
       {
@@ -139,41 +139,41 @@ namespace pcl
       /** \brief Provide a boost shared pointer to the source point cloud's feature descriptors
         * \param features the source point cloud's features
         */
-      void 
+      void
       setSourceFeatures (const FeatureCloudConstPtr &features);
 
       /** \brief Get a pointer to the source point cloud's features */
-      inline FeatureCloudConstPtr const 
+      inline FeatureCloudConstPtr const
       getSourceFeatures () { return (input_features_); }
 
       /** \brief Provide a boost shared pointer to the target point cloud's feature descriptors
         * \param features the target point cloud's features
         */
-      void 
+      void
       setTargetFeatures (const FeatureCloudConstPtr &features);
 
       /** \brief Get a pointer to the target point cloud's features */
-      inline FeatureCloudConstPtr const 
+      inline FeatureCloudConstPtr const
       getTargetFeatures () { return (target_features_); }
 
       /** \brief Set the minimum distances between samples
         * \param min_sample_distance the minimum distances between samples
         */
-      void 
+      void
       setMinSampleDistance (float min_sample_distance) { min_sample_distance_ = min_sample_distance; }
 
       /** \brief Get the minimum distances between samples, as set by the user */
-      float 
+      float
       getMinSampleDistance () { return (min_sample_distance_); }
 
       /** \brief Set the number of samples to use during each iteration
         * \param nr_samples the number of samples to use during each iteration
         */
-      void 
+      void
       setNumberOfSamples (int nr_samples) { nr_samples_ = nr_samples; }
 
       /** \brief Get the number of samples to use during each iteration, as set by the user */
-      int 
+      int
       getNumberOfSamples () { return (nr_samples_); }
 
       /** \brief Set the number of neighbors to use when selecting a random feature correspondence.  A higher value will
@@ -194,7 +194,7 @@ namespace pcl
       void
       setErrorFunction (const boost::shared_ptr<ErrorFunctor> & error_functor) { error_functor_ = error_functor; }
 
-      /** \brief Get a shared pointer to the ErrorFunctor that is to be minimized  
+      /** \brief Get a shared pointer to the ErrorFunctor that is to be minimized
        * \return A shared pointer to a subclass of SampleConsensusInitialAlignment::ErrorFunctor
        */
       boost::shared_ptr<ErrorFunctor>
@@ -204,49 +204,49 @@ namespace pcl
       /** \brief Choose a random index between 0 and n-1
         * \param n the number of possible indices to choose from
         */
-      inline int 
+      inline int
       getRandomIndex (int n) { return (static_cast<int> (n * (rand () / (RAND_MAX + 1.0)))); };
-      
-      /** \brief Select \a nr_samples sample points from cloud while making sure that their pairwise distances are 
+
+      /** \brief Select \a nr_samples sample points from cloud while making sure that their pairwise distances are
         * greater than a user-defined minimum distance, \a min_sample_distance.
         * \param cloud the input point cloud
         * \param nr_samples the number of samples to select
         * \param min_sample_distance the minimum distance between any two samples
         * \param sample_indices the resulting sample indices
         */
-      void 
-      selectSamples (const PointCloudSource &cloud, int nr_samples, float min_sample_distance, 
+      void
+      selectSamples (const PointCloudSource &cloud, int nr_samples, float min_sample_distance,
                      std::vector<int> &sample_indices);
 
-      /** \brief For each of the sample points, find a list of points in the target cloud whose features are similar to 
-        * the sample points' features. From these, select one randomly which will be considered that sample point's 
-        * correspondence. 
+      /** \brief For each of the sample points, find a list of points in the target cloud whose features are similar to
+        * the sample points' features. From these, select one randomly which will be considered that sample point's
+        * correspondence.
         * \param input_features a cloud of feature descriptors
         * \param sample_indices the indices of each sample point
         * \param corresponding_indices the resulting indices of each sample's corresponding point in the target cloud
         */
-      void 
-      findSimilarFeatures (const FeatureCloud &input_features, const std::vector<int> &sample_indices, 
+      void
+      findSimilarFeatures (const FeatureCloud &input_features, const std::vector<int> &sample_indices,
                            std::vector<int> &corresponding_indices);
 
       /** \brief An error metric for that computes the quality of the alignment between the given cloud and the target.
         * \param cloud the input cloud
         * \param threshold distances greater than this value are capped
         */
-      float 
+      float
       computeErrorMetric (const PointCloudSource &cloud, float threshold);
 
       /** \brief Rigid transformation computation method.
         * \param output the transformed input point cloud dataset using the rigid transformation found
         */
-      virtual void 
+      virtual void
       computeTransformation (PointCloudSource &output, const Eigen::Matrix4f& guess);
 
       /** \brief The source point cloud's feature descriptors. */
       FeatureCloudConstPtr input_features_;
 
       /** \brief The target point cloud's feature descriptors. */
-      FeatureCloudConstPtr target_features_;  
+      FeatureCloudConstPtr target_features_;
 
       /** \brief The number of samples to use during each iteration. */
       int nr_samples_;
@@ -256,9 +256,9 @@ namespace pcl
 
       /** \brief The number of neighbors to use when selecting a random feature correspondence. */
       int k_correspondences_;
-     
+
       /** \brief The KdTree used to compare feature descriptors. */
-      FeatureKdTreePtr feature_tree_;               
+      FeatureKdTreePtr feature_tree_;
 
       /** */
       boost::shared_ptr<ErrorFunctor> error_functor_;

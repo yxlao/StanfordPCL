@@ -47,11 +47,11 @@ using namespace std;
 using namespace thrust;
 
 namespace pcl
-{    
+{
     namespace device
     {
         struct InSphere
-        {    
+        {
             float x_, y_, z_, radius2_;
             InSphere(float x, float y, float z, float radius) : x_(x), y_(y), z_(z), radius2_(radius * radius) {}
 
@@ -66,7 +66,7 @@ namespace pcl
 
             __device__ __host__ __forceinline__ bool operator()(const float4& point) const
             {
-                return (*this)(make_float3(point.x, point.y, point.z));                
+                return (*this)(make_float3(point.x, point.y, point.z));
             }
         };
     }
@@ -80,7 +80,7 @@ namespace pcl
 
 
 void pcl::device::bruteForceRadiusSearch(const OctreeImpl::PointCloud& cloud, const OctreeImpl::PointType& query, float radius, DeviceArray<int>& result, DeviceArray<int>& buffer)
-{   
+{
     typedef OctreeImpl::PointType PointType;
 
     if (buffer.size() < cloud.size())
@@ -90,10 +90,10 @@ void pcl::device::bruteForceRadiusSearch(const OctreeImpl::PointCloud& cloud, co
 
     device_ptr<const PointType> cloud_ptr((const PointType*)cloud.ptr());
     device_ptr<int> res_ptr(buffer.ptr());
-    
+
     counting_iterator<int> first(0);
     counting_iterator<int> last = first + cloud.size();
-    
+
     //main bottle neck is a kernel call overhead/allocs
     //work time for 871k points ~0.8ms
     int count = (int)(thrust::copy_if(first, last, cloud_ptr, res_ptr, cond) - res_ptr);

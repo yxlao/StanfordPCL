@@ -60,7 +60,7 @@ namespace pcl
           return theSingleton;
         }
 
-        QString 
+        QString
         getRecentFolder();
 
         RenderWindowItem*
@@ -68,13 +68,13 @@ namespace pcl
 
       public slots:
         // slots for file menu
-        void 
+        void
         slotOpenProject();
-        void 
+        void
         slotSaveProject();
-        void 
+        void
         slotCloseProject();
-        void 
+        void
         slotExit();
         void
         slotUpdateRecentFile(const QString& filename);
@@ -91,39 +91,39 @@ namespace pcl
 
       private:
         // methods for file Menu
-        void 
+        void
         connectFileMenuActions();
-        void 
+        void
         createRecentPointCloudActions();
-        void 
+        void
         updateRecentPointCloudActions();
-        void 
+        void
         createRecentProjectActions();
-        void 
+        void
         updateRecentProjectActions();
-        bool 
+        bool
         openProjectImpl(const QString& filename);
-        static void 
+        static void
         updateRecentActions(std::vector<boost::shared_ptr<QAction> >& recent_actions, QStringList& recent_items);
 
         // methods for view menu
-        void 
+        void
         connectViewMenuActions();
 
         // methods for edit menu
-        void 
+        void
         connectEditMenuActions();
 
         // methods for global settings
-        void 
+        void
         loadGlobalSettings();
-        void 
+        void
         saveGlobalSettings();
 
       private slots:
-        void 
+        void
         slotOpenRecentPointCloud();
-        void 
+        void
         slotOpenRecentProject();
 
       private:

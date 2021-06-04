@@ -16,7 +16,7 @@
 
 #include <pcl/surface/openNURBS/opennurbs.h>
 
-ON_Workspace::ON_Workspace() 
+ON_Workspace::ON_Workspace()
 : m_pFileBlk(0)
 , m_pMemBlk(0)
 {}
@@ -26,13 +26,13 @@ ON_Workspace::~ON_Workspace()
   Destroy();
 }
 
-struct ON_Workspace_FBLK 
+struct ON_Workspace_FBLK
 {
   struct ON_Workspace_FBLK* pNext;
   FILE* pFile;
 } * m_pFileBlk;
 
-struct ON_Workspace_MBLK 
+struct ON_Workspace_MBLK
 {
   struct ON_Workspace_MBLK* pNext;
   void* pMem;
@@ -65,10 +65,10 @@ void ON_Workspace::Destroy()
 void* ON_Workspace::GetMemory( size_t size )
 {
   void* p = NULL;
-  if ( size > 0 ) 
+  if ( size > 0 )
   {
     struct ON_Workspace_MBLK* pBlk = (struct ON_Workspace_MBLK*)onmalloc(sizeof(*pBlk));
-    if ( pBlk ) 
+    if ( pBlk )
     {
       pBlk->pMem = p = onmalloc(size);
       pBlk->pNext = m_pMemBlk;
@@ -238,10 +238,10 @@ ON_3dVector* ON_Workspace::GrowVectorMemory( ON_3dVector* p, size_t size )
 }
 
 
-FILE* ON_Workspace::OpenFile( const char* sFileName, const char* sMode ) 
+FILE* ON_Workspace::OpenFile( const char* sFileName, const char* sMode )
 {
   FILE* pFile = ON::OpenFile( sFileName, sMode );
-  if ( pFile ) 
+  if ( pFile )
   {
     struct ON_Workspace_FBLK* pFileBlk = (struct ON_Workspace_FBLK*)GetMemory( sizeof(*pFileBlk) );
     pFileBlk->pNext = m_pFileBlk;
@@ -251,10 +251,10 @@ FILE* ON_Workspace::OpenFile( const char* sFileName, const char* sMode )
   return pFile;
 }
 
-FILE* ON_Workspace::OpenFile( const wchar_t* sFileName, const wchar_t* sMode ) 
+FILE* ON_Workspace::OpenFile( const wchar_t* sFileName, const wchar_t* sMode )
 {
   FILE* pFile = ON::OpenFile( sFileName, sMode );
-  if ( pFile ) 
+  if ( pFile )
   {
     struct ON_Workspace_FBLK* pFileBlk = (struct ON_Workspace_FBLK*)GetMemory( sizeof(*pFileBlk) );
     pFileBlk->pNext = m_pFileBlk;

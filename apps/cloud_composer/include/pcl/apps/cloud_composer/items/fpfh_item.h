@@ -49,27 +49,27 @@ namespace pcl
 {
   namespace cloud_composer
   {
-    
+
     class FPFHItem : public CloudComposerItem
     {
       public:
 
-        FPFHItem (QString name, 
+        FPFHItem (QString name,
                      pcl::PointCloud<pcl::FPFHSignature33>::Ptr fpfh_ptr,
                      double radius);
         FPFHItem (const FPFHItem& to_copy);
         virtual ~FPFHItem ();
-        
-        inline virtual int 
+
+        inline virtual int
         type () const { return FPFH_ITEM; }
 
         virtual FPFHItem*
         clone () const;
-        
+
         /** \brief Inspector additional tabs paint function - get the histogram plot widget*/
         virtual QMap <QString, QWidget*>
         getInspectorTabs ();
-        
+
       private:
         pcl::PointCloud<pcl::FPFHSignature33>::Ptr fpfh_ptr_;
         double radius_;
@@ -77,9 +77,9 @@ namespace pcl
         QVTKWidget *qvtk_;
         QWidget *hist_page_;
     };
-    
-    
-    
+
+
+
   }
 }
 

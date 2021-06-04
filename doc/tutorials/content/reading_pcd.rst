@@ -23,13 +23,13 @@ Now, let's break down the code piece by piece.
 .. literalinclude:: sources/pcd_read/pcd_read.cpp
    :language: cpp
    :lines: 8
-   
+
 creates a PointCloud<PointXYZ> boost shared pointer and initializes it.
 
 .. literalinclude:: sources/pcd_read/pcd_read.cpp
    :language: cpp
    :lines: 10-14
-   
+
 loads the PointCloud data from disk (we assume that test_pcd.pcd has already
 been created from the previous tutorial) into the binary blob.
 
@@ -51,7 +51,7 @@ Finally:
 .. literalinclude:: sources/pcd_read/pcd_read.cpp
    :language: cpp
    :lines: 19-22
-   
+
 is used to show the data that was loaded from file.
 
 Compiling and running the program
@@ -65,7 +65,7 @@ Add the following lines to your CMakeLists.txt file:
 
 After you have made the executable, you can run it. Simply do::
 
-  $ ./pcd_read 
+  $ ./pcd_read
 
 You will see something similar to::
 

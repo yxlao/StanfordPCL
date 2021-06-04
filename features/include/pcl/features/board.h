@@ -98,7 +98,7 @@ namespace pcl
         return (tangent_radius_);
       }
 
-      /** \brief Sets whether holes in the margin of the support, for each point, are searched and accounted for in the estimation of the 
+      /** \brief Sets whether holes in the margin of the support, for each point, are searched and accounted for in the estimation of the
         *          Reference Frame or not.
         *
         * \param[in] find_holes Enable/Disable the search for holes in the support.
@@ -109,7 +109,7 @@ namespace pcl
         find_holes_ = find_holes;
       }
 
-      /** \brief Gets whether holes in the margin of the support, for each point, are searched and accounted for in the estimation of the 
+      /** \brief Gets whether holes in the margin of the support, for each point, are searched and accounted for in the estimation of the
         *          Reference Frame or not.
         *
         * \return The search for holes in the support is enabled/disabled.
@@ -175,7 +175,7 @@ namespace pcl
         return (check_margin_array_size_);
       }
 
-      /** \brief Given the angle width of a hole in the support margin, sets the minimum percentage of a circumference this angle 
+      /** \brief Given the angle width of a hole in the support margin, sets the minimum percentage of a circumference this angle
         *         must cover to be considered a missing region in the support and hence used for the estimation of the Reference Frame.
         *
         * \param[in] prob_thresh the minimum percentage of a circumference after which a hole is considered in the calculation
@@ -186,7 +186,7 @@ namespace pcl
         hole_size_prob_thresh_ = prob_thresh;
       }
 
-      /** \brief Given the angle width of a hole in the support margin, gets the minimum percentage of a circumference this angle 
+      /** \brief Given the angle width of a hole in the support margin, gets the minimum percentage of a circumference this angle
         *         must cover to be considered a missing region in the support and hence used for the estimation of the Reference Frame.
         *
         * \return the minimum percentage of a circumference after which a hole is considered in the calculation
@@ -281,7 +281,7 @@ namespace pcl
       getAngleBetweenUnitVectors (Eigen::Vector3f const &v1, Eigen::Vector3f const &v2, Eigen::Vector3f const &axis);
 
       /** \brief Disambiguates a normal direction using adjacent normals
-        * 
+        *
         * \param[in] normals_cloud a cloud of normals used for the calculation
         * \param[in] normal_indices the indices of the normals in the cloud that should to be used for the calculation
         * \param[in,out] normal the normal to disambiguate, the calculation is performed in place
@@ -342,16 +342,16 @@ namespace pcl
       bool find_holes_;
 
       /** \brief Threshold that define if a support point is near the margins. */
-      float margin_thresh_; 
+      float margin_thresh_;
 
       /** \brief Number of slices that divide the support in order to determine if a missing region is present. */
-      int check_margin_array_size_; 
+      int check_margin_array_size_;
 
       /** \brief Threshold used to determine a missing region */
-      float hole_size_prob_thresh_; 
+      float hole_size_prob_thresh_;
 
       /** \brief Threshold that defines if a missing region contains a point with the most different normal. */
-      float steep_thresh_; 
+      float steep_thresh_;
 
       std::vector<bool> check_margin_array_;
       std::vector<float> margin_array_min_angle_;

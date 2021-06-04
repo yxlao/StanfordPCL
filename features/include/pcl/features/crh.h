@@ -94,7 +94,7 @@ namespace pcl
         vpz_ = vpz;
       }
 
-      /** \brief Get the viewpoint. 
+      /** \brief Get the viewpoint.
        * \param[out] vpx the X coordinate of the viewpoint
        * \param[out] vpy the Y coordinate of the viewpoint
        * \param[out] vpz the Z coordinate of the viewpoint
@@ -114,7 +114,7 @@ namespace pcl
       }
 
     private:
-      /** \brief Values describing the viewpoint ("pinhole" camera model assumed). 
+      /** \brief Values describing the viewpoint ("pinhole" camera model assumed).
        * By default, the viewpoint is set to 0,0,0.
        */
       float vpx_, vpy_, vpz_;

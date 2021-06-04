@@ -232,7 +232,7 @@ main (int argc, char ** argv)
   pcl::OpenNIGrabber grabber (arg);
   if (grabber.providesCallback<pcl::OpenNIGrabber::sig_cb_openni_point_cloud_rgba> ())
   {
-    OpenNISmoothing<pcl::PointXYZRGBA> v (search_radius, sqr_gauss_param_set, sqr_gauss_param, 
+    OpenNISmoothing<pcl::PointXYZRGBA> v (search_radius, sqr_gauss_param_set, sqr_gauss_param,
                                           use_polynomial_fit, polynomial_order, arg);
     v.run ();
   }

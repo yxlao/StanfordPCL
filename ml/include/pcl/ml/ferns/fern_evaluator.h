@@ -34,7 +34,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  */
-  
+
 #ifndef PCL_ML_FERNS_FERN_EVALUATOR_H_
 #define PCL_ML_FERNS_FERN_EVALUATOR_H_
 
@@ -58,16 +58,16 @@ namespace pcl
     class NodeType >
   class FernEvaluator
   {
-  
+
   public:
 
     /** \brief Constructor. */
     FernEvaluator();
     /** \brief Destructor. */
-    virtual 
+    virtual
     ~FernEvaluator();
 
-    /** \brief Evaluates the specified examples using the supplied tree. 
+    /** \brief Evaluates the specified examples using the supplied tree.
       * \param[in] tree The decision tree.
       * \param[in] feature_handler The feature handler used to train the tree.
       * \param[in] stats_estimator The statistics estimation instance used while training the tree.
@@ -82,8 +82,8 @@ namespace pcl
               DataSet & data_set,
               std::vector<ExampleIndex> & examples,
               std::vector<LabelType> & label_data);
-    
-    /** \brief Evaluates the specified examples using the supplied tree and adds the results to the supplied results array. 
+
+    /** \brief Evaluates the specified examples using the supplied tree and adds the results to the supplied results array.
       * \param[in] tree The decision tree.
       * \param[in] feature_handler The feature handler used to train the tree.
       * \param[in] stats_estimator The statistics estimation instance used while training the tree.
@@ -98,8 +98,8 @@ namespace pcl
                     DataSet & data_set,
                     std::vector<ExampleIndex> & examples,
                     std::vector<LabelType> & label_data);
-    
-    /** \brief Evaluates the specified examples using the supplied tree. 
+
+    /** \brief Evaluates the specified examples using the supplied tree.
       * \param[in] tree The decision tree.
       * \param[in] feature_handler The feature handler used to train the tree.
       * \param[in] stats_estimator The statistics estimation instance used while training the tree.

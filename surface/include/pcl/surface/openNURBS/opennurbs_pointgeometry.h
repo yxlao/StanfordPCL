@@ -33,7 +33,7 @@ public:
   ~ON_Point();
   ON_Point& operator=(const ON_Point&);
   ON_Point& operator=(const ON_3dPoint&);
-  
+
   operator double*();
   operator const double*() const;
   operator ON_3dPoint*();
@@ -54,9 +54,9 @@ public:
     text_log - [in] if the object is not valid and text_log
         is not NULL, then a brief englis description of the
         reason the object is not valid is appened to the log.
-        The information appended to text_log is suitable for 
-        low-level debugging purposes by programmers and is 
-        not intended to be useful as a high level user 
+        The information appended to text_log is suitable for
+        low-level debugging purposes by programmers and is
+        not intended to be useful as a high level user
         interface tool.
   Returns:
     @untitled table
@@ -92,7 +92,7 @@ public:
          ON_BOOL32 = false  // true means grow box
          ) const;
 
-  ON_BOOL32 Transform( 
+  ON_BOOL32 Transform(
          const ON_Xform&
          );
 

@@ -59,7 +59,7 @@ pcl::OrganizedEdgeBase<PointT, PointLT>::compute (pcl::PointCloud<PointLT>& labe
   labels.points.resize (input_->points.size (), invalid_pt);
   labels.width = input_->width;
   labels.height = input_->height;
-  
+
   extractEdges (labels);
 
   assignLabelIndices (labels, label_indices);
@@ -93,7 +93,7 @@ pcl::OrganizedEdgeBase<PointT, PointLT>::extractEdges (pcl::PointCloud<PointLT>&
     // Fill lookup table for next points to visit
     const int num_of_ngbr = 8;
     Neighbor directions [num_of_ngbr] = {Neighbor(-1, 0, -1),
-      Neighbor(-1, -1, -labels.width - 1), 
+      Neighbor(-1, -1, -labels.width - 1),
       Neighbor( 0, -1, -labels.width    ),
       Neighbor( 1, -1, -labels.width + 1),
       Neighbor( 1,  0,                 1),
@@ -210,7 +210,7 @@ pcl::OrganizedEdgeBase<PointT, PointLT>::extractEdges (pcl::PointCloud<PointLT>&
                   labels[curr_idx].label |= EDGELABEL_OCCLUDING;
               }
             }
-          } 
+          }
           else
           {
             // Not found a corresponding point, just nan boundary edge
@@ -268,7 +268,7 @@ pcl::OrganizedEdgeFromRGB<PointT, PointLT>::extractEdges (pcl::PointCloud<PointL
     edge.setHysteresisThresholdLow (th_rgb_canny_low_);
     edge.setHysteresisThresholdHigh (th_rgb_canny_high_);
     edge.detectEdgeCanny (img_edge_rgb);
-    
+
     for (int row=0; row<labels.height; row++)
     {
       for (int col=0; col<labels.width; col++)
@@ -289,7 +289,7 @@ pcl::OrganizedEdgeFromNormals<PointT, PointNT, PointLT>::compute (pcl::PointClou
   labels.points.resize (input_->points.size (), invalid_pt);
   labels.width = input_->width;
   labels.height = input_->height;
-  
+
   OrganizedEdgeBase<PointT, PointLT>::extractEdges (labels);
   extractEdges (labels);
 
@@ -347,7 +347,7 @@ pcl::OrganizedEdgeFromRGBNormals<PointT, PointNT, PointLT>::compute (pcl::PointC
   labels.points.resize (input_->points.size (), invalid_pt);
   labels.width = input_->width;
   labels.height = input_->height;
-  
+
   OrganizedEdgeBase<PointT, PointLT>::extractEdges (labels);
   OrganizedEdgeFromNormals<PointT, PointNT, PointLT>::extractEdges (labels);
   OrganizedEdgeFromRGB<PointT, PointLT>::extractEdges (labels);

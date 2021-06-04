@@ -59,13 +59,13 @@ int main (int argc, char** argv)
   if (pcl::console::parse (argc, argv, "-r", angular_resolution) >= 0)
     cout << "Setting angular resolution to "<<angular_resolution<<"deg.\n";
   angular_resolution = pcl::deg2rad (angular_resolution);
-  
+
   pcl::visualization::RangeImageVisualizer range_image_widget ("Range Image");
-  
+
   pcl::visualization::PCLVisualizer viewer ("3D Viewer");
   viewer.addCoordinateSystem (1.0f);
   viewer.setBackgroundColor (1, 1, 1);
-  
+
   // Set the viewing pose so that the openni cloud is visible
   viewer.initCameraParameters ();
   viewer.camera_.pos[0] = 0.0;
@@ -78,7 +78,7 @@ int main (int argc, char** argv)
   viewer.camera_.view[1] = -1.0;
   viewer.camera_.view[2] = 0.0;
   viewer.updateCamera ();
-  
+
   openni_wrapper::OpenNIDriver& driver = openni_wrapper::OpenNIDriver::getInstance ();
   if (driver.getNumberDevices () > 0)
   {
@@ -95,27 +95,27 @@ int main (int argc, char** argv)
     cout << "\nNo devices connected.\n\n";
     return 1;
   }
-  
+
   pcl::Grabber* interface = new pcl::OpenNIGrabber (device_id);
   EventHelper event_helper;
-  
+
   boost::function<void (const boost::shared_ptr<openni_wrapper::DepthImage>&) > f_depth_image =
     boost::bind (&EventHelper::depth_image_cb, &event_helper, _1);
   boost::signals2::connection c_depth_image = interface->registerCallback (f_depth_image);
-  
+
   cout << "Starting grabber\n";
   interface->start ();
   cout << "Done\n";
-  
+
   boost::shared_ptr<pcl::RangeImagePlanar> range_image_planar_ptr (new pcl::RangeImagePlanar);
   pcl::RangeImagePlanar& range_image_planar = *range_image_planar_ptr;
-  
+
   while (!viewer.wasStopped ())
   {
     viewer.spinOnce ();  // process 3D Viewer events
     range_image_widget.spinOnce ();  // process Image Viewer events
     pcl_sleep (0.01);
-    
+
     bool got_new_range_image = false;
     if (received_new_depth_data && depth_image_mutex.try_lock ())
     {
@@ -134,13 +134,13 @@ int main (int argc, char** argv)
       depth_image_mutex.unlock ();
       got_new_range_image = !range_image_planar.points.empty ();
     }
-    
+
     if (!got_new_range_image)
       continue;
-    
+
     // Show range image in the image widget
     range_image_widget.showRangeImage (range_image_planar, 0.5f, 10.0f);
-    
+
     // Show range image in the 3D viewer
     pcl::visualization::PointCloudColorHandlerCustom<pcl::PointWithRange> color_handler_cloud
       (range_image_planar_ptr, 0, 0, 0);

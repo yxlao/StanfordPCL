@@ -4,7 +4,7 @@
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
  *
- *  All rights reserved. 
+ *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -48,7 +48,7 @@
 //#define LINEMOD_USE_SEPARATE_ENERGY_MAPS
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-pcl::LINEMOD::LINEMOD () 
+pcl::LINEMOD::LINEMOD ()
   : template_threshold_ (0.75f)
   , use_non_max_suppression_ (false)
   , average_detections_ (false)
@@ -62,7 +62,7 @@ pcl::LINEMOD::~LINEMOD()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-int 
+int
 pcl::LINEMOD::createAndAddTemplate (const std::vector<pcl::QuantizableModality*> & modalities,
                       const std::vector<pcl::MaskMap*> & masks,
                       const pcl::RegionXY & region)
@@ -111,7 +111,7 @@ pcl::LINEMOD::createAndAddTemplate (const std::vector<pcl::QuantizableModality*>
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-int 
+int
 pcl::LINEMOD::addTemplate (const SparseQuantizedMultiModTemplate & linemod_template)
 {
   // add template to template storage
@@ -300,7 +300,7 @@ pcl::LINEMOD::matchTemplates (const std::vector<QuantizableModality*> & modaliti
       {
         score_sums[mem_index] = static_cast<unsigned short> (score_sums[mem_index] + tmp_score_sums[mem_index]);
       }
-        
+
       memset (tmp_score_sums, 0, mem_size*sizeof (tmp_score_sums[0]));
     }
 #else
@@ -331,12 +331,12 @@ pcl::LINEMOD::matchTemplates (const std::vector<QuantizableModality*> & modaliti
 #endif
 
     const float inv_max_score = 1.0f / float (max_score);
-    
+
     size_t max_value = 0;
     size_t max_index = 0;
     for (size_t mem_index = 0; mem_index < mem_size; ++mem_index)
     {
-      if (score_sums[mem_index] > max_value) 
+      if (score_sums[mem_index] > max_value)
       {
         max_value = score_sums[mem_index];
         max_index = mem_index;
@@ -616,7 +616,7 @@ pcl::LINEMOD::detectTemplates (const std::vector<QuantizableModality*> & modalit
       {
         score_sums[mem_index] = static_cast<unsigned short> (score_sums[mem_index] + tmp_score_sums[mem_index]);
       }
-        
+
       memset (tmp_score_sums, 0, mem_size*sizeof (tmp_score_sums[0]));
     }
 #else
@@ -688,7 +688,7 @@ pcl::LINEMOD::detectTemplates (const std::vector<QuantizableModality*> & modalit
       //const float score = score_sums[mem_index] * inv_max_score;
 
 #ifdef LINEMOD_USE_SEPARATE_ENERGY_MAPS
-      const float raw_score = score_sums[mem_index] 
+      const float raw_score = score_sums[mem_index]
         + score_sums_1[mem_index]
         + score_sums_2[mem_index]
         + score_sums_3[mem_index];
@@ -701,7 +701,7 @@ pcl::LINEMOD::detectTemplates (const std::vector<QuantizableModality*> & modalit
 #endif
 
 
-      //if (score > template_threshold_) 
+      //if (score > template_threshold_)
       if (raw_score > raw_threshold) /// \todo Ask Stefan why this line was used instead of the one above
       {
         const size_t mem_col_index = (mem_index % mem_width);
@@ -725,7 +725,7 @@ pcl::LINEMOD::detectTemplates (const std::vector<QuantizableModality*> & modalit
                 is_local_max = false;
                 break;
               }
-            } 
+            }
           }
 
           if (!is_local_max)
@@ -754,7 +754,7 @@ pcl::LINEMOD::detectTemplates (const std::vector<QuantizableModality*> & modalit
               average_col += sup_col_index * weight;
               average_row += sup_row_index * weight;
               sum += weight;
-            } 
+            }
           }
 
           average_col *= step_size;
@@ -1090,7 +1090,7 @@ pcl::LINEMOD::detectTemplatesSemiScaleInvariant (
         {
           score_sums[mem_index] = static_cast<unsigned short> (score_sums[mem_index] + tmp_score_sums[mem_index]);
         }
-        
+
         memset (tmp_score_sums, 0, mem_size*sizeof (tmp_score_sums[0]));
       }
 #else
@@ -1162,7 +1162,7 @@ pcl::LINEMOD::detectTemplatesSemiScaleInvariant (
         //const float score = score_sums[mem_index] * inv_max_score;
 
 #ifdef LINEMOD_USE_SEPARATE_ENERGY_MAPS
-        const float raw_score = score_sums[mem_index] 
+        const float raw_score = score_sums[mem_index]
           + score_sums_1[mem_index]
           + score_sums_2[mem_index]
           + score_sums_3[mem_index];
@@ -1175,7 +1175,7 @@ pcl::LINEMOD::detectTemplatesSemiScaleInvariant (
 #endif
 
 
-        //if (score > template_threshold_) 
+        //if (score > template_threshold_)
         if (raw_score > raw_threshold) /// \todo Ask Stefan why this line was used instead of the one above
         {
           const size_t mem_col_index = (mem_index % mem_width);
@@ -1199,7 +1199,7 @@ pcl::LINEMOD::detectTemplatesSemiScaleInvariant (
                   is_local_max = false;
                   break;
                 }
-              } 
+              }
             }
 
             if (!is_local_max)
@@ -1228,7 +1228,7 @@ pcl::LINEMOD::detectTemplatesSemiScaleInvariant (
                 average_col += sup_col_index * weight;
                 average_row += sup_row_index * weight;
                 sum += weight;
-              } 
+              }
             }
 
             average_col *= step_size;
@@ -1337,7 +1337,7 @@ pcl::LINEMOD::serialize (std::ostream & stream) const
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::LINEMOD::deserialize (std::istream & stream)
 {
   templates_.clear ();

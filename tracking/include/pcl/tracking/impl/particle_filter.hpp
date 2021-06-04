@@ -29,7 +29,7 @@ pcl::tracking::ParticleFilterTracker<PointInT, StateT>::initCompute ()
 
   if (!change_detector_)
     change_detector_ = boost::shared_ptr<pcl::octree::OctreePointCloudChangeDetector<PointInT> >(new pcl::octree::OctreePointCloudChangeDetector<PointInT> (change_detector_resolution_));
-  
+
   if (!particles_ || particles_->points.empty ())
     initParticles (true);
   return (true);
@@ -71,7 +71,7 @@ pcl::tracking::ParticleFilterTracker<PointInT, StateT>::genAliasTable (std::vect
       *H++ = static_cast<int> (i);
     else
       *L-- = static_cast<int> (i);
-            
+
   while ( H != HL.begin() && L != HL.end() - 1 )
   {
     int j = *(L + 1);
@@ -126,7 +126,7 @@ pcl::tracking::ParticleFilterTracker<PointInT, StateT>::normalizeWeight ()
       if (weight != 0.0 && w_max < weight)
         w_max = weight;
     }
-    
+
     fit_ratio_ = w_min;
     if (w_max != w_min)
     {
@@ -143,13 +143,13 @@ pcl::tracking::ParticleFilterTracker<PointInT, StateT>::normalizeWeight ()
       for ( size_t i = 0; i < particles_->points.size (); i++ )
         particles_->points[i].weight = 1.0f / static_cast<float> (particles_->points.size ());
     }
-    
+
     double sum = 0.0;
     for ( size_t i = 0; i < particles_->points.size (); i++ )
     {
         sum += particles_->points[i].weight;
     }
-    
+
     if (sum != 0.0)
     {
       for ( size_t i = 0; i < particles_->points.size (); i++ )
@@ -172,7 +172,7 @@ pcl::tracking::ParticleFilterTracker<PointInT, StateT>::cropInputPointCloud (
   pass_x_.setFilterLimits (float (x_min), float (x_max));
   pass_y_.setFilterLimits (float (y_min), float (y_max));
   pass_z_.setFilterLimits (float (z_min), float (z_max));
-  
+
   // x
   PointCloudInPtr xcloud (new PointCloudIn);
   pass_x_.setInputCloud (input_);
@@ -193,7 +193,7 @@ pcl::tracking::ParticleFilterTracker<PointInT, StateT>::calcBoundingBox (
 {
   x_min = y_min = z_min = std::numeric_limits<double>::max ();
   x_max = y_max = z_max = - std::numeric_limits<double>::max ();
-  
+
   for (size_t i = 0; i < transed_reference_vector_.size (); i++)
   {
     PointCloudInPtr target = transed_reference_vector_[i];
@@ -235,10 +235,10 @@ pcl::tracking::ParticleFilterTracker<PointInT, StateT>::weight ()
     {
       computeTransformedPointCloudWithoutNormal (particles_->points[i], *transed_reference_vector_[i]);
     }
-    
+
     PointCloudInPtr coherence_input (new PointCloudIn);
     cropInputPointCloud (input_, *coherence_input);
-    
+
     coherence_->setTargetCloud (coherence_input);
     coherence_->initCompute ();
     for (size_t i = 0; i < particles_->points.size (); i++)
@@ -254,10 +254,10 @@ pcl::tracking::ParticleFilterTracker<PointInT, StateT>::weight ()
       IndicesPtr indices (new std::vector<int>);
       computeTransformedPointCloudWithNormal (particles_->points[i], *indices, *transed_reference_vector_[i]);
     }
-    
+
     PointCloudInPtr coherence_input (new PointCloudIn);
     cropInputPointCloud (input_, *coherence_input);
-    
+
     coherence_->setTargetCloud (coherence_input);
     coherence_->initCompute ();
     for (size_t i = 0; i < particles_->points.size (); i++)
@@ -266,7 +266,7 @@ pcl::tracking::ParticleFilterTracker<PointInT, StateT>::weight ()
       coherence_->compute (transed_reference_vector_[i], indices, particles_->points[i].weight);
     }
   }
-  
+
   normalizeWeight ();
 }
 
@@ -333,7 +333,7 @@ pcl::tracking::ParticleFilterTracker<PointInT, StateT>::resampleWithReplacement 
   std::vector<int> a (particles_->points.size ());
   std::vector<double> q (particles_->points.size ());
   genAliasTable (a, q, particles_);
-  
+
   const std::vector<double> zero_mean (StateT::stateDimension (), 0.0);
   // memoize the original list of particles
   PointCloudStatePtr origparticles = particles_;
@@ -341,7 +341,7 @@ pcl::tracking::ParticleFilterTracker<PointInT, StateT>::resampleWithReplacement 
   // the first particle, it is a just copy of the maximum result
   StateT p = representative_state_;
   particles_->points.push_back (p);
-  
+
   // with motion
   int motion_num = static_cast<int> (particles_->points.size ()) * static_cast<int> (motion_ratio_);
   for ( int i = 1; i < motion_num; i++ )
@@ -353,7 +353,7 @@ pcl::tracking::ParticleFilterTracker<PointInT, StateT>::resampleWithReplacement 
     p = p + motion_;
     particles_->points.push_back (p);
   }
-  
+
   // no motion
   for ( int i = motion_num; i < particle_num_; i++ )
   {
@@ -368,7 +368,7 @@ pcl::tracking::ParticleFilterTracker<PointInT, StateT>::resampleWithReplacement 
 template <typename PointInT, typename StateT> void
 pcl::tracking::ParticleFilterTracker<PointInT, StateT>::update ()
 {
-  
+
   StateT orig_representative = representative_state_;
   representative_state_.zero ();
   representative_state_.weight = 0.0;
@@ -384,22 +384,22 @@ pcl::tracking::ParticleFilterTracker<PointInT, StateT>::update ()
 template <typename PointInT, typename StateT> void
 pcl::tracking::ParticleFilterTracker<PointInT, StateT>::computeTracking ()
 {
-  
+
   for (int i = 0; i < iteration_num_; i++)
   {
     if (changed_)
     {
       resample ();
     }
-    
+
     weight (); // likelihood is called in it
-    
+
     if (changed_)
     {
       update ();
     }
   }
-  
+
   // if ( getResult ().weight < resample_likelihood_thr_ )
   // {
   //   PCL_WARN ("too small likelihood, re-initializing...\n");
@@ -409,4 +409,4 @@ pcl::tracking::ParticleFilterTracker<PointInT, StateT>::computeTracking ()
 
 #define PCL_INSTANTIATE_ParticleFilterTracker(T,ST) template class PCL_EXPORTS pcl::tracking::ParticleFilterTracker<T,ST>;
 
-#endif 
+#endif

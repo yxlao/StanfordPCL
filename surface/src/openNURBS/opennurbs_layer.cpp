@@ -21,7 +21,7 @@ ON_OBJECT_IMPLEMENT(ON_Layer,ON_Object,"95809813-E985-11d3-BFE5-0010830122F0");
 #define ON_BOZO_VACCINE_3E4904E6E9304fbcAA42EBD407AEFE3B
 #define ON_BOZO_VACCINE_BFB63C094BC7472789BB7CC754118200
 
-ON_Layer::ON_Layer() 
+ON_Layer::ON_Layer()
 {
   Default();
 }
@@ -31,8 +31,8 @@ void ON_Layer::Default()
   m_layer_id = ON_nil_uuid;
   m_parent_layer_id = ON_nil_uuid;
   m_layer_index = -1; // 10 March 2006 Dale Lear - changed from 0 to -1
-  m_iges_level = -1; 
-  m_material_index = -1; 
+  m_iges_level = -1;
+  m_material_index = -1;
   m_rendering_attributes.Default();
   m_linetype_index = -1;
   m_color.SetRGB(0,0,0);
@@ -112,12 +112,12 @@ static const wchar_t* LayerLeafName( const wchar_t* s )
   // this static helper function assumes s0 does not being with "reference : ".
   if ( 0 == s || 0 == s[0] )
     return 0;
-  
+
   const wchar_t* t;
   const wchar_t* d;
   const wchar_t* d0 = ON_Layer::LayerNamePathDelimiter();
   const wchar_t* s0 = s;
-  
+
   while ( 0 != *s0 )
   {
     if ( *s0 == *d0 )
@@ -266,7 +266,7 @@ ON_BOOL32 ON_Layer::Write(
 
     // Starting with version 200312110, this value is zero.  For files written
     // with earlier versions, the number was a "model index" value that was
-    // set to something >= 1, but never used.  We have to continue to 
+    // set to something >= 1, but never used.  We have to continue to
     // read/write an integer here so that old/new versions of opennurbs can
     // read files written by new/old versions.
     i = 0;
@@ -275,7 +275,7 @@ ON_BOOL32 ON_Layer::Write(
 
     rc = file.WriteColor( m_color );
     if (!rc) break;
-    
+
     {
       // OBSOLETE LINE STYLE if ( rc ) rc = file.WriteLineStyle( LineStyle() );
       // Starting with version 200503170, this section is "officially" not used.
@@ -306,7 +306,7 @@ ON_BOOL32 ON_Layer::Write(
     rc = file.WriteDouble( m_plot_weight_mm);
     if (!rc) break;
 
-    // 1.4 field - 3 May 2005 Dale Lear 
+    // 1.4 field - 3 May 2005 Dale Lear
     //           - locked and visible are independent settings
     rc = file.WriteBool( m_bLocked );
     if (!rc) break;
@@ -346,11 +346,11 @@ ON_BOOL32 ON_Layer::Read(
   int mode = ON::normal_layer;
   Default();
   ON_BOOL32 rc = file.Read3dmChunkVersion(&major_version,&minor_version);
-  if ( rc && major_version == 1 ) 
+  if ( rc && major_version == 1 )
   {
     // common to all 1.x formats
     if ( rc ) rc = file.ReadInt( &mode );
-    if ( rc ) 
+    if ( rc )
     {
       switch(mode)
       {
@@ -407,12 +407,12 @@ ON_BOOL32 ON_Layer::Read(
             if (rc && minor_version >= 5 )
             {
               rc = file.ReadUuid(m_layer_id);
-              if ( rc 
-                   && minor_version >= 6 
+              if ( rc
+                   && minor_version >= 6
                    && file.ArchiveOpenNURBSVersion() > 200505110
                  )
               {
-                // Some files saved with opennurbs version 200505110 
+                // Some files saved with opennurbs version 200505110
                 // do not contain correctly written m_parent_layer_id
                 // and m_bExpanded values.
                 // It is ok to default these values.
@@ -585,8 +585,8 @@ double ON_Layer::PlotWeight() const
 
 void ON_Layer::SetPlotWeight(double plot_weight_mm)
 {
-  m_plot_weight_mm = (ON_IsValid(plot_weight_mm) && (plot_weight_mm>0.0 || -1.0==plot_weight_mm) ) 
-                   ? plot_weight_mm 
+  m_plot_weight_mm = (ON_IsValid(plot_weight_mm) && (plot_weight_mm>0.0 || -1.0==plot_weight_mm) )
+                   ? plot_weight_mm
                    : 0.0;
 }
 
@@ -713,8 +713,8 @@ bool ON__LayerPerViewSettings::Write(ON_BinaryArchive& binary_archive) const
   for(;;)
   {
     // This complicated "bits" stuff is to minimize number of bytes
-    // written in the file.  Even though long term storage space is 
-    // nearly free, we have lots of customers who complain about 
+    // written in the file.  Even though long term storage space is
+    // nearly free, we have lots of customers who complain about
     // large file size and so ...
     unsigned int bits = ActiveElements();
     rc = binary_archive.WriteInt(1,&bits); if (!rc) break;
@@ -725,12 +725,12 @@ bool ON__LayerPerViewSettings::Write(ON_BinaryArchive& binary_archive) const
 
     if ( 0 != (color_bit & bits) )
     {
-      rc = binary_archive.WriteColor(m_color); 
+      rc = binary_archive.WriteColor(m_color);
       if (!rc) break;
     }
     if ( 0 != (plot_color_bit & bits) )
     {
-      rc = binary_archive.WriteColor(m_plot_color); 
+      rc = binary_archive.WriteColor(m_plot_color);
       if (!rc) break;
     }
     if ( 0 != (plot_weight_bit & bits) )
@@ -769,11 +769,11 @@ bool ON__LayerPerViewSettings::Read(ON_BinaryArchive& binary_archive)
     if ( !rc ) break;
 
     // This complicated "bits" stuff is to minimize number of bytes
-    // written in the file.  Even though long term storage space is 
-    // nearly free, we have lots of customers who complain about 
+    // written in the file.  Even though long term storage space is
+    // nearly free, we have lots of customers who complain about
     // large file size and so ...
     unsigned int bits = 0;
-    rc = binary_archive.ReadInt(1,&bits); 
+    rc = binary_archive.ReadInt(1,&bits);
     if (!rc) break;
     if ( 0 == bits )
       break;
@@ -783,12 +783,12 @@ bool ON__LayerPerViewSettings::Read(ON_BinaryArchive& binary_archive)
 
     if ( 0 != (color_bit & bits) )
     {
-      rc = binary_archive.ReadColor(m_color); 
+      rc = binary_archive.ReadColor(m_color);
       if (!rc) break;
     }
     if ( 0 != (plot_color_bit & bits) )
     {
-      rc = binary_archive.ReadColor(m_plot_color); 
+      rc = binary_archive.ReadColor(m_plot_color);
       if (!rc) break;
     }
     if ( 0 != (plot_weight_bit & bits) )
@@ -894,7 +894,7 @@ ON__LayerExtensions* ON__LayerExtensions::LayerExtensions(const ON_Layer& layer,
       {
         // Set ON_Layer::m__runtime_flags = 0x01
         //   Setting this bit prevents ON_Layer visibility and color queries that
-        //   are often used in time critical code from performing the time 
+        //   are often used in time critical code from performing the time
         //   consuming check for userdata that rarely exists.
         *layer__runtme_flags = 0x01;
       }
@@ -992,7 +992,7 @@ ON_BOOL32 ON__LayerExtensions::Read(ON_BinaryArchive& binary_archive)
     for ( int i = 0; i < count; i++ )
     {
       rc = m_vp_settings.AppendNew().Read(binary_archive);
-      if (!rc) 
+      if (!rc)
       {
         m_vp_settings.Remove();
         break;
@@ -1077,12 +1077,12 @@ void ON__LayerExtensions::DeleteViewportSettings( const ON_Layer& layer, const O
     {
       delete ud;
       // Set ON_Layer::m__runtime_flags = 0x01
-      //   Setting this bit indicates this layer does not have 
+      //   Setting this bit indicates this layer does not have
       //   ON__LayerExtensions user data and we can avoid calling the
       //   slower code in time critical visibility and color queries.
       unsigned char* layer__runtme_flags = (unsigned char*)&layer.m_bExpanded;
       layer__runtme_flags += sizeof(layer.m_bExpanded);
-      *layer__runtme_flags = 0x01; 
+      *layer__runtme_flags = 0x01;
     }
     else
     {
@@ -1100,12 +1100,12 @@ void ON__LayerExtensions::DeleteViewportSettings( const ON_Layer& layer, const O
       {
         delete ud;
         // Set ON_Layer::m__runtime_flags = 0x01
-        //   Setting this bit indicates this layer does not have 
+        //   Setting this bit indicates this layer does not have
         //   ON__LayerExtensions user data and we can avoid calling the
         //   slower code in time critical visibility and color queries.
         unsigned char* layer__runtme_flags = (unsigned char*)&layer.m_bExpanded;
         layer__runtme_flags += sizeof(layer.m_bExpanded);
-        *layer__runtme_flags = 0x01; 
+        *layer__runtme_flags = 0x01;
       }
     }
   }
@@ -1274,7 +1274,7 @@ bool ON_Layer::IsVisible( const ON_UUID& viewport_id ) const
       }
     }
   }
-  else 
+  else
   {
     ON__LayerPerViewSettings* vp_settings = ON__LayerExtensions::ViewportSettings( *this, viewport_id, false );
     if (vp_settings && vp_settings->m_visible)
@@ -1298,7 +1298,7 @@ void ON_Layer::SetVisible( bool bVisible, const ON_UUID& viewport_id )
     // set general visibility setting
     m_bVisible = bVisible?true:false;
   }
-  else 
+  else
   {
     ON__LayerPerViewSettings* vp_settings = ON__LayerExtensions::ViewportSettings( *this, viewport_id, true );
     if (vp_settings)
@@ -1329,14 +1329,14 @@ void ON_Layer::DeletePerViewportColor( const ON_UUID& viewport_id )
         delete ud;
         // setting m__runtime_flags prevents searching for ON__LayerExtensions userdata
         // and speeds up visibility and color queries.
-        m__runtime_flags = 0x01; 
+        m__runtime_flags = 0x01;
       }
     }
   }
   else
   {
     ON__LayerPerViewSettings* vp_settings = ON__LayerExtensions::ViewportSettings( *this, viewport_id, false );
-    if (vp_settings) 
+    if (vp_settings)
     {
       vp_settings->m_color = ON_UNSET_COLOR;
       if ( 0 == vp_settings->ActiveElements() )
@@ -1363,14 +1363,14 @@ void ON_Layer::DeletePerViewportPlotColor( const ON_UUID& viewport_id )
         delete ud;
         // setting m__runtime_flags prevents searching for ON__LayerExtensions userdata
         // and speeds up visibility and color queries.
-        m__runtime_flags = 0x01; 
+        m__runtime_flags = 0x01;
       }
     }
   }
   else
   {
     ON__LayerPerViewSettings* vp_settings = ON__LayerExtensions::ViewportSettings( *this, viewport_id, false );
-    if (vp_settings) 
+    if (vp_settings)
     {
       vp_settings->m_plot_color = ON_UNSET_COLOR;
       if ( 0 == vp_settings->ActiveElements() )
@@ -1418,14 +1418,14 @@ void ON_Layer::DeletePerViewportPlotWeight( const ON_UUID& viewport_id )
         delete ud;
         // setting m__runtime_flags prevents searching for ON__LayerExtensions userdata
         // and speeds up visibility and color queries.
-        m__runtime_flags = 0x01; 
+        m__runtime_flags = 0x01;
       }
     }
   }
   else
   {
     ON__LayerPerViewSettings* vp_settings = ON__LayerExtensions::ViewportSettings( *this, viewport_id, false );
-    if (vp_settings) 
+    if (vp_settings)
     {
       vp_settings->m_plot_weight_mm = ON_UNSET_VALUE;
       if ( 0 == vp_settings->ActiveElements() )
@@ -1452,14 +1452,14 @@ void ON_Layer::DeletePerViewportVisible( const ON_UUID& viewport_id )
         delete ud;
         // setting m__runtime_flags prevents searching for ON__LayerExtensions userdata
         // and speeds up visibility and color queries.
-        m__runtime_flags = 0x01; 
+        m__runtime_flags = 0x01;
       }
     }
   }
   else
   {
     ON__LayerPerViewSettings* vp_settings = ON__LayerExtensions::ViewportSettings( *this, viewport_id, false );
-    if (vp_settings) 
+    if (vp_settings)
     {
       vp_settings->m_visible = 0;
       if ( 0 == vp_settings->ActiveElements() )
@@ -1537,7 +1537,7 @@ void ON_Layer::CullPerViewportSettings( int viewport_id_count, const ON_UUID* vi
       delete ud;
       // setting m__runtime_flags prevents searching for ON__LayerExtensions userdata
       // and speeds up visibility and color queries.
-      m__runtime_flags = 0x01; 
+      m__runtime_flags = 0x01;
     }
     else if ( viewport_id_count > 0 && 0 != viewport_id_list )
     {
@@ -1562,7 +1562,7 @@ void ON_Layer::CullPerViewportSettings( int viewport_id_count, const ON_UUID* vi
         delete ud;
         // setting m__runtime_flags prevents searching for ON__LayerExtensions userdata
         // and speeds up visibility and color queries.
-        const_cast<ON_Layer*>(this)->m__runtime_flags = 0x01; 
+        const_cast<ON_Layer*>(this)->m__runtime_flags = 0x01;
       }
     }
   }
@@ -1647,7 +1647,7 @@ void ON_Layer::Set( unsigned int settings, const ON_Layer& settings_values )
   if ( 0 != (ON_Layer::userdata_settings & settings) )
   {
     // save original user data on this layer
-    ON_UserDataHolder ud; 
+    ON_UserDataHolder ud;
     ud.MoveUserDataFrom(*this);
 
     // make a complete copy of the userdata on settings_values
@@ -1716,9 +1716,9 @@ public:
 
 public:
 
-  enum 
+  enum
   {
-    valid_settings = 
+    valid_settings =
       (
           ON_Layer::color_settings
         | ON_Layer::plot_color_settings

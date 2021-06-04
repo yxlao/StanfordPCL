@@ -11,7 +11,7 @@
 #ifndef EIGEN_FULLPIVOTINGHOUSEHOLDERQR_H
 #define EIGEN_FULLPIVOTINGHOUSEHOLDERQR_H
 
-namespace Eigen { 
+namespace Eigen {
 
 namespace internal {
 
@@ -34,11 +34,11 @@ struct traits<FullPivHouseholderQRMatrixQReturnType<MatrixType> >
   * \param MatrixType the type of the matrix of which we are computing the QR decomposition
   *
   * This class performs a rank-revealing QR decomposition of a matrix \b A into matrices \b P, \b Q and \b R
-  * such that 
+  * such that
   * \f[
   *  \mathbf{A} \, \mathbf{P} = \mathbf{Q} \, \mathbf{R}
   * \f]
-  * by using Householder transformations. Here, \b P is a permutation matrix, \b Q a unitary matrix and \b R an 
+  * by using Householder transformations. Here, \b P is a permutation matrix, \b Q a unitary matrix and \b R an
   * upper triangular matrix.
   *
   * This decomposition performs a very prudent full pivoting in order to be rank-revealing and achieve optimal

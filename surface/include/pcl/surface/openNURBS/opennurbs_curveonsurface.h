@@ -63,9 +63,9 @@ public:
     text_log - [in] if the object is not valid and text_log
         is not NULL, then a brief englis description of the
         reason the object is not valid is appened to the log.
-        The information appended to text_log is suitable for 
-        low-level debugging purposes by programmers and is 
-        not intended to be useful as a high level user 
+        The information appended to text_log is suitable for
+        low-level debugging purposes by programmers and is
+        not intended to be useful as a high level user
         interface tool.
   Returns:
     @untitled table
@@ -97,7 +97,7 @@ public:
          ON_BOOL32 = false  // true means grow box
          ) const;
 
-  ON_BOOL32 Transform( 
+  ON_BOOL32 Transform(
          const ON_Xform&
          );
 
@@ -113,13 +113,13 @@ public:
 
   int SpanCount() const; // number of smooth spans in curve
 
-  ON_BOOL32 GetSpanVector( // span "knots" 
-         double* // array of length SpanCount() + 1 
-         ) const; // 
+  ON_BOOL32 GetSpanVector( // span "knots"
+         double* // array of length SpanCount() + 1
+         ) const; //
 
-  int Degree( // returns maximum algebraic degree of any span 
+  int Degree( // returns maximum algebraic degree of any span
                   // ( or a good estimate if curve spans are not algebraic )
-    ) const; 
+    ) const;
 
 
   // (optional - override if curve is piecewise smooth)
@@ -159,9 +159,9 @@ public:
                   // periodic.)
 
   ON_BOOL32 IsPeriodic(  // true if curve is a single periodic segment
-        void 
+        void
         ) const;
-  
+
   ON_BOOL32 Reverse();       // reverse parameterizatrion
                         // Domain changes from [a,b] to [-b,-a]
 
@@ -172,7 +172,7 @@ public:
          double*,        // array of length stride*(ndir+1)
          int = 0,        // optional - determines which side to evaluate from
                          //         0 = default
-                         //      <  0 to evaluate from below, 
+                         //      <  0 to evaluate from below,
                          //      >  0 to evaluate from above
          int* = 0        // optional - evaluation hint (int) used to speed
                          //            repeated evaluations
@@ -184,9 +184,9 @@ public:
                    //            matches the curve's to wthe desired accuracy
                    //         2: success - returned NURBS point locus matches
                    //            the curve's to the desired accuracy but, on
-                   //            the interior of the curve's domain, the 
+                   //            the interior of the curve's domain, the
                    //            curve's parameterization and the NURBS
-                   //            parameterization may not match to the 
+                   //            parameterization may not match to the
                    //            desired accuracy.
         ON_NurbsCurve&,
         double = 0.0,
@@ -201,7 +201,7 @@ public:
   // the destructor to destroy the curves
   ON_Curve* m_c2;  // REQUIRED parameter space (2d) curve
   ON_Curve* m_c3;  // OPTIONAL 3d curve (approximation) to srf(crv2(t))
-  ON_Surface* m_s; 
+  ON_Surface* m_s;
 };
 
 

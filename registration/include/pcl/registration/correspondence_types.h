@@ -49,7 +49,7 @@ namespace pcl
       * \param[out] stddev the standard deviation of descriptor distances.
       * \note The sample varaiance is used to determine the standard deviation
       */
-    inline void 
+    inline void
     getCorDistMeanStd (const pcl::Correspondences& correspondences, double &mean, double &stddev);
 
     /** \brief extracts the query indices
@@ -57,7 +57,7 @@ namespace pcl
       * \param[out] indices array of extracted indices.
       * \note order of indices corresponds to input list of descriptor correspondences
       */
-    inline void 
+    inline void
     getQueryIndices (const pcl::Correspondences& correspondences, std::vector<int>& indices);
 
     /** \brief extracts the match indices
@@ -65,7 +65,7 @@ namespace pcl
       * \param[out] indices array of extracted indices.
       * \note order of indices corresponds to input list of descriptor correspondences
       */
-    inline void 
+    inline void
     getMatchIndices (const pcl::Correspondences& correspondences, std::vector<int>& indices);
 
   }

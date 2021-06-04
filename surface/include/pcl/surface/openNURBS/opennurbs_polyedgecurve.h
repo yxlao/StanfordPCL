@@ -50,14 +50,14 @@ public:
   ON_BOOL32 Read( ON_BinaryArchive& );
 
   // m_object_id = id of a brep or curve object in Rhino
-  ON_UUID m_object_id; 
+  ON_UUID m_object_id;
   // When the Rhino object is a brep, m_component_index
   // refers to either an edge or a trim.
   ON_COMPONENT_INDEX m_component_index;
   // corresponding domain of the edge - see note below
-  ON_Interval m_edge_domain;  
+  ON_Interval m_edge_domain;
   // corresponding domain of the trim - see note below
-  ON_Interval m_trim_domain;   
+  ON_Interval m_trim_domain;
 
 
   // When m_component_index refers to an ON_BrepTrim, there
@@ -66,22 +66,22 @@ public:
   // for all 4 of these domains to be different.
   //
   // "this" ON_PolyEdgeSegment is an ON_ProxyCurve.  The
-  // evaluation domain of "this" is 
+  // evaluation domain of "this" is
   //   = this->Domain()
   //   = ON_ProxyCurve::m_this_domain
   //
   // ON_ProxyCurve::m_real_curve points to the curve in the
-  // c3 = ON_Brep::m_C3[edge.m_c3i].  "this" is a proxy for some 
+  // c3 = ON_Brep::m_C3[edge.m_c3i].  "this" is a proxy for some
   // sub-interval of c3.
   //   = this->ProxyCurveDomain()
   //   = ON_ProxyCurve::m_real_curve_domain
   //
   // The edge, an ON_BrepEdge, is also a proxy based on c3,
-  // and the edge's evaluation domain is edge.m_this_domain.  
+  // and the edge's evaluation domain is edge.m_this_domain.
   // ON_PolyEdgeSegment::m_edge_domain records the increasing
   // subinterval of edge.m_this_domain that corresponds
   // to the portion of c3 "this" is using.
-  // 
+  //
   // The trim, an ON_BrepTrim, is a proxy based on a curve
   // in ON_Brep::m_C2[].  Some portion of the trim corresponds
   // to the portion of the edge we are using.  m_trim_domain

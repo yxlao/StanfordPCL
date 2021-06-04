@@ -4,7 +4,7 @@
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2011, Willow Garage, Inc.
  *  Copyright (c) 2012-, Open Perception, Inc.
- *  
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -81,7 +81,7 @@ bool fcolorparam = false;
 
 struct EventHelper
 {
-  void 
+  void
   cloud_cb (const pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr & cloud)
   {
     if (mutex_.try_lock ())
@@ -92,7 +92,7 @@ struct EventHelper
   }
 };
 
-void 
+void
 keyboard_callback (const pcl::visualization::KeyboardEvent& event, void*)
 {
   /// If SPACE is pressed, trigger new cloud callback (only works if framerate is set to 0)
@@ -100,7 +100,7 @@ keyboard_callback (const pcl::visualization::KeyboardEvent& event, void*)
     grabber->trigger ();
 }
 
-void 
+void
 mouse_callback (const pcl::visualization::MouseEvent& mouse_event, void* cookie)
 {
   std::string* message = static_cast<std::string*> (cookie);

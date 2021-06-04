@@ -47,9 +47,9 @@ using namespace pcl::gpu;
 namespace pcl
 {
     namespace device
-    {                 
+    {
         struct NormalsEstimator
-        {            
+        {
             enum
             {
                 CTA_SIZE = 256,
@@ -58,26 +58,26 @@ namespace pcl
                 MIN_NEIGHBOORS = 1
             };
 
-            struct plus 
-            {              
+            struct plus
+            {
                 __forceinline__ __device__ float operator()(const float &lhs, const volatile float& rhs) const { return lhs + rhs; }
-            }; 
+            };
 
             PtrStep<int> indices;
             const int *sizes;
             const PointType *points;
 
-            PtrSz<NormalType> normals;            
+            PtrSz<NormalType> normals;
 
             __device__ __forceinline__ void operator()() const
-            {                
+            {
                 __shared__ float cov_buffer[6][CTA_SIZE + 1];
 
                 int warp_idx = Warp::id();
                 int idx = blockIdx.x * WAPRS + warp_idx;
-                
+
                 if (idx >= normals.size)
-                    return;               
+                    return;
 
                 int size = sizes[idx];
                 int lane = Warp::laneId();
@@ -94,38 +94,38 @@ namespace pcl
 
                 //copmpute centroid
                 float3 c = make_float3(0.f, 0.f, 0.f);
-                for(const int *t = ibeg + lane; t < iend; t += Warp::STRIDE)                
+                for(const int *t = ibeg + lane; t < iend; t += Warp::STRIDE)
                     c += fetch(*t);
 
                 volatile float *buffer = &cov_buffer[0][threadIdx.x - lane];
 
                 c.x = Warp::reduce(buffer, c.x, plus());
                 c.y = Warp::reduce(buffer, c.y, plus());
-                c.z = Warp::reduce(buffer, c.z, plus());                                
-                c *= 1.f/size;                                                  
+                c.z = Warp::reduce(buffer, c.z, plus());
+                c *= 1.f/size;
 
                 //nvcc bug workaround. if comment this => c.z == 0 at line: float3 d = fetch(*t) - c;
                 __threadfence_block();
 
-                //compute covariance matrix        
+                //compute covariance matrix
                 int tid = threadIdx.x;
 
                 for(int i = 0; i < 6; ++i)
-                    cov_buffer[i][tid] = 0.f;                
+                    cov_buffer[i][tid] = 0.f;
 
-                for(const int *t = ibeg + lane; t < iend; t += Warp::STRIDE)   
+                for(const int *t = ibeg + lane; t < iend; t += Warp::STRIDE)
                 {
                     //float3 d = fetch(*t) - c;
 
                     float3 p = fetch(*t);
                     float3 d = p - c;
 
-                    cov_buffer[0][tid] += d.x * d.x; //cov (0, 0) 
-                    cov_buffer[1][tid] += d.x * d.y; //cov (0, 1) 
-                    cov_buffer[2][tid] += d.x * d.z; //cov (0, 2) 
-                    cov_buffer[3][tid] += d.y * d.y; //cov (1, 1) 
-                    cov_buffer[4][tid] += d.y * d.z; //cov (1, 2) 
-                    cov_buffer[5][tid] += d.z * d.z; //cov (2, 2)                     
+                    cov_buffer[0][tid] += d.x * d.x; //cov (0, 0)
+                    cov_buffer[1][tid] += d.x * d.y; //cov (0, 1)
+                    cov_buffer[2][tid] += d.x * d.z; //cov (0, 2)
+                    cov_buffer[3][tid] += d.y * d.y; //cov (1, 1)
+                    cov_buffer[4][tid] += d.y * d.z; //cov (1, 2)
+                    cov_buffer[5][tid] += d.z * d.z; //cov (2, 2)
                 }
 
                 Warp::reduce(&cov_buffer[0][tid - lane], plus());
@@ -164,17 +164,17 @@ namespace pcl
                     // The normalization is not necessary, since the eigenvectors from Eigen33 are already normalized
                     output.x = evecs[0].x;
                     output.y = evecs[0].y;
-                    output.z = evecs[0].z;                    
+                    output.z = evecs[0].z;
 
                     normals.data[idx] = output;
                 }
-            }                  
+            }
 
-            __device__ __forceinline__ float3 fetch(int idx) const 
+            __device__ __forceinline__ float3 fetch(int idx) const
             {
                 /*PointType p = points[idx];
                 return make_float3(p.x, p.y, p.z);*/
-                return *(float3*)&points[idx];                
+                return *(float3*)&points[idx];
             }
 
         };
@@ -206,28 +206,28 @@ namespace pcl
                     n.y *= -1;
                     n.z *= -1;
                     normals[idx] = n;
-                }    
-            }         
+                }
+            }
         };
 
-        __global__ void flipNormalTowardsViewpointKernel(const FlipNormal flip) 
-        { 
+        __global__ void flipNormalTowardsViewpointKernel(const FlipNormal flip)
+        {
             int idx = threadIdx.x + blockIdx.x * blockDim.x;
 
             if (idx < flip.normals.size)
-            {    
+            {
                 float3 p = *(float3*)&flip.cloud[idx];
-                flip(idx, p);                   
+                flip(idx, p);
             }
         }
-        __global__ void flipNormalTowardsViewpointKernel(const FlipNormal flip, const int* indices) 
-        { 
+        __global__ void flipNormalTowardsViewpointKernel(const FlipNormal flip, const int* indices)
+        {
             int idx = threadIdx.x + blockIdx.x * blockDim.x;
 
             if (idx < flip.normals.size)
-            {    
+            {
                 float3 p = *(float3*)&flip.cloud[indices[idx]];
-                flip(idx, p);                   
+                flip(idx, p);
             }
         }
     }
@@ -236,7 +236,7 @@ namespace pcl
 void pcl::device::computeNormals(const PointCloud& cloud, const NeighborIndices& nn_indices, Normals& normals)
 {
     NormalsEstimator est;
-    est.indices = nn_indices;    
+    est.indices = nn_indices;
     est.sizes = nn_indices.sizes;
     est.points = cloud;
     est.normals = normals;
@@ -247,7 +247,7 @@ void pcl::device::computeNormals(const PointCloud& cloud, const NeighborIndices&
     int grid = divUp((int)normals.size(), NormalsEstimator::WAPRS);
     EstimateNormaslKernel<<<grid, block>>>(est);
 
-    cudaSafeCall( cudaGetLastError() );        
+    cudaSafeCall( cudaGetLastError() );
     cudaSafeCall(cudaDeviceSynchronize());
 }
 
@@ -262,7 +262,7 @@ void pcl::device::flipNormalTowardsViewpoint(const PointCloud& cloud, const floa
     flip.normals = normals;
 
     flipNormalTowardsViewpointKernel<<<grid, block>>>(flip);
-    cudaSafeCall( cudaGetLastError() );        
+    cudaSafeCall( cudaGetLastError() );
     cudaSafeCall(cudaDeviceSynchronize());
 }
 
@@ -277,6 +277,6 @@ void pcl::device::flipNormalTowardsViewpoint(const PointCloud& cloud, const Indi
     flip.normals = normals;
 
     flipNormalTowardsViewpointKernel<<<grid, block>>>(flip, indices.ptr());
-    cudaSafeCall( cudaGetLastError() );        
+    cudaSafeCall( cudaGetLastError() );
     cudaSafeCall(cudaDeviceSynchronize());
 }

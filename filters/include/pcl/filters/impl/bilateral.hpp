@@ -42,7 +42,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT> double
-pcl::BilateralFilter<PointT>::computePointWeight (const int pid, 
+pcl::BilateralFilter<PointT>::computePointWeight (const int pid,
                                                   const std::vector<int> &indices,
                                                   const std::vector<float> &distances)
 {
@@ -104,7 +104,7 @@ pcl::BilateralFilter<PointT>::applyFilter (PointCloud &output)
     output.points[(*indices_)[i]].intensity = computePointWeight ((*indices_)[i], k_indices, k_distances);
   }
 }
- 
+
 #define PCL_INSTANTIATE_BilateralFilter(T) template class PCL_EXPORTS pcl::BilateralFilter<T>;
 
 #endif // PCL_FILTERS_BILATERAL_H_

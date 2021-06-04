@@ -122,7 +122,7 @@ int ON_PolyCurve::Dimension() const
   return (p) ? p->Dimension() : 0;
 }
 
-ON_BOOL32 
+ON_BOOL32
 ON_PolyCurve::GetBBox( // returns true if successful
          double* boxmin,    // minimum
          double* boxmax,    // maximum
@@ -239,7 +239,7 @@ bool ON_PolyCurve::IsValid( bool bAllowGaps, ON_TextLog* text_log ) const
     rc = false;
   }
 
-  for ( segment_index = 0; segment_index < count && rc; segment_index++ ) 
+  for ( segment_index = 0; segment_index < count && rc; segment_index++ )
   {
     if ( 0 == m_segment[segment_index] )
     {
@@ -280,7 +280,7 @@ bool ON_PolyCurve::IsValid( bool bAllowGaps, ON_TextLog* text_log ) const
       break;
     }
 
-    if ( rc && count > 1 && !bAllowGaps && m_segment[segment_index]->IsClosed() ) 
+    if ( rc && count > 1 && !bAllowGaps && m_segment[segment_index]->IsClosed() )
     {
       if ( text_log )
         text_log->Print("Polycurve segment[%d] is closed (%d segments).\n",segment_index,count);
@@ -362,10 +362,10 @@ ON_BOOL32 ON_PolyCurve::Read(
   Destroy();
   int major_version = 0;
   int minor_version = 0;
-  
+
   ON_BOOL32 rc = file.Read3dmChunkVersion(&major_version,&minor_version);
-  
-  if (rc) 
+
+  if (rc)
   {
     ON_Object* obj;
     ON_Curve* crv;
@@ -401,7 +401,7 @@ ON_BOOL32 ON_PolyCurve::Read(
       }
     }
 
-    if ( rc && m_segment.Count()>0 && 
+    if ( rc && m_segment.Count()>0 &&
 								m_segment.Count()==segment_count && m_t.Count()==segment_count+1)
     {
       // remove "fuzz" in m_t[] domain array that is in some older files.
@@ -675,8 +675,8 @@ int ON_PolyCurve::SpanCount() const
   return span_count;
 }
 
-ON_BOOL32 ON_PolyCurve::GetSpanVector( // span "knots" 
-       double* s // array of length SpanCount() + 1 
+ON_BOOL32 ON_PolyCurve::GetSpanVector( // span "knots"
+       double* s // array of length SpanCount() + 1
        ) const
 {
   ON_Interval sp;
@@ -732,7 +732,7 @@ ON_PolyCurve::IsLinear( // true if curve locus is a line segment
   int i, count = Count();
 	if ( count==1)
 		return m_segment[0]->IsLinear(tolerance);
-  
+
 	else if ( count > 1 ) {
     rc = true;
     for ( i = 0; rc && i < count; i++ ) {
@@ -740,7 +740,7 @@ ON_PolyCurve::IsLinear( // true if curve locus is a line segment
         rc = false;
       else
         rc = m_segment[i]->IsLinear(tolerance);
-    
+
     }
     if (rc)
       rc = ON_Curve::IsLinear(tolerance);
@@ -959,7 +959,7 @@ ON_PolyCurve::IsInPlane(
   return rc;
 }
 
-ON_BOOL32 
+ON_BOOL32
 ON_PolyCurve::IsClosed() const
 {
   ON_BOOL32 bIsClosed = false;
@@ -970,7 +970,7 @@ ON_PolyCurve::IsClosed() const
     if ( c )
       bIsClosed = c->IsClosed();
   }
-  else if ( count > 1 ) 
+  else if ( count > 1 )
   {
     // 17 May2005 Dale Lear - I added the !HasGap() test
     //                        so discontinuous curves are
@@ -1011,9 +1011,9 @@ int ON_PolyCurve::HasGap() const
         double tol = ON_ZERO_TOLERANCE;
         const double tol0 = arc0  ? ( arc0->m_arc.radius*arc0->m_arc.AngleRadians()*1.0e-10 ) : 0.0;
         const double tol1 = arc1  ? ( arc1->m_arc.radius*arc1->m_arc.AngleRadians()*1.0e-10 ) : 0.0;
-        if ( tol < tol0 ) 
+        if ( tol < tol0 )
           tol = tol0;
-        if ( tol < tol1 ) 
+        if ( tol < tol1 )
           tol = tol1;
         const double d = P0.DistanceTo(P1);
         if ( d > tol )
@@ -1028,7 +1028,7 @@ int ON_PolyCurve::HasGap() const
 }
 
 
-ON_BOOL32 
+ON_BOOL32
 ON_PolyCurve::IsPeriodic() const
 {
   ON_BOOL32 bIsPeriodic = false;
@@ -1040,7 +1040,7 @@ ON_PolyCurve::IsPeriodic() const
   return bIsPeriodic;
 }
 
-bool ON_PolyCurve::GetNextDiscontinuity( 
+bool ON_PolyCurve::GetNextDiscontinuity(
         ON::continuity c,
         double t0,
         double t1,
@@ -1060,11 +1060,11 @@ bool ON_PolyCurve::GetNextDiscontinuity(
   int segment_hint=0, curve_hint=0;
   if ( dtype )
     *dtype = 0;
-  if ( count > 0 && t0 != t1 ) 
+  if ( count > 0 && t0 != t1 )
   {
     // 20 March 2003 Dale Lear:
     //     look for parametric discontinuities on the interior.
-    //     If we don't find any, then well check for locus 
+    //     If we don't find any, then well check for locus
     //     discontinuities at the appropriate end
     ON::continuity input_c = c;
     c = ON::ParametricContinuity(c);
@@ -1077,7 +1077,7 @@ bool ON_PolyCurve::GetNextDiscontinuity(
     {
       // 20 March 2003 Dale Lear:
       //     If t0 is very near interior m_t[] value, see if it
-      //     should be set to that value.  A bit or two of 
+      //     should be set to that value.  A bit or two of
       //     precision sometimes gets lost in proxy
       //     domain to real curve domain conversions on the interior
       //     of a curve domain.
@@ -1118,10 +1118,10 @@ bool ON_PolyCurve::GetNextDiscontinuity(
     }
 
     const ON_Curve* crv;
-    for ( /*empty*/; 
-              segment_index >= 0 
+    for ( /*empty*/;
+              segment_index >= 0
            && segment_index < count
-           && tmin < m_t[segment_index+1] && m_t[segment_index] < tmax; 
+           && tmin < m_t[segment_index+1] && m_t[segment_index] < tmax;
           segment_index += segment_index_delta )
     {
       crv = m_segment[segment_index];
@@ -1154,7 +1154,7 @@ bool ON_PolyCurve::GetNextDiscontinuity(
           if ( kink_t <= tmin+t_tol || kink_t >= tmax-t_tol)
           {
             // 24 January 2002 Dale Lear -
-            // It is possible that lost precision in the 
+            // It is possible that lost precision in the
             // domain conversion is giving us trouble.
             // In particular, if this code is not here,
             // "t0" is right at a kink, and s0 gets bumped
@@ -1218,7 +1218,7 @@ bool ON_PolyCurve::GetNextDiscontinuity(
       {
         if ( sdom[0] <= t1 ) // this line is correct - search is decreasing towards t1
         {
-          // INTERIOR of search interval does not include 
+          // INTERIOR of search interval does not include
           // start this crv = end of next curve
           break;
         }
@@ -1227,7 +1227,7 @@ bool ON_PolyCurve::GetNextDiscontinuity(
       {
         if ( t1 <= sdom[1] )
         {
-          // INTERIOR of search interval does not include 
+          // INTERIOR of search interval does not include
           // end of this crv = start of next curve
           break;
         }
@@ -1281,7 +1281,7 @@ bool ON_PolyCurve::GetNextDiscontinuity(
         crv1->Ev2Der( crv1_t, Pp, D1p, D2p, -crv0_side ); // corresponding point on next curve
         if ( c == ON::C2_continuous )
         {
-          if ( !(D1m-D1p).IsTiny(D1m.MaximumCoordinate()*ON_SQRT_EPSILON) ) 
+          if ( !(D1m-D1p).IsTiny(D1m.MaximumCoordinate()*ON_SQRT_EPSILON) )
           {
             rc = true;
             if ( dtype )
@@ -1304,7 +1304,7 @@ bool ON_PolyCurve::GetNextDiscontinuity(
             if ( dtype )
               *dtype = 1;
           }
-          else 
+          else
           {
             bool bIsCurvatureContinuous = ( ON::Gsmooth_continuous == c )
               ? ON_IsGsmoothCurvatureContinuous(Km, Kp, cos_angle_tolerance, curvature_tolerance)
@@ -1320,7 +1320,7 @@ bool ON_PolyCurve::GetNextDiscontinuity(
             }
             else if ( ON::Gsmooth_continuous == c )
             {
-              const double is_linear_tolerance = 1.0e-8;  
+              const double is_linear_tolerance = 1.0e-8;
               const double is_linear_min_length = 1.0e-8;
               const ON_Curve* seg0;
               const ON_Curve* seg1;
@@ -1352,7 +1352,7 @@ bool ON_PolyCurve::GetNextDiscontinuity(
       }
       if (rc)
       {
-        int tindex = (t0>t1)?segment_index:(segment_index+1); 
+        int tindex = (t0>t1)?segment_index:(segment_index+1);
         if ( t )
           *t = m_t[tindex];
         if ( hint )
@@ -1367,9 +1367,9 @@ bool ON_PolyCurve::GetNextDiscontinuity(
     {
       // 20 March 2003 Dale Lear
       //   See if we need to do a locus check at an end
-      rc = ON_Curve::GetNextDiscontinuity( input_c, 
-                        t0, t1, t, NULL, 
-                        dtype, 
+      rc = ON_Curve::GetNextDiscontinuity( input_c,
+                        t0, t1, t, NULL,
+                        dtype,
                         cos_angle_tolerance, curvature_tolerance );
     }
   }
@@ -1378,7 +1378,7 @@ bool ON_PolyCurve::GetNextDiscontinuity(
 
 bool ON_PolyCurve::IsContinuous(
     ON::continuity desired_continuity,
-    double t, 
+    double t,
     int* hint, // default = NULL,
     double point_tolerance, // default=ON_ZERO_TOLERANCE
     double d1_tolerance, // default==ON_ZERO_TOLERANCE
@@ -1389,17 +1389,17 @@ bool ON_PolyCurve::IsContinuous(
 {
   bool rc = true;
   const int count = Count();
-  if ( count > 0 ) 
+  if ( count > 0 )
   {
     if ( t <= m_t[0] || t >= m_t[count] )
     {
       // 20 March 2003 Dale Lear
       //     Consistently handles locus case and out of domain case.
-      rc = ON_Curve::IsContinuous( 
-                 desired_continuity, t, hint, 
-                 point_tolerance, 
-                 d1_tolerance, d2_tolerance, 
-                 cos_angle_tolerance, 
+      rc = ON_Curve::IsContinuous(
+                 desired_continuity, t, hint,
+                 point_tolerance,
+                 d1_tolerance, d2_tolerance,
+                 cos_angle_tolerance,
                  curvature_tolerance );
       return rc;
     }
@@ -1416,7 +1416,7 @@ bool ON_PolyCurve::IsContinuous(
     {
       // 20 March 2003 Dale Lear:
       //     If t is very near interior m_t[] value, see if it
-      //     should be set to that value.  A bit or two of 
+      //     should be set to that value.  A bit or two of
       //     precision sometimes gets lost in proxy
       //     domain to real curve domain conversions on the interior
       //     of a curve domain.
@@ -1457,8 +1457,8 @@ bool ON_PolyCurve::IsContinuous(
         sdom.Set( m_t[segment_index], m_t[segment_index+1] );
         if ( sdom != cdom )
           t = cdom.ParameterAt( sdom.NormalizedParameterAt(t) );
-        rc = segment_curve->IsContinuous( desired_continuity, t, &curve_hint, 
-                                          point_tolerance, d1_tolerance, d2_tolerance, 
+        rc = segment_curve->IsContinuous( desired_continuity, t, &curve_hint,
+                                          point_tolerance, d1_tolerance, d2_tolerance,
                                           cos_angle_tolerance, curvature_tolerance );
         if ( hint )
           *hint = (segment_index | (curve_hint<<14));
@@ -1473,11 +1473,11 @@ bool ON_PolyCurve::IsContinuous(
       else
       {
         // evaluate ends of segments
-        rc = ON_Curve::IsContinuous( desired_continuity, t, hint, 
-                           point_tolerance, d1_tolerance, d2_tolerance, 
+        rc = ON_Curve::IsContinuous( desired_continuity, t, hint,
+                           point_tolerance, d1_tolerance, d2_tolerance,
                            cos_angle_tolerance, curvature_tolerance );
-        if ( 0 != rc 
-             && ON::Gsmooth_continuous == desired_continuity 
+        if ( 0 != rc
+             && ON::Gsmooth_continuous == desired_continuity
              && segment_index >= 0
              && segment_index < count
            )
@@ -1490,7 +1490,7 @@ bool ON_PolyCurve::IsContinuous(
             const ON_Curve* seg1 = SegmentCurve(i0+1);
             if ( 0 != seg0 && 0 != seg1 )
             {
-              const double is_linear_tolerance = 1.0e-8;  
+              const double is_linear_tolerance = 1.0e-8;
               const double is_linear_min_length = 1.0e-8;
               bool b0 = seg0->LastSpanIsLinear(is_linear_min_length,is_linear_tolerance);
               bool b1 = seg1->FirstSpanIsLinear(is_linear_min_length,is_linear_tolerance);
@@ -1523,7 +1523,7 @@ ON_PolyCurve::Reverse()
   return rc;
 }
 
-bool ON_TuneupEvaluationParameter( 
+bool ON_TuneupEvaluationParameter(
    int side,
    double s0, double s1, // segment domain
    double *s             // segment parameter
@@ -1573,7 +1573,7 @@ ON_BOOL32 ON_PolyCurve::Evaluate( // returns false if unable to evaluate
        double* v,      // v[] array of length stride*(ndir+1)
        int side,       // optional - determines which side to evaluate from
                        //         0 = default
-                       //      <  0 to evaluate from below, 
+                       //      <  0 to evaluate from below,
                        //      >  0 to evaluate from above
        int* hint       // optional - evaluation hint (int) used to speed
                        //            repeated evaluations
@@ -1583,7 +1583,7 @@ ON_BOOL32 ON_PolyCurve::Evaluate( // returns false if unable to evaluate
   const int count = Count();
   const int dim = Dimension();
   int segment_hint, curve_hint;
-  if ( count > 0 && dim > 0 && dim <= v_stride ) 
+  if ( count > 0 && dim > 0 && dim <= v_stride )
   {
     segment_hint = (hint) ? (*hint & 0x3FFF) : 0;
     int segment_index = ON_NurbsSpanIndex(2,count+1,m_t,t,side,segment_hint);
@@ -1610,7 +1610,7 @@ ON_BOOL32 ON_PolyCurve::Evaluate( // returns false if unable to evaluate
         s0 = dom.Min();
         s1 = dom.Max();
       }
-      if ( s0 != s1 ) 
+      if ( s0 != s1 )
       {
         const double t0 = m_t[segment_index];
         const double t1 = m_t[segment_index+1];
@@ -1620,7 +1620,7 @@ ON_BOOL32 ON_PolyCurve::Evaluate( // returns false if unable to evaluate
           // segment domain = c->Domain()
           s = t;
         }
-        else 
+        else
         {
           // adjust segment domain parameter
           if ( fabs(t1 - t0) < (ON_ZERO_TOLERANCE + ON_EPSILON*fabs(t0)) )
@@ -1628,7 +1628,7 @@ ON_BOOL32 ON_PolyCurve::Evaluate( // returns false if unable to evaluate
             // segment domain is insanely short
             s = (fabs(t-t0) < fabs(t-t1)) ? s0 : s1;
           }
-          else 
+          else
           {
             const double d = 1.0/(t1-t0);
             const double a = (t - t0)*d;
@@ -1642,13 +1642,13 @@ ON_BOOL32 ON_PolyCurve::Evaluate( // returns false if unable to evaluate
         }
         curve_hint = ( hint && segment_hint == segment_index ) ? ((*hint)>>14) : 0;
         rc = c->Evaluate(
-           s, 
-           der_count, 
-           v_stride, v, 
-           side, 
+           s,
+           der_count,
+           v_stride, v,
+           side,
            &curve_hint );
 
-        if ( rc ) 
+        if ( rc )
         {
           if ( der_count > 0 && s1 - s0 != t1 - t0 && t0 != t1 )
           {
@@ -1660,7 +1660,7 @@ ON_BOOL32 ON_PolyCurve::Evaluate( // returns false if unable to evaluate
             v += v_stride;
             for ( di = 1; di <= der_count; di++ )
             {
-              for ( vi = 0; vi < dim; vi++ ) 
+              for ( vi = 0; vi < dim; vi++ )
               {
                 v[vi] = s*v[vi];
               }
@@ -1695,8 +1695,8 @@ ON_PolyCurve::operator[](int segment_index) const
 ON_Curve*
 ON_PolyCurve::SegmentCurve(int segment_index) const
 {
-  return ( segment_index >= 0 && segment_index < Count() ) 
-         ? m_segment[segment_index] 
+  return ( segment_index >= 0 && segment_index < Count() )
+         ? m_segment[segment_index]
          : NULL;
 }
 
@@ -1735,7 +1735,7 @@ double ON_PolyCurve::PolyCurveParameter(
 }
 
 
-ON_Interval 
+ON_Interval
 ON_PolyCurve::SegmentDomain( int segment_index ) const
 {
   ON_Interval domain;
@@ -1839,7 +1839,7 @@ ON_BOOL32 ON_PolyCurve::Insert( int segment_index, ON_Curve* c )
   double s0, s1;
   ON_BOOL32 rc = false;
   const int count = Count();
-  if ( segment_index >= 0 && segment_index <= count && c && c != this && c->GetDomain(&s0,&s1) ) 
+  if ( segment_index >= 0 && segment_index <= count && c && c != this && c->GetDomain(&s0,&s1) )
   {
     rc = true;
     m_segment.Insert( segment_index, c );
@@ -1873,7 +1873,7 @@ ON_BOOL32 ON_PolyCurve::Insert( int segment_index, ON_Curve* c )
       double* t = m_t.Array();
       for ( int i = segment_index+2; i <= count+1; i++ ) {
         t[i] += dt;
-      }      
+      }
     }
   }
   return rc;
@@ -1903,8 +1903,8 @@ ON_BOOL32 ON_PolyCurve::SetEndPoint(ON_3dPoint end_point)
   return rc;
 }
 
-int ON_PolyCurve::GetNurbForm( 
-                              ON_NurbsCurve& nurb, 
+int ON_PolyCurve::GetNurbForm(
+                              ON_NurbsCurve& nurb,
                               double tol,
                               const ON_Interval* subdomain  // OPTIONAL subdomain of ON::ProxyCurve::Domain()
                               ) const
@@ -2090,7 +2090,7 @@ ON_BOOL32 ON_PolyCurve::Trim(
   // Please talk to Dale Lear before you change code in this function.
 
   // m_t[] = Increasing array of segment_count+1 parameter values
-  //         that specify segment domains.  
+  //         that specify segment domains.
   //         Domain of polycurve = (m_t[0],m_t[segment_count]).
   // m_segment[] = array of segment curves
   int segment_count = m_segment.Count();
@@ -2118,18 +2118,18 @@ ON_BOOL32 ON_PolyCurve::Trim(
 
   int s0 = -2; // s0 gets set to index of first segment we keep
   int s1 = -3; // s1 gets set to index of last segment we keep
-  
-  // 22 October 2003 Dale Lear - redid Greg's parameter search 
+
+  // 22 October 2003 Dale Lear - redid Greg's parameter search
   //   snapping stuff.  New stuff is in sourcesafe version 72.
   //   In particular, attempting using "Trim" to extend polycurves
   //   will not be supported.  You have to use "Extend" if you
   //   want a curve to get longer.
 
-  // In mid 3003, Greg added ParameterSearch to do "microtol" snapping 
+  // In mid 3003, Greg added ParameterSearch to do "microtol" snapping
   // to segment end parameters.  The goal was to handle fuzz that gets
   // introduces by reparameterizations that happen when the top level
   // curve is a proxy/poly curve and the proxy/polycurve trim parameters get
-  // readjusted as we move toward trimming the "real" curve that is 
+  // readjusted as we move toward trimming the "real" curve that is
   // stored in the m_segment[] array.
 	if ( ParameterSearch(output_domain[0], s0, true ) )
   {
@@ -2169,7 +2169,7 @@ ON_BOOL32 ON_PolyCurve::Trim(
   if ( actual_trim_domain == original_polycurve_domain )
   {
     // ParameterSearch says that the ends of output_domain
-    // were microtol away from being the entire curve.  
+    // were microtol away from being the entire curve.
     // Set the domain and return.
     m_t[0] = output_domain[0];
     m_t[segment_count] = output_domain[1];
@@ -2327,11 +2327,11 @@ ON_BOOL32 ON_PolyCurve::Trim(
 
 
 
-  if ( bTrimLastSegment ) 
+  if ( bTrimLastSegment )
   {
     // If we get in here, it means we need to trim a portion off of
     // the right end of the last segment.
-    
+
     if ( s1+1 != m_segment.Count() )
     {
       // Should never happen; if it does, we have to give up.
@@ -2443,10 +2443,10 @@ ON_BOOL32 ON_PolyCurve::Trim(
 bool ON_PolyCurve::Extend(
   const ON_Interval& domain
   )
- 
+
 {
   if (IsClosed() || Count() < 1) return false;
- 
+
   bool changed = false;
   if (Domain()[0] > domain[0]){
     ON_Curve* seg = SegmentCurve(0);
@@ -2480,10 +2480,10 @@ bool ON_PolyCurve::Extend(
       changed = true;
     }
   }
- 
+
   return changed;
 }
- 
+
 
 
 
@@ -2495,7 +2495,7 @@ ON_BOOL32 ON_PolyCurve::Split(
 {
   int si;
   ON_Interval dom = Domain();
-  
+
   ON_PolyCurve* pLeftSide  = ON_PolyCurve::Cast(left_side);
   ON_PolyCurve* pRightSide = ON_PolyCurve::Cast(right_side);
 
@@ -2517,9 +2517,9 @@ ON_BOOL32 ON_PolyCurve::Split(
 
 		/* 4 April 2003 Greg Arden		Made the following changes:
 																		1.	Use ParameterSearch() to decide if we should snap domain
-																				boundries to m_t array values.  
-																		2.  Make sure resulting polycurves have Domain() specified as 
-																				split parameter.   
+																				boundries to m_t array values.
+																		2.  Make sure resulting polycurves have Domain() specified as
+																				split parameter.
 																		3.  When true is returned the result passes IsValid().
 		*/
 	bool split_at_break = ParameterSearch(split_parameter, si, true);
@@ -2581,7 +2581,7 @@ ON_BOOL32 ON_PolyCurve::Split(
       delete m_segment[si];
       const_cast<ON_PolyCurve*>(this)->m_segment[si] = 0;
     }
-    
+
     for ( i = 0; i < si; i++ )
     {
       if ( bDupSegs )
@@ -2606,7 +2606,7 @@ ON_BOOL32 ON_PolyCurve::Split(
     }
     right_t.Append( m_t[m_segment.Count()] );
   }
-  else 
+  else
   {
     if ( c == c_dom[1] )
       si++;
@@ -2618,7 +2618,7 @@ ON_BOOL32 ON_PolyCurve::Split(
     right_segment.Reserve(m_segment.Count()-si);
     left_t.Reserve(left_segment.Count()+1);
     right_t.Reserve(right_segment.Count()+1);
-    
+
     for ( i = 0; i < si; i++ )
     {
       if ( bDupSegs )
@@ -2668,7 +2668,7 @@ ON_BOOL32 ON_PolyCurve::Split(
   return true;
 }
 
-// Flatten a poly curve reparameterized over pdom. 
+// Flatten a poly curve reparameterized over pdom.
 // Harvests all the segments recursively and places them in the arrays
 static
 void Flatten( ON_PolyCurve* poly, ON_Interval pdom, ON_SimpleArray<double>& new_t, ON_SimpleArray<ON_Curve*>& new_seg){
@@ -2692,7 +2692,7 @@ void Flatten( ON_PolyCurve* poly, ON_Interval pdom, ON_SimpleArray<double>& new_
 			}
 			t0 = t1;
 		}
-} 
+}
 
 bool ON_PolyCurve::HasSynchronizedSegmentDomains() const
 {
@@ -2711,8 +2711,8 @@ bool ON_PolyCurve::HasSynchronizedSegmentDomains() const
   {
     t0 = -ON_UNSET_VALUE;
     t1 = ON_UNSET_VALUE;
-    if ( 0 != c[i] 
-         && c[i]->GetDomain(&t0,&t1) 
+    if ( 0 != c[i]
+         && c[i]->GetDomain(&t0,&t1)
          && t0 == t[i]
          && t1 == t[i+1]
          )
@@ -2722,10 +2722,10 @@ bool ON_PolyCurve::HasSynchronizedSegmentDomains() const
      return false;
   }
 
-  return true;  
+  return true;
 }
 
-/* 
+/*
 Description:
   Sets the domain of the curve int the m_segment[] array to exactly
   match the domain defined in the m_t[] array.  This is not required,
@@ -2754,7 +2754,7 @@ bool ON_PolyCurve::SynchronizeSegmentDomains()
       continue;
     t0 = -ON_UNSET_VALUE;
     t1 = ON_UNSET_VALUE;
-    if ( c[i]->GetDomain(&t0,&t1) 
+    if ( c[i]->GetDomain(&t0,&t1)
          && t0 == t[i]
          && t1 == t[i+1]
          )
@@ -2762,10 +2762,10 @@ bool ON_PolyCurve::SynchronizeSegmentDomains()
      continue;
     }
 
-    if (    ON_IsValid(t[i]) 
+    if (    ON_IsValid(t[i])
         && ON_IsValid(t[i+1])
-        && t[i] < t[i+1] 
-        && c[i]->SetDomain(t[i],t[i+1]) 
+        && t[i] < t[i+1]
+        && c[i]->SetDomain(t[i],t[i+1])
       )
     {
      rc = true; // indicates a change was made
@@ -2799,7 +2799,7 @@ bool ON_PolyCurve::RemoveNestingEx( )
 			Flatten( poly, ON_Interval(old_t[i], old_t[i+1]), m_t, m_segment );
 			delete poly;
 		} else {
-			m_t.Append( old_t[i+1]); 
+			m_t.Append( old_t[i+1]);
 			m_segment.Append( old_seg[i] );
 		}
 	}
@@ -2823,7 +2823,7 @@ bool ON_PolyCurve::IsNested() const
 }
 
 
-//   Sets the m_segment[index] to crv. 
+//   Sets the m_segment[index] to crv.
 void ON_PolyCurve::SetSegment(int i, ON_Curve* crv){
 	if(i>=0 && i<Count())
 		m_segment[i] = crv;

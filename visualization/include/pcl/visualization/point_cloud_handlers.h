@@ -637,11 +637,11 @@ namespace pcl
     public:
       typedef boost::shared_ptr<PointCloudColorHandlerRGBCloud<PointT> > Ptr;
       typedef boost::shared_ptr<const PointCloudColorHandlerRGBCloud<PointT> > ConstPtr;
-      
+
       /** \brief Constructor. */
       PointCloudColorHandlerRGBCloud (const PointCloudConstPtr& cloud, const RgbCloudConstPtr& colors);
-            
-      virtual void getColor (vtkSmartPointer<vtkDataArray> &scalars) const;  
+
+      virtual void getColor (vtkSmartPointer<vtkDataArray> &scalars) const;
     private:
       virtual std::string getFieldName () const { return ("additional rgb"); }
       virtual inline std::string getName () const { return ("PointCloudColorHandlerRGBCloud"); }
@@ -761,7 +761,7 @@ namespace pcl
         PointCloudColorHandler (const PointCloudConstPtr &cloud) :
           cloud_ (cloud), capable_ (false), field_idx_ ()
         {}
-        
+
         /** \brief Destructor. */
         virtual ~PointCloudColorHandler () {}
 

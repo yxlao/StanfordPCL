@@ -45,9 +45,9 @@
 #include "vector.h"
 #include "allocator.h"
 
-namespace pcl 
+namespace pcl
 {
-  namespace poisson 
+  namespace poisson
   {
     template <class T>
     struct MatrixEntry
@@ -173,10 +173,10 @@ namespace pcl
         template<class T2>
         Vector<T2> Multiply (const Vector<T2>& V ) const;
 
-        template<class T2> void 
+        template<class T2> void
         Multiply (const Vector<T2>& In, Vector<T2>& Out ) const;
 
-        template<class T2> static int 
+        template<class T2> static int
         Solve (const SparseSymmetricMatrix<T>& M,
                const Vector<T2>& b,
                const int& iters,
@@ -184,7 +184,7 @@ namespace pcl
                const T2 eps = 1e-8,
                const int& reset=1);
 
-        template<class T2> static int 
+        template<class T2> static int
         Solve (const SparseSymmetricMatrix<T>& M,
                const Vector<T>& diagonal,
                const Vector<T2>& b,

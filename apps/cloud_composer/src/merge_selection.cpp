@@ -10,12 +10,12 @@ pcl::cloud_composer::MergeSelection::MergeSelection (QMap <const CloudItem*, pcl
   : MergeCloudTool (0, parent)
   , selected_item_index_map_ (selected_item_index_map)
 {
-  
+
 }
 
 pcl::cloud_composer::MergeSelection::~MergeSelection ()
 {
-  
+
 }
 
 QList <pcl::cloud_composer::CloudComposerItem*>
@@ -33,7 +33,7 @@ pcl::cloud_composer::MergeSelection::performAction (ConstItemList input_data, Po
         return this->performTemplatedAction<pcl::PointXYZRGBA> (input_data);
     }
   }
-  
+
   QList <CloudComposerItem*> output;
 
   // Check input data length
@@ -57,7 +57,7 @@ pcl::cloud_composer::MergeSelection::performAction (ConstItemList input_data, Po
   sensor_msgs::PointCloud2::Ptr merged_cloud (new sensor_msgs::PointCloud2);
   foreach (const CloudItem* input_cloud_item, selected_item_index_map_.keys ())
   {
-    //If this cloud hasn't been completely selected 
+    //If this cloud hasn't been completely selected
     if (!input_data.contains (input_cloud_item))
     {
       sensor_msgs::PointCloud2::ConstPtr input_cloud = input_cloud_item->data (ItemDataRole::CLOUD_BLOB).value <sensor_msgs::PointCloud2::ConstPtr> ();
@@ -70,7 +70,7 @@ pcl::cloud_composer::MergeSelection::performAction (ConstItemList input_data, Po
       filter.setNegative (false);
       sensor_msgs::PointCloud2::Ptr selected_points (new sensor_msgs::PointCloud2);
       filter.filter (*selected_points);
-      
+
       qDebug () << "Original minus indices is "<<original_minus_indices->width;
       Eigen::Vector4f source_origin = input_cloud_item->data (ItemDataRole::ORIGIN).value<Eigen::Vector4f> ();
       Eigen::Quaternionf source_orientation =  input_cloud_item->data (ItemDataRole::ORIENTATION).value<Eigen::Quaternionf> ();
@@ -90,16 +90,16 @@ pcl::cloud_composer::MergeSelection::performAction (ConstItemList input_data, Po
   foreach (const CloudComposerItem* input_item, input_data)
   {
     sensor_msgs::PointCloud2::ConstPtr input_cloud = input_item->data (ItemDataRole::CLOUD_BLOB).value <sensor_msgs::PointCloud2::ConstPtr> ();
-    
+
     sensor_msgs::PointCloud2::Ptr temp_cloud = boost::make_shared <sensor_msgs::PointCloud2> ();
     concatenatePointCloud (*merged_cloud, *input_cloud, *temp_cloud);
     merged_cloud = temp_cloud;
   }
-  
+
   CloudItem* cloud_item = new CloudItem ("Cloud from Selection"
                                          , merged_cloud);
 
   output.append (cloud_item);
-    
+
   return output;
 }

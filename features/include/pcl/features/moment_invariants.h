@@ -78,9 +78,9 @@ namespace pcl
         * \param[out] j2 the resultant second moment invariant
         * \param[out] j3 the resultant third moment invariant
         */
-      void 
-      computePointMomentInvariants (const pcl::PointCloud<PointInT> &cloud, 
-                                    const std::vector<int> &indices, 
+      void
+      computePointMomentInvariants (const pcl::PointCloud<PointInT> &cloud,
+                                    const std::vector<int> &indices,
                                     float &j1, float &j2, float &j3);
 
       /** \brief Compute the 3 moment invariants (j1, j2, j3) for a given set of points, using their indices.
@@ -89,8 +89,8 @@ namespace pcl
         * \param[out] j2 the resultant second moment invariant
         * \param[out] j3 the resultant third moment invariant
         */
-      void 
-      computePointMomentInvariants (const pcl::PointCloud<PointInT> &cloud, 
+      void
+      computePointMomentInvariants (const pcl::PointCloud<PointInT> &cloud,
                                     float &j1, float &j2, float &j3);
 
     protected:
@@ -99,7 +99,7 @@ namespace pcl
         * in setSearchSurface () and the spatial locator in setSearchMethod ()
         * \param[out] output the resultant point cloud model dataset that contains the moment invariants
         */
-      void 
+      void
       computeFeature (PointCloudOut &output);
 
     private:
@@ -110,9 +110,9 @@ namespace pcl
       Eigen::Vector4f temp_pt_;
 
       /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &) {}
   };
 
@@ -139,13 +139,13 @@ namespace pcl
         * in setSearchSurface () and the spatial locator in setSearchMethod ()
         * \param[out] output the resultant point cloud model dataset that contains the moment invariants
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &output);
 
       /** \brief Make the compute (&PointCloudOut); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       compute (pcl::PointCloud<pcl::Normal> &) {}
   };
 }

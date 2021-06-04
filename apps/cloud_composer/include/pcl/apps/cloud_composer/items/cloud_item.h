@@ -60,118 +60,118 @@ namespace pcl
         RGBA = (1 << 2),
         NORMAL = (1 << 3),
         HSV = (1 << 4),
-        AXIS = (1 << 5), 
+        AXIS = (1 << 5),
       };
     }
     class PCL_EXPORTS CloudItem : public CloudComposerItem
     {
       public:
-        
+
         //This is needed because we have members which are Vector4f and Quaternionf
         EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-        
+
         CloudItem (const QString name,
-                   const sensor_msgs::PointCloud2::Ptr cloud_ptr, 
+                   const sensor_msgs::PointCloud2::Ptr cloud_ptr,
                    const Eigen::Vector4f& origin = Eigen::Vector4f (),
                    const Eigen::Quaternionf& orientation = Eigen::Quaternionf (),
                    bool make_templated_cloud = true);
-        
+
         CloudItem (const CloudItem& to_copy);
         virtual ~CloudItem ();
-        
+
         /** \brief This creates a CloudItem from a templated cloud type */
         template <typename PointT>
         static CloudItem*
         createCloudItemFromTemplate (const QString name, typename PointCloud<PointT>::Ptr cloud_ptr);
-        
+
         /** \brief virtual data getter which calls QStandardItem::data; used to create template cloud if not created yet
          *    WARNING : This function modifies "this" - it sets up the templated type if you request one when it doesn't exist yet!
          *      It had to remain const because it is virtual, and we need to keep run-time polymorphism
-         */        
+         */
         virtual QVariant
         data (int role = Qt::UserRole +1) const;
-        
-        /** \brief Virtual data setter which calls QStandardItem::data; used to ensure that template_cloud_set_ is set 
+
+        /** \brief Virtual data setter which calls QStandardItem::data; used to ensure that template_cloud_set_ is set
          *         when a templated cloud is added */
         virtual void
         setData ( const QVariant & value, int role = Qt::UserRole + 1 );
-        
-        inline virtual int 
+
+        inline virtual int
         type () const { return CLOUD_ITEM; }
 
         virtual CloudItem*
         clone () const;
-        
+
         /** \brief Paint View function - puts this cloud item into a PCLVisualizer object*/
         virtual void
         paintView (boost::shared_ptr<pcl::visualization::PCLVisualizer> vis) const;
-        
+
         /** \brief Remove from View function - removes this cloud from a PCLVisualizer object*/
         virtual void
         removeFromView (boost::shared_ptr<pcl::visualization::PCLVisualizer> vis) const;
-        
+
         /** \brief Initializes and stores a templated PointCloud object with point type matching the blob */
         void
         setTemplateCloudFromBlob ();
-        
+
         int
         getPointType () const { return point_type_; }
-        
+
         template <typename PointT> void
-        printNumPoints () const;        
-        
+        printNumPoints () const;
+
         bool
         isSanitized () const { return is_sanitized_; }
       private:
-        
-        //These are just stored for convenience 
+
+        //These are just stored for convenience
         sensor_msgs::PointCloud2::Ptr cloud_blob_ptr_;
         ColorHandler::ConstPtr color_handler_;
         GeometryHandler::ConstPtr geometry_handler_;
 
-       
+
 
         //We keep actual local copies of these.
         Eigen::Vector4f origin_;
         Eigen::Quaternionf orientation_;
-        
+
         //Internal Storage of the templated type of this cloud
         int point_type_;
         bool template_cloud_set_;
-        
+
         bool
         checkIfFinite ();
-        
+
         bool is_sanitized_;
-        
+
         //Helper functions which set the point_type_ based on the current point type
-        template <typename PointT> inline void 
+        template <typename PointT> inline void
         setPointType ()
         {
           qCritical () << "CloudItem::setPointType for type with no specialization";
           point_type_ = PointTypeFlags::NONE;
         }
-        
-        
+
+
     };
-    
+
     template <> inline void
     CloudItem::setPointType <PointXYZ> ()
     {
-      point_type_ = PointTypeFlags::XYZ;  
+      point_type_ = PointTypeFlags::XYZ;
     }
     template <> inline void
     CloudItem::setPointType <PointXYZRGB> ()
     {
-      point_type_ = PointTypeFlags::XYZ | PointTypeFlags::RGB;  
+      point_type_ = PointTypeFlags::XYZ | PointTypeFlags::RGB;
     }
     template <> inline void
     CloudItem::setPointType <PointXYZRGBA> ()
     {
       point_type_ = PointTypeFlags::XYZ | PointTypeFlags::RGBA;
-    }    
-    
-    
+    }
+
+
   }
 }
 

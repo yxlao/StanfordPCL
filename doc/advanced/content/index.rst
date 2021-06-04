@@ -33,8 +33,8 @@ compilation of your project.
   `distcc` is a program to distribute builds of C, C++, Objective C or
   Objective C++ code across several machines on a network. distcc should always
   generate the same results as a local build, is simple to install and use, and
-  is usually much faster than a local compile. 
-    
+  is usually much faster than a local compile.
+
   .. image:: images/distcc.png
      :height: 75px
 
@@ -68,7 +68,7 @@ development that everyone should follow:
  * if you make any commits, please **_add the commit log_** or something similar **_to
    the changelist page_**
    (http://dev.pointclouds.org/projects/pcl/wiki/ChangeList);
-   
+
  * if you change anything in an existing algorithm, **_make sure that there are
    unit tests_** for it and **_make sure that they pass before you commit_** the code;
 
@@ -105,7 +105,7 @@ Commiting changes to trunk
 --------------------------
 In order to oversee the commit messages more easier and that the changelist looks homogenous please keep the following format:
 
-"* <fixed|bugfix|changed|new> X in @<classname>@ (#<bug number>)" 
+"* <fixed|bugfix|changed|new> X in @<classname>@ (#<bug number>)"
 
 Improving the PCL documentation
 -------------------------------
@@ -124,7 +124,7 @@ Contents
 --------
 
 .. toctree::
-  
+
    c_cache
    distcc
    compiler_optimizations

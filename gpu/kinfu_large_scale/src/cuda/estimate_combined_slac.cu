@@ -3,7 +3,7 @@
 *
 *  Point Cloud Library (PCL) - www.pointclouds.org
 *  Copyright (c) 2011, Willow Garage, Inc.
-* 
+*
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -58,7 +58,7 @@ namespace pcl
 			struct plus
 			{
 				__forceinline__ __device__ float
-					operator () (const float_type &lhs, const volatile float_type& rhs) const 
+					operator () (const float_type &lhs, const volatile float_type& rhs) const
 				{
 					return (lhs + rhs);
 				}
@@ -254,7 +254,7 @@ namespace pcl
 		};
 
 		__global__ void
-			combinedKernel3 (const Combined3 cs) 
+			combinedKernel3 (const Combined3 cs)
 		{
 			cs ();
 		}
@@ -302,7 +302,7 @@ namespace pcl
 		};
 
 		__global__ void
-			TransformEstimatorKernel3 (const TranformReduction3 tr) 
+			TransformEstimatorKernel3 (const TranformReduction3 tr)
 		{
 			tr ();
 		}
@@ -339,7 +339,7 @@ namespace pcl
 		};
 
 		__global__ void
-			clearBufferKernel3 (float_type * gbuf, int length) 
+			clearBufferKernel3 (float_type * gbuf, int length)
 		{
 			float_type *beg = gbuf;
 			float_type *end = beg + length;
@@ -361,12 +361,12 @@ namespace pcl
 	}
 }
 
-void pcl::device::estimateCombinedEx (const Mat33& Rcurr, const Mat33& Rcurr_t, const float3& tcurr, 
-	const MapArr& vmap_curr, const MapArr& nmap_curr, 
+void pcl::device::estimateCombinedEx (const Mat33& Rcurr, const Mat33& Rcurr_t, const float3& tcurr,
+	const MapArr& vmap_curr, const MapArr& nmap_curr,
 	const Mat33& Rprev_inv, const float3& tprev, const Intr& intr,
-	const MapArr& vmap_g_prev, const MapArr& nmap_g_prev, 
+	const MapArr& vmap_g_prev, const MapArr& nmap_g_prev,
 	float distThres, float angleThres,
-	DeviceArray2D<float_type>& gbuf, DeviceArray<float_type>& mbuf, 
+	DeviceArray2D<float_type>& gbuf, DeviceArray<float_type>& mbuf,
 	float_type* matrixA_host, float_type* vectorB_host,
 	DeviceArray<float>& gbuf_slac_triangle, DeviceArray<float>& gbuf_slac_block,
 	float* matrixSLAC_A_host, float* matrixSLAC_block_host)

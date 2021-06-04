@@ -34,7 +34,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  */
-  
+
 #ifndef PCL_ML_DT_DECISION_TREE_TRAINER_H_
 #define PCL_ML_DT_DECISION_TREE_TRAINER_H_
 
@@ -58,16 +58,16 @@ namespace pcl
     class NodeType >
   class PCL_EXPORTS DecisionTreeTrainer
   {
-  
+
     public:
 
       /** \brief Constructor. */
       DecisionTreeTrainer ();
       /** \brief Destructor. */
-      virtual 
+      virtual
       ~DecisionTreeTrainer ();
 
-      /** \brief Sets the feature handler used to create and evaluate features. 
+      /** \brief Sets the feature handler used to create and evaluate features.
         * \param[in] feature_handler The feature handler.
         */
       inline void
@@ -191,7 +191,7 @@ namespace pcl
       std::vector<LabelType> label_data_;
       /** \brief The example data. */
       std::vector<ExampleIndex> examples_;
-  
+
   };
 
 }

@@ -423,7 +423,7 @@ TEST (PCL, Organized)
   cloud_organized->points[nan_idx].x = numeric_limits<float>::quiet_NaN ();
   cloud_organized->points[nan_idx].y = numeric_limits<float>::quiet_NaN ();
   cloud_organized->points[nan_idx].z = numeric_limits<float>::quiet_NaN ();
-  
+
   // Init objects
   PolygonMesh triangles;
   OrganizedFastMesh<PointXYZ> ofm;
@@ -552,7 +552,7 @@ TEST (PCL, ConvexHull_bunny)
     {
       ASSERT_EQ (face1.vertices[j], face2.vertices[j]);
     }
-  }    
+  }
 
 }
 
@@ -681,7 +681,7 @@ TEST (PCL, ConvexHull_LTable)
     {
       ASSERT_EQ (face1.vertices[j], face2.vertices[j]);
     }
-  }    
+  }
 
 }
 
@@ -693,7 +693,7 @@ TEST (PCL, ConvexHull_2dsquare)
   input_cloud->width = 1000000;
   input_cloud->height = 1;
   input_cloud->points.resize (input_cloud->width * input_cloud->height);
-  
+
   //rng
   boost::mt19937 rng_alg;
   boost::uniform_01<boost::mt19937> rng (rng_alg);
@@ -715,7 +715,7 @@ TEST (PCL, ConvexHull_2dsquare)
 
   //Check that input was correctly detected as 2D input
   ASSERT_EQ (2, chull.getDimension ());
-  
+
   //Verify that all points lie within the plane we generated
   //This plane has normal equal to the z-axis (parallel to the xy plane, 1m up)
   Eigen::Vector4f plane_normal (0.0, 0.0, -1.0, 1.0);
@@ -737,7 +737,7 @@ TEST (PCL, ConvexHull_2dsquare)
     for (size_t j = 0; j < facets.size (); j++)
     {
       float d2 = fabs (hull.points[i].getVector4fMap ().dot (facets[j]));
-      
+
       if (d2 < min_dist)
         min_dist = d2;
     }
@@ -753,7 +753,7 @@ TEST (PCL, ConvexHull_3dcube)
   input_cloud->width = 10000000;
   input_cloud->height = 1;
   input_cloud->points.resize (input_cloud->width * input_cloud->height);
-  
+
   //rng
   boost::mt19937 rng_alg;
   boost::uniform_01<boost::mt19937> rng (rng_alg);
@@ -775,7 +775,7 @@ TEST (PCL, ConvexHull_3dcube)
 
   //Check that input was correctly detected as 3D input
   ASSERT_EQ (3, chull.getDimension ());
-  
+
   //Make sure they're actually near some edge
   std::vector<Eigen::Vector4f, Eigen::aligned_allocator<Eigen::Vector4f> > facets;
   facets.push_back (Eigen::Vector4f (-1.0f, 0.0f, 0.0f, 1.0f));
@@ -792,7 +792,7 @@ TEST (PCL, ConvexHull_3dcube)
     for (size_t j = 0; j < facets.size (); j++)
     {
       float dist = fabs (hull.points[i].getVector4fMap ().dot (facets[j]));
-      
+
       if (dist < min_dist)
         min_dist = dist;
     }
@@ -1025,7 +1025,7 @@ main (int argc, char** argv)
 
   // Concatenate XYZ and normal information
   pcl::concatenateFields (*cloud, *normals, *cloud_with_normals);
-      
+
   // Create search tree
   tree2.reset (new search::KdTree<PointNormal>);
   tree2->setInputCloud (cloud_with_normals);

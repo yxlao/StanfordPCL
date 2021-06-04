@@ -68,7 +68,7 @@ ON_Matrix::ON_Matrix()
 {
 }
 
-ON_Matrix::ON_Matrix( int row_size, int col_size ) 
+ON_Matrix::ON_Matrix( int row_size, int col_size )
 : m(0)
 , m_row_count(0)
 , m_col_count(0)
@@ -80,7 +80,7 @@ ON_Matrix::ON_Matrix( int row_size, int col_size )
   Create(row_size,col_size);
 }
 
-ON_Matrix::ON_Matrix( int row0, int row1, int col0, int col1 ) 
+ON_Matrix::ON_Matrix( int row0, int row1, int col0, int col1 )
 : m(0)
 , m_row_count(0)
 , m_col_count(0)
@@ -92,7 +92,7 @@ ON_Matrix::ON_Matrix( int row0, int row1, int col0, int col1 )
   Create(row0,row1,col0,col1);
 }
 
-ON_Matrix::ON_Matrix( const ON_Xform& x ) 
+ON_Matrix::ON_Matrix( const ON_Xform& x )
 : m(0)
 , m_row_count(0)
 , m_col_count(0)
@@ -176,19 +176,19 @@ bool ON_Matrix::Create( int row_count, int col_count)
 {
   bool b = false;
   Destroy();
-  if ( row_count > 0 && col_count > 0 ) 
+  if ( row_count > 0 && col_count > 0 )
   {
     m_rowmem.Reserve(row_count);
     if ( 0 != m_rowmem.Array() )
     {
       m_rowmem.SetCount(row_count);
-      // In general, allocate coefficient memory in chunks 
+      // In general, allocate coefficient memory in chunks
       // of <= max_dblblk_size bytes.  The value of max_dblblk_size
       // is tuned to maximize speed on calculations involving
       // large matrices.  If all of the coefficients will fit
-      // into a chunk of memory <= 1.1*max_dblblk_size, then 
+      // into a chunk of memory <= 1.1*max_dblblk_size, then
       // a single chunk is allocated.
-      
+
       // In limited testing, these two values appeared to work ok.
       // The latter was a hair faster in solving large row reduction
       // problems (for reasons I do not understand).
@@ -203,7 +203,7 @@ bool ON_Matrix::Create( int row_count, int col_count)
       else if ( rows_per_block < row_count && 11*rows_per_block >= 10*row_count )
         rows_per_block = row_count;
 
-      int j, i = row_count; 
+      int j, i = row_count;
       m = m_rowmem.Array();
       double** row = m;
       for ( i = row_count; i > 0; i -= rows_per_block )
@@ -244,7 +244,7 @@ bool ON_Matrix::Create( // E.g., Create(1,5,1,7) creates a 5x7 sized matrix that
    )
 {
   bool b = false;
-  if ( ri1 > ri0 && ci1 > ci0 ) 
+  if ( ri1 > ri0 && ci1 > ci0 )
   {
     // juggle m[] pointers so that m[ri0+i][ci0+j] = m_row[i][j];
     b = Create( ri1-ri0, ci1-ci0 );
@@ -325,7 +325,7 @@ void ON_Matrix::EmergencyDestroy()
 
 ON_Matrix& ON_Matrix::operator=(const ON_Matrix& src)
 {
-  if ( this != &src ) 
+  if ( this != &src )
   {
     if ( src.m_row_count != m_row_count || src.m_col_count != m_col_count || 0 == m )
     {
@@ -339,7 +339,7 @@ ON_Matrix& ON_Matrix::operator=(const ON_Matrix& src)
       double** m_dest = ThisM();
       double const*const* m_src = src.ThisM();
       const int sizeof_row = m_col_count*sizeof(m_dest[0][0]);
-      for ( i = 0; i < m_row_count; i++ ) 
+      for ( i = 0; i < m_row_count; i++ )
       {
         memcpy( m_dest[i], m_src[i], sizeof_row );
       }
@@ -380,7 +380,7 @@ bool ON_Matrix::Transpose()
   double t;
   const int row_count = RowCount();
   const int col_count = ColCount();
-  if ( row_count > 0 && col_count > 0 ) 
+  if ( row_count > 0 && col_count > 0 )
   {
     double** this_m = ThisM();
     if ( row_count == col_count )
@@ -394,14 +394,14 @@ bool ON_Matrix::Transpose()
     else if ( this_m == m_rowmem.Array() )
     {
       ON_Matrix A(*this);
-      rc = Create(col_count,row_count) 
+      rc = Create(col_count,row_count)
            && m_row_count == A.ColCount()
            && m_col_count == A.RowCount();
       if (rc)
       {
         double const*const* Am = A.ThisM();
   		  this_m = ThisM(); // Create allocates new memory
-        for ( i = 0; i < row_count; i++ ) for ( j = 0; j < col_count; j++ ) 
+        for ( i = 0; i < row_count; i++ ) for ( j = 0; j < col_count; j++ )
         {
           this_m[j][i] = Am[i][j];
         }
@@ -443,9 +443,9 @@ bool ON_Matrix::SwapCols( int col0, int col1 )
   double** this_m = ThisM();
   col0 -= m_col_offset;
   col1 -= m_col_offset;
-  if ( this_m && 0 <= col0 && col0 < m_col_count && 0 <= col1 && col1 < m_col_count ) 
+  if ( this_m && 0 <= col0 && col0 < m_col_count && 0 <= col1 && col1 < m_col_count )
   {
-    if ( col0 != col1 ) 
+    if ( col0 != col1 )
     {
       for ( i = 0; i < m_row_count; i++ )
       {
@@ -477,7 +477,7 @@ void ON_Matrix::ColScale( int dest_col, double s )
   int i;
   double** this_m = ThisM();
   dest_col -= m_col_offset;
-  for ( i = 0; i < m_row_count; i++ ) 
+  for ( i = 0; i < m_row_count; i++ )
   {
     this_m[i][dest_col] *= s;
   }
@@ -489,17 +489,17 @@ void ON_Matrix::ColOp( int dest_col, double s, int src_col )
   double** this_m = ThisM();
   dest_col -= m_col_offset;
   src_col  -= m_col_offset;
-  for ( i = 0; i < m_row_count; i++ ) 
+  for ( i = 0; i < m_row_count; i++ )
   {
     this_m[i][dest_col] += s*this_m[i][src_col];
   }
 }
 
 int
-ON_Matrix::RowReduce( 
+ON_Matrix::RowReduce(
     double zero_tolerance,
     double& determinant,
-    double& pivot 
+    double& pivot
     )
 {
   double x, piv, det;
@@ -554,10 +554,10 @@ ON_Matrix::RowReduce(
 }
 
 int
-ON_Matrix::RowReduce( 
+ON_Matrix::RowReduce(
     double zero_tolerance,
     double* B,
-    double* pivot 
+    double* pivot
     )
 {
   double t;
@@ -612,10 +612,10 @@ ON_Matrix::RowReduce(
 }
 
 int
-ON_Matrix::RowReduce( 
+ON_Matrix::RowReduce(
     double zero_tolerance,
     ON_3dPoint* B,
-    double* pivot 
+    double* pivot
     )
 {
   ON_3dPoint t;
@@ -672,10 +672,10 @@ ON_Matrix::RowReduce(
 }
 
 int
-ON_Matrix::RowReduce( 
+ON_Matrix::RowReduce(
     double zero_tolerance,
     int pt_dim, int pt_stride, double* pt,
-    double* pivot 
+    double* pivot
     )
 {
   const int sizeof_pt = pt_dim*sizeof(pt[0]);
@@ -751,7 +751,7 @@ ON_Matrix::RowReduce(
 
 
 bool
-ON_Matrix::BackSolve( 
+ON_Matrix::BackSolve(
     double zero_tolerance,
     int Bsize,
     const double* B,
@@ -784,7 +784,7 @@ ON_Matrix::BackSolve(
 }
 
 bool
-ON_Matrix::BackSolve( 
+ON_Matrix::BackSolve(
     double zero_tolerance,
     int Bsize,
     const ON_3dPoint* B,
@@ -829,7 +829,7 @@ ON_Matrix::BackSolve(
 
 
 bool
-ON_Matrix::BackSolve( 
+ON_Matrix::BackSolve(
     double zero_tolerance,
     int pt_dim,
     int Bsize,
@@ -852,7 +852,7 @@ ON_Matrix::BackSolve(
   if ( Bsize < m_col_count || Bsize > m_row_count )
     return false; // under determined
 
-  for ( i = m_col_count; i < Bsize; i++ ) 
+  for ( i = m_col_count; i < Bsize; i++ )
   {
     Bi = Bpt + i*Bpt_stride;
     for( j = 0; j < pt_dim; j++ )
@@ -918,7 +918,7 @@ void ON_Matrix::SetDiagonal( double d)
   int i;
   Zero();
   double** this_m = ThisM();
-  for ( i = 0; i < n; i++ ) 
+  for ( i = 0; i < n; i++ )
   {
     this_m[i][i] = d;
   }
@@ -927,7 +927,7 @@ void ON_Matrix::SetDiagonal( double d)
 void ON_Matrix::SetDiagonal( const double* d )
 {
   Zero();
-  if (d) 
+  if (d)
   {
     double** this_m = ThisM();
     const int n = MinCount();
@@ -1087,7 +1087,7 @@ bool ON_Matrix::Invert( double zero_tolerance )
     ON_ArrayScale( m_col_count-k-1, x, &this_m[k][k+1], &this_m[k][k+1] );
     I.RowScale( k, x );
 
-    // zero this_m[!=k][k]'s 
+    // zero this_m[!=k][k]'s
     for ( i = 0; i < n; i++ ) {
       if ( i != k ) {
         x = -this_m[i][k];
@@ -1139,7 +1139,7 @@ bool ON_Matrix::Multiply( const ON_Matrix& a, const ON_Matrix& b )
     }
     this_m[i][j] = x;
   }
-  return true;  
+  return true;
 }
 
 bool ON_Matrix::Add( const ON_Matrix& a, const ON_Matrix& b )
@@ -1160,13 +1160,13 @@ bool ON_Matrix::Add( const ON_Matrix& a, const ON_Matrix& b )
   for ( i = 0; i < m_row_count; i++ ) for ( j = 0; j < m_col_count; j++ ) {
     this_m[i][j] = am[i][j] + bm[i][j];
   }
-  return true;  
+  return true;
 }
 
 bool ON_Matrix::Scale( double s )
 {
   bool rc = false;
-  if ( m_row_count > 0 && m_col_count > 0 ) 
+  if ( m_row_count > 0 && m_col_count > 0 )
   {
     struct DBLBLK* cmem = (struct DBLBLK*)m_cmem;
     int i;
@@ -1197,12 +1197,12 @@ bool ON_Matrix::Scale( double s )
 }
 
 
-int ON_RowReduce( int row_count, 
+int ON_RowReduce( int row_count,
                   int col_count,
                   double zero_pivot,
-                  double** A, 
-                  double** B, 
-                  double pivots[2] 
+                  double** A,
+                  double** B,
+                  double pivots[2]
                  )
 {
   // returned A is identity, B = inverse of input A
@@ -1251,17 +1251,17 @@ int ON_RowReduce( int row_count,
       //
       //for ( j = i+1; j < N; j++ )
       //  A[i][j] *= a;
-      //      
+      //
       j = i+1;
       ptr1 = A[i] + j;
       j = N - j;
       while(j--) *ptr1++ *= a;
-      
+
       // The "ptr" voodoo is faster but does the same thing as
       //
       //for ( j = 0; j <= i; j++ )
       //  B[i][j] *= a;
-      //            
+      //
       ptr1 = B[i];
       j = i+1;
       while(j--) *ptr1++ *= a;
@@ -1273,7 +1273,7 @@ int ON_RowReduce( int row_count,
       if ( 0.0 == a )
         continue;
       a = -a;
-      
+
       //A[ii][i] = 0.0;  // no need to do this
 
       // The "ptr" voodoo is faster but does the same thing as
@@ -1304,7 +1304,7 @@ int ON_RowReduce( int row_count,
   }
 
 
-  // A is now upper triangular with all 1s on diagonal 
+  // A is now upper triangular with all 1s on diagonal
   //   (That is, if the lines that say "no need to do this" are used.)
   // B is lower triangular with a nonzero diagonal
   for ( i = M-1; i >= 0; i-- )
@@ -1338,7 +1338,7 @@ int ON_RowReduce( int row_count,
 
 
 int ON_InvertSVDW(
-  int count, 
+  int count,
   const double* W,
   double*& invW
   )
@@ -1367,9 +1367,9 @@ int ON_InvertSVDW(
 
   i = 0;
   maxw *= ON_SQRT_EPSILON;
-  while (count--) 
+  while (count--)
   {
-    if (fabs(W[count]) > maxw) 
+    if (fabs(W[count]) > maxw)
     {
       i++;
       invW[count] = 1.0/W[count];
@@ -1388,7 +1388,7 @@ bool ON_SolveSVD(
   double const * const * V,
   const double* B,
   double*& X
-  )  
+  )
 {
   int i, j;
   double *Y;
@@ -1421,7 +1421,7 @@ bool ON_SolveSVD(
     Y -= col_count;
     X[i] = x;
   }
-  if (Y != workY) 
+  if (Y != workY)
     onfree(Y);
 
   return true;

@@ -36,7 +36,7 @@ void ImageRGB24::fillGrayscale (unsigned width, unsigned height, unsigned char* 
     {
       for (unsigned xIdx = 0; xIdx < width; ++xIdx, src_line += src_step, dst_line ++)
       {
-        *dst_line = static_cast<unsigned char>((static_cast<int> (src_line->nRed)   * 299 + 
+        *dst_line = static_cast<unsigned char>((static_cast<int> (src_line->nRed)   * 299 +
                                                 static_cast<int> (src_line->nGreen) * 587 +
                                                 static_cast<int> (src_line->nBlue)  * 114) * 0.001);
       }

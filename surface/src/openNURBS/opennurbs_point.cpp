@@ -30,7 +30,7 @@ const ON_Interval ON_Interval::EmptyInterval(ON_UNSET_VALUE,ON_UNSET_VALUE);
 
 ON_Interval::ON_Interval()
 {
-  m_t[0] = m_t[1] = ON_UNSET_VALUE; 
+  m_t[0] = m_t[1] = ON_UNSET_VALUE;
 }
 
 ON_Interval::ON_Interval(double t0, double t1)
@@ -98,7 +98,7 @@ ON_Interval ON_Interval::NormalizedParameterAt( // returns x so that min*(1.0-x)
   ON_Interval t
   ) const
 {
-	return  ON_Interval(	NormalizedParameterAt(t[0]) , 
+	return  ON_Interval(	NormalizedParameterAt(t[0]) ,
 												NormalizedParameterAt(t[1]) );
 }
 
@@ -164,23 +164,23 @@ ON_Interval::IsValid() const
   return ( ON_IS_VALID(m_t[0]) && ON_IS_VALID(m_t[1]) );
 }
 
-bool 
-ON_Interval::MakeIncreasing()		// returns true if resulting interval IsIncreasing() 
+bool
+ON_Interval::MakeIncreasing()		// returns true if resulting interval IsIncreasing()
 {
-	if( IsDecreasing()){ 
+	if( IsDecreasing()){
 		Swap();
 		return true;
 	}
 	return IsIncreasing();
 }
 
-bool 
+bool
 ON_Interval::operator!=(const ON_Interval& other) const
 {
   return Compare(other) ? true : false;
 }
 
-bool 
+bool
 ON_Interval::operator==(const ON_Interval& other) const
 {
   return Compare(other) ? false : true;
@@ -251,7 +251,7 @@ ON_Interval::Swap()
 }
 
 //////////
-// If the intersection is not empty, then 
+// If the intersection is not empty, then
 // intersection = [max(this.Min(),arg.Min()), min(this.Max(),arg.Max())]
 // Intersection() returns true if the intersection is not empty.
 // The interval [ON_UNSET_VALUE,ON_UNSET_VALUE] is considered to be
@@ -283,14 +283,14 @@ bool ON_Interval::Intersection( // this = this intersect arg
 }
 
 //////////
-// If the intersection is not empty, then 
+// If the intersection is not empty, then
 // intersection = [max(argA.Min(),argB.Min()), min(argA.Max(),argB.Max())]
 // Intersection() returns true if the intersection is not empty.
 // The interval [ON_UNSET_VALUE,ON_UNSET_VALUE] is considered to be
 // the empty set interval.  The result of any intersection involving an
 // empty set interval or disjoint intervals is the empty set interval.
 bool ON_Interval::Intersection( // this = intersection of two args
-       const ON_Interval& ain, 
+       const ON_Interval& ain,
        const ON_Interval& bin
        )
 {
@@ -363,7 +363,7 @@ bool ON_Interval::Union( // this = this union arg
 // union = [min(argA.Min(),argB.Min()), max(argA.Max(),argB.Max()),]
 // Union() returns true if the union is not empty.
 bool ON_Interval::Union( // this = union of two args
-       const ON_Interval& ain, 
+       const ON_Interval& ain,
        const ON_Interval& bin
        )
 {
@@ -416,13 +416,13 @@ bool ON_3dVector::Decompose( // Computes a, b, c such that this vector = a*X + b
   row0[0] = X*X;   row0[1] = X*Y;   row0[2] = X*Z;
   row1[0] = row0[1]; row1[1] = Y*Y;   row1[2] = Y*Z;
   row2[0] = row0[2]; row2[1] = row1[2]; row2[2] = Z*Z;
-  rank = ON_Solve3x3( row0, row1, row2, 
+  rank = ON_Solve3x3( row0, row1, row2,
                     (*this)*X, (*this)*Y, (*this)*Z,
                     a, b, c, &pivot_ratio );
   return (rank == 3) ? true : false;
 }
 
-int ON_3dVector::IsParallelTo( 
+int ON_3dVector::IsParallelTo(
       // returns  1: this and other vectors are and parallel
       //         -1: this and other vectors are anti-parallel
       //          0: this and other vectors are not parallel
@@ -482,7 +482,7 @@ bool ON_3fVector::PerpendicularTo( const ON_3fVector& v )
 bool ON_3dVector::PerpendicularTo( const ON_3dVector& v )
 {
   //bool rc = false;
-  int i, j, k; 
+  int i, j, k;
   double a, b;
   k = 2;
   if ( fabs(v.y) > fabs(v.x) ) {
@@ -543,7 +543,7 @@ bool ON_3dVector::PerpendicularTo( const ON_3dVector& v )
 }
 
 bool
-ON_3dVector::PerpendicularTo( 
+ON_3dVector::PerpendicularTo(
       const ON_3dPoint& P0, const ON_3dPoint& P1, const ON_3dPoint& P2
       )
 {
@@ -589,7 +589,7 @@ ON_3dVector::PerpendicularTo(
   else {
     *this = N2;
   }
-  
+
   return true;
 }
 
@@ -652,7 +652,7 @@ void ON_2fPoint::Transform( const ON_Xform& xform )
   }
 }
 
-void ON_2fPoint::Rotate( 
+void ON_2fPoint::Rotate(
       double angle,               // angle in radians
       const ON_2fPoint& center  // center of rotation
       )
@@ -660,7 +660,7 @@ void ON_2fPoint::Rotate(
   Rotate( sin(angle), cos(angle), center );
 }
 
-void ON_2fPoint::Rotate( 
+void ON_2fPoint::Rotate(
       double sin_angle,           // sin(angle)
       double cos_angle,           // cos(angle)
       const ON_2fPoint& center  // center of rotation
@@ -671,7 +671,7 @@ void ON_2fPoint::Rotate(
   Transform(rot);
 }
 
-void ON_3fPoint::Rotate( 
+void ON_3fPoint::Rotate(
       double angle,               // angle in radians
       const ON_3fVector& axis,  // axis of rotation
       const ON_3fPoint& center  // center of rotation
@@ -680,7 +680,7 @@ void ON_3fPoint::Rotate(
   Rotate( sin(angle), cos(angle), axis, center );
 }
 
-void ON_3fPoint::Rotate( 
+void ON_3fPoint::Rotate(
       double sin_angle,           // sin(angle)
       double cos_angle,           // cos(angle)
       const ON_3fVector& axis,  // axis of rotation
@@ -723,8 +723,8 @@ void ON_4fPoint::Transform( const ON_Xform& xform )
   }
 }
 
-double ON_3fPoint::Fuzz( 
-          double absolute_tolerance // (default =  ON_ZERO_TOLERANCE) 
+double ON_3fPoint::Fuzz(
+          double absolute_tolerance // (default =  ON_ZERO_TOLERANCE)
           ) const
 {
   double t = MaximumCoordinate()* ON_SQRT_EPSILON;
@@ -818,13 +818,13 @@ bool ON_2dVector::Decompose( // Computes a, b such that this vector = a*X + b*Y
   double pivot_ratio = 0.0;
   double XoY = X*Y;
   rank = ON_Solve2x2( X*X, XoY, Y*Y, XoY,
-                    (*this)*X, (*this)*Y, 
+                    (*this)*X, (*this)*Y,
                     a, b, &pivot_ratio );
   return (rank == 2) ? true : false;
 }
 
 
-int ON_2fVector::IsParallelTo( 
+int ON_2fVector::IsParallelTo(
       // returns  1: this and other vectors are and parallel
       //         -1: this and other vectors are anti-parallel
       //          0: this and other vectors are not parallel
@@ -837,7 +837,7 @@ int ON_2fVector::IsParallelTo(
   return V.IsParallelTo(ON_2dVector(v),angle_tolerance);
 }
 
-int ON_2dVector::IsParallelTo( 
+int ON_2dVector::IsParallelTo(
       // returns  1: this and other vectors are and parallel
       //         -1: this and other vectors are anti-parallel
       //          0: this and other vectors are not parallel
@@ -922,7 +922,7 @@ void ON_3dVector::Transform( const ON_Xform& xform )
   z = zz;
 }
 
-void ON_3dPoint::Rotate( 
+void ON_3dPoint::Rotate(
       double angle,               // angle in radians
       const ON_3dVector& axis,  // axis of rotation
       const ON_3dPoint& center  // center of rotation
@@ -931,7 +931,7 @@ void ON_3dPoint::Rotate(
   Rotate( sin(angle), cos(angle), axis, center );
 }
 
-void ON_3dPoint::Rotate( 
+void ON_3dPoint::Rotate(
       double sin_angle,           // sin(angle)
       double cos_angle,           // cos(angle)
       const ON_3dVector& axis,  // axis of rotation
@@ -943,7 +943,7 @@ void ON_3dPoint::Rotate(
   Transform(rot);
 }
 
-void ON_2dPoint::Rotate( 
+void ON_2dPoint::Rotate(
       double angle,               // angle in radians
       const ON_2dPoint& center  // center of rotation
       )
@@ -951,7 +951,7 @@ void ON_2dPoint::Rotate(
   Rotate( sin(angle), cos(angle), center );
 }
 
-void ON_2dPoint::Rotate( 
+void ON_2dPoint::Rotate(
       double sin_angle,           // sin(angle)
       double cos_angle,           // cos(angle)
       const ON_2dPoint& center  // center of rotation
@@ -962,14 +962,14 @@ void ON_2dPoint::Rotate(
   Transform(rot);
 }
 
-void ON_2dVector::Rotate( 
+void ON_2dVector::Rotate(
       double angle // angle in radians
       )
 {
   Rotate( sin(angle), cos(angle) );
 }
 
-void ON_2dVector::Rotate( 
+void ON_2dVector::Rotate(
       double sin_angle, // sin(angle)
       double cos_angle  // cos(angle)
       )
@@ -1021,7 +1021,7 @@ bool ON_IsRightHandFrame( const ON_2dVector& X,  const ON_2dVector& Y )
     return false;
   return true;
 }
-void ON_3fVector::Rotate( 
+void ON_3fVector::Rotate(
       double angle,              // angle in radians
       const ON_3fVector& axis   // axis of rotation
       )
@@ -1029,7 +1029,7 @@ void ON_3fVector::Rotate(
   Rotate( sin(angle), cos(angle), axis );
 }
 
-void ON_3fVector::Rotate( 
+void ON_3fVector::Rotate(
       double sin_angle,        // sin(angle)
       double cos_angle,        // cos(angle)
       const ON_3fVector& axis  // axis of rotation
@@ -1041,7 +1041,7 @@ void ON_3fVector::Rotate(
   Transform(rot);
 }
 
-void ON_3dVector::Rotate( 
+void ON_3dVector::Rotate(
       double angle,              // angle in radians
       const ON_3dVector& axis   // axis of rotation
       )
@@ -1049,7 +1049,7 @@ void ON_3dVector::Rotate(
   Rotate( sin(angle), cos(angle), axis );
 }
 
-void ON_3dVector::Rotate( 
+void ON_3dVector::Rotate(
       double sin_angle,        // sin(angle)
       double cos_angle,        // cos(angle)
       const ON_3dVector& axis  // axis of rotation
@@ -1082,7 +1082,7 @@ bool ON_IsOrthogonalFrame( const ON_3dVector& X,  const ON_3dVector& Y,  const O
   double xy = (X.x*Y.x + X.y*Y.y + X.z*Y.z)*lx*ly;
   double yz = (Y.x*Z.x + Y.y*Z.y + Y.z*Z.z)*ly*lz;
   double zx = (Z.x*X.x + Z.y*X.y + Z.z*X.z)*lz*lx;
-  if (    fabs(xy) > ON_SQRT_EPSILON 
+  if (    fabs(xy) > ON_SQRT_EPSILON
        || fabs(yz) > ON_SQRT_EPSILON
        || fabs(zx) > ON_SQRT_EPSILON
      )
@@ -1169,8 +1169,8 @@ ON_3dPoint ON_3dPoint::operator*( const ON_Xform& xform ) const
   return ON_3dPoint( w*hx[0], w*hx[1], w*hx[2] );
 }
 
-double ON_3dPoint::Fuzz( 
-          double absolute_tolerance // (default =  ON_ZERO_TOLERANCE) 
+double ON_3dPoint::Fuzz(
+          double absolute_tolerance // (default =  ON_ZERO_TOLERANCE)
           ) const
 {
   double t = MaximumCoordinate()* ON_SQRT_EPSILON;
@@ -1218,7 +1218,7 @@ ON_3dVector ON_3dVector::operator*( const ON_Xform& xform ) const
 }
 
 double ON_3fVector::Fuzz(
-          double absolute_tolerance // (default =  ON_ZERO_TOLERANCE) 
+          double absolute_tolerance // (default =  ON_ZERO_TOLERANCE)
           ) const
 {
   double t = MaximumCoordinate()* ON_SQRT_EPSILON;
@@ -1227,7 +1227,7 @@ double ON_3fVector::Fuzz(
 
 
 double ON_3dVector::Fuzz(
-          double absolute_tolerance // (default =  ON_ZERO_TOLERANCE) 
+          double absolute_tolerance // (default =  ON_ZERO_TOLERANCE)
           ) const
 {
   double t = MaximumCoordinate()* ON_SQRT_EPSILON;
@@ -2928,7 +2928,7 @@ bool ON_2fVector::Unitize()
   // Since x,y are floats, d will not be denormalized and the
   // ON_DBL_MIN tests in ON_2dVector::Unitize() are not needed.
   double d = Length();
-  if ( d > 0.0 ) 
+  if ( d > 0.0 )
   {
     double dx = (double)x;
     double dy = (double)y;
@@ -2960,7 +2960,7 @@ bool ON_2fVector::IsZero() const
 }
 
 // set this vector to be perpendicular to another vector
-bool ON_2fVector::PerpendicularTo( // Result is not unitized. 
+bool ON_2fVector::PerpendicularTo( // Result is not unitized.
                       // returns false if input vector is zero
       const ON_2fVector& v
       )
@@ -2971,8 +2971,8 @@ bool ON_2fVector::PerpendicularTo( // Result is not unitized.
 }
 
 // set this vector to be perpendicular to a line defined by 2 points
-bool ON_2fVector::PerpendicularTo( 
-      const ON_2fPoint& p, 
+bool ON_2fVector::PerpendicularTo(
+      const ON_2fPoint& p,
       const ON_2fPoint& q
       )
 {
@@ -3428,7 +3428,7 @@ bool ON_3fVector::Unitize()
   // Since x,y,z are floats, d will not be denormalized and the
   // ON_DBL_MIN tests in ON_2dVector::Unitize() are not needed.
   double d = Length();
-  if ( d > 0.0 ) 
+  if ( d > 0.0 )
   {
     double dx = x;
     double dy = y;
@@ -5178,7 +5178,7 @@ double ON_Length2d( double x, double y )
   if ( y > x ) {
     len = x; x = y; y = len;
   }
- 
+
   // 15 September 2003 Dale Lear
   //     For small denormalized doubles (positive but smaller
   //     than DBL_MIN), some compilers/FPUs set 1.0/fx to +INF.
@@ -5227,7 +5227,7 @@ bool ON_2dVector::Unitize()
   //     for details.
   bool rc = false;
   double d = Length();
-  if ( d > ON_DBL_MIN ) 
+  if ( d > ON_DBL_MIN )
   {
     x /= d;
     y /= d;
@@ -5236,7 +5236,7 @@ bool ON_2dVector::Unitize()
   else if ( d > 0.0 && ON_IS_FINITE(d) )
   {
     // This code is rarely used and can be slow.
-    // It multiplies by 2^1023 in an attempt to 
+    // It multiplies by 2^1023 in an attempt to
     // normalize the coordinates.
     // If the renormalization works, then we're
     // ok.  If the renormalization fails, we
@@ -5282,7 +5282,7 @@ bool ON_2dVector::IsUnitVector() const
 }
 
 // set this vector to be perpendicular to another vector
-bool ON_2dVector::PerpendicularTo( // Result is not unitized. 
+bool ON_2dVector::PerpendicularTo( // Result is not unitized.
                       // returns false if input vector is zero
       const ON_2dVector& v
       )
@@ -5293,8 +5293,8 @@ bool ON_2dVector::PerpendicularTo( // Result is not unitized.
 }
 
 // set this vector to be perpendicular to a line defined by 2 points
-bool ON_2dVector::PerpendicularTo( 
-      const ON_2dPoint& p, 
+bool ON_2dVector::PerpendicularTo(
+      const ON_2dPoint& p,
       const ON_2dPoint& q
       )
 {
@@ -5766,7 +5766,7 @@ double ON_Length3d(double x, double y, double z)
   //
   //     This code is absolutely necessary.  It is a critical
   //     part of the bug fix for RR 11217.
-  if ( x > ON_DBL_MIN ) 
+  if ( x > ON_DBL_MIN )
   {
     y /= x;
     z /= x;
@@ -5814,7 +5814,7 @@ bool ON_3dVector::Unitize()
   else if ( d > 0.0 && ON_IS_FINITE(d) )
   {
     // This code is rarely used and can be slow.
-    // It multiplies by 2^1023 in an attempt to 
+    // It multiplies by 2^1023 in an attempt to
     // normalize the coordinates.
     // If the renormalization works, then we're
     // ok.  If the renormalization fails, we
@@ -5862,7 +5862,7 @@ double ON_3dVector::LengthAndUnitize()
   else if ( len > 0.0 && ON_IS_FINITE(len) )
   {
     // This code is rarely used and can be slow.
-    // It multiplies by 2^1023 in an attempt to 
+    // It multiplies by 2^1023 in an attempt to
     // normalize the coordinates.
     // If the renormalization works, then we're
     // ok.  If the renormalization fails, we
@@ -6264,8 +6264,8 @@ double ON_PlaneEquation::MaximumAbsoluteValueAt(
 {
   double value, max_value, w;
 
-  if (    point_count < 1 
-       || point_stride < (bRational?4:3) 
+  if (    point_count < 1
+       || point_stride < (bRational?4:3)
        || 0 == points
        )
   {
@@ -6354,8 +6354,8 @@ double ON_PlaneEquation::MaximumValueAt(
 {
   double value, max_value, w;
 
-  if (    point_count < 1 
-       || point_stride < (bRational?4:3) 
+  if (    point_count < 1
+       || point_stride < (bRational?4:3)
        || 0 == points
        )
   {
@@ -6444,8 +6444,8 @@ double ON_PlaneEquation::MinimumValueAt(
 {
   double value, min_value, w;
 
-  if (    point_count < 1 
-       || point_stride < (bRational?4:3) 
+  if (    point_count < 1
+       || point_stride < (bRational?4:3)
        || 0 == points
        )
   {
@@ -6525,7 +6525,7 @@ double ON_PlaneEquation::MinimumValueAt(
 }
 
 
-bool ON_PlaneEquation::IsNearerThan( 
+bool ON_PlaneEquation::IsNearerThan(
         const ON_BezierCurve& bezcrv,
         double s0,
         double s1,
@@ -6593,15 +6593,15 @@ bool ON_PlaneEquation::IsNearerThan(
       bezcrv.Evaluate(s,0,3,&P.x);
       v = x*P.x + y*P.y + z*P.z + d;
 
-      if ( v < vmn ) 
-      { 
-        vmn = v; 
-        smn = s; 
-      } 
-      else if (v > vmx) 
-      { 
-        vmx = v; 
-        smx = s; 
+      if ( v < vmn )
+      {
+        vmn = v;
+        smn = s;
+      }
+      else if (v > vmx)
+      {
+        vmx = v;
+        smx = s;
         if ( vmx > interior_tolerance )
         {
           if ( smin )
@@ -6635,9 +6635,9 @@ bool ON_PlaneEquation::operator!=( const ON_PlaneEquation& eq ) const
 
 
 
-int ON_Get3dConvexHull( 
-          const ON_SimpleArray<ON_3dPoint>& points, 
-          ON_SimpleArray<ON_PlaneEquation>& hull 
+int ON_Get3dConvexHull(
+          const ON_SimpleArray<ON_3dPoint>& points,
+          ON_SimpleArray<ON_PlaneEquation>& hull
           )
 {
   // This is a slow and stupid way to get the convex hull.
@@ -6741,12 +6741,12 @@ int ON_Get3dConvexHull(
   return hull.Count() - count0;
 }
 
-bool ON_BoundingBox::IsValid() const 
+bool ON_BoundingBox::IsValid() const
 {
 	return (    m_min.x <= m_max.x
           && ON_IS_VALID(m_min.x)
           && ON_IS_VALID(m_max.x)
-          && m_min.y <= m_max.y 
+          && m_min.y <= m_max.y
           && ON_IS_VALID(m_min.y)
           && ON_IS_VALID(m_max.y)
           && m_min.z <= m_max.z
@@ -6772,7 +6772,7 @@ void ON_BoundingBox::Dump(ON_TextLog& text_log) const
 bool ON_IsDegenrateConicHelper(double A, double B, double C, double D, double E)
 {
   //
-  // The conic is degenerate (lines and/or points) if the 
+  // The conic is degenerate (lines and/or points) if the
   //
   //     A   B/2 D/2
   //     B/2 C   E/2
@@ -6781,8 +6781,8 @@ bool ON_IsDegenrateConicHelper(double A, double B, double C, double D, double E)
   // has rank < 3
   // (F = 0 in our case here.)
 
-  // zero_tol was tuned by 
-  //  1) testing sets of equaly spaced colinear 
+  // zero_tol was tuned by
+  //  1) testing sets of equaly spaced colinear
   //     points with coordinate sizes ranging from 0.001 to 1.0e4 and
   //     segment lengths from 0.001 to 1000.0.
   //  2) testing ellipses with axes lengths ranging from 0.001 to 1000
@@ -6827,8 +6827,8 @@ bool ON_IsDegenrateConicHelper(double A, double B, double C, double D, double E)
     return true; // rank 0
 
   // first pivot row reduction
-  x = 1.0/M[i0][0]; 
-  M[i0][1] *= x; 
+  x = 1.0/M[i0][0];
+  M[i0][1] *= x;
   M[i0][2] *= x;
   i1 = (i0+1)%3;
   if ( 0.0 != (y = -M[i1][0]) )
@@ -6839,7 +6839,7 @@ bool ON_IsDegenrateConicHelper(double A, double B, double C, double D, double E)
   i2 = (i0+2)%3;
   if ( 0.0 != (y = -M[i2][0]) )
   {
-    M[i2][1] += y*M[i0][1]; 
+    M[i2][1] += y*M[i0][1];
     M[i2][2] += y*M[i0][2];
   }
 
@@ -6853,7 +6853,7 @@ bool ON_IsDegenrateConicHelper(double A, double B, double C, double D, double E)
     return true; // rank 1
 
   // second pivot row reduction
-  x = 1.0/M[i1][1]; 
+  x = 1.0/M[i1][1];
   M[i1][2] *= x;
   if ( 0.0 != (y = -M[i2][1]) )
     M[i2][2] += y*M[i1][2];
@@ -6865,21 +6865,21 @@ bool ON_IsDegenrateConicHelper(double A, double B, double C, double D, double E)
   return false;
 }
 
-bool ON_GetConicEquationThrough6Points( 
-        int stride, 
-        const double* points2d, 
+bool ON_GetConicEquationThrough6Points(
+        int stride,
+        const double* points2d,
         double conic[6],
         double* max_pivot,
         double* min_pivot,
         double* zero_pivot
         )
 {
-  // Sets conic[] to the coefficents = (A,B,C,D,E,F), 
+  // Sets conic[] to the coefficents = (A,B,C,D,E,F),
   // such that A*x*x + B*x*y + C*y*y + D*x + E*y + F = 0
   // for each of the 6 input points.
 
-  // This code is long and ugly.  The reason for unrolling the 
-  // obvious loops is to make it as efficient as possible.  
+  // This code is long and ugly.  The reason for unrolling the
+  // obvious loops is to make it as efficient as possible.
   // Rhino calls this function in time critical situations.
   //
 
@@ -6910,9 +6910,9 @@ bool ON_GetConicEquationThrough6Points(
     pts[i].y = points2d[1];
     if ( !pts[i].IsValid() )
       return false;
-    if ( pts[i].x < bboxmin.x ) bboxmin.x = pts[i].x; 
+    if ( pts[i].x < bboxmin.x ) bboxmin.x = pts[i].x;
     else if ( pts[i].x > bboxmax.x ) bboxmax.x = pts[i].x;
-    if ( pts[i].y < bboxmin.y ) bboxmin.y = pts[i].y; 
+    if ( pts[i].y < bboxmin.y ) bboxmin.y = pts[i].y;
     else if ( pts[i].y > bboxmax.y ) bboxmax.y = pts[i].y;
   }
 
@@ -6932,7 +6932,7 @@ bool ON_GetConicEquationThrough6Points(
     else
       return false;
   }
-  else 
+  else
   {
     x /= y;
     scale = y*sqrt(1.0 + x*x);
@@ -7003,7 +7003,7 @@ bool ON_GetConicEquationThrough6Points(
   // scale row M[0][] so that M[0][0] = 1.
   // Do not modify N because row ops act on the left of M.
   x = 1.0/M[0][0];
-  M[0][0] = 1.0; 
+  M[0][0] = 1.0;
   M[0][1] *= x; M[0][2] *= x; M[0][3] *= x; M[0][4] *= x;
 
   // kill column M[1,2,3,4][0]
@@ -7068,7 +7068,7 @@ bool ON_GetConicEquationThrough6Points(
   // scale row M[1][] so that M[1][1] = 1.
   // Do not modify N because row ops act on the left of M.
   x = 1.0/M[1][1];
-  M[1][1] = 1.0; 
+  M[1][1] = 1.0;
   M[1][2] *= x; M[1][3] *= x; M[1][4] *= x;
 
   // kill column M[2,3,4][1]
@@ -7195,7 +7195,7 @@ bool ON_GetConicEquationThrough6Points(
   // scale row M[3][] so that M[3][3] = 1.
   // Do not modify N because row ops act on the left of M.
   x = 1.0/M[3][3];
-  M[3][3] = 1.0; 
+  M[3][3] = 1.0;
   M[3][4] *= x;
 
   // kill column M[4][3]
@@ -7235,13 +7235,13 @@ bool ON_GetConicEquationThrough6Points(
     }
   }
 
-  // At this point, M[][] should be reduced to a diagonal matrix with 
+  // At this point, M[][] should be reduced to a diagonal matrix with
   // 1,1,1,1,0 on the diagonal. The vector (A,B,C,D,E) = N*Transpose(0,0,0,0,1)
-  // will be in the kernel of the original M[][]. The conic through the 
-  // six points( scale*(pts[0]-pts[5]),...,scale*(pts[4]-pts[5]),(0,0) ) 
+  // will be in the kernel of the original M[][]. The conic through the
+  // six points( scale*(pts[0]-pts[5]),...,scale*(pts[4]-pts[5]),(0,0) )
   // is Ax^2 + Bxy + Cy^2 + Dx + Ey = 0.
-  // We need to apply the inverse of the scale and then translate by 
-  // (pts[5].x,pts[5].y) to get the equation of the conic through the 
+  // We need to apply the inverse of the scale and then translate by
+  // (pts[5].x,pts[5].y) to get the equation of the conic through the
   // input point list.
 
   double A = N[0][4];
@@ -7298,37 +7298,37 @@ bool ON_GetConicEquationThrough6Points(
   if ( !(conic[j] != 0.0) )
     return false;
   y = 1.0/conic[j];
-  conic[0] *= y; conic[1] *= y; conic[2] *= y; 
-  conic[3] *= y; conic[4] *= y; conic[5] *= y; 
+  conic[0] *= y; conic[1] *= y; conic[2] *= y;
+  conic[3] *= y; conic[4] *= y; conic[5] *= y;
   conic[j] = 1.0;
 
   return true;
 }
 
-bool ON_IsConicEquationAnEllipse( 
-        const double conic[6], 
-        ON_2dPoint& center, 
-        ON_2dVector& major_axis, 
-        ON_2dVector& minor_axis, 
-        double* major_radius, 
+bool ON_IsConicEquationAnEllipse(
+        const double conic[6],
+        ON_2dPoint& center,
+        ON_2dVector& major_axis,
+        ON_2dVector& minor_axis,
+        double* major_radius,
         double* minor_radius
         )
 {
   double A, C, D, E, F, x0, y0;
   double X[2], Y[2], P[2];
 
-  if (    !ON_IsValid(conic[0]) 
-       || !ON_IsValid(conic[1]) 
-       || !ON_IsValid(conic[2]) 
-       || !ON_IsValid(conic[3]) 
-       || !ON_IsValid(conic[4]) 
-       || !ON_IsValid(conic[5]) 
+  if (    !ON_IsValid(conic[0])
+       || !ON_IsValid(conic[1])
+       || !ON_IsValid(conic[2])
+       || !ON_IsValid(conic[3])
+       || !ON_IsValid(conic[4])
+       || !ON_IsValid(conic[5])
      )
   {
     return false;
   }
 
-  if ( fabs(conic[1]) > 1.0e-14*fabs(conic[0]+fabs(conic[2])) ) 
+  if ( fabs(conic[1]) > 1.0e-14*fabs(conic[0]+fabs(conic[2])) )
   {
     // "B" is non zero - remove "rotation" from conic equation
     const double alpha = 0.5*atan2(conic[1],conic[0]-conic[2]);
@@ -7351,7 +7351,7 @@ bool ON_IsConicEquationAnEllipse(
     C = conic[2];
     D = conic[3];
     E = conic[4];
-    // F = conic[5]; 
+    // F = conic[5];
     X[0] = 1.0; X[1] = 0.0;
     Y[0] = 0.0; Y[1] = 1.0;
   }
@@ -7360,7 +7360,7 @@ bool ON_IsConicEquationAnEllipse(
 
   // the if (!(...)) insures we exit if A or C is a NaN
   if ( !((A > 0.0 && C > 0.0) || (A < 0.0 && C < 0.0)) )
-    return false; // conic is not an ellipse 
+    return false; // conic is not an ellipse
 
   // set P = center
   x0 = -0.5*D/A;
@@ -7419,9 +7419,9 @@ bool ON_IsConicEquationAnEllipse(
   return true;
 }
 
-bool ON_GetEllipseConicEquation( 
-    double a, double b, 
-    double x0, double y0, 
+bool ON_GetEllipseConicEquation(
+    double a, double b,
+    double x0, double y0,
     double alpha,
     double conic[6]
     )
@@ -7451,7 +7451,7 @@ bool ON_GetEllipseConicEquation(
   const double sa = sin(-alpha);
   const double A = A0*ca*ca + B0*ca*sa + C0*sa*sa;
   const double B = B0*(ca*ca - sa*sa) + 2.0*(C0-A0)*sa*ca;
-  const double C = C0*ca*ca - B0*sa*ca + A0*sa*sa; 
+  const double C = C0*ca*ca - B0*sa*ca + A0*sa*sa;
   const double D = D0*ca + E0*sa;
   const double E = E0*ca - D0*sa;
   const double F = F0;

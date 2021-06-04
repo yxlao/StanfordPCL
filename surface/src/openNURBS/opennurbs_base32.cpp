@@ -185,7 +185,7 @@ int ON_StringToBase32(const char* sBase32, unsigned char* base32_digits )
         break;
       }
     }
-  }  
+  }
   return digit_count;
 }
 
@@ -197,7 +197,7 @@ int ON_GetBase32Digits( const ON_SimpleArray<unsigned char>& x, ON_SimpleArray<u
   base32_digits.Reserve(base32_digit_count);
   base32_digit_count = ON_GetBase32Digits( x.Array(), x_count, base32_digits.Array() );
   base32_digits.SetCount(base32_digit_count);
-  return base32_digit_count;  
+  return base32_digit_count;
 }
 
 int ON_GetBase32Digits( const unsigned char* x, int x_count, unsigned char* base32_digits )
@@ -219,7 +219,7 @@ int ON_GetBase32Digits( const unsigned char* x, int x_count, unsigned char* base
     if ( 0 == tmp )
       return 0;
     memcpy(tmp,x,x_count*sizeof(x[0]));
-    i = ON_GetBase32Digits(tmp,x_count,base32_digits);    
+    i = ON_GetBase32Digits(tmp,x_count,base32_digits);
     onfree(tmp);
     return i;
   }

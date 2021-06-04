@@ -45,7 +45,7 @@
 
 namespace pcl
 {
-  /** \brief EuclideanPlaneCoefficientComparator is a Comparator that operates on plane coefficients, 
+  /** \brief EuclideanPlaneCoefficientComparator is a Comparator that operates on plane coefficients,
     * for use in planar segmentation.
     * In conjunction with OrganizedConnectedComponentSegmentation, this allows planes to be segmented from organized data.
     *
@@ -60,7 +60,7 @@ namespace pcl
       typedef typename pcl::PointCloud<PointNT> PointCloudN;
       typedef typename PointCloudN::Ptr PointCloudNPtr;
       typedef typename PointCloudN::ConstPtr PointCloudNConstPtr;
-      
+
       typedef boost::shared_ptr<EuclideanPlaneCoefficientComparator<PointT, PointNT> > Ptr;
       typedef boost::shared_ptr<const EuclideanPlaneCoefficientComparator<PointT, PointNT> > ConstPtr;
 
@@ -68,7 +68,7 @@ namespace pcl
       using pcl::PlaneCoefficientComparator<PointT, PointNT>::normals_;
       using pcl::PlaneCoefficientComparator<PointT, PointNT>::angular_threshold_;
       using pcl::PlaneCoefficientComparator<PointT, PointNT>::distance_threshold_;
-      
+
       /** \brief Empty constructor for PlaneCoefficientComparator. */
       EuclideanPlaneCoefficientComparator ()
       {
@@ -91,7 +91,7 @@ namespace pcl
         float dy = input_->points[idx1].y - input_->points[idx2].y;
         float dz = input_->points[idx1].z - input_->points[idx2].z;
         float dist = sqrtf (dx*dx + dy*dy + dz*dz);
-        
+
         return ( (dist < distance_threshold_)
                  && (normals_->points[idx1].getNormalVector3fMap ().dot (normals_->points[idx2].getNormalVector3fMap () ) > angular_threshold_ ) );
       }

@@ -46,17 +46,17 @@
 
 namespace pcl
 {
-  /** \brief @b IterativeClosestPointNonLinear is an ICP variant that uses Levenberg-Marquardt optimization 
+  /** \brief @b IterativeClosestPointNonLinear is an ICP variant that uses Levenberg-Marquardt optimization
     * backend. The resultant transformation is optimized as a quaternion.
     *
     * The algorithm has several termination criteria:
     *
     * <ol>
-    * <li>Number of iterations has reached the maximum user imposed number of iterations 
+    * <li>Number of iterations has reached the maximum user imposed number of iterations
     *     (via \ref setMaximumIterations)</li>
-    * <li>The epsilon (difference) between the previous transformation and the current estimated transformation is 
+    * <li>The epsilon (difference) between the previous transformation and the current estimated transformation is
     *     smaller than an user imposed value (via \ref setTransformationEpsilon)</li>
-    * <li>The sum of Euclidean squared errors is smaller than a user defined threshold 
+    * <li>The sum of Euclidean squared errors is smaller than a user defined threshold
     *     (via \ref setEuclideanFitnessEpsilon)</li>
     * </ol>
     *

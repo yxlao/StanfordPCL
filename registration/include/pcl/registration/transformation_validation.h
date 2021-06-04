@@ -98,7 +98,7 @@ namespace pcl
             const PointCloudTargetConstPtr &cloud_tgt,
             const Matrix4 &transformation_matrix) const = 0;
 
-        /** \brief Comparator function for deciding which score is better after running the 
+        /** \brief Comparator function for deciding which score is better after running the
           * validation on multiple transforms. Pure virtual.
           *
           * \note For example, for Euclidean distances smaller is better, for inliers the oposite.

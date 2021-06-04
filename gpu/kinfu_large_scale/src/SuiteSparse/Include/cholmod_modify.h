@@ -54,7 +54,7 @@
  * (a downdate).  The factor object L need not be an LDL' factorization; it
  * is converted to one if it isn't. */
 
-int cholmod_updown 
+int cholmod_updown
 (
     /* ---- input ---- */
     int update,		/* TRUE for update, FALSE for downdate */
@@ -158,7 +158,7 @@ int cholmod_l_updown_mask (int, cholmod_sparse *, SuiteSparse_long *,
  * computed as the factorization of the kth row/column of the matrix to
  * factorize, which is provided as a single n-by-1 sparse matrix R. */
 
-int cholmod_rowadd 
+int cholmod_rowadd
 (
     /* ---- input ---- */
     size_t k,		/* row/column index to add */
@@ -236,7 +236,7 @@ int cholmod_l_rowadd_mark (size_t, cholmod_sparse *, double *,
  * a little more time.
  */
 
-int cholmod_rowdel 
+int cholmod_rowdel
 (
     /* ---- input ---- */
     size_t k,		/* row/column index to delete */

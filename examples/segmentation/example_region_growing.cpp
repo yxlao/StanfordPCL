@@ -41,7 +41,7 @@
 // STL
 #include <iostream>
 
-// PCL 
+// PCL
 #include <pcl/filters/filter.h>
 #include <pcl/features/normal_3d.h>
 #include <pcl/point_types.h>
@@ -64,7 +64,7 @@ main (int, char** av)
     std::cout << "Couldn't find the file " << av[1] << std::endl;
     return -1;
   }
-  
+
   std::cout << "Loaded cloud " << av[1] << " of size " << cloud_ptr->points.size() << std::endl;	
 
   // Remove the nans

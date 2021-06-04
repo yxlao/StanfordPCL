@@ -77,7 +77,7 @@ namespace pcl
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /** \brief Empty constructor. */
-        SeededHueSegmentation () : delta_hue_ (0.0) 
+        SeededHueSegmentation () : delta_hue_ (0.0)
         {};
 
         /** \brief Provide a pointer to the search object.
@@ -85,7 +85,7 @@ namespace pcl
           */
         inline void setSearchMethod (const GPUTreePtr &tree) { tree_ = tree; }
 
-        /** \brief Get a pointer to the search method used. 
+        /** \brief Get a pointer to the search method used.
           *  @todo fix this for a generic search tree
           */
         inline GPUTreePtr getSearchMethod () { return (tree_); }
@@ -105,11 +105,11 @@ namespace pcl
         /** \brief Set the tollerance on the hue
           * \param[in] delta_hue the new delta hue
           */
-        inline void 
+        inline void
         setDeltaHue (float delta_hue) { delta_hue_ = delta_hue; }
 
         /** \brief Get the tolerance on the hue */
-        inline float 
+        inline float
         getDeltaHue () { return (delta_hue_); }
 
         /** \brief Cluster extraction in a PointCloud given by <setInputCloud (), setIndices ()>
@@ -136,10 +136,10 @@ namespace pcl
         /** \brief Class getName method. */
         virtual std::string getClassName () const { return ("gpu::SeededHueSegmentation"); }
     };
-    /** \brief Sort clusters method (for std::sort). 
+    /** \brief Sort clusters method (for std::sort).
       * \ingroup segmentation
       */
-    inline bool 
+    inline bool
       comparePointClusters (const pcl::PointIndices &a, const pcl::PointIndices &b)
     {
       return (a.indices.size () < b.indices.size ());

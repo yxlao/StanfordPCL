@@ -2,7 +2,7 @@
 /* $NoKeywords: $ */
 
 More Information:
-  Please see 
+  Please see
 
     http://en.wiki.mcneel.com/default.aspx/McNeel/OpenNURBS.html
 
@@ -43,7 +43,7 @@ Legal Stuff:
   The openNURBS toolkit uses zlib for mesh and bitmap compression.
   The zlib source code distributed with openNURBS is a subset of what
   is available from zlib.  The zlib code itself has not been modified.
-  See ftp://ftp.freesoftware.com/pub/infozip/zlib/zlib.html for more 
+  See ftp://ftp.freesoftware.com/pub/infozip/zlib/zlib.html for more
   details.
 
   Zlib has a generous license that is similar to the one for openNURBS.
@@ -80,7 +80,7 @@ Legal Stuff:
 	  Comments) 1950 to 1952 in the files ftp://ds.internic.net/rfc/rfc1950.txt
 	  (zlib format), rfc1951.txt (deflate format) and rfc1952.txt (gzip format).
 
- 
+
   Copyright (c) 1993-2011 Robert McNeel & Associates. All Rights Reserved.
   Rhinoceros is a registered trademark of Robert McNeel & Associates.
 

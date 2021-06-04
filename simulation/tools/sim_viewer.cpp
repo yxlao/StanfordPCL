@@ -150,7 +150,7 @@ void
 printHelp (int, char **argv)
 {
   print_error ("Syntax is: %s <file_name 1..N>.<pcd or vtk> <options>\n", argv[0]);
-  print_info ("pcl::simulation viewer\n");  
+  print_info ("pcl::simulation viewer\n");
   print_info ("  where options are:\n");
   print_info ("                     -bc r,g,b                = background color\n");
   print_info ("                     -fc r,g,b                = foreground color\n");
@@ -256,8 +256,8 @@ void write_score_image(const float* score_buffer)
   IplImage *cv_ipl = cvCreateImage( cvSize(640 ,480), 8, 3);
   cv::Mat cv_mat(cv_ipl);
   cv_mat.data = score_img;
-  cv::imwrite("score_image.png", cv_mat);     
-  
+  cv::imwrite("score_image.png", cv_mat);
+
   delete [] score_img;
 }
 
@@ -280,8 +280,8 @@ void write_depth_image(const float* depth_buffer)
     {
       int i= y*640 + x ;
       int i_in= (480-1 -y) *640 + x ; // flip up down
-    
-    
+
+
       float zn = 0.7;
       float zf = 20.0;
       float d = depth_buffer[i_in];
@@ -338,8 +338,8 @@ void write_depth_image(const float* depth_buffer)
   IplImage *cv_ipl = cvCreateImage( cvSize(640 ,480), 8, 3);
   cv::Mat cv_mat(cv_ipl);
   cv_mat.data = depth_img;
-  cv::imwrite("depth_image.png", cv_mat);     
-  
+  cv::imwrite("depth_image.png", cv_mat);
+
   delete [] depth_img;
 }
 
@@ -356,16 +356,16 @@ void write_rgb_image(const uint8_t* rgb_buffer)
       int px = y*640 + x ;
       rgb_img [3* (px) +0] = rgb_buffer[3*px+0];
       rgb_img [3* (px) +1] = rgb_buffer[3*px+1];
-      rgb_img [3* (px) +2] = rgb_buffer[3*px+2];      
+      rgb_img [3* (px) +2] = rgb_buffer[3*px+2];
     }
-  }  
-  
+  }
+
   // Write to file:
   IplImage *cv_ipl = cvCreateImage( cvSize(640 ,480), 8, 3);
   cv::Mat cv_mat(cv_ipl);
   cv_mat.data = rgb_img ;
-  cv::imwrite("rgb_image.png", cv_mat);     
-  
+  cv::imwrite("rgb_image.png", cv_mat);
+
   delete [] rgb_img;
 }
 
@@ -380,10 +380,10 @@ boost::shared_ptr<pcl::visualization::PCLVisualizer> simpleVis (pcl::PointCloud<
   viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 3, "sample cloud");
   viewer->addCoordinateSystem (1.0);
   viewer->initCameraParameters ();
-  
+
   //viewer->addModelFromPLYFile("/home/mfallon/projects/kmcl/kmcl/models/table_scene/meta_model.ply");
-  
-  
+
+
   return (viewer);
 }
 */
@@ -421,14 +421,14 @@ void capture (Eigen::Isometry3d pose_in, string point_cloud_fname)
        << " " << camera_->getPitch ()
        << " " << camera_->getYaw ()
        << std::endl;
-       
+
   delete [] reference;
 
 
-  // Benchmark Values for 
+  // Benchmark Values for
   // 27840 triangle faces
   // 13670 vertices
-  
+
   // 45.00Hz: simuation only
   //  1.28Hz: simuation, addNoise?    , getPointCloud, writeASCII
   // 33.33Hz: simuation, getPointCloud
@@ -443,15 +443,15 @@ void capture (Eigen::Isometry3d pose_in, string point_cloud_fname)
 
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr pc_out (new pcl::PointCloud<pcl::PointXYZRGB>);
   bool write_cloud = true;
-  
+
   if (write_cloud)
   {
     // Read Color Buffer from the GPU before creating PointCloud:
     // By default the buffers are not read back from the GPU
     range_likelihood_->getColorBuffer ();
-    range_likelihood_->getDepthBuffer ();  
-    
-    // Add noise directly to the CPU depth buffer 
+    range_likelihood_->getDepthBuffer ();
+
+    // Add noise directly to the CPU depth buffer
     range_likelihood_->addNoise ();
 
     // Optional argument to save point cloud in global frame:
@@ -463,7 +463,7 @@ void capture (Eigen::Isometry3d pose_in, string point_cloud_fname)
     range_likelihood_->getPointCloud (pc_out,false,camera_->getPose ());
     // TODO: what to do when there are more than one simulated view?
     std::cout << pc_out->points.size() << " points written to file\n";
-   
+
     pcl::PCDWriter writer;
     //writer.write (point_cloud_fname, *pc_out, false);  /// ASCII
     writer.writeBinary (point_cloud_fname, *pc_out);
@@ -474,19 +474,19 @@ void capture (Eigen::Isometry3d pose_in, string point_cloud_fname)
   bool demo_other_stuff = false;
   if (demo_other_stuff && write_cloud)
   {
-    write_score_image (range_likelihood_->getScoreBuffer ());  
-    write_rgb_image (range_likelihood_->getColorBuffer ());  
-    write_depth_image (range_likelihood_->getDepthBuffer ());  
-    
+    write_score_image (range_likelihood_->getScoreBuffer ());
+    write_rgb_image (range_likelihood_->getColorBuffer ());
+    write_depth_image (range_likelihood_->getDepthBuffer ());
+
     // Demo interacton with RangeImage:
     pcl::RangeImagePlanar rangeImage;
     range_likelihood_->getRangeImagePlanar (rangeImage);
- 
+
     // display viewer: (currently seqfaults on exit of viewer)
     if (1==0){
       boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer;
       viewer = simpleVis(pc_out);
-    
+
       while (!viewer->wasStopped ()){
 	viewer->spinOnce (100);
 	boost::this_thread::sleep (boost::posix_time::microseconds (100000));
@@ -528,7 +528,7 @@ void wRo_to_euler(const Eigen::Matrix3f& wRo, double& yaw, double& pitch, double
 void print_Isometry3d(Eigen::Isometry3d pose, std::stringstream &ss){
   Eigen::Vector3d t(pose.translation());
   Eigen::Quaterniond r(pose.rotation());
-  ss <<t[0]<<", "<<t[1]<<", "<<t[2]<<" | " 
+  ss <<t[0]<<", "<<t[1]<<", "<<t[2]<<" | "
        <<r.w()<<", "<<r.x()<<", "<<r.y()<<", "<<r.z() ;
   //  std::cout << ss.str() << "q\n";
 }
@@ -546,95 +546,95 @@ void simulate_callback (const pcl::visualization::KeyboardEvent &event,
 
     std::vector<pcl::visualization::Camera> cams;
     viewer->getCameras(cams);
-    
+
     if (cams.size() !=1){
       std::cout << "n cams not 1 exiting\n"; // for now in case ...
-     return; 
+     return;
     }
    // cout << "n cams: " << cams.size() << "\n";
     pcl::visualization::Camera cam = cams[0];
-    
 
 
-	      
+
+	
 	      Eigen::Affine3f pose;
 	      pose = viewer->getViewerPose() ;
-	      
-	      
-     std::cout << cam.pos[0] << " " 
-               << cam.pos[1] << " " 
-               << cam.pos[2] << " p\n";	      
-	      
+	
+	
+     std::cout << cam.pos[0] << " "
+               << cam.pos[1] << " "
+               << cam.pos[2] << " p\n";	
+	
 	     Eigen::Matrix3f m;
 	     m =pose.rotation();
-	     //All axies use right hand rule. x=red axis, y=green axis, z=blue axis z direction is point into the screen. z \ \ \ -----------> x | | | | | | y 
-	      
+	     //All axies use right hand rule. x=red axis, y=green axis, z=blue axis z direction is point into the screen. z \ \ \ -----------> x | | | | | | y
+	
  cout << pose(0,0)  << " " << pose(0,1) << " " << pose(0,2)  << " " << pose(0,3) << " x0\n";
  cout << pose(1,0) << " " << pose(1,1) << " " << pose(1,2) << " " << pose(1,3) << " x1\n";
   cout << pose(2,0) << " " << pose(2,1)  << " " << pose(2,2) << " " << pose(2,3)<< "x2\n";
 
   double yaw,pitch, roll;
   wRo_to_euler(m,yaw,pitch,roll);
-  
- printf("RPY: %f %f %f\n", roll*180/M_PI,pitch*180/M_PI,yaw*180/M_PI);    
+
+ printf("RPY: %f %f %f\n", roll*180/M_PI,pitch*180/M_PI,yaw*180/M_PI);
 
 // matrix->GetElement(1,0);
-  
+
  cout << m(0,0)  << " " << m(0,1) << " " << m(0,2)  << " "  << " x0\n";
  cout << m(1,0) << " " << m(1,1) << " " << m(1,2) << " "  << " x1\n";
   cout << m(2,0) << " " << m(2,1)  << " " << m(2,2) << " "<< "x2\n\n";
-  
+
   Eigen::Quaternionf rf;
   rf = Eigen::Quaternionf(m);
-  
-  
+
+
    Eigen::Quaterniond r(rf.w(),rf.x(),rf.y(),rf.z());
-  
+
    Eigen::Isometry3d init_pose;
    init_pose.setIdentity();
-   init_pose.translation() << cam.pos[0], cam.pos[1], cam.pos[2];  
+   init_pose.translation() << cam.pos[0], cam.pos[1], cam.pos[2];
    //Eigen::Quaterniond m = euler_to_quat(-1.54, 0, 0);
-   init_pose.rotate(r);  
-//   
-  
+   init_pose.rotate(r);
+//
+
     std::stringstream ss;
   print_Isometry3d(init_pose,ss);
   std::cout << "init_pose: " << ss.str() << "\n";
-  
-  
-  
-  
+
+
+
+
   viewer->addCoordinateSystem (1.0,pose);
-  
-  
-  
+
+
+
     double tic = getTime();
     std::stringstream ss2;
     ss2.precision(20);
     ss2 << "simulated_pcl_" << tic << ".pcd";
     capture(init_pose,ss2.str());
-    cout << (getTime() -tic) << " sec\n";  
-  
-  
-  
+    cout << (getTime() -tic) << " sec\n";
+
+
+
   // these three variables determine the position and orientation of
     // the camera.
-	      
-	      
+	
+	
 //     double lookat[3]; - focal location
 //     double eye[3]; - my location
 //     double up[3]; - updirection
-     
-	      
-	      
-//    std::cout << view[0]  << "," << view[1]  << "," << view[2] 
-    
-//    cameras.back ().view[2] = renderer->GetActiveCamera ()->GetOrientationWXYZ()[2];    
-    
-//ViewTransform->GetOrientationWXYZ();    
-    
+
+	
+	
+//    std::cout << view[0]  << "," << view[1]  << "," << view[2]
+
+//    cameras.back ().view[2] = renderer->GetActiveCamera ()->GetOrientationWXYZ()[2];
+
+//ViewTransform->GetOrientationWXYZ();
+
   //  Superclass::OnKeyUp ();
-    
+
 //       vtkSmartPointer<vtkCamera> cam = event.Interactor->GetRenderWindow ()->GetRenderers ()->GetFirstRenderer ()->GetActiveCamera ();
 //       double clip[2], focal[3], pos[3], view[3];
 //       cam->GetClippingRange (clip);
@@ -646,8 +646,8 @@ void simulate_callback (const pcl::visualization::KeyboardEvent &event,
       std::cerr << clip[0]  << "," << clip[1]  << "/" << focal[0] << "," << focal[1] << "," << focal[2] << "/" <<
                    pos[0]   << "," << pos[1]   << "," << pos[2]   << "/" << view[0]  << "," << view[1]  << "," << view[2] << "/" <<
                    cam->GetViewAngle () / 180.0 * M_PI  << "/" << win_size[0] << "," << win_size[1] << "/" << win_pos[0] << "," << win_pos[1]
-                << endl;    
-  */  
+                << endl;
+  */
   }
 }
 
@@ -661,13 +661,13 @@ loadPolygonMeshModel (char* polygon_file)
   //pcl::io::loadPolygonFile("/home/mfallon/data/models/dalet/Darlek_modified_works.obj",mesh);
   pcl::io::loadPolygonFile (polygon_file, mesh);
   pcl::PolygonMesh::Ptr cloud (new pcl::PolygonMesh (mesh));
-  
+
   // Not sure if PolygonMesh assumes triangles if to
   // TODO: Ask a developer
   //PolygonMeshModel::Ptr model = PolygonMeshModel::Ptr (new PolygonMeshModel (GL_POLYGON, cloud));
   TriangleMeshModel::Ptr model = TriangleMeshModel::Ptr (new TriangleMeshModel (cloud));
   scene_->add (model);
-  
+
   std::cout << "Just read " << polygon_file << std::endl;
   std::cout << mesh.polygons.size () << " polygons and "
 	    << mesh.cloud.data.size () << " triangles\n";
@@ -1016,16 +1016,16 @@ main (int argc, char** argv)
     //if (i == 0 && !p->cameraParamsSet ())
      // p->resetCameraViewpoint (cloud_name.str ());
   }
-  
-  
+
+
   ////////////////////////////////////////////////////////////////
   // Key binding for saving simulated point cloud:
   if (p)
     p->registerKeyboardCallback(simulate_callback, (void*)&p);
-  
-  
-  
-  
+
+
+
+
   int width = 640;
   int height = 480;
   window_width_ = width * 2;
@@ -1038,7 +1038,7 @@ main (int argc, char** argv)
     float v = i/2048.0;
     v = powf(v, 3)* 6;
     t_gamma[i] = v*6*256;
-  }    
+  }
 
   GLenum err = glewInit ();
   if (GLEW_OK != err)
@@ -1072,7 +1072,7 @@ main (int argc, char** argv)
   range_likelihood_->setComputeOnCPU (false);
   range_likelihood_->setSumOnCPU (true);
   range_likelihood_->setUseColor (true);
-  initialize (argc, argv); 
+  initialize (argc, argv);
 
   if (p)
     p->setBackgroundColor (bcolor[0], bcolor[1], bcolor[2]);

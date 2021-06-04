@@ -11,7 +11,7 @@
 #ifndef EIGEN_PARTIAL_REDUX_H
 #define EIGEN_PARTIAL_REDUX_H
 
-namespace Eigen { 
+namespace Eigen {
 
 /** \class PartialReduxExpr
   * \ingroup Core_Module

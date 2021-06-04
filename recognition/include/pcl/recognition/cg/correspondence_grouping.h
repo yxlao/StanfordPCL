@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2012, Willow Garage, Inc.
- *  
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -62,14 +62,14 @@ namespace pcl
       CorrespondenceGrouping () : scene_ (), model_scene_corrs_ () {}
 
       /** \brief destructor. */
-      virtual ~CorrespondenceGrouping() 
+      virtual ~CorrespondenceGrouping()
       {
         scene_.reset ();
         model_scene_corrs_.reset ();
       }
 
       /** \brief Provide a pointer to the scene dataset.
-        * 
+        *
         * \param[in] scene the const boost shared pointer to a PointCloud message.
         */
       virtual inline void
@@ -79,7 +79,7 @@ namespace pcl
       }
 
       /** \brief Getter for the scene dataset.
-        * 
+        *
         * \return the const boost shared pointer to a PointCloud message.
         */
       inline SceneCloudConstPtr
@@ -88,10 +88,10 @@ namespace pcl
         return (scene_);
       }
 
-      /** \brief Provide a pointer to the precomputed correspondences between points in the input dataset and 
+      /** \brief Provide a pointer to the precomputed correspondences between points in the input dataset and
         * points in the scene dataset. The correspondences are going to be clustered into different model hypotheses
         * by the algorithm.
-        * 
+        *
         * \param[in] corrs the correspondences between the model and the scene.
         */
       virtual inline void
@@ -100,9 +100,9 @@ namespace pcl
         model_scene_corrs_ = corrs;
       }
 
-      /** \brief Getter for to the precomputed correspondences between points in the input dataset and 
-        * points in the scene dataset. 
-        * 
+      /** \brief Getter for to the precomputed correspondences between points in the input dataset and
+        * points in the scene dataset.
+        *
         * \return the correspondences between the model and the scene.
         */
       inline CorrespondencesConstPtr
@@ -134,7 +134,7 @@ namespace pcl
       virtual void
       clusterCorrespondences (std::vector<Correspondences> &clustered_corrs) = 0;
 
-      /** \brief This method should get called before starting the actual computation. 
+      /** \brief This method should get called before starting the actual computation.
         *
         * Internally, initCompute() does the following:
         *   - checks if an input dataset is given, and returns false otherwise
@@ -170,7 +170,7 @@ namespace pcl
         return (true);
       }
 
-      /** \brief This method should get called after finishing the actual computation. 
+      /** \brief This method should get called after finishing the actual computation.
         *
         */
       inline bool

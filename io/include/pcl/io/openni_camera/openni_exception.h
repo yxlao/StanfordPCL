@@ -49,7 +49,7 @@
 
 //fom <pcl/pcl_macros.h>
 #if defined _WIN32 && defined _MSC_VER && !defined __PRETTY_FUNCTION__
-  #define __PRETTY_FUNCTION__ __FUNCTION__  
+  #define __PRETTY_FUNCTION__ __FUNCTION__
 #endif
 
 

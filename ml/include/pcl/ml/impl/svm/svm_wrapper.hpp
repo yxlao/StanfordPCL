@@ -35,10 +35,10 @@
   *  POSSIBILITY OF SUCH DAMAGE.
   *
   */
- 
+
  #ifndef PCL_SVM_WRAPPER_IMPL_H_
  #define PCL_SVM_WRAPPER_IMPL_H_
- 
+
  #include <pcl/ml/svm_wrapper.h>
 
  #endif // PCL_SVM_WRAPPER_H_

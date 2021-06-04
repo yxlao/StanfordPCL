@@ -68,7 +68,7 @@ namespace pcl
   {
 
     public:
- 
+
       /** \brief Constructor. */
       DinastGrabber ();
 
@@ -84,11 +84,11 @@ namespace pcl
       /** \brief Check if the grabber is running
         * \return true if grabber is running / streaming. False otherwise.
         */
-      bool 
+      bool
       isRunning () const;
 
       /** \brief Obtain the number of frames per second (FPS). */
-      float 
+      float
       getFramesPerSecond () const;
 
 
@@ -99,7 +99,7 @@ namespace pcl
         */
       void
       findDevice (int device_position,
-                  const int id_vendor = 0x18d1, 
+                  const int id_vendor = 0x18d1,
                   const int id_product = 0x1402);
 
       /** \brief Claims the interface for the already finded device
@@ -147,7 +147,7 @@ namespace pcl
 
       /** \brief Check if we have a header in the global buffer, and return the position of the next valid image.
         * \note If the image in the buffer is partial, return -1, as we have to wait until we add more data to it.
-        * \return the position of the next valid image (i.e., right after a valid header) or -1 in case the buffer 
+        * \return the position of the next valid image (i.e., right after a valid header) or -1 in case the buffer
         * either doesn't have an image or has a partial image
         */
       int
@@ -164,20 +164,20 @@ namespace pcl
         */
       int
       readImage (unsigned char *image1, unsigned char *image2);
-      
+
       /** \brief Read image data
       * \param[out] the image data in PointCloud format
-      */     
+      */
       int
       readData(unsigned char *_image, pcl::PointCloud<pcl::PointXYZI> &cloud);
 
-      
+
       /** \brief the libusb context*/
       libusb_context *ctx;
-      
+
       /** \brief the actual device_handle for the camera */
       struct libusb_device_handle* device_handle;
-      
+
       /** \brief Temporary USB read buffer */
       unsigned char raw_buffer[(RGB16_LENGTH + SYNC_PACKET)*2];
 
@@ -191,8 +191,8 @@ namespace pcl
       bool second_image;
       bool running_;
 
-      
-      
+
+
   };
 } //namespace pcl
 

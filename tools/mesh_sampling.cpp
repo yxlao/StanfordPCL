@@ -93,8 +93,8 @@ randPSurface (vtkPolyData * polydata, std::vector<double> * cumulativeAreas, dou
   polydata->GetPoint (ptIds[0], A);
   polydata->GetPoint (ptIds[1], B);
   polydata->GetPoint (ptIds[2], C);
-  randomPointTriangle (float (A[0]), float (A[1]), float (A[2]), 
-                       float (B[0]), float (B[1]), float (B[2]), 
+  randomPointTriangle (float (A[0]), float (A[1]), float (A[2]),
+                       float (B[0]), float (B[1]), float (B[2]),
                        float (C[0]), float (C[1]), float (C[2]), p);
 }
 

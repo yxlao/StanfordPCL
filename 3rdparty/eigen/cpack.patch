@@ -2,7 +2,7 @@
 +++ eigen/CMakeLists.txt	2011-04-14 23:29:55.000000000 -0700
 @@ -391,3 +391,37 @@
  endif()
- 
+
  message(STATUS "")
 +
 +# RPM

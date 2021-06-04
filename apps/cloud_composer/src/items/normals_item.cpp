@@ -23,28 +23,28 @@ pcl::cloud_composer::NormalsItem::clone () const
   pcl::PointCloud<pcl::Normal>::Ptr normals_copy (new pcl::PointCloud<pcl::Normal> (*normals_ptr_));
   //Vector4f and Quaternionf do deep copies using copy constructor
   NormalsItem* new_item = new NormalsItem (this->text (), normals_copy, 0);
-  
+
   PropertiesModel* new_item_properties = new_item->getPropertiesModel ();
   new_item_properties->copyProperties (properties_);
-  
-  return new_item;  
+
+  return new_item;
 }
 
 pcl::cloud_composer::NormalsItem::~NormalsItem ()
 {
-  
+
 }
 
 void
 pcl::cloud_composer::NormalsItem::paintView (boost::shared_ptr<pcl::visualization::PCLVisualizer> vis) const
 {
-  //Get the parent cloud, convert to XYZ 
+  //Get the parent cloud, convert to XYZ
   if (parent ()->type () == CLOUD_ITEM)
   {
     QVariant cloud_ptr = parent ()->data (ItemDataRole::CLOUD_BLOB);
     sensor_msgs::PointCloud2::ConstPtr cloud_blob = cloud_ptr.value<sensor_msgs::PointCloud2::ConstPtr> ();
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
-    pcl::fromROSMsg (*cloud_blob, *cloud); 
+    pcl::fromROSMsg (*cloud_blob, *cloud);
     double scale = properties_->getProperty ("Scale").toDouble ();
     int level = properties_->getProperty ("Level").toInt ();
     qDebug () << "Removing old normals...";
@@ -58,7 +58,7 @@ pcl::cloud_composer::NormalsItem::paintView (boost::shared_ptr<pcl::visualizatio
 
 void
 pcl::cloud_composer::NormalsItem::removeFromView (boost::shared_ptr<pcl::visualization::PCLVisualizer> vis) const
-{  
+{
   //qDebug () << "Removing Normals "<<item_id_;
   vis->removePointCloud (getId ().toStdString ());
 }

@@ -12,19 +12,19 @@ PCL_ADD_DOC(${SUBSYS_NAME})
 
 if(build)
   #find_package(OpenCV QUIET)
-  
+
   #find NPP
   unset(CUDA_npp_LIBRARY CACHE)
   find_cuda_helper_libs(npp)
 
   #Label_skeleton
   #FILE(GLOB srcs src/*.cpp src/*.h* src/label_skeleton/*.cpp)
-  FILE(GLOB srcs src/*.cpp src/*.h*)  
-  FILE(GLOB srcs_cuda src/cuda/*.cu src/cuda/*.h)  
+  FILE(GLOB srcs src/*.cpp src/*.h*)
+  FILE(GLOB srcs_cuda src/cuda/*.cu src/cuda/*.h)
   FILE(GLOB hdrs include/pcl/gpu/people/*.h*)
-  
+
   source_group("Source files\\cuda" FILES ${srcs_cuda} )
-  source_group("Source files" FILES ${srcs} )    
+  source_group("Source files" FILES ${srcs} )
 
   include_directories(${VTK_INCLUDE_DIRS})
   include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/src/cuda)

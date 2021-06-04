@@ -12,7 +12,7 @@ class OpenNICapture
 public:
   OpenNICapture (const std::string& device_id = "");
   ~OpenNICapture ();
-  
+
   void setTriggerMode (bool use_trigger);
   const PointCloudPtr snap ();
   const PointCloudPtr snapAndSave (const std::string & filename);

@@ -50,7 +50,7 @@ namespace pcl
 {
   namespace poisson
   {
-    template <int Degree> 
+    template <int Degree>
     class StartingPolynomial
     {
       public:
@@ -66,7 +66,7 @@ namespace pcl
         static int Compare (const void *v1,const void *v2);
     };
 
-    template <int Degree> 
+    template <int Degree>
     class PPolynomial
     {
       public:

@@ -40,7 +40,7 @@
 #define PCL_OUTOFCORE_BOOST_H_
 
 #if defined __GNUC__
-#  pragma GCC system_header 
+#  pragma GCC system_header
 #endif
 
 #include <boost/filesystem.hpp>

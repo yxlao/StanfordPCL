@@ -98,7 +98,7 @@ namespace pcl
       * iv.removeLayer ("circles");                                 // remove layer "circles"
       * iv.spin ();                                                 // press 'q' to exit
       * \endcode
-      * 
+      *
       * \author Radu B. Rusu, Suat Gedikli
       * \ingroup visualization
       */
@@ -112,7 +112,7 @@ namespace pcl
 
         /** \brief Destructor. */
         virtual ~ImageViewer ();
-       
+
         /** \brief Show a monochrome 2D image on screen.
           * \param[in] data the input data representing the image
           * \param[in] width the width of the image
@@ -120,7 +120,7 @@ namespace pcl
           * \param[in] layer_id the name of the layer (default: "image")
           * \param[in] opacity the opacity of the layer (default: 1.0)
           */
-        void 
+        void
         showMonoImage (const unsigned char* data, unsigned width, unsigned height,
                        const std::string &layer_id = "mono_image", double opacity = 1.0);
 
@@ -131,7 +131,7 @@ namespace pcl
           * \param[in] layer_id the name of the layer (default: "image")
           * \param[in] opacity the opacity of the layer (default: 1.0)
           */
-        void 
+        void
         addMonoImage (const unsigned char* data, unsigned width, unsigned height,
                       const std::string &layer_id = "mono_image", double opacity = 1.0);
 
@@ -226,8 +226,8 @@ namespace pcl
           * \param[in] layer_id the name of the layer (default: "image")
           * \param[in] opacity the opacity of the layer (default: 1.0)
           */
-        void 
-        showRGBImage (const unsigned char* data, unsigned width, unsigned height, 
+        void
+        showRGBImage (const unsigned char* data, unsigned width, unsigned height,
                       const std::string &layer_id = "rgb_image", double opacity = 1.0);
 
         /** \brief Add an RGB 2D image layer, but do not render it (use spin/spinOnce to update).
@@ -237,16 +237,16 @@ namespace pcl
           * \param[in] layer_id the name of the layer (default: "image")
           * \param[in] opacity the opacity of the layer (default: 1.0)
           */
-        void 
-        addRGBImage (const unsigned char* data, unsigned width, unsigned height, 
+        void
+        addRGBImage (const unsigned char* data, unsigned width, unsigned height,
                      const std::string &layer_id = "rgb_image", double opacity = 1.0);
 
         /** \brief Show a 2D image on screen, obtained from the RGB channel of a point cloud.
-          * \param[in] cloud the input data representing the RGB point cloud 
+          * \param[in] cloud the input data representing the RGB point cloud
           * \param[in] layer_id the name of the layer (default: "image")
           * \param[in] opacity the opacity of the layer (default: 1.0)
           */
-        template <typename T> inline void 
+        template <typename T> inline void
         showRGBImage (const typename pcl::PointCloud<T>::ConstPtr &cloud,
                       const std::string &layer_id = "rgb_image", double opacity = 1.0)
         {
@@ -254,11 +254,11 @@ namespace pcl
         }
 
         /** \brief Add an RGB 2D image layer, but do not render it (use spin/spinOnce to update).
-          * \param[in] cloud the input data representing the RGB point cloud 
+          * \param[in] cloud the input data representing the RGB point cloud
           * \param[in] layer_id the name of the layer (default: "image")
           * \param[in] opacity the opacity of the layer (default: 1.0)
           */
-        template <typename T> inline void 
+        template <typename T> inline void
         addRGBImage (const typename pcl::PointCloud<T>::ConstPtr &cloud,
                      const std::string &layer_id = "rgb_image", double opacity = 1.0)
         {
@@ -266,20 +266,20 @@ namespace pcl
         }
 
         /** \brief Show a 2D image on screen, obtained from the RGB channel of a point cloud.
-          * \param[in] cloud the input data representing the RGB point cloud 
+          * \param[in] cloud the input data representing the RGB point cloud
           * \param[in] layer_id the name of the layer (default: "image")
           * \param[in] opacity the opacity of the layer (default: 1.0)
           */
-        template <typename T> void 
+        template <typename T> void
         showRGBImage (const pcl::PointCloud<T> &cloud,
                       const std::string &layer_id = "rgb_image", double opacity = 1.0);
 
         /** \brief Add an RGB 2D image layer, but do not render it (use spin/spinOnce to update).
-          * \param[in] cloud the input data representing the RGB point cloud 
+          * \param[in] cloud the input data representing the RGB point cloud
           * \param[in] layer_id the name of the layer (default: "image")
           * \param[in] opacity the opacity of the layer (default: 1.0)
           */
-        template <typename T> void 
+        template <typename T> void
         addRGBImage (const pcl::PointCloud<T> &cloud,
                      const std::string &layer_id = "rgb_image", double opacity = 1.0);
 
@@ -293,9 +293,9 @@ namespace pcl
           * \param[in] layer_id the name of the layer (default: "image")
           * \param[in] opacity the opacity of the layer (default: 1.0)
           */
-        void 
-        showFloatImage (const float* data, unsigned int width, unsigned int height, 
-                        float min_value = std::numeric_limits<float>::min (), 
+        void
+        showFloatImage (const float* data, unsigned int width, unsigned int height,
+                        float min_value = std::numeric_limits<float>::min (),
                         float max_value = std::numeric_limits<float>::max (), bool grayscale = false,
                         const std::string &layer_id = "float_image", double opacity = 1.0);
 
@@ -309,12 +309,12 @@ namespace pcl
           * \param[in] layer_id the name of the layer (default: "image")
           * \param[in] opacity the opacity of the layer (default: 1.0)
           */
-        void 
-        addFloatImage (const float* data, unsigned int width, unsigned int height, 
-                       float min_value = std::numeric_limits<float>::min (), 
+        void
+        addFloatImage (const float* data, unsigned int width, unsigned int height,
+                       float min_value = std::numeric_limits<float>::min (),
                        float max_value = std::numeric_limits<float>::max (), bool grayscale = false,
                        const std::string &layer_id = "float_image", double opacity = 1.0);
-        
+
         /** \brief Show a 2D image (unsigned short) on screen.
           * \param[in] short_image the input data representing the image in unsigned short format
           * \param[in] width the width of the image
@@ -326,8 +326,8 @@ namespace pcl
           * \param[in] opacity the opacity of the layer (default: 1.0)
           */
         void
-        showShortImage (const unsigned short* short_image, unsigned int width, unsigned int height, 
-                        unsigned short min_value = std::numeric_limits<unsigned short>::min (), 
+        showShortImage (const unsigned short* short_image, unsigned int width, unsigned int height,
+                        unsigned short min_value = std::numeric_limits<unsigned short>::min (),
                         unsigned short max_value = std::numeric_limits<unsigned short>::max (), bool grayscale = false,
                         const std::string &layer_id = "short_image", double opacity = 1.0);
 
@@ -342,8 +342,8 @@ namespace pcl
           * \param[in] opacity the opacity of the layer (default: 1.0)
           */
         void
-        addShortImage (const unsigned short* short_image, unsigned int width, unsigned int height, 
-                       unsigned short min_value = std::numeric_limits<unsigned short>::min (), 
+        addShortImage (const unsigned short* short_image, unsigned int width, unsigned int height,
+                       unsigned short min_value = std::numeric_limits<unsigned short>::min (),
                        unsigned short max_value = std::numeric_limits<unsigned short>::max (), bool grayscale = false,
                        const std::string &layer_id = "short_image", double opacity = 1.0);
 
@@ -354,7 +354,7 @@ namespace pcl
           * \param[in] layer_id the name of the layer (default: "image")
           * \param[in] opacity the opacity of the layer (default: 1.0)
           */
-        void 
+        void
         showAngleImage (const float* data, unsigned width, unsigned height,
                         const std::string &layer_id = "angle_image", double opacity = 1.0);
 
@@ -365,7 +365,7 @@ namespace pcl
           * \param[in] layer_id the name of the layer (default: "image")
           * \param[in] opacity the opacity of the layer (default: 1.0)
           */
-        void 
+        void
         addAngleImage (const float* data, unsigned width, unsigned height,
                        const std::string &layer_id = "angle_image", double opacity = 1.0);
 
@@ -376,7 +376,7 @@ namespace pcl
           * \param[in] layer_id the name of the layer (default: "image")
           * \param[in] opacity the opacity of the layer (default: 1.0)
           */
-        void 
+        void
         showHalfAngleImage (const float* data, unsigned width, unsigned height,
                             const std::string &layer_id = "half_angle_image", double opacity = 1.0);
 
@@ -387,7 +387,7 @@ namespace pcl
           * \param[in] layer_id the name of the layer (default: "image")
           * \param[in] opacity the opacity of the layer (default: 1.0)
           */
-        void 
+        void
         addHalfAngleImage (const float* data, unsigned width, unsigned height,
                            const std::string &layer_id = "half_angle_image", double opacity = 1.0);
 
@@ -418,47 +418,47 @@ namespace pcl
         }
 
         /** \brief Spin method. Calls the interactor and runs an internal loop. */
-        void 
+        void
         spin ();
-        
-        /** \brief Spin once method. Calls the interactor and updates the screen once. 
+
+        /** \brief Spin once method. Calls the interactor and updates the screen once.
           * \param[in] time - How long (in ms) should the visualization loop be allowed to run.
-          * \param[in] force_redraw - if false it might return without doing anything if the 
+          * \param[in] force_redraw - if false it might return without doing anything if the
           * interactor's framerate does not require a redraw yet.
           */
-        void 
+        void
         spinOnce (int time = 1, bool force_redraw = true);
-        
+
         /** \brief Register a callback function for keyboard events
           * \param[in] callback  the function that will be registered as a callback for a keyboard event
           * \param[in] cookie    user data that is passed to the callback
           * \return a connection object that allows to disconnect the callback function.
           */
-        boost::signals2::connection 
-        registerKeyboardCallback (void (*callback) (const pcl::visualization::KeyboardEvent&, void*), 
+        boost::signals2::connection
+        registerKeyboardCallback (void (*callback) (const pcl::visualization::KeyboardEvent&, void*),
                                   void* cookie = NULL)
         {
           return (registerKeyboardCallback (boost::bind (callback, _1, cookie)));
         }
-        
+
         /** \brief Register a callback function for keyboard events
           * \param[in] callback  the member function that will be registered as a callback for a keyboard event
           * \param[in] instance  instance to the class that implements the callback function
           * \param[in] cookie    user data that is passed to the callback
           * \return a connection object that allows to disconnect the callback function.
           */
-        template<typename T> boost::signals2::connection 
-        registerKeyboardCallback (void (T::*callback) (const pcl::visualization::KeyboardEvent&, void*), 
+        template<typename T> boost::signals2::connection
+        registerKeyboardCallback (void (T::*callback) (const pcl::visualization::KeyboardEvent&, void*),
                                   T& instance, void* cookie = NULL)
         {
           return (registerKeyboardCallback (boost::bind (callback,  boost::ref (instance), _1, cookie)));
         }
-        
+
         /** \brief Register a callback boost::function for keyboard events
           * \param[in] cb the boost function that will be registered as a callback for a keyboard event
           * \return a connection object that allows to disconnect the callback function.
           */
-        boost::signals2::connection 
+        boost::signals2::connection
         registerKeyboardCallback (boost::function<void (const pcl::visualization::KeyboardEvent&)> cb);
 
         /** \brief Register a callback boost::function for mouse events
@@ -466,21 +466,21 @@ namespace pcl
           * \param[in] cookie    user data that is passed to the callback
           * \return a connection object that allows to disconnect the callback function.
           */
-        boost::signals2::connection 
-        registerMouseCallback (void (*callback) (const pcl::visualization::MouseEvent&, void*), 
+        boost::signals2::connection
+        registerMouseCallback (void (*callback) (const pcl::visualization::MouseEvent&, void*),
                                void* cookie = NULL)
         {
           return (registerMouseCallback (boost::bind (callback, _1, cookie)));
         }
-        
+
         /** \brief Register a callback function for mouse events
           * \param[in] callback  the member function that will be registered as a callback for a mouse event
           * \param[in] instance  instance to the class that implements the callback function
           * \param[in] cookie    user data that is passed to the callback
           * \return a connection object that allows to disconnect the callback function.
           */
-        template<typename T> boost::signals2::connection 
-        registerMouseCallback (void (T::*callback) (const pcl::visualization::MouseEvent&, void*), 
+        template<typename T> boost::signals2::connection
+        registerMouseCallback (void (T::*callback) (const pcl::visualization::MouseEvent&, void*),
                                T& instance, void* cookie = NULL)
         {
           return (registerMouseCallback (boost::bind (callback, boost::ref (instance), _1, cookie)));
@@ -489,10 +489,10 @@ namespace pcl
         /** \brief Register a callback function for mouse events
           * \param[in] cb the boost function that will be registered as a callback for a mouse event
           * \return a connection object that allows to disconnect the callback function.
-          */        
-        boost::signals2::connection 
+          */
+        boost::signals2::connection
         registerMouseCallback (boost::function<void (const pcl::visualization::MouseEvent&)> cb);
-        
+
         /** \brief Set the position in screen coordinates.
           * \param[in] x where to move the window to (X)
           * \param[in] y where to move the window to (Y)
@@ -540,11 +540,11 @@ namespace pcl
           * \param[in] x the x coordinate of the circle center
           * \param[in] y the y coordinate of the circle center
           * \param[in] radius the radius of the circle
-          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn. 
+          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn.
           * \param[in] opacity the opacity of the layer: 0 for invisible, 1 for opaque. (default: 1.0)
           */
         bool
-        addCircle (unsigned int x, unsigned int y, double radius, 
+        addCircle (unsigned int x, unsigned int y, double radius,
                    const std::string &layer_id = "circles", double opacity = 1.0);
 
         /** \brief Add a circle shape from a point and a radius
@@ -554,18 +554,18 @@ namespace pcl
           * \param[in] r the red channel of the color that the sphere should be rendered with (0.0 -> 1.0)
           * \param[in] g the green channel of the color that the sphere should be rendered with (0.0 -> 1.0)
           * \param[in] b the blue channel of the color that the sphere should be rendered with (0.0 -> 1.0)
-          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn. 
+          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn.
           * \param[in] opacity the opacity of the layer: 0 for invisible, 1 for opaque. (default: 1.0)
           */
         bool
-        addCircle (unsigned int x, unsigned int y, double radius, 
+        addCircle (unsigned int x, unsigned int y, double radius,
                    double r, double g, double b,
                    const std::string &layer_id = "circles", double opacity = 1.0);
 
         /** \brief Add a 2D box and color its edges with a given color
           * \param[in] min_pt the X,Y min coordinate
           * \param[in] max_pt the X,Y max coordinate
-          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn. 
+          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn.
           * \param[in] opacity the opacity of the layer: 0 for invisible, 1 for opaque. (default: 1.0)
           */
         bool
@@ -578,7 +578,7 @@ namespace pcl
           * \param[in] r the red channel of the color that the box should be rendered with (0.0 -> 1.0)
           * \param[in] g the green channel of the color that the box should be rendered with (0.0 -> 1.0)
           * \param[in] b the blue channel of the color that the box should be rendered with (0.0 -> 1.0)
-          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn. 
+          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn.
           * \param[in] opacity the opacity of the layer: 0 for invisible, 1 for opaque. (default: 1.0)
           */
         bool
@@ -590,27 +590,27 @@ namespace pcl
           * \param[in] x_min the X min coordinate
           * \param[in] x_max the X max coordinate
           * \param[in] y_min the Y min coordinate
-          * \param[in] y_max the Y max coordinate 
-          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn. 
+          * \param[in] y_max the Y max coordinate
+          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn.
           * \param[in] opacity the opacity of the layer: 0 for invisible, 1 for opaque. (default: 1.0)
           */
         bool
-        addRectangle (unsigned int x_min, unsigned int x_max, unsigned int y_min, unsigned int y_max,  
+        addRectangle (unsigned int x_min, unsigned int x_max, unsigned int y_min, unsigned int y_max,
                       const std::string &layer_id = "rectangles", double opacity = 1.0);
 
         /** \brief Add a 2D box and color its edges with a given color
           * \param[in] x_min the X min coordinate
           * \param[in] x_max the X max coordinate
           * \param[in] y_min the Y min coordinate
-          * \param[in] y_max the Y max coordinate 
+          * \param[in] y_max the Y max coordinate
           * \param[in] r the red channel of the color that the box should be rendered with (0.0 -> 1.0)
           * \param[in] g the green channel of the color that the box should be rendered with (0.0 -> 1.0)
           * \param[in] b the blue channel of the color that the box should be rendered with (0.0 -> 1.0)
-          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn. 
+          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn.
           * \param[in] opacity the opacity of the layer: 0 for invisible, 1 for opaque. (default: 1.0)
           */
         bool
-        addRectangle (unsigned int x_min, unsigned int x_max, unsigned int y_min, unsigned int y_max,  
+        addRectangle (unsigned int x_min, unsigned int x_max, unsigned int y_min, unsigned int y_max,
                       double r, double g, double b,
                       const std::string &layer_id = "rectangles", double opacity = 1.0);
 
@@ -618,11 +618,11 @@ namespace pcl
           * \param[in] image the organized point cloud dataset containing the image data
           * \param[in] min_pt the X,Y min coordinate
           * \param[in] max_pt the X,Y max coordinate
-          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn. 
+          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn.
           * \param[in] opacity the opacity of the layer: 0 for invisible, 1 for opaque. (default: 1.0)
           */
         template <typename T> bool
-        addRectangle (const typename pcl::PointCloud<T>::ConstPtr &image, 
+        addRectangle (const typename pcl::PointCloud<T>::ConstPtr &image,
                       const T &min_pt, const T &max_pt,
                       const std::string &layer_id = "rectangles", double opacity = 1.0);
 
@@ -633,11 +633,11 @@ namespace pcl
           * \param[in] r the red channel of the color that the box should be rendered with (0.0 -> 1.0)
           * \param[in] g the green channel of the color that the box should be rendered with (0.0 -> 1.0)
           * \param[in] b the blue channel of the color that the box should be rendered with (0.0 -> 1.0)
-          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn. 
+          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn.
           * \param[in] opacity the opacity of the layer: 0 for invisible, 1 for opaque. (default: 1.0)
           */
         template <typename T> bool
-        addRectangle (const typename pcl::PointCloud<T>::ConstPtr &image, 
+        addRectangle (const typename pcl::PointCloud<T>::ConstPtr &image,
                       const T &min_pt, const T &max_pt,
                       double r, double g, double b,
                       const std::string &layer_id = "rectangles", double opacity = 1.0);
@@ -645,15 +645,15 @@ namespace pcl
         /** \brief Add a 2D box that contains a given image mask and color its edges
           * \param[in] image the organized point cloud dataset containing the image data
           * \param[in] mask the point data representing the mask that we want to draw
-          * \param[in] r the red channel of the color that the mask should be rendered with 
+          * \param[in] r the red channel of the color that the mask should be rendered with
           * \param[in] g the green channel of the color that the mask should be rendered with
           * \param[in] b the blue channel of the color that the mask should be rendered with
           * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn.
           * \param[in] opacity the opacity of the layer: 0 for invisible, 1 for opaque. (default: 1.0)
           */
         template <typename T> bool
-        addRectangle (const typename pcl::PointCloud<T>::ConstPtr &image, const pcl::PointCloud<T> &mask, 
-                      double r, double g, double b, 
+        addRectangle (const typename pcl::PointCloud<T>::ConstPtr &image, const pcl::PointCloud<T> &mask,
+                      double r, double g, double b,
                       const std::string &layer_id = "rectangles", double opacity = 1.0);
 
         /** \brief Add a 2D box that contains a given image mask and color its edges in red
@@ -663,34 +663,34 @@ namespace pcl
           * \param[in] opacity the opacity of the layer: 0 for invisible, 1 for opaque. (default: 1.0)
           */
         template <typename T> bool
-        addRectangle (const typename pcl::PointCloud<T>::ConstPtr &image, const pcl::PointCloud<T> &mask, 
+        addRectangle (const typename pcl::PointCloud<T>::ConstPtr &image, const pcl::PointCloud<T> &mask,
                       const std::string &layer_id = "image_mask", double opacity = 1.0);
 
         /** \brief Add a 2D box and fill it in with a given color
           * \param[in] x_min the X min coordinate
           * \param[in] x_max the X max coordinate
           * \param[in] y_min the Y min coordinate
-          * \param[in] y_max the Y max coordinate 
-          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn. 
+          * \param[in] y_max the Y max coordinate
+          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn.
           * \param[in] opacity the opacity of the layer: 0 for invisible, 1 for opaque. (default: 0.5)
           */
         bool
-        addFilledRectangle (unsigned int x_min, unsigned int x_max, unsigned int y_min, unsigned int y_max,  
+        addFilledRectangle (unsigned int x_min, unsigned int x_max, unsigned int y_min, unsigned int y_max,
                             const std::string &layer_id = "boxes", double opacity = 0.5);
 
         /** \brief Add a 2D box and fill it in with a given color
           * \param[in] x_min the X min coordinate
           * \param[in] x_max the X max coordinate
           * \param[in] y_min the Y min coordinate
-          * \param[in] y_max the Y max coordinate 
+          * \param[in] y_max the Y max coordinate
           * \param[in] r the red channel of the color that the box should be rendered with (0.0 -> 1.0)
           * \param[in] g the green channel of the color that the box should be rendered with (0.0 -> 1.0)
           * \param[in] b the blue channel of the color that the box should be rendered with (0.0 -> 1.0)
-          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn. 
+          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn.
           * \param[in] opacity the opacity of the layer: 0 for invisible, 1 for opaque. (default: 0.5)
           */
         bool
-        addFilledRectangle (unsigned int x_min, unsigned int x_max, unsigned int y_min, unsigned int y_max,  
+        addFilledRectangle (unsigned int x_min, unsigned int x_max, unsigned int y_min, unsigned int y_max,
                             double r, double g, double b,
                             const std::string &layer_id = "boxes", double opacity = 0.5);
 
@@ -698,24 +698,24 @@ namespace pcl
           * \param[in] x_min the X min coordinate
           * \param[in] y_min the Y min coordinate
           * \param[in] x_max the X max coordinate
-          * \param[in] y_max the Y max coordinate 
+          * \param[in] y_max the Y max coordinate
           * \param[in] r the red channel of the color that the line should be rendered with (0.0 -> 1.0)
           * \param[in] g the green channel of the color that the line should be rendered with (0.0 -> 1.0)
           * \param[in] b the blue channel of the color that the line should be rendered with (0.0 -> 1.0)
-          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn. 
+          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn.
           * \param[in] opacity the opacity of the layer: 0 for invisible, 1 for opaque. (default: 1.0)
           */
         bool
         addLine (unsigned int x_min, unsigned int y_min, unsigned int x_max, unsigned int y_max,
-                 double r, double g, double b, 
+                 double r, double g, double b,
                  const std::string &layer_id = "line", double opacity = 1.0);
 
         /** \brief Add a 2D line with a given color
           * \param[in] x_min the X min coordinate
           * \param[in] y_min the Y min coordinate
           * \param[in] x_max the X max coordinate
-          * \param[in] y_max the Y max coordinate 
-          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn. 
+          * \param[in] y_max the Y max coordinate
+          * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn.
           * \param[in] opacity the opacity of the layer: 0 for invisible, 1 for opaque. (default: 1.0)
           */
         bool
@@ -723,18 +723,18 @@ namespace pcl
                  const std::string &layer_id = "line", double opacity = 1.0);
 
 
-        /** \brief Add a generic 2D mask to an image 
+        /** \brief Add a generic 2D mask to an image
           * \param[in] image the organized point cloud dataset containing the image data
           * \param[in] mask the point data representing the mask that we want to draw
-          * \param[in] r the red channel of the color that the mask should be rendered with 
+          * \param[in] r the red channel of the color that the mask should be rendered with
           * \param[in] g the green channel of the color that the mask should be rendered with
           * \param[in] b the blue channel of the color that the mask should be rendered with
           * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn.
           * \param[in] opacity the opacity of the layer: 0 for invisible, 1 for opaque. (default: 0.5)
           */
         template <typename T> bool
-        addMask (const typename pcl::PointCloud<T>::ConstPtr &image, const pcl::PointCloud<T> &mask, 
-                 double r, double g, double b, 
+        addMask (const typename pcl::PointCloud<T>::ConstPtr &image, const pcl::PointCloud<T> &mask,
+                 double r, double g, double b,
                  const std::string &layer_id = "image_mask", double opacity = 0.5);
 
         /** \brief Add a generic 2D mask to an image (colored in red)
@@ -744,36 +744,36 @@ namespace pcl
           * \param[in] opacity the opacity of the layer: 0 for invisible, 1 for opaque. (default: 0.5)
           */
         template <typename T> bool
-        addMask (const typename pcl::PointCloud<T>::ConstPtr &image, const pcl::PointCloud<T> &mask, 
+        addMask (const typename pcl::PointCloud<T>::ConstPtr &image, const pcl::PointCloud<T> &mask,
                  const std::string &layer_id = "image_mask", double opacity = 0.5);
 
-        /** \brief Add a generic 2D planar polygon to an image 
+        /** \brief Add a generic 2D planar polygon to an image
           * \param[in] image the organized point cloud dataset containing the image data
-          * \param[in] polygon the point data representing the polygon that we want to draw. 
+          * \param[in] polygon the point data representing the polygon that we want to draw.
           * A line will be drawn from each point to the next in the dataset.
-          * \param[in] r the red channel of the color that the polygon should be rendered with 
+          * \param[in] r the red channel of the color that the polygon should be rendered with
           * \param[in] g the green channel of the color that the polygon should be rendered with
           * \param[in] b the blue channel of the color that the polygon should be rendered with
           * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn.
           * \param[in] opacity the opacity of the layer: 0 for invisible, 1 for opaque. (default: 1.0)
           */
         template <typename T> bool
-        addPlanarPolygon (const typename pcl::PointCloud<T>::ConstPtr &image, const pcl::PlanarPolygon<T> &polygon, 
-                          double r, double g, double b, 
+        addPlanarPolygon (const typename pcl::PointCloud<T>::ConstPtr &image, const pcl::PlanarPolygon<T> &polygon,
+                          double r, double g, double b,
                           const std::string &layer_id = "planar_polygon", double opacity = 1.0);
 
-        /** \brief Add a generic 2D planar polygon to an image 
+        /** \brief Add a generic 2D planar polygon to an image
           * \param[in] image the organized point cloud dataset containing the image data
-          * \param[in] polygon the point data representing the polygon that we want to draw. 
+          * \param[in] polygon the point data representing the polygon that we want to draw.
           * A line will be drawn from each point to the next in the dataset.
           * \param[in] layer_id the 2D layer ID where we want the extra information to be drawn.
           * \param[in] opacity the opacity of the layer: 0 for invisible, 1 for opaque. (default: 1.0)
           */
         template <typename T> bool
-        addPlanarPolygon (const typename pcl::PointCloud<T>::ConstPtr &image, const pcl::PlanarPolygon<T> &polygon, 
+        addPlanarPolygon (const typename pcl::PointCloud<T>::ConstPtr &image, const pcl::PlanarPolygon<T> &polygon,
                           const std::string &layer_id = "planar_polygon", double opacity = 1.0);
 
-        /** \brief Add a new 2D rendering layer to the viewer. 
+        /** \brief Add a new 2D rendering layer to the viewer.
           * \param[in] layer_id the name of the layer
           * \param[in] width the width of the layer
           * \param[in] height the height of the layer
@@ -844,21 +844,21 @@ namespace pcl
         /** \brief Fire up a mouse event with a specified event ID
           * \param[int] event_id the id of the event
           */
-        void 
+        void
         emitMouseEvent (unsigned long event_id);
-        
+
         /** \brief Fire up a keyboard event with a specified event ID
           * \param[int] event_id the id of the event
           */
-        void 
+        void
         emitKeyboardEvent (unsigned long event_id);
-        
+
         // Callbacks used to register for vtk command
-        static void 
+        static void
         MouseCallback (vtkObject*, unsigned long eid, void* clientdata, void *calldata);
-        static void 
+        static void
         KeyboardCallback (vtkObject*, unsigned long eid, void* clientdata, void *calldata);
-        
+
       protected: // types
         struct ExitMainLoopTimerCallback : public vtkCommand
         {
@@ -868,7 +868,7 @@ namespace pcl
           {
             return (new ExitMainLoopTimerCallback);
           }
-          virtual void 
+          virtual void
           Execute (vtkObject* vtkNotUsed (caller), unsigned long event_id, void* call_data)
           {
             if (event_id != vtkCommand::TimerEvent)
@@ -889,7 +889,7 @@ namespace pcl
           {
             return (new ExitCallback);
           }
-          virtual void 
+          virtual void
           Execute (vtkObject*, unsigned long event_id, void*)
           {
             if (event_id != vtkCommand::ExitEvent)
@@ -912,7 +912,7 @@ namespace pcl
 
         typedef std::vector<Layer> LayerMap;
 
-        /** \brief Add a new 2D rendering layer to the viewer. 
+        /** \brief Add a new 2D rendering layer to the viewer.
           * \param[in] layer_id the name of the layer
           * \param[in] width the width of the layer
           * \param[in] height the height of the layer
@@ -924,7 +924,7 @@ namespace pcl
 
         boost::signals2::signal<void (const pcl::visualization::MouseEvent&)> mouse_signal_;
         boost::signals2::signal<void (const pcl::visualization::KeyboardEvent&)> keyboard_signal_;
-        
+
         vtkSmartPointer<vtkRenderWindowInteractor> interactor_;
         vtkSmartPointer<vtkCallbackCommand> mouse_command_;
         vtkSmartPointer<vtkCallbackCommand> keyboard_command_;
@@ -951,7 +951,7 @@ namespace pcl
 
         /** \brief The data array representing the image. Used internally. */
         boost::shared_array<unsigned char> data_;
-  
+
         /** \brief The data array (representing the image) size. Used internally. */
         size_t data_size_;
 
@@ -963,7 +963,7 @@ namespace pcl
 
         /** \brief Internal blender used to overlay 2D geometry over the image. */
         vtkSmartPointer<vtkImageBlend> blend_;
- 
+
         /** \brief Internal list with different 2D layers shapes. */
         LayerMap layer_map_;
 

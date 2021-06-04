@@ -25,32 +25,32 @@ if(build)
             src/convex_hull.cpp
             )
     endif(QHULL_FOUND)
-    
+
     if (VTK_FOUND AND NOT ANDROID)
         set(VTK_USE_FILE ${VTK_USE_FILE} CACHE INTERNAL "VTK_USE_FILE")
         include (${VTK_USE_FILE})
-        
-        set(VTK_SMOOTHING_INCLUDES 
+
+        set(VTK_SMOOTHING_INCLUDES
             include/pcl/${SUBSYS_NAME}/vtk_smoothing/vtk.h
             include/pcl/${SUBSYS_NAME}/vtk_smoothing/vtk_utils.h
             include/pcl/${SUBSYS_NAME}/vtk_smoothing/vtk_mesh_subdivision.h
             include/pcl/${SUBSYS_NAME}/vtk_smoothing/vtk_mesh_smoothing_laplacian.h
             include/pcl/${SUBSYS_NAME}/vtk_smoothing/vtk_mesh_smoothing_windowed_sinc.h)
 
-        set(VTK_SMOOTHING_SOURCE 
+        set(VTK_SMOOTHING_SOURCE
 	    src/vtk_smoothing/vtk_utils.cpp
             src/vtk_smoothing/vtk_mesh_subdivision.cpp
             src/vtk_smoothing/vtk_mesh_smoothing_laplacian.cpp
             src/vtk_smoothing/vtk_mesh_smoothing_windowed_sinc.cpp)
         set(VTK_SMOOTHING_TARGET_LINK_LIBRARIES vtkCommon vtkWidgets vtkGraphics)
     endif()
-    
+
     SET(BUILD_surface_on_nurbs 0 CACHE BOOL "Fitting NURBS to point-clouds using openNURBS" )
     IF(BUILD_surface_on_nurbs)
         include(src/openNURBS/openNURBS.cmake)
-        include(src/on_nurbs/on_nurbs.cmake) 
+        include(src/on_nurbs/on_nurbs.cmake)
     ENDIF(BUILD_surface_on_nurbs)
-    
+
 
     set(POISSON_INCLUDES
         include/pcl/${SUBSYS_NAME}/poisson/allocator.h
@@ -82,8 +82,8 @@ if(build)
         src/poisson/geometry.cpp
         src/poisson/marching_cubes_poisson.cpp
         )
-    
-    set(srcs src/processing.cpp 
+
+    set(srcs src/processing.cpp
         src/ear_clipping.cpp
         src/gp3.cpp
         src/grid_projection.cpp
@@ -104,7 +104,7 @@ if(build)
         ${ON_NURBS_SOURCES}
         )
 
-    set(incs 
+    set(incs
         include/pcl/${SUBSYS_NAME}/boost.h
         include/pcl/${SUBSYS_NAME}/eigen.h
         include/pcl/${SUBSYS_NAME}/ear_clipping.h
@@ -119,7 +119,7 @@ if(build)
         include/pcl/${SUBSYS_NAME}/reconstruction.h
         include/pcl/${SUBSYS_NAME}/processing.h
         include/pcl/${SUBSYS_NAME}/simplification_remove_unused_vertices.h
-        include/pcl/${SUBSYS_NAME}/surfel_smoothing.h        
+        include/pcl/${SUBSYS_NAME}/surfel_smoothing.h
         include/pcl/${SUBSYS_NAME}/texture_mapping.h
         ${VTK_SMOOTHING_INCLUDES}
         include/pcl/${SUBSYS_NAME}/poisson.h

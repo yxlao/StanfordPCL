@@ -69,41 +69,41 @@ namespace pcl
         * \param[in] callback: the callback function/method
         * \return Connection object, that can be used to disconnect the callback method from the signal again.
         */
-      template<typename T> boost::signals2::connection 
+      template<typename T> boost::signals2::connection
       registerCallback (const boost::function<T>& callback);
 
       /** \brief indicates whether a signal with given parameter-type exists or not
         * \return true if signal exists, false otherwise
         */
-      template<typename T> bool 
+      template<typename T> bool
       providesCallback () const;
 
       /** \brief For devices that are streaming, the streams are started by calling this method.
         *        Trigger-based devices, just trigger the device once for each call of start.
         */
-      virtual void 
+      virtual void
       start () = 0;
 
       /** \brief For devices that are streaming, the streams are stopped.
         *        This method has no effect for triggered devices.
         */
-      virtual void 
+      virtual void
       stop () = 0;
 
       /** \brief returns the name of the concrete subclass.
         * \return the name of the concrete driver.
         */
-      virtual std::string 
+      virtual std::string
       getName () const = 0;
 
       /** \brief Indicates whether the grabber is streaming or not. This value is not defined for triggered devices.
         * \return true if grabber is running / streaming. False otherwise.
         */
-      virtual bool 
+      virtual bool
       isRunning () const = 0;
 
       /** \brief returns fps. 0 if trigger based. */
-      virtual float 
+      virtual float
       getFramesPerSecond () const = 0;
 
     protected:
@@ -111,28 +111,28 @@ namespace pcl
       virtual void
       signalsChanged () { }
 
-      template<typename T> boost::signals2::signal<T>* 
+      template<typename T> boost::signals2::signal<T>*
       find_signal () const;
 
-      template<typename T> int 
+      template<typename T> int
       num_slots () const;
 
-      template<typename T> void 
+      template<typename T> void
       disconnect_all_slots ();
 
-      template<typename T> void 
+      template<typename T> void
       block_signal ();
-      
-      template<typename T> void 
+
+      template<typename T> void
       unblock_signal ();
-      
-      inline void 
+
+      inline void
       block_signals ();
-      
-      inline void 
+
+      inline void
       unblock_signals ();
 
-      template<typename T> boost::signals2::signal<T>* 
+      template<typename T> boost::signals2::signal<T>*
       createSignal ();
 
       std::map<std::string, boost::signals2::signal_base*> signals_;

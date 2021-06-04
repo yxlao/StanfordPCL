@@ -12,12 +12,12 @@ pcl::cloud_composer::StatisticalOutlierRemovalTool::StatisticalOutlierRemovalToo
   : ModifyItemTool (parameter_model, parent)
 {
 
-  
+
 }
 
 pcl::cloud_composer::StatisticalOutlierRemovalTool::~StatisticalOutlierRemovalTool ()
 {
-  
+
 }
 
 QList <pcl::cloud_composer::CloudComposerItem*>
@@ -36,25 +36,25 @@ pcl::cloud_composer::StatisticalOutlierRemovalTool::performAction (ConstItemList
     qWarning () << "Input vector has more than one item in StatisticalOutlierRemovalTool";
   }
   input_item = input_data.value (0);
-    
-  
+
+
   if (input_item->type () ==  CloudComposerItem::CLOUD_ITEM )
   {
     sensor_msgs::PointCloud2::ConstPtr input_cloud = input_item->data (ItemDataRole::CLOUD_BLOB).value <sensor_msgs::PointCloud2::ConstPtr> ();
-    
+
     int mean_k = parameter_model_->getProperty("Mean K").toInt ();
     double std_dev_thresh = parameter_model_->getProperty ("Std Dev Thresh").toDouble ();
-    
+
     //////////////// THE WORK - FILTERING OUTLIERS ///////////////////
     // Create the filtering object
     pcl::StatisticalOutlierRemoval<sensor_msgs::PointCloud2> sor;
     sor.setInputCloud (input_cloud);
     sor.setMeanK (mean_k);
     sor.setStddevMulThresh (std_dev_thresh);
-    
+
     //Create output cloud
     sensor_msgs::PointCloud2::Ptr cloud_filtered (new sensor_msgs::PointCloud2);
-    //Filter!  
+    //Filter!
     sor.filter (*cloud_filtered);
 
     //////////////////////////////////////////////////////////////////
@@ -67,15 +67,15 @@ pcl::cloud_composer::StatisticalOutlierRemovalTool::performAction (ConstItemList
                                            , source_origin
                                            , source_orientation);
 
-    
+
     output.append (cloud_item);
   }
   else
   {
     qDebug () << "Input item in StatisticalOutlierRemovalTool is not a cloud!!!";
   }
-  
-  
+
+
   return output;
 }
 
@@ -84,9 +84,9 @@ pcl::cloud_composer::PropertiesModel*
 pcl::cloud_composer::StatisticalOutlierRemovalToolFactory::createToolParameterModel (QObject* parent)
 {
   PropertiesModel* parameter_model = new PropertiesModel(parent);
-  
+
   parameter_model->addProperty ("Mean K", 50,  Qt::ItemIsEditable | Qt::ItemIsEnabled);
   parameter_model->addProperty ("Std Dev Thresh", 1.0,  Qt::ItemIsEditable | Qt::ItemIsEnabled);
-  
+
   return parameter_model;
 }

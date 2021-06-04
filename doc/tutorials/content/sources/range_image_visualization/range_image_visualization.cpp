@@ -22,7 +22,7 @@ bool live_update = false;
 // --------------
 // -----Help-----
 // --------------
-void 
+void
 printUsage (const char* progName)
 {
   std::cout << "\n\nUsage: "<<progName<<" [options] <scene.pcd>\n\n"
@@ -36,7 +36,7 @@ printUsage (const char* progName)
             << "\n\n";
 }
 
-void 
+void
 setViewerPose (pcl::visualization::PCLVisualizer& viewer, const Eigen::Affine3f& viewer_pose)
 {
   Eigen::Vector3f pos_vector = viewer_pose * Eigen::Vector3f(0, 0, 0);
@@ -57,7 +57,7 @@ setViewerPose (pcl::visualization::PCLVisualizer& viewer, const Eigen::Affine3f&
 // --------------
 // -----Main-----
 // --------------
-int 
+int
 main (int argc, char** argv)
 {
   // --------------------------------------
@@ -85,7 +85,7 @@ main (int argc, char** argv)
   }
   angular_resolution_x = pcl::deg2rad (angular_resolution_x);
   angular_resolution_y = pcl::deg2rad (angular_resolution_y);
-  
+
   // ------------------------------------------------------------------
   // -----Read pcd file or create example point cloud if not given-----
   // ------------------------------------------------------------------
@@ -120,7 +120,7 @@ main (int argc, char** argv)
     }
     point_cloud.width = (int) point_cloud.points.size ();  point_cloud.height = 1;
   }
-  
+
   // -----------------------------------------------
   // -----Create RangeImage from the PointCloud-----
   // -----------------------------------------------
@@ -128,11 +128,11 @@ main (int argc, char** argv)
   float min_range = 0.0f;
   int border_size = 1;
   boost::shared_ptr<pcl::RangeImage> range_image_ptr(new pcl::RangeImage);
-  pcl::RangeImage& range_image = *range_image_ptr;   
+  pcl::RangeImage& range_image = *range_image_ptr;
   range_image.createFromPointCloud (point_cloud, angular_resolution_x, angular_resolution_y,
                                     pcl::deg2rad (360.0f), pcl::deg2rad (180.0f),
                                     scene_sensor_pose, coordinate_frame, noise_level, min_range, border_size);
-  
+
   // --------------------------------------------
   // -----Open 3D viewer and add point cloud-----
   // --------------------------------------------
@@ -146,13 +146,13 @@ main (int argc, char** argv)
   //viewer.addPointCloud (point_cloud_ptr, point_cloud_color_handler, "original point cloud");
   viewer.initCameraParameters ();
   setViewerPose(viewer, range_image.getTransformationToWorldSystem ());
-  
+
   // --------------------------
   // -----Show range image-----
   // --------------------------
   pcl::visualization::RangeImageVisualizer range_image_widget ("Range image");
   range_image_widget.showRangeImage (range_image);
-  
+
   //--------------------
   // -----Main loop-----
   //--------------------
@@ -161,7 +161,7 @@ main (int argc, char** argv)
     range_image_widget.spinOnce ();
     viewer.spinOnce ();
     pcl_sleep (0.01);
-    
+
     if (live_update)
     {
       scene_sensor_pose = viewer.getViewerPose();

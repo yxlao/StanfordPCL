@@ -54,11 +54,11 @@ namespace pcl
   class PCL_EXPORTS FileReader
   {
     public:
-      /** \brief empty constructor */ 
+      /** \brief empty constructor */
       FileReader() {}
-      /** \brief empty destructor */ 
+      /** \brief empty destructor */
       virtual ~FileReader() {}
-      /** \brief Read a point cloud data header from a FILE file. 
+      /** \brief Read a point cloud data header from a FILE file.
         *
         * Load only the meta information (number of points, their types, etc),
         * and not the points themselves, from a given FILE file. Useful for fast
@@ -80,9 +80,9 @@ namespace pcl
         * add a 512 byte header in front of the actual file, so set the offset
         * to the next byte after the header (e.g., 513).
         */
-      virtual int 
-      readHeader (const std::string &file_name, sensor_msgs::PointCloud2 &cloud, 
-                  Eigen::Vector4f &origin, Eigen::Quaternionf &orientation, 
+      virtual int
+      readHeader (const std::string &file_name, sensor_msgs::PointCloud2 &cloud,
+                  Eigen::Vector4f &origin, Eigen::Quaternionf &orientation,
                   int &file_version, int &data_type, unsigned int &data_idx, const int offset = 0) = 0;
 
       /** \brief Read a point cloud data from a FILE file and store it into a sensor_msgs/PointCloud2.
@@ -97,17 +97,17 @@ namespace pcl
         * add a 512 byte header in front of the actual file, so set the offset
         * to the next byte after the header (e.g., 513).
         */
-      virtual int 
-      read (const std::string &file_name, sensor_msgs::PointCloud2 &cloud, 
-            Eigen::Vector4f &origin, Eigen::Quaternionf &orientation, int &file_version, 
+      virtual int
+      read (const std::string &file_name, sensor_msgs::PointCloud2 &cloud,
+            Eigen::Vector4f &origin, Eigen::Quaternionf &orientation, int &file_version,
             const int offset = 0) = 0;
 
       /** \brief Read a point cloud data from a FILE file (FILE_V6 only!) and store it into a sensor_msgs/PointCloud2.
-        * 
+        *
         * \note This function is provided for backwards compatibility only and
         * it can only read FILE_V6 files correctly, as sensor_msgs::PointCloud2
-        * does not contain a sensor origin/orientation. Reading any file 
-        * > FILE_V6 will generate a warning. 
+        * does not contain a sensor origin/orientation. Reading any file
+        * > FILE_V6 will generate a warning.
         *
         * \param[in] file_name the name of the file containing the actual PointCloud data
         * \param[out] cloud the resultant PointCloud message read from disk
@@ -118,7 +118,7 @@ namespace pcl
         * add a 512 byte header in front of the actual file, so set the offset
         * to the next byte after the header (e.g., 513).
         */
-      int 
+      int
       read (const std::string &file_name, sensor_msgs::PointCloud2 &cloud, const int offset = 0)
       {
         Eigen::Vector4f origin;
@@ -141,7 +141,7 @@ namespace pcl
       {
         sensor_msgs::PointCloud2 blob;
         int file_version;
-        int res = read (file_name, blob, cloud.sensor_origin_, cloud.sensor_orientation_, 
+        int res = read (file_name, blob, cloud.sensor_origin_, cloud.sensor_orientation_,
                         file_version, offset);
 
         // Exit in case of error
@@ -160,10 +160,10 @@ namespace pcl
   class PCL_EXPORTS FileWriter
   {
     public:
-      /** \brief Empty constructor */ 
+      /** \brief Empty constructor */
       FileWriter () {}
 
-      /** \brief Empty destructor */ 
+      /** \brief Empty destructor */
       virtual ~FileWriter () {}
 
       /** \brief Save point cloud data to a FILE file containing n-D points
@@ -175,8 +175,8 @@ namespace pcl
         * FILE format, false (default) for ASCII
         */
       virtual int
-      write (const std::string &file_name, const sensor_msgs::PointCloud2 &cloud, 
-             const Eigen::Vector4f &origin = Eigen::Vector4f::Zero (), 
+      write (const std::string &file_name, const sensor_msgs::PointCloud2 &cloud,
+             const Eigen::Vector4f &origin = Eigen::Vector4f::Zero (),
              const Eigen::Quaternionf &orientation = Eigen::Quaternionf::Identity (),
              const bool binary = false) = 0;
 
@@ -189,8 +189,8 @@ namespace pcl
         * \param[in] orientation the sensor acquisition orientation
         */
       inline int
-      write (const std::string &file_name, const sensor_msgs::PointCloud2::ConstPtr &cloud, 
-             const Eigen::Vector4f &origin = Eigen::Vector4f::Zero (), 
+      write (const std::string &file_name, const sensor_msgs::PointCloud2::ConstPtr &cloud,
+             const Eigen::Vector4f &origin = Eigen::Vector4f::Zero (),
              const Eigen::Quaternionf &orientation = Eigen::Quaternionf::Identity (),
              const bool binary = false)
       {
@@ -204,8 +204,8 @@ namespace pcl
         * FILE format, false (default) for ASCII
         */
       template<typename PointT> inline int
-      write (const std::string &file_name, 
-             const pcl::PointCloud<PointT> &cloud, 
+      write (const std::string &file_name,
+             const pcl::PointCloud<PointT> &cloud,
              const bool binary = false)
       {
         Eigen::Vector4f origin = cloud.sensor_origin_;
@@ -231,11 +231,11 @@ namespace pcl
     * \param[out] stream the ostringstream to copy into
     */
   template <typename Type> inline void
-  copyValueString (const sensor_msgs::PointCloud2 &cloud, 
-                   const unsigned int point_index, 
-                   const int point_size, 
-                   const unsigned int field_idx, 
-                   const unsigned int fields_count, 
+  copyValueString (const sensor_msgs::PointCloud2 &cloud,
+                   const unsigned int point_index,
+                   const int point_size,
+                   const unsigned int field_idx,
+                   const unsigned int fields_count,
                    std::ostream &stream)
   {
     Type value;
@@ -246,11 +246,11 @@ namespace pcl
       stream << boost::numeric_cast<Type>(value);
   }
   template <> inline void
-  copyValueString<int8_t> (const sensor_msgs::PointCloud2 &cloud, 
-                           const unsigned int point_index, 
-                           const int point_size, 
-                           const unsigned int field_idx, 
-                           const unsigned int fields_count, 
+  copyValueString<int8_t> (const sensor_msgs::PointCloud2 &cloud,
+                           const unsigned int point_index,
+                           const int point_size,
+                           const unsigned int field_idx,
+                           const unsigned int fields_count,
                            std::ostream &stream)
   {
     int8_t value;
@@ -262,11 +262,11 @@ namespace pcl
       stream << boost::numeric_cast<int>(value);
   }
   template <> inline void
-  copyValueString<uint8_t> (const sensor_msgs::PointCloud2 &cloud, 
-                            const unsigned int point_index, 
-                            const int point_size, 
-                            const unsigned int field_idx, 
-                            const unsigned int fields_count, 
+  copyValueString<uint8_t> (const sensor_msgs::PointCloud2 &cloud,
+                            const unsigned int point_index,
+                            const int point_size,
+                            const unsigned int field_idx,
+                            const unsigned int fields_count,
                             std::ostream &stream)
   {
     uint8_t value;
@@ -289,10 +289,10 @@ namespace pcl
     * \return true if the value is finite, false otherwise
     */
   template <typename Type> inline bool
-  isValueFinite (const sensor_msgs::PointCloud2 &cloud, 
-                 const unsigned int point_index, 
-                 const int point_size, 
-                 const unsigned int field_idx, 
+  isValueFinite (const sensor_msgs::PointCloud2 &cloud,
+                 const unsigned int point_index,
+                 const int point_size,
+                 const unsigned int field_idx,
                  const unsigned int fields_count)
   {
     Type value;
@@ -303,7 +303,7 @@ namespace pcl
   }
 
   /** \brief Copy one single value of type T (uchar, char, uint, int, float, double, ...) from a string
-    * 
+    *
     * Uses aoti/atof to do the conversion.
     * Checks if the st is "nan" and converts it accordingly.
     *
@@ -330,8 +330,8 @@ namespace pcl
       is >> value;
     }
 
-    memcpy (&cloud.data[point_index * cloud.point_step + 
-                        cloud.fields[field_idx].offset + 
+    memcpy (&cloud.data[point_index * cloud.point_step +
+                        cloud.fields[field_idx].offset +
                         fields_count * sizeof (Type)], reinterpret_cast<char*> (&value), sizeof (Type));
   }
 
@@ -354,8 +354,8 @@ namespace pcl
       value = static_cast<int8_t> (val);
     }
 
-    memcpy (&cloud.data[point_index * cloud.point_step + 
-                        cloud.fields[field_idx].offset + 
+    memcpy (&cloud.data[point_index * cloud.point_step +
+                        cloud.fields[field_idx].offset +
                         fields_count * sizeof (int8_t)], reinterpret_cast<char*> (&value), sizeof (int8_t));
   }
 
@@ -378,8 +378,8 @@ namespace pcl
       value = static_cast<uint8_t> (val);
     }
 
-    memcpy (&cloud.data[point_index * cloud.point_step + 
-                        cloud.fields[field_idx].offset + 
+    memcpy (&cloud.data[point_index * cloud.point_step +
+                        cloud.fields[field_idx].offset +
                         fields_count * sizeof (uint8_t)], reinterpret_cast<char*> (&value), sizeof (uint8_t));
   }
 }

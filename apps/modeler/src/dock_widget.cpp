@@ -40,7 +40,7 @@
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-pcl::modeler::DockWidget::DockWidget(const QString &title, QWidget *parent, Qt::WindowFlags flags) : 
+pcl::modeler::DockWidget::DockWidget(const QString &title, QWidget *parent, Qt::WindowFlags flags) :
   QDockWidget(title, parent, flags)
 {
   setStyleSheet("QDockWidget::title {text-align: center;}");
@@ -48,8 +48,8 @@ pcl::modeler::DockWidget::DockWidget(const QString &title, QWidget *parent, Qt::
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-pcl::modeler::DockWidget::DockWidget(QWidget *parent, Qt::WindowFlags flags) : 
-  QDockWidget(parent, flags) 
+pcl::modeler::DockWidget::DockWidget(QWidget *parent, Qt::WindowFlags flags) :
+  QDockWidget(parent, flags)
 {
   setStyleSheet("QDockWidget::title {text-align: center;}");
   setFocusPolicy(Qt::StrongFocus);

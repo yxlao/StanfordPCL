@@ -50,7 +50,7 @@ PCL_INSTANTIATE(Kmeans, PCL_POINT_TYPES);
 #include <pcl/ml/kmeans.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-pcl::Kmeans::Kmeans (unsigned int num_points, unsigned int num_dimensions) 
+pcl::Kmeans::Kmeans (unsigned int num_points, unsigned int num_dimensions)
   : num_points_ (num_points), num_dimensions_ (num_dimensions),
     points_to_clusters_(num_points_, 0)
     //data_ (num_points_, Point (num_dimensions_))
@@ -63,19 +63,19 @@ pcl::Kmeans::~Kmeans ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::Kmeans::initialClusterPoints()
 {
   ClusterId i = 0;
   unsigned int dim;
   for (; i < num_clusters_; i++){
     Point point;   // each centroid is a point
-    for (dim=0; dim<num_dimensions_; dim++) 
+    for (dim=0; dim<num_dimensions_; dim++)
       point.push_back(0.0);
     SetPoints set_of_points;
 
     // init centroids
-    centroids_.push_back(point);  
+    centroids_.push_back(point);
 
     // init clusterId -> set of points
     clusters_to_points_.push_back(set_of_points);
@@ -84,20 +84,20 @@ pcl::Kmeans::initialClusterPoints()
 
 
   ClusterId cid;
-    
+
   for (PointId pid = 0; pid < num_points_; pid++){
-      
+
     cid = pid % num_clusters_;
 
     points_to_clusters_[pid] = cid;
     clusters_to_points_[cid].insert(pid);
-  }    
+  }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::Kmeans::computeCentroids()
-{    
+{
   unsigned int i;
   ClusterId cid = 0;
   PointId num_points_in_cluster;
@@ -122,7 +122,7 @@ pcl::Kmeans::computeCentroids()
       //std::cout << centroid[i] << " ";
     }
     //std::cout << std::endl;
-    
+
     cid++;
   }
 }
@@ -155,7 +155,7 @@ pcl::Kmeans::kMeans ()
       min = distance(centroids_[points_to_clusters_[pid]], data_[pid]);
 
       // foreach centroid
-      cid = 0; 
+      cid = 0;
       move = false;
       BOOST_FOREACH(Centroids::value_type c, centroids_)
       {
@@ -174,8 +174,8 @@ pcl::Kmeans::kMeans ()
         cid++;
       }
 
-      // move towards a closer centroid 
-      if (move){  
+      // move towards a closer centroid
+      if (move){
         // insert
         points_to_clusters_[pid] = to_cluster;
         clusters_to_points_[to_cluster].insert(pid);
@@ -232,7 +232,7 @@ pcl::Kmeans::cluster (std::vector<PointIndices> &clusters)
     {
       DataPoint data (3);
       data[0] = input_->points[i].data[0];
-      
+
 
 
     }
@@ -240,23 +240,23 @@ pcl::Kmeans::cluster (std::vector<PointIndices> &clusters)
 
     /*
     std::cout << "x index: " << x_index << std::endl;
-    
+
     float x = 0.0;
     memcpy (&x, &input_->points[0] + fields[x_index].offset, sizeof(float));
-    
+
     std::cout << "xxx: " << x << std::endl;
     */
 
     //memcpy (&x, reinterpret_cast<float*> (&input_->points[0]) + x_index, sizeof (float));
-    
+
 
     //int rgba_index = 1;
 
     //pcl::RGB rgb;
     //memcpy (&rgb, reinterpret_cast<const char*> (&input_->points[index_vector[i].cloud_point_index]) + rgba_index, sizeof (RGB));
 
-    
-    /*    
+
+    /*
   }
   // if cluster field name is set, check if field name is valied
   else
@@ -270,9 +270,9 @@ pcl::Kmeans::cluster (std::vector<PointIndices> &clusters)
     }
   }
     */
-  
-  
-  
+
+
+
 /*
   int xyz_index = -1;
   pcl::PointCloud <PointT> point;
@@ -286,24 +286,24 @@ pcl::Kmeans::cluster (std::vector<PointIndices> &clusters)
 
 
   std::cout << "index: " << xyz_index << std::endl;
-  
+
   std::string t = pcl::getFieldsList (point);
   std::cout << "t: " << t << std::endl;
 */
-  
+
   //std::vector <sensor_msgs::PointField> fields;
   //pcl::getFieldIndex (*input_, "xyz", fields);
-  
-  
+
+
   //std::cout << "field: " << fields[xyz_index].count << std::endl;
-  
+
 
 /*
   for (size_t i = 0; i < fields[vfh_idx].count; ++i)
   {
-    
+
     //vfh.second[i] = point.points[0].histogram[i];
-    
+
   }
 */
 

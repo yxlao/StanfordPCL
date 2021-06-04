@@ -26,7 +26,7 @@
 void* onmemdup( const void* src, size_t sz )
 {
   void* p;
-  if ( src && sz>0 ) 
+  if ( src && sz>0 )
   {
     p = onmalloc(sz);
     if (p)
@@ -43,14 +43,14 @@ char* onstrdup( const char* src )
 {
   char* p;
   size_t sz;
-  if ( src ) 
+  if ( src )
   {
     for ( sz=0;*src++;sz++)
       ; /* empty for body */
     sz++;
     p = (char*)onmemdup( src-sz, sz*sizeof(*src) );
   }
-  else 
+  else
   {
     p = 0;
   }
@@ -62,14 +62,14 @@ unsigned char* onmbsdup( const unsigned char* src )
 {
   unsigned char* p;
   size_t sz; /* sz = number of bytes to dup (>=_mbclen(scr)) */
-  if ( src ) 
+  if ( src )
   {
     for ( sz=0;*src++;sz++)
       ; /* empty for body */
     sz++;
     p = (unsigned char*)onmemdup( src-sz, sz*sizeof(*src) );
   }
-  else 
+  else
   {
     p = 0;
   }
@@ -82,14 +82,14 @@ wchar_t* onwcsdup( const wchar_t* src )
 {
   wchar_t* p;
   size_t sz;
-  if ( src ) 
+  if ( src )
   {
     for ( sz=0;*src++;sz++)
       ; /* empty for body */
     sz++;
     p = (wchar_t*)onmemdup( src-sz, sz*sizeof(*src) );
   }
-  else 
+  else
   {
     p = 0;
   }

@@ -458,7 +458,7 @@ public:
 
     virtual NcvBool isInitialized(void) const = 0;
     virtual NcvBool isCounting(void) const = 0;
-    
+
     virtual NCVMemoryType memType(void) const = 0;
     virtual Ncv32u alignment(void) const = 0;
     virtual size_t maxSize(void) const = 0;
@@ -582,11 +582,11 @@ public:
         }
         else
         {
-            ncvAssertReturn(dst._length * sizeof(T) >= howMuch && 
+            ncvAssertReturn(dst._length * sizeof(T) >= howMuch &&
                 this->_length * sizeof(T) >= howMuch &&
                 howMuch > 0, NCV_MEM_COPY_ERROR);
         }
-        ncvAssertReturn((this->_ptr != NULL || this->_memtype == NCVMemoryTypeNone) && 
+        ncvAssertReturn((this->_ptr != NULL || this->_memtype == NCVMemoryTypeNone) &&
                         (dst._ptr != NULL || dst._memtype == NCVMemoryTypeNone), NCV_NULL_PTR);
 
         NCVStatus ncvStat = NCV_SUCCESS;
@@ -763,18 +763,18 @@ public:
         }
         else
         {
-            ncvAssertReturn(dst._pitch * dst._height >= howMuch && 
+            ncvAssertReturn(dst._pitch * dst._height >= howMuch &&
                             this->_pitch * this->_height >= howMuch &&
                             howMuch > 0, NCV_MEM_COPY_ERROR);
         }
-        ncvAssertReturn((this->_ptr != NULL || this->_memtype == NCVMemoryTypeNone) && 
+        ncvAssertReturn((this->_ptr != NULL || this->_memtype == NCVMemoryTypeNone) &&
                         (dst._ptr != NULL || dst._memtype == NCVMemoryTypeNone), NCV_NULL_PTR);
 
         NCVStatus ncvStat = NCV_SUCCESS;
         if (this->_memtype != NCVMemoryTypeNone)
         {
-            ncvStat = memSegCopyHelper(dst._ptr, dst._memtype, 
-                                       this->_ptr, this->_memtype, 
+            ncvStat = memSegCopyHelper(dst._ptr, dst._memtype,
+                                       this->_ptr, this->_memtype,
                                        howMuch, cuStream);
         }
 
@@ -785,7 +785,7 @@ public:
     {
         ncvAssertReturn(this->width() >= roi.width && this->height() >= roi.height &&
                         dst.width() >= roi.width && dst.height() >= roi.height, NCV_MEM_COPY_ERROR);
-        ncvAssertReturn((this->_ptr != NULL || this->_memtype == NCVMemoryTypeNone) && 
+        ncvAssertReturn((this->_ptr != NULL || this->_memtype == NCVMemoryTypeNone) &&
                         (dst._ptr != NULL || dst._memtype == NCVMemoryTypeNone), NCV_NULL_PTR);
 
         NCVStatus ncvStat = NCV_SUCCESS;

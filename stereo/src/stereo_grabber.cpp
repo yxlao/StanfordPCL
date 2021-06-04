@@ -53,7 +53,7 @@ struct pcl::StereoGrabberBase::StereoGrabberImpl
                      bool repeat);
   void trigger ();
   void readAhead ();
-  
+
   pcl::StereoGrabberBase& grabber_;
   float frames_per_second_;
   bool repeat_;
@@ -111,7 +111,7 @@ pcl::StereoGrabberBase::StereoGrabberImpl::StereoGrabberImpl (pcl::StereoGrabber
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::StereoGrabberBase::StereoGrabberImpl::readAhead ()
 {
   if (pair_iterator_ != pair_files_.end ())
@@ -127,7 +127,7 @@ pcl::StereoGrabberBase::StereoGrabberImpl::readAhead ()
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::StereoGrabberBase::StereoGrabberImpl::trigger ()
 {
   // If the stereo image pair was successfully read and a cloud was produced, simply publish it
@@ -163,7 +163,7 @@ pcl::StereoGrabberBase::~StereoGrabberBase () throw ()
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::StereoGrabberBase::start ()
 {
   if (impl_->frames_per_second_ > 0)
@@ -176,7 +176,7 @@ pcl::StereoGrabberBase::start ()
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::StereoGrabberBase::stop ()
 {
   if (impl_->frames_per_second_ > 0)
@@ -196,35 +196,35 @@ pcl::StereoGrabberBase::trigger ()
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 pcl::StereoGrabberBase::isRunning () const
 {
   return (impl_->running_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-std::string 
+std::string
 pcl::StereoGrabberBase::getName () const
 {
   return ("StereoGrabber");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::StereoGrabberBase::rewind ()
 {
   impl_->pair_iterator_ = impl_->pair_files_.begin ();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-float 
+float
 pcl::StereoGrabberBase::getFramesPerSecond () const
 {
   return (impl_->frames_per_second_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 pcl::StereoGrabberBase::isRepeatOn () const
 {
   return (impl_->repeat_);

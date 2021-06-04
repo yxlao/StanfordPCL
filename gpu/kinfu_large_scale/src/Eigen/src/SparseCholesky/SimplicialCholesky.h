@@ -50,7 +50,7 @@ LDL License:
 #ifndef EIGEN_SIMPLICIAL_CHOLESKY_H
 #define EIGEN_SIMPLICIAL_CHOLESKY_H
 
-namespace Eigen { 
+namespace Eigen {
 
 enum SimplicialCholeskyMode {
   SimplicialCholeskyLLT,
@@ -63,7 +63,7 @@ enum SimplicialCholeskyMode {
   * These classes provide LL^T and LDL^T Cholesky factorizations of sparse matrices that are
   * selfadjoint and positive definite. The factorization allows for solving A.X = B where
   * X and B can be either dense or sparse.
-  * 
+  *
   * In order to reduce the fill-in, a symmetric permutation P is applied prior to the factorization
   * such that the factorized matrix is P A P^-1.
   *
@@ -103,10 +103,10 @@ class SimplicialCholeskyBase : internal::noncopyable
 
     Derived& derived() { return *static_cast<Derived*>(this); }
     const Derived& derived() const { return *static_cast<const Derived*>(this); }
-    
+
     inline Index cols() const { return m_matrix.cols(); }
     inline Index rows() const { return m_matrix.rows(); }
-    
+
     /** \brief Reports whether previous computation was successful.
       *
       * \returns \c Success if computation was succesful,
@@ -117,7 +117,7 @@ class SimplicialCholeskyBase : internal::noncopyable
       eigen_assert(m_isInitialized && "Decomposition is not initialized.");
       return m_info;
     }
-    
+
     /** \returns the solution x of \f$ A x = b \f$ using the current decomposition of A.
       *
       * \sa compute()
@@ -131,7 +131,7 @@ class SimplicialCholeskyBase : internal::noncopyable
                 && "SimplicialCholeskyBase::solve(): invalid number of rows of the right hand side matrix b");
       return internal::solve_retval<SimplicialCholeskyBase, Rhs>(*this, b.derived());
     }
-    
+
     /** \returns the solution x of \f$ A x = b \f$ using the current decomposition of A.
       *
       * \sa compute()
@@ -145,12 +145,12 @@ class SimplicialCholeskyBase : internal::noncopyable
                 && "SimplicialCholesky::solve(): invalid number of rows of the right hand side matrix b");
       return internal::sparse_solve_retval<SimplicialCholeskyBase, Rhs>(*this, b.derived());
     }
-    
+
     /** \returns the permutation P
       * \sa permutationPinv() */
     const PermutationMatrix<Dynamic,Dynamic,Index>& permutationP() const
     { return m_P; }
-    
+
     /** \returns the inverse P^-1 of the permutation P
       * \sa permutationP() */
     const PermutationMatrix<Dynamic,Dynamic,Index>& permutationPinv() const
@@ -221,7 +221,7 @@ class SimplicialCholeskyBase : internal::noncopyable
     {
       eigen_assert(m_factorizationIsOk && "The decomposition is not in a valid state for solving, you must first call either compute() or symbolic()/numeric()");
       eigen_assert(m_matrix.rows()==b.rows());
-      
+
       // we process the sparse rhs per block of NbColsAtOnce columns temporarily stored into a dense matrix.
       static const int NbColsAtOnce = 4;
       int rhsCols = b.cols();
@@ -239,7 +239,7 @@ class SimplicialCholeskyBase : internal::noncopyable
 #endif // EIGEN_PARSED_BY_DOXYGEN
 
   protected:
-    
+
     /** Computes the sparse Cholesky decomposition of \a matrix */
     template<bool DoLDLT>
     void compute(const MatrixType& matrix)
@@ -251,7 +251,7 @@ class SimplicialCholeskyBase : internal::noncopyable
       analyzePattern_preordered(ap, DoLDLT);
       factorize_preordered<DoLDLT>(ap);
     }
-    
+
     template<bool DoLDLT>
     void factorize(const MatrixType& a)
     {
@@ -274,7 +274,7 @@ class SimplicialCholeskyBase : internal::noncopyable
       analyzePattern_preordered(ap,doLDLT);
     }
     void analyzePattern_preordered(const CholMatrixType& a, bool doLDLT);
-    
+
     void ordering(const MatrixType& a, CholMatrixType& ap);
 
     /** keeps off-diagonal entries; drops diagonal entries */
@@ -289,7 +289,7 @@ class SimplicialCholeskyBase : internal::noncopyable
     bool m_isInitialized;
     bool m_factorizationIsOk;
     bool m_analysisIsOk;
-    
+
     CholMatrixType m_matrix;
     VectorType m_diag;                                // the diagonal coefficients (LDLT mode)
     VectorXi m_parent;                                // elimination tree
@@ -348,7 +348,7 @@ template<typename _MatrixType, int _UpLo> struct traits<SimplicialCholesky<_Matr
   * This class provides a LL^T Cholesky factorizations of sparse matrices that are
   * selfadjoint and positive definite. The factorization allows for solving A.X = B where
   * X and B can be either dense or sparse.
-  * 
+  *
   * In order to reduce the fill-in, a symmetric permutation P is applied prior to the factorization
   * such that the factorized matrix is P A P^-1.
   *
@@ -391,7 +391,7 @@ public:
         eigen_assert(Base::m_factorizationIsOk && "Simplicial LLT not factorized");
         return Traits::getU(Base::m_matrix);
     }
-    
+
     /** Computes the sparse Cholesky decomposition of \a matrix */
     SimplicialLLT& compute(const MatrixType& matrix)
     {
@@ -436,7 +436,7 @@ public:
   * This class provides a LDL^T Cholesky factorizations without square root of sparse matrices that are
   * selfadjoint and positive definite. The factorization allows for solving A.X = B where
   * X and B can be either dense or sparse.
-  * 
+  *
   * In order to reduce the fill-in, a symmetric permutation P is applied prior to the factorization
   * such that the factorized matrix is P A P^-1.
   *
@@ -492,7 +492,7 @@ public:
       Base::template compute<true>(matrix);
       return *this;
     }
-    
+
     /** Performs a symbolic decomposition on the sparcity of \a matrix.
       *
       * This function is particularly useful when solving for several problems having the same structure.
@@ -577,7 +577,7 @@ public:
         eigen_assert(Base::m_factorizationIsOk && "Simplicial Cholesky not factorized");
         return Base::m_matrix;
     }
-    
+
     /** Computes the sparse Cholesky decomposition of \a matrix */
     SimplicialCholesky& compute(const MatrixType& matrix)
     {
@@ -650,7 +650,7 @@ public:
       if(Base::m_P.size()>0)
         dest = Base::m_Pinv * dest;
     }
-    
+
     Scalar determinant() const
     {
       if(m_LDLT)
@@ -663,7 +663,7 @@ public:
         return internal::abs2(detL);
       }
     }
-    
+
   protected:
     bool m_LDLT;
 };
@@ -700,7 +700,7 @@ void SimplicialCholeskyBase<Derived>::analyzePattern_preordered(const CholMatrix
   m_matrix.resize(size, size);
   m_parent.resize(size);
   m_nonZerosPerCol.resize(size);
-  
+
   ei_declare_aligned_stack_constructed_variable(Index, tags, size, 0);
 
   for(Index k = 0; k < size; ++k)
@@ -726,7 +726,7 @@ void SimplicialCholeskyBase<Derived>::analyzePattern_preordered(const CholMatrix
       }
     }
   }
-  
+
   /* construct Lp index array from m_nonZerosPerCol column counts */
   Index* Lp = m_matrix.outerIndexPtr();
   Lp[0] = 0;
@@ -734,7 +734,7 @@ void SimplicialCholeskyBase<Derived>::analyzePattern_preordered(const CholMatrix
     Lp[k+1] = Lp[k] + m_nonZerosPerCol[k] + (doLDLT ? 0 : 1);
 
   m_matrix.resizeNonZeros(Lp[size]);
-  
+
   m_isInitialized     = true;
   m_info              = Success;
   m_analysisIsOk      = true;
@@ -759,10 +759,10 @@ void SimplicialCholeskyBase<Derived>::factorize_preordered(const CholMatrixType&
   ei_declare_aligned_stack_constructed_variable(Scalar, y, size, 0);
   ei_declare_aligned_stack_constructed_variable(Index,  pattern, size, 0);
   ei_declare_aligned_stack_constructed_variable(Index,  tags, size, 0);
-  
+
   bool ok = true;
   m_diag.resize(DoLDLT ? size : 0);
-  
+
   for(Index k = 0; k < size; ++k)
   {
     // compute nonzero pattern of kth row of L, in topological order
@@ -796,14 +796,14 @@ void SimplicialCholeskyBase<Derived>::factorize_preordered(const CholMatrixType&
       Index i = pattern[top];       /* pattern[top:n-1] is pattern of L(:,k) */
       Scalar yi = y[i];             /* get and clear Y(i) */
       y[i] = 0.0;
-      
+
       /* the nonzero entry L(k,i) */
       Scalar l_ki;
       if(DoLDLT)
-        l_ki = yi / m_diag[i];       
+        l_ki = yi / m_diag[i];
       else
         yi = l_ki = yi / Lx[Lp[i]];
-      
+
       Index p2 = Lp[i] + m_nonZerosPerCol[i];
       Index p;
       for(p = Lp[i] + (DoLDLT ? 0 : 1); p < p2; ++p)
@@ -839,7 +839,7 @@ void SimplicialCholeskyBase<Derived>::factorize_preordered(const CholMatrixType&
 }
 
 namespace internal {
-  
+
 template<typename Derived, typename Rhs>
 struct solve_retval<SimplicialCholeskyBase<Derived>, Rhs>
   : solve_retval_base<SimplicialCholeskyBase<Derived>, Rhs>

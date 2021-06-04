@@ -9,10 +9,10 @@
 
 //./test_object_recognition /home/aitor/PCL_tutorial_iros/data/minnie/raw_4.pcd --objects_root_path /home/aitor/PCL_tutorial_iros/data --objects ../../data/objects.txt --filter ../../params/filter.txt --segment ../../params/segment.txt --feature ../../params/feature.txt --registration ../../params/registration.txt
 
-int 
+int
 main (int argc, char ** argv)
 {
-  if (argc < 3) 
+  if (argc < 3)
   {
     pcl::console::print_info ("Syntax is: %s query.pcd <options>\n", argv[0]);
     pcl::console::print_info ("  where options are:\n");
@@ -57,7 +57,7 @@ main (int argc, char ** argv)
   // Load input file
   PointCloudPtr query (new PointCloud);
   pcl::io::loadPCDFile (argv[1], *query);
-  pcl::console::print_info ("Loaded %s (%zu points)\n", argv[1], query->size ());    
+  pcl::console::print_info ("Loaded %s (%zu points)\n", argv[1], query->size ());
 
   ifstream input_stream;
   ObjectRecognitionParameters params;
@@ -83,10 +83,10 @@ main (int argc, char ** argv)
     }
     input_stream.close ();
   }
-  
+
   //Parse filter parameters
   std::string filter_parameters_file;
-  pcl::console::parse_argument (argc, argv, "--filter", filter_parameters_file) > 0;    
+  pcl::console::parse_argument (argc, argv, "--filter", filter_parameters_file) > 0;
   input_stream.open (filter_parameters_file.c_str ());
   if (input_stream.is_open())
   {
@@ -101,11 +101,11 @@ main (int argc, char ** argv)
   {
     pcl::console::print_info ("Failed to open the filter parameters file (%s)\n", filter_parameters_file.c_str ());
     return (1);
-  }  
-  
+  }
+
   // Parse segmentation parameters
   std::string segmentation_parameters_file;
-  pcl::console::parse_argument (argc, argv, "--segment", segmentation_parameters_file) > 0;    
+  pcl::console::parse_argument (argc, argv, "--segment", segmentation_parameters_file) > 0;
   input_stream.open (segmentation_parameters_file.c_str ());
   if (input_stream.is_open())
   {
@@ -118,14 +118,14 @@ main (int argc, char ** argv)
   }
   else
   {
-    pcl::console::print_info ("Failed to open the segmentation parameters file (%s)\n", 
+    pcl::console::print_info ("Failed to open the segmentation parameters file (%s)\n",
                               segmentation_parameters_file.c_str ());
     return (1);
   }
 
   // Parse feature estimation parameters
   std::string feature_estimation_parameters_file;
-  pcl::console::parse_argument (argc, argv, "--feature", feature_estimation_parameters_file) > 0;    
+  pcl::console::parse_argument (argc, argv, "--feature", feature_estimation_parameters_file) > 0;
   input_stream.open (feature_estimation_parameters_file.c_str ());
   if (input_stream.is_open())
   {
@@ -139,14 +139,14 @@ main (int argc, char ** argv)
   }
   else
   {
-    pcl::console::print_info ("Failed to open the feature estimation parameters file (%s)\n", 
+    pcl::console::print_info ("Failed to open the feature estimation parameters file (%s)\n",
                               feature_estimation_parameters_file.c_str ());
     return (1);
   }
 
   // Parse the registration parameters
   std::string registration_parameters_file;
-  pcl::console::parse_argument (argc, argv, "--registration", registration_parameters_file) > 0;    
+  pcl::console::parse_argument (argc, argv, "--registration", registration_parameters_file) > 0;
   input_stream.open (registration_parameters_file.c_str ());
   if (input_stream.is_open())
   {
@@ -161,7 +161,7 @@ main (int argc, char ** argv)
   }
   else
   {
-    pcl::console::print_info ("Failed to open the registration parameters file (%s)\n", 
+    pcl::console::print_info ("Failed to open the registration parameters file (%s)\n",
                               registration_parameters_file.c_str ());
     return (1);
   }
@@ -185,5 +185,5 @@ main (int argc, char ** argv)
   vis.addPointCloud (query, "query");
   vis.spin ();
 
-  return (0); 
+  return (0);
 }

@@ -4,7 +4,7 @@
  * Point Cloud Library (PCL) - www.pointclouds.org
  * Copyright (c) 2000-2010 Marc Alexander Lehmann <schmorp@schmorp.de>
  * Copyright (c) 2010-2011, Willow Garage, Inc.
- * 
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -17,7 +17,7 @@
  *     copyright notice, this list of conditions and the following
  *     disclaimer in the documentation and/or other materials provided
  *     with the distribution.
- * 
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -99,7 +99,7 @@ pcl::lzfCompress (const void *const in_data, unsigned int in_len,
   // special workaround for it.
 #if defined (WIN32) && defined (_M_X64)
   // workaround for missing POSIX compliance
-  unsigned _int64 off; 
+  unsigned _int64 off;
 #else
   unsigned long off;
 #endif
@@ -125,12 +125,12 @@ pcl::lzfCompress (const void *const in_data, unsigned int in_len,
 
     hval = (hval << 8) | ip[2];
     hslot = htab + IDX (hval);
-    ref = *hslot + (static_cast<const unsigned char*> (in_data)); 
+    ref = *hslot + (static_cast<const unsigned char*> (in_data));
     *hslot = static_cast<unsigned int> (ip - (static_cast<const unsigned char*> (in_data)));
 
     if (
         // The next test will actually take care of this, but this is faster if htab is initialized
-        ref < ip 
+        ref < ip
         && (off = ip - ref - 1) < (1 << 13)
         && ref > static_cast<const unsigned char *> (in_data)
         && ref[2] == ip[2]
@@ -246,7 +246,7 @@ pcl::lzfCompress (const void *const in_data, unsigned int in_len,
     }
   }
 
-  // At most 3 bytes can be missing here 
+  // At most 3 bytes can be missing here
   if (op + 3 > out_end)
     return (0);
 
@@ -272,7 +272,7 @@ pcl::lzfCompress (const void *const in_data, unsigned int in_len,
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-unsigned int 
+unsigned int
 pcl::lzfDecompress (const void *const in_data,  unsigned int in_len,
                     void             *out_data, unsigned int out_len)
 {

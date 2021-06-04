@@ -11,7 +11,7 @@
 #ifndef EIGEN_DIAGONAL_H
 #define EIGEN_DIAGONAL_H
 
-namespace Eigen { 
+namespace Eigen {
 
 /** \class Diagonal
   * \ingroup Core_Module
@@ -129,8 +129,8 @@ template<typename MatrixType, int DiagIndex> class Diagonal
       return m_matrix.coeff(index+rowOffset(), index+colOffset());
     }
 
-    const typename internal::remove_all<typename MatrixType::Nested>::type& 
-    nestedExpression() const 
+    const typename internal::remove_all<typename MatrixType::Nested>::type&
+    nestedExpression() const
     {
       return m_matrix;
     }

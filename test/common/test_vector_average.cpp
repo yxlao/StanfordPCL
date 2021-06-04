@@ -36,8 +36,8 @@
 /** \author Bastian Steder */
 
 #include <pcl/pcl_macros.h>
-#include <iostream> 
-#include <sstream> 
+#include <iostream>
+#include <sstream>
 #include <gtest/gtest.h>
 #include <pcl/common/vector_average.h>
 using namespace pcl;
@@ -53,7 +53,7 @@ TEST (PCL, VectorAverage_mean)
   weights.push_back (0.526732f);
   points.push_back (Eigen::Vector3f (-0.440713f, 0.385624f, -0.810597f));
   weights.push_back (0.312427f);
-  
+
   Eigen::Vector3f correct_mean (0.0f, 0.0f, 0.0f);
   float weigth_sum = 0.0f;
   for (unsigned int i = 0; i < points.size (); ++i)
@@ -62,7 +62,7 @@ TEST (PCL, VectorAverage_mean)
     weigth_sum += weights[i];
   }
   correct_mean /= weigth_sum;
-  
+
   pcl::VectorAverage<float, 3> va;
   for (unsigned int i=0; i<points.size(); ++i)
     va.add(points[i], weights[i]);

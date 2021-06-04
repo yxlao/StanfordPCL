@@ -153,7 +153,7 @@ pcl::visualization::Window::~Window ()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::Window::spin ()
 {
   resetStoppedFlag ();
@@ -189,7 +189,7 @@ pcl::visualization::Window::spinOnce (int time, bool force_redraw)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-boost::signals2::connection 
+boost::signals2::connection
 pcl::visualization::Window::registerMouseCallback (boost::function<void (const pcl::visualization::MouseEvent&)> callback)
 {
   // just add observer at first time when a callback is registered
@@ -209,7 +209,7 @@ pcl::visualization::Window::registerMouseCallback (boost::function<void (const p
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-boost::signals2::connection 
+boost::signals2::connection
 pcl::visualization::Window::registerKeyboardCallback (boost::function<void (const pcl::visualization::KeyboardEvent&)> callback)
 {
   // just add observer at first time when a callback is registered
@@ -223,7 +223,7 @@ pcl::visualization::Window::registerKeyboardCallback (boost::function<void (cons
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::Window::emitMouseEvent (unsigned long event_id)
 {
   int x,y;
@@ -235,7 +235,7 @@ pcl::visualization::Window::emitMouseEvent (unsigned long event_id)
     case vtkCommand::MouseMoveEvent :
       event.setType(MouseEvent::MouseMove);
       break;
-    
+
     case vtkCommand::LeftButtonPressEvent :
       event.setButton(MouseEvent::LeftButton);
       if (interactor_->GetRepeatCount () == 0)
@@ -243,12 +243,12 @@ pcl::visualization::Window::emitMouseEvent (unsigned long event_id)
       else
         event.setType(MouseEvent::MouseDblClick);
       break;
-      
+
     case vtkCommand::LeftButtonReleaseEvent :
       event.setButton(MouseEvent::LeftButton);
       event.setType(MouseEvent::MouseButtonRelease);
       break;
-      
+
     case vtkCommand::RightButtonPressEvent :
       event.setButton(MouseEvent::RightButton);
       if (interactor_->GetRepeatCount () == 0)
@@ -256,12 +256,12 @@ pcl::visualization::Window::emitMouseEvent (unsigned long event_id)
       else
         event.setType(MouseEvent::MouseDblClick);
       break;
-      
+
     case vtkCommand::RightButtonReleaseEvent :
       event.setButton(MouseEvent::RightButton);
       event.setType(MouseEvent::MouseButtonRelease);
       break;
-      
+
     case vtkCommand::MiddleButtonPressEvent :
       event.setButton(MouseEvent::MiddleButton);
       if (interactor_->GetRepeatCount () == 0)
@@ -269,19 +269,19 @@ pcl::visualization::Window::emitMouseEvent (unsigned long event_id)
       else
         event.setType(MouseEvent::MouseDblClick);
       break;
-      
+
     case vtkCommand::MiddleButtonReleaseEvent :
       event.setButton(MouseEvent::MiddleButton);
       event.setType(MouseEvent::MouseButtonRelease);
       break;
-      
+
       case vtkCommand::MouseWheelBackwardEvent :
       event.setButton(MouseEvent::VScroll);
       event.setType(MouseEvent::MouseScrollDown);
       if (interactor_->GetRepeatCount () != 0)
         repeat = true;
       break;
-      
+
     case vtkCommand::MouseWheelForwardEvent :
       event.setButton(MouseEvent::VScroll);
       event.setType(MouseEvent::MouseScrollUp);
@@ -298,7 +298,7 @@ pcl::visualization::Window::emitMouseEvent (unsigned long event_id)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::Window::emitKeyboardEvent (unsigned long event_id)
 {
   KeyboardEvent event (bool(event_id == vtkCommand::KeyPressEvent), interactor_->GetKeySym (), interactor_->GetKeyCode (), interactor_->GetAltKey (), interactor_->GetControlKey (), interactor_->GetShiftKey ());
@@ -306,7 +306,7 @@ pcl::visualization::Window::emitKeyboardEvent (unsigned long event_id)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::Window::MouseCallback(vtkObject*, unsigned long eid, void* clientdata, void*)
 {
   Window* window = reinterpret_cast<Window*> (clientdata);
@@ -314,7 +314,7 @@ pcl::visualization::Window::MouseCallback(vtkObject*, unsigned long eid, void* c
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::Window::KeyboardCallback (vtkObject*, unsigned long eid, void* clientdata, void*)
 {
   Window* window = reinterpret_cast<Window*> (clientdata);

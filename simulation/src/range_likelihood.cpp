@@ -168,13 +168,13 @@ pcl::simulation::RangeLikelihood::RangeLikelihood (int rows, int cols, int row_h
 
   z_near_ = 0.7f;
   z_far_ = 20.0f;
-  
+
   which_cost_function_ = 2; // default to commonly used meter based function
-  
+
   // default lhood parameters - these should always be set by the user
   // so might want to add to constructor eventually:
   sigma_ = 0.1;
-  floor_proportion_ = 0.9; 
+  floor_proportion_ = 0.9;
 
   int height = rows * row_height;
   int width = cols * col_width;
@@ -454,7 +454,7 @@ costFunction2 (float ref_val, float depth_val)
   { // implicitly this caps the cost if there is a hole in the model
     lup = 300;
   }
-  
+
   double lhood = 1;
   if (pcl_isnan (depth_val))
   { // pixels with nan depth - for openNI null points
@@ -472,7 +472,7 @@ costFunction2 (float ref_val, float depth_val)
     // but you need more particles to do this...
     // with ~90particles user 0.999, for example in the quad dataset
     // ratio of uniform to	normal
-    double ratio = 0.99;//was always 0.99; 
+    double ratio = 0.99;//was always 0.99;
     double r_min = 0; // metres
     double r_max = 3; // metres
     lhood = ratio/(r_max -r_min) + (1-ratio)*lhood ;
@@ -595,7 +595,7 @@ pcl::simulation::RangeLikelihood::computeScores (float* reference,
 
   // ref[col%col_width] - z/depth value in metres,   0-> ~20
   // depth_val - contents of depth buffer [0->1]
-  
+
   // for row across each image in a row of model images
   for (int row = 0; row < rows_*row_height_; row++)
   {
@@ -743,7 +743,7 @@ pcl::simulation::RangeLikelihood::getRangeImagePlanar(pcl::RangeImagePlanar &rip
     camera_width_,camera_height_, camera_fx_,camera_fy_,
    camera_fx_, camera_fy_);
 }
-  
+
 void
 pcl::simulation::RangeLikelihood::addNoise ()
 {
@@ -794,21 +794,21 @@ RangeLikelihood::computeLikelihoods (float* reference,
   #if DO_TIMING_PROFILE
     vector<double> tic_toc;
     tic_toc.push_back(getTime());
-  #endif  
-  
+  #endif
+
   scores.resize (cols_*rows_);
   std::fill (scores.begin (), scores.end (), 0);
-  
+
   // Generate depth image for each particle
   render (poses);
-  
+
   #if DO_TIMING_PROFILE
     tic_toc.push_back (getTime ());
   #endif
 
   #if DO_TIMING_PROFILE
     tic_toc.push_back (getTime ());
-  #endif  
+  #endif
   // The depth image is now in depth_texture_
 
   // Compute likelihoods
@@ -819,7 +819,7 @@ RangeLikelihood::computeLikelihoods (float* reference,
   else
   {
     computeScoresShader (reference);
-    
+
     // Aggregate results (we do not use GPU to sum cpu scores)
     if (aggregate_on_cpu_)
     {
@@ -853,11 +853,11 @@ RangeLikelihood::computeLikelihoods (float* reference,
       delete [] score_sum;
     }
   }
-  
+
   #if DO_TIMING_PROFILE
     tic_toc.push_back (getTime ());
     display_tic_toc (tic_toc, "range_likelihood");
-  #endif    
+  #endif
 }
 
 // Computes the likelihood scores using a shader
@@ -1004,7 +1004,7 @@ RangeLikelihood::render (const std::vector<Eigen::Isometry3d, Eigen::aligned_all
   glFlush ();
 
   glBindFramebuffer (GL_FRAMEBUFFER, 0);
-  
+
   // Restore OpenGL state
   glReadBuffer (old_read_buffer);
   glDrawBuffer (old_draw_buffer);

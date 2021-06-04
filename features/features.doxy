@@ -8,10 +8,10 @@ feature estimation from point cloud data. <i>3D features</i> are
 representations at a certain 3D point or position in space, which describe
 geometrical patterns based on the information available around the point. The
 data space selected around the query point is usually referred as the
-<b>k-neighborhood</b>. 
+<b>k-neighborhood</b>.
 
 The following figure shows a simple example of a selected query point, and its
-selected k-neighborhood. 
+selected k-neighborhood.
 
 \image html http://www.pointclouds.org/assets/images/contents/documentation/features_normal.png
 

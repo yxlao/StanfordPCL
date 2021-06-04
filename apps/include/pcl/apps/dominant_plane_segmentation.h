@@ -134,7 +134,7 @@ namespace pcl
          * \param d distance (in meters)
          */
         void
-        setDistanceBetweenClusters (float d) 
+        setDistanceBetweenClusters (float d)
         {
           object_cluster_tolerance_ = d;
         }
@@ -142,8 +142,8 @@ namespace pcl
         /* \brief Sets minimum size of the clusters.
          * \param size number of points
          */
-        void 
-        setMinClusterSize (int size) 
+        void
+        setMinClusterSize (int size)
         {
           object_cluster_min_size_ = size;
         }
@@ -200,8 +200,8 @@ namespace pcl
         /* \brief Set downsampling resolution.
          * \param d resolution (in meters)
          */
-        void 
-        setDownsamplingSize (float d) 
+        void
+        setDownsamplingSize (float d)
         {
           downsample_leaf_ = d;
         }

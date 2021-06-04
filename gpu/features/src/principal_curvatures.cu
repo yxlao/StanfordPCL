@@ -65,16 +65,16 @@ namespace pcl
                 WARPS = CTA_SIZE/Warp::WARP_SIZE
             };
 
-            struct plus 
-            {              
+            struct plus
+            {
                 __forceinline__ __device__ float operator()(const float &lhs, const volatile float& rhs) const { return lhs + rhs; }
-            }; 
+            };
 
             const NormalType *normals;
             const int *indices;
 
-            PtrStep<int> neighbours;            
-            const int *sizes;  
+            PtrStep<int> neighbours;
+            const int *sizes;
 
             int work_size;
 
@@ -92,7 +92,7 @@ namespace pcl
 
                 if (f >= work_size)
                     return;
-                
+
                 int lane = Warp::laneId();
                 int size = sizes[f];
 
@@ -101,7 +101,7 @@ namespace pcl
                 float3 n_idx_f3 = fetch(normals, p_idx);
                 float n_idx[] = { n_idx_f3.x, n_idx_f3.y, n_idx_f3.z};
 
-                __shared__ Eigen33::Mat33 mats[WARPS];                
+                __shared__ Eigen33::Mat33 mats[WARPS];
 
                 Eigen33::Mat33& M = mats[warpid];
 
@@ -117,25 +117,25 @@ namespace pcl
                 if (lane < 9)
                 {
                     float unit = ((lane & 3) == 0) ? 1.f : 0.f;
-                    
+
                     int y = lane / 3;
                     int x = lane - y * 3;
-                                        
+
                     float* mat = (float*)&M;
                     mat[lane] = unit - n_idx[y] * n_idx[x];
-                }                
+                }
 
                 const int* neighbs = neighbours.ptr(p_idx);
 
                 int idx_shift = max_elems * f;
 
-                float3 centroid = make_float3(0.f, 0.f, 0.f);                
+                float3 centroid = make_float3(0.f, 0.f, 0.f);
                 for(int i = lane; i < size; i += Warp::STRIDE)
                 {
                     int neighb_idx = neighbs[i];
 
                     float3 normal = fetch(normals, neighb_idx);
-                    
+
                     float3 proj_normal = M * normal;
 
                     centroid.x += proj_normal.x;
@@ -150,17 +150,17 @@ namespace pcl
                 volatile float *buffer = &cov_buffer[0][threadIdx.x - lane];
                 centroid.x = Warp::reduce(buffer, centroid.x, plus());
                 centroid.y = Warp::reduce(buffer, centroid.y, plus());
-                centroid.z = Warp::reduce(buffer, centroid.z, plus());                                
-                centroid *= 1.f/size;  
+                centroid.z = Warp::reduce(buffer, centroid.z, plus());
+                centroid *= 1.f/size;
 
                 //nvcc bug work workaround.
                 __threadfence_block();
 
-                //compute covariance matrix        
+                //compute covariance matrix
                 int tid = threadIdx.x;
 
                 for(int i = 0; i < 6; ++i)
-                    cov_buffer[i][tid] = 0.f; 
+                    cov_buffer[i][tid] = 0.f;
 
                 for(int i = lane; i < size; i += Warp::STRIDE)
                 {
@@ -169,14 +169,14 @@ namespace pcl
                     proj_normal.y = proj_normals.ptr(1)[i + idx_shift];
                     proj_normal.z = proj_normals.ptr(2)[i + idx_shift];
 
-                    float3 d = proj_normal - centroid;                                  
+                    float3 d = proj_normal - centroid;
 
-                    cov_buffer[0][tid] += d.x * d.x; //cov (0, 0) 
-                    cov_buffer[1][tid] += d.x * d.y; //cov (0, 1) 
-                    cov_buffer[2][tid] += d.x * d.z; //cov (0, 2) 
-                    cov_buffer[3][tid] += d.y * d.y; //cov (1, 1) 
-                    cov_buffer[4][tid] += d.y * d.z; //cov (1, 2) 
-                    cov_buffer[5][tid] += d.z * d.z; //cov (2, 2)       
+                    cov_buffer[0][tid] += d.x * d.x; //cov (0, 0)
+                    cov_buffer[1][tid] += d.x * d.y; //cov (0, 1)
+                    cov_buffer[2][tid] += d.x * d.z; //cov (0, 2)
+                    cov_buffer[3][tid] += d.y * d.y; //cov (1, 1)
+                    cov_buffer[4][tid] += d.y * d.z; //cov (1, 2)
+                    cov_buffer[5][tid] += d.z * d.z; //cov (2, 2)
                 }
 
                 Warp::reduce(&cov_buffer[0][tid - lane], plus());
@@ -192,17 +192,17 @@ namespace pcl
 
                 if (lane == 0)
                 {
-                    // Extract the eigenvalues and eigenvectors                    
+                    // Extract the eigenvalues and eigenvectors
                     Eigen33 eigen33(cov);
 
                     Eigen33::Mat33&     tmp = (Eigen33::Mat33&)cov_buffer[1][tid - lane];
                     Eigen33::Mat33& vec_tmp = (Eigen33::Mat33&)cov_buffer[2][tid - lane];
                     Eigen33::Mat33& evecs   = (Eigen33::Mat33&)cov_buffer[3][tid - lane];
-                    
+
                     float3 evals;
                     eigen33.compute(tmp, vec_tmp, evecs, evals);
 
-                    PrincipalCurvatures out;                    
+                    PrincipalCurvatures out;
                     out.principal_curvature_x = evecs[2].x;
                     out.principal_curvature_y = evecs[2].y;
                     out.principal_curvature_z = evecs[2].z;
@@ -213,7 +213,7 @@ namespace pcl
                     output[f] = out;
                  }
             }
-            
+
             template<class T> __forceinline__ __device__ float3 fetch(const T* data, int index) const
             {
                 //return *(float3*)&data[index];
@@ -223,18 +223,18 @@ namespace pcl
         };
 
         __global__ void principalCurvaturesKernel(const PrincipalCurvaturesImpl impl) { impl(); }
-    }    
+    }
 }
 
 void pcl::device::computePointPrincipalCurvatures(const Normals& normals, const Indices& indices, const NeighborIndices& neighbours, DeviceArray<PrincipalCurvatures>& output, DeviceArray2D<float>& proj_normals)
-{             
+{
     proj_normals.create(3, (int)neighbours.data.size());
 
     PrincipalCurvaturesImpl impl;
-    impl.normals = normals;    
+    impl.normals = normals;
     impl.indices = indices;
 
-    impl.neighbours = neighbours;    
+    impl.neighbours = neighbours;
     impl.sizes = neighbours.sizes;
 
     impl.proj_normals = proj_normals;

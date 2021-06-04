@@ -74,7 +74,7 @@ pcl::DinastGrabber::~DinastGrabber () throw ()
 
     // release the pointer to the device object
 
-    
+
     // disconnect all listeners
 
   }
@@ -109,7 +109,7 @@ pcl::DinastGrabber::findDevice ( int device_position, const int id_vendor, const
   int device_position_counter=0;
   if (libusb_init (&ctx) != 0)
     return;
-  
+
   libusb_set_debug (ctx, 3);
 
   libusb_device **devs = NULL;
@@ -119,7 +119,7 @@ pcl::DinastGrabber::findDevice ( int device_position, const int id_vendor, const
   if (cnt < 0)
     //throw PCLIOException ();
     return;
-  
+
   // Iterate over all devices
   for (ssize_t i = 0; i < cnt; ++i)
   {
@@ -146,7 +146,7 @@ pcl::DinastGrabber::findDevice ( int device_position, const int id_vendor, const
       for (int j = 0; j < config->interface[f].num_altsetting; ++j)
       {
         // Iterate over the number of end points present
-        for (int k = 0; k < int (config->interface[f].altsetting[j].bNumEndpoints); ++k) 
+        for (int k = 0; k < int (config->interface[f].altsetting[j].bNumEndpoints); ++k)
         {
           if (config->interface[f].altsetting[j].endpoint[k].bmAttributes == LIBUSB_TRANSFER_TYPE_BULK)
           {
@@ -163,14 +163,14 @@ pcl::DinastGrabber::findDevice ( int device_position, const int id_vendor, const
     // Free the configuration descriptor
     libusb_free_config_descriptor (config);
   }
-  
+
   // Free the list
   libusb_free_device_list (devs, 1);
-  
+
   //Check if device founded if not notify
   if (device_handle==NULL)
     cout<<"Failed to find any DINAST device"<<endl;
-  
+
   // No bulk endpoint was found
   // bulk_ep is unsigned char! Can't compare with -1 !!!
   //if (bulk_ep == -1)
@@ -193,7 +193,7 @@ pcl::DinastGrabber::openDevice ()
      cout<<"Failed to Claim interface on device"<<endl;  //Throw PCLIOException
   else
     cout<<"Interface Claimed properly"<<endl;
-  
+
 }
 
 void
@@ -219,8 +219,8 @@ pcl::DinastGrabber::USBRxControlData (const unsigned char req_code,
   // timeout (in ms) that this function should wait before giving up due to no response being received
   // for an unlimited timeout, use value 0.
   unsigned int timeout = 1000;
-  
-  int nr_read = libusb_control_transfer (device_handle, requesttype, 
+
+  int nr_read = libusb_control_transfer (device_handle, requesttype,
                                          req_code, value, index, buffer, length, timeout);
   if (nr_read != (int)length)
   {
@@ -245,8 +245,8 @@ pcl::DinastGrabber::USBTxControlData (const unsigned char req_code,
   // timeout (in ms) that this function should wait before giving up due to no response being received
   // for an unlimited timeout, use value 0.
   unsigned int timeout = 1000;
-  
-  int nr_read = libusb_control_transfer (device_handle, requesttype, 
+
+  int nr_read = libusb_control_transfer (device_handle, requesttype,
                                          req_code, value, index, buffer, length, timeout);
   if (nr_read != (int)length)
   {
@@ -266,7 +266,7 @@ pcl::DinastGrabber::getDeviceVersion ()
     //throw PCLIOException ();
     return ("");
   }
- 
+
   data[21] = 0; // NULL
 
   return (std::string (reinterpret_cast<const char*> (data)));
@@ -293,7 +293,7 @@ pcl::DinastGrabber::stop ()
 int
 pcl::DinastGrabber::checkHeader ()
 {
-  // We need at least 2 full sync packets, in case the header starts at the end of the first sync packet to 
+  // We need at least 2 full sync packets, in case the header starts at the end of the first sync packet to
   // guarantee that the index returned actually exists in g_buffer (we perform no checking in the rest of the code)
   if (g_buffer.size () < 2 * SYNC_PACKET)
     return (-1);
@@ -302,7 +302,7 @@ pcl::DinastGrabber::checkHeader ()
 
   for (size_t i = 0; i < g_buffer.size (); ++i)
   {
-    if ((g_buffer[i+0] == 0xAA) && (g_buffer[i+1] == 0xAA) && 
+    if ((g_buffer[i+0] == 0xAA) && (g_buffer[i+1] == 0xAA) &&
         (g_buffer[i+2] == 0x44) && (g_buffer[i+3] == 0x44) &&
         (g_buffer[i+4] == 0xBB) && (g_buffer[i+5] == 0xBB) &&
         (g_buffer[i+6] == 0x77) && (g_buffer[i+7] == 0x77))
@@ -328,7 +328,7 @@ pcl::DinastGrabber::readImage (unsigned char *image)
     g_buffer.rerase (g_buffer.begin(), g_buffer.begin() + IMAGE_SIZE);
 
     second_image = false;
-    
+
     return (IMAGE_SIZE);
   }
 
@@ -339,7 +339,7 @@ pcl::DinastGrabber::readImage (unsigned char *image)
   {
     // Read at least two images in synchronous mode
     int actual_length;
-    int res = libusb_bulk_transfer (device_handle, bulk_ep, raw_buffer, 
+    int res = libusb_bulk_transfer (device_handle, bulk_ep, raw_buffer,
                                     RGB16_LENGTH + SYNC_PACKET, &actual_length, 1000);
     if (res != 0 || actual_length == 0)
     {
@@ -375,7 +375,7 @@ pcl::DinastGrabber::readImage (unsigned char *image)
 
       for (int i = 0; i < IMAGE_SIZE; ++i)
         image[i] = g_buffer[data_adr + i];
-      // Pop the data from the global buffer. 
+      // Pop the data from the global buffer.
       g_buffer.rerase (g_buffer.begin(), g_buffer.begin() + data_adr + IMAGE_SIZE);
       first_image = true;
     }
@@ -396,7 +396,7 @@ pcl::DinastGrabber::readImage (unsigned char *image1, unsigned char *image2)
   int data_adr = -1;
   // Read at least two images in synchronous mode
   int actual_length;
-  int res = libusb_bulk_transfer (device_handle, bulk_ep, raw_buffer, 
+  int res = libusb_bulk_transfer (device_handle, bulk_ep, raw_buffer,
                                   RGB16_LENGTH * 2 + SYNC_PACKET, &actual_length, 0);
   if (res != 0 || actual_length == 0)
   {
@@ -408,7 +408,7 @@ pcl::DinastGrabber::readImage (unsigned char *image1, unsigned char *image2)
 
   for (size_t i = 0; i < actual_length; ++i)
   {
-    if ((raw_buffer[i+0] == 0xAA) && (raw_buffer[i+1] == 0xAA) && 
+    if ((raw_buffer[i+0] == 0xAA) && (raw_buffer[i+1] == 0xAA) &&
         (raw_buffer[i+2] == 0x44) && (raw_buffer[i+3] == 0x44) &&
         (raw_buffer[i+4] == 0xBB) && (raw_buffer[i+5] == 0xBB) &&
         (raw_buffer[i+6] == 0x77) && (raw_buffer[i+7] == 0x77))

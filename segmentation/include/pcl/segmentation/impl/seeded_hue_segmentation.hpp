@@ -43,9 +43,9 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 void
-pcl::seededHueSegmentation (const PointCloud<PointXYZRGB>                         &cloud, 
+pcl::seededHueSegmentation (const PointCloud<PointXYZRGB>                         &cloud,
                             const boost::shared_ptr<search::Search<PointXYZRGB> > &tree,
-                            float                                                 tolerance, 
+                            float                                                 tolerance,
                             PointIndices                                          &indices_in,
                             PointIndices                                          &indices_out,
                             float                                                 delta_hue)
@@ -119,9 +119,9 @@ pcl::seededHueSegmentation (const PointCloud<PointXYZRGB>                       
 }
 //////////////////////////////////////////////////////////////////////////////////////////////
 void
-pcl::seededHueSegmentation (const PointCloud<PointXYZRGB>                           &cloud, 
+pcl::seededHueSegmentation (const PointCloud<PointXYZRGB>                           &cloud,
                             const boost::shared_ptr<search::Search<PointXYZRGBL> >  &tree,
-                            float                                                   tolerance, 
+                            float                                                   tolerance,
                             PointIndices                                            &indices_in,
                             PointIndices                                            &indices_out,
                             float                                                   delta_hue)
@@ -195,10 +195,10 @@ pcl::seededHueSegmentation (const PointCloud<PointXYZRGB>                       
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-void 
+void
 pcl::SeededHueSegmentation::segment (PointIndices &indices_in, PointIndices &indices_out)
 {
-  if (!initCompute () || 
+  if (!initCompute () ||
       (input_ != 0   && input_->points.empty ()) ||
       (indices_ != 0 && indices_->empty ()))
   {

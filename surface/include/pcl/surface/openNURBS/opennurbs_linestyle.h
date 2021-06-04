@@ -21,16 +21,16 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
 // Class ON_DisplayMaterialRef
-// 
+//
 
 /*
 Description:
   Objects can have per viewport display properties
   that override a viewport's default display
-  properties.  These overrides are stored on 
-  ON_3dmObjectAttributes as a list of 
+  properties.  These overrides are stored on
+  ON_3dmObjectAttributes as a list of
   ON_DisplayMaterialRefs.
-  
+
 Example:
   For example, by default a viewport
   might display objects using a wireframe, but

@@ -5,7 +5,7 @@ The OpenNI Grabber Framework in PCL
 
 As of PCL 1.0, we offer a new generic grabber interface to provide a smooth and
 convenient access to different devices and their drivers, file formats and
-other sources of data. 
+other sources of data.
 
 The first driver that we incorporated is the new OpenNI Grabber, which makes it
 a breeze to request data streams from OpenNI compatible cameras. This tutorial
@@ -33,7 +33,7 @@ the OpenNI Grabber.
    :target: _images/pcl_openni_viewer.jpg
 
 .. raw:: html
-  
+
   <iframe title="PCL OpenNI Viewer example" width="480" height="390" src="http://www.youtube.com/embed/x3SaWQkPsPI?rel=0" frameborder="0" allowfullscreen></iframe>
 
 So let's look at the code. From *visualization/tools/openni_viewer_simple.cpp*
@@ -43,36 +43,36 @@ So let's look at the code. From *visualization/tools/openni_viewer_simple.cpp*
 
     #include <pcl/io/openni_grabber.h>
     #include <pcl/visualization/cloud_viewer.h>
-    
+
     class SimpleOpenNIViewer
     {
       public:
         SimpleOpenNIViewer () : viewer ("PCL OpenNI Viewer") {}
 
         void cloud_cb_ (const pcl::PointCloud<pcl::PointXYZ>::ConstPtr &cloud)
-        {   
+        {
           if (!viewer.wasStopped())
             viewer.showCloud (cloud);
-        }   
+        }
 
         void run ()
-        {   
+        {
           pcl::Grabber* interface = new pcl::OpenNIGrabber();
 
-          boost::function<void (const pcl::PointCloud<pcl::PointXYZ>::ConstPtr&)> f = 
+          boost::function<void (const pcl::PointCloud<pcl::PointXYZ>::ConstPtr&)> f =
             boost::bind (&SimpleOpenNIViewer::cloud_cb_, this, _1);
 
           interface->registerCallback (f);
-              
-          interface->start (); 
-              
-          while (!viewer.wasStopped())
-          {   
-            boost::this_thread::sleep (boost::posix_time::seconds (1));
-          }   
 
-          interface->stop (); 
-        }   
+          interface->start ();
+
+          while (!viewer.wasStopped())
+          {
+            boost::this_thread::sleep (boost::posix_time::seconds (1));
+          }
+
+          interface->stop ();
+        }
 
         pcl::visualization::CloudViewer viewer;
     };
@@ -80,7 +80,7 @@ So let's look at the code. From *visualization/tools/openni_viewer_simple.cpp*
     int main ()
     {
       SimpleOpenNIViewer v;
-      v.run (); 
+      v.run ();
       return 0;
     }
 
@@ -119,16 +119,16 @@ this writing:
   This provides the depth image, without any color or intensity information
 
 * `void (const boost::shared_ptr<openni_wrapper::Image>&, const boost::shared_ptr<openni_wrapper::DepthImage>&, float constant)`
-    
+
   When a callback of this type is registered, the grabber sends both RGB
   image and depth image and the constant (*1 / focal length*), which you need
-  if you want to do your own disparity conversion. 
+  if you want to do your own disparity conversion.
 
 .. note::
   All callback types that need a depth _and_ image stream have a
   synchronization mechanism enabled which ensures consistent depth and image
   data. This introduces a small lag, since the synchronizer needs to wait at
-  least for one more set of images before sending the first ones. 
+  least for one more set of images before sending the first ones.
 
 Starting and stopping streams
 -----------------------------
@@ -192,7 +192,7 @@ Q: I get an error about a closed network connection:
   what():  No matching device found. openni_wrapper::OpenNIDevice::OpenNIDevice(xn::Context&, const xn::NodeInfo&, const xn::NodeInfo&, const xn::NodeInfo&, const xn::NodeInfo&) @ /home/andreas/pcl/pcl/trunk/io/src/openni_camera/openni_device.cpp @ 96 : creating depth generator failed. Reason: The network connection has been closed!
 
 A: This error can occur with newer Linux kernels that include the *gspca_kinect* kernel module. The module claims the usb interface of the kinect and prevents OpenNI from doing so.
-You can either remove the kernel module (*rmmod gspca_kinect*) or blacklist it (by executing *echo "blacklist gspca_kinect" > /etc/modprobe.d/blacklist-psengine.conf* as root). 
+You can either remove the kernel module (*rmmod gspca_kinect*) or blacklist it (by executing *echo "blacklist gspca_kinect" > /etc/modprobe.d/blacklist-psengine.conf* as root).
 The OpenNI Ubuntu packages provided by PCL already include this fix, but you might need it in other distributions.
 
 Conclusion

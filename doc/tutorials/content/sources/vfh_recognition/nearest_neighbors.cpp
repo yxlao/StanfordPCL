@@ -68,7 +68,7 @@ loadHist (const boost::filesystem::path &path, vfh_model &vfh)
   * \param distances the resultant neighbor distances
   */
 inline void
-nearestKSearch (flann::Index<flann::ChiSquareDistance<float> > &index, const vfh_model &model, 
+nearestKSearch (flann::Index<flann::ChiSquareDistance<float> > &index, const vfh_model &model,
                 int k, flann::Matrix<int> &indices, flann::Matrix<float> &distances)
 {
   // Query point
@@ -116,11 +116,11 @@ main (int argc, char** argv)
 
   if (argc < 2)
   {
-    pcl::console::print_error 
+    pcl::console::print_error
       ("Need at least three parameters! Syntax is: %s <query_vfh_model.pcd> [options] {kdtree.idx} {training_data.h5} {training_data.list}\n", argv[0]);
-    pcl::console::print_info ("    where [options] are:  -k      = number of nearest neighbors to search for in the tree (default: "); 
+    pcl::console::print_info ("    where [options] are:  -k      = number of nearest neighbors to search for in the tree (default: ");
     pcl::console::print_value ("%d", k); pcl::console::print_info (")\n");
-    pcl::console::print_info ("                          -thresh = maximum distance threshold for a model to be considered VALID (default: "); 
+    pcl::console::print_info ("                          -thresh = maximum distance threshold for a model to be considered VALID (default: ");
     pcl::console::print_value ("%f", thresh); pcl::console::print_info (")\n\n");
     return (-1);
   }
@@ -153,7 +153,7 @@ main (int argc, char** argv)
   // Check if the data has already been saved to disk
   if (!boost::filesystem::exists ("training_data.h5") || !boost::filesystem::exists ("training_data.list"))
   {
-    pcl::console::print_error ("Could not find training data models files %s and %s!\n", 
+    pcl::console::print_error ("Could not find training data models files %s and %s!\n",
         training_data_h5_file_name.c_str (), training_data_list_file_name.c_str ());
     return (-1);
   }
@@ -161,7 +161,7 @@ main (int argc, char** argv)
   {
     loadFileList (models, training_data_list_file_name);
     flann::load_from_file (data, training_data_h5_file_name, "training_data");
-    pcl::console::print_highlight ("Training data found. Loaded %d VFH models from %s/%s.\n", 
+    pcl::console::print_highlight ("Training data found. Loaded %d VFH models from %s/%s.\n",
         (int)data.rows, training_data_h5_file_name.c_str (), training_data_list_file_name.c_str ());
   }
 
@@ -181,7 +181,7 @@ main (int argc, char** argv)
   // Output the results on screen
   pcl::console::print_highlight ("The closest %d neighbors for %s are:\n", k, argv[pcd_indices[0]]);
   for (int i = 0; i < k; ++i)
-    pcl::console::print_info ("    %d - %s (%d) with a distance of: %f\n", 
+    pcl::console::print_info ("    %d - %s (%d) with a distance of: %f\n",
         i, models.at (k_indices[0][i]).first.c_str (), k_indices[0][i], k_distances[0][i]);
 
   // Load the results
@@ -190,16 +190,16 @@ main (int argc, char** argv)
   int x_s = y_s + (int)ceil ((k / (double)y_s) - y_s);
   double x_step = (double)(1 / (double)x_s);
   double y_step = (double)(1 / (double)y_s);
-  pcl::console::print_highlight ("Preparing to load "); 
-  pcl::console::print_value ("%d", k); 
-  pcl::console::print_info (" files ("); 
-  pcl::console::print_value ("%d", x_s);    
-  pcl::console::print_info ("x"); 
-  pcl::console::print_value ("%d", y_s); 
+  pcl::console::print_highlight ("Preparing to load ");
+  pcl::console::print_value ("%d", k);
+  pcl::console::print_info (" files (");
+  pcl::console::print_value ("%d", x_s);
+  pcl::console::print_info ("x");
+  pcl::console::print_value ("%d", y_s);
   pcl::console::print_info (" / ");
-  pcl::console::print_value ("%f", x_step); 
-  pcl::console::print_info ("x"); 
-  pcl::console::print_value ("%f", y_step); 
+  pcl::console::print_value ("%f", x_step);
+  pcl::console::print_info ("x");
+  pcl::console::print_value ("%f", y_step);
   pcl::console::print_info (")\n");
 
   int viewport = 0, l = 0, m = 0;
@@ -228,10 +228,10 @@ main (int argc, char** argv)
     if (cloud_xyz.points.size () == 0)
       break;
 
-    pcl::console::print_info ("[done, "); 
-    pcl::console::print_value ("%d", (int)cloud_xyz.points.size ()); 
+    pcl::console::print_info ("[done, ");
+    pcl::console::print_value ("%d", (int)cloud_xyz.points.size ());
     pcl::console::print_info (" points]\n");
-    pcl::console::print_info ("Available dimensions: "); 
+    pcl::console::print_info ("Available dimensions: ");
     pcl::console::print_value ("%s\n", pcl::getFieldsList (cloud).c_str ());
 
     // Demean the cloud
@@ -241,7 +241,7 @@ main (int argc, char** argv)
     pcl::demeanPointCloud<pcl::PointXYZ> (cloud_xyz, centroid, *cloud_xyz_demean);
     // Add to renderer*
     p.addPointCloud (cloud_xyz_demean, cloud_name, viewport);
-    
+
     // Check if the model found is within our inlier tolerance
     std::stringstream ss;
     ss << k_distances[0][i];

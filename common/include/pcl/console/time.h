@@ -52,20 +52,20 @@ namespace pcl
 
         TicToc () : tictic (), toctoc () {}
 
-        void 
+        void
         tic ()
         {
           tictic = boost::posix_time::microsec_clock::local_time ();
         };
 
-        inline double 
+        inline double
         toc ()
         {
           toctoc = boost::posix_time::microsec_clock::local_time ();
           return (static_cast<double> ((toctoc - tictic).total_milliseconds ()));
         };
-        
-        inline void 
+
+        inline void
         toc_print ()
         {
           double milliseconds = toc ();
@@ -79,12 +79,12 @@ namespace pcl
           print_value ("%g", milliseconds);
           print_info (" ms\n");
         };
-      
+
       private:
         boost::posix_time::ptime tictic;
         boost::posix_time::ptime toctoc;
     };
-  } 
+  }
 }
 
 #endif

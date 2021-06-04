@@ -131,13 +131,13 @@ pcl::pcl_2d::kernel<PointT>::loGKernel (pcl::PointCloud<PointT> &kernel)
   kernel.width = kernel_size_;
 
   double sigma_sqr = 2 * sigma_ * sigma_;
-  
+
   for (int i = 0; i < kernel_size_; i++)
   {
     for (int j = 0; j < kernel_size_; j++)
     {
-      int iks = (i - kernel_size_ / 2); 
-      int jks = (j - kernel_size_ / 2); 
+      int iks = (i - kernel_size_ / 2);
+      int jks = (j - kernel_size_ / 2);
       temp = float (double (iks * iks  + jks * jks) / sigma_sqr);
       kernel (j, i).intensity = (1.0f - temp) * expf (-temp);
       sum += kernel (j, i).intensity;

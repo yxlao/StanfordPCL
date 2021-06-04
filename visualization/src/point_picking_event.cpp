@@ -48,7 +48,7 @@ pcl::visualization::PointPickingCallback::Execute (vtkObject *caller, unsigned l
 {
   vtkRenderWindowInteractor* iren = reinterpret_cast<pcl::visualization::PCLVisualizerInteractorStyle*>(caller)->GetInteractor ();
 
-  if ((eventid == vtkCommand::LeftButtonPressEvent) && (iren->GetShiftKey () > 0)) 
+  if ((eventid == vtkCommand::LeftButtonPressEvent) && (iren->GetShiftKey () > 0))
   {
     float x = 0, y = 0, z = 0;
     int idx = performSinglePick (iren, x, y, z);
@@ -86,14 +86,14 @@ pcl::visualization::PointPickingCallback::performSinglePick (vtkRenderWindowInte
 
   if (!picker)
   {
-    pcl::console::print_error ("Point picker not available, not selecting any points!\n");  
+    pcl::console::print_error ("Point picker not available, not selecting any points!\n");
     return -1;
   }
   //iren->GetMousePosition (&mouse_x, &mouse_y);
   mouse_x = iren->GetEventPosition ()[0];
   mouse_y = iren->GetEventPosition ()[1];
   iren->StartPickCallback ();
-  
+
   vtkRenderer *ren = iren->FindPokedRenderer (iren->GetEventPosition ()[0], iren->GetEventPosition ()[1]);
   picker->Pick (mouse_x, mouse_y, 0.0, ren);
   return (static_cast<int> (picker->GetPointId ()));
@@ -108,17 +108,17 @@ pcl::visualization::PointPickingCallback::performSinglePick (
   int mouse_x, mouse_y;
  // vtkPointPicker *picker = reinterpret_cast<vtkPointPicker*> (iren->GetPicker ());
   vtkPointPicker *picker = vtkPointPicker::SafeDownCast (iren->GetPicker ());
-  
+
   if (!picker)
   {
-    pcl::console::print_error ("Point picker not available, not selecting any points!\n");  
+    pcl::console::print_error ("Point picker not available, not selecting any points!\n");
     return -1;
   }
   //iren->GetMousePosition (&mouse_x, &mouse_y);
   mouse_x = iren->GetEventPosition ()[0];
   mouse_y = iren->GetEventPosition ()[1];
   iren->StartPickCallback ();
-  
+
   vtkRenderer *ren = iren->FindPokedRenderer (iren->GetEventPosition ()[0], iren->GetEventPosition ()[1]);
   picker->Pick (mouse_x, mouse_y, 0.0, ren);
 

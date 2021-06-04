@@ -84,10 +84,10 @@ pcl::visualization::ImageViewer::ImageViewer (const std::string& window_title)
   // Set the mouse/keyboard callbacks
   mouse_command_->SetClientData (this);
   mouse_command_->SetCallback (ImageViewer::MouseCallback);
-  
+
   keyboard_command_->SetClientData (this);
   keyboard_command_->SetCallback (ImageViewer::KeyboardCallback);
- 
+
   // Create our own  interactor and set the window title
 #if ((VTK_MAJOR_VERSION == 5) && (VTK_MINOR_VERSION < 10))
   image_viewer_->SetupInteractor (interactor_);
@@ -113,7 +113,7 @@ pcl::visualization::ImageViewer::ImageViewer (const std::string& window_title)
   // Initialize and create timer
   interactor_->Initialize ();
   timer_id_ = interactor_->CreateRepeatingTimer (0);
-  
+
   // Set the exit callbacks
   exit_main_loop_timer_callback_ = vtkSmartPointer<ExitMainLoopTimerCallback>::New ();
   exit_main_loop_timer_callback_->window = this;
@@ -149,7 +149,7 @@ pcl::visualization::ImageViewer::addRGBImage (
     const unsigned char* rgb_data, unsigned width, unsigned height,
     const std::string &layer_id, double opacity)
 {
-  if (unsigned (getSize ()[0]) != width || 
+  if (unsigned (getSize ()[0]) != width ||
       unsigned (getSize ()[1]) != height)
     setSize (width, height);
 
@@ -162,7 +162,7 @@ pcl::visualization::ImageViewer::addRGBImage (
   }
 
   void* data = const_cast<void*> (reinterpret_cast<const void*> (rgb_data));
-  
+
   vtkSmartPointer<vtkImageData> image = vtkSmartPointer<vtkImageData>::New ();
   image->SetExtent (0, width - 1, 0, height - 1, 0, 0);
   image->SetScalarTypeToUnsignedChar ();
@@ -203,7 +203,7 @@ pcl::visualization::ImageViewer::addMonoImage (
     const unsigned char* rgb_data, unsigned width, unsigned height,
     const std::string &layer_id, double opacity)
 {
-  if (unsigned (getSize ()[0]) != width || 
+  if (unsigned (getSize ()[0]) != width ||
       unsigned (getSize ()[1]) != height)
     setSize (width, height);
 
@@ -216,7 +216,7 @@ pcl::visualization::ImageViewer::addMonoImage (
   }
 
   void* data = const_cast<void*> (reinterpret_cast<const void*> (rgb_data));
-  
+
   vtkSmartPointer<vtkImageData> image = vtkSmartPointer<vtkImageData>::New ();
   image->SetExtent (0, width - 1, 0, height - 1, 0, 0);
   image->SetScalarTypeToUnsignedChar ();
@@ -236,7 +236,7 @@ pcl::visualization::ImageViewer::addMonoImage (
 #else
   blend_->ReplaceNthInputConnection (int (am_it - layer_map_.begin ()), image->GetProducerPort ());
   slice_->GetMapper ()->SetInput (blend_->GetOutput ());
-  
+
   interactor_style_->adjustCamera (image, ren_);
 #endif
 }
@@ -316,7 +316,7 @@ pcl::visualization::ImageViewer::addFloatImage (
   unsigned char* rgb_image = FloatImageUtils::getVisualImage (float_image, width, height,
                                                               min_value, max_value, grayscale);
   addRGBImage (rgb_image, width, height, layer_id, opacity);
-  delete[] rgb_image;  
+  delete[] rgb_image;
  }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -329,9 +329,9 @@ pcl::visualization::ImageViewer::showFloatImage (
   addFloatImage (float_image, width, height, min_value, max_value, grayscale, layer_id, opacity);
   render ();
  }
- 
+
 //////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::ImageViewer::addAngleImage (
     const float* angle_image, unsigned int width, unsigned int height,
     const std::string &layer_id, double opacity)
@@ -342,7 +342,7 @@ pcl::visualization::ImageViewer::addAngleImage (
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::ImageViewer::showAngleImage (
     const float* angle_image, unsigned int width, unsigned int height,
     const std::string &layer_id, double opacity)
@@ -352,7 +352,7 @@ pcl::visualization::ImageViewer::showAngleImage (
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::ImageViewer::addHalfAngleImage (
     const float* angle_image, unsigned int width, unsigned int height,
     const std::string &layer_id, double opacity)
@@ -363,7 +363,7 @@ pcl::visualization::ImageViewer::addHalfAngleImage (
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::ImageViewer::showHalfAngleImage (
     const float* angle_image, unsigned int width, unsigned int height,
     const std::string &layer_id, double opacity)
@@ -373,9 +373,9 @@ pcl::visualization::ImageViewer::showHalfAngleImage (
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::ImageViewer::addShortImage (
-    const unsigned short* short_image, unsigned int width, unsigned int height, 
+    const unsigned short* short_image, unsigned int width, unsigned int height,
     unsigned short min_value, unsigned short max_value, bool grayscale,
     const std::string &layer_id, double opacity)
 {
@@ -386,9 +386,9 @@ pcl::visualization::ImageViewer::addShortImage (
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::ImageViewer::showShortImage (
-    const unsigned short* short_image, unsigned int width, unsigned int height, 
+    const unsigned short* short_image, unsigned int width, unsigned int height,
     unsigned short min_value, unsigned short max_value, bool grayscale,
     const std::string &layer_id, double opacity)
 {
@@ -397,7 +397,7 @@ pcl::visualization::ImageViewer::showShortImage (
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::ImageViewer::spin ()
 {
   render ();
@@ -419,7 +419,7 @@ pcl::visualization::ImageViewer::spinOnce (int time, bool force_redraw)
 
   if (time <= 0)
     time = 1;
-  
+
   DO_EVERY (1.0 / interactor_->GetDesiredUpdateRate (),
     exit_main_loop_timer_callback_->right_timer_id = interactor_->CreateRepeatingTimer (time);
     interactor_->Start ();
@@ -428,7 +428,7 @@ pcl::visualization::ImageViewer::spinOnce (int time, bool force_redraw)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-boost::signals2::connection 
+boost::signals2::connection
 pcl::visualization::ImageViewer::registerMouseCallback (
     boost::function<void (const pcl::visualization::MouseEvent&)> callback)
 {
@@ -449,7 +449,7 @@ pcl::visualization::ImageViewer::registerMouseCallback (
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-boost::signals2::connection 
+boost::signals2::connection
 pcl::visualization::ImageViewer::registerKeyboardCallback (
     boost::function<void (const pcl::visualization::KeyboardEvent&)> callback)
 {
@@ -459,20 +459,20 @@ pcl::visualization::ImageViewer::registerKeyboardCallback (
     interactor_->AddObserver (vtkCommand::KeyPressEvent, keyboard_command_);
     interactor_->AddObserver (vtkCommand::KeyReleaseEvent, keyboard_command_);
   }
-  
+
   return (keyboard_signal_.connect (callback));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::ImageViewer::emitMouseEvent (unsigned long event_id)
 {
   //interactor_->GetMousePosition (&x, &y);
   int x = this->interactor_->GetEventPosition()[0];
   int y = this->interactor_->GetEventPosition()[1];
-  MouseEvent event (MouseEvent::MouseMove, MouseEvent::NoButton, x, y, 
-                    interactor_->GetAltKey (), 
-                    interactor_->GetControlKey (), 
+  MouseEvent event (MouseEvent::MouseMove, MouseEvent::NoButton, x, y,
+                    interactor_->GetAltKey (),
+                    interactor_->GetControlKey (),
                     interactor_->GetShiftKey ());
   bool repeat = false;
   switch (event_id)
@@ -480,7 +480,7 @@ pcl::visualization::ImageViewer::emitMouseEvent (unsigned long event_id)
     case vtkCommand::MouseMoveEvent :
       event.setType (MouseEvent::MouseMove);
       break;
-    
+
     case vtkCommand::LeftButtonPressEvent :
       event.setButton (MouseEvent::LeftButton);
       if (interactor_->GetRepeatCount () == 0)
@@ -488,12 +488,12 @@ pcl::visualization::ImageViewer::emitMouseEvent (unsigned long event_id)
       else
         event.setType (MouseEvent::MouseDblClick);
       break;
-      
+
     case vtkCommand::LeftButtonReleaseEvent :
       event.setButton (MouseEvent::LeftButton);
       event.setType (MouseEvent::MouseButtonRelease);
       break;
-      
+
     case vtkCommand::RightButtonPressEvent :
       event.setButton (MouseEvent::RightButton);
       if (interactor_->GetRepeatCount () == 0)
@@ -501,12 +501,12 @@ pcl::visualization::ImageViewer::emitMouseEvent (unsigned long event_id)
       else
         event.setType (MouseEvent::MouseDblClick);
       break;
-      
+
     case vtkCommand::RightButtonReleaseEvent :
       event.setButton (MouseEvent::RightButton);
       event.setType (MouseEvent::MouseButtonRelease);
       break;
-      
+
     case vtkCommand::MiddleButtonPressEvent :
       event.setButton (MouseEvent::MiddleButton);
       if (interactor_->GetRepeatCount () == 0)
@@ -514,19 +514,19 @@ pcl::visualization::ImageViewer::emitMouseEvent (unsigned long event_id)
       else
         event.setType (MouseEvent::MouseDblClick);
       break;
-      
+
     case vtkCommand::MiddleButtonReleaseEvent :
       event.setButton (MouseEvent::MiddleButton);
       event.setType (MouseEvent::MouseButtonRelease);
       break;
-      
+
     case vtkCommand::MouseWheelBackwardEvent :
       event.setButton (MouseEvent::VScroll);
       event.setType (MouseEvent::MouseScrollDown);
       if (interactor_->GetRepeatCount () != 0)
         repeat = true;
       break;
-      
+
     case vtkCommand::MouseWheelForwardEvent :
       event.setButton (MouseEvent::VScroll);
       event.setType (MouseEvent::MouseScrollUp);
@@ -536,14 +536,14 @@ pcl::visualization::ImageViewer::emitMouseEvent (unsigned long event_id)
     default:
       return;
   }
-  
+
   mouse_signal_ (event);
   if (repeat)
     mouse_signal_ (event);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::ImageViewer::emitKeyboardEvent (unsigned long event_id)
 {
   KeyboardEvent event (bool(event_id == vtkCommand::KeyPressEvent), interactor_->GetKeySym (),  interactor_->GetKeyCode (), interactor_->GetAltKey (), interactor_->GetControlKey (), interactor_->GetShiftKey ());
@@ -551,7 +551,7 @@ pcl::visualization::ImageViewer::emitKeyboardEvent (unsigned long event_id)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::ImageViewer::MouseCallback (vtkObject*, unsigned long eid, void* clientdata, void*)
 {
   ImageViewer* window = reinterpret_cast<ImageViewer*> (clientdata);
@@ -559,7 +559,7 @@ pcl::visualization::ImageViewer::MouseCallback (vtkObject*, unsigned long eid, v
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::ImageViewer::KeyboardCallback (vtkObject*, unsigned long eid, void* clientdata, void*)
 {
   ImageViewer* window = reinterpret_cast<ImageViewer*> (clientdata);
@@ -658,7 +658,7 @@ pcl::visualization::ImageViewer::removeLayer (const std::string &layer_id)
 //////////////////////////////////////////////////////////////////////////////////////////
 bool
 pcl::visualization::ImageViewer::addCircle (
-    unsigned int x, unsigned int y, double radius, double r, double g, double b, 
+    unsigned int x, unsigned int y, double radius, double r, double g, double b,
     const std::string &layer_id, double opacity)
 {
   // Check to see if this ID entry already exists (has it been already added to the visualizer?)
@@ -681,7 +681,7 @@ pcl::visualization::ImageViewer::addCircle (
 
 //////////////////////////////////////////////////////////////////////////////////////////
 bool
-pcl::visualization::ImageViewer::addCircle (unsigned int x, unsigned int y, double radius, 
+pcl::visualization::ImageViewer::addCircle (unsigned int x, unsigned int y, double radius,
                                             const std::string &layer_id, double opacity)
 {
   // Check to see if this ID entry already exists (has it been already added to the visualizer?)
@@ -705,7 +705,7 @@ pcl::visualization::ImageViewer::addCircle (unsigned int x, unsigned int y, doub
 //////////////////////////////////////////////////////////////////////////////////////////
 bool
 pcl::visualization::ImageViewer::addFilledRectangle (
-    unsigned int x_min, unsigned int x_max, unsigned int y_min, unsigned int y_max, 
+    unsigned int x_min, unsigned int x_max, unsigned int y_min, unsigned int y_max,
     double r, double g, double b, const std::string &layer_id, double opacity)
 {
   // Check to see if this ID entry already exists (has it been already added to the visualizer?)
@@ -729,7 +729,7 @@ pcl::visualization::ImageViewer::addFilledRectangle (
 //////////////////////////////////////////////////////////////////////////////////////////
 bool
 pcl::visualization::ImageViewer::addFilledRectangle (
-    unsigned int x_min, unsigned int x_max, unsigned int y_min, unsigned int y_max, 
+    unsigned int x_min, unsigned int x_max, unsigned int y_min, unsigned int y_max,
     const std::string &layer_id, double opacity)
 {
   // Check to see if this ID entry already exists (has it been already added to the visualizer?)
@@ -753,7 +753,7 @@ pcl::visualization::ImageViewer::addFilledRectangle (
 //////////////////////////////////////////////////////////////////////////////////////////
 bool
 pcl::visualization::ImageViewer::addRectangle (
-    unsigned int x_min, unsigned int x_max, unsigned int y_min, unsigned int y_max, 
+    unsigned int x_min, unsigned int x_max, unsigned int y_min, unsigned int y_max,
     double r, double g, double b, const std::string &layer_id, double opacity)
 {
   // Check to see if this ID entry already exists (has it been already added to the visualizer?)
@@ -783,7 +783,7 @@ pcl::visualization::ImageViewer::addRectangle (
 //////////////////////////////////////////////////////////////////////////////////////////
 bool
 pcl::visualization::ImageViewer::addRectangle (
-    unsigned int x_min, unsigned int x_max, unsigned int y_min, unsigned int y_max, 
+    unsigned int x_min, unsigned int x_max, unsigned int y_min, unsigned int y_max,
     const std::string &layer_id, double opacity)
 {
   // Check to see if this ID entry already exists (has it been already added to the visualizer?)
@@ -872,7 +872,7 @@ pcl::visualization::ImageViewer::addRectangle (
 
 //////////////////////////////////////////////////////////////////////////////////////////
 bool
-pcl::visualization::ImageViewer::addLine (unsigned int x_min, unsigned int y_min, 
+pcl::visualization::ImageViewer::addLine (unsigned int x_min, unsigned int y_min,
                                           unsigned int x_max, unsigned int y_max,
                                           const std::string &layer_id, double opacity)
 {
@@ -896,9 +896,9 @@ pcl::visualization::ImageViewer::addLine (unsigned int x_min, unsigned int y_min
 
 //////////////////////////////////////////////////////////////////////////////////////////
 bool
-pcl::visualization::ImageViewer::addLine (unsigned int x_min, unsigned int y_min, 
+pcl::visualization::ImageViewer::addLine (unsigned int x_min, unsigned int y_min,
                                           unsigned int x_max, unsigned int y_max,
-                                          double r, double g, double b, 
+                                          double r, double g, double b,
                                           const std::string &layer_id, double opacity)
 {
   // Check to see if this ID entry already exists (has it been already added to the visualizer?)
@@ -1041,7 +1041,7 @@ pcl::visualization::ImageViewerInteractorStyle::adjustCamera (
   image->GetOrigin  (origin);
   image->GetSpacing (spacing);
   image->GetExtent  (extent);
- 
+
   vtkCamera* camera = ren->GetActiveCamera ();
   double xc = origin[0] + 0.5 * (extent[0] + extent[1]) * spacing[0];
   double yc = origin[1] + 0.5 * (extent[2] + extent[3]) * spacing[1];
@@ -1062,11 +1062,11 @@ pcl::visualization::ImageViewerInteractorStyle::OnLeftButtonDown ()
   FindPokedRenderer (x, y);
   if (CurrentRenderer == NULL)
     return;
-  
+
   // Redefine this button to handle window/level
   GrabFocus (this->EventCallbackCommand);
   // If shift is held down, do nothing
-  if (!this->Interactor->GetShiftKey() && !this->Interactor->GetControlKey()) 
+  if (!this->Interactor->GetShiftKey() && !this->Interactor->GetControlKey())
   {
     WindowLevelStartPosition[0] = x;
     WindowLevelStartPosition[1] = y;

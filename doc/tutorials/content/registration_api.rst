@@ -10,7 +10,7 @@ coordinate framework, such that the intersecting areas between them overlap
 perfectly. For every set of point cloud datasets acquired from different views,
 we therefore need a system that is able to align them together into a single
 point cloud model, so that subsequent processing steps such as segmentation and
-object reconstruction can be applied. 
+object reconstruction can be applied.
 
 .. image:: images/registration/scans.png
     :align: center
@@ -97,37 +97,37 @@ find corresponding features to find overlapping parts in the data. Depending on
 the feature type we can use different methods to find the correspondences.
 
 For *point matching* (using the points' xyz-coordinates as features) different
-methods exist for organized and unorganized data: 
+methods exist for organized and unorganized data:
 
-- brute force matching, 
-- kd-tree nearest neighbor search (FLANN), 
-- searching in the image space of organized data, and  
+- brute force matching,
+- kd-tree nearest neighbor search (FLANN),
+- searching in the image space of organized data, and
 - searching in the index space of organized data.
 
 For *feature matching* (not using the points' coordinates, but certain features)
 only the following methods exist:
 
 - brute force matching and
-- kd-tree nearest neighbor search (FLANN). 
+- kd-tree nearest neighbor search (FLANN).
 
-In addition to the search, two types of correspondence estimation are 
+In addition to the search, two types of correspondence estimation are
 distinguished:
 
 - Direct correspondence estimation (default) searches for correspondences
-  in cloud B for every point in cloud A . 
-- "Reciprocal" correspondence estimation searches for correspondences from 
+  in cloud B for every point in cloud A .
+- "Reciprocal" correspondence estimation searches for correspondences from
   cloud A to cloud B, and from B to A and only use the intersection.
 
 Correspondences rejection
 =========================
 
-Naturally, not all estimated correspondences are correct. 
+Naturally, not all estimated correspondences are correct.
 Since wrong correspondences can negatively affect the estimation of the final
 transformation, they need to be rejected.
 This could be done using RANSAC or by trimming down the amount and using only a
 certain percent of the found correspondences.
 
-.. But if the sensor data is similar enough, the majority of them should point in the right direction.  To filter out wrong results we are doing outlier rejection. 
+.. But if the sensor data is similar enough, the majority of them should point in the right direction.  To filter out wrong results we are doing outlier rejection.
 
 A special case are one to many correspondences where one point in the model
 corresponds to a number of points in the source. These could be filtered by

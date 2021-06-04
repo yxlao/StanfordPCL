@@ -40,7 +40,7 @@ ON__QSORT_FASTER_THAN_HSORT.
 
 #define work_size 64
 
-void 
+void
 ON_qsort( void *base, size_t nel, size_t width, int (*compar)(void*,const void *, const void *),void* context)
 {
 #if defined(ON__HAVE_RELIABLE_SYSTEM_CONTEXT_QSORT)
@@ -58,7 +58,7 @@ ON_qsort( void *base, size_t nel, size_t width, int (*compar)(void*,const void *
 #endif
 }
 
-void 
+void
 ON_qsort( void *base, size_t nel, size_t width, int (*compar)(const void *, const void *))
 {
 #if defined(ON__HAVE_RELIABLE_SYSTEM_QSORT)
@@ -89,8 +89,8 @@ ON_hsort(void *base, size_t nel, size_t width, int (*compar)(const void*,const v
     if (k) {
       --k;
       memcpy(e_tmp,((unsigned char*)base)+k*width,width); /* e_tmp = e[k]; */
-    } 
-    else {      
+    }
+    else {
       memcpy(e_tmp,e_end,width);     /* e_tmp = e[i_end]; */
       memcpy(e_end,base,width);      /* e[i_end] = e[0];  */
       if (!(--i_end)) {
@@ -118,7 +118,7 @@ ON_hsort(void *base, size_t nel, size_t width, int (*compar)(const void*,const v
       memcpy(e_i,e_tmp,width); /* e[i] = e_tmp; */
     }
   }
-  if (width > work_size) onfree(e_tmp); 
+  if (width > work_size) onfree(e_tmp);
 }
 
 void
@@ -138,8 +138,8 @@ ON_hsort(void *base, size_t nel, size_t width, int (*compar)(void*,const void*,c
     if (k) {
       --k;
       memcpy(e_tmp,((unsigned char*)base)+k*width,width); /* e_tmp = e[k]; */
-    } 
-    else {      
+    }
+    else {
       memcpy(e_tmp,e_end,width);     /* e_tmp = e[i_end]; */
       memcpy(e_end,base,width);      /* e[i_end] = e[0];  */
       if (!(--i_end)) {
@@ -167,10 +167,10 @@ ON_hsort(void *base, size_t nel, size_t width, int (*compar)(void*,const void*,c
       memcpy(e_i,e_tmp,width); /* e[i] = e_tmp; */
     }
   }
-  if (width > work_size) onfree(e_tmp); 
+  if (width > work_size) onfree(e_tmp);
 }
 
-#undef work_size  
+#undef work_size
 
 #define ON_COMPILING_OPENNURBS_QSORT_FUNCTIONS
 #define ON_COMPILING_OPENNURBS_HSORT_FUNCTIONS
@@ -185,7 +185,7 @@ ON_hsort(void *base, size_t nel, size_t width, int (*compar)(void*,const void*,c
 #undef ON_QSORT_FNAME
 #undef ON_HSORT_FNAME
 
-void ON_SortDoubleArray( 
+void ON_SortDoubleArray(
         ON::sort_algorithm sort_algorithm,
         double* a,
         size_t nel
@@ -206,7 +206,7 @@ void ON_SortDoubleArray(
 #undef ON_QSORT_FNAME
 #undef ON_HSORT_FNAME
 
-void ON_SortFloatArray( 
+void ON_SortFloatArray(
         ON::sort_algorithm sort_algorithm,
         float* a,
         size_t nel

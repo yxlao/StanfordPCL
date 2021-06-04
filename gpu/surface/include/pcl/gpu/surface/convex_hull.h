@@ -53,26 +53,26 @@ namespace pcl
 
 	  typedef pcl::PointXYZ PointType;
 	  typedef pcl::gpu::DeviceArray<PointType> Cloud;
-      
+
 
 	  PseudoConvexHull3D(size_t buffer_size);
       ~PseudoConvexHull3D();
-	        
+	
 	  void
       reconstruct (const Cloud &points, Cloud &output);
 
-      void 
+      void
       reduce(const Cloud &points, Cloud &output);
 
 	private:
-      
+
       struct Impl;
       boost::shared_ptr<Impl> impl_;
 
       void
-      reconstruct (const Cloud &points, DeviceArray2D<int>& vertexes);  
+      reconstruct (const Cloud &points, DeviceArray2D<int>& vertexes);
 	};
   }
 }
 
-#endif /* PCL_GPU_SURFACE_CONVEX_HULL_HPP_*/ 
+#endif /* PCL_GPU_SURFACE_CONVEX_HULL_HPP_*/

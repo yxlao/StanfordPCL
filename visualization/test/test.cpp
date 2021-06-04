@@ -3,7 +3,7 @@
 
 typedef pcl::PointXYZRGB Point;
 
-int 
+int
   main (int argc, char **argv)
 {
   if (argc < 2)
@@ -27,7 +27,7 @@ int
   {
     std::cerr << "PointCloudColorHandlerRandom demo." << std::endl;
     pcl::visualization::PointCloudColorHandlerRandom<Point> handler (cloud);
-    
+
     p.addPointCloud<Point> (cloud, "cloud_random");      // no need to add the handler, we use a random handler by default
     p.spin ();
     p.removePointCloud ("cloud_random");
@@ -41,7 +41,7 @@ int
   {
     std::cerr << "PointCloudColorHandlerCustom demo." << std::endl;
     pcl::visualization::PointCloudColorHandlerCustom<Point> handler (cloud, 255, 0, 0);
-    
+
     p.addPointCloud (cloud, handler);             // the default id is "cloud"
     p.spin ();
     p.removePointCloud ();                        // the default id is "cloud"
@@ -61,24 +61,24 @@ int
     p.spin ();
     p.removePointCloud ("cloud_rgb");
    }
-  
+
   // Handler generic field demo
   {
     std::cerr << "PointCloudColorHandlerGenericField demo." << std::endl;
     pcl::visualization::PointCloudColorHandlerGenericField<Point> handler_z (cloud, "z");
     pcl::visualization::PointCloudColorHandlerGenericField<Point> handler_x (cloud, "x");
-    
+
     p.addPointCloud (cloud, handler_x, "cloud_x");
     p.spin ();
     p.removePointCloud ("cloud_x");
-    
+
     p.addPointCloud (cloud, handler_z, "cloud_z");
     p.spin ();
     p.removePointCloud ("cloud_z");
   }
 
   p.addCoordinateSystem (0.1);
-  
+
   // Demonstrate usage of spinOnce()
   p.resetStoppedFlag();
   while (!p.wasStopped())

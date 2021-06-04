@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2012, Willow Garage, Inc.
- *  
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -47,9 +47,9 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool
-gcCorrespSorter (pcl::Correspondence i, pcl::Correspondence j) 
-{ 
-  return (i.distance < j.distance); 
+gcCorrespSorter (pcl::Correspondence i, pcl::Correspondence j)
+{
+  return (i.distance < j.distance);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,7 +94,7 @@ pcl::GeometricConsistencyGrouping<PointModelT, PointSceneT>::clusterCorresponden
 
     consensus_set.clear ();
     consensus_set.push_back (static_cast<int> (i));
-    
+
     for (size_t j = 0; j < model_scene_corrs_->size (); ++j)
     {
       if ( j != i &&  !taken_corresps[j])
@@ -107,7 +107,7 @@ pcl::GeometricConsistencyGrouping<PointModelT, PointSceneT>::clusterCorresponden
           int model_index_k = model_scene_corrs_->at (consensus_set[k]).index_query;
           int scene_index_j = model_scene_corrs_->at (j).index_match;
           int model_index_j = model_scene_corrs_->at (j).index_query;
-          
+
           const Eigen::Vector3f& scene_point_k = scene_->at (scene_index_k).getVector3fMap ();
           const Eigen::Vector3f& model_point_k = input_->at (model_index_k).getVector3fMap ();
           const Eigen::Vector3f& scene_point_j = scene_->at (scene_index_j).getVector3fMap ();
@@ -129,7 +129,7 @@ pcl::GeometricConsistencyGrouping<PointModelT, PointSceneT>::clusterCorresponden
           consensus_set.push_back (static_cast<int> (j));
       }
     }
-    
+
     if (static_cast<int> (consensus_set.size ()) > gc_threshold_)
     {
       Correspondences temp_corrs, filtered_corrs;

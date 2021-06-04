@@ -5,7 +5,7 @@ Writing a new PCL class
 
 Converting code to a PCL-like mentality/syntax for someone that comes in
 contact for the first time with our infrastructure might appear difficult, or
-raise certain questions. 
+raise certain questions.
 
 This short guide is to serve as both a HowTo and a FAQ for writing new PCL
 classes, either from scratch, or by adapting old code.
@@ -26,7 +26,7 @@ The first question that someone might ask and we would like to answer is:
 
 This question assumes you've already identified that the set of tools and
 libraries that PCL has to offer are useful for your project, so you have already
-become an *user*. 
+become an *user*.
 
 Because open source projects are mostly voluntary efforts, usually with
 developers geographically distributed around the world, it's very common that
@@ -43,7 +43,7 @@ This means that:
 
 In both cases, everyone has definitely encountered situations where either an
 algorithm/method that they need is missing, or an existing one is buggy.
-Therefore the next natural step is obvious: 
+Therefore the next natural step is obvious:
 
 *change the existing code to fit your application/problem*.
 
@@ -65,7 +65,7 @@ In addition to the above, your contribution might enable, amongst many things:
   * your reputation in the community to grow - everyone likes free stuff (!).
 
 For most of us, all of the above apply. For others, only some (your mileage
-might vary). 
+might vary).
 
 .. _bilateral_filter_example:
 
@@ -74,7 +74,7 @@ Example: a bilateral filter
 
 To illustrate the code conversion process, we selected the following example:
 apply a bilateral filter over intensity data from a given input point cloud,
-and save the results to disk. 
+and save the results to disk.
 
 .. code-block:: cpp
    :linenos:
@@ -151,7 +151,7 @@ The presented code snippet contains:
  * an initialization component: lines 29-35 (setting up a search method for nearest neighbors using a KdTree)
  * the actual algorithmic component: lines 7-11 and 37-61
 
-Our goal here is to convert the algorithm given into an useful PCL class so that it can be reused elsewhere. 
+Our goal here is to convert the algorithm given into an useful PCL class so that it can be reused elsewhere.
 
 Setting up the structure
 ------------------------
@@ -161,7 +161,7 @@ Setting up the structure
   If you're not familiar with the PCL file structure already, please go ahead
   and read the `PCL C++ Programming Style Guide
   <http://www.pointclouds.org/documentation/advanced/pcl_style_guide.php>`_ to
-  familiarize yourself with the concepts. 
+  familiarize yourself with the concepts.
 
 There's two different ways we could set up the structure: i) set up the code
 separately, as a standalone PCL class, but outside of the PCL code tree; or ii)
@@ -221,11 +221,11 @@ While we're at it, let's set up two skeleton *bilateral.hpp* and
     #define PCL_FILTERS_BILATERAL_IMPL_H_
 
     #include <pcl/filters/bilateral.h>
-    
+
     #endif // PCL_FILTERS_BILATERAL_H_
 
 This should be straightforward. We haven't declared any methods for
-`BilateralFilter` yet, therefore there is no implementation. 
+`BilateralFilter` yet, therefore there is no implementation.
 
 bilateral.cpp
 =============
@@ -237,7 +237,7 @@ Let's write *bilateral.cpp* too:
 
     #include <pcl/filters/bilateral.h>
     #include <pcl/filters/impl/bilateral.hpp>
-    
+
 Because we are writing templated code in PCL (1.x) where the template parameter
 is a point type (see :ref:`adding_custom_ptype`), we want to explicitely
 instantiate the most common use cases in *bilateral.cpp*, so that users don't
@@ -268,7 +268,7 @@ enable the build.
          include pcl/${SUBSYS_NAME}/bilateral.h
          )
 
-    # Find "set (impl_incs", and add a new entry there, e.g., 
+    # Find "set (impl_incs", and add a new entry there, e.g.,
     set (impl_incs
          include/pcl/${SUBSYS_NAME}/impl/conditional_removal.hpp
          # ...
@@ -298,7 +298,7 @@ to precompile by hand in the *bilateral.cpp* file as follows:
 
 .. code-block:: cpp
    :linenos:
-    
+
     #include <pcl/point_types.h>
     #include <pcl/filters/bilateral.h>
     #include <pcl/filters/impl/bilateral.hpp>
@@ -307,7 +307,7 @@ to precompile by hand in the *bilateral.cpp* file as follows:
     template class PCL_EXPORTS pcl::BilateralFilter<pcl::PointXYZI>;
     template class PCL_EXPORTS pcl::BilateralFilter<pcl::PointXYZRGB>;
     // ...
- 
+
 However, this becomes cumbersome really fast, as the number of point types PCL
 supports grows. Maintaining this list up to date in multiple files in PCL is
 also painful. Therefore, we are going to use a special macro called
@@ -315,7 +315,7 @@ also painful. Therefore, we are going to use a special macro called
 
 .. code-block:: cpp
    :linenos:
-    
+
     #include <pcl/point_types.h>
     #include <pcl/impl/instantiate.hpp>
     #include <pcl/filters/bilateral.h>
@@ -339,7 +339,7 @@ that only two of the types contain intensity, namely:
 
 .. code-block:: cpp
    :linenos:
-    
+
     #include <pcl/point_types.h>
     #include <pcl/impl/instantiate.hpp>
     #include <pcl/filters/bilateral.h>
@@ -361,7 +361,7 @@ We begin filling the `BilateralFilter` class by first declaring the
 constructor, and its member variables. Because the bilateral filtering
 algorithm has two parameters, we will store these as class members, and
 implement setters and getters for them, to be compatible with the PCL 1.x API
-paradigms. 
+paradigms.
 
 .. code-block:: cpp
    :linenos:
@@ -389,7 +389,7 @@ paradigms.
           {
             return (sigma_s_);
           }
-          
+
           void
           setSigmaR (const double sigma_r)
           {
@@ -454,7 +454,7 @@ inherits from :pcl:`pcl::Filter<pcl::Filter>` must inherit a
 
 The implementation of `applyFilter` will be given in the *bilateral.hpp* file
 later. Line 3 constructs a typedef so that we can use the type `PointCloud`
-without typing the entire construct. 
+without typing the entire construct.
 
 Looking at the original code from section :ref:`bilateral_filter_example`, we
 notice that the algorithm consists of applying the same operation to every
@@ -465,7 +465,7 @@ defined in between lines 45-58:
 .. code-block:: cpp
    :linenos:
 
-    ... 
+    ...
           void
           applyFilter (PointCloud &output);
 
@@ -527,7 +527,7 @@ header file becomes:
         typedef typename pcl::KdTree<PointT>::Ptr KdTreePtr;
 
         public:
-          BilateralFilter () : sigma_s_ (0), 
+          BilateralFilter () : sigma_s_ (0),
                                sigma_r_ (std::numeric_limits<double>::max ())
           {
           }
@@ -536,16 +536,16 @@ header file becomes:
           void
           applyFilter (PointCloud &output);
 
-          double 
+          double
           computePointWeight (const int pid, const std::vector<int> &indices, const std::vector<float> &distances);
 
-          void 
+          void
           setSigmaS (const double sigma_s)
           {
             sigma_s_ = sigma_s;
           }
 
-          double 
+          double
           getSigmaS ()
           {
             return (sigma_s_);
@@ -557,7 +557,7 @@ header file becomes:
             sigma_r_ = sigma_r;
           }
 
-          double 
+          double
           getSigmaR ()
           {
             return (sigma_r_);
@@ -590,13 +590,13 @@ bilateral.hpp
 =============
 
 There's two methods that we need to implement here, namely `applyFilter` and
-`computePointWeight`. 
+`computePointWeight`.
 
 .. code-block:: cpp
    :linenos:
 
     template <typename PointT> double
-    pcl::BilateralFilter<PointT>::computePointWeight (const int pid, 
+    pcl::BilateralFilter<PointT>::computePointWeight (const int pid,
                                                       const std::vector<int> &indices,
                                                       const std::vector<float> &distances)
     {
@@ -633,7 +633,7 @@ There's two methods that we need to implement here, namely `applyFilter` and
 
         output.points[point_id].intensity = computePointWeight (point_id, k_indices, k_distances);
       }
-      
+
     }
 
 The `computePointWeight` method should be straightforward as it's *almost
@@ -717,7 +717,7 @@ The implementation file header thus becomes:
     #include <pcl/kdtree/organized_data.h>
 
     template <typename PointT> double
-    pcl::BilateralFilter<PointT>::computePointWeight (const int pid, 
+    pcl::BilateralFilter<PointT>::computePointWeight (const int pid,
                                                       const std::vector<int> &indices,
                                                       const std::vector<float> &distances)
     {
@@ -767,7 +767,7 @@ The implementation file header thus becomes:
         output.points[point_id].intensity = computePointWeight (point_id, k_indices, k_distances);
       }
     }
-     
+
     #define PCL_INSTANTIATE_BilateralFilter(T) template class PCL_EXPORTS pcl::BilateralFilter<T>;
 
     #endif // PCL_FILTERS_BILATERAL_H_
@@ -832,7 +832,7 @@ The implementation file header thus becomes:
     #include <pcl/kdtree/organized_data.h>
 
     template <typename PointT> double
-    pcl::BilateralFilter<PointT>::computePointWeight (const int pid, 
+    pcl::BilateralFilter<PointT>::computePointWeight (const int pid,
                                                       const std::vector<int> &indices,
                                                       const std::vector<float> &distances)
     {
@@ -882,7 +882,7 @@ The implementation file header thus becomes:
         output.points[(*indices_)[i]].intensity = computePointWeight ((*indices_)[i], k_indices, k_distances);
       }
     }
-     
+
     #define PCL_INSTANTIATE_BilateralFilter(T) template class PCL_EXPORTS pcl::BilateralFilter<T>;
 
     #endif // PCL_FILTERS_BILATERAL_H_
@@ -1029,7 +1029,7 @@ class look like:
     namespace pcl
     {
       /** \brief A bilateral filter implementation for point cloud data. Uses the intensity data channel.
-        * \note For more information please see 
+        * \note For more information please see
         * <b>C. Tomasi and R. Manduchi. Bilateral Filtering for Gray and Color Images.
         * In Proceedings of the IEEE International Conference on Computer Vision,
         * 1998.</b>
@@ -1044,10 +1044,10 @@ class look like:
         typedef typename pcl::KdTree<PointT>::Ptr KdTreePtr;
 
         public:
-          /** \brief Constructor. 
+          /** \brief Constructor.
             * Sets \ref sigma_s_ to 0 and \ref sigma_r_ to MAXDBL
             */
-          BilateralFilter () : sigma_s_ (0), 
+          BilateralFilter () : sigma_s_ (0),
                                sigma_r_ (std::numeric_limits<double>::max ())
           {
           }
@@ -1061,24 +1061,24 @@ class look like:
 
           /** \brief Compute the intensity average for a single point
             * \param[in] pid the point index to compute the weight for
-            * \param[in] indices the set of nearest neighor indices 
+            * \param[in] indices the set of nearest neighor indices
             * \param[in] distances the set of nearest neighbor distances
             * \return the intensity average at a given point index
             */
-          double 
+          double
           computePointWeight (const int pid, const std::vector<int> &indices, const std::vector<float> &distances);
 
           /** \brief Set the half size of the Gaussian bilateral filter window.
             * \param[in] sigma_s the half size of the Gaussian bilateral filter window to use
             */
-          inline void 
+          inline void
           setHalfSize (const double sigma_s)
           {
             sigma_s_ = sigma_s;
           }
 
           /** \brief Get the half size of the Gaussian bilateral filter window as set by the user. */
-          double 
+          double
           getHalfSize ()
           {
             return (sigma_s_);
@@ -1094,7 +1094,7 @@ class look like:
           }
 
           /** \brief Get the value of the current standard deviation parameter of the bilateral filter. */
-          double 
+          double
           getStdDev ()
           {
             return (sigma_r_);
@@ -1184,7 +1184,7 @@ And the *bilateral.hpp* like:
 
     //////////////////////////////////////////////////////////////////////////////////////////////
     template <typename PointT> double
-    pcl::BilateralFilter<PointT>::computePointWeight (const int pid, 
+    pcl::BilateralFilter<PointT>::computePointWeight (const int pid,
                                                       const std::vector<int> &indices,
                                                       const std::vector<float> &distances)
     {
@@ -1246,7 +1246,7 @@ And the *bilateral.hpp* like:
         output.points[(*indices_)[i]].intensity = computePointWeight ((*indices_)[i], k_indices, k_distances);
       }
     }
-     
+
     #define PCL_INSTANTIATE_BilateralFilter(T) template class PCL_EXPORTS pcl::BilateralFilter<T>;
 
     #endif // PCL_FILTERS_BILATERAL_H_

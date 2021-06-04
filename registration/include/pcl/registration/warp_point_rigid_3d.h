@@ -49,9 +49,9 @@ namespace pcl
 {
   namespace registration
   {
-    /** \brief @b WarpPointRigid3D enables 3D (1D rotation + 2D translation) 
+    /** \brief @b WarpPointRigid3D enables 3D (1D rotation + 2D translation)
       * transformations for points.
-      * 
+      *
       * \note The class is templated on the source and target point types as well as on the output scalar of the transformation matrix (i.e., float or double). Default: float.
       * \author Radu B. Rusu
       * \ingroup registration
@@ -66,10 +66,10 @@ namespace pcl
         /** \brief Constructor. */
         WarpPointRigid3D () : WarpPointRigid<PointSourceT, PointTargetT, Scalar> (3) {}
 
-        /** \brief Set warp parameters. 
+        /** \brief Set warp parameters.
           * \param[in] p warp parameters (tx ty rz)
           */
-        virtual void 
+        virtual void
         setParam (const VectorX & p)
         {
           assert (p.rows () == this->getDimension ());

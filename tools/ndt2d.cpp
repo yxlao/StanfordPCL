@@ -56,8 +56,8 @@ void
 selfTest ()
 {
   CloudPtr model (new Cloud);
-  model->points.push_back (PointType (1,1,0));  
-  model->points.push_back (PointType (4,4,0)); 
+  model->points.push_back (PointType (1,1,0));
+  model->points.push_back (PointType (4,4,0));
   model->points.push_back (PointType (5,6,0));
   model->points.push_back (PointType (3,3,0));
   model->points.push_back (PointType (6,7,0));
@@ -70,8 +70,8 @@ selfTest ()
   data->points.push_back (PointType (7,4,0));
   data->points.push_back (PointType (9,6,0));
 
-  pcl::console::setVerbosityLevel (pcl::console::L_DEBUG);  
-  
+  pcl::console::setVerbosityLevel (pcl::console::L_DEBUG);
+
   pcl::NormalDistributionsTransform2D<PointType, PointType> ndt;
 
   ndt.setMaximumIterations (40);

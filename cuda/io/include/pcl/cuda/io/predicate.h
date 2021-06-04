@@ -53,26 +53,26 @@ namespace cuda
   template <class T>
   struct isNotZero
   {
-      __inline__ __host__ __device__ bool 
+      __inline__ __host__ __device__ bool
       operator()(T x) { return (x != 0); }
   };
 
   struct isInlier
   {
-      __inline__ __host__ __device__ bool 
+      __inline__ __host__ __device__ bool
       operator()(int x) { return (x != -1); }
   };
 
   struct isNotInlier
   {
-      __inline__ __host__ __device__ bool 
+      __inline__ __host__ __device__ bool
       operator()(int x) { return (x == -1); }
   };
 
   struct SetColor
   {
     SetColor (const OpenNIRGB& color) : color_(color) {}
-    __inline__ __host__ __device__ void 
+    __inline__ __host__ __device__ void
        operator()(PointXYZRGB& point) { point.rgb.r = color_.r; point.rgb.g = color_.g; point.rgb.b = color_.b;}
     OpenNIRGB color_;
   };

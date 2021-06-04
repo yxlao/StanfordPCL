@@ -102,8 +102,8 @@ compute (const sensor_msgs::PointCloud2::ConstPtr &input, sensor_msgs::PointClou
   xyz_cloud->height = 1;
   xyz_cloud->width = static_cast<uint32_t> (xyz_cloud->size ());
   xyz_cloud->is_dense = false;
-  
-  
+
+
 
   PointCloud<PointNormal>::Ptr xyz_cloud_smoothed (new PointCloud<PointNormal> ());
 

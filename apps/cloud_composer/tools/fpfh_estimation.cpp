@@ -16,12 +16,12 @@ pcl::cloud_composer::FPFHEstimationTool::FPFHEstimationTool (PropertiesModel* pa
   : NewItemTool (parameter_model, parent)
 {
 
-  
+
 }
 
 pcl::cloud_composer::FPFHEstimationTool::~FPFHEstimationTool ()
 {
-  
+
 }
 
 QList <pcl::cloud_composer::CloudComposerItem*>
@@ -40,8 +40,8 @@ pcl::cloud_composer::FPFHEstimationTool::performAction (ConstItemList input_data
     qWarning () << "Input vector has more than one item in FPFH Estimation!";
   }
   input_item = input_data.value (0);
-  
-  
+
+
   if (input_item->type () == CloudComposerItem::CLOUD_ITEM)
   {
     //Check if this cloud has normals computed!
@@ -54,15 +54,15 @@ pcl::cloud_composer::FPFHEstimationTool::performAction (ConstItemList input_data
     qDebug () << "Found item text="<<normals_list.at(0)->text();
 
     double radius = parameter_model_->getProperty("Radius").toDouble();
-    
+
     sensor_msgs::PointCloud2::ConstPtr input_cloud = input_item->data (ItemDataRole::CLOUD_BLOB).value <sensor_msgs::PointCloud2::ConstPtr> ();
     //Get the cloud in template form
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
-    pcl::fromROSMsg (*input_cloud, *cloud); 
-    
+    pcl::fromROSMsg (*input_cloud, *cloud);
+
     //Get the normals cloud, we just use the first normals that were found if there are more than one
     pcl::PointCloud<pcl::Normal>::ConstPtr input_normals = normals_list.value(0)->data(ItemDataRole::CLOUD_TEMPLATED).value <pcl::PointCloud<pcl::Normal>::ConstPtr> ();
-    
+
     pcl::FPFHEstimation<pcl::PointXYZ, pcl::Normal, pcl::FPFHSignature33> fpfh;
  //   qDebug () << "Input cloud size = "<<cloud->size ();
 
@@ -96,8 +96,8 @@ pcl::cloud_composer::FPFHEstimationTool::performAction (ConstItemList input_data
   {
     qCritical () << "Input item in FPFH Estimation is not a cloud!!!";
   }
-  
-  
+
+
   return output;
 }
 
@@ -106,8 +106,8 @@ pcl::cloud_composer::PropertiesModel*
 pcl::cloud_composer::FPFHEstimationToolFactory::createToolParameterModel (QObject* parent)
 {
   PropertiesModel* parameter_model = new PropertiesModel(parent);
-  
+
   parameter_model->addProperty ("Radius", 0.03,  Qt::ItemIsEditable | Qt::ItemIsEnabled);
-  
+
   return parameter_model;
 }

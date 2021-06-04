@@ -48,7 +48,7 @@ namespace pcl
     /** \brief @b RandomSampleConsensus represents an implementation of the
       * RANSAC (RAndom SAmple Consensus) algorithm, as described in: "Random
       * Sample Consensus: A Paradigm for Model Fitting with Applications to Image
-      * Analysis and Automated Cartography", Martin A. Fischler and Robert C. Bolles, 
+      * Analysis and Automated Cartography", Martin A. Fischler and Robert C. Bolles,
       * Comm. Of the ACM 24: 381–395, June 1981.
       * \author Radu Bogdan Rusu
       */
@@ -74,7 +74,7 @@ namespace pcl
         /** \brief RANSAC (RAndom SAmple Consensus) main constructor
           * \param model a Sample Consensus model
           */
-        RandomSampleConsensus (const SampleConsensusModelPtr &model) : 
+        RandomSampleConsensus (const SampleConsensusModelPtr &model) :
           SampleConsensus<Storage> (model)
         {
           // Maximum number of trials before we give up.
@@ -85,7 +85,7 @@ namespace pcl
           * \param model a Sample Consensus model
           * \param threshold distance to model threshold
           */
-        RandomSampleConsensus (const SampleConsensusModelPtr &model, float threshold) : 
+        RandomSampleConsensus (const SampleConsensusModelPtr &model, float threshold) :
           SampleConsensus<Storage> (model, threshold)
         {
           // Maximum number of trials before we give up.
@@ -96,7 +96,7 @@ namespace pcl
           * \param debug_verbosity_level enable/disable on-screen debug
           * information and set the verbosity level
           */
-        bool 
+        bool
         computeModel (int debug_verbosity_level = 0);
     };
   } // namespace

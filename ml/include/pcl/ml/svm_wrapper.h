@@ -140,12 +140,12 @@ namespace pcl
       int max_line_len_; // max line length in the input file
       bool labelled_training_set_; // it stores whether the input set of samples is labelled
       /** \brief Set for output printings during classification. */
-      static void 
-      printNull (const char *) {}; 
-      
+      static void
+      printNull (const char *) {};
+
       /** \brief To read a line from the input file. Stored in "line_". */
-      char* 
-      readline (FILE *input); 
+      char*
+      readline (FILE *input);
 
       /** \brief Outputs an error in file reading. */
       void exitInputError (int line_num)
@@ -153,14 +153,14 @@ namespace pcl
         fprintf (stderr, "Wrong input format at line %d\n", line_num);
         exit (1);
       }
-      
+
       /** \brief Get a string representation of the name of this class. */
       inline const std::string&
       getClassName () const
       {
         return (class_name_);
       }
-      
+
       /** \brief Convert the input format (vector of SVMData) into a readable format for libSVM. */
       void adaptInputToLibSVM (std::vector<SVMData> training_set, svm_problem &prob);
 
@@ -178,8 +178,8 @@ namespace pcl
 
     public:
       /** \brief  Constructor. */
-      SVM () : 
-        training_set_ (), prob_ (), model_ (), scaling_ (), param_ (), 
+      SVM () :
+        training_set_ (), prob_ (), model_ (), scaling_ (), param_ (),
         class_name_ (), line_ (NULL), max_line_len_ (10000), labelled_training_set_ (1)
       {
       }
@@ -229,8 +229,8 @@ namespace pcl
       };
   };
 
-  /** \brief SVM (Support Vector Machines) training class for the SVM machine learning. 
-   * It creates a model for the classifier from a labelled input dataset. 
+  /** \brief SVM (Support Vector Machines) training class for the SVM machine learning.
+   * It creates a model for the classifier from a labelled input dataset.
    * OPTIONAL: pcl::SVMParam has to be given as input to vary the default training method and parameters.
    */
   class SVMTrain : public SVM
@@ -251,14 +251,14 @@ namespace pcl
       int nr_fold_; // Number of folds to be used during cross validation. It indicates in how many parts is split the input training set.
 
       /** \brief To cross validate the classifier. It is automatic for probability estimate. */
-      void 
+      void
       doCrossValidation();
-      
-      /** \brief It extracts scaling factors from the input training_set. 
+
+      /** \brief It extracts scaling factors from the input training_set.
        *  The scaling of the training_set is a mandatory for a good training of the classifier. */
-      void 
+      void
       scaleFactors (std::vector<SVMData> training_set, svm_scaling &scaling);
-      
+
     public:
       /** \brief Constructor. */
       SVMTrain() : debug_ (0), cross_validation_ (0), nr_fold_ (0)
@@ -321,7 +321,7 @@ namespace pcl
       bool
       trainClassifier ();
 
-      /** \brief Read in a problem (in svmlight format). 
+      /** \brief Read in a problem (in svmlight format).
        * \return false if fails. */
       bool
       loadProblem (const char *filename)
@@ -341,7 +341,7 @@ namespace pcl
           svm_set_print_string_function (&printNull);
       };
 
-      /** \brief Save the raw training set in a file (in svmlight format). 
+      /** \brief Save the raw training set in a file (in svmlight format).
        * \return false if fails. */
       bool
       saveTrainingSet (const char *filename)
@@ -349,7 +349,7 @@ namespace pcl
         return SVM::saveProblem (filename, 1);
       };
 
-      /** \brief Save the normalized training set in a file (in svmlight format). 
+      /** \brief Save the normalized training set in a file (in svmlight format).
        * \return false if fails. */
       bool
       saveNormTrainingSet (const char *filename)
@@ -358,7 +358,7 @@ namespace pcl
       };
   };
 
-  /** \brief SVM (Support Vector Machines) classification of a dataset. 
+  /** \brief SVM (Support Vector Machines) classification of a dataset.
    * It can be used both for testing a classifier model and for classify of new data.
    */
   class SVMClassify : public SVM
@@ -377,10 +377,10 @@ namespace pcl
       bool model_extern_copied_; // Set to 0 if the model is loaded from an extern file.
       bool predict_probability_; // Set to 1 to predict probabilities.
       std::vector< std::vector<double> > prediction_; // It stores the resulting prediction.
-      
+
       /** \brief It scales the input dataset using the model information. */
       void scaleProblem (svm_problem &input, svm_scaling scaling);
-      
+
     public:
       /** \brief Constructor. */
       SVMClassify () : model_extern_copied_ (0), predict_probability_ (0)
@@ -407,7 +407,7 @@ namespace pcl
           PCL_ERROR ("[pcl::%s::setInputTrainingSet] Classifier model not loaded!\n", getClassName ().c_str ());
           return;
         }
-        
+
         training_set_.insert (training_set_.end(), training_set.begin(), training_set.end());
         SVM::adaptInputToLibSVM (training_set_, prob_);
       }
@@ -426,7 +426,7 @@ namespace pcl
         training_set_.clear();
       }
 
-      /** \brief Read in a classifier model (in svmlight format). 
+      /** \brief Read in a classifier model (in svmlight format).
        * \return false if fails. */
       bool
       loadClassifierModel (const char *filename);
@@ -468,7 +468,7 @@ namespace pcl
       };
 
       /** \brief Read in a raw classification problem (in svmlight format).
-       *  The values are normalized using the classifier model information. 
+       *  The values are normalized using the classifier model information.
        * \return false if fails. */
       bool
       loadClassProblem (const char *filename)
@@ -482,7 +482,7 @@ namespace pcl
       };
 
       /** \brief Read in a normalized classification problem (in svmlight format).
-       * The data are kept whitout normalizing. 
+       * The data are kept whitout normalizing.
        * \return false if fails. */
       bool
       loadNormClassProblem (const char *filename)
@@ -516,7 +516,7 @@ namespace pcl
       std::vector<double>
       classification (SVMData in);
 
-      /** \brief Save the raw classification problem in a file (in svmlight format). 
+      /** \brief Save the raw classification problem in a file (in svmlight format).
        * \return false if fails. */
       bool
       saveClassProblem (const char *filename)
@@ -524,7 +524,7 @@ namespace pcl
         return SVM::saveProblem (filename, 0);
       };
 
-      /** \brief Save the normalized classification problem in a file (in svmlight format). 
+      /** \brief Save the normalized classification problem in a file (in svmlight format).
        * \return false if fails. */
       bool
       saveNormClassProblem (const char *filename)

@@ -40,7 +40,7 @@ void ON_Light::Default()
   memset(&m_light_id,0,sizeof(m_light_id));
 }
 
-ON_Light::ON_Light() 
+ON_Light::ON_Light()
 {
   Default();
 }
@@ -207,7 +207,7 @@ ON_BOOL32 ON_Light::Read(
     if ( minor_version < 2 ) {
       // set hotspot from 1.0 or 1.1 m_spot_exponent
       double h = 1.0 - m_spot_exponent/128.0;
-      if ( h < 0.0 ) 
+      if ( h < 0.0 )
         h = 0.0;
       else if ( h > 1.0 )
         h = 1.0;
@@ -280,7 +280,7 @@ ON_BOOL32 ON_Light::GetBBox( // returns true if successful
     points.Append(m_location);
     rc = false;
     break;
-  
+
   case ON::world_linear_light:
     points.Append(m_location);
     points.Append(m_location+m_length);
@@ -295,7 +295,7 @@ ON_BOOL32 ON_Light::GetBBox( // returns true if successful
       // include target and direction marker to avoid display clipping
       ON_3dPoint center(m_location+(m_width+m_length)*0.5);
       points.Append(center+m_direction);
-      ON_3dVector marker(m_direction); 
+      ON_3dVector marker(m_direction);
       marker.Unitize();
       marker *= (m_width+m_length).Length()/12.0; // from GetRectangularLightSegments
       points.Append(center+marker);
@@ -309,18 +309,18 @@ ON_BOOL32 ON_Light::GetBBox( // returns true if successful
 
   if ( rc && points.Count() > 0 )
   {
-     rc = ON_GetPointListBoundingBox( 3, 0, points.Count(), 3, 
-                                      (double*)points.Array(), 
-                                      boxmin, boxmax, 
+     rc = ON_GetPointListBoundingBox( 3, 0, points.Count(), 3,
+                                      (double*)points.Array(),
+                                      boxmin, boxmax,
                                       bGrowBox?true:false )
-        ? true 
+        ? true
         : false;
   }
 
   return rc;
 }
 
-ON_BOOL32 ON_Light::Transform( 
+ON_BOOL32 ON_Light::Transform(
        const ON_Xform& xform
        )
 {
@@ -328,19 +328,19 @@ ON_BOOL32 ON_Light::Transform(
   double vlen;
   TransformUserData(xform);
   m_location = xform*m_location;
-  
+
   v = xform*m_direction;
   vlen = v.Length();
   if ( vlen > 0.0 ) {
     m_direction = v;
   }
-  
+
   v = xform*m_length;
   vlen = v.Length();
   if ( vlen > 0.0 ) {
     m_length = v;
   }
-  
+
   v = xform*m_width;
   vlen = v.Length();
   if ( vlen > 0.0 ) {
@@ -553,7 +553,7 @@ double ON_Light::SpotAngleDegrees() const
 // The spot exponent "e", hot spot "h", and spotlight cone angle "a"
 // are mutually constrained by the formula
 //   cos(h*angle)^e = hotspot_min
-// where hotspot_min = value of spotlight exponential attenuation factor 
+// where hotspot_min = value of spotlight exponential attenuation factor
 // at the hot spot radius.  hotspot_min must be >0, < 1, and should be >= 1/2;
 //static double log_hotspot_min = log(0.5);
 static double log_hotspot_min = log(0.70710678118654752440084436210485);
@@ -572,7 +572,7 @@ void ON_Light::SetHotSpot( double h )
 {
   if ( h == ON_UNSET_VALUE || !ON_IsValid(h) )
     m_hotspot = ON_UNSET_VALUE;
-  else if ( h <= 0.0 ) 
+  else if ( h <= 0.0 )
     m_hotspot = 0.0;
   else if ( h >= 1.0 )
     m_hotspot = 1.0;
@@ -624,7 +624,7 @@ double ON_Light::HotSpot() const
         // prevent underflow.  cos_ha is close to zero so
         h = 1.0;
       }
-      else 
+      else
       {
         cos_ha = exp(x);
         if (!ON_IsValid(cos_ha))  cos_ha =  0.0;
@@ -751,10 +751,10 @@ ON::coordinate_system ON_Light::CoordinateSystem() const // determined by style
   return cs;
 }
 
-ON_BOOL32 ON_Light::GetLightXform( 
+ON_BOOL32 ON_Light::GetLightXform(
          const ON_Viewport& vp,
-         ON::coordinate_system dest_cs, 
-         ON_Xform& xform 
+         ON::coordinate_system dest_cs,
+         ON_Xform& xform
          ) const
 {
   ON::coordinate_system src_cs = CoordinateSystem();
@@ -830,7 +830,7 @@ ON_3dVector ON_Light::PerpindicularDirection() const
   if ( right[right.MaximumCoordinateIndex()] < 0.0 )
     right.Reverse();
 
-  return right;  
+  return right;
 }
 
 bool ON_Light::GetSpotLightRadii( double* inner_radius, double* outer_radius ) const

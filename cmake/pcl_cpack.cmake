@@ -97,7 +97,7 @@ macro(PCL_MAKE_CPACK_INPUT)
             string(TOUPPER ${dep} DEP)
             set(PCL_CPACK_COMPONENTS "${PCL_CPACK_COMPONENTS}\nset(CPACK_COMPONENT_${DEP}_GROUP \"ThirdParty\")")
             set(CPACK_COMPONENTS_ALL "${CPACK_COMPONENTS_ALL} ${dep}")
-        endforeach(dep)    
+        endforeach(dep)
     endif(BUILD_all_in_one_installer)
 
     set(PCL_CPACK_COMPONENTS "${PCL_CPACK_COMPONENTS}\nset(CPACK_COMPONENTS_ALL${CPACK_COMPONENTS_ALL})\n")
@@ -134,7 +134,7 @@ macro(PCL_CPACK_ADD_COMP_INFO _var _ss)
     endforeach(_dep)
     set(${_var}
         "${${_var}}set(CPACK_COMPONENT_${_comp_name}_DEPENDS ${_deps_str})\n")
-    set(${_var} 
+    set(${_var}
         "${${_var}}set(CPACK_COMPONENT_${_comp_name}_GROUP \"PCL\")\n")
 endmacro(PCL_CPACK_ADD_COMP_INFO)
 

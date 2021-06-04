@@ -59,8 +59,8 @@ namespace pcl
   namespace outofcore
   {
   /** \class OutofcoreOctreeDiskContainer
-   *  \note Code was adapted from the Urban Robotics out of core octree implementation. 
-   *  Contact Jacob Schloss <jacob.schloss@urbanrobotics.net> with any questions. 
+   *  \note Code was adapted from the Urban Robotics out of core octree implementation.
+   *  Contact Jacob Schloss <jacob.schloss@urbanrobotics.net> with any questions.
    *  http://www.urbanrobotics.net/
    *
    *  \brief Class responsible for serialization and deserialization of out of core point data
@@ -70,15 +70,15 @@ namespace pcl
     template<typename PointT>
     class OutofcoreOctreeDiskContainer : public OutofcoreAbstractNodeContainer<PointT>
     {
-  
+
       public:
         typedef typename OutofcoreAbstractNodeContainer<PointT>::AlignedPointTVector AlignedPointTVector;
-        
+
         /** \brief Empty constructor creates disk container and sets filename from random uuid string*/
         OutofcoreOctreeDiskContainer ();
 
         /** \brief Creates uuid named file or loads existing file
-         * 
+         *
          * If \ref dir is a directory, this constructor will create a new
          * uuid named file; if \ref dir is an existing file, it will load the
          * file metadata for accessing the tree.
@@ -111,7 +111,7 @@ namespace pcl
         /** \todo standardize the interface for writing binary data to the files .oct_dat files */
         void
         insertRange (const PointT* const * start, const uint64_t count);
-    
+
         /** \brief This is the primary method for serialization of
          * blocks of point data. This is called by the outofcore
          * octree interface, opens the binary file for appending data,
@@ -155,10 +155,10 @@ namespace pcl
          * \todo improve the random sampling of octree points from the disk container
          *
          * \param[in] start The starting index of points to select
-         * \param count[in] The length of the range of points from which to randomly sample 
+         * \param count[in] The length of the range of points from which to randomly sample
          *  (i.e. from start to start+count)
          * \param percent[in] The percentage of count that is enough points to make up this random sample
-         * \param dst[out] std::vector as destination for randomly sampled points; size will 
+         * \param dst[out] std::vector as destination for randomly sampled points; size will
          * be percentage*count
          */
         void
@@ -168,14 +168,14 @@ namespace pcl
         /** \brief Use bernoulli trials to select points. All points selected will be unique.
          *
          * \param[in] start The starting index of points to select
-         * \param[in] count The length of the range of points from which to randomly sample 
+         * \param[in] count The length of the range of points from which to randomly sample
          *  (i.e. from start to start+count)
          * \param[in] percent The percentage of count that is enough points to make up this random sample
-         * \param[out] dst std::vector as destination for randomly sampled points; size will 
+         * \param[out] dst std::vector as destination for randomly sampled points; size will
          * be percentage*count
          */
         void
-        readRangeSubSample_bernoulli (const uint64_t start, const uint64_t count, 
+        readRangeSubSample_bernoulli (const uint64_t start, const uint64_t count,
                                       const double percent, AlignedPointTVector& dst);
 
         /** \brief Returns the total number of points for which this container is responsible, \ref filelen_ + points in \ref writebuff_ that have not yet been flushed to the disk
@@ -285,7 +285,7 @@ namespace pcl
 
         void
         flushWritebuff (const bool force_cache_dealloc);
-    
+
         /** \brief elements [0,...,size()-1] map to [filelen, ..., filelen + size()-1] */
         AlignedPointTVector writebuff_;
 

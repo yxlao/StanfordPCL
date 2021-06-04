@@ -709,8 +709,8 @@ TEST (PCL, Octree_Pointcloud_Test)
     for (point = 0; point < pointcount; point++)
     {
       // gereate a random point
-      PointXYZ newPoint (static_cast<float> (1024.0 * rand () / RAND_MAX), 
-                         static_cast<float> (1024.0 * rand () / RAND_MAX), 
+      PointXYZ newPoint (static_cast<float> (1024.0 * rand () / RAND_MAX),
+                         static_cast<float> (1024.0 * rand () / RAND_MAX),
                          static_cast<float> (1024.0 * rand () / RAND_MAX));
 
       if (!octreeA.isVoxelOccupiedAtPoint (newPoint))
@@ -1064,7 +1064,7 @@ TEST (PCL, Octree_Pointcloud_Change_Detector_Test)
   for (i = 0; i < 1000; i++)
   {
     octree.addPointToCloud (
-        PointXYZ (static_cast<float> (100.0 + 5.0  * rand () / RAND_MAX), 
+        PointXYZ (static_cast<float> (100.0 + 5.0  * rand () / RAND_MAX),
                   static_cast<float> (100.0 + 10.0 * rand () / RAND_MAX),
                   static_cast<float> (100.0 + 10.0 * rand () / RAND_MAX)),
         cloudIn);
@@ -1218,7 +1218,7 @@ TEST (PCL, Octree_Pointcloud_Nearest_K_Neighbour_Search)
   {
     // define a random search point
 
-    PointXYZ searchPoint (static_cast<float> (10.0 * rand () / RAND_MAX), 
+    PointXYZ searchPoint (static_cast<float> (10.0 * rand () / RAND_MAX),
                           static_cast<float> (10.0 * rand () / RAND_MAX),
                           static_cast<float> (10.0 * rand () / RAND_MAX));
 
@@ -1271,7 +1271,7 @@ TEST (PCL, Octree_Pointcloud_Nearest_K_Neighbour_Search)
 
       pointCandidates.pop ();
     }
-    
+
     // octree nearest neighbor search
     octree.deleteTree ();
     octree.addPointsFromInputCloud ();
@@ -1395,7 +1395,7 @@ TEST(PCL, Octree_Pointcloud_Approx_Nearest_Neighbour_Search)
   {
     // define a random search point
 
-    PointXYZ searchPoint (static_cast<float> (10.0 * rand () / RAND_MAX), 
+    PointXYZ searchPoint (static_cast<float> (10.0 * rand () / RAND_MAX),
                           static_cast<float> (10.0 * rand () / RAND_MAX),
                           static_cast<float> (10.0 * rand () / RAND_MAX));
 
@@ -1467,7 +1467,7 @@ TEST (PCL, Octree_Pointcloud_Neighbours_Within_Radius_Search)
   for (test_id = 0; test_id < test_runs; test_id++)
   {
     // define a random search point
-    PointXYZ searchPoint (static_cast<float> (10.0 * rand () / RAND_MAX), 
+    PointXYZ searchPoint (static_cast<float> (10.0 * rand () / RAND_MAX),
                           static_cast<float> (10.0 * rand () / RAND_MAX),
                           static_cast<float> (10.0 * rand () / RAND_MAX));
 
@@ -1569,12 +1569,12 @@ TEST (PCL, Octree_Pointcloud_Ray_Traversal)
     cloudIn->height = 1;
     cloudIn->points.resize (cloudIn->width * cloudIn->height);
 
-    Eigen::Vector3f p (static_cast<float> (10.0 * rand () / RAND_MAX), 
+    Eigen::Vector3f p (static_cast<float> (10.0 * rand () / RAND_MAX),
                        static_cast<float> (10.0 * rand () / RAND_MAX),
                        static_cast<float> (10.0 * rand () / RAND_MAX));
 
     // origin
-    Eigen::Vector3f o (static_cast<float> (12.0 * rand () / RAND_MAX), 
+    Eigen::Vector3f o (static_cast<float> (12.0 * rand () / RAND_MAX),
                        static_cast<float> (12.0 * rand () / RAND_MAX),
                        static_cast<float> (12.0 * rand () / RAND_MAX));
 

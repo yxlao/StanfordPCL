@@ -10,7 +10,7 @@
 #ifndef EIGEN_GENERAL_MATRIX_MATRIX_TRIANGULAR_H
 #define EIGEN_GENERAL_MATRIX_MATRIX_TRIANGULAR_H
 
-namespace Eigen { 
+namespace Eigen {
 
 namespace internal {
 
@@ -24,7 +24,7 @@ namespace internal {
 // forward declarations (defined at the end of this file)
 template<typename LhsScalar, typename RhsScalar, typename Index, int mr, int nr, bool ConjLhs, bool ConjRhs, int UpLo>
 struct tribb_kernel;
-  
+
 /* Optimized matrix-matrix product evaluating only one triangular half */
 template <typename Index,
           typename LhsScalar, int LhsStorageOrder, bool ConjugateLhs,
@@ -75,7 +75,7 @@ struct general_matrix_matrix_triangular_product<Index,LhsScalar,LhsStorageOrder,
     ei_declare_aligned_stack_constructed_variable(LhsScalar, blockA, kc*mc, 0);
     ei_declare_aligned_stack_constructed_variable(RhsScalar, allocatedBlockB, sizeB, 0);
     RhsScalar* blockB = allocatedBlockB + sizeW;
-    
+
     gemm_pack_lhs<LhsScalar, Index, Traits::mr, Traits::LhsProgress, LhsStorageOrder> pack_lhs;
     gemm_pack_rhs<RhsScalar, Index, Traits::nr, RhsStorageOrder> pack_rhs;
     gebp_kernel <LhsScalar, RhsScalar, Index, Traits::mr, Traits::nr, ConjugateLhs, ConjugateRhs> gebp;
@@ -129,7 +129,7 @@ struct tribb_kernel
 {
   typedef gebp_traits<LhsScalar,RhsScalar,ConjLhs,ConjRhs> Traits;
   typedef typename Traits::ResScalar ResScalar;
-  
+
   enum {
     BlockSize  = EIGEN_PLAIN_ENUM_MAX(mr,nr)
   };
@@ -189,7 +189,7 @@ TriangularView<MatrixType,UpLo>& TriangularView<MatrixType,UpLo>::assignProduct(
   typedef typename LhsBlasTraits::DirectLinearAccessType ActualLhs;
   typedef typename internal::remove_all<ActualLhs>::type _ActualLhs;
   typename internal::add_const_on_value_type<ActualLhs>::type actualLhs = LhsBlasTraits::extract(prod.lhs());
-  
+
   typedef typename internal::remove_all<typename ProductDerived::RhsNested>::type Rhs;
   typedef internal::blas_traits<Rhs> RhsBlasTraits;
   typedef typename RhsBlasTraits::DirectLinearAccessType ActualRhs;
@@ -205,7 +205,7 @@ TriangularView<MatrixType,UpLo>& TriangularView<MatrixType,UpLo>::assignProduct(
     ::run(m_matrix.cols(), actualLhs.cols(),
           &actualLhs.coeffRef(0,0), actualLhs.outerStride(), &actualRhs.coeffRef(0,0), actualRhs.outerStride(),
           const_cast<Scalar*>(m_matrix.data()), m_matrix.outerStride(), actualAlpha);
-  
+
   return *this;
 }
 

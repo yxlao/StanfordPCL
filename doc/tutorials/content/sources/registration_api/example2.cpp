@@ -22,7 +22,7 @@ PointCloud<PointXYZ>::Ptr src, tgt;
 
 ////////////////////////////////////////////////////////////////////////////////
 void
-estimateKeypoints (const PointCloud<PointXYZ>::Ptr &src, 
+estimateKeypoints (const PointCloud<PointXYZ>::Ptr &src,
                    const PointCloud<PointXYZ>::Ptr &tgt,
                    PointCloud<PointXYZ> &keypoints_src,
                    PointCloud<PointXYZ> &keypoints_tgt)
@@ -48,7 +48,7 @@ estimateKeypoints (const PointCloud<PointXYZ>::Ptr &src,
 
 ////////////////////////////////////////////////////////////////////////////////
 void
-estimateNormals (const PointCloud<PointXYZ>::Ptr &src, 
+estimateNormals (const PointCloud<PointXYZ>::Ptr &src,
                  const PointCloud<PointXYZ>::Ptr &tgt,
                  PointCloud<Normal> &normals_src,
                  PointCloud<Normal> &normals_tgt)
@@ -62,7 +62,7 @@ estimateNormals (const PointCloud<PointXYZ>::Ptr &src,
   normal_est.compute (normals_tgt);
 
   // For debugging purposes only: uncomment the lines below and use pcd_viewer to view the results, i.e.:
-  // pcd_viewer normals_src.pcd 
+  // pcd_viewer normals_src.pcd
   PointCloud<PointNormal> s, t;
   copyPointCloud<PointXYZ, PointNormal> (*src, s);
   copyPointCloud<Normal, PointNormal> (normals_src, s);
@@ -74,7 +74,7 @@ estimateNormals (const PointCloud<PointXYZ>::Ptr &src,
 
 ////////////////////////////////////////////////////////////////////////////////
 void
-estimateFPFH (const PointCloud<PointXYZ>::Ptr &src, 
+estimateFPFH (const PointCloud<PointXYZ>::Ptr &src,
               const PointCloud<PointXYZ>::Ptr &tgt,
               const PointCloud<Normal>::Ptr &normals_src,
               const PointCloud<Normal>::Ptr &normals_tgt,
@@ -96,7 +96,7 @@ estimateFPFH (const PointCloud<PointXYZ>::Ptr &src,
   fpfh_est.compute (fpfhs_tgt);
 
   // For debugging purposes only: uncomment the lines below and use pcd_viewer to view the results, i.e.:
-  // pcd_viewer fpfhs_src.pcd 
+  // pcd_viewer fpfhs_src.pcd
   PointCloud2 s, t, out;
   toROSMsg (*keypoints_src, s); toROSMsg (fpfhs_src, t); concatenateFields (s, t, out);
   savePCDFile ("fpfhs_src.pcd", out);
@@ -134,25 +134,25 @@ rejectBadCorrespondences (const CorrespondencesPtr &all_correspondences,
 
 ////////////////////////////////////////////////////////////////////////////////
 void
-computeTransformation (const PointCloud<PointXYZ>::Ptr &src, 
+computeTransformation (const PointCloud<PointXYZ>::Ptr &src,
                        const PointCloud<PointXYZ>::Ptr &tgt,
                        Eigen::Matrix4f &transform)
 {
   // Get an uniform grid of keypoints
-  PointCloud<PointXYZ>::Ptr keypoints_src (new PointCloud<PointXYZ>), 
+  PointCloud<PointXYZ>::Ptr keypoints_src (new PointCloud<PointXYZ>),
                             keypoints_tgt (new PointCloud<PointXYZ>);
 
   estimateKeypoints (src, tgt, *keypoints_src, *keypoints_tgt);
   print_info ("Found %zu and %zu keypoints for the source and target datasets.\n", keypoints_src->points.size (), keypoints_tgt->points.size ());
 
   // Compute normals for all points keypoint
-  PointCloud<Normal>::Ptr normals_src (new PointCloud<Normal>), 
+  PointCloud<Normal>::Ptr normals_src (new PointCloud<Normal>),
                           normals_tgt (new PointCloud<Normal>);
   estimateNormals (src, tgt, *normals_src, *normals_tgt);
   print_info ("Estimated %zu and %zu normals for the source and target datasets.\n", normals_src->points.size (), normals_tgt->points.size ());
 
   // Compute FPFH features at each keypoint
-  PointCloud<FPFHSignature33>::Ptr fpfhs_src (new PointCloud<FPFHSignature33>), 
+  PointCloud<FPFHSignature33>::Ptr fpfhs_src (new PointCloud<FPFHSignature33>),
                                    fpfhs_tgt (new PointCloud<FPFHSignature33>);
   estimateFPFH (src, tgt, normals_src, normals_tgt, keypoints_src, keypoints_tgt, *fpfhs_src, *fpfhs_tgt);
 
@@ -164,7 +164,7 @@ computeTransformation (const PointCloud<PointXYZ>::Ptr &src,
   copyPointCloud<Normal, PointNormal> (normals_tgt, t);*/
 
   // Find correspondences between keypoints in FPFH space
-  CorrespondencesPtr all_correspondences (new Correspondences), 
+  CorrespondencesPtr all_correspondences (new Correspondences),
                      good_correspondences (new Correspondences);
   findCorrespondences (fpfhs_src, fpfhs_tgt, *all_correspondences);
 

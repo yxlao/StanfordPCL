@@ -55,7 +55,7 @@ the table below for a reference on each of the terms used.
 | Foo         | a class named `Foo`                            |
 +-------------+------------------------------------------------+
 | FooPtr      | a boost shared pointer to a class `Foo`,       |
-|             |                                                | 
+|             |                                                |
 |             | e.g., `boost::shared_ptr<Foo>`                 |
 +-------------+------------------------------------------------+
 | FooConstPtr | a const boost shared pointer to a class `Foo`, |
@@ -87,11 +87,11 @@ Because **setInputCloud()** is always required, there are up to four combination
     :align: center
 
 * **setIndices() = false, setSearchSurface() = false** - this is without a doubt the most used case in PCL, where the user is just feeding in a single PointCloud dataset and expects a certain feature estimated at *all the points in the cloud*.
-  
-  Since we do not expect to maintain different implementation copies based on whether a set of indices and/or the search surface is given, whenever **indices = false**, PCL creates a set of internal indices (as a `std::vector<int>`) that basically point to the entire dataset (indices=1..N, where N is the number of points in the cloud). 
 
-  In the figure above, this corresponds to the leftmost case. First, we estimate the nearest neighbors of p_1, then the nearest neighbors of p_2, and so on, until we exhaust all the points in P. 
-  
+  Since we do not expect to maintain different implementation copies based on whether a set of indices and/or the search surface is given, whenever **indices = false**, PCL creates a set of internal indices (as a `std::vector<int>`) that basically point to the entire dataset (indices=1..N, where N is the number of points in the cloud).
+
+  In the figure above, this corresponds to the leftmost case. First, we estimate the nearest neighbors of p_1, then the nearest neighbors of p_2, and so on, until we exhaust all the points in P.
+
 * **setIndices() = true, setSearchSurface() = false** - as previously mentioned, the feature estimation method will only compute features for those points which have an index in the given indices vector;
 
   In the figure above, this corresponds to the second case. Here, we assume that p_2's index is not part of the indices vector given, so no neighbors or features will be estimated at p2.
@@ -129,7 +129,7 @@ The following code snippet will estimate a set of surface normals for all the po
      pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne;
      ne.setInputCloud (cloud);
 
-     // Create an empty kdtree representation, and pass it to the normal estimation object. 
+     // Create an empty kdtree representation, and pass it to the normal estimation object.
      // Its content will be filled inside the object, based on the given input dataset (as no other search surface is given).
      pcl::KdTreeFLANN<pcl::PointXYZ>::Ptr tree (new pcl::KdTreeFLANN<pcl::PointXYZ> ());
      ne.setSearchMethod (tree);
@@ -171,7 +171,7 @@ The following code snippet will estimate a set of surface normals for a subset o
      boost::shared_ptr<std::vector<int> > indicesptr (new std::vector<int> (indices));
      ne.setIndices (indicesptr);
 
-     // Create an empty kdtree representation, and pass it to the normal estimation object. 
+     // Create an empty kdtree representation, and pass it to the normal estimation object.
      // Its content will be filled inside the object, based on the given input dataset (as no other search surface is given).
      pcl::KdTreeFLANN<pcl::PointXYZ>::Ptr tree (new pcl::KdTreeFLANN<pcl::PointXYZ> ());
      ne.setSearchMethod (tree);
@@ -212,7 +212,7 @@ Finally, the following code snippet will estimate a set of surface normals for a
      // Pass the original data (before downsampling) as the search surface
      ne.setSearchSurface (cloud);
 
-     // Create an empty kdtree representation, and pass it to the normal estimation object. 
+     // Create an empty kdtree representation, and pass it to the normal estimation object.
      // Its content will be filled inside the object, based on the given surface dataset.
      pcl::KdTreeFLANN<pcl::PointXYZ>::Ptr tree (new pcl::KdTreeFLANN<pcl::PointXYZ> ());
      ne.setSearchMethod (tree);
@@ -232,7 +232,7 @@ Finally, the following code snippet will estimate a set of surface normals for a
 .. [RusuDissertation] http://files.rbrusu.com/publications/RusuPhDThesis.pdf
 .. note::
     @PhDThesis{RusuDoctoralDissertation,
-    author = {Radu Bogdan Rusu}, 
+    author = {Radu Bogdan Rusu},
     title  = {Semantic 3D Object Maps for Everyday Manipulation in Human Living Environments},
     school = {Computer Science department, Technische Universitaet Muenchen, Germany},
     year   = {2009},

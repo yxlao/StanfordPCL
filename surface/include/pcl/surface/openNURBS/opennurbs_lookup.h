@@ -19,9 +19,9 @@
 
 /*
 Description:
-  ON_SerialNumberMap provides a way to map set of unique 
+  ON_SerialNumberMap provides a way to map set of unique
   serial number - uuid pairs to application defined values
-  so that adding, finding and removing serial numbers is 
+  so that adding, finding and removing serial numbers is
   fast and efficient.  The class is designed to handle
   several millions of unique serial numbers.  There are no
   restrictions on what order numbers are added and removed.
@@ -103,13 +103,13 @@ public:
 
   /*
   Returns:
-    The active element with the smallest serial number, 
+    The active element with the smallest serial number,
     or null if the list is empty.
   Restrictions:
     The returned pointer may become invalid after any
-    subsequent calls to any function in this class.  
+    subsequent calls to any function in this class.
     If you need to save information in the returned
-    SN_ELEMENT for future use, you must copy the 
+    SN_ELEMENT for future use, you must copy the
     information into storage you are managing.
 
     You may change the value of the SN_ELEMENT's m_value
@@ -125,9 +125,9 @@ public:
     or null if the list is empty.
   Restrictions:
     The returned pointer may become invalid after any
-    subsequent calls to any function in this class.  
+    subsequent calls to any function in this class.
     If you need to save information in the returned
-    SN_ELEMENT for future use, you must copy the 
+    SN_ELEMENT for future use, you must copy the
     information into storage you are managing.
 
     You may change the value of the SN_ELEMENT's m_value
@@ -145,9 +145,9 @@ public:
     its element is returned.
   Restrictions:
     The returned pointer may become invalid after any
-    subsequent calls to any function in this class.  
+    subsequent calls to any function in this class.
     If you need to save information in the returned
-    SN_ELEMENT for future use, you must copy the 
+    SN_ELEMENT for future use, you must copy the
     information into storage you are managing.
 
     You may change the value of the SN_ELEMENT's m_value
@@ -165,9 +165,9 @@ public:
     its element is returned.
   Restrictions:
     The returned pointer may become invalid after any
-    subsequent calls to any function in this class.  
+    subsequent calls to any function in this class.
     If you need to save information in the returned
-    SN_ELEMENT for future use, you must copy the 
+    SN_ELEMENT for future use, you must copy the
     information into storage you are managing.
 
     You may change the value of the SN_ELEMENT's m_value
@@ -184,20 +184,20 @@ public:
     sn - [in] serial number to add.
   Returns:
     If the serial number is valid (>0), a pointer to its
-    element is returned.  When a new element is added, 
+    element is returned.  When a new element is added,
     every byte of the m_value field is set to 0.
     If the serial number was already active, its element is
     also returned.  If you need to distinguish between new
-    and previously existing elements, then change  
+    and previously existing elements, then change
     m_value.m_u_type to something besides 0 after you add
     a new serial number.  The id associated with this
     serial number will be zero and cannot be found using
     FindId().
   Restrictions:
     The returned pointer may become invalid after any
-    subsequent calls to any function in this class.  
+    subsequent calls to any function in this class.
     If you need to save information in the returned
-    SN_ELEMENT for future use, you must copy the 
+    SN_ELEMENT for future use, you must copy the
     information into storage you are managing.
 
     You may change the value of the SN_ELEMENT's m_value
@@ -215,13 +215,13 @@ public:
               to the element.
   Returns:
     If the serial number is valid (>0), a pointer to its
-    element is returned.  When a new element is added, 
+    element is returned.  When a new element is added,
     every byte of the m_value field is set to 0.
     If the serial number was already active, its element is
     also returned.  If you need to distinguish between new
-    and previously existing elements, then change  
+    and previously existing elements, then change
     m_value.m_u_type to something besides 0 after you add
-    a new serial number. 
+    a new serial number.
     If the id parameter is zero, then a new uuid is created
     and added. If the id parameter is non zero but is active
     on another element, a new uuid is created and added.
@@ -230,9 +230,9 @@ public:
     the element.
   Restrictions:
     The returned pointer may become invalid after any
-    subsequent calls to any function in this class.  
+    subsequent calls to any function in this class.
     If you need to save information in the returned
-    SN_ELEMENT for future use, you must copy the 
+    SN_ELEMENT for future use, you must copy the
     information into storage you are managing.
 
     You may change the value of the SN_ELEMENT's m_value
@@ -251,9 +251,9 @@ public:
     the element's id was active, the id is also removed.
   Restrictions:
     The returned pointer may become invalid after any
-    subsequent calls to any function in this class.  
+    subsequent calls to any function in this class.
     If you need to save information in the returned
-    SN_ELEMENT for future use, you must copy the 
+    SN_ELEMENT for future use, you must copy the
     information into storage you are managing.
 
     You may change the value of the SN_ELEMENT's m_value
@@ -276,9 +276,9 @@ public:
     use RemoveSerialNumberAndId().
   Restrictions:
     The returned pointer may become invalid after any
-    subsequent calls to any function in this class.  
+    subsequent calls to any function in this class.
     If you need to save information in the returned
-    SN_ELEMENT for future use, you must copy the 
+    SN_ELEMENT for future use, you must copy the
     information into storage you are managing.
 
     You may change the value of the SN_ELEMENT's m_value
@@ -312,7 +312,7 @@ public:
   */
   size_t GetElements(
           unsigned int sn0,
-          unsigned int sn1, 
+          unsigned int sn1,
           size_t max_count,
           ON_SimpleArray<SN_ELEMENT>& elements
           ) const;
@@ -374,7 +374,7 @@ private:
   unsigned int m_reserved;
 
   // Serial Number list counts
-  size_t m_sn_count;   // total number of elements                       
+  size_t m_sn_count;   // total number of elements
   size_t m_sn_purged;  // total number of purged elements
 
   // ID hash table counts (all ids in the hash table are active)
@@ -386,7 +386,7 @@ private:
                             // id so we don't have to waste time
                             // searching the hash table for
                             // an id that is not there.
-                            
+
 
   // The blocks in m_sn_list[] are alwasy sorted, disjoint,
   // and in increasing order.  m_sn_list is used when
@@ -415,8 +415,8 @@ private:
   void GarbageCollectHelper();
   size_t GarbageCollectMoveHelper(SN_BLOCK* dst,SN_BLOCK* src);
 
-  // When m_bHashTableIsValid is true, then m_hash_table[i] is 
-  // a linked list of elements whose id satisfies 
+  // When m_bHashTableIsValid is true, then m_hash_table[i] is
+  // a linked list of elements whose id satisfies
   // i = HashIndex(&e->m_id).  When m_bHashTableIsValid is false,
   // m_hash_table[] is identically zero.
   struct SN_ELEMENT* m_hash_table[ID_HASH_TABLE_COUNT];

@@ -30,7 +30,7 @@ smoothPointCloud (const PointCloudPtr & input, float radius, int polynomial_orde
   mls.setSqrGaussParam (radius*radius);
   mls.setPolynomialFit (polynomial_order > 1);
   mls.setPolynomialOrder (polynomial_order);
-  
+
   mls.setInputCloud (input);
 
   PointCloudPtr output (new PointCloud);
@@ -48,7 +48,7 @@ computeSurfaceElements (const PointCloudPtr & input, float radius, int polynomia
   mls.setSqrGaussParam (radius*radius);
   mls.setPolynomialFit (polynomial_order > 1);
   mls.setPolynomialOrder (polynomial_order);
-  
+
   mls.setInputCloud (input);
 
   PointCloudPtr points (new PointCloud);
@@ -89,7 +89,7 @@ computeConcaveHull (const PointCloudPtr & input, float alpha)
 }
 
 pcl::PolygonMesh::Ptr
-greedyTriangulation (const SurfaceElementsPtr & surfels, float radius, float mu, int max_nearest_neighbors, 
+greedyTriangulation (const SurfaceElementsPtr & surfels, float radius, float mu, int max_nearest_neighbors,
                      float max_surface_angle, float min_angle, float max_angle)
 
 {
@@ -123,7 +123,7 @@ marchingCubesTriangulation (const SurfaceElementsPtr & surfels, float leaf_size,
   marching_cubes.setInputCloud (surfels);
   pcl::PolygonMesh::Ptr output (new pcl::PolygonMesh);
   marching_cubes.reconstruct (*output);
-  
+
   return (output);
 }
 

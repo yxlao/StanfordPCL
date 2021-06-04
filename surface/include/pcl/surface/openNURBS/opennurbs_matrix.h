@@ -23,7 +23,7 @@ class ON_CLASS ON_Matrix
 {
 public:
   ON_Matrix();
-  ON_Matrix( 
+  ON_Matrix(
     int row_count,
     int col_count
      );
@@ -77,7 +77,7 @@ public:
   int MinCount() const; // smallest of row and column count
   int MaxCount() const; // largest of row and column count
 
-  void RowScale(int,double); 
+  void RowScale(int,double);
   void ColScale(int,double);
   void RowOp(int,double,int);
   void ColOp(int,double,int);
@@ -133,7 +133,7 @@ public:
 
   bool SwapRows( int, int ); // ints are row indices to swap
   bool SwapCols( int, int ); // ints are col indices to swap
-  bool Invert( 
+  bool Invert(
           double // zero tolerance
           );
 
@@ -196,7 +196,7 @@ public:
     double,  // zero_tolerance
     double&, // determinant
     double&  // pivot
-    ); 
+    );
 
   // Description:
   //   Row reduce a matrix as the first step in solving M*X=B where
@@ -208,7 +208,7 @@ public:
   //   B - [in/out] an array of m_row_count values that is row reduced
   //       with the matrix.
   //   determinant - [out] value of determinant is returned here.
-  //   pivot - [out] If not NULL, then the value of the smallest 
+  //   pivot - [out] If not NULL, then the value of the smallest
   //       pivot is returned here
   // Returns:
   //   Rank of the matrix.
@@ -222,13 +222,13 @@ public:
   //   ON_Matrix M(m,n) = ...;
   //   M.RowReduce(ON_ZERO_TOLERANCE,B); // modifies M and B
   //   M.BackSolve(m,B,X); // solution is in X
-  // See Also: 
+  // See Also:
   //   ON_Matrix::BackSolve
   int RowReduce(
     double,        // zero_tolerance
     double*,       // B
     double* = NULL // pivot
-    ); 
+    );
 
   // Description:
   //   Row reduce a matrix as the first step in solving M*X=B where
@@ -237,23 +237,23 @@ public:
   //   zero_tolerance - [in] (>=0.0) zero tolerance for pivot test
   //       If the absolute value of a pivot is <= zero_tolerance,
   //       then the pivot is assumed to be zero.
-  //   B - [in/out] an array of m_row_count 3d points that is 
+  //   B - [in/out] an array of m_row_count 3d points that is
   //       row reduced with the matrix.
   //   determinant - [out] value of determinant is returned here.
-  //   pivot - [out] If not NULL, then the value of the smallest 
+  //   pivot - [out] If not NULL, then the value of the smallest
   //       pivot is returned here
   // Returns:
   //   Rank of the matrix.
   // Remarks:
   //   The matrix itself is row reduced so that the result is
   //   an upper triangular matrix with 1's on the diagonal.
-  // See Also: 
+  // See Also:
   //   ON_Matrix::BackSolve
   int RowReduce(
     double,        // zero_tolerance
     ON_3dPoint*,   // B
     double* = NULL // pivot
-    ); 
+    );
 
   // Description:
   //   Row reduce a matrix as the first step in solving M*X=B where
@@ -267,16 +267,16 @@ public:
   //   pt - [in/out] array of m_row_count*pt_stride values.
   //        The i-th point is
   //        (pt[i*pt_stride],...,pt[i*pt_stride+pt_dim-1]).
-  //        This array of points is row reduced along with the 
+  //        This array of points is row reduced along with the
   //        matrix.
-  //   pivot - [out] If not NULL, then the value of the smallest 
+  //   pivot - [out] If not NULL, then the value of the smallest
   //       pivot is returned here
   // Returns:
   //   Rank of the matrix.
   // Remarks:
   //   The matrix itself is row reduced so that the result is
   //   an upper triangular matrix with 1's on the diagonal.
-  // See Also: 
+  // See Also:
   //   ON_Matrix::BackSolve
   int RowReduce( // returns rank
     double,      // zero_tolerance
@@ -284,7 +284,7 @@ public:
     int,         // pt_stride
     double*,     // pt
     double* = NULL // pivot
-    ); 
+    );
 
   // Description:
   //   Solve M*X=B where M is upper triangular with a unit diagonal and
@@ -298,7 +298,7 @@ public:
   //   B - [in] array of length Bsize.
   //   X - [out] array of length m_col_count.  Solutions returned here.
   // Remarks:
-  //   Actual values M[i][j] with i <= j are ignored. 
+  //   Actual values M[i][j] with i <= j are ignored.
   //   M[i][i] is assumed to be one and M[i][j] i<j is assumed to be zero.
   //   For square M, B and X can point to the same memory.
   // See Also:
@@ -322,7 +322,7 @@ public:
   //   B - [in] array of length Bsize.
   //   X - [out] array of length m_col_count.  Solutions returned here.
   // Remarks:
-  //   Actual values M[i][j] with i <= j are ignored. 
+  //   Actual values M[i][j] with i <= j are ignored.
   //   M[i][i] is assumed to be one and M[i][j] i<j is assumed to be zero.
   //   For square M, B and X can point to the same memory.
   // See Also:
@@ -353,7 +353,7 @@ public:
   //        The i-th X point is
   //        (Xpt[i*Xpt_stride],...,Xpt[i*Xpt_stride+pt_dim-1]).
   // Remarks:
-  //   Actual values M[i][j] with i <= j are ignored. 
+  //   Actual values M[i][j] with i <= j are ignored.
   //   M[i][i] is assumed to be one and M[i][j] i<j is assumed to be zero.
   //   For square M, B and X can point to the same memory.
   // See Also:
@@ -382,7 +382,7 @@ private:
   int m_row_count;
   int m_col_count;
   // m_rowmem[i][j] = row i+m_row_offset and column j+m_col_offset.
-  ON_SimpleArray<double*> m_rowmem; 
+  ON_SimpleArray<double*> m_rowmem;
 	double** m_Mmem; // used by Create(row_count,col_count,user_memory,true);
 	int   m_row_offset; // = ri0 when sub-matrix constructor is used
 	int   m_col_offset; // = ci0 when sub-matrix constructor is used
@@ -415,7 +415,7 @@ Parameters:
     null, heap storage will be allocated using onmalloc()
     and the calling function must call onfree(U).  If the input
     value of U is not null, U[i] must point to an array of col_count
-    doubles.  
+    doubles.
   W - [out]
     If the input value W is null, then heap storage will be allocated
     using onmalloc() and the calling function must call onfree(W).
@@ -473,18 +473,18 @@ Parameters:
 Remarks:
   If the singular value decomposition were mathematically perfect, then
   this function would be:
-    for (i = 0; i < count; i++) 
+    for (i = 0; i < count; i++)
       invW[i] = (W[i] != 0.0) ? 1.0/W[i] : 0.0;
   Because the double precision arithmetic is not mathematically perfect,
   very small values of W[i] may well be zero and this function makes
-  a reasonable guess as to when W[i] should be treated as zero.  
+  a reasonable guess as to when W[i] should be treated as zero.
 Returns:
   Number of non-zero elements in invW, which, in a mathematically perfect
   situation, is the rank of Diag(W).
 */
 ON_DECL
 int ON_InvertSVDW(
-  int count, 
+  int count,
   const double* W,
   double*& invW
   );
@@ -554,9 +554,9 @@ Example:
           if ( n == X.Count() )
           {
             ... use solution
-          }  
+          }
 Returns:
-  True if input is valid and X[] was calculated. 
+  True if input is valid and X[] was calculated.
   False if input is not valid.
 */
 ON_DECL
@@ -569,7 +569,7 @@ bool ON_SolveSVD(
   const double* B,
   double*& X
   );
-  
+
 
 /*
 Description:
@@ -595,13 +595,13 @@ Returns:
   If C = input value of A, then B*C = (I,*)
 */
 ON_DECL
-int ON_RowReduce( 
-          int row_count, 
+int ON_RowReduce(
+          int row_count,
           int col_count,
           double zero_pivot,
-          double** A, 
-          double** B, 
-          double pivots[2] 
+          double** A,
+          double** B,
+          double pivots[2]
           );
 
 #endif

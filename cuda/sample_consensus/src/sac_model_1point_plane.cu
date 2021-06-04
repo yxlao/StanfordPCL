@@ -59,9 +59,9 @@ namespace pcl
   {
 
     //////////////////////////////////////////////////////////////////////////
-    template <template <typename> class Storage> 
+    template <template <typename> class Storage>
     SampleConsensusModel1PointPlane<Storage>::SampleConsensusModel1PointPlane (
-        const PointCloudConstPtr &cloud) : 
+        const PointCloudConstPtr &cloud) :
       SampleConsensusModel<Storage> (cloud)
     {
     }
@@ -122,8 +122,8 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////
-    template <template <typename> class Storage> 
-    //template <typename Tuple> 
+    template <template <typename> class Storage>
+    //template <typename Tuple>
     thrust::tuple <int, float4>
     Create1PointPlaneSampleHypothesis<Storage>::operator () (int t)
     {
@@ -222,8 +222,8 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////
-    template <template <typename> class Storage> 
-    //template <typename Tuple> 
+    template <template <typename> class Storage>
+    //template <typename Tuple>
     float4
     Create1PointPlaneHypothesis<Storage>::operator () (int t)
     {
@@ -316,24 +316,24 @@ namespace pcl
       h.resize (max_iterations);
 
       typename Storage<int>::type randoms (max_iterations);
-      // a sequence counting up from 0 
+      // a sequence counting up from 0
       thrust::counting_iterator<int> index_sequence_begin (0);
-      // transform the range [0,1,2,...N] 
-      // to a range of random numbers 
-      thrust::transform (index_sequence_begin, 
-                         index_sequence_begin + max_iterations, 
-                         randoms.begin (), 
+      // transform the range [0,1,2,...N]
+      // to a range of random numbers
+      thrust::transform (index_sequence_begin,
+                         index_sequence_begin + max_iterations,
+                         randoms.begin (),
                          parallel_random_generator (0));
-      
+
       //thrust::counting_iterator<int> first (0);
       // Input: Point Cloud, Indices
       // Output: Hypotheses
       transform (//first, first + max_iterations,
-                 //index_sequence_begin, 
-                 //index_sequence_begin + max_iterations, 
+                 //index_sequence_begin,
+                 //index_sequence_begin + max_iterations,
                  randoms.begin (), randoms.begin () + max_iterations,
-                 h.begin (), 
-                 Create1PointPlaneHypothesis<Storage> (thrust::raw_pointer_cast (&input_->points[0]), 
+                 h.begin (),
+                 Create1PointPlaneHypothesis<Storage> (thrust::raw_pointer_cast (&input_->points[0]),
                                                        thrust::raw_pointer_cast (&(*indices_)[0]),
                                                        indices_->size (), std::numeric_limits<float>::quiet_NaN ()));
       return (true);
@@ -351,27 +351,27 @@ namespace pcl
       samples.resize (max_iterations);
 
       typename Storage<int>::type randoms (max_iterations);
-      // a sequence counting up from 0 
+      // a sequence counting up from 0
       thrust::counting_iterator<int> index_sequence_begin (0);
-      // transform the range [0,1,2,...N] 
-      // to a range of random numbers 
-      thrust::transform (index_sequence_begin, 
-                         index_sequence_begin + max_iterations, 
-                         randoms.begin (), 
+      // transform the range [0,1,2,...N]
+      // to a range of random numbers
+      thrust::transform (index_sequence_begin,
+                         index_sequence_begin + max_iterations,
+                         randoms.begin (),
                          parallel_random_generator (0));
-     
+
 
       //thrust::counting_iterator<int> first (0);
       // Input: Point Cloud, Indices
       // Output: Hypotheses
       transform (//first, first + max_iterations,
-                 //index_sequence_begin, 
-                 //index_sequence_begin + max_iterations, 
+                 //index_sequence_begin,
+                 //index_sequence_begin + max_iterations,
                  randoms.begin (), randoms.begin () + max_iterations,
                  //index_sequence_begin, index_sequence_begin + max_iterations,
                  thrust::make_zip_iterator (thrust::make_tuple (samples.begin (), h.begin())),
-    //             h.begin (), 
-                 Create1PointPlaneSampleHypothesis<Storage> (thrust::raw_pointer_cast (&input_->points[0]), 
+    //             h.begin (),
+                 Create1PointPlaneSampleHypothesis<Storage> (thrust::raw_pointer_cast (&input_->points[0]),
                                                              thrust::raw_pointer_cast (&(*normals_)[0]),
                                                              thrust::raw_pointer_cast (&(*indices_)[0]),
                                                              input_->width, input_->height,
@@ -401,7 +401,7 @@ namespace pcl
         return -1;
 
       PointXYZRGB p = input_[idx];
-      
+
       if (isnan (p.x))
         return -1;
 
@@ -452,7 +452,7 @@ namespace pcl
                       pt.y * coefficients.y +
                       pt.z * coefficients.z;
       float D = - coefficients.w * length_pt / dot_n_p - length_pt;
-      
+
       float orig_disparity = b * f / pt.z;
       float actual_disparity = orig_disparity * length_pt / (length_pt + D);
 
@@ -478,7 +478,7 @@ namespace pcl
                       pt.y * coefficients.y +
                       pt.z * coefficients.z;
       float D = - coefficients.w * length_pt / dot_n_p - length_pt;
-      
+
       float orig_disparity = b * f / pt.z;
       float actual_disparity = orig_disparity * length_pt / (length_pt + D);
 
@@ -563,7 +563,7 @@ namespace pcl
 
       return (int) count_if (
           make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())),
-          make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())) + 
+          make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())) +
                              indices_->size (),
           CountPlanarInlier (coefficients, threshold));
     }
@@ -579,7 +579,7 @@ namespace pcl
       return (int)
         (thrust::count_if (
           thrust::make_zip_iterator (thrust::make_tuple (input_->points.begin (), indices_->begin ())),
-          thrust::make_zip_iterator (thrust::make_tuple (input_->points.begin (), indices_->begin ())) + 
+          thrust::make_zip_iterator (thrust::make_tuple (input_->points.begin (), indices_->begin ())) +
                              indices_->size (),
           CountPlanarInlier (h[idx], threshold)));
      }
@@ -618,9 +618,9 @@ namespace pcl
       // Send the data to the device
       transform (
           make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())),
-          make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())) + 
+          make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())) +
                              nr_points,
-          inliers_stencil->begin (), 
+          inliers_stencil->begin (),
           CheckPlanarInlier (coefficients, threshold));
       }
 
@@ -679,9 +679,9 @@ namespace pcl
       // Send the data to the device
       transform (
           make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())),
-          make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())) + 
+          make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())) +
                              nr_points,
-          inliers_stencil->begin (), 
+          inliers_stencil->begin (),
           CheckPlanarInlier (coefficients, threshold));
       }
 
@@ -730,9 +730,9 @@ namespace pcl
       coefficients.z = ((float4)h[idx]).z;
       coefficients.w = ((float4)h[idx]).w;
 
-      if (isnan (coefficients.x) | 
-          isnan (coefficients.y) | 
-          isnan (coefficients.z) | 
+      if (isnan (coefficients.x) |
+          isnan (coefficients.y) |
+          isnan (coefficients.z) |
           isnan (coefficients.w) )
       {
         c.x = c.y = c.z = 0;
@@ -741,7 +741,7 @@ namespace pcl
 
       float3 best_centroid;
       IndicesPtr best_inliers_stencil;
-      
+
       float3 centroid;
 
       centroid.x = centroid.y = centroid.z = 0;
@@ -750,27 +750,27 @@ namespace pcl
       //ORIG
       //  transform (
       //      make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())),
-      //      make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())) + 
+      //      make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())) +
       //                         nr_points,
-      //      inliers_stencil->begin (), 
+      //      inliers_stencil->begin (),
       //      CheckPlanarInlier (coefficients, threshold));
 
       // this is just as fast as the ORIG version, but requires initialization to -1 (see above) --> much slower
       //  transform_if (
       //      make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())),
-      //      make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())) + 
+      //      make_zip_iterator (make_tuple (input_->points.begin (), indices_->begin ())) +
       //                         nr_points,
       //      indices_->begin(),
-      //      inliers_stencil->begin (), 
+      //      inliers_stencil->begin (),
       //      CheckPlanarInlier (coefficients, threshold),
-      //      isInlier () 
+      //      isInlier ()
       //      );
 
       // i forgot why this was slow. but it was. :)
       //  transform (
       //      indices_stencil_->begin (),
       //      indices_stencil_->end(),
-      //      inliers_stencil->begin (), 
+      //      inliers_stencil->begin (),
       //      NewCheckPlanarInlier<Storage> (coefficients, (float)threshold, input_->points));
 
       // compute inliers
@@ -780,7 +780,7 @@ namespace pcl
       transform (
           input_->points.begin (), input_->points.end (),
           indices_stencil_->begin (),
-          inliers_stencil->begin (), 
+          inliers_stencil->begin (),
           CheckPlanarInlierKinectIndices (coefficients, threshold, angle_threshold));
 #endif
 
@@ -790,14 +790,14 @@ namespace pcl
           make_zip_iterator (make_tuple (input_->points.begin (), normals_->begin())),
           make_zip_iterator (make_tuple (input_->points.begin (), normals_->begin())) + nr_points,
           indices_stencil_->begin (),
-          inliers_stencil->begin (), 
+          inliers_stencil->begin (),
           CheckPlanarInlierKinectNormalIndices (coefficients, threshold, angle_threshold));
 #endif
 
       // store inliers here
       Indices inliers;
       inliers.resize (indices_->size ()); // is this necessary?
-      
+
       typename Indices::iterator last = thrust::remove_copy (inliers_stencil->begin (), inliers_stencil->end (), inliers.begin (), -1);
       inliers.erase (last, inliers.end ());
 
@@ -821,18 +821,18 @@ namespace pcl
         if (isnan (centroid.x) | isnan (centroid.y) | isnan (centroid.z))
         {
           std::cerr << "Wow, centroid contains nans!" << std::endl;
-      
+
           inliers_stencil = best_inliers_stencil;
           c = make_float3 (bad_point, bad_point, bad_point);
           //best_centroid;
           return best_nr_inliers;
         }
-        
+
         // Note: centroid contains centroid * inliers.size() at this point !
 #if 0
         std::cerr << "----------------------------------------------------------------------------" << std::endl;
         std::cerr << "inliers before: " << inliers.size () << std::endl;
-        std::cerr << "Centroid: " << 
+        std::cerr << "Centroid: " <<
           centroid.x << ", " << centroid.y << ", " << centroid.z << ", " << std::endl;
 #endif
 
@@ -852,9 +852,9 @@ namespace pcl
         }
 
 #if 0
-        std::cerr << "Covariance: " << 
-          covariance_matrix.data[0].x << ", " << covariance_matrix.data[0].y << ", " << covariance_matrix.data[0].z << std::endl << 
-          covariance_matrix.data[1].x << ", " << covariance_matrix.data[1].y << ", " << covariance_matrix.data[1].z << std::endl << 
+        std::cerr << "Covariance: " <<
+          covariance_matrix.data[0].x << ", " << covariance_matrix.data[0].y << ", " << covariance_matrix.data[0].z << std::endl <<
+          covariance_matrix.data[1].x << ", " << covariance_matrix.data[1].y << ", " << covariance_matrix.data[1].z << std::endl <<
           covariance_matrix.data[2].x << ", " << covariance_matrix.data[2].y << ", " << covariance_matrix.data[2].z << std::endl;
 #endif
 
@@ -867,14 +867,14 @@ namespace pcl
         float3 mc = normalize (evecs.data[0]);
 
 #if 0
-        std::cerr << "Eigenvectors: " << 
-          evecs.data[0].x << ", " << evecs.data[0].y << ", " << evecs.data[0].z << std::endl << 
-          evecs.data[1].x << ", " << evecs.data[1].y << ", " << evecs.data[1].z << std::endl << 
+        std::cerr << "Eigenvectors: " <<
+          evecs.data[0].x << ", " << evecs.data[0].y << ", " << evecs.data[0].z << std::endl <<
+          evecs.data[1].x << ", " << evecs.data[1].y << ", " << evecs.data[1].z << std::endl <<
           evecs.data[2].x << ", " << evecs.data[2].y << ", " << evecs.data[2].z << std::endl;
-        std::cerr << "Coefficients before: " << 
+        std::cerr << "Coefficients before: " <<
           coefficients.x << ", " << coefficients.y << ", " << coefficients.z << ", " << coefficients.w << ", " << std::endl;
 #endif
-       
+
         // compute plane coefficients from eigenvector corr. to smallest eigenvalue and centroid
         coefficients.x = mc.x;
         coefficients.y = mc.y;
@@ -883,7 +883,7 @@ namespace pcl
         coefficients.w = -1 * dot (mc, centroid);
 
 #if 0
-        std::cerr << "Coefficients after: " << 
+        std::cerr << "Coefficients after: " <<
           coefficients.x << ", " << coefficients.y << ", " << coefficients.z << ", " << coefficients.w << ", " << std::endl;
 #endif
 
@@ -896,7 +896,7 @@ namespace pcl
     //        input_->points.begin (),
     //        input_->points.end (),
             indices_stencil_->begin (),
-            inliers_stencil->begin (), 
+            inliers_stencil->begin (),
             CheckPlanarInlierKinectIndices (coefficients, threshold, angle_threshold));
 #endif
 
@@ -905,7 +905,7 @@ namespace pcl
             make_zip_iterator (make_tuple (input_->points.begin (), normals_->begin())),
             make_zip_iterator (make_tuple (input_->points.begin (), normals_->begin())) + nr_points,
             indices_stencil_->begin (),
-            inliers_stencil->begin (), 
+            inliers_stencil->begin (),
             CheckPlanarInlierKinectNormalIndices (coefficients, threshold, angle_threshold));
 #endif
 

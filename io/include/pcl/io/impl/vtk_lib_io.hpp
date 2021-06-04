@@ -47,7 +47,7 @@
 // VTK
 // Ignore warnings in the above headers
 #ifdef __GNUC__
-#pragma GCC system_header 
+#pragma GCC system_header
 #endif
 #include <vtkFloatArray.h>
 #include <vtkPointData.h>
@@ -163,7 +163,7 @@ pcl::io::vtkStructuredGridToPointCloud (vtkStructuredGrid* const structured_grid
   typename CloudT::PointType test_point = cloud.points[0];
 
   typedef typename pcl::traits::fieldList<typename CloudT::PointType>::type FieldList;
-  
+
   bool has_x = false; bool has_y = false; bool has_z = false;
   float x_val = 0.0f; float y_val = 0.0f; float z_val = 0.0f;
   pcl::for_each_type<FieldList> (pcl::CopyIfFieldExists<typename CloudT::PointType, float> (test_point, "x", has_x, x_val));
@@ -368,7 +368,7 @@ pcl::io::pointCloudTovtkStructuredGrid (const pcl::PointCloud<PointT>& cloud, vt
   typename CloudT::PointType test_point = cloud.points[0];
 
   typedef typename pcl::traits::fieldList<typename CloudT::PointType>::type FieldList;
-  
+
   int dimensions[3] = {cloud.width, cloud.height, 1};
   structured_grid->SetDimensions (dimensions);
 

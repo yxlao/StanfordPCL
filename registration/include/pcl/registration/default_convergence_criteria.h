@@ -48,10 +48,10 @@ namespace pcl
 {
   namespace registration
   {
-    /** \brief @b DefaultConvergenceCriteria represents an instantiation of 
+    /** \brief @b DefaultConvergenceCriteria represents an instantiation of
       * ConvergenceCriteria, and implements the following criteria for registration loop
       * evaluation:
-      * 
+      *
       *  * a maximum number of iterations has been reached
       *  * the transformation (R, t) cannot be further updated (the difference between current and previous is smaller than a threshold)
       *  * the Mean Squared Error (MSE) between the current set of correspondences and the previous one is smaller than some threshold (both relative and absolute tests)
@@ -67,7 +67,7 @@ namespace pcl
       public:
         typedef Eigen::Matrix<Scalar, 4, 4> Matrix4;
 
-        /** \brief Empty constructor. 
+        /** \brief Empty constructor.
           * Sets:
           *  * the maximum number of iterations to 1000
           *  * the rotation threshold to 0.256 degrees (0.99999)
@@ -95,49 +95,49 @@ namespace pcl
         /** \brief Set the maximum number of iterations the internal optimization should run for.
           * \param[in] nr_iterations the maximum number of iterations the internal optimization should run for
           */
-        inline void 
+        inline void
         setMaximumIterations (int nr_iterations) { max_iterations_ = nr_iterations; }
 
         /** \brief Get the maximum number of iterations the internal optimization should run for, as set by the user. */
-        inline int 
+        inline int
         getMaximumIterations () { return (max_iterations_); }
 
         /** \brief Set the rotation threshold cosine angle (maximum allowable difference between two consecutive transformations) in order for an optimization to be considered as having converged to the final solution.
           * \param[in] threshold the rotation threshold in order for an optimization to be considered as having converged to the final solution.
           */
-        inline void 
+        inline void
         setRotationThreshold (double threshold) { rotation_threshold_ = threshold; }
 
         /** \brief Get the rotation threshold cosine angle (maximum allowable difference between two consecutive transformations) as set by the user.
           */
-        inline double 
+        inline double
         getRotationThreshold () { return (rotation_threshold_); }
 
         /** \brief Set the translation threshold (maximum allowable difference between two consecutive transformations) in order for an optimization to be considered as having converged to the final solution.
           * \param[in] threshold the translation threshold in order for an optimization to be considered as having converged to the final solution.
           */
-        inline void 
+        inline void
         setTranslationThreshold (double threshold) { translation_threshold_ = threshold; }
 
         /** \brief Get the rotation threshold cosine angle (maximum allowable difference between two consecutive transformations) as set by the user.
           */
-        inline double 
+        inline double
         getTranslationThreshold () { return (translation_threshold_); }
 
         /** \brief Set the relative MSE between two consecutive sets of correspondences.
           * \param[in] mse_relative the relative MSE threshold
           */
-        inline void 
+        inline void
         setRelativeMSE (double mse_relative) { mse_threshold_relative_ = mse_relative; }
 
         /** \brief Get the relative MSE between two consecutive sets of correspondences. */
-        inline double 
+        inline double
         getRelativeMSE () { return (mse_threshold_relative_); }
 
         /** \brief Set the absolute MSE between two consecutive sets of correspondences.
           * \param[in] mse_absolute the relative MSE threshold
           */
-        inline void 
+        inline void
         setAbsoluteMSE (double mse_absolute) { mse_threshold_absolute_ = mse_absolute; }
 
         /** \brief Get the absolute MSE between two consecutive sets of correspondences. */
@@ -151,8 +151,8 @@ namespace pcl
 
       protected:
 
-        /** \brief Calculate the mean squared error (MSE) of the distance for a given set of correspondences. 
-          * \param[in] correspondences the given set of correspondences 
+        /** \brief Calculate the mean squared error (MSE) of the distance for a given set of correspondences.
+          * \param[in] correspondences the given set of correspondences
           */
         inline double
         calculateMSE (const pcl::Correspondences &correspondences)
@@ -175,7 +175,7 @@ namespace pcl
 
         /** \brief The MSE for the previous set of correspondences. */
         double correspondences_prev_mse_;
-        
+
         /** \brief The MSE for the current set of correspondences. */
         double correspondences_cur_mse_;
 

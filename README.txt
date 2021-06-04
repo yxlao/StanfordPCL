@@ -2,7 +2,7 @@
 =                          Qianyi Zhou's PCL Fork                             =
 ===============================================================================
 
-I have been receiving requests for the source code of 
+I have been receiving requests for the source code of
 pcl_kinfu_largeScale_release.exe, which is a critical module in the robust
 scene reconstruction system we have developed.
 

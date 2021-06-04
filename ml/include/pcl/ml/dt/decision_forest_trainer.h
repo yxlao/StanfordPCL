@@ -34,7 +34,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  */
-  
+
 #ifndef PCL_ML_DT_DECISION_FOREST_TRAINER_H_
 #define PCL_ML_DT_DECISION_FOREST_TRAINER_H_
 
@@ -60,13 +60,13 @@ namespace pcl
     class NodeType >
   class PCL_EXPORTS DecisionForestTrainer
   {
-  
+
     public:
 
       /** \brief Constructor. */
       DecisionForestTrainer ();
       /** \brief Destructor. */
-      virtual 
+      virtual
       ~DecisionForestTrainer ();
 
       /** \brief Sets the number of trees to train.
@@ -78,7 +78,7 @@ namespace pcl
         num_of_trees_to_train_ = num_of_trees;
       }
 
-      /** \brief Sets the feature handler used to create and evaluate features. 
+      /** \brief Sets the feature handler used to create and evaluate features.
         * \param[in] feature_handler The feature handler.
         */
       inline void
@@ -163,7 +163,7 @@ namespace pcl
 
       /** \brief The trainer for the decision trees of the forest. */
       pcl::DecisionTreeTrainer<FeatureType, DataSet, LabelType, ExampleIndex, NodeType> decision_tree_trainer_;
-  
+
   };
 
 }

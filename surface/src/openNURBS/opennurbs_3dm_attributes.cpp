@@ -49,7 +49,7 @@ void ON_3dmObjectAttributes::CopyHelper(const ON_3dmObjectAttributes& src)
 */
 
 /*
-ON_3dmObjectAttributes::ON_3dmObjectAttributes(const ON_3dmObjectAttributes& src) 
+ON_3dmObjectAttributes::ON_3dmObjectAttributes(const ON_3dmObjectAttributes& src)
                        : ON_Object(src)
 {
   Default();
@@ -134,7 +134,7 @@ bool ON_3dmObjectAttributes::operator!=(const ON_3dmObjectAttributes& other) con
 /*
 ON_3dmObjectAttributes& ON_3dmObjectAttributes::operator=(const ON_3dmObjectAttributes& src )
 {
-  if ( this != &src ) 
+  if ( this != &src )
   {
     ON_Object::operator=(src);
     CopyHelper(src);
@@ -202,7 +202,7 @@ bool ON_3dmObjectAttributes::ReadV5Helper( ON_BinaryArchive& file )
     if (!rc) break;
     if ( 0 == itemid )
       break;
-    
+
     if ( 1 == itemid )
     {
       rc = file.ReadString(m_name);
@@ -397,7 +397,7 @@ bool ON_3dmObjectAttributes::ReadV5Helper( ON_BinaryArchive& file )
 ON_BOOL32 ON_3dmObjectAttributes::Read( ON_BinaryArchive& file )
 {
   Default();
-  if (    file.Archive3dmVersion() >= 5 
+  if (    file.Archive3dmVersion() >= 5
        && file.ArchiveOpenNURBSVersion() >= 200712190 )
   {
     return ReadV5Helper(file);
@@ -406,20 +406,20 @@ ON_BOOL32 ON_3dmObjectAttributes::Read( ON_BinaryArchive& file )
   int major_version = 0;
   int minor_version = 0;
   bool rc = file.Read3dmChunkVersion(&major_version,&minor_version);
-  if ( rc && major_version == 1 ) 
+  if ( rc && major_version == 1 )
   {
     if (rc) rc = file.ReadUuid(m_uuid);
     if (rc) rc = file.ReadInt(&m_layer_index);
     if (rc) rc = file.ReadInt(&m_material_index);
     if (rc) rc = file.ReadColor(m_color);
-    
+
     while(rc)
     {
       // OBSOLETE if (rc) rc = file.ReadLineStyle(m_line_style); // 23 March 2005 Dale Lear
       // replaced with
       short s = 0;
       double x;
-      rc = file.ReadShort(&s); 
+      rc = file.ReadShort(&s);
       if (!rc) break;
       if ( file.Archive3dmVersion() < 4 || file.ArchiveOpenNURBSVersion() < 200503170 )
       {
@@ -452,7 +452,7 @@ ON_BOOL32 ON_3dmObjectAttributes::Read( ON_BinaryArchive& file )
     if (rc) rc = file.ReadString(m_url);
 
     m_bVisible = (Mode() != ON::hidden_object);
-    if ( rc && minor_version >= 1 ) 
+    if ( rc && minor_version >= 1 )
     {
       rc = file.ReadArray( m_group );
       if ( rc && minor_version >= 2 )
@@ -461,7 +461,7 @@ ON_BOOL32 ON_3dmObjectAttributes::Read( ON_BinaryArchive& file )
 
         if ( rc && minor_version >= 3 )
         {
-          rc = file.ReadArray(m_dmref);     
+          rc = file.ReadArray(m_dmref);
 
           if (rc && minor_version >= 4 )
           {
@@ -533,7 +533,7 @@ ON_BOOL32 ON_3dmObjectAttributes::Read( ON_BinaryArchive& file )
       }
     }
   }
-  else 
+  else
   {
     rc = false;
   }
@@ -883,7 +883,7 @@ ON_BOOL32 ON_3dmObjectAttributes::IsValid( ON_TextLog* text_log ) const
 
 unsigned int ON_3dmObjectAttributes::SizeOf() const
 {
-  unsigned int sz = sizeof(*this) - sizeof(ON_Object) 
+  unsigned int sz = sizeof(*this) - sizeof(ON_Object)
                   + m_name.Length()*sizeof(wchar_t)
                   + m_url.Length()*sizeof(wchar_t)
                   + m_group.SizeOfArray()
@@ -983,7 +983,7 @@ ON::display_mode ON_3dmObjectAttributes::DisplayMode() const
   return ON::DisplayMode( m_mode/16 );
 }
 
-unsigned int ON_3dmObjectAttributes::ApplyParentalControl( 
+unsigned int ON_3dmObjectAttributes::ApplyParentalControl(
         const ON_3dmObjectAttributes& parents_attributes,
         unsigned int control_limits
         )
@@ -994,7 +994,7 @@ unsigned int ON_3dmObjectAttributes::ApplyParentalControl(
   return ApplyParentalControl(parents_attributes,bogus_layer,control_limits);
 }
 
-unsigned int ON_3dmObjectAttributes::ApplyParentalControl( 
+unsigned int ON_3dmObjectAttributes::ApplyParentalControl(
         const ON_3dmObjectAttributes& parents_attributes,
         const ON_Layer& parent_layer,
         unsigned int control_limits
@@ -1098,7 +1098,7 @@ unsigned int ON_3dmObjectAttributes::ApplyParentalControl(
       }
     }
   }
-  
+
   if ( 0 != (0x40 & control_limits) )
   {
     rc |= 0x40;
@@ -1285,8 +1285,8 @@ void ON_3dmObjectAttributes::RemoveFromAllGroups()
 }
 
 
-bool ON_3dmObjectAttributes::FindDisplayMaterialId( 
-      const ON_UUID& viewport_id, 
+bool ON_3dmObjectAttributes::FindDisplayMaterialId(
+      const ON_UUID& viewport_id,
       ON_UUID* display_material_id
       ) const
 {
@@ -1474,7 +1474,7 @@ int ON_3dmObjectAttributes::DisplayMaterialRefCount() const
 }
 
 // {1403A7E4-E7AD-4a01-A2AA-41DAE6BE7ECB}
-const ON_UUID ON_DisplayMaterialRef::m_invisible_in_detail_id = 
+const ON_UUID ON_DisplayMaterialRef::m_invisible_in_detail_id =
 { 0x1403a7e4, 0xe7ad, 0x4a01, { 0xa2, 0xaa, 0x41, 0xda, 0xe6, 0xbe, 0x7e, 0xcb } };
 
 
@@ -1486,12 +1486,12 @@ ON_DisplayMaterialRef::ON_DisplayMaterialRef()
 
 bool ON_DisplayMaterialRef::operator==(const ON_DisplayMaterialRef& other) const
 {
-  return (Compare(other)==0); 
+  return (Compare(other)==0);
 }
 
 bool ON_DisplayMaterialRef::operator!=(const ON_DisplayMaterialRef& other) const
 {
-  return (Compare(other)!=0); 
+  return (Compare(other)!=0);
 }
 
 int ON_DisplayMaterialRef::Compare(const ON_DisplayMaterialRef& other) const
@@ -1504,21 +1504,21 @@ int ON_DisplayMaterialRef::Compare(const ON_DisplayMaterialRef& other) const
 
 bool ON_DisplayMaterialRef::operator<(const ON_DisplayMaterialRef& other) const
 {
-  return (Compare(other)<0); 
+  return (Compare(other)<0);
 }
 
 bool ON_DisplayMaterialRef::operator<=(const ON_DisplayMaterialRef& other) const
 {
-  return (Compare(other)<=0); 
+  return (Compare(other)<=0);
 }
 
 bool ON_DisplayMaterialRef::operator>(const ON_DisplayMaterialRef& other) const
 {
-  return (Compare(other)>0); 
+  return (Compare(other)>0);
 }
 
 bool ON_DisplayMaterialRef::operator>=(const ON_DisplayMaterialRef& other) const
 {
-  return (Compare(other)>=0); 
+  return (Compare(other)>=0);
 }
 

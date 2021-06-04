@@ -398,7 +398,7 @@ struct plain_row_type
   typedef typename conditional<
     is_same< typename traits<ExpressionType>::XprKind, MatrixXpr >::value,
     MatrixRowType,
-    ArrayRowType 
+    ArrayRowType
   >::type type;
 };
 
@@ -413,7 +413,7 @@ struct plain_col_type
   typedef typename conditional<
     is_same< typename traits<ExpressionType>::XprKind, MatrixXpr >::value,
     MatrixColType,
-    ArrayColType 
+    ArrayColType
   >::type type;
 };
 
@@ -429,7 +429,7 @@ struct plain_diag_type
   typedef typename conditional<
     is_same< typename traits<ExpressionType>::XprKind, MatrixXpr >::value,
     MatrixDiagType,
-    ArrayDiagType 
+    ArrayDiagType
   >::type type;
 };
 

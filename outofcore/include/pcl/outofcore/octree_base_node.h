@@ -82,17 +82,17 @@ namespace pcl
     template<typename ContainerT, typename PointT> void
     queryBBIntersects_noload (OutofcoreOctreeBaseNode<ContainerT, PointT>* current, const Eigen::Vector3d&, const Eigen::Vector3d &max, const boost::uint32_t query_depth, std::list<std::string> &bin_name);
 
-    /** \class OutofcoreOctreeBaseNode 
+    /** \class OutofcoreOctreeBaseNode
      *
-     *  \note Code was adapted from the Urban Robotics out of core octree implementation. 
-     *  Contact Jacob Schloss <jacob.schloss@urbanrobotics.net> with any questions. 
+     *  \note Code was adapted from the Urban Robotics out of core octree implementation.
+     *  Contact Jacob Schloss <jacob.schloss@urbanrobotics.net> with any questions.
      *  http://www.urbanrobotics.net/
      *
      *  \brief OutofcoreOctreeBaseNode Class internally representing nodes of an
      *  outofcore octree, with accessors to its data via the \ref
      *  octree_disk_container class or \ref octree_ram_container class,
-     *  whichever it is templated against.  
-     * 
+     *  whichever it is templated against.
+     *
      *  \ingroup outofcore
      *  \author Jacob Schloss (jacob.schloss@urbanrobotics.net)
      *
@@ -101,16 +101,16 @@ namespace pcl
     class OutofcoreOctreeBaseNode
     {
       friend class OutofcoreOctreeBase<ContainerT, PointT> ;
-  
+
       friend OutofcoreOctreeBaseNode<ContainerT, PointT>*
       makenode_norec<ContainerT, PointT> (const boost::filesystem::path &path, OutofcoreOctreeBaseNode<ContainerT, PointT>* super);
-  
+
       friend void
       queryBBIntersects_noload<ContainerT, PointT> (const boost::filesystem::path &rootnode, const Eigen::Vector3d &min, const Eigen::Vector3d &max, const boost::uint32_t query_depth, std::list<std::string> &bin_name);
 
       friend void
       queryBBIntersects_noload<ContainerT, PointT> (OutofcoreOctreeBaseNode<ContainerT, PointT>* current, const Eigen::Vector3d &min, const Eigen::Vector3d &max, const boost::uint32_t query_depth, std::list<std::string> &bin_name);
-  
+
       public:
         typedef OutofcoreOctreeBase<OutofcoreOctreeDiskContainer < PointT > , PointT > octree_disk;
         typedef OutofcoreOctreeBaseNode<OutofcoreOctreeDiskContainer < PointT > , PointT > octree_disk_node;
@@ -138,8 +138,8 @@ namespace pcl
 
         //query
         /** \brief gets the minimum and maximum corner of the bounding box represented by this node
-         * \param[out] minCoord returns the minimum corner of the bounding box indexed by 0-->X, 1-->Y, 2-->Z 
-         * \param[out] maxCoord returns the maximum corner of the bounding box indexed by 0-->X, 1-->Y, 2-->Z 
+         * \param[out] minCoord returns the minimum corner of the bounding box indexed by 0-->X, 1-->Y, 2-->Z
+         * \param[out] maxCoord returns the maximum corner of the bounding box indexed by 0-->X, 1-->Y, 2-->Z
          */
         inline void
         getBoundingBox (Eigen::Vector3d &min_bb, Eigen::Vector3d &max_bb) const
@@ -148,7 +148,7 @@ namespace pcl
         }
 
         //point extraction
-        /** \brief Recursively add points that fall into the queried bounding box up to the \b query_depth 
+        /** \brief Recursively add points that fall into the queried bounding box up to the \b query_depth
          *
          *  \param[in] min_bb the minimum corner of the bounding box, indexed by X,Y,Z coordinates
          *  \param[in] max_bb the maximum corner of the bounding box, indexed by X,Y,Z coordinates
@@ -168,7 +168,7 @@ namespace pcl
         void
         queryBBIncludes (const Eigen::Vector3d &min_bb, const Eigen::Vector3d &max_bb, size_t query_depth, const sensor_msgs::PointCloud2::Ptr &dst_blob);
 
-        /** \brief Recursively add points that fall into the queried bounding box up to the \b query_depth 
+        /** \brief Recursively add points that fall into the queried bounding box up to the \b query_depth
          *
          *  \param[in] min_bb the minimum corner of the bounding box, indexed by X,Y,Z coordinates
          *  \param[in] max_bb the maximum corner of the bounding box, indexed by X,Y,Z coordinates
@@ -183,13 +183,13 @@ namespace pcl
         void
         queryBBIntersects (const Eigen::Vector3d &min_bb, const Eigen::Vector3d &max_bb, const boost::uint32_t query_depth, std::list<std::string> &file_names);
 
-        /** \brief Write the voxel size to stdout at \ref query_depth 
+        /** \brief Write the voxel size to stdout at \ref query_depth
          * \param[in] query_depth The depth at which to print the size of the voxel/bounding boxes
          */
         void
         printBoundingBox (const size_t query_depth) const;
 
-        /** \brief add point to this node if we are a leaf, or find the leaf below us that is supposed to take the point 
+        /** \brief add point to this node if we are a leaf, or find the leaf below us that is supposed to take the point
          *  \param[in] p vector of points to add to the leaf
          *  \param[in] skipBBCheck whether to check if the point's coordinates fall within the bounding box
          */
@@ -210,7 +210,7 @@ namespace pcl
         /** \brief Add a single PointCloud2 into the octree and build the subsampled LOD during construction */
         boost::uint64_t
         addPointCloud_and_genLOD (const sensor_msgs::PointCloud2::Ptr input_cloud); //, const bool skip_bb_check);
-        
+
         /** \brief Recursively add points to the leaf and children subsampling LODs
          * on the way down.
          *
@@ -226,7 +226,7 @@ namespace pcl
         writeVPythonVisual (std::ofstream &file);
 
       protected:
-        /** \brief Load from disk 
+        /** \brief Load from disk
          * If creating root, path is full name. If creating any other
          * node, path is dir; throws exception if directory or metadata not found
          *
@@ -240,15 +240,15 @@ namespace pcl
 
         /** \brief Create root node and directory
          *
-         * Initializes the root node and performs initial filesystem checks for the octree; 
+         * Initializes the root node and performs initial filesystem checks for the octree;
          * throws OctreeException::OCT_BAD_PATH if root directory is an existing file
          *
          * \param bb_min triple of x,y,z minima for bounding box
          * \param bb_max triple of x,y,z maxima for bounding box
          * \param tree adress of the tree data structure that will hold this initial root node
-         * \param rootname Root directory for location of on-disk octree storage; if directory 
-         * doesn't exist, it is created; if "rootname" is an existing file, 
-         * 
+         * \param rootname Root directory for location of on-disk octree storage; if directory
+         * doesn't exist, it is created; if "rootname" is an existing file,
+         *
          * \throws PCLException if the specified path already exists
          */
         void init_root_node (const Eigen::Vector3d &bb_min, const Eigen::Vector3d &bb_max, OutofcoreOctreeBase<ContainerT, PointT> * const tree, const boost::filesystem::path &rootname);
@@ -260,7 +260,7 @@ namespace pcl
         void
         saveIdx (bool recursive);
 
-        /** \brief Randomly sample point data 
+        /** \brief Randomly sample point data
          *  \todo This needs to be deprecated; random sampling has its own class
          *  \todo Parameterize random sampling, uniform downsampling, etc...
          */
@@ -277,12 +277,12 @@ namespace pcl
         /** \brief Add data to the leaf when at max depth of tree. If
          *   skip_bb_check is true, adds to the node regardless of the
          *   bounding box it represents; otherwise only adds points that
-         *   fall within the bounding box 
+         *   fall within the bounding box
          *
          *  \param[in] p vector of points to attempt to add to the tree
          *  \param[in] skip_bb_check if @b true, doesn't check that points
          *  are in the proper bounding box; if @b false, only adds the
-         *  points that fall into the bounding box to this node 
+         *  points that fall into the bounding box to this node
          *  \return number of points successfully added
          */
         boost::uint64_t
@@ -291,19 +291,19 @@ namespace pcl
         /** \brief Add data to the leaf when at max depth of tree. If
          *   \ref skip_bb_check is true, adds to the node regardless of the
          *   bounding box it represents; otherwise only adds points that
-         *   fall within the bounding box 
+         *   fall within the bounding box
          *
-         *  \param[in] input_cloud PointCloud2 points to attempt to add to the tree; 
+         *  \param[in] input_cloud PointCloud2 points to attempt to add to the tree;
          *  \warning PointCloud2 inserted into the tree must have x,y,z fields, and must be of same type of any other points inserted in the tree
          *  \param[in] skip_bb_check (default true) if @b true, doesn't check that points
          *  are in the proper bounding box; if @b false, only adds the
-         *  points that fall into the bounding box to this node 
+         *  points that fall into the bounding box to this node
          *  \return number of points successfully added
          */
         boost::uint64_t
         addDataAtMaxDepth (const sensor_msgs::PointCloud2::Ptr input_cloud, const bool skip_bb_check = true);
-        
-        /** \brief Tests whether the input bounding box intersects with the current node's bounding box 
+
+        /** \brief Tests whether the input bounding box intersects with the current node's bounding box
          *  \param[in] min_bb The minimum corner of the input bounding box
          *  \param[in] min_bb The maximum corner of the input bounding box
          *  \return bool True if any portion of the bounding box intersects with this node's bounding box; false otherwise
@@ -360,7 +360,7 @@ namespace pcl
         int
         calcDepthForDim (const Eigen::Vector3d &min_bb, const Eigen::Vector3d &max_bb, const double dim);
 
-        /** \brief Method which recursively free children of this node 
+        /** \brief Method which recursively free children of this node
          */
         void
         recFreeChildren ();
@@ -382,7 +382,7 @@ namespace pcl
         void
         flushToDiskRecursive ();
 
-        /** \brief Loads the nodes metadata from the JSON file 
+        /** \brief Loads the nodes metadata from the JSON file
          */
         void
         loadFromFile (const boost::filesystem::path &path, OutofcoreOctreeBaseNode* super);
@@ -400,7 +400,7 @@ namespace pcl
         OutofcoreOctreeBaseNode&
         operator= (const OutofcoreOctreeBaseNode &rval);
 
-        /** \brief Private constructor used for children 
+        /** \brief Private constructor used for children
          */
         OutofcoreOctreeBaseNode (const Eigen::Vector3d &bb_min, const Eigen::Vector3d &bb_max, const char* dir, OutofcoreOctreeBaseNode<ContainerT, PointT>* super);
 

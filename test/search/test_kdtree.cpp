@@ -64,7 +64,7 @@ init ()
   srand (static_cast<unsigned int> (time (NULL)));
   // Randomly create a new point cloud
   for (size_t i = 0; i < cloud_big.width * cloud_big.height; ++i)
-    cloud_big.points.push_back (PointXYZ (static_cast<float> (1024 * rand () / (RAND_MAX + 1.0)), 
+    cloud_big.points.push_back (PointXYZ (static_cast<float> (1024 * rand () / (RAND_MAX + 1.0)),
                                           static_cast<float> (1024 * rand () / (RAND_MAX + 1.0)),
                                           static_cast<float> (1024 * rand () / (RAND_MAX + 1.0))));
 }

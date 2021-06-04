@@ -30,7 +30,7 @@
 *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
 *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 *  POSSIBILITY OF SUCH DAMAGE.
-* 
+*
 * @author: Koen Buys, Anatoly Baksheev
 */
 
@@ -47,8 +47,8 @@
 
 #include <pcl/common/time.h>
 
-#define AREA_THRES      200 // for euclidean clusterization 1 
-#define AREA_THRES2     100 // for euclidean clusterization 2 
+#define AREA_THRES      200 // for euclidean clusterization 1
+#define AREA_THRES2     100 // for euclidean clusterization 2
 #define CLUST_TOL_SHS   0.05
 #define DELTA_HUE_SHS   5
 
@@ -58,7 +58,7 @@ using namespace pcl::gpu::people;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-pcl::gpu::people::PeopleDetector::PeopleDetector() 
+pcl::gpu::people::PeopleDetector::PeopleDetector()
     : fx_(525.f), fy_(525.f), cx_(319.5f), cy_(239.5f), delta_hue_tolerance_(5)
 {
   PCL_DEBUG ("(I) : PeopleDector Constructor called");
@@ -73,7 +73,7 @@ pcl::gpu::people::PeopleDetector::PeopleDetector()
   first_iteration = true;
 
   // allocation buffers with default sizes
-  // if input size is other than the defaults, 
+  // if input size is other than the defaults,
   // then the buffers will be reallocated at processing time.
   // This cause only penalty for first frame ( one reallocation of each buffer )
   allocate_buffers();
@@ -88,8 +88,8 @@ pcl::gpu::people::PeopleDetector::setIntrinsics (float fx, float fy, float cx, f
 /** @brief This function prepares the needed buffers on both host and device **/
 void
 pcl::gpu::people::PeopleDetector::allocate_buffers(int rows, int cols)
-{ 
-  device::Dilatation::prepareRect5x5Kernel(kernelRect5x5_);  
+{
+  device::Dilatation::prepareRect5x5Kernel(kernelRect5x5_);
 
   cloud_host_.width  = cols;
   cloud_host_.height = rows;
@@ -110,7 +110,7 @@ pcl::gpu::people::PeopleDetector::allocate_buffers(int rows, int cols)
   flowermat_host_.height = rows;
   flowermat_host_.points.resize(cols * rows);
   flowermat_host_.is_dense = false;
-  
+
   cloud_device_.create(rows, cols);
   hue_device_.create(rows, cols);
 
@@ -122,7 +122,7 @@ pcl::gpu::people::PeopleDetector::allocate_buffers(int rows, int cols)
 
 int
 pcl::gpu::people::PeopleDetector::process(const Depth& depth, const Image& rgba)
-{ 
+{
   int cols;
   allocate_buffers(depth.rows(), depth.cols());
 
@@ -130,16 +130,16 @@ pcl::gpu::people::PeopleDetector::process(const Depth& depth, const Image& rgba)
 
   const device::Image& i = (const device::Image&)rgba;
   device::computeHueWithNans(i, depth_device1_, hue_device_);
-  //TODO Hope this is temporary and after porting to GPU the download will be deleted  
+  //TODO Hope this is temporary and after porting to GPU the download will be deleted
   hue_device_.download(hue_host_.points, cols);
-      
+
   device::Intr intr(fx_, fy_, cx_, cy_);
   intr.setDefaultPPIfIncorrect(depth.cols(), depth.rows());
 
   device::Cloud& c = (device::Cloud&)cloud_device_;
-  device::computeCloud(depth, intr, c);  
-  cloud_device_.download(cloud_host_.points, cols);    
-    
+  device::computeCloud(depth, intr, c);
+  cloud_device_.download(cloud_host_.points, cols);
+
   // uses cloud device, cloud host, depth device, hue device and other buffers
   return process();
 }
@@ -174,8 +174,8 @@ int
 pcl::gpu::people::PeopleDetector::process ()
 {
   int cols = cloud_device_.cols();
-  int rows = cloud_device_.rows();      
-  
+  int rows = cloud_device_.rows();
+
   rdf_detector_->process(depth_device1_, cloud_host_, AREA_THRES);
 
   const RDFBodyPartsDetector::BlobMatrix& sorted = rdf_detector_->getBlobMatrix();
@@ -187,29 +187,29 @@ pcl::gpu::people::PeopleDetector::process ()
     int c = 0;
     Tree2 t;
     buildTree(sorted, cloud_host_, Neck, c, t);
-    
+
     const std::vector<int>& seed = t.indices.indices;
-        
+
     std::fill(flowermat_host_.points.begin(), flowermat_host_.points.end(), 0);
     {
-      //ScopeTime time("shs");    
+      //ScopeTime time("shs");
       shs5(cloud_host_, seed, &flowermat_host_.points[0]);
     }
-    
+
     fg_mask_.upload(flowermat_host_.points, cols);
     device::Dilatation::invoke(fg_mask_, kernelRect5x5_, fg_mask_grown_);
 
     device::prepareForeGroundDepth(depth_device1_, fg_mask_grown_, depth_device2_);
 
     //// //////////////////////////////////////////////////////////////////////////////////////////////// //
-    //// The second label evaluation    
-        
-    rdf_detector_->process(depth_device2_, cloud_host_, AREA_THRES2);    
+    //// The second label evaluation
+
+    rdf_detector_->process(depth_device2_, cloud_host_, AREA_THRES2);
     const RDFBodyPartsDetector::BlobMatrix& sorted2 = rdf_detector_->getBlobMatrix();
 
     //brief Test if the second tree is build up correctly
     if(sorted2[Neck].size() != 0)
-    {      
+    {
       Tree2 t2;
       buildTree(sorted2, cloud_host_, Neck, c, t2);
       int par = 0;
@@ -228,7 +228,7 @@ pcl::gpu::people::PeopleDetector::process ()
       return 2;
     }
     return 1;
-    //output: Tree2 and PointCloud<XYZRGBL> 
+    //output: Tree2 and PointCloud<XYZRGBL>
   }
   return 0;
 }
@@ -375,12 +375,12 @@ pcl::gpu::people::PeopleDetector::processProb ()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-namespace 
+namespace
 {
-  void 
-  getProjectedRadiusSearchBox (int rows, int cols, const pcl::device::Intr& intr, const pcl::PointXYZ& point, float squared_radius, 
+  void
+  getProjectedRadiusSearchBox (int rows, int cols, const pcl::device::Intr& intr, const pcl::PointXYZ& point, float squared_radius,
                                   int &minX, int &maxX, int &minY, int &maxY)
-  {  
+  {
     int min, max;
 
     float3 q;
@@ -400,10 +400,10 @@ namespace
     float a = squared_radius * coeff8 - q.z * q.z;
     float b = squared_radius * coeff7 - q.y * q.z;
     float c = squared_radius * coeff4 - q.y * q.y;
-    
+
     // a and c are multiplied by two already => - 4ac -> - ac
     float det = b * b - a * c;
-  
+
     if (det < 0)
     {
       minY = 0;
@@ -433,30 +433,30 @@ namespace
     {
       float x1 = (b - sqrt (det)) / a;
       float x2 = (b + sqrt (det)) / a;
- 
+
       min = (int)std::min (floor(x1), floor(x2));
       max = (int)std::max ( ceil(x1),  ceil(x2));
       minX = std::min (cols- 1, std::max (0, min));
       maxX = std::max (std::min (cols - 1, max), 0);
     }
   }
- 
-  float 
+
+  float
   sqnorm(const pcl::PointXYZ& p1, const pcl::PointXYZ& p2)
   {
     float dx = (p1.x - p2.x);
     float dy = (p1.y - p2.y);
     float dz = (p1.z - p2.z);
-    return dx*dx + dy*dy + dz*dz;    
+    return dx*dx + dy*dy + dz*dz;
   }
 }
 
-void 
+void
 pcl::gpu::people::PeopleDetector::shs5(const pcl::PointCloud<pcl::PointXYZ> &cloud, const std::vector<int>& indices, unsigned char *mask)
 {
   pcl::device::Intr intr(fx_, fy_, cx_, cy_);
   intr.setDefaultPPIfIncorrect(cloud.width, cloud.height);
-  
+
   const float *hue = &hue_host_.points[0];
   double squared_radius = CLUST_TOL_SHS * CLUST_TOL_SHS;
 
@@ -481,7 +481,7 @@ pcl::gpu::people::PeopleDetector::shs5(const pcl::PointCloud<pcl::PointXYZ> &clo
     seed_queue.push_back (i);
 
     pcl::PointXYZ p = cloud.points[i];
-    float h = hue[i];    
+    float h = hue[i];
 
     while (sq_idx < (int)seed_queue.size ())
     {
@@ -491,10 +491,10 @@ pcl::gpu::people::PeopleDetector::shs5(const pcl::PointCloud<pcl::PointXYZ> &clo
       if(!pcl::isFinite (q))
         continue;
 
-      // search window                  
+      // search window
       int left, right, top, bottom;
       getProjectedRadiusSearchBox(cloud.height, cloud.width, intr, q, squared_radius, left, right, top, bottom);
-        
+
       int yEnd  = (bottom + 1) * cloud.width + right + 1;
       int idx  = top * cloud.width + left;
       int skip = cloud.width - right + left - 1;
@@ -511,15 +511,15 @@ pcl::gpu::people::PeopleDetector::shs5(const pcl::PointCloud<pcl::PointXYZ> &clo
             float h_l = hue[idx];
 
             if (fabs(h_l - h) < DELTA_HUE_SHS)
-            {                   
+            {
               seed_queue.push_back (idx);
               mask[idx] = 255;
             }
           }
         }
-      
+
       sq_idx++;
-    }        
+    }
   }
 }
 

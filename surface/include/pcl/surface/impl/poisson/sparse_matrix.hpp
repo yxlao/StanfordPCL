@@ -42,9 +42,9 @@
 #include <float.h>
 
 
-namespace pcl 
+namespace pcl
 {
-  namespace poisson 
+  namespace poisson
   {
     ///////////////////
     //  SparseMatrix //
@@ -95,7 +95,7 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T> int 
+    template<class T> int
     SparseMatrix<T>::Entries ()
     {
       int e = 0;
@@ -122,7 +122,7 @@ namespace pcl
     SparseMatrix<T>::~SparseMatrix(){Resize(0);}
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T> void 
+    template<class T> void
     SparseMatrix<T>::Resize (int r)
     {
       int i;
@@ -135,15 +135,15 @@ namespace pcl
       if (r)
       {
         rowSizes = reinterpret_cast<int*> (malloc (sizeof (int) * r));
-        
+
         memset (rowSizes, 0, sizeof (int) * r);
-        
+
         m_ppElements = reinterpret_cast<MatrixEntry<T>**> (malloc (sizeof (MatrixEntry<T>*) * r));
       }
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T> void 
+    template<class T> void
     SparseMatrix<T>::SetRowSize (int row, int count)
     {
       if (row >= 0 && row < rows)
@@ -162,14 +162,14 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T> void 
+    template<class T> void
     SparseMatrix<T>::SetZero ()
     {
       Resize (this->m_N, this->m_M);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T> void 
+    template<class T> void
     SparseMatrix<T>::SetIdentity ()
     {
       SetZero();
@@ -178,7 +178,7 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T> SparseMatrix<T> 
+    template<class T> SparseMatrix<T>
     SparseMatrix<T>::operator * (const T& V) const
     {
       SparseMatrix<T> M(*this);
@@ -187,7 +187,7 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T> SparseMatrix<T>& 
+    template<class T> SparseMatrix<T>&
     SparseMatrix<T>::operator *= (const T& V)
     {
       for (int i=0; i<this->Rows(); i++)
@@ -198,7 +198,7 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T> SparseMatrix<T> 
+    template<class T> SparseMatrix<T>
     SparseMatrix<T>::Multiply( const SparseMatrix<T>& M ) const
     {
       SparseMatrix<T> R( this->Rows(), M.Columns() );
@@ -215,7 +215,7 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T> template<class T2> Vector<T2> 
+    template<class T> template<class T2> Vector<T2>
     SparseMatrix<T>::Multiply( const Vector<T2>& V ) const
     {
       Vector<T2> R( rows );
@@ -232,7 +232,7 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T> template<class T2> void 
+    template<class T> template<class T2> void
     SparseMatrix<T>::Multiply( const Vector<T2>& In,Vector<T2>& Out) const
     {
       for (int i=0; i<rows; i++){
@@ -243,14 +243,14 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T> SparseMatrix<T> 
+    template<class T> SparseMatrix<T>
     SparseMatrix<T>::operator * (const SparseMatrix<T>& M) const
     {
       return (Multiply (M));
     }
-    
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T> template<class T2> Vector<T2> 
+    template<class T> template<class T2> Vector<T2>
     SparseMatrix<T>::operator * (const Vector<T2>& V) const
     {
       return (Multiply (V));
@@ -272,7 +272,7 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T> template<class T2> int 
+    template<class T> template<class T2> int
     SparseMatrix<T>::SolveSymmetric(const SparseMatrix<T>& M,const Vector<T2>& b,const int& iters,Vector<T2>& solution,const T2 eps,const int& reset)
     {
       Vector<T2> d,r,Md;
@@ -310,7 +310,7 @@ namespace pcl
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Solve for x s.t. M(x)=b by solving for x s.t. M^tM(x)=M^t(b)
-    template<class T> int 
+    template<class T> int
     SparseMatrix<T>::Solve(const SparseMatrix<T>& M,const Vector<T>& b,const int& iters,Vector<T>& solution,const T eps)
     {
       SparseMatrix mTranspose=M.Transpose();
@@ -348,9 +348,9 @@ namespace pcl
     template<class T,int Dim> int SparseNMatrix<T,Dim>::UseAlloc=0;
     template<class T,int Dim> Allocator<NMatrixEntry<T,Dim> > SparseNMatrix<T,Dim>::AllocatorNMatrixEntry;
     template<class T,int Dim> int SparseNMatrix<T,Dim>::UseAllocator(void){return UseAlloc;}
-    
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T,int Dim> void 
+    template<class T,int Dim> void
     SparseNMatrix<T,Dim>::SetAllocator (const int& blockSize)
     {
       if (blockSize>0)
@@ -392,7 +392,7 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T,int Dim> int 
+    template<class T,int Dim> int
     SparseNMatrix<T,Dim>::Entries ()
     {
       int e = 0;
@@ -422,7 +422,7 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T,int Dim> void 
+    template<class T,int Dim> void
     SparseNMatrix<T,Dim>::Resize (int r)
     {
       int i;
@@ -445,7 +445,7 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T,int Dim> void 
+    template<class T,int Dim> void
     SparseNMatrix<T,Dim>::SetRowSize (int row,int count)
     {
       if (row >= 0 && row < rows)
@@ -504,7 +504,7 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T,int Dim> template<class T2> Vector<T2> 
+    template<class T,int Dim> template<class T2> Vector<T2>
     SparseNMatrix<T,Dim>::operator * (const NVector<T2,Dim>& V) const
     {
       Vector<T2> R (rows);
@@ -528,14 +528,14 @@ namespace pcl
     // SparseSymmetricMatrix //
     ///////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T> template<class T2> Vector<T2> 
-    SparseSymmetricMatrix<T>::operator * (const Vector<T2>& V) const 
+    template<class T> template<class T2> Vector<T2>
+    SparseSymmetricMatrix<T>::operator * (const Vector<T2>& V) const
     {
       return (Multiply (V));
     }
-    
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T> template<class T2> Vector<T2> 
+    template<class T> template<class T2> Vector<T2>
     SparseSymmetricMatrix<T>::Multiply (const Vector<T2>& V) const
     {
       Vector<T2> R (this->rows);
@@ -553,7 +553,7 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T> template<class T2> void 
+    template<class T> template<class T2> void
     SparseSymmetricMatrix<T>::Multiply (const Vector<T2>& In,Vector<T2>& Out) const
     {
       Out.SetZero ();
@@ -575,7 +575,7 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T> template<class T2> int 
+    template<class T> template<class T2> int
     SparseSymmetricMatrix<T>::Solve (
         const SparseSymmetricMatrix<T>& M,
         const Vector<T2>& b,
@@ -627,7 +627,7 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class T> template<class T2> int 
+    template<class T> template<class T2> int
     SparseSymmetricMatrix<T>::Solve (
         const SparseSymmetricMatrix<T>& M,
         const Vector<T>& diagonal,

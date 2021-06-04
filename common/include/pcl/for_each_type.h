@@ -41,7 +41,7 @@
 #define PCL_FOR_EACH_TYPE_H_
 
 #ifdef __GNUC__
-#pragma GCC system_header 
+#pragma GCC system_header
 #endif
 
 #include <boost/mpl/is_sequence.hpp>
@@ -55,7 +55,7 @@
 #include <boost/mpl/aux_/unwrap.hpp>
 #include <boost/type_traits/is_same.hpp>
 
-namespace pcl 
+namespace pcl
 {
   //////////////////////////////////////////////////////////////////////////////////////////////
   template <bool done = true>
@@ -87,7 +87,7 @@ namespace pcl
   };
 
   //////////////////////////////////////////////////////////////////////////////////////////////
-  template<typename Sequence, typename F> inline void 
+  template<typename Sequence, typename F> inline void
   for_each_type (F f)
   {
     BOOST_MPL_ASSERT (( boost::mpl::is_sequence<Sequence> ));
@@ -98,10 +98,10 @@ namespace pcl
 
   //////////////////////////////////////////////////////////////////////////////////////////////
   template<typename Sequence1, typename Sequence2>
-  struct intersect 
-  { 
-    typedef typename boost::mpl::remove_if<Sequence1, boost::mpl::not_<boost::mpl::contains<Sequence2, boost::mpl::_1> > >::type type; 
-  }; 
+  struct intersect
+  {
+    typedef typename boost::mpl::remove_if<Sequence1, boost::mpl::not_<boost::mpl::contains<Sequence2, boost::mpl::_1> > >::type type;
+  };
 }
 
 #endif  //#ifndef PCL_FOR_EACH_TYPE_H_

@@ -178,7 +178,7 @@ namespace pcl
       {
         if (normal_smoothing_size <= 0)
         {
-          PCL_ERROR ("[pcl::%s::setNormalSmoothingSize] Invalid normal smoothing size given! (%f). Allowed ranges are: 0 < N. Defaulting to %f.\n", 
+          PCL_ERROR ("[pcl::%s::setNormalSmoothingSize] Invalid normal smoothing size given! (%f). Allowed ranges are: 0 < N. Defaulting to %f.\n",
                       feature_name_.c_str (), normal_smoothing_size, normal_smoothing_size_);
           return;
         }
@@ -226,7 +226,7 @@ namespace pcl
         }
 
         init_covariance_matrix_ = init_average_3d_gradient_ = init_depth_change_ = false;
-        
+
         if (use_sensor_origin_)
         {
           vpx_ = input_->sensor_origin_.coeff (0);
@@ -276,7 +276,7 @@ namespace pcl
         vpz = vpz_;
       }
 
-      /** \brief sets whether the sensor origin or a user given viewpoint should be used. After this method, the 
+      /** \brief sets whether the sensor origin or a user given viewpoint should be used. After this method, the
         * normal estimation method uses the sensor origin of the input cloud.
         * to use a user defined view point, use the method setViewPoint
         */
@@ -297,7 +297,7 @@ namespace pcl
           vpz_ = 0;
         }
       }
-      
+
     protected:
 
       /** \brief Computes the normal for the complete cloud.
@@ -381,7 +381,7 @@ namespace pcl
 
       /** whether the sensor origin of the input cloud or a user given viewpoint should be used.*/
       bool use_sensor_origin_;
-      
+
       /** \brief This method should get called before starting the actual computation. */
       bool
       initCompute ();

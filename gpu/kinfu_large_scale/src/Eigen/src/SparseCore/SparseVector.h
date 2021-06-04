@@ -10,7 +10,7 @@
 #ifndef EIGEN_SPARSEVECTOR_H
 #define EIGEN_SPARSEVECTOR_H
 
-namespace Eigen { 
+namespace Eigen {
 
 /** \ingroup SparseCore_Module
   * \class SparseVector
@@ -61,7 +61,7 @@ class SparseVector
 
     typedef SparseMatrixBase<SparseVector> SparseBase;
     enum { IsColVector = internal::traits<SparseVector>::IsColVector };
-    
+
     enum {
       Options = _Options
     };
@@ -296,7 +296,7 @@ class SparseVector
 
     /** \deprecated use finalize() */
     EIGEN_DEPRECATED void endFill() {}
-    
+
 #   ifdef EIGEN_SPARSEVECTOR_PLUGIN
 #     include EIGEN_SPARSEVECTOR_PLUGIN
 #   endif

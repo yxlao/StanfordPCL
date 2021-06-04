@@ -164,14 +164,14 @@ pcl::GreedyProjectionTriangulation<PointInT>::reconstructPolygons (std::vector<p
         nnIdx[i] = point2index[nnIdx[i]];
       }
 
-      // Get the normal estimate at the current point 
+      // Get the normal estimate at the current point
       const Eigen::Vector3f nc = input_->points[(*indices_)[R_]].getNormalVector3fMap ();
 
       // Get a coordinate system that lies on a plane defined by its normal
       v_ = nc.unitOrthogonal ();
       u_ = nc.cross (v_);
 
-      // Projecting point onto the surface 
+      // Projecting point onto the surface
       float dist = nc.dot (coords_[R_]);
       proj_qp_ = coords_[R_] - dist * nc;
 
@@ -213,7 +213,7 @@ pcl::GreedyProjectionTriangulation<PointInT>::reconstructPolygons (std::vector<p
       }
       angles_[0].visible = false;
 
-      // Verify the visibility of each potential new vertex 
+      // Verify the visibility of each potential new vertex
       for (int i = 1; i < nnn_; i++) // nearest neighbor with index 0 is the query point R_ itself
         if ((angles_[i].visible) && (ffn_[R_] != nnIdx[i]) && (sfn_[R_] != nnIdx[i]))
         {
@@ -342,7 +342,7 @@ pcl::GreedyProjectionTriangulation<PointInT>::reconstructPolygons (std::vector<p
         increase_nnn4s++;
       }
 
-      // Get the normal estimate at the current point 
+      // Get the normal estimate at the current point
       const Eigen::Vector3f nc = input_->points[(*indices_)[R_]].getNormalVector3fMap ();
 
       // Get a coordinate system that lies on a plane defined by its normal
@@ -361,8 +361,8 @@ pcl::GreedyProjectionTriangulation<PointInT>::reconstructPolygons (std::vector<p
         tmp_ = coords_[nnIdx[i]] - proj_qp_;
         uvn_nn[i][0] = tmp_.dot(u_);
         uvn_nn[i][1] = tmp_.dot(v_);
-  
-        // Computing the angle between each neighboring point and the query point itself 
+
+        // Computing the angle between each neighboring point and the query point itself
         angles_[i].angle = atan2(uvn_nn[i][1], uvn_nn[i][0]);
         // initializing angle descriptors
         angles_[i].index = nnIdx[i];
@@ -390,7 +390,7 @@ pcl::GreedyProjectionTriangulation<PointInT>::reconstructPolygons (std::vector<p
           angles_[i].visible = false;
           same_side = false;
         }
-        // Saving the edges between nearby boundary points 
+        // Saving the edges between nearby boundary points
         if ((i!=0) && (same_side) && ((state_[nnIdx[i]] == FRINGE) || (state_[nnIdx[i]] == BOUNDARY)))
         {
           doubleEdge e;
@@ -403,7 +403,7 @@ pcl::GreedyProjectionTriangulation<PointInT>::reconstructPolygons (std::vector<p
           e.second[0] = tmp_.dot(u_);
           e.second[1] = tmp_.dot(v_);
           doubleEdges.push_back(e);
-          // Pruning by visibility criterion 
+          // Pruning by visibility criterion
           if ((state_[nnIdx[i]] == FRINGE) && (ffn_[R_] != nnIdx[i]) && (sfn_[R_] != nnIdx[i]))
           {
             double angle1 = atan2(e.first[1] - uvn_nn[i][1], e.first[0] - uvn_nn[i][0]);
@@ -586,7 +586,7 @@ pcl::GreedyProjectionTriangulation<PointInT>::reconstructPolygons (std::vector<p
         continue;
       }
 
-      // Finding last visible nn 
+      // Finding last visible nn
       int last_visible = end;
       while ((last_visible+1<nnn_) && (angles_[last_visible+1].visible)) last_visible++;
 
@@ -866,7 +866,7 @@ pcl::GreedyProjectionTriangulation<PointInT>::reconstructPolygons (std::vector<p
                 tmp_ = coords_[angles_[*(it+1)].index] - proj_qp_;
                 S2[0] = tmp_.dot(u_);
                 S2[1] = tmp_.dot(v_);
-                // check for inclusions 
+                // check for inclusions
                 if (isVisible(X,S1,S2))
                 {
                   can_delete = false;
@@ -894,7 +894,7 @@ pcl::GreedyProjectionTriangulation<PointInT>::reconstructPolygons (std::vector<p
         }
       }
 
-      // Writing edges and updating edge-front 
+      // Writing edges and updating edge-front
       changed_1st_fn_ = false;
       changed_2nd_fn_ = false;
       new2boundary_ = NONE;
@@ -919,7 +919,7 @@ pcl::GreedyProjectionTriangulation<PointInT>::reconstructPolygons (std::vector<p
             nr_touched++;
           }
         }
-                                   
+
         if (gaps[*it])
           if (gaps[*(it-1)])
           {
@@ -932,7 +932,7 @@ pcl::GreedyProjectionTriangulation<PointInT>::reconstructPolygons (std::vector<p
             addTriangle (current_index_, angles_[*(it-1)].index, R_, polygons);
             addFringePoint (current_index_, R_);
             new2boundary_ = current_index_;
-            if (!already_connected_) 
+            if (!already_connected_)
               connectPoint (polygons, angles_[*(it-1)].index, R_,
                             angles_[*(it+1)].index,
                             uvn_nn[angles_[*it].nnIndex], uvn_nn[angles_[*(it-1)].nnIndex], uvn_nn_qp_zero);
@@ -954,7 +954,7 @@ pcl::GreedyProjectionTriangulation<PointInT>::reconstructPolygons (std::vector<p
             new2boundary_ = current_index_;
             if (!already_connected_) connectPoint (polygons, R_, angles_[*(it+1)].index,
                                                    (it+2) == angleIdx.end() ? -1 : angles_[*(it+2)].index,
-                                                   uvn_nn[angles_[*it].nnIndex], uvn_nn_qp_zero, 
+                                                   uvn_nn[angles_[*it].nnIndex], uvn_nn_qp_zero,
                                                    uvn_nn[angles_[*(it+1)].nnIndex]);
             else already_connected_ = false;
             if (ffn_[R_] == angles_[*(angleIdx.end()-1)].index)
@@ -967,19 +967,19 @@ pcl::GreedyProjectionTriangulation<PointInT>::reconstructPolygons (std::vector<p
             }
           }
 
-          else // ^(gaps[*it]) && ^(gaps[*(it-1)]) 
+          else // ^(gaps[*it]) && ^(gaps[*(it-1)])
           {
             addTriangle (current_index_, angles_[*(it-1)].index, R_, polygons);
             addFringePoint (current_index_, R_);
             if (!already_connected_) connectPoint (polygons, angles_[*(it-1)].index, angles_[*(it+1)].index,
                                                    (it+2) == angleIdx.end() ? -1 : gaps[*(it+1)] ? R_ : angles_[*(it+2)].index,
-                                                   uvn_nn[angles_[*it].nnIndex], 
-                                                   uvn_nn[angles_[*(it-1)].nnIndex], 
+                                                   uvn_nn[angles_[*it].nnIndex],
+                                                   uvn_nn[angles_[*(it-1)].nnIndex],
                                                    uvn_nn[angles_[*(it+1)].nnIndex]);
             else already_connected_ = false;
           }
       }
-      
+
       // Finishing up R_
       if (ffn_[R_] == sfn_[R_])
       {
@@ -1048,7 +1048,7 @@ pcl::GreedyProjectionTriangulation<PointInT>::reconstructPolygons (std::vector<p
   if (increase_dist > 0)
     PCL_WARN ("Number of automatic maximum distance increases: %d\n", increase_dist);
 
-  // sorting and removing doubles from fringe queue 
+  // sorting and removing doubles from fringe queue
   std::sort (fringe_queue_.begin (), fringe_queue_.end ());
   fringe_queue_.erase (std::unique (fringe_queue_.begin (), fringe_queue_.end ()), fringe_queue_.end ());
   PCL_DEBUG ("Number of processed points: %zu / %zu\n", fringe_queue_.size(), indices_->size ());
@@ -1091,10 +1091,10 @@ pcl::GreedyProjectionTriangulation<PointInT>::closeTriangle (std::vector<pcl::Ve
 /////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointInT> void
 pcl::GreedyProjectionTriangulation<PointInT>::connectPoint (
-    std::vector<pcl::Vertices> &polygons, 
-    const int prev_index, const int next_index, const int next_next_index, 
-    const Eigen::Vector2f &uvn_current, 
-    const Eigen::Vector2f &uvn_prev, 
+    std::vector<pcl::Vertices> &polygons,
+    const int prev_index, const int next_index, const int next_next_index,
+    const Eigen::Vector2f &uvn_current,
+    const Eigen::Vector2f &uvn_prev,
     const Eigen::Vector2f &uvn_next)
 {
   if (is_current_free_)

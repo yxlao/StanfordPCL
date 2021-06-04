@@ -87,7 +87,7 @@ pcl::cloud_composer::SignalMultiplexer::connect (const Connection& conn)
 }
 
 
-void 
+void
 pcl::cloud_composer::SignalMultiplexer::disconnect (const Connection& conn)
 {
   if (!object)
@@ -103,7 +103,7 @@ pcl::cloud_composer::SignalMultiplexer::disconnect (const Connection& conn)
 }
 
 
-void 
+void
 pcl::cloud_composer::SignalMultiplexer::setCurrentObject (QObject* newObject)
 {
   if (newObject == object)
@@ -119,7 +119,7 @@ pcl::cloud_composer::SignalMultiplexer::setCurrentObject (QObject* newObject)
   ProjectModel* model = dynamic_cast<ProjectModel*> (newObject);
   if (model)
     model->emitAllStateSignals ();
-  
+
   //let the world know about who's on top now
   emit currentObjectChanged (object);
 }

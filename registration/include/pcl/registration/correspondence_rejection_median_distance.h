@@ -67,7 +67,7 @@ namespace pcl
       public:
 
         /** \brief Empty constructor. */
-        CorrespondenceRejectorMedianDistance () : median_distance_ (0), 
+        CorrespondenceRejectorMedianDistance () : median_distance_ (0),
                                             factor_ (1.0),
                                             data_container_ ()
         {
@@ -78,8 +78,8 @@ namespace pcl
           * \param[in] original_correspondences the set of initial correspondences given
           * \param[out] remaining_correspondences the resultant filtered set of remaining correspondences
           */
-        inline void 
-        getRemainingCorrespondences (const pcl::Correspondences& original_correspondences, 
+        inline void
+        getRemainingCorrespondences (const pcl::Correspondences& original_correspondences,
                                      pcl::Correspondences& remaining_correspondences);
 
         /** \brief Get the median distance used for thresholding in correspondence rejection. */
@@ -87,10 +87,10 @@ namespace pcl
         getMedianDistance () const { return (median_distance_); };
 
         /** \brief Provide a source point cloud dataset (must contain XYZ
-          * data!), used to compute the correspondence distance.  
+          * data!), used to compute the correspondence distance.
           * \param[in] cloud a cloud containing XYZ data
           */
-        template <typename PointT> inline void 
+        template <typename PointT> inline void
         setInputCloud (const typename pcl::PointCloud<PointT>::ConstPtr &cloud)
         {
           if (!data_container_)
@@ -99,10 +99,10 @@ namespace pcl
         }
 
         /** \brief Provide a target point cloud dataset (must contain XYZ
-          * data!), used to compute the correspondence distance.  
+          * data!), used to compute the correspondence distance.
           * \param[in] target a cloud containing XYZ data
           */
-        template <typename PointT> inline void 
+        template <typename PointT> inline void
         setInputTarget (const typename pcl::PointCloud<PointT>::ConstPtr &target)
         {
           if (!data_container_)
@@ -126,7 +126,7 @@ namespace pcl
         /** \brief Apply the rejection algorithm.
           * \param[out] correspondences the set of resultant correspondences.
           */
-        inline void 
+        inline void
         applyRejection (pcl::Correspondences &correspondences)
         {
           getRemainingCorrespondences (*input_correspondences_, correspondences);

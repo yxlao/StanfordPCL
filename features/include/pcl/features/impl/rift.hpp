@@ -45,8 +45,8 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointInT, typename GradientT, typename PointOutT> void
 pcl::RIFTEstimation<PointInT, GradientT, PointOutT>::computeRIFT (
-      const PointCloudIn &cloud, const PointCloudGradient &gradient, 
-      int p_idx, float radius, const std::vector<int> &indices, 
+      const PointCloudIn &cloud, const PointCloudGradient &gradient,
+      int p_idx, float radius, const std::vector<int> &indices,
       const std::vector<float> &sqr_distances, Eigen::MatrixXf &rift_descriptor)
 {
   if (indices.empty ())
@@ -86,15 +86,15 @@ pcl::RIFTEstimation<PointInT, GradientT, PointOutT>::computeRIFT (
     int g_idx_min = static_cast<int> (ceil (g - 1));
     int g_idx_max = static_cast<int> (floor (g + 1));
 
-    // Update the appropriate bins of the histogram 
-    for (int g_idx = g_idx_min; g_idx <= g_idx_max; ++g_idx)  
+    // Update the appropriate bins of the histogram
+    for (int g_idx = g_idx_min; g_idx <= g_idx_max; ++g_idx)
     {
       // Because gradient orientation is cyclical, out-of-bounds values must wrap around
-      int g_idx_wrapped = ((g_idx + nr_gradient_bins) % nr_gradient_bins); 
+      int g_idx_wrapped = ((g_idx + nr_gradient_bins) % nr_gradient_bins);
 
       for (int d_idx = d_idx_min; d_idx <= d_idx_max; ++d_idx)
       {
-        // To avoid boundary effects, use linear interpolation when updating each bin 
+        // To avoid boundary effects, use linear interpolation when updating each bin
         float w = (1.0f - fabsf (d - static_cast<float> (d_idx))) * (1.0f - fabsf (g - static_cast<float> (g_idx)));
 
         rift_descriptor (d_idx, g_idx_wrapped) += w * gradient_magnitude;
@@ -159,7 +159,7 @@ pcl::RIFTEstimation<PointInT, GradientT, PointOutT>::computeFeature (PointCloudO
   Eigen::MatrixXf rift_descriptor (nr_distance_bins_, nr_gradient_bins_);
   std::vector<int> nn_indices;
   std::vector<float> nn_dist_sqr;
- 
+
   // Iterating over the entire index vector
   for (size_t idx = 0; idx < indices_->size (); ++idx)
   {
@@ -228,12 +228,12 @@ pcl::RIFTEstimation<PointInT, GradientT, Eigen::MatrixXf>::computeFeatureEigen (
       return;
     }
   }
-  
+
   output.points.resize (indices_->size (), nr_gradient_bins_ * nr_distance_bins_);
   Eigen::MatrixXf rift_descriptor (nr_distance_bins_, nr_gradient_bins_);
   std::vector<int> nn_indices;
   std::vector<float> nn_dist_sqr;
- 
+
   output.is_dense = true;
   // Iterating over the entire index vector
   for (size_t idx = 0; idx < indices_->size (); ++idx)
@@ -247,7 +247,7 @@ pcl::RIFTEstimation<PointInT, GradientT, Eigen::MatrixXf>::computeFeatureEigen (
     }
 
     // Compute the RIFT descriptor
-    this->computeRIFT (*surface_, *gradient_, (*indices_)[idx], static_cast<float> (search_radius_), nn_indices, nn_dist_sqr, 
+    this->computeRIFT (*surface_, *gradient_, (*indices_)[idx], static_cast<float> (search_radius_), nn_indices, nn_dist_sqr,
                        rift_descriptor);
 
     // Copy into the resultant cloud
@@ -261,5 +261,5 @@ pcl::RIFTEstimation<PointInT, GradientT, Eigen::MatrixXf>::computeFeatureEigen (
 
 #define PCL_INSTANTIATE_RIFTEstimation(T,NT,OutT) template class PCL_EXPORTS pcl::RIFTEstimation<T,NT,OutT>;
 
-#endif    // PCL_FEATURES_IMPL_RIFT_H_ 
+#endif    // PCL_FEATURES_IMPL_RIFT_H_
 

@@ -26,18 +26,18 @@ namespace pcl
       using NearestPairPointCloudCoherence<PointInT>::coherence_name_;
       using NearestPairPointCloudCoherence<PointInT>::new_target_;
       using NearestPairPointCloudCoherence<PointInT>::getClassName;
-      
+
       /** \brief empty constructor */
-      ApproxNearestPairPointCloudCoherence () : 
+      ApproxNearestPairPointCloudCoherence () :
         NearestPairPointCloudCoherence<PointInT> (), search_ ()
       {
         coherence_name_ = "ApproxNearestPairPointCloudCoherence";
       }
-      
+
     protected:
       /** \brief This method should get called before starting the actual computation. */
       virtual bool initCompute ();
-      
+
       /** \brief compute the nearest pairs and compute coherence using point_coherences_ */
       virtual void
       computeCoherence (const PointCloudInConstPtr &cloud, const IndicesConstPtr &indices, float &w_j);

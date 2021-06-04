@@ -55,30 +55,30 @@ namespace pcl
     };
 
 
-    
+
     class PCL_EXPORTS CloudCommand : public QUndoCommand
     {
-      public: 
+      public:
         CloudCommand (ConstItemList input_data, QUndoCommand* parent = 0);
-        
+
         virtual
         ~CloudCommand ();
-        
+
         virtual bool
         runCommand (AbstractTool* tool) = 0;
 
-        virtual void 
+        virtual void
         undo ()  = 0;
-        
+
         virtual void
         redo () = 0;
-        
-        //QList <CloudComposerItem*> 
+
+        //QList <CloudComposerItem*>
        // executeToolOnTemplateCloud (AbstractTool* tool, ConstItemList &input_data);
-        
-        void 
+
+        void
         setProjectModel (ProjectModel* model);
-        
+
         inline void
         setInputData (ConstItemList input_data)
         {
@@ -89,134 +89,134 @@ namespace pcl
          *  Replacements are only inserted once, original items must have same parent
          *  This stores the removed items in removed_items_
          */
-        bool 
+        bool
         replaceOriginalWithNew (QList <const CloudComposerItem*> originals, QList <CloudComposerItem*> new_items);
-        
+
         /** \brief This removes new_items from the model and restores originals */
         bool
         restoreOriginalRemoveNew (QList <const CloudComposerItem*> originals, QList <CloudComposerItem*> new_items);
-        
+
         ConstItemList original_data_;
-        
+
         QMap <QStandardItem*, QStandardItem*> removed_to_parent_map_;
         QList <OutputPair> output_data_;
         ProjectModel* project_model_;
-       
-        /** \brief This determines if we delete original items or not on destruction 
+
+        /** \brief This determines if we delete original items or not on destruction
          * If the command is being deleted because stack is at limit, then we want
          * to only delete the originals, since the command is staying for good (new items shouldn't be deleted)
          * On the other hand, if we destruct after an undo, then we want to delete the new items (but not the originals)
          */
         bool last_was_undo_;
-        
+
         /** \brief This is used to check if a templated version of a tool can be used
-         *  For this to return true, all items must be clouds, and must have the same template type 
+         *  For this to return true, all items must be clouds, and must have the same template type
          */
-        bool 
+        bool
         canUseTemplates (ConstItemList &input_data);
-        
+
         bool can_use_templates_;
         int template_type_;
     };
-    
+
     class PCL_EXPORTS ModifyItemCommand : public CloudCommand
     {
-      public: 
+      public:
         ModifyItemCommand (ConstItemList input_data, QUndoCommand* parent = 0);
-    
+
         virtual bool
         runCommand (AbstractTool* tool);
-        
+
         virtual void
         undo ();
-      
+
         virtual void
         redo ();
-      private: 
-        
-      
-      
+      private:
+
+
+
     };
-    
+
     class PCL_EXPORTS NewItemCloudCommand : public CloudCommand
     {
-      public: 
+      public:
         NewItemCloudCommand (ConstItemList input_data, QUndoCommand* parent = 0);
-      
+
         virtual bool
         runCommand (AbstractTool* tool);
-        
+
         virtual void
         undo ();
-      
+
         virtual void
         redo ();
 
     };
-    
+
 
     class PCL_EXPORTS SplitCloudCommand : public CloudCommand
     {
-      public: 
+      public:
         SplitCloudCommand (ConstItemList input_data, QUndoCommand* parent = 0);
-      
+
         virtual bool
         runCommand (AbstractTool* tool);
-        
+
         virtual void
         undo ();
-      
+
         virtual void
         redo ();
       private:
 
-    };  
-    
+    };
+
     class PCL_EXPORTS DeleteItemCommand : public CloudCommand
     {
-      public: 
+      public:
         DeleteItemCommand (ConstItemList input_data, QUndoCommand* parent = 0);
-      
+
         virtual bool
         runCommand (AbstractTool* tool);
-        
+
         virtual void
         undo ();
-      
+
         virtual void
         redo ();
       private:
     };
-    
+
     class PCL_EXPORTS MergeCloudCommand : public CloudCommand
     {
-      public: 
+      public:
         /** \brief Construct for a merge command
          *  \param[in] input_data Input list of CloudItem s from the project model which will be merged
-         *  \param[in] temporary_clouds Input list of CloudItems which 
+         *  \param[in] temporary_clouds Input list of CloudItems which
          */
         MergeCloudCommand (ConstItemList input_data, QUndoCommand* parent = 0);
-      
+
         virtual bool
         runCommand (AbstractTool* tool);
-        
+
         virtual void
         undo ();
-      
+
         virtual void
         redo ();
-        
+
         inline void
         setSelectedIndicesMap( const QMap <CloudItem*, pcl::PointIndices::Ptr > selected_item_index_map)
         {
           selected_item_index_map_ = selected_item_index_map;
         }
-          
+
       private:
         QMap <CloudItem*, pcl::PointIndices::Ptr > selected_item_index_map_;
     };
   }
-} 
+}
 
 Q_DECLARE_METATYPE (ConstItemList);
 #endif //COMMANDS_H_

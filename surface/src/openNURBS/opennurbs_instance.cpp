@@ -46,7 +46,7 @@ void ON_InstanceDefinition::Dump( ON_TextLog& text_log ) const
   const wchar_t* s;
 
   s = m_name;
-  if ( 0 == s ) 
+  if ( 0 == s )
     s = L"";
   text_log.Print(L"Name: \"%s\"\n",s);
 
@@ -76,15 +76,15 @@ void ON_InstanceDefinition::Dump( ON_TextLog& text_log ) const
   text_log.Print(L"Id: "); text_log.Print(m_uuid); text_log.Print(L"\n");
 
   s = m_description;
-  if ( 0 != s && 0 != s[0]) 
+  if ( 0 != s && 0 != s[0])
     text_log.Print(L"Description: \"%s\"\n",s);
 
   s = m_url;
-  if ( 0 != s && 0 != s[0]) 
+  if ( 0 != s && 0 != s[0])
     text_log.Print(L"URL: \"%s\"\n",s);
 
   s = m_url_tag;
-  if ( 0 != s && 0 != s[0]) 
+  if ( 0 != s && 0 != s[0])
     text_log.Print(L"URL tag: \"%s\"\n",s);
 
   m_us.Dump(text_log);
@@ -114,7 +114,7 @@ void ON_InstanceDefinition::Dump( ON_TextLog& text_log ) const
     text_log.Print(L"Update depth: %d\n",m_idef_update_type);
 
     text_log.Print(L"Archive ");
-    m_source_archive_checksum.Dump(text_log);    
+    m_source_archive_checksum.Dump(text_log);
     text_log.PopIndent();
   }
 
@@ -125,7 +125,7 @@ void ON_InstanceDefinition::Dump( ON_TextLog& text_log ) const
   {
     text_log.PushIndent();
 
-    text_log.Print(m_object_uuid[0]); 
+    text_log.Print(m_object_uuid[0]);
     text_log.Print(L"\n");
 
     if ( id_count > 4 )
@@ -242,11 +242,11 @@ ON_BOOL32 ON_InstanceDefinition::Write(
     rc = binary_archive.WriteInt( (unsigned int)m_idef_update_type );
   if ( rc )
     rc = binary_archive.WriteString( m_source_archive );
-  
+
   // version 1.1 fields
   if (rc)
     rc = m_source_archive_checksum.Write( binary_archive );
-  
+
   // version 1.2 fields
   if (rc)
     rc = binary_archive.WriteInt( m_us.m_unit_system );
@@ -416,7 +416,7 @@ ON_BOOL32 ON_InstanceDefinition::GetBBox(
   return m_bbox.IsValid();
 }
 
-ON_BOOL32 ON_InstanceDefinition::Transform( 
+ON_BOOL32 ON_InstanceDefinition::Transform(
        const ON_Xform& xform
        )
 {
@@ -488,7 +488,7 @@ void ON_InstanceDefinition::SetBoundingBox( ON_BoundingBox bbox )
   m_bbox = bbox;
 }
 
-void ON_InstanceDefinition::SetSourceArchive( const wchar_t* source_archive, 
+void ON_InstanceDefinition::SetSourceArchive( const wchar_t* source_archive,
                                               ON_CheckSum checksum,
                                               ON_InstanceDefinition::IDEF_UPDATE_TYPE idef_update_type)
 {
@@ -671,7 +671,7 @@ ON_BOOL32 ON_InstanceRef::GetBBox(
   return bGrowBox;
 }
 
-ON_BOOL32 ON_InstanceRef::Transform( 
+ON_BOOL32 ON_InstanceRef::Transform(
        const ON_Xform& xform
        )
 {
@@ -711,7 +711,7 @@ public:
 
 
   static ON__IDefLayerSettingsUserData* FindOrCreate(const ON_InstanceDefinition& idef,bool bCreate);
-  
+
 private:
   void CreateHelper()
   {
@@ -730,7 +730,7 @@ private:
         m_layers.Append( new ON_Layer( *src_layer ) );
       }
     }
-    
+
     if ( 0 != src.m_idef_layer_table_parent_layer )
     {
       m_idef_layer_table_parent_layer = new ON_Layer( *src.m_idef_layer_table_parent_layer );
@@ -780,7 +780,7 @@ public:
   //  * has no nil layer ids
   //  * the m_layer_id and m_parent_layer_id
   //    values are from the linked file.
-  ON_SimpleArray<ON_Layer*> m_layers; 
+  ON_SimpleArray<ON_Layer*> m_layers;
 
   // Settings for the layer that is the
   // parent of the layers in the linked
@@ -790,7 +790,7 @@ public:
   // the idef.  If null, it is created
   ON_Layer* m_idef_layer_table_parent_layer;
 
-  // When a linked idef is inserted and a layer id 
+  // When a linked idef is inserted and a layer id
   // collision occures, the runtime id of the layer
   // has to be changed. This list keeps track of the
   // changes so we can determine which runtime layer
@@ -1170,7 +1170,7 @@ void ON_InstanceDefinition::UpdateLinkedIdefReferenceFileLayerSettings( unsigned
   ud = ON__IDefLayerSettingsUserData::FindOrCreate(*this,true);
   if ( 0 == ud )
     return;
-    
+
   // Go through the saved settings that were previously
   // on this idef apply those settings to the layer_settings[]
   // list. Then delete the information from ud->m_layers[].
@@ -1221,7 +1221,7 @@ void ON_InstanceDefinition::UpdateLinkedIdefLayerSettings( unsigned int layer_co
     return;
   }
 
-  // Get layer information (saved on this idef) from the linked file 
+  // Get layer information (saved on this idef) from the linked file
   ON__IDefLayerSettingsUserData* ud = ON__IDefLayerSettingsUserData::FindOrCreate(*this,false);
   if ( 0 == ud )
     return;
@@ -1278,7 +1278,7 @@ public:
 
 
   static ON__IDefAlternativePathUserData* FindOrCreate(const ON_InstanceDefinition& idef,bool bCreate);
-  
+
 private:
   void CreateHelper()
   {
@@ -1454,7 +1454,7 @@ ON_BOOL32 ON__IDefAlternativePathUserData::GetDescription( ON_wString& descripti
 }
 
 
-void ON_InstanceDefinition::SetAlternateSourceArchivePath( 
+void ON_InstanceDefinition::SetAlternateSourceArchivePath(
       const wchar_t* alternate_source_archive_path,
       bool bRelativePath
       )
@@ -1474,7 +1474,7 @@ void ON_InstanceDefinition::SetAlternateSourceArchivePath(
   }
 }
 
-bool ON_InstanceDefinition::GetAlternateSourceArchivePath( 
+bool ON_InstanceDefinition::GetAlternateSourceArchivePath(
       ON_wString& alternate_source_archive_path,
       bool& bRelativePath
       ) const

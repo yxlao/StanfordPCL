@@ -47,10 +47,10 @@ bool pcl::io::ply::ply_parser::parse (const std::string& filename)
   std::string line;
   line_number_ = 0;
 
-  std::size_t number_of_format_statements = 0; 
-  std::size_t number_of_element_statements = 0; 
-  std::size_t number_of_property_statements = 0; 
-  std::size_t number_of_obj_info_statements = 0; 
+  std::size_t number_of_format_statements = 0;
+  std::size_t number_of_element_statements = 0;
+  std::size_t number_of_property_statements = 0;
+  std::size_t number_of_obj_info_statements = 0;
   std::size_t number_of_comment_statements = 0;
 
   format_type format = pcl::io::ply::unknown;
@@ -102,9 +102,9 @@ bool pcl::io::ply::ply_parser::parse (const std::string& filename)
         std::string format_string, version;
         char space_format_format_string, space_format_string_version;
         stringstream >> space_format_format_string >> std::ws >> format_string >> space_format_string_version >> std::ws >> version >> std::ws;
-        if (!stringstream || 
-            !stringstream.eof () || 
-            !isspace (space_format_format_string) || 
+        if (!stringstream ||
+            !stringstream.eof () ||
+            !isspace (space_format_format_string) ||
             !isspace (space_format_string_version))
         {
           if (error_callback_)
@@ -160,9 +160,9 @@ bool pcl::io::ply::ply_parser::parse (const std::string& filename)
         std::size_t count;
         char space_element_name, space_name_count;
         stringstream >> space_element_name >> std::ws >> name >> space_name_count >> std::ws >> count >> std::ws;
-        if (!stringstream || 
-            !stringstream.eof () || 
-            !isspace (space_element_name) || 
+        if (!stringstream ||
+            !stringstream.eof () ||
+            !isspace (space_element_name) ||
             !isspace (space_name_count))
         {
           if (error_callback_)
@@ -194,9 +194,9 @@ bool pcl::io::ply::ply_parser::parse (const std::string& filename)
         {
           element_callbacks = element_definition_callbacks_ (name, count);
         }
-        boost::shared_ptr<element> element_ptr (new element (name, 
-                                                                count, 
-                                                                boost::get<0>(element_callbacks), 
+        boost::shared_ptr<element> element_ptr (new element (name,
+                                                                count,
+                                                                boost::get<0>(element_callbacks),
                                                                 boost::get<1>(element_callbacks)));
         elements.push_back (boost::shared_ptr<element>(element_ptr));
         current_element_ = element_ptr.get ();
@@ -238,8 +238,8 @@ bool pcl::io::ply::ply_parser::parse (const std::string& filename)
             return false;
           }
           std::vector< boost::shared_ptr<property> >::const_iterator iterator;
-          for (iterator = current_element_->properties.begin (); 
-               iterator != current_element_->properties.end (); 
+          for (iterator = current_element_->properties.begin ();
+               iterator != current_element_->properties.end ();
                ++iterator)
           {
             const struct property& property = *(iterator->get ());
@@ -300,9 +300,9 @@ bool pcl::io::ply::ply_parser::parse (const std::string& filename)
           std::string size_type_string, scalar_type_string;
           char space_list_size_type, space_size_type_scalar_type, space_scalar_type_name;
           stringstream >> space_list_size_type >> std::ws >> size_type_string >> space_size_type_scalar_type >> std::ws >> scalar_type_string >> space_scalar_type_name >> std::ws >> name >> std::ws;
-          if (!stringstream || 
-              !isspace (space_list_size_type) || 
-              !isspace (space_size_type_scalar_type) || 
+          if (!stringstream ||
+              !isspace (space_list_size_type) ||
+              !isspace (space_size_type_scalar_type) ||
               !isspace (space_scalar_type_name))
           {
             if (error_callback_)
@@ -316,9 +316,9 @@ bool pcl::io::ply::ply_parser::parse (const std::string& filename)
             return false;
           }
           std::vector< boost::shared_ptr<property> >::const_iterator iterator;
-          for (iterator = current_element_->properties.begin (); 
-               iterator != current_element_->properties.end (); 
-               ++iterator) 
+          for (iterator = current_element_->properties.begin ();
+               iterator != current_element_->properties.end ();
+               ++iterator)
           {
             const struct property& property = *(iterator->get ());
             if (property.name == name)
@@ -505,7 +505,7 @@ bool pcl::io::ply::ply_parser::parse (const std::string& filename)
 
   if (number_of_format_statements == 0)
   {
-    if (error_callback_) 
+    if (error_callback_)
      error_callback_ (line_number_, "parse error");
     return false;
   }
@@ -513,14 +513,14 @@ bool pcl::io::ply::ply_parser::parse (const std::string& filename)
   // ascii
   if (format == ascii_format)
   {
-    for (std::vector< boost::shared_ptr<element> >::const_iterator element_iterator = elements.begin (); 
-         element_iterator != elements.end (); 
+    for (std::vector< boost::shared_ptr<element> >::const_iterator element_iterator = elements.begin ();
+         element_iterator != elements.end ();
          ++element_iterator)
     {
       struct element& element = *(element_iterator->get ());
       for (std::size_t element_index = 0; element_index < element.count; ++element_index)
       {
-        if (element.begin_element_callback) 
+        if (element.begin_element_callback)
           element.begin_element_callback ();
         if (!std::getline (istream, line))
         {
@@ -532,8 +532,8 @@ bool pcl::io::ply::ply_parser::parse (const std::string& filename)
         std::istringstream stringstream (line);
         stringstream.unsetf (std::ios_base::skipws);
         stringstream >> std::ws;
-        for (std::vector< boost::shared_ptr<property> >::const_iterator property_iterator = element.properties.begin (); 
-             property_iterator != element.properties.end (); 
+        for (std::vector< boost::shared_ptr<property> >::const_iterator property_iterator = element.properties.begin ();
+             property_iterator != element.properties.end ();
              ++property_iterator)
         {
           struct property& property = *(property_iterator->get ());
@@ -568,8 +568,8 @@ bool pcl::io::ply::ply_parser::parse (const std::string& filename)
     istream.open (filename.c_str (), std::ios::in | std::ios::binary);
     istream.seekg (data_start);
 
-    for (std::vector< boost::shared_ptr<element> >::const_iterator element_iterator = elements.begin (); 
-         element_iterator != elements.end (); 
+    for (std::vector< boost::shared_ptr<element> >::const_iterator element_iterator = elements.begin ();
+         element_iterator != elements.end ();
          ++element_iterator)
     {
       struct element& element = *(element_iterator->get ());
@@ -578,8 +578,8 @@ bool pcl::io::ply::ply_parser::parse (const std::string& filename)
         if (element.begin_element_callback) {
           element.begin_element_callback ();
         }
-        for (std::vector< boost::shared_ptr<property> >::const_iterator property_iterator = element.properties.begin (); 
-             property_iterator != element.properties.end (); 
+        for (std::vector< boost::shared_ptr<property> >::const_iterator property_iterator = element.properties.begin ();
+             property_iterator != element.properties.end ();
              ++property_iterator)
         {
           struct property& property = *(property_iterator->get ());

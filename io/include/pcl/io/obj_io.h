@@ -50,8 +50,8 @@ namespace pcl
       * \ingroup io
       */
     PCL_EXPORTS int
-    saveOBJFile (const std::string &file_name, 
-                 const pcl::TextureMesh &tex_mesh, 
+    saveOBJFile (const std::string &file_name,
+                 const pcl::TextureMesh &tex_mesh,
                  unsigned precision = 5);
 
     /** \brief Saves a PolygonMesh in ascii PLY format.
@@ -61,8 +61,8 @@ namespace pcl
       * \ingroup io
       */
     PCL_EXPORTS int
-    saveOBJFile (const std::string &file_name, 
-                 const pcl::PolygonMesh &mesh, 
+    saveOBJFile (const std::string &file_name,
+                 const pcl::PolygonMesh &mesh,
                  unsigned precision = 5);
 
   }

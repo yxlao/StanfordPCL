@@ -76,10 +76,10 @@ saveCloud (const std::string &filename, const sensor_msgs::PointCloud2 &cloud, b
   tt.tic ();
 
   print_highlight ("Saving "); print_value ("%s ", filename.c_str ());
-  
+
   pcl::PCDWriter writer;
   writer.write (filename, cloud, Eigen::Vector4f::Zero (), Eigen::Quaternionf::Identity (), format);
-  
+
   print_info ("[done, "); print_value ("%g", tt.toc ()); print_info (" ms : "); print_value ("%d", cloud.width * cloud.height); print_info (" points]\n");
 }
 
@@ -111,7 +111,7 @@ main (int argc, char** argv)
 
   // Load the first file
   sensor_msgs::PointCloud2 cloud;
-  if (!loadCloud (argv[ply_file_indices[0]], cloud)) 
+  if (!loadCloud (argv[ply_file_indices[0]], cloud))
     return (-1);
 
   // Convert to PLY and save

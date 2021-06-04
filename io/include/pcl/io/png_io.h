@@ -33,7 +33,7 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id$ 
+ * $Id$
  * Authors: Anatoly Baksheev
  */
 
@@ -78,7 +78,7 @@ namespace pcl
       * \param[in] height image height
       * \ingroup io
       */
-    PCL_EXPORTS void 
+    PCL_EXPORTS void
     saveRgbPNGFile (const std::string& file_name, const unsigned char *rgb_image, int width, int height)
     {
       saveCharPNGFile(file_name, rgb_image, width, height, 3);
@@ -107,7 +107,7 @@ namespace pcl
       saveShortPNGFile(file_name, &cloud.points[0], cloud.width, cloud.height, 1);
     }
 
-    /** \brief Saves RGB fields of cloud as image to PNG file. 
+    /** \brief Saves RGB fields of cloud as image to PNG file.
       * \param[in] file_name the name of the file to write to disk
       * \param[in] cloud point cloud to save
       * \ingroup io
@@ -121,10 +121,10 @@ namespace pcl
       {
         data[i*3 + 0] = cloud.points[i].r;
         data[i*3 + 1] = cloud.points[i].g;
-        data[i*3 + 2] = cloud.points[i].b;        
+        data[i*3 + 2] = cloud.points[i].b;
       }
       saveRgbPNGFile(file_name, &data[0], cloud.width, cloud.height);
-    }        
+    }
   }
 }
 

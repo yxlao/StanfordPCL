@@ -49,13 +49,13 @@ pcl::visualization::PCLPainter2D::PCLPainter2D(char const * name)
   current_brush_ = vtkBrush::New ();
   current_transform_ = vtkTransform2D::New ();
   exit_loop_timer_ = vtkSmartPointer<ExitMainLoopTimerCallback>::New ();
-  
+
   //connect
   view_->GetScene ()->AddItem (this);
   view_->GetRenderWindow ()->SetWindowName (name);
-  
+
   exit_loop_timer_->interactor = view_->GetInteractor ();
-  
+
   //defaulat state
   win_width_ = 640;
   win_height_ = 480;
@@ -63,7 +63,7 @@ pcl::visualization::PCLPainter2D::PCLPainter2D(char const * name)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::PCLPainter2D::addLine (float x1, float y1, float x2, float y2)
 {
   std::vector<float> line (4);
@@ -77,82 +77,82 @@ pcl::visualization::PCLPainter2D::addLine (float x1, float y1, float x2, float y
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::PCLPainter2D::addLine (std::vector<float> p)
 {
   figures_.push_back (new FPolyLine2D(p, current_pen_, current_brush_, current_transform_));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::PCLPainter2D::addPoint (float x, float y)
 {
   std::vector<float> points(2);
   points[0] = x; points[1] = y;
-  
+
   figures_.push_back (new FPoints2D(points, current_pen_, current_brush_, current_transform_));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::PCLPainter2D::addPoints (std::vector<float> p)
 {
   figures_.push_back (new FPoints2D(p, current_pen_, current_brush_, current_transform_));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::PCLPainter2D::addRect (float x, float y, float width, float height)
 {
   float p[] = { x,       y,
                 x+width, y,
                 x+width, y+height,
                 x,       y+height};
-  
+
   std::vector<float> quad (p, p+8);
-  
+
   figures_.push_back (new FQuad2D(quad, current_pen_, current_brush_, current_transform_));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::PCLPainter2D::addQuad (std::vector<float> p)
 {
   figures_.push_back (new FQuad2D(p, current_pen_, current_brush_, current_transform_));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::PCLPainter2D::addPolygon (std::vector<float> p)
 {
   figures_.push_back (new FPolygon2D(p, current_pen_, current_brush_, current_transform_));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::PCLPainter2D::addEllipse (float x, float y, float rx, float ry)
-{ 
+{
   figures_.push_back (new FEllipticArc2D(x, y, rx, ry, 0, 360, current_pen_, current_brush_, current_transform_));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::PCLPainter2D::addCircle (float x, float y, float r)
-{  
+{
   figures_.push_back (new FEllipticArc2D(x, y, r, r, 0, 360, current_pen_, current_brush_, current_transform_));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::PCLPainter2D::addEllipticArc (float x, float y, float rx, float ry, float start_angle, float end_angle)
-{ 
+{
   figures_.push_back (new FEllipticArc2D(x, y, rx, ry, start_angle, end_angle, current_pen_, current_brush_, current_transform_));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::PCLPainter2D::addArc (float x, float y, float r, float start_angle, float end_angle)
-{ 
+{
   figures_.push_back (new FEllipticArc2D(x, y, r, r, start_angle, end_angle, current_pen_, current_brush_, current_transform_));
 }
 
@@ -187,7 +187,7 @@ int pcl::visualization::PCLPainter2D::getPenType ()
 {
   return current_pen_->GetLineType ();
 }
- 
+
 void pcl::visualization::PCLPainter2D::setBrushColor (unsigned char r, unsigned char g, unsigned char b, unsigned char a)
 {
   current_brush_->SetColor (r, g, b, a);
@@ -219,49 +219,49 @@ vtkBrush * pcl::visualization::PCLPainter2D::getBrush ()
 }
 //////////////////////////////////////////End of Pen and Brush functions//////////////////////////////////////////////
 
-void 
+void
 pcl::visualization::PCLPainter2D::translatePen (double x, double y)
 {
   current_transform_->Translate(x, y);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::PCLPainter2D::rotatePen (double angle)
 {
   current_transform_->Rotate(angle);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::PCLPainter2D::scalePen (double x, double y)
 {
   current_transform_->Scale(x, y);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::PCLPainter2D::setTransform(vtkMatrix3x3 *matrix)
 {
   current_transform_->SetMatrix(matrix);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-vtkMatrix3x3 * 
+vtkMatrix3x3 *
 pcl::visualization::PCLPainter2D::getTransform()
 {
   return current_transform_->GetMatrix ();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::PCLPainter2D::clearTransform()
 {
   current_transform_->Identity();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::PCLPainter2D::clearFigures()
 {
   figures_.clear();
@@ -274,23 +274,23 @@ pcl::visualization::PCLPainter2D::display ()
 {
   view_->GetRenderer ()->SetBackground (bkg_color_[0], bkg_color_[1], bkg_color_[2]);
   view_->GetRenderWindow ()->SetSize (win_width_, win_height_);
-  
+
   //vtkOpenGLContextDevice2D::SafeDownCast (view_->GetContext ()->GetDevice ())->SetStringRendererToFreeType ();
   //view_->GetRenderWindow ()->SetMultiSamples (3);
-  
+
   view_->GetInteractor ()->Initialize ();
   view_->GetRenderer ()->Render ();
   view_->GetInteractor ()->Start ();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::PCLPainter2D::spinOnce( const int spin_time )
 {
   //apply current states
   view_->GetRenderer ()->SetBackground (bkg_color_[0], bkg_color_[1], bkg_color_[2]);
   view_->GetRenderWindow ()->SetSize (win_width_, win_height_);
-  
+
   //start timer to spin
   if (!view_->GetInteractor ()->GetEnabled ())
   {
@@ -298,7 +298,7 @@ pcl::visualization::PCLPainter2D::spinOnce( const int spin_time )
     view_->GetInteractor ()->AddObserver ( vtkCommand::TimerEvent, exit_loop_timer_ );
   }
   exit_loop_timer_->right_timer_id = view_->GetInteractor()->CreateOneShotTimer( spin_time );
-  
+
   //start spinning
   this->Update();
   view_->GetRenderer ()->Render ();
@@ -306,7 +306,7 @@ pcl::visualization::PCLPainter2D::spinOnce( const int spin_time )
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::visualization::PCLPainter2D::spin()
 {
   this->display();
@@ -360,15 +360,15 @@ pcl::visualization::PCLPainter2D::getWindowSize ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 pcl::visualization::PCLPainter2D::Paint (vtkContext2D *painter)
-{  
+{
   //draw every figures
   for (size_t i = 0; i < figures_.size (); i++)
   {
     figures_[i]->draw (painter); 	//thats it ;-)
   }
-  
+
   return true;
 }
 

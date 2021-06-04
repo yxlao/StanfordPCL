@@ -41,7 +41,7 @@
 #define PCL_GPU_PEOPLE_TREE_H_
 
 #include "label_common.h"
-#include <boost/cstdint.hpp> 
+#include <boost/cstdint.hpp>
 #include <iostream>
 #include <vector>
 
@@ -89,7 +89,7 @@ namespace pcl
 
         ////////////////////////////////////////////////
         // Tree basic Structure
-        struct Node 
+        struct Node
         {
           Node () {}
           Node (const AttribLocation& l, const Attrib& t) : loc(l), thresh(t) {}

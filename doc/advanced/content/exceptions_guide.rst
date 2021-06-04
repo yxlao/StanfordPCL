@@ -7,7 +7,7 @@ PCL (see http://www.pcl-developers.org/to-throw-or-not-to-throw-td4828759.html
 for an example). Herein, we discuss the major points with respect to writing
 and using exceptions.
 
-Adding a new Exception 
+Adding a new Exception
 ======================
 
 Any new exception should inherit from the :pcl:`PCLException <pcl::PCLException>` class in
@@ -26,7 +26,7 @@ Any new exception should inherit from the :pcl:`PCLException <pcl::PCLException>
                    const std::string& file_name = "",
                    const std::string& function_name = "",
                    unsigned line_number = 0) throw ()
-        : pcl::PCLException (error_description, file_name, function_name, line_number) { }  
+        : pcl::PCLException (error_description, file_name, function_name, line_number) { }
   };
 
 Using Exceptions
@@ -63,7 +63,7 @@ exception, please add this to the the function documentation:
     * \param nb number of points
     * \throws MyException
     */
-  void 
+  void
   myFunction (int nb);
 
 This will be parsed by Doxygen and made available in the generated API

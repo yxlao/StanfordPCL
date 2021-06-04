@@ -89,7 +89,7 @@ namespace pcl
       /** \brief Compute the actual model and find the inliers
         * \param debug_verbosity_level enable/disable on-screen debug information and set the verbosity level
         */
-      bool 
+      bool
       computeModel (int debug_verbosity_level = 0);
   };
 }

@@ -85,7 +85,7 @@ namespace pcl
 
         /** Constructor. */
         Search (const std::string& name = "", bool sorted = false)
-          : input_ () 
+          : input_ ()
           , indices_ ()
           , sorted_results_ (sorted)
           , name_ (name)
@@ -100,7 +100,7 @@ namespace pcl
 
         /** \brief returns the search method name
           */
-        virtual const std::string& 
+        virtual const std::string&
         getName () const
         {
           return (name_);
@@ -110,12 +110,12 @@ namespace pcl
           * \param[in] sorted should be true if the results should be sorted by the distance in ascending order.
           * Otherwise the results may be returned in any order.
           */
-        virtual void 
+        virtual void
         setSortedResults (bool sorted)
         {
           sorted_results_ = sorted;
         }
-        
+
         /** \brief Pass the input dataset that the search will be performed on.
           * \param[in] cloud a const pointer to the PointCloud data
           * \param[in] indices the point indices subset that is to be used from the cloud
@@ -481,7 +481,7 @@ namespace pcl
         IndicesConstPtr indices_;
         bool sorted_results_;
         std::string name_;
-        
+
       private:
         struct Compare
         {
@@ -489,16 +489,16 @@ namespace pcl
           : distances_ (distances)
           {
           }
-          
+
           bool operator () (int first, int second) const
           {
             return distances_ [first] < distances_[second];
           }
-          
+
           const std::vector<float>& distances_;
         };
     }; // class Search
-    
+
     // implementation
     template<typename PointT> void
     Search<PointT>::sortResults (std::vector<int>& indices, std::vector<float>& distances) const
@@ -515,7 +515,7 @@ namespace pcl
         sorted [idx] = indices[order [idx]];
 
       indices = sorted;
-  
+
       // sort  the according distances.
       sort (distances.begin (), distances.end ());
     }

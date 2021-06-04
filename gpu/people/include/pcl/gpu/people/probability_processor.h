@@ -58,7 +58,7 @@ namespace pcl
     namespace people
     {
       class PCL_EXPORTS ProbabilityProcessor
-      {        
+      {
         public:
           typedef boost::shared_ptr<ProbabilityProcessor> Ptr;
           typedef DeviceArray2D<unsigned short> Depth;

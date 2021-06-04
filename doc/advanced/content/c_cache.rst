@@ -51,7 +51,7 @@ To enable colorgcc, perform the following steps:
     g77: /usr/bin/g77
     f77: /usr/bin/g77
     gcj: /usr/bin/gcj
-    
+
 and replace them with:
 
 .. code-block:: cmake

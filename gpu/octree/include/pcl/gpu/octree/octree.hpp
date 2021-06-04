@@ -47,9 +47,9 @@
 namespace pcl
 {
     namespace gpu
-    {   
+    {
         /**
-         * \brief   Octree implementation on GPU. It suppors parallel building and paralel batch search as well .       
+         * \brief   Octree implementation on GPU. It suppors parallel building and paralel batch search as well .
          * \author  Anaoly Baksheev, Itseez, myname.mysurname@mycompany.com
          */
 
@@ -57,10 +57,10 @@ namespace pcl
         {
         public:
 
-            /** \brief Default constructor.*/             
+            /** \brief Default constructor.*/
             Octree();
-           
-            /** \brief Denstructor.*/             
+
+            /** \brief Denstructor.*/
             virtual ~Octree();
 
             /** \brief Types */
@@ -71,22 +71,22 @@ namespace pcl
 
             /** \brief Point cloud supported */
             typedef DeviceArray<PointType> PointCloud;
-            
+
             /** \brief Point Batch query cloud type */
             typedef DeviceArray<PointType> Queries;
 
             /** \brief Point Radiuses for batch query  */
-            typedef DeviceArray<float> Radiuses;            
+            typedef DeviceArray<float> Radiuses;
 
             /** \brief Point Indices for batch query  */
-            typedef DeviceArray<int> Indices;    
-            
+            typedef DeviceArray<int> Indices;
+
             /** \brief Point Sqrt distances array type */
             typedef DeviceArray<float> ResultSqrDists;
-            
+
             const PointCloud*   cloud_;
-            
-            /** \brief Sets cloud for which octree is built */            
+
+            /** \brief Sets cloud for which octree is built */
             void setCloud(const PointCloud& cloud_arg);
 
             /** \brief Performs parallel octree building */
@@ -107,14 +107,14 @@ namespace pcl
             void radiusSearchHost(const PointType& center, float radius, std::vector<int>& out, int max_nn = INT_MAX);
 
             /** \brief Performs approximate neares neighbor search on CPU. It call \a internalDownload if nessesary
-              * \param[in]  query 3D point for which neighbour is be fetched             
+              * \param[in]  query 3D point for which neighbour is be fetched
               * \param[out] out_index neighbour index
               * \param[out] sqr_dist square distance to the neighbour returned
               */
             void approxNearestSearchHost(const PointType& query, int& out_index, float& sqr_dist);
 
             /** \brief Performs batch radius search on GPU
-              * \param[in] centers array of centers 
+              * \param[in] centers array of centers
               * \param[in] radius radius for all queries
               * \param[in] max_results max number of returned points for each querey
               * \param[out] result results packed to signle array
@@ -122,7 +122,7 @@ namespace pcl
             void radiusSearch(const Queries& centers, float radius, int max_results, NeighborIndices& result) const;
 
             /** \brief Performs batch radius search on GPU
-              * \param[in] centers array of centers 
+              * \param[in] centers array of centers
               * \param[in] radiuses array of radiuses
               * \param[in] max_results max number of returned points for each querey
               * \param[out] result results packed to signle array
@@ -130,7 +130,7 @@ namespace pcl
             void radiusSearch(const Queries& centers, const Radiuses& radiuses, int max_results, NeighborIndices& result) const;
 
             /** \brief Performs batch radius search on GPU
-              * \param[in] centers array of centers  
+              * \param[in] centers array of centers
               * \param[in] indices indices for centers array (only for these points search is performed)
               * \param[in] radius radius for all queries
               * \param[in] max_results max number of returned points for each querey
@@ -140,7 +140,7 @@ namespace pcl
 
             /** \brief Batch approximate nearest search on GPU
               * \param[in] queries array of centers
-              * \param[out] result array of results ( one index for each query ) 
+              * \param[out] result array of results ( one index for each query )
               */
             void approxNearestSearch(const Queries& queries, NeighborIndices& result) const;
 
@@ -152,11 +152,11 @@ namespace pcl
             void nearestKSearchBatch(const Queries& queries, int k, NeighborIndices& results) const;
 
             /** \brief Desroys octree and release all resources */
-            void clear();            
+            void clear();
         private:
-            void *impl;            
+            void *impl;
             bool built_;
-        };        
+        };
 
       /** \brief Performs brute force radius search on GPU
         * \param[in] cloud cloud where to search
@@ -164,7 +164,7 @@ namespace pcl
         * \param[in] radius radius
         * \param[out] result indeces of points within give sphere
         * \param[in] buffer buffer for intermediate results. Keep reference to it between calls to eliminate internal allocations
-        */             
+        */
         PCL_EXPORTS void bruteForceRadiusSearchGPU(const Octree::PointCloud& cloud, const Octree::PointType& query, float radius, DeviceArray<int>& result, DeviceArray<int>& buffer);
     }
 }

@@ -147,7 +147,7 @@ ON_BOOL32 ON_PointCloud::Read( ON_BinaryArchive& file )
   int major_version = 0;
   int minor_version = 0;
   bool rc = file.Read3dmChunkVersion(&major_version,&minor_version);
-  if (rc && major_version == 1 ) 
+  if (rc && major_version == 1 )
   {
     if (rc) rc = file.ReadArray( m_P );
     if (rc) rc = file.ReadPlane( m_plane );
@@ -213,7 +213,7 @@ ON_BOOL32 ON_PointCloud::GetBBox( // returns true if successful
   return rc;
 }
 
-ON_BOOL32 ON_PointCloud::Transform( 
+ON_BOOL32 ON_PointCloud::Transform(
        const ON_Xform& xform
        )
 {
@@ -309,7 +309,7 @@ double ON_PointCloud::Height(int i)
   return (m_P[i] - m_plane.origin)*m_plane.zaxis;
 }
 
-bool ON_GetClosestPointInPointList( 
+bool ON_GetClosestPointInPointList(
           int point_count,
           const ON_3dPoint* point_list,
           ON_3dPoint P,
@@ -370,10 +370,10 @@ bool ON_PointCloud::HasPointNormals() const
 int ON_PointCloud::HiddenPointCount() const
 {
   int point_count;
-  return (    m_hidden_count > 0 
+  return (    m_hidden_count > 0
            && (point_count = m_P.Count()) > 0
-           && m_hidden_count < point_count 
-           && m_H.Count() == point_count 
+           && m_hidden_count < point_count
+           && m_H.Count() == point_count
            )
            ? m_hidden_count
            : 0;
@@ -387,8 +387,8 @@ void ON_PointCloud::DestroyHiddenPointArray()
 
 const bool* ON_PointCloud::HiddenPointArray() const
 {
-  return (m_hidden_count > 0 && m_H.Count() == m_P.Count()) 
-         ? m_H.Array() 
+  return (m_hidden_count > 0 && m_H.Count() == m_P.Count())
+         ? m_H.Array()
          : 0;
 }
 

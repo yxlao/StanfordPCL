@@ -17,13 +17,13 @@
 #include <pcl/surface/openNURBS/opennurbs.h>
 
 // {EA2EFFD2-C9A9-4cb1-BE15-D2F46290F1A1}
-//const ON_UUID ON_MaterialRef::material_from_layer = 
+//const ON_UUID ON_MaterialRef::material_from_layer =
 //{ 0xea2effd2, 0xc9a9, 0x4cb1, { 0xbe, 0x15, 0xd2, 0xf4, 0x62, 0x90, 0xf1, 0xa1 } };
 
 
 
 // {86EDFDE4-8AAF-4bcd-AB7C-F7111978D7FE}
-//const ON_UUID ON_MaterialRef::material_from_parent = 
+//const ON_UUID ON_MaterialRef::material_from_parent =
 //{ 0x86edfde4, 0x8aaf, 0x4bcd, { 0xab, 0x7c, 0xf7, 0x11, 0x19, 0x78, 0xd7, 0xfe } };
 
 
@@ -89,9 +89,9 @@ char* on_strrev(char* s)
 #endif
 }
 
-// Windows code page support 
+// Windows code page support
 //   Only ON_SetStringConversionWindowsLocaleID,
-//   ON_GetStringConversionWindowsLocaleID, and 
+//   ON_GetStringConversionWindowsLocaleID, and
 //   on_wcsicmp should look at g_s__windows_locale_id
 //   and g_s__windows_locale_os.
 static unsigned int g_s__windows_locale_id = 0;
@@ -119,14 +119,14 @@ static int on__hack__tolower(int c)
   // fails to provide functional localization tools.
 
 
-  // TODO: 
+  // TODO:
   //   Expand these switch statments as users provide support
   //   for symbols.  This is not the correct way to solve this
   //   problem, but it will work in some simple cases.
   //   If you are using Microsoft Developer studio in Windows,
   //   then this code is never called.
-  //  
-  // Before you get too carried away, study 
+  //
+  // Before you get too carried away, study
   //
   //  http://www.microsoft.com/globaldev/wrguide/WRG_sort.asp
   //
@@ -351,17 +351,17 @@ int on__hack__wcsicmp( const wchar_t* s1, const wchar_t* s2)
   // that does not provide proper localization support.
 
   // handle NULL strings consistently and without crashing.
-  if ( !s1 ) 
+  if ( !s1 )
   {
     return s2 ? -1 : 0;
   }
-  else if ( !s2 ) 
+  else if ( !s2 )
   {
     return 1;
   }
 
   int rc, c1, c2;
-  
+
   do
   {
     c1 = on__hack__tolower(*s1++);
@@ -382,11 +382,11 @@ int on__hack__wcsicmp( const wchar_t* s1, const wchar_t* s2)
 int on_wcsicmp( const wchar_t* s1, const wchar_t* s2)
 {
   // handle NULL strings consistently and without crashing.
-  if ( !s1 ) 
+  if ( !s1 )
   {
     return s2 ? -1 : 0;
   }
-  else if ( !s2 ) 
+  else if ( !s2 )
   {
     return 1;
   }
@@ -395,7 +395,7 @@ int on_wcsicmp( const wchar_t* s1, const wchar_t* s2)
 
 #if defined(ON_COMPILER_BORLAND)
   // Borland's compiler / C library
-  return wcscmpi(s1,s2); 
+  return wcscmpi(s1,s2);
 #else
   // Microsoft compiler
 
@@ -404,9 +404,9 @@ int on_wcsicmp( const wchar_t* s1, const wchar_t* s2)
     if ( 0 == g_s__windows_locale_os )
     {
       // On Win 95/98/ME, CompareStringW() doesn't work
-      // and CompareStringA() is glacial.  So we test 
+      // and CompareStringA() is glacial.  So we test
       // strings and use wcsicmp() whenever it will return
-      // the right answer.  
+      // the right answer.
       {
         const wchar_t* c1 = s1;
         const wchar_t* c2 = s2;
@@ -414,7 +414,7 @@ int on_wcsicmp( const wchar_t* s1, const wchar_t* s2)
         {
           c1++;
           c2++;
-        }      
+        }
         if ( 0 == *c1 || 0 == *c2 )
         {
 #if defined(ON_COMPILER_MSC1400)
@@ -463,12 +463,12 @@ int on_wcsicmp( const wchar_t* s1, const wchar_t* s2)
   }
 
   // Microsoft's wcsicmp() doesn't work right for
-  // upper/lower case accented latin characters, 
+  // upper/lower case accented latin characters,
   // upper/lower case cyrillic, upper/lower case Greek,
-  // Asian characters, etc.  
+  // Asian characters, etc.
   //
   // Basically, if the character code >= 127 or you are
-  // using a language other than US english, then 
+  // using a language other than US english, then
   // Microsoft's wcsicmp() blows it.
   //
 #if defined(ON_COMPILER_MSC1400)
@@ -503,10 +503,10 @@ wchar_t* on_wcsupr(wchar_t* s)
   return _wcsupr(s);
 #endif
 #else
-  if (s) 
+  if (s)
   {
     wchar_t c;
-    while (*s) 
+    while (*s)
     {
       if ( 0 != (c = toupper(*s)) )
         *s = c;
@@ -529,10 +529,10 @@ wchar_t* on_wcslwr(wchar_t* s)
   return _wcslwr(s);
 #endif
 #else
-  if (s) 
+  if (s)
   {
     wchar_t c;
-    while (*s) 
+    while (*s)
     {
       if ( 0 != (c = tolower(*s)) )
         *s = c;
@@ -545,7 +545,7 @@ wchar_t* on_wcslwr(wchar_t* s)
 
 void ON_wString::MakeUpper()
 {
-  if ( !IsEmpty() ) 
+  if ( !IsEmpty() )
   {
 #if defined(ON_OS_WINDOWS)
     if ( 0 != g_s__windows_locale_id )
@@ -564,11 +564,11 @@ void ON_wString::MakeUpper()
         out.SetLength(max_len_out+1);
 
         // Wide char conversion
-        int rc = ::LCMapStringA(g_s__windows_locale_id, 
-                              LCMAP_UPPERCASE, 
-                              in.Array(), 
+        int rc = ::LCMapStringA(g_s__windows_locale_id,
+                              LCMAP_UPPERCASE,
+                              in.Array(),
                               len_in,
-                              out.Array(), 
+                              out.Array(),
                               max_len_out);
         if (rc > 0 && rc <= max_len_out)
         {
@@ -587,11 +587,11 @@ void ON_wString::MakeUpper()
         out.SetLength(max_len_out+1);
 
         // Wide char conversion
-        int rc = ::LCMapStringW(g_s__windows_locale_id, 
-                              LCMAP_UPPERCASE, 
-                              Array(), 
+        int rc = ::LCMapStringW(g_s__windows_locale_id,
+                              LCMAP_UPPERCASE,
+                              Array(),
                               len_in,
-                              out.Array(), 
+                              out.Array(),
                               max_len_out);
         if (rc > 0 && rc <= max_len_out)
         {
@@ -615,7 +615,7 @@ void ON_wString::MakeUpper()
 
 void ON_wString::MakeLower()
 {
-  if ( !IsEmpty() ) 
+  if ( !IsEmpty() )
   {
 #if defined(ON_OS_WINDOWS)
     if ( 0 != g_s__windows_locale_id )
@@ -634,11 +634,11 @@ void ON_wString::MakeLower()
         out.SetLength(max_len_out+1);
 
         // Wide char conversion to multi-byte lower case string
-        int rc = ::LCMapStringA(g_s__windows_locale_id, 
-                              LCMAP_LOWERCASE, 
-                              in.Array(), 
+        int rc = ::LCMapStringA(g_s__windows_locale_id,
+                              LCMAP_LOWERCASE,
+                              in.Array(),
                               len_in,
-                              out.Array(), 
+                              out.Array(),
                               max_len_out);
         if (rc > 0 && rc <= max_len_out)
         {
@@ -664,15 +664,15 @@ void ON_wString::MakeLower()
         ON_wString out;
         out.ReserveArray(max_len_out+1);
         out.SetLength(max_len_out+1);
-        
+
         // Wide char conversion to lower case.
         // Note that changing to lower case in some languages
         // can change the string length.
-        int rc = ::LCMapStringW(g_s__windows_locale_id, 
-                              LCMAP_LOWERCASE, 
-                              Array(), 
+        int rc = ::LCMapStringW(g_s__windows_locale_id,
+                              LCMAP_LOWERCASE,
+                              Array(),
                               len_in,
-                              out.Array(), 
+                              out.Array(),
                               max_len_out);
         if (rc > 0 && rc <= max_len_out)
         {
@@ -705,7 +705,7 @@ wchar_t* on_wcsrev(wchar_t* s)
     // empty for body
   }
 
-  for ( i = 0, j--; i < j; i++, j-- ) 
+  for ( i = 0, j--; i < j; i++, j-- )
   {
     w = s[i];
     if ( w >= 0xD800 && w <= 0xDBFF && s[i+1] >= 0xDC00 && s[i+1] <= 0xDFFF )
@@ -740,10 +740,10 @@ int on_WideCharToMultiByte(
 {
   // 14 March 2011 Dale Lear
   //   It turns out that Windows WideCharToMultiByte does correctly
-  //   convert UTF-16 to UTF-8 in Windows 7 when the code page 
+  //   convert UTF-16 to UTF-8 in Windows 7 when the code page
   //   is CP_ACP and calls with CP_UTF8 sometimes fail to do
   //   any conversion.  So, I wrote ON_ConvertWideCharToUTF8()
-  //   and opennurbs will use ON_ConvertWideCharToUTF8 to get 
+  //   and opennurbs will use ON_ConvertWideCharToUTF8 to get
   //   consistent results on all platforms.
   unsigned int error_status = 0;
   unsigned int error_mask = 0xFFFFFFFF;
@@ -767,10 +767,10 @@ int on_MultiByteToWideChar(
 {
   // 14 March 2011 Dale Lear
   //   It turns out that Windows WideCharToMultiByte does correctly
-  //   convert UTF-16 to UTF-8 in Windows 7 when the code page 
+  //   convert UTF-16 to UTF-8 in Windows 7 when the code page
   //   is CP_ACP and calls with CP_UTF8 sometimes fail to do
   //   any conversion.  So, I wrote ON_ConvertUTF8ToWideChar()
-  //   and opennurbs will use ON_ConvertUTF8ToWideChar to get 
+  //   and opennurbs will use ON_ConvertUTF8ToWideChar to get
   //   consistent results on all platforms.
   unsigned int error_status = 0;
   unsigned int error_mask = 0xFFFFFFFF;
@@ -821,7 +821,7 @@ int on_vsnwprintf( wchar_t *buffer, size_t count, const wchar_t *format, va_list
 
   // convert formatted ASCII buffer to UNICODE
   on_MultiByteToWideChar( abuffer, strlen(abuffer), buffer, count );
-  onfree(abuffer);  
+  onfree(abuffer);
   return rc;
 #endif
 }
@@ -932,7 +932,7 @@ ON::unit_system ON::UnitSystem(int i)
 }
 
 double ON::UnitScale(
-                     const class ON_3dmUnitsAndTolerances& u_and_t_from, 
+                     const class ON_3dmUnitsAndTolerances& u_and_t_from,
                      const class ON_3dmUnitsAndTolerances& u_and_t_to
                      )
 {
@@ -958,7 +958,7 @@ double ON::UnitScale(
 }
 
 double ON::UnitScale(
-    const class ON_UnitSystem& us_from, 
+    const class ON_UnitSystem& us_from,
     ON::unit_system us_to
     )
 {
@@ -976,7 +976,7 @@ double ON::UnitScale(
 }
 
 double ON::UnitScale(
-                     const class ON_UnitSystem& u_and_t_from, 
+                     const class ON_UnitSystem& u_and_t_from,
                      const class ON_UnitSystem& u_and_t_to
                      )
 {
@@ -986,16 +986,16 @@ double ON::UnitScale(
 
   if ( ON::no_unit_system != us_from && ON::no_unit_system != us_to )
   {
-    if ( ON::custom_unit_system == us_from 
-         && ON_IsValid(u_and_t_from.m_custom_unit_scale) 
+    if ( ON::custom_unit_system == us_from
+         && ON_IsValid(u_and_t_from.m_custom_unit_scale)
          && u_and_t_from.m_custom_unit_scale > 0.0 )
     {
       scale /= u_and_t_from.m_custom_unit_scale;
       us_from = ON::meters;
     }
 
-    if ( ON::custom_unit_system == us_to 
-         && ON_IsValid(u_and_t_to.m_custom_unit_scale) 
+    if ( ON::custom_unit_system == us_to
+         && ON_IsValid(u_and_t_to.m_custom_unit_scale)
          && u_and_t_to.m_custom_unit_scale > 0.0 )
     {
       scale *= u_and_t_to.m_custom_unit_scale;
@@ -1028,20 +1028,20 @@ double ON::UnitScale(
             )
 {
   // Scale factor for changing unit systems
-  // Examples 
-  //   100.0  = UnitScale( ON::meters, ON::centimeters ) 
-  //     2.54 = UnitScale( ON::inches, ON::centimeters ) 
-  //    12.0  = UnitScale( ON::feet, ON::inches ) 
+  // Examples
+  //   100.0  = UnitScale( ON::meters, ON::centimeters )
+  //     2.54 = UnitScale( ON::inches, ON::centimeters )
+  //    12.0  = UnitScale( ON::feet, ON::inches )
 
   // the default cases are here to keep lint quiet
   double scale = 1.0;
-  
+
   if (  u0 != u1
         && u1 != ON::custom_unit_system
         && ((int)u1) > 0 && ((int)u1) < 26
         // switch weeds out bogus values of u0
-      ) 
-  switch( u0 ) 
+      )
+  switch( u0 )
   {
   case ON::angstroms:
     scale = UnitScale( meters, u1)*1.0e-10;
@@ -1056,7 +1056,7 @@ double ON::UnitScale(
     break;
 
   case ON::millimeters:
-    switch( u1 ) 
+    switch( u1 )
     {
     case ON::meters:      scale = 1.0e-3; break;
     case ON::microns:     scale = 1.0e+3; break;
@@ -1071,7 +1071,7 @@ double ON::UnitScale(
     break;
 
   case ON::centimeters:
-    switch( u1 ) 
+    switch( u1 )
     {
     case ON::meters:      scale = 1.0e-2; break;
     case ON::millimeters: scale = 1.0e+1; break;
@@ -1091,7 +1091,7 @@ double ON::UnitScale(
     break;
 
   case ON::meters:
-    switch( u1 ) 
+    switch( u1 )
     {
     case ON::angstroms:      scale = 1.0e+10; break;
     case ON::nanometers:     scale = 1.0e+9;  break;
@@ -1149,7 +1149,7 @@ double ON::UnitScale(
     break;
 
   case ON::inches:
-    switch( u1 ) 
+    switch( u1 )
     {
     case ON::angstroms:       scale = 2.54e+8; break;
     case ON::nanometers:      scale = 2.54e+7; break;
@@ -1180,8 +1180,8 @@ double ON::UnitScale(
     break;
 
   case ON::feet:
-    switch( u1 ) 
-    {      
+    switch( u1 )
+    {
     case ON::yards:       scale = 1.0/3.0; break;
     case ON::miles:       scale = 1.0/5280.0; break;
     default:
@@ -1191,8 +1191,8 @@ double ON::UnitScale(
     break;
 
   case ON::yards:
-    switch( u1 ) 
-    {      
+    switch( u1 )
+    {
     case ON::feet:        scale = 3.0; break;
     case ON::miles:       scale = 1.0/1760.0; break;
     default:
@@ -1228,8 +1228,8 @@ double ON::UnitScale(
 
   case ON::astronomical:
     // 1.4959787e+11  http://en.wikipedia.org/wiki/Astronomical_unit
-    // 1.495979e+11   http://units.nist.gov/Pubs/SP811/appenB9.htm  
-    //    An astronomical unit (au) is the mean distance from the 
+    // 1.495979e+11   http://units.nist.gov/Pubs/SP811/appenB9.htm
+    //    An astronomical unit (au) is the mean distance from the
     //    center of the earth to the center of the sun.
     scale = UnitScale( meters, u1 )*1.4959787e+11;
     break;
@@ -1239,14 +1239,14 @@ double ON::UnitScale(
     // 9.46073e+15 meters  http://units.nist.gov/Pubs/SP811/appenB9.htm
     //    A light year is the distance light travels in one Julian year.
     //    The speed of light is exactly 299792458 meters/second.
-    //    A Julian year is exactly 365.25 * 86400 seconds and is 
+    //    A Julian year is exactly 365.25 * 86400 seconds and is
     //    approximately the time it takes for one earth orbit.
     scale = UnitScale( meters, u1 )*9.4607304725808e+15;
     break;
 
   case ON::parsecs:
     // 3.08567758e+16  // http://en.wikipedia.org/wiki/Parsec
-    // 3.085678e+16    // http://units.nist.gov/Pubs/SP811/appenB9.htm  
+    // 3.085678e+16    // http://units.nist.gov/Pubs/SP811/appenB9.htm
     scale = UnitScale( meters, u1 )*3.08567758e+16;
     break;
 
@@ -1263,7 +1263,7 @@ double ON::UnitScale(
 //// distance_display_mode ///////////////////////////////////
 enum distance_display_mode
 {
-  decimal     = 0, 
+  decimal     = 0,
   fractional  = 1,
   feet_inches = 2
 };
@@ -1271,7 +1271,7 @@ enum distance_display_mode
 ON::distance_display_mode ON::DistanceDisplayMode(int i)
 {
   distance_display_mode dm = decimal;
-  switch (i) 
+  switch (i)
   {
   case decimal:
     dm = decimal;
@@ -1328,7 +1328,7 @@ ON::continuity ON::Continuity(int i)
   case C2_continuous: c = C2_continuous; break;
   case G1_continuous: c = G1_continuous; break;
   case G2_continuous: c = G2_continuous; break;
-  
+
   // 30 March 2003 Dale Lear added these
   case C0_locus_continuous: c = C0_locus_continuous; break;
   case C1_locus_continuous: c = C1_locus_continuous; break;
@@ -1418,7 +1418,7 @@ ON::surface_style ON::SurfaceStyle(int i)
 {
   //convertintegertosurface_styleenum
   surface_style ss = unknown_surface_style;
-  
+
   switch (i) {
   case plane: ss = plane; break;
   case circular_cylinder: ss = circular_cylinder; break;
@@ -1438,7 +1438,7 @@ ON::surface_style ON::SurfaceStyle(int i)
 ON::sort_algorithm ON::SortAlgorithm(int i)
 {
   sort_algorithm sa = ON::quick_sort;
-  
+
   switch (i) {
   case ON::heap_sort: sa = ON::heap_sort; break;
   case ON::quick_sort: sa = ON::quick_sort; break;
@@ -1482,7 +1482,7 @@ ON::view_projection ON::ViewProjection(int i)
 {
   // convert integer to view_projection enum
   view_projection v = ON::unknown_view;
-  switch(i) 
+  switch(i)
   {
   case ON::parallel_view:          v = ON::parallel_view;          break;
   case ON::perspective_view:       v = ON::perspective_view;       break;
@@ -1557,7 +1557,7 @@ ON::object_color_source ON::ObjectColorSource(int i)
 {
   // convert integer to object_mode enum
   ON::object_color_source cs = color_from_layer;
-  switch (i) 
+  switch (i)
   {
   case color_from_layer: // use color assigned to layer
     cs = color_from_layer;
@@ -1579,7 +1579,7 @@ ON::plot_color_source ON::PlotColorSource(int i)
 {
   // convert integer to object_mode enum
   ON::plot_color_source cs = plot_color_from_layer;
-  switch (i) 
+  switch (i)
   {
   case plot_color_from_layer:
     cs = plot_color_from_layer;
@@ -1587,7 +1587,7 @@ ON::plot_color_source ON::PlotColorSource(int i)
   case plot_color_from_object:
     cs = plot_color_from_object;
     break;
-  case plot_color_from_display: 
+  case plot_color_from_display:
     cs = plot_color_from_display;
     break;
   case plot_color_from_parent:
@@ -1678,11 +1678,11 @@ ON::curvature_style ON::CurvatureStyle(int i)
   case mean_curvature:
     cs = mean_curvature;
     break;
-  case min_curvature: 
+  case min_curvature:
     // minimum unsigned radius of curvature
     cs = min_curvature;
     break;
-  case max_curvature: 
+  case max_curvature:
     // maximum unsigned radius of curvature
     cs = max_curvature;
     break;
@@ -1706,7 +1706,7 @@ ON::curvature_style ON::CurvatureStyle(int i)
 {
   model_view_type     = 0,
   plot_page_view_type = 1,
-  nested_view_type    = 2 
+  nested_view_type    = 2
 };*/
 
 ON::view_type ON::ViewType(int vt)
@@ -1736,7 +1736,7 @@ ON::display_mode ON::DisplayMode(int i)
   case shaded_display:
     dm = shaded_display;
     break;
-  case renderpreview_display: 
+  case renderpreview_display:
     dm = renderpreview_display;
     break;
   }
@@ -1768,7 +1768,7 @@ ON::object_type ON::ObjectType(int i)
 {
   // convert integer to object_type enum
   object_type ot = unknown_object_type;
-  switch(i) 
+  switch(i)
   {
   case unknown_object_type:  ot = unknown_object_type; break;
 
@@ -1972,9 +1972,9 @@ ON::eTextDisplayMode ON::TextDisplayMode( int i)
 }
 
 
-// Windows code page support 
+// Windows code page support
 //   Only ON_SetStringConversionWindowsCodePage
-//   and ON_GetStringConversionWindowsCodePage 
+//   and ON_GetStringConversionWindowsCodePage
 //   should look at g_s__windows_code_page.
 static unsigned int g_s__windows_code_page = 0;
 

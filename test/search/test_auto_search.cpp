@@ -342,7 +342,7 @@ TEST (PCL, AutoTunedSearch_Evaluate)
 
 
 
-int 
+int
 main(int argc, char** argv)
 {
   testing::InitGoogleTest (&argc, argv);

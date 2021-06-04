@@ -4,7 +4,7 @@ Construct a concave or convex hull polygon for a plane model
 ------------------------------------------------------------
 
 In this tutorial we will learn how to calculate a simple 2D hull polygon
-(concave or convex) for a set of points supported by a plane.  
+(concave or convex) for a set of points supported by a plane.
 
 
 The code
@@ -49,7 +49,7 @@ another cloud.  One way that we could do this is by just extracting the inliers
 that we found before, but in this case we are going to use the coefficents we
 found before.  We set the model type we are looking for and then set the
 coefficents, and from that the object knows which points to project from
-cloud_filtered to cloud_projected. 
+cloud_filtered to cloud_projected.
 
 .. literalinclude:: sources/concave_hull_2d/concave_hull_2d.cpp
    :language: cpp

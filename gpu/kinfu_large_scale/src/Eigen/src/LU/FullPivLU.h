@@ -10,7 +10,7 @@
 #ifndef EIGEN_LU_H
 #define EIGEN_LU_H
 
-namespace Eigen { 
+namespace Eigen {
 
 /** \ingroup LU_Module
   *

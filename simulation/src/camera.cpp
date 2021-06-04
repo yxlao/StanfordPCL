@@ -25,7 +25,7 @@ pcl::simulation::Camera::updatePose ()
 
   pose_.setIdentity ();
   pose_ *= m;
-  
+
   Vector3d v;
   v << x_, y_, z_;
   pose_.translation () = v;

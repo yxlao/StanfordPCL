@@ -230,7 +230,7 @@ namespace pcl
         cholmod_sdmult (A, 1, one, zero, b, Atb, &c);
         i++;
       }
-      
+
       if (i == trials)
       {
         printf ("[NurbsSolveUmfpack::solveSparseLinearSystemLQ] Not enough memory for system to solve. (%d trials)\n",

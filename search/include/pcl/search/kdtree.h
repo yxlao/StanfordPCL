@@ -47,9 +47,9 @@ namespace pcl
 {
   namespace search
   {
-    /** \brief @b search::KdTree is a wrapper class which inherits the pcl::KdTree class for performing search 
-      * functions using KdTree structure. KdTree is a generic type of 3D spatial locator using kD-tree structures. 
-      * The class is making use of the FLANN (Fast Library for Approximate Nearest Neighbor) project 
+    /** \brief @b search::KdTree is a wrapper class which inherits the pcl::KdTree class for performing search
+      * functions using KdTree structure. KdTree is a generic type of 3D spatial locator using kD-tree structures.
+      * The class is making use of the FLANN (Fast Library for Approximate Nearest Neighbor) project
       * by Marius Muja and David Lowe.
       *
       * \author Radu B. Rusu
@@ -79,14 +79,14 @@ namespace pcl
         typedef boost::shared_ptr<pcl::KdTreeFLANN<PointT> > KdTreeFLANNPtr;
         typedef boost::shared_ptr<const pcl::KdTreeFLANN<PointT> > KdTreeFLANNConstPtr;
 
-        /** \brief Constructor for KdTree. 
+        /** \brief Constructor for KdTree.
           *
           * \param sorted set to true if the nearest neighbor search results
           * need to be sorted in ascending order based on their distance to the
           * query point
           *
           */
-        KdTree (bool sorted = true) 
+        KdTree (bool sorted = true)
           : Search<PointT> ("KdTree", sorted)
           , tree_ (new pcl::KdTreeFLANN<PointT> (sorted))
         {
@@ -101,13 +101,13 @@ namespace pcl
         /** \brief Sets whether the results have to be sorted or not.
           * \param[in] sorted_results set to true if the radius search results should be sorted
           */
-        virtual void 
+        virtual void
         setSortedResults (bool sorted_results)
         {
           sorted_results_ = sorted_results;
           tree_->setSortedResults (sorted_results);
         }
-        
+
         /** \brief Set the search epsilon precision (error bound) for nearest neighbors searches.
           * \param[in] eps precision (error bound) for nearest neighbors searches
           */
@@ -126,7 +126,7 @@ namespace pcl
 
         /** \brief Provide a pointer to the input dataset.
           * \param[in] cloud the const boost shared pointer to a PointCloud message
-          * \param[in] indices the point indices subset that is to be used from \a cloud 
+          * \param[in] indices the point indices subset that is to be used from \a cloud
           */
         inline void
         setInputCloud (const PointCloudConstPtr& cloud, const IndicesConstPtr& indices = IndicesConstPtr ())
@@ -161,7 +161,7 @@ namespace pcl
           * \return number of neighbors found in radius
           */
         inline int
-        radiusSearch (const PointT& point, double radius, 
+        radiusSearch (const PointT& point, double radius,
                       std::vector<int> &k_indices, std::vector<float> &k_sqr_distances,
                       unsigned int max_nn = 0) const
         {

@@ -30,7 +30,7 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- * 
+ *
  * @author: Koen Buys, Anatoly Baksheev
  */
 
@@ -54,7 +54,7 @@ using namespace std;
 const int MAX_CLUST_SIZE = 25000;
 const float CLUST_TOL = 0.05f;
 
-pcl::gpu::people::RDFBodyPartsDetector::RDFBodyPartsDetector( const vector<string>& tree_files, int rows, int cols)    
+pcl::gpu::people::RDFBodyPartsDetector::RDFBodyPartsDetector( const vector<string>& tree_files, int rows, int cols)
 : max_cluster_size_(MAX_CLUST_SIZE), cluster_tolerance_(CLUST_TOL)
 {
   PCL_DEBUG("(I) : RDFBodyPartsDetector constructor called");
@@ -80,7 +80,7 @@ pcl::gpu::people::RDFBodyPartsDetector::RDFBodyPartsDetector( const vector<strin
 ////////////////////////////////////////////////////////////////////////////////////
 /// getters
 
-size_t 
+size_t
 pcl::gpu::people::RDFBodyPartsDetector::getNumberTrees() const
 {
   return impl_->trees.size();
@@ -122,7 +122,7 @@ pcl::gpu::people::RDFBodyPartsDetector::getPrevProbability2() const
   return P_l_prev_2_;
 }
 
-const pcl::gpu::people::RDFBodyPartsDetector::BlobMatrix& 
+const pcl::gpu::people::RDFBodyPartsDetector::BlobMatrix&
 pcl::gpu::people::RDFBodyPartsDetector::getBlobMatrix() const
 {
   return blob_matrix_;
@@ -130,7 +130,7 @@ pcl::gpu::people::RDFBodyPartsDetector::getBlobMatrix() const
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-void 
+void
 pcl::gpu::people::RDFBodyPartsDetector::allocate_buffers(int rows, int cols)
 {
   //std::cout << "(I) : RDFBodyPartsDetector::allocate_buffers called with: " << cols << "x" << rows << std::endl;
@@ -152,7 +152,7 @@ pcl::gpu::people::RDFBodyPartsDetector::allocate_buffers(int rows, int cols)
   region_sizes_.resize(rows*cols+1);
   remap_.resize(rows*cols);
 
-  comps_.create(rows, cols);  
+  comps_.create(rows, cols);
   device::ConnectedComponents::initEdges(rows, cols, edges_);
 
   means_storage_.resize((cols * rows + 1) * 3); // float3 * cols * rows and float3 for cc == -1.
@@ -165,7 +165,7 @@ pcl::gpu::people::RDFBodyPartsDetector::allocate_buffers(int rows, int cols)
   }
 }
 
-void 
+void
 pcl::gpu::people::RDFBodyPartsDetector::process (const pcl::device::Depth& depth, const PointCloud<PointXYZ>& cloud, int min_pts_per_cluster)
 {
   //ScopeTime time("ev");

@@ -43,16 +43,16 @@ public:
   Descripton:
     Set check sum values for a buffer
   Parameters:
-    size - [in] 
+    size - [in]
       number of bytes in buffer
-    buffer - [in]  
+    buffer - [in]
     time - [in]
       last modified time in seconds since Jan 1, 1970, UCT
   Returns:
     True if checksum is set.
   */
-  bool SetBufferCheckSum( 
-    size_t size, 
+  bool SetBufferCheckSum(
+    size_t size,
     const void* buffer,
     time_t time
    );
@@ -65,7 +65,7 @@ public:
   Returns:
     True if checksum is set.
   */
-  bool SetFileCheckSum( 
+  bool SetFileCheckSum(
     FILE* fp
    );
 
@@ -77,7 +77,7 @@ public:
   Returns:
     True if checksum is set.
   */
-  bool SetFileCheckSum( 
+  bool SetFileCheckSum(
     const wchar_t* filename
    );
 
@@ -90,8 +90,8 @@ public:
   Returns:
     True if the buffer has a matching checksum.
   */
-  bool CheckBuffer( 
-    size_t size, 
+  bool CheckBuffer(
+    size_t size,
     const void* buffer
     ) const;
 
@@ -105,7 +105,7 @@ public:
   Returns:
     True if the file has a matching checksum.
   */
-  bool CheckFile( 
+  bool CheckFile(
     FILE* fp,
     bool bSkipTimeCheck = false
     ) const;
@@ -120,7 +120,7 @@ public:
   Returns:
     True if the file has a matching checksum.
   */
-  bool CheckFile( 
+  bool CheckFile(
     const wchar_t* filename,
     bool bSkipTimeCheck = false
     ) const;
@@ -137,7 +137,7 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////
-// 
+//
 // ON_String is a char (a.k.a single byte or ascii) string
 //
 // ON_wString is a wide char (a.k.a double byte or unicode) string
@@ -161,12 +161,12 @@ public:
 
 	ON_String( const char* );
 	ON_String( const char*, int /*length*/ );        // from substring
-	ON_String( char, int = 1 /* repeat count */ );   
+	ON_String( char, int = 1 /* repeat count */ );
 
 	ON_String( const unsigned char* );
 	ON_String( const unsigned char*, int /*length*/ );        // from substring
-	ON_String( unsigned char, int = 1 /* repeat count */ ); 
-  
+	ON_String( unsigned char, int = 1 /* repeat count */ );
+
   // construct a UTF-8 string string from a UTF-16 string.
 	ON_String( const wchar_t* src );  // src = UTF-16 string
 	ON_String( const wchar_t* src, int length ); // from a UTF-16 substring
@@ -184,7 +184,7 @@ public:
 
   /*
   Description:
-    Enables reference counting.  I limited cases, this is useful 
+    Enables reference counting.  I limited cases, this is useful
     for large strings or strings that are frequently passed around.
     Reference counted strings must be carefully managed in
     when multi-threading is used.
@@ -205,7 +205,7 @@ public:
   // Attributes & Operations
 	// as an array of characters
 	int Length() const;
-	bool IsEmpty() const; // returns true if length == 0 
+	bool IsEmpty() const; // returns true if length == 0
   void Empty();   // sets length to zero - if possible, memory is retained
 
 	char& operator[](int);
@@ -231,7 +231,7 @@ public:
   ON_String operator+(const char*) const;
   ON_String operator+(const unsigned char*) const;
 
-	// string comparison 
+	// string comparison
   bool operator==(const ON_String&) const;
   bool operator==(const char*)const ;
   bool operator!=(const ON_String&)const ;
@@ -254,7 +254,7 @@ public:
 	const ON_String& operator+=(const char*);
 	const ON_String& operator+=(const unsigned char*);
 
-	// string comparison 
+	// string comparison
   // If this < string, returns < 0.
   // If this = string, returns 0.
   // If this < string, returns > 0.
@@ -407,15 +407,15 @@ public:
 
 	ON_wString( const char* src ); // src = nul; terminated UTF-8 string
 	ON_wString( const char* src, int /*length*/ );  // from UTF-8 substring
-	ON_wString( char, int = 1 /* repeat count */ );   
+	ON_wString( char, int = 1 /* repeat count */ );
 
 	ON_wString( const unsigned char* src); // src = nul; terminated UTF-8 string
 	ON_wString( const unsigned char*src, int /*length*/ );        // from UTF-8 substring
-	ON_wString( unsigned char, int = 1 /* repeat count */ ); 
-  
+	ON_wString( unsigned char, int = 1 /* repeat count */ );
+
 	ON_wString( const wchar_t* );
 	ON_wString( const wchar_t*, int /*length*/ );        // from substring
-	ON_wString( wchar_t, int = 1 /* repeat count */ );   
+	ON_wString( wchar_t, int = 1 /* repeat count */ );
 
 #if defined(ON_OS_WINDOWS)
   // Windows support
@@ -429,7 +429,7 @@ public:
 
   /*
   Description:
-    Enables reference counting.  I limited cases, this is useful 
+    Enables reference counting.  I limited cases, this is useful
     for large strings or strings that are frequently passed around.
     Reference counted strings must be carefully managed in
     when multi-threading is used.
@@ -493,7 +493,7 @@ public:
   ON_wString operator+(const unsigned char* sUTF8) const; // concatinate with a UTF-8 string
   ON_wString operator+(const wchar_t*) const;
 
-	// string comparison 
+	// string comparison
   bool operator==(const ON_wString&) const;
   bool operator==(const wchar_t*) const;
   bool operator!=(const ON_wString&) const;
@@ -507,7 +507,7 @@ public:
   bool operator>=(const ON_wString&) const;
   bool operator>=(const wchar_t*) const;
 
-	// string comparison 
+	// string comparison
   // If this < string, returns < 0.
   // If this == string, returns 0.
   // If this < string, returns > 0.
@@ -567,7 +567,7 @@ public:
   Description:
     Replaces all %xx where xx a two digit hexadecimal number,
     with a single character. Returns false if the orginal
-    string contained 
+    string contained
   */
   bool UrlDecode();
 
@@ -579,7 +579,7 @@ public:
   Parameters:
     token - [in]
     whitespace - [in] if not null, this is a 0 terminated
-      string that lists the characters considered to be 
+      string that lists the characters considered to be
       white space.  If null, then (1,2,...,32,127) is used.
   Returns:
     Number of whitespace characters replaced.
@@ -593,7 +593,7 @@ public:
     Removes all white-space characters with the token.
   Parameters:
     whitespace - [in] if not null, this is a 0 terminated
-      string that lists the characters considered to be 
+      string that lists the characters considered to be
       white space.  If null, then (1,2,...,32,127) is used.
   Returns:
     Number of whitespace characters removed.

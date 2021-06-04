@@ -4,7 +4,7 @@
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
  *
- *  All rights reserved. 
+ *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -106,7 +106,7 @@ namespace pcl
 
     /** \brief Deserializes the object from the specified stream.
       * \param[in] stream the stream the object will be deserialized from. */
-    void 
+    void
     deserialize (::std::istream & stream)
     {
       read (stream, x);

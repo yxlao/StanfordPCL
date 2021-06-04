@@ -43,12 +43,12 @@
 
 namespace pcl
 {
-  /** \brief GeneralizedIterativeClosestPoint is an ICP variant that implements the 
-    * generalized iterative closest point algorithm as described by Alex Segal et al. in 
+  /** \brief GeneralizedIterativeClosestPoint is an ICP variant that implements the
+    * generalized iterative closest point algorithm as described by Alex Segal et al. in
     * http://www.stanford.edu/~avsegal/resources/papers/Generalized_ICP.pdf
-    * The approach is based on using anistropic cost functions to optimize the alignment 
+    * The approach is based on using anistropic cost functions to optimize the alignment
     * after closest point assignments have been made.
-    * The original code uses GSL and ANN while in ours we use an eigen mapped BFGS and 
+    * The original code uses GSL and ANN while in ours we use an eigen mapped BFGS and
     * FLANN.
     * \author Nizar Sallem
     * \ingroup registration
@@ -92,7 +92,7 @@ namespace pcl
       typedef Eigen::Matrix<double, 6, 1> Vector6d;
 
       /** \brief Empty constructor. */
-      GeneralizedIterativeClosestPoint () 
+      GeneralizedIterativeClosestPoint ()
         : k_correspondences_(20)
         , gicp_epsilon_(0.001)
         , rotation_epsilon_(2e-3)
@@ -106,9 +106,9 @@ namespace pcl
         max_iterations_ = 200;
         transformation_epsilon_ = 5e-4;
         corr_dist_threshold_ = 5.;
-        rigid_transformation_estimation_ = 
-          boost::bind (&GeneralizedIterativeClosestPoint<PointSource, PointTarget>::estimateRigidTransformationBFGS, 
-                       this, _1, _2, _3, _4, _5); 
+        rigid_transformation_estimation_ =
+          boost::bind (&GeneralizedIterativeClosestPoint<PointSource, PointTarget>::estimateRigidTransformationBFGS,
+                       this, _1, _2, _3, _4, _5);
         input_tree_.reset (new pcl::KdTreeFLANN<PointSource>);
       }
 
@@ -127,7 +127,7 @@ namespace pcl
         // Set all the point.data[3] values to 1 to aid the rigid transformation
         for (size_t i = 0; i < input.size (); ++i)
           input[i].data[3] = 1.0;
-        
+
         input_ = input.makeShared ();
         input_tree_->setInputCloud (input_);
         input_covariances_.reserve (input_->size ());
@@ -136,7 +136,7 @@ namespace pcl
       /** \brief Provide a pointer to the input target (e.g., the point cloud that we want to align the input source to)
         * \param[in] target the input point cloud target
         */
-      inline void 
+      inline void
       setInputTarget (const PointCloudTargetConstPtr &target)
       {
         pcl::Registration<PointSource, PointTarget>::setInputTarget(target);
@@ -157,7 +157,7 @@ namespace pcl
                                        const PointCloudTarget &cloud_tgt,
                                        const std::vector<int> &indices_tgt,
                                        Eigen::Matrix4f &transformation_matrix);
-      
+
       /** \brief \return Mahalanobis distance matrix for the given point index */
       inline const Eigen::Matrix3d& mahalanobis(size_t index) const
       {
@@ -175,31 +175,31 @@ namespace pcl
       void
       computeRDerivative(const Vector6d &x, const Eigen::Matrix3d &R, Vector6d &g) const;
 
-      /** \brief Set the rotation epsilon (maximum allowable difference between two 
-        * consecutive rotations) in order for an optimization to be considered as having 
+      /** \brief Set the rotation epsilon (maximum allowable difference between two
+        * consecutive rotations) in order for an optimization to be considered as having
         * converged to the final solution.
         * \param epsilon the rotation epsilon
         */
-      inline void 
+      inline void
       setRotationEpsilon (double epsilon) { rotation_epsilon_ = epsilon; }
 
-      /** \brief Get the rotation epsilon (maximum allowable difference between two 
+      /** \brief Get the rotation epsilon (maximum allowable difference between two
         * consecutive rotations) as set by the user.
         */
-      inline double 
+      inline double
       getRotationEpsilon () { return (rotation_epsilon_); }
 
       /** \brief Set the number of neighbors used when selecting a point neighbourhood
-        * to compute covariances. 
-        * A higher value will bring more accurate covariance matrix but will make 
+        * to compute covariances.
+        * A higher value will bring more accurate covariance matrix but will make
         * covariances computation slower.
         * \param k the number of neighbors to use when computing covariances
         */
       void
       setCorrespondenceRandomness (int k) { k_correspondences_ = k; }
 
-      /** \brief Get the number of neighbors used when computing covariances as set by 
-        * the user 
+      /** \brief Get the number of neighbors used when computing covariances as set by
+        * the user
         */
       int
       getCorrespondenceRandomness () { return (k_correspondences_); }
@@ -216,18 +216,18 @@ namespace pcl
 
     protected:
 
-      /** \brief The number of neighbors used for covariances computation. 
+      /** \brief The number of neighbors used for covariances computation.
         * \default 20
         */
       int k_correspondences_;
 
-      /** \brief The epsilon constant for gicp paper; this is NOT the convergence 
-        * tolerence 
+      /** \brief The epsilon constant for gicp paper; this is NOT the convergence
+        * tolerence
         * \default 0.001
         */
       double gicp_epsilon_;
 
-      /** The epsilon constant for rotation error. (In GICP the transformation epsilon 
+      /** The epsilon constant for rotation error. (In GICP the transformation epsilon
         * is split in rotation part and translation part).
         * \default 2e-3
         */
@@ -250,7 +250,7 @@ namespace pcl
 
       /** \brief KD tree pointer of the input cloud. */
       InputKdTreePtr input_tree_;
-      
+
       /** \brief Input cloud points covariances. */
       std::vector<Eigen::Matrix3d> input_covariances_;
 
@@ -259,26 +259,26 @@ namespace pcl
 
       /** \brief Mahalanobis matrices holder. */
       std::vector<Eigen::Matrix3d> mahalanobis_;
-      
+
       /** \brief maximum number of optimizations */
       int max_inner_iterations_;
 
-      /** \brief compute points covariances matrices according to the K nearest 
+      /** \brief compute points covariances matrices according to the K nearest
         * neighbors. K is set via setCorrespondenceRandomness() methode.
         * \param cloud pointer to point cloud
         * \param tree KD tree performer for nearest neighbors search
         * \return cloud_covariance covariances matrices for each point in the cloud
         */
       template<typename PointT>
-      void computeCovariances(typename pcl::PointCloud<PointT>::ConstPtr cloud, 
+      void computeCovariances(typename pcl::PointCloud<PointT>::ConstPtr cloud,
                               const typename pcl::KdTree<PointT>::Ptr tree,
                               std::vector<Eigen::Matrix3d>& cloud_covariances);
 
-      /** \return trace of mat1^t . mat2 
+      /** \return trace of mat1^t . mat2
         * \param mat1 matrix of dimension nxm
         * \param mat2 matrix of dimension nxp
         */
-      inline double 
+      inline double
       matricesInnerProd(const Eigen::MatrixXd& mat1, const Eigen::MatrixXd& mat2) const
       {
         double r = 0.;
@@ -294,7 +294,7 @@ namespace pcl
         * \param output the transformed input point cloud dataset using the rigid transformation found
         * \param guess the initial guess of the transformation to compute
         */
-      void 
+      void
       computeTransformation (PointCloudSource &output, const Eigen::Matrix4f &guess);
 
       /** \brief Search for the closest nearest neighbor of a given point.
@@ -302,7 +302,7 @@ namespace pcl
         * \param index vector of size 1 to store the index of the nearest neighbour found
         * \param distance vector of size 1 to store the distance to nearest neighbour found
         */
-      inline bool 
+      inline bool
       searchForNeighbors (const PointSource &query, std::vector<int>& index, std::vector<float>& distance)
       {
         int k = tree_->nearestKSearch (query, 1, index, distance);
@@ -313,7 +313,7 @@ namespace pcl
 
       /// \brief compute transformation matrix from transformation matrix
       void applyState(Eigen::Matrix4f &t, const Vector6d& x) const;
-      
+
       /// \brief optimization functor structure
       struct OptimizationFunctorWithIndices : public BFGSDummyFunctor<double,6>
       {
@@ -325,7 +325,7 @@ namespace pcl
 
         const GeneralizedIterativeClosestPoint *gicp_;
       };
-      
+
       boost::function<void(const pcl::PointCloud<PointSource> &cloud_src,
                            const std::vector<int> &src_indices,
                            const pcl::PointCloud<PointTarget> &cloud_tgt,

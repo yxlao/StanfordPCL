@@ -250,7 +250,7 @@ namespace pcl
     * \ingroup common
     */
   struct VFHSignature308;
-  
+
   /** \brief Members: float esf[640]
     * \ingroup common
     */
@@ -601,7 +601,7 @@ POINT_CLOUD_REGISTER_POINT_STRUCT (pcl::_ReferenceFrame,
 )
 POINT_CLOUD_REGISTER_POINT_WRAPPER(pcl::ReferenceFrame, pcl::_ReferenceFrame)
 
-namespace pcl 
+namespace pcl
 {
   // Allow float 'rgb' data to match to the newer uint32 'rgba' tag. This is so
   // you can load old 'rgb' PCD files into e.g. a PointCloud<PointXYZRGBA>.

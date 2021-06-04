@@ -23,33 +23,33 @@ Adding the concept of Parent and Child dimstyles so that individual dimension ob
 can have their own copy of a dimension style to override some settings
 
   Adding several fields to ON_Dimstyle - This is done with ON_DimStyleExtra userdata
-  class for now so the SDK doesn't break completely. When the SDK changes, the data in 
+  class for now so the SDK doesn't break completely. When the SDK changes, the data in
   ON_DimstyleExtra should be moved into ON_Dimstyle.
 
   Adding the concept of Parent and Child dimstyles to support per object overrides of
   dimstyle based properties.  Individual dimensions will be able to have one or more
-  properties that differ from the dimension style for that dimension, but the rest of 
-  their properties will be controlled by the parent dimstyle. In this implementation 
+  properties that differ from the dimension style for that dimension, but the rest of
+  their properties will be controlled by the parent dimstyle. In this implementation
   (Rhino 5), dimstyles will only inherit one level deep.
 
-  The first time an individual dimension has a dimstyle value overridden, a new child 
-  dimstyle is made that is a copy of the dimension's dimstyle. If there is already a 
+  The first time an individual dimension has a dimstyle value overridden, a new child
+  dimstyle is made that is a copy of the dimension's dimstyle. If there is already a
   child dimstyle for that dimension, it is used and no new dimstyle is made.
-  The value being overridden is changed in the child dimstyle and a flag is set that 
+  The value being overridden is changed in the child dimstyle and a flag is set that
   the field is being overridden.
 
-  When a value is changed in a parent dimstyle, it should look through the other 
-  dimstyles in the dimstyle table (or your application's equivalent) and change any 
+  When a value is changed in a parent dimstyle, it should look through the other
+  dimstyles in the dimstyle table (or your application's equivalent) and change any
   of its children appropriately.  Name and Index fields aren't propogated this way.
   If the parent's field being changed is not set in the child's m_valid_fields array,
   the child's copy of that field should be changed to match the parent's new value.
   Changing values in child dimstyles doesn't change values in their parents.
 
   When a value that has previously been overridden by an individual dimension
-  is set to ByStyle, the corresponding field flag is unset in the valid field array. 
-  If all of the flags in a child dimstyle become unset, the dimension is set to 
+  is set to ByStyle, the corresponding field flag is unset in the valid field array.
+  If all of the flags in a child dimstyle become unset, the dimension is set to
   reference the parent dimstyle directly.
-  
+
 */
 
 
@@ -105,7 +105,7 @@ public:
   ON_BOOL32 GetDescription( ON_wString& description );
 
   // override virtual ON_UserData::Archive function
-  ON_BOOL32 Archive() const; 
+  ON_BOOL32 Archive() const;
 
   void SetFieldOverride( int field_id, bool bOverride);
   bool IsFieldOverride( int field_id) const;
@@ -123,7 +123,7 @@ public:
   //  4: Basic
   void SetToleranceStyle( int style);
   int  ToleranceStyle() const;
-  
+
   void SetToleranceResolution( int resolution);
   int  ToleranceResolution() const;
 
@@ -231,7 +231,7 @@ ON_DimStyleExtra* ON_DimStyleExtra::DimStyleExtensionGet( ON_DimStyle* pDimStyle
     //   I added the bCreateIfNoneExists parameter and I'm using
     //   is sparingly.  It is critical that we do not add
     //   ON_DimStyleExtra unless it is actually being used
-    //   to override a default setting.  Otherwise, we 
+    //   to override a default setting.  Otherwise, we
     //   end up leaking vast amounts of memory when
     //   the default dimstyle in the Rhino dimstyle
     //   table is used due to the way annotation
@@ -255,7 +255,7 @@ ON_DimStyleExtra* ON_DimStyleExtra::DimStyleExtensionGet( ON_DimStyle* pDimStyle
   return pExtra;
 }
 
-const 
+const
 ON_DimStyleExtra* ON_DimStyleExtra::DimStyleExtensionGet( const ON_DimStyle* pDimStyle)
 {
   // Please do not changes the "false" to a "true" in the second argument.
@@ -617,7 +617,7 @@ ON_OBJECT_IMPLEMENT( ON_DimStyle, ON_Object, "81BD83D5-7120-41c4-9A57-C449336FF1
 ON_DimStyle::ON_DimStyle()
 {
   // 26 Oct 2010
-  // Can't create this here because reading files won't attach what's read from the file if 
+  // Can't create this here because reading files won't attach what's read from the file if
   // there's already one there.
 //  ON_DimStyleExtra::DimStyleExtension( this);
   SetDefaultsNoExtension();
@@ -636,7 +636,7 @@ void ON_DimStyle::SetDefaults()
   {
     // 2 November 2011 Dale Lear
     //    The "default" settings are easily handled
-    //    by not having the user data present in 
+    //    by not having the user data present in
     //    the first place.  Please discuss changes
     //    with Dale Lear.
     //
@@ -674,7 +674,7 @@ void ON_DimStyle::SetDefaultsNoExtension()
   m_fontindex = -1;
 
   // Added at 1.3
-  m_lengthfactor = 1.0;  
+  m_lengthfactor = 1.0;
   m_bAlternate = false;
   m_alternate_lengthfactor = 25.4;
   m_alternate_lengthformat = 0;
@@ -759,7 +759,7 @@ ON_BOOL32 ON_DimStyle::Write(
   if (rc) rc = file.WriteDouble(m_arrowsize * ds);
   if (rc) rc = file.WriteDouble(m_centermark * ds);
   if (rc) rc = file.WriteDouble(m_textgap * ds);
-  
+
   if (rc) rc = file.WriteInt(m_textalign);
   if (rc) rc = file.WriteInt(m_arrowtype);
   if (rc) rc = file.WriteInt(m_angularunits);
@@ -812,17 +812,17 @@ ON_BOOL32 ON_DimStyle::Read(
   ON_BOOL32 rc = file.Read3dmChunkVersion(&major_version,&minor_version);
 
 
-  if ( major_version >= 1 ) 
+  if ( major_version >= 1 )
   {
     if ( rc) rc = file.ReadInt( &m_dimstyle_index);
     if ( rc) rc = file.ReadString( m_dimstyle_name);
-    
+
     if ( rc) rc = file.ReadDouble( &m_extextension);
     if ( rc) rc = file.ReadDouble( &m_extoffset);
     if ( rc) rc = file.ReadDouble( &m_arrowsize);
     if ( rc) rc = file.ReadDouble( &m_centermark);
     if ( rc) rc = file.ReadDouble( &m_textgap);
-    
+
     if ( rc) rc = file.ReadInt( &m_textalign);
     if ( rc) rc = file.ReadInt( &m_arrowtype);
     if ( rc) rc = file.ReadInt( &m_angularunits);
@@ -1343,7 +1343,7 @@ bool ON_DimStyle::IsFieldOverride( ON_DimStyle::eField field_id) const
 void ON_DimStyle::SetFieldOverride(  ON_DimStyle::eField field_id, bool bOverride)
 {
   // 2 November 2011 Dale Lear
-  //   If bOverride is true, then create the userdata, otherwise get it 
+  //   If bOverride is true, then create the userdata, otherwise get it
   //   only if it exists.
   ON_DimStyleExtra* pDE = ON_DimStyleExtra::DimStyleExtensionGet( this, bOverride );
   if(pDE)
@@ -1351,8 +1351,8 @@ void ON_DimStyle::SetFieldOverride(  ON_DimStyle::eField field_id, bool bOverrid
     pDE->SetFieldOverride( field_id, bOverride);
   }
 }
-  
-bool ON_DimStyle::HasOverrides() const 
+
+bool ON_DimStyle::HasOverrides() const
 {
   const ON_DimStyleExtra* pDE = ON_DimStyleExtra::DimStyleExtensionGet( this );
   if(pDE)
@@ -1544,9 +1544,9 @@ bool ON_DimStyle::InheritFields( const ON_DimStyle& parent)
   for( int i = 0; i < ON_DimStyleExtra::eFieldCount; i++ )
   {
     bool bValidField = ( 0 != pDE && i < pDE->m_valid_fields.Count() )
-                     ? pDE->m_valid_fields[i] : 
+                     ? pDE->m_valid_fields[i] :
                      false;
-                     
+
     switch( i)
     {
     case fn_extextension:
@@ -1986,37 +1986,37 @@ double ON_DimStyle::BaselineSpacing() const
     return ON_DimStyle::DefaultBaselineSpacing();
 }
 
-//static 
+//static
 int ON_DimStyle::DefaultToleranceStyle()
 {
   return 0;
 }
 
-//static 
+//static
 int ON_DimStyle::DefaultToleranceResolution()
 {
   return 4;
 }
 
-//static 
+//static
 double ON_DimStyle::DefaultToleranceUpperValue()
 {
   return 0.0;
 }
 
-//static 
+//static
 double ON_DimStyle::DefaultToleranceLowerValue()
 {
   return 0.0;
 }
 
-//static 
+//static
 double ON_DimStyle::DefaultToleranceHeightScale()
 {
   return 1.0;
 }
 
-//static 
+//static
 double ON_DimStyle::DefaultBaselineSpacing()
 {
   return 1.0;
@@ -2142,7 +2142,7 @@ void ON_DimStyle::SetBaselineSpacing( double spacing)
 
 bool ON_DimStyle::DrawTextMask() const
 {
-  // 2 November 2011 Dale Lear 
+  // 2 November 2011 Dale Lear
   //   Do not create user data if it does not already exist.
   const ON_DimStyleExtra* pDE = DimStyleExtension();
   if(pDE)
@@ -2161,7 +2161,7 @@ void ON_DimStyle::SetDrawTextMask(bool bDraw)
 
 int ON_DimStyle::MaskColorSource() const
 {
-  // 2 November 2011 Dale Lear 
+  // 2 November 2011 Dale Lear
   //   Do not create user data if it does not already exist.
   const ON_DimStyleExtra* pDE = DimStyleExtension();
   if(pDE)
@@ -2180,7 +2180,7 @@ void ON_DimStyle::SetMaskColorSource(int source)
 
 ON_Color ON_DimStyle::MaskColor() const
 {
-  // 2 November 2011 Dale Lear 
+  // 2 November 2011 Dale Lear
   //   Do not create user data if it does not already exist.
   const ON_DimStyleExtra* pDE = DimStyleExtension();
   if(pDE)
@@ -2215,7 +2215,7 @@ void ON_DimStyle::SetDimScale(double scale)
 
 double ON_DimStyle::DimScale() const
 {
-  // 2 November 2011 Dale Lear 
+  // 2 November 2011 Dale Lear
   //   Do not create user data if it does not already exist.
   const ON_DimStyleExtra* pDE = DimStyleExtension();
   if(pDE) // && pDE->DimScaleSource() == 1)
@@ -2234,7 +2234,7 @@ void ON_DimStyle::SetDimScaleSource(int source)
 
 int ON_DimStyle::DimScaleSource() const
 {
-  // 2 November 2011 Dale Lear 
+  // 2 November 2011 Dale Lear
   //   Do not create user data if it does not already exist.
   const ON_DimStyleExtra* pDE = DimStyleExtension();
   if(pDE)
@@ -2253,7 +2253,7 @@ void ON_DimStyle::SetSourceDimstyle(ON_UUID source_uuid)
 
 ON_UUID ON_DimStyle::SourceDimstyle() const
 {
-  // 2 November 2011 Dale Lear 
+  // 2 November 2011 Dale Lear
   //   Do not create user data if it does not already exist.
   const ON_DimStyleExtra* pDE = DimStyleExtension();
   if(pDE)

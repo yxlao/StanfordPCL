@@ -62,14 +62,14 @@ pcl::RandomSampleConsensus<PointT>::computeModel (int)
   unsigned skipped_count = 0;
   // supress infinite loops by just allowing 10 x maximum allowed iterations for invalid model parameters!
   const unsigned max_skip = max_iterations_ * 10;
-  
+
   // Iterate
   while (iterations_ < k && skipped_count < max_skip)
   {
     // Get X samples which satisfy the model criteria
     sac_model_->getSamples (iterations_, selection);
 
-    if (selection.empty ()) 
+    if (selection.empty ())
     {
       PCL_ERROR ("[pcl::RandomSampleConsensus::computeModel] No samples could be selected!\n");
       break;

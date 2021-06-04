@@ -47,7 +47,7 @@
 namespace pcl
 {
     namespace device
-    {     
+    {
         __device__ __forceinline__ float3 operator*(const Intr& intr, const float3 p)
         {
             float3 r;
@@ -58,9 +58,9 @@ namespace pcl
         }
 
         __device__ __forceinline__
-            void getProjectedRadiusSearchBox (int rows, int cols, const device::Intr& intr, const float3& point, float squared_radius, 
+            void getProjectedRadiusSearchBox (int rows, int cols, const device::Intr& intr, const float3& point, float squared_radius,
             int &minX, int &maxX, int &minY, int &maxY)
-        {  
+        {
             int min, max;
 
             float3 q = intr * point;
@@ -126,11 +126,11 @@ namespace pcl
             float radius;
 
             mutable PtrStep<unsigned char> output_mask;
-        
+
 
             __device__ __forceinline__ void operator()() const
             {
-              
+
             }
         };
     }
@@ -159,7 +159,7 @@ void optimized_shs5(const PointCloud<PointXYZRGB> &cloud, float tolerance, const
     //FILE *f = fopen("log.txt", "w");
 
     cv::Mat huebuf(cloud.height, cloud.width, CV_32F);
-    float *hue = huebuf.ptr<float>();    
+    float *hue = huebuf.ptr<float>();
 
     for(size_t i = 0; i < cloud.points.size(); ++i)
     {
@@ -167,11 +167,11 @@ void optimized_shs5(const PointCloud<PointXYZRGB> &cloud, float tolerance, const
         PointXYZRGB p = cloud.points[i];
         PointXYZRGBtoXYZHSV(p, h);
         hue[i] = h.h;
-    }    
+    }
     unsigned char *mask = flowermat.ptr<unsigned char>();
 
 
-    SearchD search;    
+    SearchD search;
     search.setInputCloud(cloud.makeShared());
 
     vector< vector<int> > storage(100);
@@ -208,7 +208,7 @@ void optimized_shs5(const PointCloud<PointXYZRGB> &cloud, float tolerance, const
 
             // search window
             double squared_radius = tolerance * tolerance;
-            //unsigned int left, right, top, bottom;            
+            //unsigned int left, right, top, bottom;
             //search.getProjectedRadiusSearchBox (q, squared_radius, left, right, top, bottom);
 
             int left, right, top, bottom;
@@ -245,8 +245,8 @@ void optimized_shs5(const PointCloud<PointXYZRGB> &cloud, float tolerance, const
             }
             sq_idx++;
 
-        }        
-    }       
+        }
+    }
 }
 
 #endif
