@@ -14,9 +14,10 @@ ExternalProject_Add(
     ext_openni
     PREFIX openni
     URL ${PROJECT_SOURCE_DIR}/deps/openni/openni
+    BUILD_IN_SOURCE ON
     CONFIGURE_COMMAND ""
     UPDATE_COMMAND ""
-    BUILD_COMMAND ""
+    BUILD_COMMAND cd Platform/Linux/Build && make
     INSTALL_COMMAND ""
 )
 add_dependencies(ext_openni always_rebuild)
