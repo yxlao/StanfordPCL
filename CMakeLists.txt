@@ -203,11 +203,11 @@ include_directories(SYSTEM ${EIGEN_INCLUDE_DIRS})
 add_definitions(-DEIGEN_USE_NEW_STDVECTOR
                 -DEIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET)
 # FLANN (required)
-# if(NOT PCL_SHARED_LIBS OR WIN32)
-#   set(FLANN_USE_STATIC ON)
-# endif(NOT PCL_SHARED_LIBS OR WIN32)
-# find_package(FLANN 1.7.0 REQUIRED)
-set(FLANN_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/deps/build/install/include)
+if(NOT PCL_SHARED_LIBS OR WIN32)
+  set(FLANN_USE_STATIC ON)
+endif(NOT PCL_SHARED_LIBS OR WIN32)
+set(FLANN_ROOT ${PROJECT_SOURCE_DIR}/deps/build/install)
+find_package(FLANN 1.7.0 REQUIRED)
 include_directories(SYSTEM ${FLANN_INCLUDE_DIRS})
 
 # libusb-1.0
