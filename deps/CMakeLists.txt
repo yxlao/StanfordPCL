@@ -12,3 +12,7 @@ include(${PROJECT_SOURCE_DIR}/openni/openni.cmake)
 # FLANN
 include(${PROJECT_SOURCE_DIR}/flann/flann.cmake)
 add_dependencies(ext_flann ext_openni)
+
+# VTK
+include(${PROJECT_SOURCE_DIR}/vtk/vtk.cmake)
+add_dependencies(ext_vtk ext_openni)

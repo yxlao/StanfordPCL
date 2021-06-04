@@ -8,9 +8,9 @@ include(ExternalProject)
 ExternalProject_Add(
     ext_vtk
     PREFIX vtk
-    URL ${PROJECT_SOURCE_DIR}/deps/vtk/VTK
-    PATCH_COMMAND patch Utilities/vtkmetaio/metaUtils.cxx < ${PROJECT_SOURCE_DIR}/deps/vtk/patch_file.diff
-    UPDATE_COMMAND ""
+    URL ${PROJECT_SOURCE_DIR}/vtk/VTK
+    PATCH_COMMAND patch Utilities/vtkmetaio/metaUtils.cxx < ${PROJECT_SOURCE_DIR}/vtk/patch_file.diff
+    INSTALL_DIR ${DEPS_INSTALL_PREFIX}
     CMAKE_ARGS
         -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
         -DCMAKE_C_COMPILER=gcc-4.8
@@ -22,8 +22,3 @@ ExternalProject_Add(
         -DCMAKE_CXX_FLAGS=-DGLX_GLXEXT_LEGACY
         -Wno-dev
 )
-
-ExternalProject_Get_Property(ext_vtk INSTALL_DIR)
-set(VTK_FOUND TRUE)
-set(VTK_INCLUDE_DIRS ${INSTALL_DIR}/include)
-set(VTK_LIBRARY_DIRS ${INSTALL_DIR}/lib)
