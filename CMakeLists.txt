@@ -9,14 +9,6 @@ endif("${CMAKE_BUILD_TYPE}" STREQUAL "")
 project(PCL)
 string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
 
-# Depend on this target to trigger build always.
-# TODO: this can be removed since the main PCL library shall depend on 3rd-party
-# targets directly.
-add_custom_command(
-    OUTPUT always_rebuild
-    COMMAND cmake -E echo
-)
-
 ### ---[ Find universal dependencies
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules/" ${CMAKE_MODULE_PATH})
 
@@ -225,8 +217,8 @@ if(LIBUSB_1_FOUND)
 endif(LIBUSB_1_FOUND)
 
 # OpenNI
-include(${PROJECT_SOURCE_DIR}/deps/openni/openni.cmake)
-# find_package(OpenNI)
+set(OPENNI_ROOT ${PROJECT_SOURCE_DIR}/deps/build/install)
+find_package(OpenNI)
 if (OPENNI_FOUND)
   set(HAVE_OPENNI ON)
   include_directories(SYSTEM ${OPENNI_INCLUDE_DIRS})
@@ -264,8 +256,7 @@ endif (QT4_FOUND)
 
 # Find VTK
 # Install VTK 5.6.1 in ~/vtk_install
-# include(${PROJECT_SOURCE_DIR}/deps/vtk/vtk.cmake)
-find_package(VTK)
+find_package(VTK PATHS ${PROJECT_SOURCE_DIR}/deps/build/install)
 if(VTK_FOUND)
   if (PCL_SHARED_LIBS OR
       (NOT (PCL_SHARED_LIBS) AND NOT (VTK_BUILD_SHARED_LIBS)))
