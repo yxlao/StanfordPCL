@@ -233,7 +233,6 @@ if (OPENNI_FOUND)
   message(STATUS "OPENNI_FOUND: ${OPENNI_FOUND}")
   message(STATUS "OPENNI_INCLUDE_DIRS: ${OPENNI_INCLUDE_DIRS}")
   message(STATUS "OPENNI_LIBRARIES: ${OPENNI_LIBRARIES}")
-
 else()
   message(FATAL_ERROR "OPENNI_FOUND: ${OPENNI_FOUND}")
 endif()
@@ -262,7 +261,8 @@ if (QT4_FOUND)
   include(${QT_USE_FILE})
 endif (QT4_FOUND)
 # Find VTK
-find_package(VTK)
+include(${PROJECT_SOURCE_DIR}/deps/vtk/vtk.cmake)
+# find_package(VTK)
 if(VTK_FOUND)
   if (PCL_SHARED_LIBS OR
       (NOT (PCL_SHARED_LIBS) AND NOT (VTK_BUILD_SHARED_LIBS)))
@@ -277,6 +277,8 @@ if(VTK_FOUND)
     message ("Warning: You are to build PCL in STATIC but VTK is SHARED!")
     message ("Warning: VTK disabled!")
   endif ()
+else()
+  message(FATAL_ERROR "VTK not found.")
 endif(VTK_FOUND)
 # Find MPI
 if (WITH_MPI) # this script searches for MPI 10 sec under windows, annoying especially if you do this often
