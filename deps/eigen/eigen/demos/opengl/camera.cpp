@@ -34,11 +34,11 @@ Camera::Camera()
     : mViewIsUptodate(false), mProjIsUptodate(false)
 {
     mViewMatrix.setIdentity();
-
+    
     mFovY = M_PI/3.;
     mNearDist = 1.;
     mFarDist = 50000.;
-
+    
     mVpX = 0;
     mVpY = 0;
 
@@ -50,7 +50,7 @@ Camera& Camera::operator=(const Camera& other)
 {
     mViewIsUptodate = false;
     mProjIsUptodate = false;
-
+    
     mVpX = other.mVpX;
     mVpY = other.mVpY;
     mVpWidth = other.mVpWidth;
@@ -60,7 +60,7 @@ Camera& Camera::operator=(const Camera& other)
     mFovY = other.mFovY;
     mNearDist = other.mNearDist;
     mFarDist = other.mFarDist;
-
+    
     mViewMatrix = other.mViewMatrix;
     mProjectionMatrix = other.mProjectionMatrix;
 
@@ -83,7 +83,7 @@ void Camera::setViewport(uint offsetx, uint offsety, uint width, uint height)
     mVpY = offsety;
     mVpWidth = width;
     mVpHeight = height;
-
+    
     mProjIsUptodate = false;
 }
 
@@ -91,7 +91,7 @@ void Camera::setViewport(uint width, uint height)
 {
     mVpWidth = width;
     mVpHeight = height;
-
+    
     mProjIsUptodate = false;
 }
 
@@ -118,14 +118,14 @@ void Camera::setDirection(const Vector3f& newDirection)
 {
     // TODO implement it computing the rotation between newDirection and current dir ?
     Vector3f up = this->up();
-
+    
     Matrix3f camAxes;
 
     camAxes.col(2) = (-newDirection).normalized();
     camAxes.col(0) = up.cross( camAxes.col(2) ).normalized();
     camAxes.col(1) = camAxes.col(2).cross( camAxes.col(0) ).normalized();
     setOrientation(Quaternionf(camAxes));
-
+    
     mViewIsUptodate = false;
 }
 
@@ -160,7 +160,7 @@ void Camera::setFrame(const Frame& f)
 void Camera::rotateAroundTarget(const Quaternionf& q)
 {
     Matrix4f mrot, mt, mtm;
-
+    
     // update the transform matrix
     updateViewMatrix();
     Vector3f t = mViewMatrix * mTarget;
@@ -169,7 +169,7 @@ void Camera::rotateAroundTarget(const Quaternionf& q)
                 * q
                 * Translation3f(-t)
                 * mViewMatrix;
-
+    
     Quaternionf qa(mViewMatrix.linear());
     qa = qa.conjugate();
     setOrientation(qa);
@@ -239,7 +239,7 @@ void Camera::updateProjectionMatrix(void) const
     mProjectionMatrix(3,2) = -1;
     mProjectionMatrix(2,3) = -2 * mNearDist * mFarDist / range;
     mProjectionMatrix(3,3) = 0;
-
+    
     mProjIsUptodate = true;
   }
 }
@@ -268,7 +268,7 @@ Vector3f Camera::unProject(const Vector2f& uv, float depth, const Matrix4f& invM
 {
     updateViewMatrix();
     updateProjectionMatrix();
-
+    
     Vector3f a(2.*uv.x()/float(mVpWidth)-1., 2.*uv.y()/float(mVpHeight)-1., 1.);
     a.x() *= depth/mProjectionMatrix(0,0);
     a.y() *= depth/mProjectionMatrix(1,1);

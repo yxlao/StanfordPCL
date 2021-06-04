@@ -10,6 +10,6 @@ int main()
   m = (m + Matrix3f::Constant(1.2)) * 50;
   cout << "m =" << endl << m << endl;
   Vector3f v(1,2,3);
-
+  
   cout << "m * v =" << endl << m * v << endl;
 }

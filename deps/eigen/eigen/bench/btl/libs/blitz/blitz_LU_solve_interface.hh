@@ -1,14 +1,14 @@
 //=====================================================
 // File   :  blitz_LU_solve_interface.hh
-// Author :  L. Plagne <laurent.plagne@edf.fr)>
+// Author :  L. Plagne <laurent.plagne@edf.fr)>        
 // Copyright (C) EDF R&D,  lun sep 30 14:23:31 CEST 2002
 //=====================================================
-//
+// 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
 // as published by the Free Software Foundation; either version 2
 // of the License, or (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-//
+// 
 #ifndef BLITZ_LU_SOLVE_INTERFACE_HH
 #define BLITZ_LU_SOLVE_INTERFACE_HH
 
@@ -45,7 +45,7 @@ public :
 
   inline static void free_Pivot_Vector(Pivot_Vector & pivot)
   {
-
+    
     return;
 
   }
@@ -53,9 +53,9 @@ public :
 
   static inline real matrix_vector_product_sliced(const gene_matrix & A, gene_vector B, int row, int col_start, int col_end)
   {
-
+    
     real somme=0.;
-
+    
     for (int j=col_start ; j<col_end+1 ; j++){
 	
 	somme+=A(row,j)*B(j);
@@ -71,9 +71,9 @@ public :
 
   static inline real matrix_matrix_product_sliced(gene_matrix & A, int row, int col_start, int col_end, gene_matrix & B, int row_shift, int col )
   {
-
+    
     real somme=0.;
-
+    
     for (int j=col_start ; j<col_end+1 ; j++){
 	
 	somme+=A(row,j)*B(j+row_shift,col);
@@ -113,7 +113,7 @@ public :
 	//	theSum -= sum( LU( i, Range( fromStart, i-1 ) )*LU( Range( fromStart, i-1 ), j ) ) ;
 	LU( i, j ) = theSum ;
       }
-
+      
       // Search for the largest pivot element :
       big = 0. ;
       for( int i=j; i<N; i++ ) {

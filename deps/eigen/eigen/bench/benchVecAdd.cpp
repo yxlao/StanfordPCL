@@ -24,15 +24,15 @@ int main(int argc, char* argv[])
     int size2 = size * size;
     Scalar* a = internal::aligned_new<Scalar>(size2);
     Scalar* b = internal::aligned_new<Scalar>(size2+4)+1;
-    Scalar* c = internal::aligned_new<Scalar>(size2);
-
+    Scalar* c = internal::aligned_new<Scalar>(size2); 
+    
     for (int i=0; i<size; ++i)
     {
         a[i] = b[i] = c[i] = 0;
     }
-
+    
     BenchTimer timer;
-
+    
     timer.reset();
     for (int k=0; k<10; ++k)
     {
@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
             std::cout << innersize << " x " << outersize << "  " << timer.value() << "s   " << (double(size2*REPEAT)/timer.value())/(1024.*1024.*1024.) << " GFlops\n";
         }
     }
-
+    
     VectorXf va = Map<VectorXf>(a, size2);
     VectorXf vb = Map<VectorXf>(b, size2);
     VectorXf vc = Map<VectorXf>(c, size2);
@@ -107,24 +107,24 @@ void benchVec(Scalar* a, Scalar* b, Scalar* c, int size)
 //             internal::pstore(&a[i], internal::padd(a0, b0));
 //             a0 = internal::pload(&a[i+4*PacketSize]);
 //             b0 = internal::pload(&b[i+4*PacketSize]);
-//
+//             
 //             internal::pstore(&a[i+1*PacketSize], internal::padd(a1, b1));
 //             a1 = internal::pload(&a[i+5*PacketSize]);
 //             b1 = internal::pload(&b[i+5*PacketSize]);
-//
+//             
 //             internal::pstore(&a[i+2*PacketSize], internal::padd(a2, b2));
 //             a2 = internal::pload(&a[i+6*PacketSize]);
 //             b2 = internal::pload(&b[i+6*PacketSize]);
-//
+//             
 //             internal::pstore(&a[i+3*PacketSize], internal::padd(a3, b3));
 //             a3 = internal::pload(&a[i+7*PacketSize]);
 //             b3 = internal::pload(&b[i+7*PacketSize]);
-//
+//             
 //             internal::pstore(&a[i+4*PacketSize], internal::padd(a0, b0));
 //             internal::pstore(&a[i+5*PacketSize], internal::padd(a1, b1));
 //             internal::pstore(&a[i+6*PacketSize], internal::padd(a2, b2));
 //             internal::pstore(&a[i+7*PacketSize], internal::padd(a3, b3));
-
+            
             internal::pstore(&a[i+2*PacketSize], internal::padd(internal::ploadu(&a[i+2*PacketSize]), internal::ploadu(&b[i+2*PacketSize])));
             internal::pstore(&a[i+3*PacketSize], internal::padd(internal::ploadu(&a[i+3*PacketSize]), internal::ploadu(&b[i+3*PacketSize])));
             internal::pstore(&a[i+4*PacketSize], internal::padd(internal::ploadu(&a[i+4*PacketSize]), internal::ploadu(&b[i+4*PacketSize])));

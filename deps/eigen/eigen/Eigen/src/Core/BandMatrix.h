@@ -25,8 +25,9 @@
 #ifndef EIGEN_BANDMATRIX_H
 #define EIGEN_BANDMATRIX_H
 
-namespace internal {
+namespace Eigen { 
 
+namespace internal {
 
 template<typename Derived>
 class BandMatrixBase : public EigenBase<Derived>
@@ -59,7 +60,7 @@ class BandMatrixBase : public EigenBase<Derived>
     };
 
   public:
-
+    
     using Base::derived;
     using Base::rows;
     using Base::cols;
@@ -69,10 +70,10 @@ class BandMatrixBase : public EigenBase<Derived>
 
     /** \returns the number of sub diagonals */
     inline Index subs() const { return derived().subs(); }
-
+    
     /** \returns an expression of the underlying coefficient matrix */
     inline const CoefficientsType& coeffs() const { return derived().coeffs(); }
-
+    
     /** \returns an expression of the underlying coefficient matrix */
     inline CoefficientsType& coeffs() { return derived().coeffs(); }
 
@@ -87,7 +88,7 @@ class BandMatrixBase : public EigenBase<Derived>
       if (i<=supers())
       {
         start = supers()-i;
-        len = std::min(rows(),std::max<Index>(0,coeffs().rows() - (supers()-i)));
+        len = (std::min)(rows(),std::max<Index>(0,coeffs().rows() - (supers()-i)));
       }
       else if (i>=rows()-subs())
         len = std::max<Index>(0,coeffs().rows() - (i + 1 - rows() + subs()));
@@ -96,11 +97,11 @@ class BandMatrixBase : public EigenBase<Derived>
 
     /** \returns a vector expression of the main diagonal */
     inline Block<CoefficientsType,1,SizeAtCompileTime> diagonal()
-    { return Block<CoefficientsType,1,SizeAtCompileTime>(coeffs(),supers(),0,1,std::min(rows(),cols())); }
+    { return Block<CoefficientsType,1,SizeAtCompileTime>(coeffs(),supers(),0,1,(std::min)(rows(),cols())); }
 
     /** \returns a vector expression of the main diagonal (const version) */
     inline const Block<const CoefficientsType,1,SizeAtCompileTime> diagonal() const
-    { return Block<const CoefficientsType,1,SizeAtCompileTime>(coeffs(),supers(),0,1,std::min(rows(),cols())); }
+    { return Block<const CoefficientsType,1,SizeAtCompileTime>(coeffs(),supers(),0,1,(std::min)(rows(),cols())); }
 
     template<int Index> struct DiagonalIntReturnType {
       enum {
@@ -122,13 +123,13 @@ class BandMatrixBase : public EigenBase<Derived>
     /** \returns a vector expression of the \a N -th sub or super diagonal */
     template<int N> inline typename DiagonalIntReturnType<N>::Type diagonal()
     {
-      return typename DiagonalIntReturnType<N>::BuildType(coeffs(), supers()-N, std::max(0,N), 1, diagonalLength(N));
+      return typename DiagonalIntReturnType<N>::BuildType(coeffs(), supers()-N, (std::max)(0,N), 1, diagonalLength(N));
     }
 
     /** \returns a vector expression of the \a N -th sub or super diagonal */
     template<int N> inline const typename DiagonalIntReturnType<N>::Type diagonal() const
     {
-      return typename DiagonalIntReturnType<N>::BuildType(coeffs(), supers()-N, std::max(0,N), 1, diagonalLength(N));
+      return typename DiagonalIntReturnType<N>::BuildType(coeffs(), supers()-N, (std::max)(0,N), 1, diagonalLength(N));
     }
 
     /** \returns a vector expression of the \a i -th sub or super diagonal */
@@ -144,7 +145,7 @@ class BandMatrixBase : public EigenBase<Derived>
       eigen_assert((i<0 && -i<=subs()) || (i>=0 && i<=supers()));
       return Block<const CoefficientsType,1,Dynamic>(coeffs(), supers()-i, std::max<Index>(0,i), 1, diagonalLength(i));
     }
-
+    
     template<typename Dest> inline void evalTo(Dest& dst) const
     {
       dst.resize(rows(),cols());
@@ -166,7 +167,7 @@ class BandMatrixBase : public EigenBase<Derived>
   protected:
 
     inline Index diagonalLength(Index i) const
-    { return i<0 ? std::min(cols(),rows()+i) : std::min(rows(),cols()-i); }
+    { return i<0 ? (std::min)(cols(),rows()+i) : (std::min)(rows(),cols()-i); }
 };
 
 /**
@@ -180,9 +181,9 @@ class BandMatrixBase : public EigenBase<Derived>
   * \param Cols Number of columns, or \b Dynamic
   * \param Supers Number of super diagonal
   * \param Subs Number of sub diagonal
-  * \param _Options A combination of either \b RowMajor or \b ColMajor, and of \b SelfAdjoint
+  * \param _Options A combination of either \b #RowMajor or \b #ColMajor, and of \b #SelfAdjoint
   *                 The former controls \ref TopicStorageOrders "storage order", and defaults to
-  *                 column-major. The latter controls whether the matrix represents a selfadjoint
+  *                 column-major. The latter controls whether the matrix represents a selfadjoint 
   *                 matrix in which case either Supers of Subs have to be null.
   *
   * \sa class TridiagonalMatrix
@@ -284,6 +285,7 @@ class BandMatrixWrapper : public BandMatrixBase<BandMatrixWrapper<_CoefficientsT
       : m_coeffs(coeffs),
         m_rows(rows), m_supers(supers), m_subs(subs)
     {
+      EIGEN_UNUSED_VARIABLE(cols);
       //internal::assert(coeffs.cols()==cols() && (supers()+subs()+1)==coeffs.rows());
     }
 
@@ -341,5 +343,7 @@ class TridiagonalMatrix : public BandMatrix<Scalar,Size,Size,Options&SelfAdjoint
 };
 
 } // end namespace internal
+
+} // end namespace Eigen
 
 #endif // EIGEN_BANDMATRIX_H

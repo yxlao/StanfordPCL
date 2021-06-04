@@ -81,7 +81,7 @@ int EIGEN_CAT(EIGEN_CAT(i,SCALAR_SUFFIX),amin_)(int *n, RealScalar *px, int *inc
 {
   if(*n<=0) return 0;
   Scalar* x = reinterpret_cast<Scalar*>(px);
-
+  
   DenseIndex ret;
   if(*incx==1)  vector(x,*n).cwiseAbs().minCoeff(&ret);
   else          vector(x,*n,std::abs(*incx)).cwiseAbs().minCoeff(&ret);

@@ -25,6 +25,8 @@
 #ifndef EIGEN_SELFCWISEBINARYOP_H
 #define EIGEN_SELFCWISEBINARYOP_H
 
+namespace Eigen { 
+
 /** \class SelfCwiseBinaryOp
   * \ingroup Core_Module
   *
@@ -142,7 +144,7 @@ template<typename BinaryOp, typename Lhs, typename Rhs> class SelfCwiseBinaryOp
     {
       EIGEN_STATIC_ASSERT_SAME_MATRIX_SIZE(Lhs,RhsDerived)
       EIGEN_CHECK_BINARY_COMPATIBILIY(BinaryOp,typename Lhs::Scalar,typename RhsDerived::Scalar);
-
+      
     #ifdef EIGEN_DEBUG_ASSIGN
       internal::assign_traits<SelfCwiseBinaryOp, RhsDerived>::debug();
     #endif
@@ -153,7 +155,7 @@ template<typename BinaryOp, typename Lhs, typename Rhs> class SelfCwiseBinaryOp
     #endif
       return *this;
     }
-
+    
     // overloaded to honor evaluation of special matrices
     // maybe another solution would be to not use SelfCwiseBinaryOp
     // at first...
@@ -161,6 +163,16 @@ template<typename BinaryOp, typename Lhs, typename Rhs> class SelfCwiseBinaryOp
     {
       typename internal::nested<Rhs>::type rhs(_rhs);
       return Base::operator=(rhs);
+    }
+
+    Lhs& expression() const 
+    { 
+      return m_matrix;
+    }
+
+    const BinaryOp& functor() const 
+    { 
+      return m_functor;
     }
 
   protected:
@@ -191,5 +203,7 @@ inline Derived& DenseBase<Derived>::operator/=(const Scalar& other)
   tmp = PlainObject::Constant(rows(),cols(), NumTraits<Scalar>::IsInteger ? other : Scalar(1)/other);
   return derived();
 }
+
+} // end namespace Eigen
 
 #endif // EIGEN_SELFCWISEBINARYOP_H

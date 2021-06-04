@@ -24,7 +24,7 @@ template<int M, int N,int K> struct alt_prod
         : GemmProduct
   };
 };
-
+        
 void print_mode(int mode)
 {
   if(mode==InnerProduct) std::cout << "i";
@@ -58,7 +58,7 @@ EIGEN_DONT_INLINE void bench_prod()
     t.reset();
     BENCH(t,1,rep,prod<CoeffBasedProductMode>(a,b,c));
   } while(t.best()<0.1);
-
+  
   t.reset();
   BENCH(t,5,rep,prod<Mode>(a,b,c));
 
@@ -98,7 +98,7 @@ struct loop_on_m
     std::cout << M << "f\t";
     loop_on_n<M,N,K,float,CoeffBasedProductMode>::run();
     std::cout << "\n";
-
+    
     std::cout << M << "f\t";
     loop_on_n<M,N,K,float,-1>::run();
     std::cout << "\n";
@@ -116,7 +116,7 @@ struct loop_on_n
   static void run()
   {
     bench_prod<M,N,K,Scalar,Mode==-1? alt_prod<M,N,K>::ret : Mode>();
-
+    
     loop_on_n<M,N+1,K,Scalar,Mode>::run();
   }
 };
@@ -138,6 +138,6 @@ template<> struct print_n<END> { static void run(){} };
 int main()
 {
   loop_on_k<1,1,1>::run();
-
-  return 0;
+  
+  return 0; 
 }

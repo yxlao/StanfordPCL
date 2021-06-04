@@ -25,7 +25,9 @@
 #ifndef EIGEN_ARRAY_H
 #define EIGEN_ARRAY_H
 
-/** \class Array
+namespace Eigen {
+
+/** \class Array 
   * \ingroup Core_Module
   *
   * \brief General-purpose arrays with easy API for coefficient-wise operations
@@ -68,10 +70,8 @@ class Array
     friend struct internal::conservative_resize_like_impl;
 
     using Base::m_storage;
+
   public:
-    enum { NeedsToAlign = (!(Options&DontAlign))
-                          && SizeAtCompileTime!=Dynamic && ((static_cast<int>(sizeof(Scalar))*SizeAtCompileTime)%16)==0 };
-    EIGEN_MAKE_ALIGNED_OPERATOR_NEW_IF(NeedsToAlign)
 
     using Base::base;
     using Base::coeff;
@@ -318,5 +318,6 @@ EIGEN_USING_ARRAY_TYPEDEFS_FOR_TYPE(d) \
 EIGEN_USING_ARRAY_TYPEDEFS_FOR_TYPE(cf) \
 EIGEN_USING_ARRAY_TYPEDEFS_FOR_TYPE(cd)
 
+} // end namespace Eigen
 
 #endif // EIGEN_ARRAY_H

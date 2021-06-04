@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
   // demo non-static set... functions
   m4.setZero();
   m3.diagonal().setOnes();
-
+  
   std::cout << "*** Step 2 ***\nm3:\n" << m3 << "\nm4:\n" << m4 << std::endl;
 
   // demo fixed-size block() expression as lvalue and as rvalue

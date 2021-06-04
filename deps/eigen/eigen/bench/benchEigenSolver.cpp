@@ -135,11 +135,11 @@ __attribute__ ((noinline)) void benchEigenSolver(const MatrixType& m)
     gsl_matrix* eigvect = gsl_matrix_alloc(covMat.rows(),covMat.cols());
     gsl_vector* eigval  = gsl_vector_alloc(covMat.rows());
     gsl_eigen_symmv_workspace* eisymm = gsl_eigen_symmv_alloc(covMat.rows());
-
+    
     gsl_matrix_complex* eigvectz = gsl_matrix_complex_alloc(covMat.rows(),covMat.cols());
     gsl_vector_complex* eigvalz  = gsl_vector_complex_alloc(covMat.rows());
     gsl_eigen_nonsymmv_workspace* einonsymm = gsl_eigen_nonsymmv_alloc(covMat.rows());
-
+    
     eiToGsl(covMat, &gslCovMat);
     for (int t=0; t<TRIES; ++t)
     {
@@ -180,7 +180,7 @@ __attribute__ ((noinline)) void benchEigenSolver(const MatrixType& m)
   #endif
 
   std::cout << "\n";
-
+  
   // make sure the compiler does not optimize too much
   if (acc==123)
     std::cout << acc;

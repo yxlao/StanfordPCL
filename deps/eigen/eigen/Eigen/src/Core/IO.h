@@ -26,6 +26,8 @@
 #ifndef EIGEN_IO_H
 #define EIGEN_IO_H
 
+namespace Eigen { 
+
 enum { DontAlignCols = 1 };
 enum { StreamPrecision = -1,
        FullPrecision = -2 };
@@ -141,7 +143,8 @@ struct significant_decimals_default_impl
   typedef typename NumTraits<Scalar>::Real RealScalar;
   static inline int run()
   {
-    return cast<RealScalar,int>(std::ceil(-log(NumTraits<RealScalar>::epsilon())/log(RealScalar(10))));
+    using std::ceil;
+    return cast<RealScalar,int>(ceil(-log(NumTraits<RealScalar>::epsilon())/log(RealScalar(10))));
   }
 };
 
@@ -169,8 +172,8 @@ std::ostream & print_matrix(std::ostream & s, const Derived& _m, const IOFormat&
     s << fmt.matPrefix << fmt.matSuffix;
     return s;
   }
-
-  const typename Derived::Nested m = _m;
+  
+  typename Derived::Nested m = _m;
   typedef typename Derived::Scalar Scalar;
   typedef typename Derived::Index Index;
 
@@ -255,5 +258,7 @@ std::ostream & operator <<
 {
   return internal::print_matrix(s, m.eval(), EIGEN_DEFAULT_IO_FORMAT);
 }
+
+} // end namespace Eigen
 
 #endif // EIGEN_IO_H

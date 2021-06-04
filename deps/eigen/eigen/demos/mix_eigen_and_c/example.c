@@ -29,7 +29,7 @@ void demo_MatrixXd()
 {
   struct C_MatrixXd *matrix1, *matrix2, *result;
   printf("*** demo_MatrixXd ***\n");
-
+  
   matrix1 = MatrixXd_new(3, 3);
   MatrixXd_set_zero(matrix1);
   MatrixXd_set_coeff(matrix1, 0, 1, 2.5);
@@ -60,11 +60,11 @@ void demo_Map_MatrixXd()
   double array[5];
   int i;
   printf("*** demo_Map_MatrixXd ***\n");
-
+  
   for(i = 0; i < 5; ++i) array[i] = i;
   printf("Initially, the array is:\n");
   print_array(array, 5);
-
+  
   map = Map_MatrixXd_new(array, 5, 1);
   Map_MatrixXd_add(map, map, map);
   Map_MatrixXd_delete(map);

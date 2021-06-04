@@ -28,7 +28,7 @@ SCALAR E_VDW(const Vec &interactions1, const Vec &interactions2)
          .sum();
 }
 
-int main()
+int main() 
 {
   //
   //          1   2   3   4  ... (interactions)
@@ -42,10 +42,10 @@ int main()
   //
   Vec interactions1(SIZE), interactions2(SIZE); // SIZE is the number of vdw interactions in our system
   // SetupCalculations()
-  SCALAR rab = 1.0;
+  SCALAR rab = 1.0;  
   interactions1.setConstant(2.4);
   interactions2.setConstant(rab);
-
+  
   // Energy()
   SCALAR energy = 0.0;
   for (unsigned int i = 0; i<REPEAT; ++i) {

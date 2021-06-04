@@ -54,21 +54,21 @@ template<typename MatrixType> void diagonalmatrices(const MatrixType& m)
   VERIFY_IS_APPROX(sq_m1, v1.asDiagonal().toDenseMatrix());
   SquareMatrixType sq_m2 = v1.asDiagonal();
   VERIFY_IS_APPROX(sq_m1, sq_m2);
-
+  
   ldm1 = v1.asDiagonal();
   LeftDiagonalMatrix ldm3(v1);
   VERIFY_IS_APPROX(ldm1.diagonal(), ldm3.diagonal());
   LeftDiagonalMatrix ldm4 = v1.asDiagonal();
   VERIFY_IS_APPROX(ldm1.diagonal(), ldm4.diagonal());
-
+  
   sq_m1.block(0,0,rows,rows) = ldm1;
   VERIFY_IS_APPROX(sq_m1, ldm1.toDenseMatrix());
   sq_m1.transpose() = ldm1;
   VERIFY_IS_APPROX(sq_m1, ldm1.toDenseMatrix());
-
+  
   Index i = internal::random<Index>(0, rows-1);
   Index j = internal::random<Index>(0, cols-1);
-
+  
   VERIFY_IS_APPROX( ((ldm1 * m1)(i,j))  , ldm1.diagonal()(i) * m1(i,j) );
   VERIFY_IS_APPROX( ((ldm1 * (m1+m2))(i,j))  , ldm1.diagonal()(i) * (m1+m2)(i,j) );
   VERIFY_IS_APPROX( ((m1 * rdm1)(i,j))  , rdm1.diagonal()(j) * m1(i,j) );
@@ -81,16 +81,16 @@ template<typename MatrixType> void diagonalmatrices(const MatrixType& m)
 
   BigMatrix big;
   big.setZero(2*rows, 2*cols);
-
+  
   big.block(i,j,rows,cols) = m1;
   big.block(i,j,rows,cols) = v1.asDiagonal() * big.block(i,j,rows,cols);
-
+  
   VERIFY_IS_APPROX((big.block(i,j,rows,cols)) , v1.asDiagonal() * m1 );
-
+  
   big.block(i,j,rows,cols) = m1;
   big.block(i,j,rows,cols) = big.block(i,j,rows,cols) * rv1.asDiagonal();
   VERIFY_IS_APPROX((big.block(i,j,rows,cols)) , m1 * rv1.asDiagonal() );
-
+  
 }
 
 void test_diagonalmatrices()
@@ -101,9 +101,9 @@ void test_diagonalmatrices()
     CALL_SUBTEST_3( diagonalmatrices(Matrix<double,3,3,RowMajor>()) );
     CALL_SUBTEST_4( diagonalmatrices(Matrix4d()) );
     CALL_SUBTEST_5( diagonalmatrices(Matrix<float,4,4,RowMajor>()) );
-    CALL_SUBTEST_6( diagonalmatrices(MatrixXcf(3, 5)) );
-    CALL_SUBTEST_7( diagonalmatrices(MatrixXi(10, 8)) );
-    CALL_SUBTEST_8( diagonalmatrices(Matrix<double,Dynamic,Dynamic,RowMajor>(20, 20)) );
-    CALL_SUBTEST_9( diagonalmatrices(MatrixXf(21, 24)) );
+    CALL_SUBTEST_6( diagonalmatrices(MatrixXcf(internal::random<int>(1,EIGEN_TEST_MAX_SIZE), internal::random<int>(1,EIGEN_TEST_MAX_SIZE))) );
+    CALL_SUBTEST_7( diagonalmatrices(MatrixXi(internal::random<int>(1,EIGEN_TEST_MAX_SIZE), internal::random<int>(1,EIGEN_TEST_MAX_SIZE))) );
+    CALL_SUBTEST_8( diagonalmatrices(Matrix<double,Dynamic,Dynamic,RowMajor>(internal::random<int>(1,EIGEN_TEST_MAX_SIZE), internal::random<int>(1,EIGEN_TEST_MAX_SIZE))) );
+    CALL_SUBTEST_9( diagonalmatrices(MatrixXf(internal::random<int>(1,EIGEN_TEST_MAX_SIZE), internal::random<int>(1,EIGEN_TEST_MAX_SIZE))) );
   }
 }

@@ -110,12 +110,22 @@ template<typename MatrixType> void product_extra(const MatrixType& m)
 
   VERIFY_IS_APPROX(m1.col(j2).adjoint() * m1.block(0,j,m1.rows(),c), m1.col(j2).adjoint().eval() * m1.block(0,j,m1.rows(),c).eval());
   VERIFY_IS_APPROX(m1.block(i,0,r,m1.cols()) * m1.row(i2).adjoint(), m1.block(i,0,r,m1.cols()).eval() * m1.row(i2).adjoint().eval());
-
+  
   // regression test
   MatrixType tmp = m1 * m1.adjoint() * s1;
   VERIFY_IS_APPROX(tmp, m1 * m1.adjoint() * s1);
 }
 
+// Regression test for bug reported at http://forum.kde.org/viewtopic.php?f=74&t=96947
+void mat_mat_scalar_scalar_product()
+{
+  Eigen::Matrix2Xd dNdxy(2, 3);
+  dNdxy << -0.5, 0.5, 0,
+           -0.3, 0, 0.3;
+  double det = 6.0, wt = 0.5;
+  VERIFY_IS_APPROX(dNdxy.transpose()*dNdxy*det*wt, det*wt*dNdxy.transpose()*dNdxy);
+}
+  
 void zero_sized_objects()
 {
   // Bug 127
@@ -143,10 +153,11 @@ void zero_sized_objects()
 void test_product_extra()
 {
   for(int i = 0; i < g_repeat; i++) {
-    CALL_SUBTEST_1( product_extra(MatrixXf(internal::random<int>(1,320), internal::random<int>(1,320))) );
-    CALL_SUBTEST_2( product_extra(MatrixXd(internal::random<int>(1,320), internal::random<int>(1,320))) );
-    CALL_SUBTEST_3( product_extra(MatrixXcf(internal::random<int>(1,150), internal::random<int>(1,150))) );
-    CALL_SUBTEST_4( product_extra(MatrixXcd(internal::random<int>(1,150), internal::random<int>(1,150))) );
+    CALL_SUBTEST_1( product_extra(MatrixXf(internal::random<int>(1,EIGEN_TEST_MAX_SIZE), internal::random<int>(1,EIGEN_TEST_MAX_SIZE))) );
+    CALL_SUBTEST_2( product_extra(MatrixXd(internal::random<int>(1,EIGEN_TEST_MAX_SIZE), internal::random<int>(1,EIGEN_TEST_MAX_SIZE))) );
+    CALL_SUBTEST_2( mat_mat_scalar_scalar_product() );
+    CALL_SUBTEST_3( product_extra(MatrixXcf(internal::random<int>(1,EIGEN_TEST_MAX_SIZE/2), internal::random<int>(1,EIGEN_TEST_MAX_SIZE/2))) );
+    CALL_SUBTEST_4( product_extra(MatrixXcd(internal::random<int>(1,EIGEN_TEST_MAX_SIZE/2), internal::random<int>(1,EIGEN_TEST_MAX_SIZE/2))) );
     CALL_SUBTEST_5( zero_sized_objects() );
   }
 }

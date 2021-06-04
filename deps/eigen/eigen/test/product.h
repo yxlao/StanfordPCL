@@ -29,7 +29,7 @@ template<typename Derived1, typename Derived2>
 bool areNotApprox(const MatrixBase<Derived1>& m1, const MatrixBase<Derived2>& m2, typename Derived1::RealScalar epsilon = NumTraits<typename Derived1::RealScalar>::dummy_precision())
 {
   return !((m1-m2).cwiseAbs2().maxCoeff() < epsilon * epsilon
-                          * std::max(m1.cwiseAbs2().maxCoeff(), m2.cwiseAbs2().maxCoeff()));
+                          * (std::max)(m1.cwiseAbs2().maxCoeff(), m2.cwiseAbs2().maxCoeff()));
 }
 
 template<typename MatrixType> void product(const MatrixType& m)
@@ -54,8 +54,7 @@ template<typename MatrixType> void product(const MatrixType& m)
   // to test it, hence I consider that we will have tested Random.h
   MatrixType m1 = MatrixType::Random(rows, cols),
              m2 = MatrixType::Random(rows, cols),
-             m3(rows, cols),
-             mzero = MatrixType::Zero(rows, cols);
+             m3(rows, cols);
   RowSquareMatrixType
              identity = RowSquareMatrixType::Identity(rows, rows),
              square = RowSquareMatrixType::Random(rows, rows),
@@ -63,9 +62,7 @@ template<typename MatrixType> void product(const MatrixType& m)
   ColSquareMatrixType
              square2 = ColSquareMatrixType::Random(cols, cols),
              res2 = ColSquareMatrixType::Random(cols, cols);
-  RowVectorType v1 = RowVectorType::Random(rows),
-             v2 = RowVectorType::Random(rows),
-             vzero = RowVectorType::Zero(rows);
+  RowVectorType v1 = RowVectorType::Random(rows);
   ColVectorType vc2 = ColVectorType::Random(cols), vcres(cols);
   OtherMajorMatrixType tm1 = m1;
 
@@ -102,7 +99,7 @@ template<typename MatrixType> void product(const MatrixType& m)
 
   // test the previous tests were not screwed up because operator* returns 0
   // (we use the more accurate default epsilon)
-  if (!NumTraits<Scalar>::IsInteger && std::min(rows,cols)>1)
+  if (!NumTraits<Scalar>::IsInteger && (std::min)(rows,cols)>1)
   {
     VERIFY(areNotApprox(m1.transpose()*m2,m2.transpose()*m1));
   }
@@ -111,7 +108,7 @@ template<typename MatrixType> void product(const MatrixType& m)
   res = square;
   res.noalias() += m1 * m2.transpose();
   VERIFY_IS_APPROX(res, square + m1 * m2.transpose());
-  if (!NumTraits<Scalar>::IsInteger && std::min(rows,cols)>1)
+  if (!NumTraits<Scalar>::IsInteger && (std::min)(rows,cols)>1)
   {
     VERIFY(areNotApprox(res,square + m2 * m1.transpose()));
   }
@@ -123,7 +120,7 @@ template<typename MatrixType> void product(const MatrixType& m)
   res = square;
   res.noalias() -= m1 * m2.transpose();
   VERIFY_IS_APPROX(res, square - (m1 * m2.transpose()));
-  if (!NumTraits<Scalar>::IsInteger && std::min(rows,cols)>1)
+  if (!NumTraits<Scalar>::IsInteger && (std::min)(rows,cols)>1)
   {
     VERIFY(areNotApprox(res,square - m2 * m1.transpose()));
   }
@@ -147,7 +144,7 @@ template<typename MatrixType> void product(const MatrixType& m)
   res2 = square2;
   res2.noalias() += m1.transpose() * m2;
   VERIFY_IS_APPROX(res2, square2 + m1.transpose() * m2);
-  if (!NumTraits<Scalar>::IsInteger && std::min(rows,cols)>1)
+  if (!NumTraits<Scalar>::IsInteger && (std::min)(rows,cols)>1)
   {
     VERIFY(areNotApprox(res2,square2 + m2.transpose() * m1));
   }

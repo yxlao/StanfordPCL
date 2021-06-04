@@ -34,7 +34,7 @@ template<int Alignment,typename VectorType> void map_class_vector(const VectorTy
   VectorType v = VectorType::Random(size);
 
   Index arraysize = 3*size;
-
+  
   Scalar* a_array = internal::aligned_new<Scalar>(arraysize+1);
   Scalar* array = a_array;
   if(Alignment!=Aligned)

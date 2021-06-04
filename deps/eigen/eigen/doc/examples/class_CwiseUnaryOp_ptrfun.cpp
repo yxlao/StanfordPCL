@@ -8,7 +8,7 @@ double ramp(double x)
 {
   if (x > 0)
     return x;
-  else
+  else 
     return 0;
 }
 

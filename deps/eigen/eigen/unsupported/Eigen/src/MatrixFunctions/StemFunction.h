@@ -25,7 +25,9 @@
 #ifndef EIGEN_STEM_FUNCTION
 #define EIGEN_STEM_FUNCTION
 
-/** \ingroup MatrixFunctions_Module
+namespace Eigen { 
+
+/** \ingroup MatrixFunctions_Module 
   * \brief Stem functions corresponding to standard mathematical functions.
   */
 template <typename Scalar>
@@ -44,7 +46,7 @@ class StdStemFunctions
     {
       Scalar res;
       switch (n % 4) {
-      case 0:
+      case 0: 
 	res = std::cos(x);
 	break;
       case 1:
@@ -112,5 +114,7 @@ class StdStemFunctions
     }
 
 }; // end of class StdStemFunctions
+
+} // end namespace Eigen
 
 #endif // EIGEN_STEM_FUNCTION

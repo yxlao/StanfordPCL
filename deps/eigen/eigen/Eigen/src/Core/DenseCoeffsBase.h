@@ -25,6 +25,8 @@
 #ifndef EIGEN_DENSECOEFFSBASE_H
 #define EIGEN_DENSECOEFFSBASE_H
 
+namespace Eigen {
+
 namespace internal {
 template<typename T> struct add_const_on_value_type_if_arithmetic
 {
@@ -35,11 +37,11 @@ template<typename T> struct add_const_on_value_type_if_arithmetic
 /** \brief Base class providing read-only coefficient access to matrices and arrays.
   * \ingroup Core_Module
   * \tparam Derived Type of the derived class
-  * \tparam ReadOnlyAccessors Constant indicating read-only access
+  * \tparam #ReadOnlyAccessors Constant indicating read-only access
   *
   * This class defines the \c operator() \c const function and friends, which can be used to read specific
   * entries of a matrix or array.
-  *
+  * 
   * \sa DenseCoeffsBase<Derived, WriteAccessors>, DenseCoeffsBase<Derived, DirectAccessors>,
   *     \ref TopicClassHierarchy
   */
@@ -212,7 +214,7 @@ class DenseCoeffsBase<Derived,ReadOnlyAccessors> : public EigenBase<Derived>
       * to ensure that a packet really starts there. This method is only available on expressions having the
       * PacketAccessBit.
       *
-      * The \a LoadMode parameter may have the value \a Aligned or \a Unaligned. Its effect is to select
+      * The \a LoadMode parameter may have the value \a #Aligned or \a #Unaligned. Its effect is to select
       * the appropriate vectorization instruction. Aligned access is faster, but is only possible for packets
       * starting at an address which is a multiple of the packet size.
       */
@@ -239,7 +241,7 @@ class DenseCoeffsBase<Derived,ReadOnlyAccessors> : public EigenBase<Derived>
       * to ensure that a packet really starts there. This method is only available on expressions having the
       * PacketAccessBit and the LinearAccessBit.
       *
-      * The \a LoadMode parameter may have the value \a Aligned or \a Unaligned. Its effect is to select
+      * The \a LoadMode parameter may have the value \a #Aligned or \a #Unaligned. Its effect is to select
       * the appropriate vectorization instruction. Aligned access is faster, but is only possible for packets
       * starting at an address which is a multiple of the packet size.
       */
@@ -275,12 +277,12 @@ class DenseCoeffsBase<Derived,ReadOnlyAccessors> : public EigenBase<Derived>
 /** \brief Base class providing read/write coefficient access to matrices and arrays.
   * \ingroup Core_Module
   * \tparam Derived Type of the derived class
-  * \tparam WriteAccessors Constant indicating read/write access
+  * \tparam #WriteAccessors Constant indicating read/write access
   *
   * This class defines the non-const \c operator() function and friends, which can be used to write specific
   * entries of a matrix or array. This class inherits DenseCoeffsBase<Derived, ReadOnlyAccessors> which
   * defines the const variant for reading specific entries.
-  *
+  * 
   * \sa DenseCoeffsBase<Derived, DirectAccessors>, \ref TopicClassHierarchy
   */
 template<typename Derived>
@@ -433,7 +435,7 @@ class DenseCoeffsBase<Derived, WriteAccessors> : public DenseCoeffsBase<Derived,
       * to ensure that a packet really starts there. This method is only available on expressions having the
       * PacketAccessBit.
       *
-      * The \a LoadMode parameter may have the value \a Aligned or \a Unaligned. Its effect is to select
+      * The \a LoadMode parameter may have the value \a #Aligned or \a #Unaligned. Its effect is to select
       * the appropriate vectorization instruction. Aligned access is faster, but is only possible for packets
       * starting at an address which is a multiple of the packet size.
       */
@@ -567,7 +569,7 @@ class DenseCoeffsBase<Derived, WriteAccessors> : public DenseCoeffsBase<Derived,
 /** \brief Base class providing direct read-only coefficient access to matrices and arrays.
   * \ingroup Core_Module
   * \tparam Derived Type of the derived class
-  * \tparam DirectAccessors Constant indicating direct access
+  * \tparam #DirectAccessors Constant indicating direct access
   *
   * This class defines functions to work with strides which can be used to access entries directly. This class
   * inherits DenseCoeffsBase<Derived, ReadOnlyAccessors> which defines functions to access entries read-only using
@@ -637,7 +639,7 @@ class DenseCoeffsBase<Derived, DirectAccessors> : public DenseCoeffsBase<Derived
 /** \brief Base class providing direct read/write coefficient access to matrices and arrays.
   * \ingroup Core_Module
   * \tparam Derived Type of the derived class
-  * \tparam DirectAccessors Constant indicating direct access
+  * \tparam #DirectWriteAccessors Constant indicating direct access
   *
   * This class defines functions to work with strides which can be used to access entries directly. This class
   * inherits DenseCoeffsBase<Derived, WriteAccessors> which defines functions to access entries read/write using
@@ -710,16 +712,16 @@ namespace internal {
 template<typename Derived, bool JustReturnZero>
 struct first_aligned_impl
 {
-  inline static typename Derived::Index run(const Derived&)
+  static inline typename Derived::Index run(const Derived&)
   { return 0; }
 };
 
 template<typename Derived>
 struct first_aligned_impl<Derived, false>
 {
-  inline static typename Derived::Index run(const Derived& m)
+  static inline typename Derived::Index run(const Derived& m)
   {
-    return first_aligned(&m.const_cast_derived().coeffRef(0,0), m.size());
+    return internal::first_aligned(&m.const_cast_derived().coeffRef(0,0), m.size());
   }
 };
 
@@ -729,7 +731,7 @@ struct first_aligned_impl<Derived, false>
   * documentation.
   */
 template<typename Derived>
-inline static typename Derived::Index first_aligned(const Derived& m)
+static inline typename Derived::Index first_aligned(const Derived& m)
 {
   return first_aligned_impl
           <Derived, (Derived::Flags & AlignedBit) || !(Derived::Flags & DirectAccessBit)>
@@ -761,5 +763,7 @@ struct outer_stride_at_compile_time<Derived, false>
 };
 
 } // end namespace internal
+
+} // end namespace Eigen
 
 #endif // EIGEN_DENSECOEFFSBASE_H

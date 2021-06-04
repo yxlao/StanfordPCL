@@ -89,13 +89,13 @@ template<typename MatrixType> void comparisons(const MatrixType& m)
     VERIFY(! (m1.cwise() < m3).all() );
     VERIFY(! (m1.cwise() > m3).all() );
   }
-
+  
   // comparisons to scalar
   VERIFY( (m1.cwise() != (m1(r,c)+1) ).any() );
   VERIFY( (m1.cwise() > (m1(r,c)-1) ).any() );
   VERIFY( (m1.cwise() < (m1(r,c)+1) ).any() );
   VERIFY( (m1.cwise() == m1(r,c) ).any() );
-
+  
   // test Select
   VERIFY_IS_APPROX( (m1.cwise()<m2).select(m1,m2), m1.cwise().min(m2) );
   VERIFY_IS_APPROX( (m1.cwise()>m2).select(m1,m2), m1.cwise().max(m2) );
@@ -112,7 +112,7 @@ template<typename MatrixType> void comparisons(const MatrixType& m)
                         .select(m1,0), m3);
   // even shorter version:
   VERIFY_IS_APPROX( (m1.cwise().abs().cwise()<mid).select(0,m1), m3);
-
+  
   // count
   VERIFY(((m1.cwise().abs().cwise()+1).cwise()>RealScalar(0.1)).count() == rows*cols);
   VERIFY_IS_APPROX(((m1.cwise().abs().cwise()+1).cwise()>RealScalar(0.1)).colwise().count().template cast<int>(), RowVectorXi::Constant(cols,rows));

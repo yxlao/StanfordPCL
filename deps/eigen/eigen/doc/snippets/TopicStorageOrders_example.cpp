@@ -3,7 +3,7 @@ Acolmajor << 8, 2, 2, 9,
              9, 1, 4, 4,
 	     3, 5, 4, 5;
 cout << "The matrix A:" << endl;
-cout << Acolmajor << endl << endl;
+cout << Acolmajor << endl << endl; 
 
 cout << "In memory (column-major):" << endl;
 for (int i = 0; i < Acolmajor.size(); i++)

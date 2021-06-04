@@ -40,7 +40,7 @@ template<typename MatrixType> void initMatrix_identity(MatrixType& mat)
   : : [aux] "m" (aux)); \
 }
 #else
-#define DISABLE_SSE_EXCEPTIONS()
+#define DISABLE_SSE_EXCEPTIONS()  
 #endif
 
 #ifdef BENCH_GMM
@@ -66,6 +66,26 @@ void eiToGsl(const EigenMatrixType& src, gsl_matrix** dst)
   for (int j=0; j<src.cols(); ++j)
     for (int i=0; i<src.rows(); ++i)
       gsl_matrix_set(*dst, i, j, src.coeff(i,j));
+}
+#endif
+
+#ifdef BENCH_UBLAS
+#include <boost/numeric/ublas/matrix.hpp>
+#include <boost/numeric/ublas/vector.hpp>
+template <typename EigenMatrixType, typename UblasMatrixType>
+void eiToUblas(const EigenMatrixType& src, UblasMatrixType& dst)
+{
+  dst.resize(src.rows(),src.cols());
+  for (int j=0; j<src.cols(); ++j)
+    for (int i=0; i<src.rows(); ++i)
+      dst(i,j) = src.coeff(i,j);
+}
+template <typename EigenType, typename UblasType>
+void eiToUblasVec(const EigenType& src, UblasType& dst)
+{
+  dst.resize(src.size());
+  for (int j=0; j<src.size(); ++j)
+      dst[j] = src.coeff(j);
 }
 #endif
 

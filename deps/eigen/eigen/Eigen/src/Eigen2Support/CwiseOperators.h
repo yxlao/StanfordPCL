@@ -25,6 +25,8 @@
 #ifndef EIGEN_ARRAY_CWISE_OPERATORS_H
 #define EIGEN_ARRAY_CWISE_OPERATORS_H
 
+namespace Eigen { 
+
 /***************************************************************************
 * The following functions were defined in Core
 ***************************************************************************/
@@ -94,24 +96,6 @@ template<typename OtherDerived>
 inline ExpressionType& Cwise<ExpressionType>::operator/=(const MatrixBase<OtherDerived> &other)
 {
   return m_matrix.const_cast_derived() = *this / other;
-}
-
-/** \deprecated ArrayBase::min() */
-template<typename ExpressionType>
-template<typename OtherDerived>
-EIGEN_STRONG_INLINE const EIGEN_CWISE_BINOP_RETURN_TYPE(internal::scalar_min_op)
-Cwise<ExpressionType>::min(const MatrixBase<OtherDerived> &other) const
-{
-  return EIGEN_CWISE_BINOP_RETURN_TYPE(internal::scalar_min_op)(_expression(), other.derived());
-}
-
-/** \deprecated ArrayBase::max() */
-template<typename ExpressionType>
-template<typename OtherDerived>
-EIGEN_STRONG_INLINE const EIGEN_CWISE_BINOP_RETURN_TYPE(internal::scalar_max_op)
-Cwise<ExpressionType>::max(const MatrixBase<OtherDerived> &other) const
-{
-  return EIGEN_CWISE_BINOP_RETURN_TYPE(internal::scalar_max_op)(_expression(), other.derived());
 }
 
 /***************************************************************************
@@ -323,5 +307,7 @@ inline ExpressionType& Cwise<ExpressionType>::operator-=(const Scalar& scalar)
 {
   return m_matrix.const_cast_derived() = *this - scalar;
 }
+
+} // end namespace Eigen
 
 #endif // EIGEN_ARRAY_CWISE_OPERATORS_H

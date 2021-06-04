@@ -34,7 +34,7 @@ template<typename MatrixType> void block(const MatrixType& m)
   typedef Matrix<Scalar, 1, MatrixType::ColsAtCompileTime> RowVectorType;
   typedef Matrix<Scalar, Dynamic, Dynamic> DynamicMatrixType;
   typedef Matrix<Scalar, Dynamic, 1> DynamicVectorType;
-
+  
   Index rows = m.rows();
   Index cols = m.cols();
 
@@ -42,12 +42,8 @@ template<typename MatrixType> void block(const MatrixType& m)
              m1_copy = m1,
              m2 = MatrixType::Random(rows, cols),
              m3(rows, cols),
-             mzero = MatrixType::Zero(rows, cols),
              ones = MatrixType::Ones(rows, cols);
-  VectorType v1 = VectorType::Random(rows),
-             v2 = VectorType::Random(rows),
-             v3 = VectorType::Random(rows),
-             vzero = VectorType::Zero(rows);
+  VectorType v1 = VectorType::Random(rows);
 
   Scalar s1 = internal::random<Scalar>();
 
@@ -122,7 +118,7 @@ template<typename MatrixType> void block(const MatrixType& m)
   VERIFY(internal::real(ones.row(r1).dot(ones.row(r2))) == RealScalar(cols));
 
   // now test some block-inside-of-block.
-
+  
   // expressions with direct access
   VERIFY_IS_EQUAL( (m1.block(r1,c1,rows-r1,cols-c1).block(r2-r1,c2-c1,rows-r2,cols-c2)) , (m1.block(r2,c2,rows-r2,cols-c2)) );
   VERIFY_IS_EQUAL( (m1.block(r1,c1,r2-r1+1,c2-c1+1).row(0)) , (m1.row(r1).segment(c1,c2-c1+1)) );

@@ -27,13 +27,19 @@ else
   if [ -f $1.summ ]; then
     if [ `grep "FATAL ERROR" $1.summ | wc -l` -gt 0 ]; then
       echo -e  $red "Test $1 failed (FATAL ERROR, read the file $1.summ for details)" $black
+      echo -e $blue
+      cat .runtest.log
+      echo -e $black
       exit 1;
     fi
 
     if [ `grep "FAILED THE TESTS OF ERROR-EXITS" $1.summ | wc -l` -gt 0 ]; then
       echo -e  $red "Test $1 failed (FAILED THE TESTS OF ERROR-EXITS, read the file $1.summ for details)" $black
+      echo -e $blue
+      cat .runtest.log
+      echo -e $black
       exit 1;
-    fi
+    fi      
   fi
   echo -e $green Test $1 passed$black
 fi

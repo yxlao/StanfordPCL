@@ -142,16 +142,17 @@ template<typename Scalar> void hyperplane_alignment()
   Plane3a *p1 = ::new(reinterpret_cast<void*>(array1)) Plane3a;
   Plane3u *p2 = ::new(reinterpret_cast<void*>(array2)) Plane3u;
   Plane3u *p3 = ::new(reinterpret_cast<void*>(array3u)) Plane3u;
-
+  
   p1->coeffs().setRandom();
   *p2 = *p1;
   *p3 = *p1;
 
   VERIFY_IS_APPROX(p1->coeffs(), p2->coeffs());
   VERIFY_IS_APPROX(p1->coeffs(), p3->coeffs());
-
-  #ifdef EIGEN_VECTORIZE
-  VERIFY_RAISES_ASSERT((::new(reinterpret_cast<void*>(array3u)) Plane3a));
+  
+  #if defined(EIGEN_VECTORIZE) && EIGEN_ALIGN_STATICALLY
+  if(internal::packet_traits<Scalar>::Vectorizable)
+    VERIFY_RAISES_ASSERT((::new(reinterpret_cast<void*>(array3u)) Plane3a));
   #endif
 }
 

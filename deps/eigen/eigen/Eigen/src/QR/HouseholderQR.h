@@ -27,6 +27,8 @@
 #ifndef EIGEN_QR_H
 #define EIGEN_QR_H
 
+namespace Eigen { 
+
 /** \ingroup QR_Module
   *
   *
@@ -37,7 +39,7 @@
   * \param MatrixType the type of the matrix of which we are computing the QR decomposition
   *
   * This class performs a QR decomposition of a matrix \b A into matrices \b Q and \b R
-  * such that
+  * such that 
   * \f[
   *  \mathbf{A} = \mathbf{Q} \, \mathbf{R}
   * \f]
@@ -88,13 +90,13 @@ template<typename _MatrixType> class HouseholderQR
       */
     HouseholderQR(Index rows, Index cols)
       : m_qr(rows, cols),
-        m_hCoeffs(std::min(rows,cols)),
+        m_hCoeffs((std::min)(rows,cols)),
         m_temp(cols),
         m_isInitialized(false) {}
 
     HouseholderQR(const MatrixType& matrix)
       : m_qr(matrix.rows(), matrix.cols()),
-        m_hCoeffs(std::min(matrix.rows(),matrix.cols())),
+        m_hCoeffs((std::min)(matrix.rows(),matrix.cols())),
         m_temp(matrix.cols()),
         m_isInitialized(false)
     {
@@ -210,7 +212,7 @@ void householder_qr_inplace_unblocked(MatrixQR& mat, HCoeffs& hCoeffs, typename 
   typedef typename MatrixQR::RealScalar RealScalar;
   Index rows = mat.rows();
   Index cols = mat.cols();
-  Index size = std::min(rows,cols);
+  Index size = (std::min)(rows,cols);
 
   eigen_assert(hCoeffs.size() == size);
 
@@ -250,7 +252,7 @@ void householder_qr_inplace_blocked(MatrixQR& mat, HCoeffs& hCoeffs,
 
   Index rows = mat.rows();
   Index cols = mat.cols();
-  Index size = std::min(rows, cols);
+  Index size = (std::min)(rows, cols);
 
   typedef Matrix<Scalar,Dynamic,1,ColMajor,MatrixQR::MaxColsAtCompileTime,1> TempType;
   TempType tempVector;
@@ -260,12 +262,12 @@ void householder_qr_inplace_blocked(MatrixQR& mat, HCoeffs& hCoeffs,
     tempData = tempVector.data();
   }
 
-  Index blockSize = std::min(maxBlockSize,size);
+  Index blockSize = (std::min)(maxBlockSize,size);
 
-  int k = 0;
+  Index k = 0;
   for (k = 0; k < size; k += blockSize)
   {
-    Index bs = std::min(size-k,blockSize);  // actual size of the block
+    Index bs = (std::min)(size-k,blockSize);  // actual size of the block
     Index tcols = cols - k - bs;            // trailing columns
     Index brows = rows-k;                   // rows of the block
 
@@ -299,7 +301,7 @@ struct solve_retval<HouseholderQR<_MatrixType>, Rhs>
   template<typename Dest> void evalTo(Dest& dst) const
   {
     const Index rows = dec().rows(), cols = dec().cols();
-    const Index rank = std::min(rows, cols);
+    const Index rank = (std::min)(rows, cols);
     eigen_assert(rhs().rows() == rows);
 
     typename Rhs::PlainObject c(rhs());
@@ -327,7 +329,7 @@ HouseholderQR<MatrixType>& HouseholderQR<MatrixType>::compute(const MatrixType& 
 {
   Index rows = matrix.rows();
   Index cols = matrix.cols();
-  Index size = std::min(rows,cols);
+  Index size = (std::min)(rows,cols);
 
   m_qr = matrix;
   m_hCoeffs.resize(size);
@@ -351,5 +353,6 @@ MatrixBase<Derived>::householderQr() const
   return HouseholderQR<PlainObject>(eval());
 }
 
+} // end namespace Eigen
 
 #endif // EIGEN_QR_H

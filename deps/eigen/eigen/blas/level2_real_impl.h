@@ -102,7 +102,7 @@ int EIGEN_BLAS_FUNC(syr)(char *uplo, int *n, RealScalar *palpha, RealScalar *px,
   Scalar* x_cpy = get_compact_vector(x,*n,*incx);
 
   Matrix<Scalar,Dynamic,Dynamic> m2(matrix(c,*n,*n,*ldc));
-
+  
   // TODO check why this is not accurate enough for lapack tests
 //   if(UPLO(*uplo)==LO)       matrix(c,*n,*n,*ldc).selfadjointView<Lower>().rankUpdate(vector(x_cpy,*n), alpha);
 //   else if(UPLO(*uplo)==UP)  matrix(c,*n,*n,*ldc).selfadjointView<Upper>().rankUpdate(vector(x_cpy,*n), alpha);

@@ -25,6 +25,8 @@
 #ifndef EIGEN_TRIANGULAR_SOLVER_VECTOR_H
 #define EIGEN_TRIANGULAR_SOLVER_VECTOR_H
 
+namespace Eigen { 
+
 namespace internal {
 
 template<typename LhsScalar, typename RhsScalar, typename Index, int Mode, bool Conjugate, int StorageOrder>
@@ -38,7 +40,7 @@ struct triangular_solve_vector<LhsScalar, RhsScalar, Index, OnTheRight, Mode, Co
       >::run(size, _lhs, lhsStride, rhs);
   }
 };
-
+    
 // forward and backward substitution, row-major, rhs is a vector
 template<typename LhsScalar, typename RhsScalar, typename Index, int Mode, bool Conjugate>
 struct triangular_solve_vector<LhsScalar, RhsScalar, Index, OnTheLeft, Mode, Conjugate, RowMajor>
@@ -60,7 +62,7 @@ struct triangular_solve_vector<LhsScalar, RhsScalar, Index, OnTheLeft, Mode, Con
         IsLower ? pi<size : pi>0;
         IsLower ? pi+=PanelWidth : pi-=PanelWidth)
     {
-      Index actualPanelWidth = std::min(IsLower ? size - pi : pi, PanelWidth);
+      Index actualPanelWidth = (std::min)(IsLower ? size - pi : pi, PanelWidth);
 
       Index r = IsLower ? pi : size - pi; // remaining size
       if (r > 0)
@@ -85,7 +87,7 @@ struct triangular_solve_vector<LhsScalar, RhsScalar, Index, OnTheLeft, Mode, Con
         Index s = IsLower ? pi   : i+1;
         if (k>0)
           rhs[i] -= (cjLhs.row(i).segment(s,k).transpose().cwiseProduct(Map<const Matrix<RhsScalar,Dynamic,1> >(rhs+s,k))).sum();
-
+        
         if(!(Mode & UnitDiag))
           rhs[i] /= cjLhs(i,i);
       }
@@ -114,7 +116,7 @@ struct triangular_solve_vector<LhsScalar, RhsScalar, Index, OnTheLeft, Mode, Con
         IsLower ? pi<size : pi>0;
         IsLower ? pi+=PanelWidth : pi-=PanelWidth)
     {
-      Index actualPanelWidth = std::min(IsLower ? size - pi : pi, PanelWidth);
+      Index actualPanelWidth = (std::min)(IsLower ? size - pi : pi, PanelWidth);
       Index startBlock = IsLower ? pi : pi-actualPanelWidth;
       Index endBlock = IsLower ? pi + actualPanelWidth : 0;
 
@@ -146,5 +148,7 @@ struct triangular_solve_vector<LhsScalar, RhsScalar, Index, OnTheLeft, Mode, Con
 };
 
 } // end namespace internal
+
+} // end namespace Eigen
 
 #endif // EIGEN_TRIANGULAR_SOLVER_VECTOR_H

@@ -28,32 +28,24 @@
 
 #include "Eigen/src/StlSupport/details.h"
 
-// Define the explicit instantiation (e.g. necessary for the Intel compiler)
-#if defined(__INTEL_COMPILER) || defined(__GNUC__)
-  #define EIGEN_EXPLICIT_STL_VECTOR_INSTANTIATION(...) template class std::vector<__VA_ARGS__, EIGEN_ALIGNED_ALLOCATOR<__VA_ARGS__> >;
-#else
-  #define EIGEN_EXPLICIT_STL_VECTOR_INSTANTIATION(...)
-#endif
-
 /**
  * This section contains a convenience MACRO which allows an easy specialization of
  * std::vector such that for data types with alignment issues the correct allocator
  * is used automatically.
  */
 #define EIGEN_DEFINE_STL_VECTOR_SPECIALIZATION(...) \
-EIGEN_EXPLICIT_STL_VECTOR_INSTANTIATION(__VA_ARGS__) \
 namespace std \
 { \
-  template<typename _Ay> \
-  class vector<__VA_ARGS__, _Ay>  \
+  template<> \
+  class vector<__VA_ARGS__, std::allocator<__VA_ARGS__> >  \
     : public vector<__VA_ARGS__, EIGEN_ALIGNED_ALLOCATOR<__VA_ARGS__> > \
   { \
     typedef vector<__VA_ARGS__, EIGEN_ALIGNED_ALLOCATOR<__VA_ARGS__> > vector_base; \
   public: \
     typedef __VA_ARGS__ value_type; \
-    typedef typename vector_base::allocator_type allocator_type; \
-    typedef typename vector_base::size_type size_type;  \
-    typedef typename vector_base::iterator iterator;  \
+    typedef vector_base::allocator_type allocator_type; \
+    typedef vector_base::size_type size_type;  \
+    typedef vector_base::iterator iterator;  \
     explicit vector(const allocator_type& a = allocator_type()) : vector_base(a) {}  \
     template<typename InputIterator> \
     vector(InputIterator first, InputIterator last, const allocator_type& a = allocator_type()) : vector_base(first, last, a) {} \
@@ -110,8 +102,8 @@ namespace std {
       vector_base::erase(vector_base::begin() + new_size, vector_base::end());
   }
   void push_back(const value_type& x)
-  { vector_base::push_back(x); }
-  using vector_base::insert;
+  { vector_base::push_back(x); } 
+  using vector_base::insert;  
   iterator insert(const_iterator position, const value_type& x)
   { return vector_base::insert(position,x); }
   void insert(const_iterator position, size_type new_size, const value_type& x)

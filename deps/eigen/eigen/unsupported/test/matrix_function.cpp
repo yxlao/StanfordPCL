@@ -121,6 +121,26 @@ void testMatrixExponential(const MatrixType& A)
 }
 
 template<typename MatrixType>
+void testMatrixLogarithm(const MatrixType& A)
+{
+  typedef typename internal::traits<MatrixType>::Scalar Scalar;
+  typedef typename NumTraits<Scalar>::Real RealScalar;
+  typedef std::complex<RealScalar> ComplexScalar;
+
+  MatrixType scaledA;
+  RealScalar maxImagPartOfSpectrum = A.eigenvalues().imag().cwiseAbs().maxCoeff();
+  if (maxImagPartOfSpectrum >= 0.9 * M_PI)
+    scaledA = A * 0.9 * M_PI / maxImagPartOfSpectrum;
+  else
+    scaledA = A;
+
+  // identity X.exp().log() = X only holds if Im(lambda) < pi for all eigenvalues of X
+  MatrixType expA = scaledA.exp();
+  MatrixType logExpA = expA.log();
+  VERIFY_IS_APPROX(logExpA, scaledA);
+}
+
+template<typename MatrixType>
 void testHyperbolicFunctions(const MatrixType& A)
 {
   // Need to use absolute error because of possible cancellation when
@@ -135,20 +155,20 @@ void testGonioFunctions(const MatrixType& A)
   typedef typename MatrixType::Scalar Scalar;
   typedef typename NumTraits<Scalar>::Real RealScalar;
   typedef std::complex<RealScalar> ComplexScalar;
-  typedef Matrix<ComplexScalar, MatrixType::RowsAtCompileTime,
+  typedef Matrix<ComplexScalar, MatrixType::RowsAtCompileTime, 
                  MatrixType::ColsAtCompileTime, MatrixType::Options> ComplexMatrix;
 
   ComplexScalar imagUnit(0,1);
   ComplexScalar two(2,0);
 
   ComplexMatrix Ac = A.template cast<ComplexScalar>();
-
+  
   ComplexMatrix exp_iA = (imagUnit * Ac).exp();
   ComplexMatrix exp_miA = (-imagUnit * Ac).exp();
-
+  
   ComplexMatrix sinAc = A.sin().template cast<ComplexScalar>();
   VERIFY_IS_APPROX_ABS(sinAc, (exp_iA - exp_miA) / (two*imagUnit));
-
+  
   ComplexMatrix cosAc = A.cos().template cast<ComplexScalar>();
   VERIFY_IS_APPROX_ABS(cosAc, (exp_iA + exp_miA) / 2);
 }
@@ -157,6 +177,7 @@ template<typename MatrixType>
 void testMatrix(const MatrixType& A)
 {
   testMatrixExponential(A);
+  testMatrixLogarithm(A);
   testHyperbolicFunctions(A);
   testGonioFunctions(A);
 }

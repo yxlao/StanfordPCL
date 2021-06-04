@@ -25,6 +25,8 @@
 #ifndef EIGEN_SKYLINEPRODUCT_H
 #define EIGEN_SKYLINEPRODUCT_H
 
+namespace Eigen { 
+
 template<typename Lhs, typename Rhs, int ProductMode>
 struct SkylineProductReturnType {
     typedef const typename internal::nested<Lhs, Rhs::RowsAtCompileTime>::type LhsNested;
@@ -289,7 +291,7 @@ struct skyline_product_selector<Lhs, Rhs, ResultType, ColMajor> {
 //     internal::skyline_product_selector<typename internal::remove_all<Lhs>::type,
 //             typename internal::remove_all<Rhs>::type,
 //             Derived>::run(product.lhs(), product.rhs(), derived());
-//
+// 
 //     return derived();
 // }
 
@@ -302,5 +304,7 @@ SkylineMatrixBase<Derived>::operator*(const MatrixBase<OtherDerived> &other) con
 
     return typename SkylineProductReturnType<Derived, OtherDerived>::Type(derived(), other.derived());
 }
+
+} // end namespace Eigen
 
 #endif // EIGEN_SKYLINEPRODUCT_H

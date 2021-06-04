@@ -44,7 +44,7 @@ template<typename MatrixType> void syrk(const MatrixType& m)
   Rhs3 rhs3 = Rhs3::Random(internal::random<int>(1,320), rows);
 
   Scalar s1 = internal::random<Scalar>();
-
+  
   Index c = internal::random<Index>(0,cols-1);
 
   m2.setZero();
@@ -70,27 +70,27 @@ template<typename MatrixType> void syrk(const MatrixType& m)
   m2.setZero();
   VERIFY_IS_APPROX(m2.template selfadjointView<Upper>().rankUpdate(rhs3.adjoint(),s1)._expression(),
                    (s1 * rhs3.adjoint() * rhs3).eval().template triangularView<Upper>().toDenseMatrix());
-
+                   
   m2.setZero();
   VERIFY_IS_APPROX((m2.template selfadjointView<Lower>().rankUpdate(m1.col(c),s1)._expression()),
                    ((s1 * m1.col(c) * m1.col(c).adjoint()).eval().template triangularView<Lower>().toDenseMatrix()));
-
+                   
   m2.setZero();
   VERIFY_IS_APPROX((m2.template selfadjointView<Upper>().rankUpdate(m1.col(c),s1)._expression()),
                    ((s1 * m1.col(c) * m1.col(c).adjoint()).eval().template triangularView<Upper>().toDenseMatrix()));
-
+  
   m2.setZero();
   VERIFY_IS_APPROX((m2.template selfadjointView<Lower>().rankUpdate(m1.col(c).conjugate(),s1)._expression()),
                    ((s1 * m1.col(c).conjugate() * m1.col(c).conjugate().adjoint()).eval().template triangularView<Lower>().toDenseMatrix()));
-
+                   
   m2.setZero();
   VERIFY_IS_APPROX((m2.template selfadjointView<Upper>().rankUpdate(m1.col(c).conjugate(),s1)._expression()),
                    ((s1 * m1.col(c).conjugate() * m1.col(c).conjugate().adjoint()).eval().template triangularView<Upper>().toDenseMatrix()));
-
+  
   m2.setZero();
   VERIFY_IS_APPROX((m2.template selfadjointView<Lower>().rankUpdate(m1.row(c),s1)._expression()),
                    ((s1 * m1.row(c).transpose() * m1.row(c).transpose().adjoint()).eval().template triangularView<Lower>().toDenseMatrix()));
-
+  
   m2.setZero();
   VERIFY_IS_APPROX((m2.template selfadjointView<Upper>().rankUpdate(m1.row(c).adjoint(),s1)._expression()),
                    ((s1 * m1.row(c).adjoint() * m1.row(c).adjoint().adjoint()).eval().template triangularView<Upper>().toDenseMatrix()));
@@ -101,13 +101,13 @@ void test_product_syrk()
   for(int i = 0; i < g_repeat ; i++)
   {
     int s;
-    s = internal::random<int>(1,320);
+    s = internal::random<int>(1,EIGEN_TEST_MAX_SIZE);
     CALL_SUBTEST_1( syrk(MatrixXf(s, s)) );
-    s = internal::random<int>(1,320);
+    s = internal::random<int>(1,EIGEN_TEST_MAX_SIZE);
     CALL_SUBTEST_2( syrk(MatrixXd(s, s)) );
-    s = internal::random<int>(1,200);
+    s = internal::random<int>(1,EIGEN_TEST_MAX_SIZE/2);
     CALL_SUBTEST_3( syrk(MatrixXcf(s, s)) );
-    s = internal::random<int>(1,200);
+    s = internal::random<int>(1,EIGEN_TEST_MAX_SIZE/2);
     CALL_SUBTEST_4( syrk(MatrixXcd(s, s)) );
   }
 }

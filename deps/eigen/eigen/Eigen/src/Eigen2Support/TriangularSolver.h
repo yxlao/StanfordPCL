@@ -25,6 +25,8 @@
 #ifndef EIGEN_TRIANGULAR_SOLVER2_H
 #define EIGEN_TRIANGULAR_SOLVER2_H
 
+namespace Eigen { 
+
 const unsigned int UnitDiagBit = UnitDiag;
 const unsigned int SelfAdjointBit = SelfAdjoint;
 const unsigned int UpperTriangularBit = Upper;
@@ -50,4 +52,6 @@ void Flagged<ExpressionType,Added,Removed>::solveTriangularInPlace(const MatrixB
   m_matrix.template triangularView<Added>().solveInPlace(other.derived());
 }
 
+} // end namespace Eigen
+    
 #endif // EIGEN_TRIANGULAR_SOLVER2_H

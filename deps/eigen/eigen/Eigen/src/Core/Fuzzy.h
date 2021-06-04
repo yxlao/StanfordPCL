@@ -26,6 +26,8 @@
 #ifndef EIGEN_FUZZY_H
 #define EIGEN_FUZZY_H
 
+namespace Eigen { 
+
 namespace internal
 {
 
@@ -34,9 +36,10 @@ struct isApprox_selector
 {
   static bool run(const Derived& x, const OtherDerived& y, typename Derived::RealScalar prec)
   {
-    const typename internal::nested<Derived,2>::type nested(x);
-    const typename internal::nested<OtherDerived,2>::type otherNested(y);
-    return (nested - otherNested).cwiseAbs2().sum() <= prec * prec * std::min(nested.cwiseAbs2().sum(), otherNested.cwiseAbs2().sum());
+    using std::min;
+    typename internal::nested<Derived,2>::type nested(x);
+    typename internal::nested<OtherDerived,2>::type otherNested(y);
+    return (nested - otherNested).cwiseAbs2().sum() <= prec * prec * (min)(nested.cwiseAbs2().sum(), otherNested.cwiseAbs2().sum());
   }
 };
 
@@ -156,5 +159,7 @@ bool DenseBase<Derived>::isMuchSmallerThan(
 {
   return internal::isMuchSmallerThan_object_selector<Derived, OtherDerived>::run(derived(), other.derived(), prec);
 }
+
+} // end namespace Eigen
 
 #endif // EIGEN_FUZZY_H

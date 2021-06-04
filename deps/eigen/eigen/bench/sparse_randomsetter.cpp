@@ -61,7 +61,7 @@ void dostuff(const char* name, EigenSparseMatrix& sm1)
   t.reset(); t.start(); delete set1; t.stop();
   std::cout << "  back: \t" << t.value() << "\n";
 }
-
+    
 int main(int argc, char *argv[])
 {
   int rows = SIZE;

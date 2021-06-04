@@ -25,7 +25,7 @@
 #include "main.h"
 #include <unsupported/Eigen/FFT>
 
-template <typename T>
+template <typename T> 
 std::complex<T> RandomCpx() { return std::complex<T>( (T)(rand()/(T)RAND_MAX - .5), (T)(rand()/(T)RAND_MAX - .5) ); }
 
 using namespace std;
@@ -41,7 +41,7 @@ complex<long double>  promote(complex<T> x) { return complex<long double>(x.real
 complex<long double>  promote(float x) { return complex<long double>( x); }
 complex<long double>  promote(double x) { return complex<long double>( x); }
 complex<long double>  promote(long double x) { return complex<long double>( x); }
-
+    
 
     template <typename VT1,typename VT2>
     long double fft_rmse( const VT1 & fftbuf,const VT2 & timebuf)
@@ -56,7 +56,7 @@ complex<long double>  promote(long double x) { return complex<long double>( x); 
                 acc +=  promote( timebuf[k1] ) * exp( complex<long double>(0,k1*phinc) );
             }
             totalpower += norm(acc);
-            complex<long double> x = promote(fftbuf[k0]);
+            complex<long double> x = promote(fftbuf[k0]); 
             complex<long double> dif = acc - x;
             difpower += norm(dif);
             //cerr << k0 << "\t" << acc << "\t" <<  x << "\t" << sqrt(norm(dif)) << endl;
@@ -70,7 +70,7 @@ complex<long double>  promote(long double x) { return complex<long double>( x); 
     {
         long double totalpower=0;
         long double difpower=0;
-        size_t n = min( buf1.size(),buf2.size() );
+        size_t n = (min)( buf1.size(),buf2.size() );
         for (size_t k=0;k<n;++k) {
             totalpower += (norm( buf1[k] ) + norm(buf2[k]) )/2.;
             difpower += norm(buf1[k] - buf2[k]);
@@ -248,20 +248,20 @@ void test_FFTW()
   CALL_SUBTEST( test_return_by_value(32) );
   //CALL_SUBTEST( ( test_complex2d<float,4,8> () ) ); CALL_SUBTEST( ( test_complex2d<double,4,8> () ) );
   //CALL_SUBTEST( ( test_complex2d<long double,4,8> () ) );
-  CALL_SUBTEST( test_complex<float>(32) ); CALL_SUBTEST( test_complex<double>(32) );
-  CALL_SUBTEST( test_complex<float>(256) ); CALL_SUBTEST( test_complex<double>(256) );
-  CALL_SUBTEST( test_complex<float>(3*8) ); CALL_SUBTEST( test_complex<double>(3*8) );
-  CALL_SUBTEST( test_complex<float>(5*32) ); CALL_SUBTEST( test_complex<double>(5*32) );
-  CALL_SUBTEST( test_complex<float>(2*3*4) ); CALL_SUBTEST( test_complex<double>(2*3*4) );
-  CALL_SUBTEST( test_complex<float>(2*3*4*5) ); CALL_SUBTEST( test_complex<double>(2*3*4*5) );
-  CALL_SUBTEST( test_complex<float>(2*3*4*5*7) ); CALL_SUBTEST( test_complex<double>(2*3*4*5*7) );
+  CALL_SUBTEST( test_complex<float>(32) ); CALL_SUBTEST( test_complex<double>(32) ); 
+  CALL_SUBTEST( test_complex<float>(256) ); CALL_SUBTEST( test_complex<double>(256) ); 
+  CALL_SUBTEST( test_complex<float>(3*8) ); CALL_SUBTEST( test_complex<double>(3*8) ); 
+  CALL_SUBTEST( test_complex<float>(5*32) ); CALL_SUBTEST( test_complex<double>(5*32) ); 
+  CALL_SUBTEST( test_complex<float>(2*3*4) ); CALL_SUBTEST( test_complex<double>(2*3*4) ); 
+  CALL_SUBTEST( test_complex<float>(2*3*4*5) ); CALL_SUBTEST( test_complex<double>(2*3*4*5) ); 
+  CALL_SUBTEST( test_complex<float>(2*3*4*5*7) ); CALL_SUBTEST( test_complex<double>(2*3*4*5*7) ); 
 
-  CALL_SUBTEST( test_scalar<float>(32) ); CALL_SUBTEST( test_scalar<double>(32) );
-  CALL_SUBTEST( test_scalar<float>(45) ); CALL_SUBTEST( test_scalar<double>(45) );
-  CALL_SUBTEST( test_scalar<float>(50) ); CALL_SUBTEST( test_scalar<double>(50) );
-  CALL_SUBTEST( test_scalar<float>(256) ); CALL_SUBTEST( test_scalar<double>(256) );
-  CALL_SUBTEST( test_scalar<float>(2*3*4*5*7) ); CALL_SUBTEST( test_scalar<double>(2*3*4*5*7) );
-
+  CALL_SUBTEST( test_scalar<float>(32) ); CALL_SUBTEST( test_scalar<double>(32) ); 
+  CALL_SUBTEST( test_scalar<float>(45) ); CALL_SUBTEST( test_scalar<double>(45) ); 
+  CALL_SUBTEST( test_scalar<float>(50) ); CALL_SUBTEST( test_scalar<double>(50) ); 
+  CALL_SUBTEST( test_scalar<float>(256) ); CALL_SUBTEST( test_scalar<double>(256) ); 
+  CALL_SUBTEST( test_scalar<float>(2*3*4*5*7) ); CALL_SUBTEST( test_scalar<double>(2*3*4*5*7) ); 
+  
   #ifdef EIGEN_HAS_FFTWL
   CALL_SUBTEST( test_complex<long double>(32) );
   CALL_SUBTEST( test_complex<long double>(256) );
@@ -270,7 +270,7 @@ void test_FFTW()
   CALL_SUBTEST( test_complex<long double>(2*3*4) );
   CALL_SUBTEST( test_complex<long double>(2*3*4*5) );
   CALL_SUBTEST( test_complex<long double>(2*3*4*5*7) );
-
+  
   CALL_SUBTEST( test_scalar<long double>(32) );
   CALL_SUBTEST( test_scalar<long double>(45) );
   CALL_SUBTEST( test_scalar<long double>(50) );

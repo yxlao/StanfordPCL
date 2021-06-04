@@ -51,7 +51,7 @@ template<typename MatrixType> void schur(int size = MatrixType::ColsAtCompileTim
   VERIFY_RAISES_ASSERT(csUninitialized.matrixT());
   VERIFY_RAISES_ASSERT(csUninitialized.matrixU());
   VERIFY_RAISES_ASSERT(csUninitialized.info());
-
+  
   // Test whether compute() and constructor returns same result
   MatrixType A = MatrixType::Random(size, size);
   ComplexSchur<MatrixType> cs1;
@@ -80,7 +80,7 @@ template<typename MatrixType> void schur(int size = MatrixType::ColsAtCompileTim
 void test_schur_complex()
 {
   CALL_SUBTEST_1(( schur<Matrix4cd>() ));
-  CALL_SUBTEST_2(( schur<MatrixXcf>(internal::random<int>(1,50)) ));
+  CALL_SUBTEST_2(( schur<MatrixXcf>(internal::random<int>(1,EIGEN_TEST_MAX_SIZE/4)) ));
   CALL_SUBTEST_3(( schur<Matrix<std::complex<float>, 1, 1> >() ));
   CALL_SUBTEST_4(( schur<Matrix<float, 3, 3, Eigen::RowMajor> >() ));
 

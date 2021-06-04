@@ -25,6 +25,8 @@
 #ifndef EIGEN_ANGLEAXIS_H
 #define EIGEN_ANGLEAXIS_H
 
+namespace Eigen { 
+
 /** \geometry_module \ingroup Geometry_Module
   *
   * \class AngleAxis
@@ -144,7 +146,7 @@ public:
     m_angle = Scalar(other.angle());
   }
 
-  inline static const AngleAxis Identity() { return AngleAxis(0, Vector3::UnitX()); }
+  static inline const AngleAxis Identity() { return AngleAxis(0, Vector3::UnitX()); }
 
   /** \returns \c true if \c *this is approximately equal to \a other, within the precision
     * determined by \a prec.
@@ -163,7 +165,7 @@ typedef AngleAxis<double> AngleAxisd;
 
 /** Set \c *this from a \b unit quaternion.
   * The axis is normalized.
-  *
+  * 
   * \warning As any other method dealing with quaternion, if the input quaternion
   *          is not normalized then the result is undefined.
   */
@@ -171,6 +173,9 @@ template<typename Scalar>
 template<typename QuatDerived>
 AngleAxis<Scalar>& AngleAxis<Scalar>::operator=(const QuaternionBase<QuatDerived>& q)
 {
+  using std::acos;
+  using std::min;
+  using std::max;
   Scalar n2 = q.vec().squaredNorm();
   if (n2 < NumTraits<Scalar>::dummy_precision()*NumTraits<Scalar>::dummy_precision())
   {
@@ -179,7 +184,7 @@ AngleAxis<Scalar>& AngleAxis<Scalar>::operator=(const QuaternionBase<QuatDerived
   }
   else
   {
-    m_angle = Scalar(2)*std::acos(std::min(std::max(Scalar(-1),q.w()),Scalar(1)));
+    m_angle = Scalar(2)*acos((min)((max)(Scalar(-1),q.w()),Scalar(1)));
     m_axis = q.vec() / internal::sqrt(n2);
   }
   return *this;
@@ -234,5 +239,7 @@ AngleAxis<Scalar>::toRotationMatrix(void) const
 
   return res;
 }
+
+} // end namespace Eigen
 
 #endif // EIGEN_ANGLEAXIS_H

@@ -51,7 +51,7 @@ template<typename Scalar,int Size> void hessenberg(int size = Size)
   HessenbergDecomposition<MatrixType> cs2(A);
   VERIFY_IS_EQUAL(cs1.matrixH().eval(), cs2.matrixH().eval());
   MatrixType cs1Q = cs1.matrixQ();
-  MatrixType cs2Q = cs2.matrixQ();
+  MatrixType cs2Q = cs2.matrixQ();  
   VERIFY_IS_EQUAL(cs1Q, cs2Q);
 
   // Test assertions for when used uninitialized
@@ -69,8 +69,8 @@ void test_hessenberg()
   CALL_SUBTEST_1(( hessenberg<std::complex<double>,1>() ));
   CALL_SUBTEST_2(( hessenberg<std::complex<double>,2>() ));
   CALL_SUBTEST_3(( hessenberg<std::complex<float>,4>() ));
-  CALL_SUBTEST_4(( hessenberg<float,Dynamic>(internal::random<int>(1,320)) ));
-  CALL_SUBTEST_5(( hessenberg<std::complex<double>,Dynamic>(internal::random<int>(1,320)) ));
+  CALL_SUBTEST_4(( hessenberg<float,Dynamic>(internal::random<int>(1,EIGEN_TEST_MAX_SIZE)) ));
+  CALL_SUBTEST_5(( hessenberg<std::complex<double>,Dynamic>(internal::random<int>(1,EIGEN_TEST_MAX_SIZE)) ));
 
   // Test problem size constructors
   CALL_SUBTEST_6(HessenbergDecomposition<MatrixXf>(10));

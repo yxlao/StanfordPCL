@@ -136,25 +136,25 @@ void selfadjoint()
   ref1 << 1, 2,
           2, 4;
   VERIFY(m1 == ref1);
-
+  
   Matrix2i m2 = Matrix2i::Zero();
   m2.part<SelfAdjoint>() = m.part<UpperTriangular>();
   Matrix2i ref2;
   ref2 << 1, 2,
           2, 4;
   VERIFY(m2 == ref2);
-
+ 
   Matrix2i m3 = Matrix2i::Zero();
   m3.part<SelfAdjoint>() = m.part<LowerTriangular>();
   Matrix2i ref3;
   ref3 << 1, 0,
           0, 4;
   VERIFY(m3 == ref3);
-
+  
   // example inspired from bug 159
   int array[] = {1, 2, 3, 4};
   Matrix2i::Map(array).part<SelfAdjoint>() = Matrix2i::Random().part<LowerTriangular>();
-
+  
   std::cout << "hello\n" << array << std::endl;
 }
 

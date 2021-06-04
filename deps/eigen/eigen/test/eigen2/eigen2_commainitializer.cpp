@@ -30,7 +30,7 @@ void test_eigen2_commainitializer()
   Matrix4d m4;
 
   VERIFY_RAISES_ASSERT( (m3 << 1, 2, 3, 4, 5, 6, 7, 8) );
-
+  
   #ifndef _MSC_VER
   VERIFY_RAISES_ASSERT( (m3 << 1, 2, 3, 4, 5, 6, 7, 8, 9, 10) );
   #endif

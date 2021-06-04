@@ -8,10 +8,10 @@ int main()
 {
   VectorXf v(2);
   MatrixXf m(2,2), n(2,2);
-
+  
   v << -1,
        2;
-
+  
   m << 1,-2,
        -3,4;
 

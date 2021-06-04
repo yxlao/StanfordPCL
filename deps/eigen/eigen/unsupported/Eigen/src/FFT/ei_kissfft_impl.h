@@ -22,6 +22,8 @@
 // License and a copy of the GNU General Public License along with
 // Eigen. If not, see <http://www.gnu.org/licenses/>.
 
+namespace Eigen { 
+
 namespace internal {
 
   // This FFT implementation was derived from kissfft http:sourceforge.net/projects/kissfft
@@ -84,7 +86,7 @@ struct kiss_cpx_fft
         do{
           // recursive call:
           // DFT of size m*p performed by doing
-          // p instances of smaller DFTs of size m,
+          // p instances of smaller DFTs of size m, 
           // each one takes a decimated version of the input
           work(stage+1, xout , xin, fstride*p,in_stride);
           xin += fstride*in_stride;
@@ -97,7 +99,7 @@ struct kiss_cpx_fft
       }
       xout=Fout_beg;
 
-      // recombine the p smaller DFTs
+      // recombine the p smaller DFTs 
       switch (p) {
         case 2: bfly2(xout,fstride,m); break;
         case 3: bfly3(xout,fstride,m); break;
@@ -279,7 +281,7 @@ struct kissfft_impl
   typedef _Scalar Scalar;
   typedef std::complex<Scalar> Complex;
 
-  void clear()
+  void clear() 
   {
     m_plans.clear();
     m_realTwiddles.clear();
@@ -294,11 +296,19 @@ struct kissfft_impl
   inline
     void fwd2( Complex * dst,const Complex *src,int n0,int n1)
     {
+        EIGEN_UNUSED_VARIABLE(dst);
+        EIGEN_UNUSED_VARIABLE(src);
+        EIGEN_UNUSED_VARIABLE(n0);
+        EIGEN_UNUSED_VARIABLE(n1);
     }
 
   inline
     void inv2( Complex * dst,const Complex *src,int n0,int n1)
     {
+        EIGEN_UNUSED_VARIABLE(dst);
+        EIGEN_UNUSED_VARIABLE(src);
+        EIGEN_UNUSED_VARIABLE(n0);
+        EIGEN_UNUSED_VARIABLE(n1);
     }
 
   // real-to-complex forward FFT
@@ -306,7 +316,7 @@ struct kissfft_impl
   // then twiddle to recombine them into the half-spectrum format
   // then fill in the conjugate symmetric half
   inline
-    void fwd( Complex * dst,const Scalar * src,int nfft)
+    void fwd( Complex * dst,const Scalar * src,int nfft) 
     {
       if ( nfft&3  ) {
         // use generic mode for odd
@@ -346,7 +356,7 @@ struct kissfft_impl
 
   // half-complex to scalar
   inline
-    void inv( Scalar * dst,const Complex * src,int nfft)
+    void inv( Scalar * dst,const Complex * src,int nfft) 
     {
       if (nfft&3) {
         m_tmpBuf1.resize(nfft);
@@ -409,7 +419,7 @@ struct kissfft_impl
         twidref.resize(ncfft2);
         int ncfft= ncfft2<<1;
         Scalar pi =  acos( Scalar(-1) );
-        for (int k=1;k<=ncfft2;++k)
+        for (int k=1;k<=ncfft2;++k) 
           twidref[k-1] = exp( Complex(0,-pi * (Scalar(k) / ncfft + Scalar(.5)) ) );
       }
       return &twidref[0];
@@ -418,5 +428,6 @@ struct kissfft_impl
 
 } // end namespace internal
 
-/* vim: set filetype=cpp et sw=2 ts=2 ai: */
+} // end namespace Eigen
 
+/* vim: set filetype=cpp et sw=2 ts=2 ai: */

@@ -100,7 +100,7 @@ class RenderingWidget : public QGLWidget
     virtual void initializeGL();
     virtual void resizeGL(int width, int height);
     virtual void paintGL();
-
+    
     //--------------------------------------------------------------------------------
     virtual void mousePressEvent(QMouseEvent * e);
     virtual void mouseReleaseEvent(QMouseEvent * e);
@@ -108,9 +108,9 @@ class RenderingWidget : public QGLWidget
     virtual void keyPressEvent(QKeyEvent * e);
     //--------------------------------------------------------------------------------
 
-  public:
+  public: 
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-
+    
     RenderingWidget();
     ~RenderingWidget() { }
 

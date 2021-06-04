@@ -26,6 +26,8 @@
 #ifndef EIGEN_TRANSPOSE_H
 #define EIGEN_TRANSPOSE_H
 
+namespace Eigen { 
+
 /** \class Transpose
   * \ingroup Core_Module
   *
@@ -91,7 +93,7 @@ template<typename MatrixType> class Transpose
     nestedExpression() { return m_matrix.const_cast_derived(); }
 
   protected:
-    const typename MatrixType::Nested m_matrix;
+    typename MatrixType::Nested m_matrix;
 };
 
 namespace internal {
@@ -152,12 +154,12 @@ template<typename MatrixType> class TransposeImpl<MatrixType,Dense>
       return derived().nestedExpression().coeffRef(index);
     }
 
-    inline const CoeffReturnType coeff(Index row, Index col) const
+    inline CoeffReturnType coeff(Index row, Index col) const
     {
       return derived().nestedExpression().coeff(col, row);
     }
 
-    inline const CoeffReturnType coeff(Index index) const
+    inline CoeffReturnType coeff(Index index) const
     {
       return derived().nestedExpression().coeff(index);
     }
@@ -350,15 +352,14 @@ struct blas_traits<SelfCwiseBinaryOp<BinOp,NestedXpr,Rhs> >
 template<bool DestIsTransposed, typename OtherDerived>
 struct check_transpose_aliasing_compile_time_selector
 {
-  enum { ret = blas_traits<OtherDerived>::IsTransposed != DestIsTransposed
-  };
+  enum { ret = bool(blas_traits<OtherDerived>::IsTransposed) != DestIsTransposed };
 };
 
 template<bool DestIsTransposed, typename BinOp, typename DerivedA, typename DerivedB>
 struct check_transpose_aliasing_compile_time_selector<DestIsTransposed,CwiseBinaryOp<BinOp,DerivedA,DerivedB> >
 {
-  enum { ret =    blas_traits<DerivedA>::IsTransposed != DestIsTransposed
-               || blas_traits<DerivedB>::IsTransposed != DestIsTransposed
+  enum { ret =    bool(blas_traits<DerivedA>::IsTransposed) != DestIsTransposed
+               || bool(blas_traits<DerivedB>::IsTransposed) != DestIsTransposed
   };
 };
 
@@ -367,7 +368,7 @@ struct check_transpose_aliasing_run_time_selector
 {
   static bool run(const Scalar* dest, const OtherDerived& src)
   {
-    return (blas_traits<OtherDerived>::IsTransposed != DestIsTransposed) && (dest!=0 && dest==(Scalar*)extract_data(src));
+    return (bool(blas_traits<OtherDerived>::IsTransposed) != DestIsTransposed) && (dest!=0 && dest==(Scalar*)extract_data(src));
   }
 };
 
@@ -422,5 +423,7 @@ void DenseBase<Derived>::checkTransposeAliasing(const OtherDerived& other) const
     internal::checkTransposeAliasing_impl<Derived, OtherDerived>::run(derived(), other);
 }
 #endif
+
+} // end namespace Eigen
 
 #endif // EIGEN_TRANSPOSE_H

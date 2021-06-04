@@ -7,7 +7,7 @@ using namespace Eigen;
 int main()
 {
   ArrayXXf a(2,2);
-
+  
   a << 1,2,
        3,4;
 

@@ -26,8 +26,10 @@
 #ifndef EIGEN_TRIDIAGONALIZATION_H
 #define EIGEN_TRIDIAGONALIZATION_H
 
-namespace internal {
+namespace Eigen { 
 
+namespace internal {
+  
 template<typename MatrixType> struct TridiagonalizationMatrixTReturnType;
 template<typename MatrixType>
 struct traits<TridiagonalizationMatrixTReturnType<MatrixType> >
@@ -97,13 +99,13 @@ template<typename _MatrixType> class Tridiagonalization
     typedef internal::TridiagonalizationMatrixTReturnType<MatrixTypeRealView> MatrixTReturnType;
 
     typedef typename internal::conditional<NumTraits<Scalar>::IsComplex,
-              const typename Diagonal<const MatrixType>::RealReturnType,
+              typename internal::add_const_on_value_type<typename Diagonal<const MatrixType>::RealReturnType>::type,
               const Diagonal<const MatrixType>
             >::type DiagonalReturnType;
 
     typedef typename internal::conditional<NumTraits<Scalar>::IsComplex,
-              const typename Diagonal<
-                Block<const MatrixType,SizeMinusOne,SizeMinusOne> >::RealReturnType,
+              typename internal::add_const_on_value_type<typename Diagonal<
+                Block<const MatrixType,SizeMinusOne,SizeMinusOne> >::RealReturnType>::type,
               const Diagonal<
                 Block<const MatrixType,SizeMinusOne,SizeMinusOne> >
             >::type SubDiagonalReturnType;
@@ -364,7 +366,7 @@ void tridiagonalization_inplace(MatrixType& matA, CoeffVectorType& hCoeffs)
   Index n = matA.rows();
   eigen_assert(n==matA.cols());
   eigen_assert(n==hCoeffs.size()+1 || n==1);
-
+  
   for (Index i = 0; i<n-1; ++i)
   {
     Index remainingSize = n-i-1;
@@ -560,9 +562,11 @@ template<typename MatrixType> struct TridiagonalizationMatrixTReturnType
     Index cols() const { return m_matrix.cols(); }
 
   protected:
-    const typename MatrixType::Nested m_matrix;
+    typename MatrixType::Nested m_matrix;
 };
 
 } // end namespace internal
+
+} // end namespace Eigen
 
 #endif // EIGEN_TRIDIAGONALIZATION_H

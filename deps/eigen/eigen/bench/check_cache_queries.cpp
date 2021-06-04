@@ -14,7 +14,7 @@ using namespace std;
               << (int*)(abcd[0]) << " " << (int*)(abcd[1]) << " " \
               << (int*)(abcd[2]) << " " << (int*)(abcd[3]) << " " << std::endl; \
   }
-
+  
 int main()
 {
   cout << "Eigen's L1    = " << internal::queryL1CacheSize() << endl;
@@ -22,7 +22,7 @@ int main()
   int l1, l2, l3;
   internal::queryCacheSizes(l1, l2, l3);
   cout << "Eigen's L1, L2, L3       = " << l1 << " " << l2 << " " << l3 << endl;
-
+  
   #ifdef EIGEN_CPUID
 
   int abcd[4];
@@ -50,7 +50,7 @@ int main()
   internal::queryCacheSizes_amd(l1, l2, l3);
   cout << "Eigen's amd L1, L2, L3         = " << l1 << " " << l2 << " " << l3 << endl;
   cout << endl;
-
+  
   // dump Intel direct method
   if(max_funcs>=4)
   {
@@ -67,7 +67,7 @@ int main()
       int line_size   = (abcd[1] & 0x00000FFF) >>  0; // B[11:0]
       int sets        = (abcd[2]);                    // C[31:0]
       int cache_size = (ways+1) * (partitions+1) * (line_size+1) * (sets+1);
-
+      
       cout << "cache[" << cache_id << "].type       = " << cache_type << "\n";
       cout << "cache[" << cache_id << "].level      = " << cache_level << "\n";
       cout << "cache[" << cache_id << "].ways       = " << ways << "\n";
@@ -75,11 +75,11 @@ int main()
       cout << "cache[" << cache_id << "].line_size  = " << line_size << "\n";
       cout << "cache[" << cache_id << "].sets       = " << sets << "\n";
       cout << "cache[" << cache_id << "].size       = " << cache_size << "\n";
-
+      
       cache_id++;
     } while(cache_type>0 && cache_id<16);
   }
-
+  
   // dump everything
   std::cout << endl <<"Raw dump:" << endl;
   for(int i=0; i<max_funcs; ++i)

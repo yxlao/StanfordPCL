@@ -52,15 +52,7 @@ template<typename MatrixType> void nomalloc(const MatrixType& m)
 
   MatrixType m1 = MatrixType::Random(rows, cols),
              m2 = MatrixType::Random(rows, cols),
-             m3(rows, cols),
-             mzero = MatrixType::Zero(rows, cols),
-             identity = Matrix<Scalar, MatrixType::RowsAtCompileTime, MatrixType::RowsAtCompileTime>
-                              ::Identity(rows, rows),
-             square = Matrix<Scalar, MatrixType::RowsAtCompileTime, MatrixType::RowsAtCompileTime>
-                              ::Random(rows, rows);
-  VectorType v1 = VectorType::Random(rows),
-             v2 = VectorType::Random(rows),
-             vzero = VectorType::Zero(rows);
+             m3(rows, cols);
 
   Scalar s1 = internal::random<Scalar>();
 
@@ -71,7 +63,7 @@ template<typename MatrixType> void nomalloc(const MatrixType& m)
   VERIFY_IS_APPROX((m1+m2)(r,c), (m1(r,c))+(m2(r,c)));
   VERIFY_IS_APPROX(m1.cwiseProduct(m1.block(0,0,rows,cols)), (m1.array()*m1.array()).matrix());
   VERIFY_IS_APPROX((m1*m1.transpose())*m2,  m1*(m1.transpose()*m2));
-
+  
   m2.col(0).noalias() = m1 * m1.col(0);
   m2.col(0).noalias() -= m1.adjoint() * m1.col(0);
   m2.col(0).noalias() -= m1 * m1.row(0).adjoint();
@@ -82,7 +74,7 @@ template<typename MatrixType> void nomalloc(const MatrixType& m)
   m2.row(0).noalias() -= m1.col(0).adjoint() * m1;
   m2.row(0).noalias() -= m1.col(0).adjoint() * m1.adjoint();
   VERIFY_IS_APPROX(m2,m2);
-
+  
   m2.col(0).noalias() = m1.template triangularView<Upper>() * m1.col(0);
   m2.col(0).noalias() -= m1.adjoint().template triangularView<Upper>() * m1.col(0);
   m2.col(0).noalias() -= m1.template triangularView<Upper>() * m1.row(0).adjoint();
@@ -93,7 +85,7 @@ template<typename MatrixType> void nomalloc(const MatrixType& m)
   m2.row(0).noalias() -= m1.col(0).adjoint() * m1.template triangularView<Upper>();
   m2.row(0).noalias() -= m1.col(0).adjoint() * m1.adjoint().template triangularView<Upper>();
   VERIFY_IS_APPROX(m2,m2);
-
+  
   m2.col(0).noalias() = m1.template selfadjointView<Upper>() * m1.col(0);
   m2.col(0).noalias() -= m1.adjoint().template selfadjointView<Upper>() * m1.col(0);
   m2.col(0).noalias() -= m1.template selfadjointView<Upper>() * m1.row(0).adjoint();
@@ -104,7 +96,7 @@ template<typename MatrixType> void nomalloc(const MatrixType& m)
   m2.row(0).noalias() -= m1.col(0).adjoint() * m1.template selfadjointView<Upper>();
   m2.row(0).noalias() -= m1.col(0).adjoint() * m1.adjoint().template selfadjointView<Upper>();
   VERIFY_IS_APPROX(m2,m2);
-
+  
   m2.template selfadjointView<Lower>().rankUpdate(m1.col(0),-1);
   m2.template selfadjointView<Lower>().rankUpdate(m1.row(0),-1);
 
@@ -137,13 +129,20 @@ void ctms_decompositions()
                         0,
                         maxSize, maxSize> ComplexMatrix;
 
-  const Matrix A(Matrix::Random(size, size));
+  const Matrix A(Matrix::Random(size, size)), B(Matrix::Random(size, size));
+  Matrix X(size,size);
   const ComplexMatrix complexA(ComplexMatrix::Random(size, size));
   const Matrix saA = A.adjoint() * A;
+  const Vector b(Vector::Random(size));
+  Vector x(size);
 
   // Cholesky module
   Eigen::LLT<Matrix>  LLT;  LLT.compute(A);
+  X = LLT.solve(B);
+  x = LLT.solve(b);
   Eigen::LDLT<Matrix> LDLT; LDLT.compute(A);
+  X = LDLT.solve(B);
+  x = LDLT.solve(b);
 
   // Eigenvalues module
   Eigen::HessenbergDecomposition<ComplexMatrix> hessDecomp;        hessDecomp.compute(complexA);
@@ -155,12 +154,22 @@ void ctms_decompositions()
 
   // LU module
   Eigen::PartialPivLU<Matrix> ppLU; ppLU.compute(A);
+  X = ppLU.solve(B);
+  x = ppLU.solve(b);
   Eigen::FullPivLU<Matrix>    fpLU; fpLU.compute(A);
+  X = fpLU.solve(B);
+  x = fpLU.solve(b);
 
   // QR module
   Eigen::HouseholderQR<Matrix>        hQR;  hQR.compute(A);
+  X = hQR.solve(B);
+  x = hQR.solve(b);
   Eigen::ColPivHouseholderQR<Matrix>  cpQR; cpQR.compute(A);
+  // FIXME X = cpQR.solve(B);
+  x = cpQR.solve(b);
   Eigen::FullPivHouseholderQR<Matrix> fpQR; fpQR.compute(A);
+  // FIXME X = fpQR.solve(B);
+  x = fpQR.solve(b);
 
   // SVD module
   Eigen::JacobiSVD<Matrix> jSVD; jSVD.compute(A, ComputeFullU | ComputeFullV);
@@ -173,7 +182,7 @@ void test_nomalloc()
   CALL_SUBTEST_1(nomalloc(Matrix<float, 1, 1>()) );
   CALL_SUBTEST_2(nomalloc(Matrix4d()) );
   CALL_SUBTEST_3(nomalloc(Matrix<float,32,32>()) );
-
+  
   // Check decomposition modules with dynamic matrices that have a known compile-time max size (ctms)
   CALL_SUBTEST_4(ctms_decompositions<float>());
 

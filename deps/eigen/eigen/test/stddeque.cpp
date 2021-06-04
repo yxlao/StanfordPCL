@@ -31,7 +31,7 @@ template<typename MatrixType>
 void check_stddeque_matrix(const MatrixType& m)
 {
   typedef typename MatrixType::Index Index;
-
+  
   Index rows = m.rows();
   Index cols = m.cols();
   MatrixType x = MatrixType::Random(rows,cols), y = MatrixType::Random(rows,cols);
@@ -50,7 +50,7 @@ void check_stddeque_matrix(const MatrixType& m)
     ++wi;
   }
 
-  v.resize(21);
+  v.resize(21);  
   v.back() = x;
   VERIFY_IS_APPROX(v.back(), x);
   v.resize(22,y);

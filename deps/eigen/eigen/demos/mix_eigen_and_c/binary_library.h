@@ -47,7 +47,7 @@ extern "C"
   void    MatrixXd_copy       (struct C_MatrixXd *dst,
                                const struct C_MatrixXd *src);
   void    MatrixXd_copy_map   (struct C_MatrixXd *dst,
-                               const struct C_Map_MatrixXd *src);
+                               const struct C_Map_MatrixXd *src);  
   void    MatrixXd_set_coeff  (struct C_MatrixXd *m,
                                int i, int j, double coeff);
   double  MatrixXd_get_coeff  (const struct C_MatrixXd *m,
@@ -55,11 +55,11 @@ extern "C"
   void    MatrixXd_print      (const struct C_MatrixXd *m);
   void    MatrixXd_add        (const struct C_MatrixXd *m1,
                                const struct C_MatrixXd *m2,
-                               struct C_MatrixXd *result);
+                               struct C_MatrixXd *result);  
   void    MatrixXd_multiply   (const struct C_MatrixXd *m1,
                                const struct C_MatrixXd *m2,
                                struct C_MatrixXd *result);
-
+  
   // the C_Map_MatrixXd class, wraps some of the functionality
   // of Eigen::Map<MatrixXd>
   struct C_Map_MatrixXd* Map_MatrixXd_new(double *array, int rows, int cols);
@@ -68,7 +68,7 @@ extern "C"
   void   Map_MatrixXd_copy       (struct C_Map_MatrixXd *dst,
                                   const struct C_Map_MatrixXd *src);
   void   Map_MatrixXd_copy_matrix(struct C_Map_MatrixXd *dst,
-                                  const struct C_MatrixXd *src);
+                                  const struct C_MatrixXd *src);  
   void   Map_MatrixXd_set_coeff  (struct C_Map_MatrixXd *m,
                                   int i, int j, double coeff);
   double Map_MatrixXd_get_coeff  (const struct C_Map_MatrixXd *m,
@@ -76,7 +76,7 @@ extern "C"
   void   Map_MatrixXd_print      (const struct C_Map_MatrixXd *m);
   void   Map_MatrixXd_add        (const struct C_Map_MatrixXd *m1,
                                   const struct C_Map_MatrixXd *m2,
-                                  struct C_Map_MatrixXd *result);
+                                  struct C_Map_MatrixXd *result);  
   void   Map_MatrixXd_multiply   (const struct C_Map_MatrixXd *m1,
                                   const struct C_Map_MatrixXd *m2,
                                   struct C_Map_MatrixXd *result);

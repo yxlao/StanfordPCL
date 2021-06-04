@@ -25,6 +25,8 @@
 #ifndef EIGEN_TRANSPOSITIONS_H
 #define EIGEN_TRANSPOSITIONS_H
 
+namespace Eigen { 
+
 /** \class Transpositions
   * \ingroup Core_Module
   *
@@ -41,7 +43,7 @@
   *
   * Compared to the class PermutationMatrix, such a sequence of transpositions is what is
   * computed during a decomposition with pivoting, and it is faster when applying the permutation in-place.
-  *
+  * 
   * To apply a sequence of transpositions to a matrix, simply use the operator * as in the following example:
   * \code
   * Transpositions tr;
@@ -62,7 +64,7 @@ template<typename Derived>
 class TranspositionsBase
 {
     typedef internal::traits<Derived> Traits;
-
+    
   public:
 
     typedef typename Traits::IndicesType IndicesType;
@@ -275,7 +277,7 @@ class Map<Transpositions<SizeAtCompileTime,MaxSizeAtCompileTime,IndexType>,Packe
 
     /** const version of indices(). */
     const IndicesType& indices() const { return m_indices; }
-
+    
     /** \returns a reference to the stored array representing the transpositions. */
     IndicesType& indices() { return m_indices; }
 
@@ -404,7 +406,7 @@ struct transposition_matrix_product_retval
 
   protected:
     const TranspositionType& m_transpositions;
-    const typename MatrixType::Nested m_matrix;
+    typename MatrixType::Nested m_matrix;
 };
 
 } // end namespace internal
@@ -443,5 +445,7 @@ class Transpose<TranspositionsBase<TranspositionsDerived> >
   protected:
     const TranspositionType& m_transpositions;
 };
+
+} // end namespace Eigen
 
 #endif // EIGEN_TRANSPOSITIONS_H

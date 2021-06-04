@@ -64,7 +64,7 @@ template<typename Real> void MandelbrotThread::render(int img_width, int img_hei
   {
     int pix = y * img_width;
 
-    // for each pixel, we're going to do the iteration z := z^2 + c where z and c are complex numbers,
+    // for each pixel, we're going to do the iteration z := z^2 + c where z and c are complex numbers, 
     // starting with z = c = complex coord of the pixel. pzi and pzr denote the real and imaginary parts of z.
     // pci and pcr denote the real and imaginary parts of c.
 
@@ -172,7 +172,7 @@ void MandelbrotWidget::paintEvent(QPaintEvent *)
                   +(packetSize==1 ? QString("no vectorization")
                                   : QString("vectorized (%1 per packet)").arg(packetSize)));
   }
-
+  
   QImage image(buffer, width()/draft, height()/draft, QImage::Format_RGB32);
   QPainter painter(this);
   painter.drawImage(QPoint(0, 0), image.scaled(width(), height()));

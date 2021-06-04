@@ -25,10 +25,12 @@
 #ifndef EIGEN_COMPLEX_NEON_H
 #define EIGEN_COMPLEX_NEON_H
 
+namespace Eigen {
+
 namespace internal {
 
-static uint32x4_t p4ui_CONJ_XOR = { 0x00000000, 0x80000000, 0x00000000, 0x80000000 };
-static uint32x2_t p2ui_CONJ_XOR = { 0x00000000, 0x80000000 };
+static uint32x4_t p4ui_CONJ_XOR = EIGEN_INIT_NEON_PACKET4(0x00000000, 0x80000000, 0x00000000, 0x80000000);
+static uint32x2_t p2ui_CONJ_XOR = EIGEN_INIT_NEON_PACKET2(0x00000000, 0x80000000);
 
 //---------- float ----------
 struct Packet2cf
@@ -43,6 +45,7 @@ template<> struct packet_traits<std::complex<float> >  : default_packet_traits
   typedef Packet2cf type;
   enum {
     Vectorizable = 1,
+    AlignedOnScalar = 1,
     size = 2,
 
     HasAdd    = 1,
@@ -90,7 +93,7 @@ template<> EIGEN_STRONG_INLINE Packet2cf pmul<Packet2cf>(const Packet2cf& a, con
   v1 = vmulq_f32(v1, b.v);
   // Multiply the imag a with b
   v2 = vmulq_f32(v2, b.v);
-  // Conjugate v2
+  // Conjugate v2 
   v2 = vreinterpretq_f32_u32(veorq_u32(vreinterpretq_u32_f32(v2), p4ui_CONJ_XOR));
   // Swap real/imag elements in v2.
   a_lo = vrev64_f32(vget_low_f32(v2));
@@ -191,7 +194,7 @@ template<> EIGEN_STRONG_INLINE std::complex<float> predux_mul<Packet2cf>(const P
   v1 = vmul_f32(v1, a2);
   // Multiply the imag a with b
   v2 = vmul_f32(v2, a2);
-  // Conjugate v2
+  // Conjugate v2 
   v2 = vreinterpret_f32_u32(veor_u32(vreinterpret_u32_f32(v2), p2ui_CONJ_XOR));
   // Swap real/imag elements in v2.
   v2 = vrev64_f32(v2);
@@ -265,5 +268,7 @@ template<> EIGEN_STRONG_INLINE Packet2cf pdiv<Packet2cf>(const Packet2cf& a, con
 }
 
 } // end namespace internal
+
+} // end namespace Eigen
 
 #endif // EIGEN_COMPLEX_NEON_H

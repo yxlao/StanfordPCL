@@ -1,14 +1,14 @@
 //=====================================================
 // File   :  regularize.cxx
-// Author :  L. Plagne <laurent.plagne@edf.fr)>
+// Author :  L. Plagne <laurent.plagne@edf.fr)>        
 // Copyright (C) EDF R&D,  lun sep 30 14:23:15 CEST 2002
 //=====================================================
-//
+// 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
 // as published by the Free Software Foundation; either version 2
 // of the License, or (at your option) any later version.
-//
+// 
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-//
+// 
 #include "utilities.h"
 #include <vector>
 #include <string>
@@ -29,8 +29,8 @@ using namespace std;
 
 void read_xy_file(const string & filename, vector<int> & tab_sizes, vector<double> & tab_mflops);
 void regularize_curve(const string & filename,
-		      const vector<double> & tab_mflops,
-		      const vector<int> & tab_sizes,
+		      const vector<double> & tab_mflops, 
+		      const vector<int> & tab_sizes, 
 		      int start_cut_size, int stop_cut_size);
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -50,7 +50,7 @@ int main( int argc , char *argv[] )
 
   string filename=argv[1];
   string regularize_filename=argv[4];
-
+  
   INFOS(filename);
   INFOS("start_cut_size="<<start_cut_size);
 
@@ -62,15 +62,15 @@ int main( int argc , char *argv[] )
   // regularizeing
 
   regularize_curve(regularize_filename,tab_mflops,tab_sizes,start_cut_size,stop_cut_size);
-
+  
 
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
 
 void regularize_curve(const string & filename,
-		      const vector<double> & tab_mflops,
-		      const vector<int> & tab_sizes,
+		      const vector<double> & tab_mflops, 
+		      const vector<int> & tab_sizes, 
 		      int start_cut_size, int stop_cut_size)
 {
   int size=tab_mflops.size();
@@ -79,22 +79,22 @@ void regularize_curve(const string & filename,
   int i=0;
 
   while(tab_sizes[i]<start_cut_size){
-
+    
     output_file << tab_sizes[i] << " " <<  tab_mflops[i] << endl ;
     i++;
 
   }
-
+    
   output_file << endl ;
 
   while(tab_sizes[i]<stop_cut_size){
-
+    
     i++;
 
   }
 
   while(i<size){
-
+    
     output_file << tab_sizes[i] << " " <<  tab_mflops[i] << endl ;
     i++;
 
@@ -114,7 +114,7 @@ void read_xy_file(const string & filename, vector<int> & tab_sizes, vector<doubl
     INFOS("!!! Error opening "<<filename);
     exit(0);
   }
-
+  
   int nb_point=0;
   int size=0;
   double mflops=0;

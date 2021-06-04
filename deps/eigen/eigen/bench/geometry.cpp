@@ -104,7 +104,7 @@ int main(int argc, char ** argv)
   Quaternion<Scalar> quat;quat.setIdentity();
   ToRotationMatrixWrapper<Quaternion<Scalar> > quatmat(quat);
   Matrix<Scalar,3,3> mat33; mat33.setRandom();
-
+  
   cout.precision(4);
   std::cout
      << "N          ";
@@ -114,7 +114,7 @@ int main(int argc, char ** argv)
     cout << i+1 << " ";
   }
   cout << "\n";
-
+  
   bench("matrix 3x3", mat33);
   bench("quaternion", quat);
   bench("quat-mat  ", quatmat);

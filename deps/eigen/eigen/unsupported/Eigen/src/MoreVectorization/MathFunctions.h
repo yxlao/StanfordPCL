@@ -26,6 +26,8 @@
 #ifndef EIGEN_MOREVECTORIZATION_MATHFUNCTIONS_H
 #define EIGEN_MOREVECTORIZATION_MATHFUNCTIONS_H
 
+namespace Eigen { 
+
 namespace internal {
 
 /** \internal \returns the arcsin of \a a (coeff-wise) */
@@ -54,7 +56,7 @@ template<> EIGEN_DONT_INLINE Packet4f pasin(Packet4f x)
 
   Packet4f sign_bit= _mm_and_ps(x, p4f_sign_mask);//extracted the sign bit
 
-  Packet4f z1,z2;//will need them during computation
+  Packet4f z1,z2;//will need them during computation    
 
 
 //will compute the two branches for asin
@@ -65,7 +67,7 @@ template<> EIGEN_DONT_INLINE Packet4f pasin(Packet4f x)
 //the branch for values >0.5
 
     {
-//the core series expansion
+//the core series expansion 
     z1=pmadd(p4f_minus_half,a,p4f_half);
     Packet4f x1=psqrt(z1);
     Packet4f s1=pmadd(p4f_asin1, z1, p4f_asin2);
@@ -79,7 +81,7 @@ template<> EIGEN_DONT_INLINE Packet4f pasin(Packet4f x)
     }
 
     {
-//the core series expansion
+//the core series expansion 
     Packet4f x2=a;
     z2=pmul(x2,x2);
     Packet4f s1=pmadd(p4f_asin1, z2, p4f_asin2);
@@ -99,8 +101,10 @@ template<> EIGEN_DONT_INLINE Packet4f pasin(Packet4f x)
   return _mm_xor_ps(z, sign_bit);
 }
 
+#endif // EIGEN_VECTORIZE_SSE
+
 } // end namespace internal
 
-#endif
+} // end namespace Eigen
 
 #endif // EIGEN_MOREVECTORIZATION_MATHFUNCTIONS_H

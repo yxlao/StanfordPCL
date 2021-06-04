@@ -26,8 +26,9 @@
 #ifndef EIGEN_REAL_SCHUR_H
 #define EIGEN_REAL_SCHUR_H
 
-#include "./EigenvaluesCommon.h"
 #include "./HessenbergDecomposition.h"
+
+namespace Eigen { 
 
 /** \eigenvalues_module \ingroup Eigenvalues_Module
   *
@@ -103,8 +104,8 @@ template<typename _MatrixType> class RealSchur
               m_matUisUptodate(false)
     { }
 
-    /** \brief Constructor; computes real Schur decomposition of given matrix.
-      *
+    /** \brief Constructor; computes real Schur decomposition of given matrix. 
+      * 
       * \param[in]  matrix    Square matrix whose Schur decomposition is to be computed.
       * \param[in]  computeU  If true, both T and U are computed; if false, only T is computed.
       *
@@ -124,7 +125,7 @@ template<typename _MatrixType> class RealSchur
       compute(matrix, computeU);
     }
 
-    /** \brief Returns the orthogonal matrix in the Schur decomposition.
+    /** \brief Returns the orthogonal matrix in the Schur decomposition. 
       *
       * \returns A const reference to the matrix U.
       *
@@ -142,7 +143,7 @@ template<typename _MatrixType> class RealSchur
       return m_matU;
     }
 
-    /** \brief Returns the quasi-triangular matrix in the Schur decomposition.
+    /** \brief Returns the quasi-triangular matrix in the Schur decomposition. 
       *
       * \returns A const reference to the matrix T.
       *
@@ -157,9 +158,9 @@ template<typename _MatrixType> class RealSchur
       eigen_assert(m_isInitialized && "RealSchur is not initialized.");
       return m_matT;
     }
-
-    /** \brief Computes Schur decomposition of given matrix.
-      *
+  
+    /** \brief Computes Schur decomposition of given matrix. 
+      * 
       * \param[in]  matrix    Square matrix whose Schur decomposition is to be computed.
       * \param[in]  computeU  If true, both T and U are computed; if false, only T is computed.
       * \returns    Reference to \c *this
@@ -189,12 +190,12 @@ template<typename _MatrixType> class RealSchur
 
     /** \brief Maximum number of iterations.
       *
-      * Maximum number of iterations allowed for an eigenvalue to converge.
+      * Maximum number of iterations allowed for an eigenvalue to converge. 
       */
     static const int m_maxIterations = 40;
 
   private:
-
+    
     MatrixType m_matT;
     MatrixType m_matU;
     ColumnVectorType m_workspaceVector;
@@ -225,52 +226,54 @@ RealSchur<MatrixType>& RealSchur<MatrixType>::compute(const MatrixType& matrix, 
   if (computeU)
     m_matU = m_hess.matrixQ();
 
-  // Step 2. Reduce to real Schur form
+  // Step 2. Reduce to real Schur form  
   m_workspaceVector.resize(m_matT.cols());
   Scalar* workspace = &m_workspaceVector.coeffRef(0);
 
-  // The matrix m_matT is divided in three parts.
-  // Rows 0,...,il-1 are decoupled from the rest because m_matT(il,il-1) is zero.
+  // The matrix m_matT is divided in three parts. 
+  // Rows 0,...,il-1 are decoupled from the rest because m_matT(il,il-1) is zero. 
   // Rows il,...,iu is the part we are working on (the active window).
   // Rows iu+1,...,end are already brought in triangular form.
   Index iu = m_matT.cols() - 1;
   Index iter = 0; // iteration count
-  Scalar exshift = 0.0; // sum of exceptional shifts
+  Scalar exshift(0); // sum of exceptional shifts
   Scalar norm = computeNormOfT();
 
-  while (iu >= 0)
+  if(norm!=0)
   {
-    Index il = findSmallSubdiagEntry(iu, norm);
+    while (iu >= 0)
+    {
+      Index il = findSmallSubdiagEntry(iu, norm);
 
-    // Check for convergence
-    if (il == iu) // One root found
-    {
-      m_matT.coeffRef(iu,iu) = m_matT.coeff(iu,iu) + exshift;
-      if (iu > 0)
-        m_matT.coeffRef(iu, iu-1) = Scalar(0);
-      iu--;
-      iter = 0;
-    }
-    else if (il == iu-1) // Two roots found
-    {
-      splitOffTwoRows(iu, computeU, exshift);
-      iu -= 2;
-      iter = 0;
-    }
-    else // No convergence yet
-    {
-      // The firstHouseholderVector vector has to be initialized to something to get rid of a silly GCC warning (-O1 -Wall -DNDEBUG )
-      Vector3s firstHouseholderVector(0,0,0), shiftInfo;
-      computeShift(iu, iter, exshift, shiftInfo);
-      iter = iter + 1;
-      if (iter > m_maxIterations) break;
-      Index im;
-      initFrancisQRStep(il, iu, shiftInfo, im, firstHouseholderVector);
-      performFrancisQRStep(il, im, iu, computeU, firstHouseholderVector, workspace);
+      // Check for convergence
+      if (il == iu) // One root found
+      {
+        m_matT.coeffRef(iu,iu) = m_matT.coeff(iu,iu) + exshift;
+        if (iu > 0)
+          m_matT.coeffRef(iu, iu-1) = Scalar(0);
+        iu--;
+        iter = 0;
+      }
+      else if (il == iu-1) // Two roots found
+      {
+        splitOffTwoRows(iu, computeU, exshift);
+        iu -= 2;
+        iter = 0;
+      }
+      else // No convergence yet
+      {
+        // The firstHouseholderVector vector has to be initialized to something to get rid of a silly GCC warning (-O1 -Wall -DNDEBUG )
+        Vector3s firstHouseholderVector(0,0,0), shiftInfo;
+        computeShift(iu, iter, exshift, shiftInfo);
+        iter = iter + 1;
+        if (iter > m_maxIterations) break;
+        Index im;
+        initFrancisQRStep(il, iu, shiftInfo, im, firstHouseholderVector);
+        performFrancisQRStep(il, im, iu, computeU, firstHouseholderVector, workspace);
+      }
     }
   }
-
-  if(iter <= m_maxIterations)
+  if(iter <= m_maxIterations) 
     m_info = Success;
   else
     m_info = NoConvergence;
@@ -286,11 +289,11 @@ inline typename MatrixType::Scalar RealSchur<MatrixType>::computeNormOfT()
 {
   const Index size = m_matT.cols();
   // FIXME to be efficient the following would requires a triangular reduxion code
-  // Scalar norm = m_matT.upper().cwiseAbs().sum()
+  // Scalar norm = m_matT.upper().cwiseAbs().sum() 
   //               + m_matT.bottomLeftCorner(size-1,size-1).diagonal().cwiseAbs().sum();
-  Scalar norm = 0.0;
+  Scalar norm(0);
   for (Index j = 0; j < size; ++j)
-    norm += m_matT.row(j).segment(std::max(j-1,Index(0)), size-std::max(j-1,Index(0))).cwiseAbs().sum();
+    norm += m_matT.row(j).segment((std::max)(j-1,Index(0)), size-(std::max)(j-1,Index(0))).cwiseAbs().sum();
   return norm;
 }
 
@@ -317,30 +320,30 @@ inline void RealSchur<MatrixType>::splitOffTwoRows(Index iu, bool computeU, Scal
 {
   const Index size = m_matT.cols();
 
-  // The eigenvalues of the 2x2 matrix [a b; c d] are
+  // The eigenvalues of the 2x2 matrix [a b; c d] are 
   // trace +/- sqrt(discr/4) where discr = tr^2 - 4*det, tr = a + d, det = ad - bc
   Scalar p = Scalar(0.5) * (m_matT.coeff(iu-1,iu-1) - m_matT.coeff(iu,iu));
   Scalar q = p * p + m_matT.coeff(iu,iu-1) * m_matT.coeff(iu-1,iu);   // q = tr^2 / 4 - det = discr/4
   m_matT.coeffRef(iu,iu) += exshift;
   m_matT.coeffRef(iu-1,iu-1) += exshift;
 
-  if (q >= 0) // Two real eigenvalues
+  if (q >= Scalar(0)) // Two real eigenvalues
   {
     Scalar z = internal::sqrt(internal::abs(q));
     JacobiRotation<Scalar> rot;
-    if (p >= 0)
+    if (p >= Scalar(0))
       rot.makeGivens(p + z, m_matT.coeff(iu, iu-1));
     else
       rot.makeGivens(p - z, m_matT.coeff(iu, iu-1));
 
     m_matT.rightCols(size-iu+1).applyOnTheLeft(iu-1, iu, rot.adjoint());
     m_matT.topRows(iu+1).applyOnTheRight(iu-1, iu, rot);
-    m_matT.coeffRef(iu, iu-1) = Scalar(0);
+    m_matT.coeffRef(iu, iu-1) = Scalar(0); 
     if (computeU)
       m_matU.applyOnTheRight(iu-1, iu, rot);
   }
 
-  if (iu > 1)
+  if (iu > 1) 
     m_matT.coeffRef(iu-1, iu-2) = Scalar(0);
 }
 
@@ -369,7 +372,7 @@ inline void RealSchur<MatrixType>::computeShift(Index iu, Index iter, Scalar& ex
   {
     Scalar s = (shiftInfo.coeff(1) - shiftInfo.coeff(0)) / Scalar(2.0);
     s = s * s + shiftInfo.coeff(2);
-    if (s > 0)
+    if (s > Scalar(0))
     {
       s = internal::sqrt(s);
       if (shiftInfo.coeff(1) < shiftInfo.coeff(0))
@@ -432,7 +435,7 @@ inline void RealSchur<MatrixType>::performFrancisQRStep(Index il, Index im, Inde
     Scalar tau, beta;
     Matrix<Scalar, 2, 1> ess;
     v.makeHouseholder(ess, tau, beta);
-
+    
     if (beta != Scalar(0)) // if v is not zero
     {
       if (firstIteration && k > il)
@@ -442,7 +445,7 @@ inline void RealSchur<MatrixType>::performFrancisQRStep(Index il, Index im, Inde
 
       // These Householder transformations form the O(n^3) part of the algorithm
       m_matT.block(k, k, 3, size-k).applyHouseholderOnTheLeft(ess, tau, workspace);
-      m_matT.block(0, k, std::min(iu,k+3) + 1, 3).applyHouseholderOnTheRight(ess, tau, workspace);
+      m_matT.block(0, k, (std::min)(iu,k+3) + 1, 3).applyHouseholderOnTheRight(ess, tau, workspace);
       if (computeU)
         m_matU.block(0, k, size, 3).applyHouseholderOnTheRight(ess, tau, workspace);
     }
@@ -470,5 +473,7 @@ inline void RealSchur<MatrixType>::performFrancisQRStep(Index il, Index im, Inde
       m_matT.coeffRef(i,i-3) = Scalar(0);
   }
 }
+
+} // end namespace Eigen
 
 #endif // EIGEN_REAL_SCHUR_H

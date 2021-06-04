@@ -3,7 +3,7 @@
 using namespace Eigen;
 using namespace std;
 
-int main()
+int main() 
 {
   typedef Matrix<SCALAR,Eigen::Dynamic,1> Vec;
   Vec v(SIZE);

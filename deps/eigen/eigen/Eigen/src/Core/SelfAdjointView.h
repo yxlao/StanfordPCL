@@ -25,6 +25,8 @@
 #ifndef EIGEN_SELFADJOINTMATRIX_H
 #define EIGEN_SELFADJOINTMATRIX_H
 
+namespace Eigen { 
+
 /** \class SelfAdjointView
   * \ingroup Core_Module
   *
@@ -32,13 +34,13 @@
   * \brief Expression of a selfadjoint matrix from a triangular part of a dense matrix
   *
   * \param MatrixType the type of the dense matrix storing the coefficients
-  * \param TriangularPart can be either \c Lower or \c Upper
+  * \param TriangularPart can be either \c #Lower or \c #Upper
   *
   * This class is an expression of a sefladjoint matrix from a triangular part of a matrix
   * with given dense storage of the coefficients. It is the return type of MatrixBase::selfadjointView()
   * and most of the time this is the only way that it is used.
   *
-  * \sa class TriangularBase, MatrixBase::selfAdjointView()
+  * \sa class TriangularBase, MatrixBase::selfadjointView()
   */
 
 namespace internal {
@@ -73,7 +75,7 @@ template<typename MatrixType, unsigned int UpLo> class SelfAdjointView
     typedef typename internal::traits<SelfAdjointView>::MatrixTypeNestedCleaned MatrixTypeNestedCleaned;
 
     /** \brief The type of coefficients in this matrix */
-    typedef typename internal::traits<SelfAdjointView>::Scalar Scalar;
+    typedef typename internal::traits<SelfAdjointView>::Scalar Scalar; 
 
     typedef typename MatrixType::Index Index;
 
@@ -82,7 +84,7 @@ template<typename MatrixType, unsigned int UpLo> class SelfAdjointView
     };
     typedef typename MatrixType::PlainObject PlainObject;
 
-    inline SelfAdjointView(const MatrixType& matrix) : m_matrix(matrix)
+    inline SelfAdjointView(MatrixType& matrix) : m_matrix(matrix)
     {}
 
     inline Index rows() const { return m_matrix.rows(); }
@@ -174,7 +176,7 @@ template<typename MatrixType, unsigned int UpLo> class SelfAdjointView
 
     EigenvaluesReturnType eigenvalues() const;
     RealScalar operatorNorm() const;
-
+    
     #ifdef EIGEN2_SUPPORT
     template<typename OtherDerived>
     SelfAdjointView& operator=(const MatrixBase<OtherDerived>& other)
@@ -199,7 +201,7 @@ template<typename MatrixType, unsigned int UpLo> class SelfAdjointView
     #endif
 
   protected:
-    const MatrixTypeNested m_matrix;
+    MatrixTypeNested m_matrix;
 };
 
 
@@ -222,7 +224,7 @@ struct triangular_assignment_selector<Derived1, Derived2, (SelfAdjoint|Upper), U
     row = (UnrollCount-1) % Derived1::RowsAtCompileTime
   };
 
-  inline static void run(Derived1 &dst, const Derived2 &src)
+  static inline void run(Derived1 &dst, const Derived2 &src)
   {
     triangular_assignment_selector<Derived1, Derived2, (SelfAdjoint|Upper), UnrollCount-1, ClearOpposite>::run(dst, src);
 
@@ -236,7 +238,7 @@ struct triangular_assignment_selector<Derived1, Derived2, (SelfAdjoint|Upper), U
 template<typename Derived1, typename Derived2, bool ClearOpposite>
 struct triangular_assignment_selector<Derived1, Derived2, SelfAdjoint|Upper, 0, ClearOpposite>
 {
-  inline static void run(Derived1 &, const Derived2 &) {}
+  static inline void run(Derived1 &, const Derived2 &) {}
 };
 
 template<typename Derived1, typename Derived2, int UnrollCount, bool ClearOpposite>
@@ -247,7 +249,7 @@ struct triangular_assignment_selector<Derived1, Derived2, (SelfAdjoint|Lower), U
     row = (UnrollCount-1) % Derived1::RowsAtCompileTime
   };
 
-  inline static void run(Derived1 &dst, const Derived2 &src)
+  static inline void run(Derived1 &dst, const Derived2 &src)
   {
     triangular_assignment_selector<Derived1, Derived2, (SelfAdjoint|Lower), UnrollCount-1, ClearOpposite>::run(dst, src);
 
@@ -261,14 +263,14 @@ struct triangular_assignment_selector<Derived1, Derived2, (SelfAdjoint|Lower), U
 template<typename Derived1, typename Derived2, bool ClearOpposite>
 struct triangular_assignment_selector<Derived1, Derived2, SelfAdjoint|Lower, 0, ClearOpposite>
 {
-  inline static void run(Derived1 &, const Derived2 &) {}
+  static inline void run(Derived1 &, const Derived2 &) {}
 };
 
 template<typename Derived1, typename Derived2, bool ClearOpposite>
 struct triangular_assignment_selector<Derived1, Derived2, SelfAdjoint|Upper, Dynamic, ClearOpposite>
 {
   typedef typename Derived1::Index Index;
-  inline static void run(Derived1 &dst, const Derived2 &src)
+  static inline void run(Derived1 &dst, const Derived2 &src)
   {
     for(Index j = 0; j < dst.cols(); ++j)
     {
@@ -285,7 +287,7 @@ struct triangular_assignment_selector<Derived1, Derived2, SelfAdjoint|Upper, Dyn
 template<typename Derived1, typename Derived2, bool ClearOpposite>
 struct triangular_assignment_selector<Derived1, Derived2, SelfAdjoint|Lower, Dynamic, ClearOpposite>
 {
-  inline static void run(Derived1 &dst, const Derived2 &src)
+  static inline void run(Derived1 &dst, const Derived2 &src)
   {
   typedef typename Derived1::Index Index;
     for(Index i = 0; i < dst.rows(); ++i)
@@ -321,5 +323,7 @@ MatrixBase<Derived>::selfadjointView()
 {
   return derived();
 }
+
+} // end namespace Eigen
 
 #endif // EIGEN_SELFADJOINTMATRIX_H

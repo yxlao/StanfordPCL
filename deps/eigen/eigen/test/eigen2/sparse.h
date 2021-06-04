@@ -79,10 +79,10 @@ initSparse(double density,
         v = Scalar(0);
       else if ((flags & MakeUpperTriangular) && j<i)
         v = Scalar(0);
-
+      
       if ((flags&ForceRealDiag) && (i==j))
         v = ei_real(v);
-
+        
       if (v!=Scalar(0))
       {
         sparseMat.fill(i,j) = v;
@@ -122,10 +122,10 @@ initSparse(double density,
         v = Scalar(0);
       else if ((flags & MakeUpperTriangular) && j<i)
         v = Scalar(0);
-
+      
       if ((flags&ForceRealDiag) && (i==j))
         v = ei_real(v);
-
+        
       if (v!=Scalar(0))
       {
         sparseMat.fill(i,j) = v;

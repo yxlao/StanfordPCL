@@ -98,7 +98,7 @@ template<typename Scalar> void geometry(void)
   Scalar refangle = ei_abs(AngleAxisx(q1.inverse()*q2).angle());
   if (refangle>Scalar(M_PI))
     refangle = Scalar(2)*Scalar(M_PI) - refangle;
-
+  
   if((q1.coeffs()-q2.coeffs()).norm() > 10*largeEps)
   {
     VERIFY(ei_isApprox(q1.angularDistance(q2), refangle, largeEps));

@@ -24,23 +24,6 @@
 
 #include "main.h"
 
-template<typename PermutationVectorType>
-void randomPermutationVector(PermutationVectorType& v, typename PermutationVectorType::Index size)
-{
-  typedef typename PermutationVectorType::Index Index;
-  typedef typename PermutationVectorType::Scalar Scalar;
-  v.resize(size);
-  for(Index i = 0; i < size; ++i) v(i) = Scalar(i);
-  if(size == 1) return;
-  for(Index n = 0; n < 3 * size; ++n)
-  {
-    Index i = internal::random<Index>(0, size-1);
-    Index j;
-    do j = internal::random<Index>(0, size-1); while(j==i);
-    std::swap(v(i), v(j));
-  }
-}
-
 using namespace std;
 template<typename MatrixType> void permutationmatrices(const MatrixType& m)
 {
@@ -80,7 +63,7 @@ template<typename MatrixType> void permutationmatrices(const MatrixType& m)
   VERIFY_IS_APPROX(lp.inverse()*m_permuted*rp.inverse(), m_original);
   VERIFY_IS_APPROX(lv.asPermutation().inverse()*m_permuted*rv.asPermutation().inverse(), m_original);
   VERIFY_IS_APPROX(MapLeftPerm(lv.data(),lv.size()).inverse()*m_permuted*MapRightPerm(rv.data(),rv.size()).inverse(), m_original);
-
+  
   VERIFY((lp*lp.inverse()).toDenseMatrix().isIdentity());
   VERIFY((lv.asPermutation()*lv.asPermutation().inverse()).toDenseMatrix().isIdentity());
   VERIFY((MapLeftPerm(lv.data(),lv.size())*MapLeftPerm(lv.data(),lv.size()).inverse()).toDenseMatrix().isIdentity());
@@ -132,7 +115,7 @@ template<typename MatrixType> void permutationmatrices(const MatrixType& m)
     rm = rp;
     rm.col(i).swap(rm.col(j));
     VERIFY_IS_APPROX(rm, rp2.toDenseMatrix().template cast<Scalar>());
-  }
+  }  
 }
 
 void test_permutationmatrices()

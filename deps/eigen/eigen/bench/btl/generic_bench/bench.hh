@@ -77,7 +77,7 @@ BTL_DONT_INLINE void bench( int size_min, int size_max, int nb_point )
 
     tab_mflops[i] = perf_action.eval_mflops(tab_sizes[i]);
     std::cout << tab_mflops[i];
-
+    
     if (hasOldResults)
     {
       while (oldi>=0 && oldSizes[oldi]>tab_sizes[i])

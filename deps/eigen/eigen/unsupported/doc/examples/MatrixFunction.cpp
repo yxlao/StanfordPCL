@@ -18,6 +18,6 @@ int main()
        0,    0,     0;
 
   std::cout << "The matrix A is:\n" << A << "\n\n";
-  std::cout << "The matrix exponential of A is:\n"
+  std::cout << "The matrix exponential of A is:\n" 
             << A.matrixFunction(expfn) << "\n\n";
 }

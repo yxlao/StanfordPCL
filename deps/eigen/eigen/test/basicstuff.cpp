@@ -42,11 +42,8 @@ template<typename MatrixType> void basicStuff(const MatrixType& m)
              m2 = MatrixType::Random(rows, cols),
              m3(rows, cols),
              mzero = MatrixType::Zero(rows, cols),
-             identity = Matrix<Scalar, MatrixType::RowsAtCompileTime, MatrixType::RowsAtCompileTime>
-                              ::Identity(rows, rows),
              square = Matrix<Scalar, MatrixType::RowsAtCompileTime, MatrixType::RowsAtCompileTime>::Random(rows, rows);
   VectorType v1 = VectorType::Random(rows),
-             v2 = VectorType::Random(rows),
              vzero = VectorType::Zero(rows);
   SquareMatrixType sm1 = SquareMatrixType::Random(rows,rows), sm2(rows,rows);
 
@@ -94,7 +91,7 @@ template<typename MatrixType> void basicStuff(const MatrixType& m)
   Matrix<Scalar, MatrixType::RowsAtCompileTime, 1> cv(rows);
   rv = square.row(r);
   cv = square.col(r);
-
+  
   VERIFY_IS_APPROX(rv, cv.transpose());
 
   if(cols!=1 && rows!=1 && MatrixType::SizeAtCompileTime!=Dynamic)
@@ -124,23 +121,23 @@ template<typename MatrixType> void basicStuff(const MatrixType& m)
   m1 = m2;
   VERIFY(m1==m2);
   VERIFY(!(m1!=m2));
-
+  
   // check automatic transposition
   sm2.setZero();
   for(typename MatrixType::Index i=0;i<rows;++i)
     sm2.col(i) = sm1.row(i);
   VERIFY_IS_APPROX(sm2,sm1.transpose());
-
+  
   sm2.setZero();
   for(typename MatrixType::Index i=0;i<rows;++i)
     sm2.col(i).noalias() = sm1.row(i);
   VERIFY_IS_APPROX(sm2,sm1.transpose());
-
+  
   sm2.setZero();
   for(typename MatrixType::Index i=0;i<rows;++i)
     sm2.col(i).noalias() += sm1.row(i);
   VERIFY_IS_APPROX(sm2,sm1.transpose());
-
+  
   sm2.setZero();
   for(typename MatrixType::Index i=0;i<rows;++i)
     sm2.col(i).noalias() -= sm1.row(i);
@@ -207,7 +204,7 @@ void fixedSizeMatrixConstruction()
   VERIFY(m(2) == 3);
   VERIFY(a(0) == 1);
   VERIFY(a(1) == 2);
-  VERIFY(a(2) == 3);
+  VERIFY(a(2) == 3);  
 }
 
 void test_basicstuff()
@@ -215,14 +212,14 @@ void test_basicstuff()
   for(int i = 0; i < g_repeat; i++) {
     CALL_SUBTEST_1( basicStuff(Matrix<float, 1, 1>()) );
     CALL_SUBTEST_2( basicStuff(Matrix4d()) );
-    CALL_SUBTEST_3( basicStuff(MatrixXcf(internal::random<int>(1,100), internal::random<int>(1,100))) );
-    CALL_SUBTEST_4( basicStuff(MatrixXi(internal::random<int>(1,100), internal::random<int>(1,100))) );
-    CALL_SUBTEST_5( basicStuff(MatrixXcd(internal::random<int>(1,100), internal::random<int>(1,100))) );
+    CALL_SUBTEST_3( basicStuff(MatrixXcf(internal::random<int>(1,EIGEN_TEST_MAX_SIZE), internal::random<int>(1,EIGEN_TEST_MAX_SIZE))) );
+    CALL_SUBTEST_4( basicStuff(MatrixXi(internal::random<int>(1,EIGEN_TEST_MAX_SIZE), internal::random<int>(1,EIGEN_TEST_MAX_SIZE))) );
+    CALL_SUBTEST_5( basicStuff(MatrixXcd(internal::random<int>(1,EIGEN_TEST_MAX_SIZE), internal::random<int>(1,EIGEN_TEST_MAX_SIZE))) );
     CALL_SUBTEST_6( basicStuff(Matrix<float, 100, 100>()) );
-    CALL_SUBTEST_7( basicStuff(Matrix<long double,Dynamic,Dynamic>(internal::random<int>(1,100),internal::random<int>(1,100))) );
+    CALL_SUBTEST_7( basicStuff(Matrix<long double,Dynamic,Dynamic>(internal::random<int>(1,EIGEN_TEST_MAX_SIZE),internal::random<int>(1,EIGEN_TEST_MAX_SIZE))) );
 
-    CALL_SUBTEST_3( basicStuffComplex(MatrixXcf(internal::random<int>(1,100), internal::random<int>(1,100))) );
-    CALL_SUBTEST_5( basicStuffComplex(MatrixXcd(internal::random<int>(1,100), internal::random<int>(1,100))) );
+    CALL_SUBTEST_3( basicStuffComplex(MatrixXcf(internal::random<int>(1,EIGEN_TEST_MAX_SIZE), internal::random<int>(1,EIGEN_TEST_MAX_SIZE))) );
+    CALL_SUBTEST_5( basicStuffComplex(MatrixXcd(internal::random<int>(1,EIGEN_TEST_MAX_SIZE), internal::random<int>(1,EIGEN_TEST_MAX_SIZE))) );
   }
 
   CALL_SUBTEST_1(fixedSizeMatrixConstruction<unsigned char>());

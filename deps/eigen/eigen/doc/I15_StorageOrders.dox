@@ -56,14 +56,12 @@ The storage order of a matrix or a two-dimensional array can be set by specifyin
 parameter for Matrix or Array. As \ref TutorialMatrixClass explains, the %Matrix class template has six
 template parameters, of which three are compulsory (\c Scalar, \c RowsAtCompileTime and \c ColsAtCompileTime)
 and three are optional (\c Options, \c MaxRowsAtCompileTime and \c MaxColsAtCompileTime). If the \c Options
-parameter is set to \c RowMajor, then the matrix or array is stored in row-major order; if it is set to
+parameter is set to \c RowMajor, then the matrix or array is stored in row-major order; if it is set to 
 \c ColMajor, then it is stored in column-major order. This mechanism is used in the above Eigen program to
 specify the storage order.
 
-If the storage order is not specified, then Eigen normally defaults to storing the entry in column-major
-order. This is also the case if one of the convenience typedefs (\c Matrix3f, \c ArrayXXd, etc.) is
-used. However, it is possible to change the default to row-major order by defining the
-\c EIGEN_DEFAULT_TO_ROW_MAJOR \ref TopicPreprocessorDirectives "preprocessor directive".
+If the storage order is not specified, then Eigen defaults to storing the entry in column-major. This is also
+the case if one of the convenience typedefs (\c Matrix3f, \c ArrayXXd, etc.) is used.
 
 Matrices and arrays using one storage order can be assigned to matrices and arrays using the other storage
 order, as happens in the above program when \c Arowmajor is initialized using \c Acolmajor. Eigen will reorder

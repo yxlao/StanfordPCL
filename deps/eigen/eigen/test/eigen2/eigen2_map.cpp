@@ -35,7 +35,7 @@ template<typename VectorType> void map_class_vector(const VectorType& m)
   Scalar* array2 = ei_aligned_new<Scalar>(size);
   Scalar* array3 = new Scalar[size+1];
   Scalar* array3unaligned = std::size_t(array3)%16 == 0 ? array3+1 : array3;
-
+  
   Map<VectorType, Aligned>(array1, size) = VectorType::Random(size);
   Map<VectorType>(array2, size) = Map<VectorType>(array1, size);
   Map<VectorType>(array3unaligned, size) = Map<VectorType>((const Scalar*)array1, size); // test non-const-correctness support in eigen2
@@ -44,7 +44,7 @@ template<typename VectorType> void map_class_vector(const VectorType& m)
   VectorType ma3 = Map<VectorType>(array3unaligned, size);
   VERIFY_IS_APPROX(ma1, ma2);
   VERIFY_IS_APPROX(ma1, ma3);
-
+  
   ei_aligned_delete(array1, size);
   ei_aligned_delete(array2, size);
   delete[] array3;
@@ -72,7 +72,7 @@ template<typename MatrixType> void map_class_matrix(const MatrixType& m)
   VERIFY_IS_APPROX(ma1, ma2);
   MatrixType ma3 = Map<MatrixType>(array3unaligned, rows, cols);
   VERIFY_IS_APPROX(ma1, ma3);
-
+  
   ei_aligned_delete(array1, size);
   ei_aligned_delete(array2, size);
   delete[] array3;
@@ -89,7 +89,7 @@ template<typename VectorType> void map_static_methods(const VectorType& m)
   Scalar* array2 = ei_aligned_new<Scalar>(size);
   Scalar* array3 = new Scalar[size+1];
   Scalar* array3unaligned = std::size_t(array3)%16 == 0 ? array3+1 : array3;
-
+  
   VectorType::MapAligned(array1, size) = VectorType::Random(size);
   VectorType::Map(array2, size) = VectorType::Map(array1, size);
   VectorType::Map(array3unaligned, size) = VectorType::Map(array1, size);
@@ -98,7 +98,7 @@ template<typename VectorType> void map_static_methods(const VectorType& m)
   VectorType ma3 = VectorType::Map(array3unaligned, size);
   VERIFY_IS_APPROX(ma1, ma2);
   VERIFY_IS_APPROX(ma1, ma3);
-
+  
   ei_aligned_delete(array1, size);
   ei_aligned_delete(array2, size);
   delete[] array3;

@@ -97,7 +97,7 @@ template<typename MatrixType> void adjoint(const MatrixType& m)
   VERIFY_IS_APPROX(m3,m1.transpose());
   m3.transposeInPlace();
   VERIFY_IS_APPROX(m3,m1);
-
+  
 }
 
 void test_eigen2_adjoint()

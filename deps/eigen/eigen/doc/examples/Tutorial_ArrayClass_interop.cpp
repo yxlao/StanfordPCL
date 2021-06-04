@@ -14,7 +14,7 @@ int main()
        3,4;
   n << 5,6,
        7,8;
-
+  
   result = (m.array() + 4).matrix() * m;
   cout << "-- Combination 1: --" << endl << result << endl << endl;
   result = (m.array() * n.array()).matrix() * m;

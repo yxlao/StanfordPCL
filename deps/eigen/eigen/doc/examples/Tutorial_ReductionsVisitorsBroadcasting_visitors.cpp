@@ -7,7 +7,7 @@ using namespace Eigen;
 int main()
 {
   Eigen::MatrixXf m(2,2);
-
+  
   m << 1, 2,
        3, 4;
 

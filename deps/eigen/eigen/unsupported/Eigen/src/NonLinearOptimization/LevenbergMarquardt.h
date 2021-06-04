@@ -28,6 +28,7 @@
 #ifndef EIGEN_LEVENBERGMARQUARDT__H
 #define EIGEN_LEVENBERGMARQUARDT__H
 
+namespace Eigen { 
 
 namespace LevenbergMarquardtSpace {
     enum Status {
@@ -119,7 +120,7 @@ public:
     Index njev;
     Index iter;
     Scalar fnorm, gnorm;
-    bool useExternalScaling;
+    bool useExternalScaling; 
 
     Scalar lm_param(void) { return par; }
 private:
@@ -263,7 +264,7 @@ LevenbergMarquardt<FunctorType,Scalar>::minimizeOneStep(FVectorType  &x)
     if (fnorm != 0.)
         for (Index j = 0; j < n; ++j)
             if (wa2[permutation.indices()[j]] != 0.)
-                gnorm = std::max(gnorm, internal::abs( fjac.col(j).head(j+1).dot(qtf.head(j+1)/fnorm) / wa2[permutation.indices()[j]]));
+                gnorm = (std::max)(gnorm, internal::abs( fjac.col(j).head(j+1).dot(qtf.head(j+1)/fnorm) / wa2[permutation.indices()[j]]));
 
     /* test for convergence of the gradient norm. */
     if (gnorm <= parameters.gtol)
@@ -285,7 +286,7 @@ LevenbergMarquardt<FunctorType,Scalar>::minimizeOneStep(FVectorType  &x)
 
         /* on the first iteration, adjust the initial step bound. */
         if (iter == 1)
-            delta = std::min(delta,pnorm);
+            delta = (std::min)(delta,pnorm);
 
         /* evaluate the function at x + p and calculate its norm. */
         if ( functor(wa2, wa4) < 0)
@@ -321,7 +322,7 @@ LevenbergMarquardt<FunctorType,Scalar>::minimizeOneStep(FVectorType  &x)
             if (Scalar(.1) * fnorm1 >= fnorm || temp < Scalar(.1))
                 temp = Scalar(.1);
             /* Computing MIN */
-            delta = temp * std::min(delta, pnorm / Scalar(.1));
+            delta = temp * (std::min)(delta, pnorm / Scalar(.1));
             par /= temp;
         } else if (!(par != 0. && ratio < Scalar(.75))) {
             delta = pnorm / Scalar(.5);
@@ -510,7 +511,7 @@ LevenbergMarquardt<FunctorType,Scalar>::minimizeOptimumStorageOneStep(FVectorTyp
     if (fnorm != 0.)
         for (j = 0; j < n; ++j)
             if (wa2[permutation.indices()[j]] != 0.)
-                gnorm = std::max(gnorm, internal::abs( fjac.col(j).head(j+1).dot(qtf.head(j+1)/fnorm) / wa2[permutation.indices()[j]]));
+                gnorm = (std::max)(gnorm, internal::abs( fjac.col(j).head(j+1).dot(qtf.head(j+1)/fnorm) / wa2[permutation.indices()[j]]));
 
     /* test for convergence of the gradient norm. */
     if (gnorm <= parameters.gtol)
@@ -532,7 +533,7 @@ LevenbergMarquardt<FunctorType,Scalar>::minimizeOptimumStorageOneStep(FVectorTyp
 
         /* on the first iteration, adjust the initial step bound. */
         if (iter == 1)
-            delta = std::min(delta,pnorm);
+            delta = (std::min)(delta,pnorm);
 
         /* evaluate the function at x + p and calculate its norm. */
         if ( functor(wa2, wa4) < 0)
@@ -568,7 +569,7 @@ LevenbergMarquardt<FunctorType,Scalar>::minimizeOptimumStorageOneStep(FVectorTyp
             if (Scalar(.1) * fnorm1 >= fnorm || temp < Scalar(.1))
                 temp = Scalar(.1);
             /* Computing MIN */
-            delta = temp * std::min(delta, pnorm / Scalar(.1));
+            delta = temp * (std::min)(delta, pnorm / Scalar(.1));
             par /= temp;
         } else if (!(par != 0. && ratio < Scalar(.75))) {
             delta = pnorm / Scalar(.5);
@@ -640,7 +641,7 @@ LevenbergMarquardt<FunctorType,Scalar>::lmdif1(
 
     NumericalDiff<FunctorType> numDiff(functor);
     // embedded LevenbergMarquardt
-    LevenbergMarquardt<NumericalDiff<FunctorType> > lm(numDiff);
+    LevenbergMarquardt<NumericalDiff<FunctorType>, Scalar > lm(numDiff);
     lm.parameters.ftol = tol;
     lm.parameters.xtol = tol;
     lm.parameters.maxfev = 200*(n+1);
@@ -651,6 +652,8 @@ LevenbergMarquardt<FunctorType,Scalar>::lmdif1(
     return info;
 }
 
-//vim: ai ts=4 sts=4 et sw=4
+} // end namespace Eigen
+
 #endif // EIGEN_LEVENBERGMARQUARDT__H
 
+//vim: ai ts=4 sts=4 et sw=4

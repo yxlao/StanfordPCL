@@ -72,7 +72,7 @@ template<typename Scalar> void orthomethods_3()
   v40.w() = v41.w() = v42.w() = 0;
   v42.template head<3>() = v40.template head<3>().cross(v41.template head<3>());
   VERIFY_IS_APPROX(v40.cross3(v41), v42);
-
+  
   // check mixed product
   typedef Matrix<RealScalar, 3, 1> RealVector3;
   RealVector3 rv1 = RealVector3::Random();
@@ -88,9 +88,7 @@ template<typename Scalar, int Size> void orthomethods(int size=Size)
   typedef Matrix<Scalar,Size,3> MatrixN3;
   typedef Matrix<Scalar,3,1> Vector3;
 
-  VectorType v0 = VectorType::Random(size),
-             v1 = VectorType::Random(size),
-             v2 = VectorType::Random(size);
+  VectorType v0 = VectorType::Random(size);
 
   // unitOrthogonal
   VERIFY_IS_MUCH_SMALLER_THAN(v0.unitOrthogonal().dot(v0), Scalar(1));

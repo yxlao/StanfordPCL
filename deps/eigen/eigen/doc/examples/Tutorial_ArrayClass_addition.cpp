@@ -14,7 +14,7 @@ int main()
   b << 1,2,3,
        1,2,3,
        1,2,3;
-
+       
   // Adding two arrays
   cout << "a + b = " << endl << a + b << endl << endl;
 

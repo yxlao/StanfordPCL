@@ -155,7 +155,7 @@ int main(int argc, char *argv[])
 
   std::cout << "l1: " << Eigen::l1CacheSize() << std::endl;
   std::cout << "l2: " << Eigen::l2CacheSize() << std::endl;
-
+  
 
   return 0;
 }

@@ -46,7 +46,7 @@ class FancySpheres
 {
   public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-
+    
     FancySpheres()
     {
       const int levels = 4;

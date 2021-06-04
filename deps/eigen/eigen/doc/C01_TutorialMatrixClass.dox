@@ -42,7 +42,7 @@ Matrix<typename Scalar, int RowsAtCompileTime, int ColsAtCompileTime>
     See \ref TopicScalarTypes "Scalar types" for a list of all supported
     scalar types and for how to extend support to new types.
 \li \c RowsAtCompileTime and \c ColsAtCompileTime are the number of rows
-    and columns of the matrix as known at compile time (see
+    and columns of the matrix as known at compile time (see 
     \ref TutorialMatrixDynamic "below" for what to do if the number is not
     known at compile time).
 

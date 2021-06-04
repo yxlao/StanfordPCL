@@ -31,12 +31,12 @@ std::string contributor_name(const std::string& line)
   //   Bla bli Blurp
   // or:
   //   Bla bli Blurp <bblurp@email.com>
-
+  
   size_t position_of_email_address = line.find_first_of('<');
   if(position_of_email_address != string::npos)
   {
     // there is an e-mail address in <...>.
-
+    
     // Hauke once committed as "John Smith", fix that.
     if(line.find("hauke.heibel") != string::npos)
       result = "Hauke Heibel";
@@ -49,7 +49,7 @@ std::string contributor_name(const std::string& line)
   else
   {
     // there is no e-mail address in <...>.
-
+    
     if(line.find("convert-repo") != string::npos)
       result = "";
     else
@@ -76,22 +76,22 @@ map<string,int> contributors_map_from_churn_output(const char *filename)
     // remove the histograms "******" that hg churn may draw at the end of some lines
     size_t first_star = line.find_first_of('*');
     if(first_star != string::npos) line.erase(first_star);
-
+    
     // remove trailing spaces
     size_t length = line.length();
     while(length >= 1 && line[length-1] == ' ') line.erase(--length);
 
     // now the last space indicates where the number starts
     size_t last_space = line.find_last_of(' ');
-
+    
     // get the number (of changesets or of modified lines for each contributor)
     int number;
     istringstream(line.substr(last_space+1)) >> number;
 
     // get the name of the contributor
-    line.erase(last_space);
+    line.erase(last_space);    
     string name = contributor_name(line);
-
+    
     map<string,int>::iterator it = contributors_map.find(name);
     // if new contributor, insert
     if(it == contributors_map.end())
@@ -121,9 +121,9 @@ struct contributor
   int changesets;
   string url;
   string misc;
-
+  
   contributor() : changedlines(0), changesets(0) {}
-
+  
   bool operator < (const contributor& other)
   {
     return lastname(name).compare(lastname(other.name)) < 0;
@@ -138,13 +138,13 @@ void add_online_info_into_contributors_list(list<contributor>& contributors_list
   while(!getline(online_info,line).eof())
   {
     string hgname, realname, url, misc;
-
+    
     size_t last_bar = line.find_last_of('|');
     if(last_bar == string::npos) continue;
     if(last_bar < line.length())
       misc = line.substr(last_bar+1);
     line.erase(last_bar);
-
+    
     last_bar = line.find_last_of('|');
     if(last_bar == string::npos) continue;
     if(last_bar < line.length())
@@ -158,14 +158,14 @@ void add_online_info_into_contributors_list(list<contributor>& contributors_list
     line.erase(last_bar);
 
     hgname = line;
-
+    
     // remove the example line
     if(hgname.find("MercurialName") != string::npos) continue;
-
+    
     list<contributor>::iterator it;
     for(it=contributors_list.begin(); it != contributors_list.end() && it->name != hgname; ++it)
     {}
-
+    
     if(it == contributors_list.end())
     {
       contributor c;
@@ -188,7 +188,7 @@ int main()
   // parse the hg churn output files
   map<string,int> contributors_map_for_changedlines = contributors_map_from_churn_output("churn-changedlines.out");
   //map<string,int> contributors_map_for_changesets = contributors_map_from_churn_output("churn-changesets.out");
-
+  
   // merge into the contributors list
   list<contributor> contributors_list;
   map<string,int>::iterator it;
@@ -200,11 +200,11 @@ int main()
     c.changesets = 0; //contributors_map_for_changesets.find(it->first)->second;
     contributors_list.push_back(c);
   }
-
+  
   add_online_info_into_contributors_list(contributors_list, "online-info.out");
-
+  
   contributors_list.sort();
-
+  
   cout << "{| cellpadding=\"5\"\n";
   cout << "!\n";
   cout << "! Lines changed\n";

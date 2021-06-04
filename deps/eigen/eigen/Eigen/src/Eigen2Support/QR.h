@@ -26,6 +26,8 @@
 #ifndef EIGEN2_QR_H
 #define EIGEN2_QR_H
 
+namespace Eigen { 
+
 template<typename MatrixType>
 class QR : public HouseholderQR<MatrixType>
 {
@@ -55,7 +57,7 @@ class QR : public HouseholderQR<MatrixType>
     bool isFullRank() const {
       return true;
     }
-
+    
     const TriangularView<MatrixRBlockType, UpperTriangular>
     matrixR(void) const
     {
@@ -75,5 +77,6 @@ MatrixBase<Derived>::qr() const
   return QR<PlainObject>(eval());
 }
 
+} // end namespace Eigen
 
 #endif // EIGEN2_QR_H

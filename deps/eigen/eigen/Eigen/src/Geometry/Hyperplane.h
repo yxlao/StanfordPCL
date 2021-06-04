@@ -26,6 +26,8 @@
 #ifndef EIGEN_HYPERPLANE_H
 #define EIGEN_HYPERPLANE_H
 
+namespace Eigen { 
+
 /** \geometry_module \ingroup Geometry_Module
   *
   * \class Hyperplane
@@ -64,7 +66,7 @@ public:
 
   /** Default constructor without initialization */
   inline explicit Hyperplane() {}
-
+  
   template<int OtherOptions>
   Hyperplane(const Hyperplane<Scalar,AmbientDimAtCompileTime,OtherOptions>& other)
    : m_coeffs(other.coeffs())
@@ -189,7 +191,7 @@ public:
     *
     * \note If \a other is approximately parallel to *this, this method will return any point on *this.
     */
-  VectorType intersection(const Hyperplane& other)
+  VectorType intersection(const Hyperplane& other) const
   {
     EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(VectorType, 2)
     Scalar det = coeffs().coeff(0) * other.coeffs().coeff(1) - coeffs().coeff(1) * other.coeffs().coeff(0);
@@ -213,8 +215,8 @@ public:
   /** Applies the transformation matrix \a mat to \c *this and returns a reference to \c *this.
     *
     * \param mat the Dim x Dim transformation matrix
-    * \param traits specifies whether the matrix \a mat represents an Isometry
-    *               or a more generic Affine transformation. The default is Affine.
+    * \param traits specifies whether the matrix \a mat represents an #Isometry
+    *               or a more generic #Affine transformation. The default is #Affine.
     */
   template<typename XprType>
   inline Hyperplane& transform(const MatrixBase<XprType>& mat, TransformTraits traits = Affine)
@@ -225,7 +227,7 @@ public:
       normal() = mat * normal();
     else
     {
-      eigen_assert("invalid traits value in Hyperplane::transform()");
+      eigen_assert(0 && "invalid traits value in Hyperplane::transform()");
     }
     return *this;
   }
@@ -233,8 +235,8 @@ public:
   /** Applies the transformation \a t to \c *this and returns a reference to \c *this.
     *
     * \param t the transformation of dimension Dim
-    * \param traits specifies whether the transformation \a t represents an Isometry
-    *               or a more generic Affine transformation. The default is Affine.
+    * \param traits specifies whether the transformation \a t represents an #Isometry
+    *               or a more generic #Affine transformation. The default is #Affine.
     *               Other kind of transformations are not supported.
     */
   template<int TrOptions>
@@ -276,5 +278,7 @@ protected:
 
   Coefficients m_coeffs;
 };
+
+} // end namespace Eigen
 
 #endif // EIGEN_HYPERPLANE_H

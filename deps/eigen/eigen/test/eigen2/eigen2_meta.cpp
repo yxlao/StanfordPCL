@@ -28,13 +28,13 @@ void test_eigen2_meta()
 {
   typedef float & FloatRef;
   typedef const float & ConstFloatRef;
-
+  
   VERIFY((ei_meta_if<(3<4),ei_meta_true, ei_meta_false>::ret::ret));
   VERIFY(( ei_is_same_type<float,float>::ret));
   VERIFY((!ei_is_same_type<float,double>::ret));
   VERIFY((!ei_is_same_type<float,float&>::ret));
   VERIFY((!ei_is_same_type<float,const float&>::ret));
-
+  
   VERIFY(( ei_is_same_type<float,ei_cleantype<const float&>::type >::ret));
   VERIFY(( ei_is_same_type<float,ei_cleantype<const float*>::type >::ret));
   VERIFY(( ei_is_same_type<float,ei_cleantype<const float*&>::type >::ret));
@@ -46,14 +46,14 @@ void test_eigen2_meta()
   VERIFY(( ei_is_same_type<float*,ei_unconst<const float*>::type >::ret));
   VERIFY(( ei_is_same_type<float&,ei_unconst<const float&>::type >::ret));
   VERIFY(( ei_is_same_type<float&,ei_unconst<ConstFloatRef>::type >::ret));
-
+  
   VERIFY(( ei_is_same_type<float&,ei_unconst<float&>::type >::ret));
   VERIFY(( ei_is_same_type<float,ei_unref<float&>::type >::ret));
   VERIFY(( ei_is_same_type<const float,ei_unref<const float&>::type >::ret));
   VERIFY(( ei_is_same_type<float,ei_unpointer<float*>::type >::ret));
   VERIFY(( ei_is_same_type<const float,ei_unpointer<const float*>::type >::ret));
   VERIFY(( ei_is_same_type<float,ei_unpointer<float* const >::type >::ret));
-
+  
   VERIFY(ei_meta_sqrt<1>::ret == 1);
   #define VERIFY_META_SQRT(X) VERIFY(ei_meta_sqrt<X>::ret == int(ei_sqrt(double(X))))
   VERIFY_META_SQRT(2);
