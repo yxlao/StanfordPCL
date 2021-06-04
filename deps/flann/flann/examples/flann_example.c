@@ -8,7 +8,6 @@
 
 float* read_points(const char* filename, int rows, int cols)
 {
-    int ret;
 	float* data;
 	float *p;
 	FILE* fin;
@@ -29,7 +28,7 @@ float* read_points(const char* filename, int rows, int cols)
     
     for (i=0;i<rows;++i) {
         for (j=0;j<cols;++j) {
-            ret = fscanf(fin,"%g ",p);
+            fscanf(fin,"%g ",p);
             p++;
         }
     }
@@ -79,6 +78,11 @@ int main(int argc, char** argv)
     int cols = 128;
     int tcount = 1000;
 
+    /*
+     * The files dataset.dat and testset.dat can be downloaded from:
+     * http://people.cs.ubc.ca/~mariusm/uploads/FLANN/datasets/dataset.dat
+     * http://people.cs.ubc.ca/~mariusm/uploads/FLANN/datasets/testset.dat
+     */
     printf("Reading input data file.\n");
     dataset = read_points("dataset.dat", rows, cols);
     printf("Reading test data file.\n");

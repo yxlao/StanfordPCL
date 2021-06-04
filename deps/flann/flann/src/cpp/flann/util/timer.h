@@ -28,8 +28,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *************************************************************************/
 
-#ifndef TIMER_H
-#define TIMER_H
+#ifndef FLANN_TIMER_H
+#define FLANN_TIMER_H
 
 #include <time.h>
 
@@ -72,10 +72,12 @@ public:
     /**
      * Stops the timer and updates timer value.
      */
-    void stop()
+    double stop()
     {
         clock_t stopTime = clock();
         value += ( (double)stopTime - startTime) / CLOCKS_PER_SEC;
+        
+        return value;
     }
 
     /**
@@ -90,4 +92,4 @@ public:
 
 }
 
-#endif // TIMER_H
+#endif // FLANN_TIMER_H

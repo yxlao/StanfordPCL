@@ -28,10 +28,11 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *************************************************************************/
 
-#ifndef HEAP_H
-#define HEAP_H
+#ifndef FLANN_HEAP_H_
+#define FLANN_HEAP_H_
 
 #include <algorithm>
+#include <vector>
 
 namespace flann
 {
@@ -42,8 +43,6 @@ namespace flann
  * The priority queue is implemented with a heap.  A heap is a complete
  * (full) binary tree in which each parent is less than both of its
  * children, but the order of the children is unspecified.
- * Note that a heap uses 1-based indexing to allow for power-of-2
- * location of parents and children.  We ignore element 0 of Heap array.
  */
 template <typename T>
 class Heap
@@ -53,7 +52,7 @@ class Heap
      * Storage array for the heap.
      * Type T must be comparable.
      */
-    T* heap;
+    std::vector<T> heap;
     int length;
 
     /**
@@ -73,19 +72,9 @@ public:
 
     Heap(int size)
     {
-        length = size+1;
-        heap = new T[length];  // heap uses 1-based indexing
+        length = size;
+        heap.reserve(length);
         count = 0;
-    }
-
-
-    /**
-     * Destructor.
-     *
-     */
-    ~Heap()
-    {
-        delete[] heap;
     }
 
     /**
@@ -112,9 +101,17 @@ public:
      */
     void clear()
     {
+        heap.clear();
         count = 0;
     }
 
+    struct CompareT : public std::binary_function<T,T,bool>
+    {
+        bool operator()(const T& t_1, const T& t_2) const
+        {
+            return t_2 < t_1;
+        }
+    };
 
     /**
      * Insert a new element in the heap.
@@ -125,24 +122,17 @@ public:
      * Params:
      *     value = the new element to be inserted in the heap
      */
-    void insert(T value)
+    void insert(const T& value)
     {
         /* If heap is full, then return without adding this element. */
-        if (count == length-1) {
+        if (count == length) {
             return;
         }
 
-        int loc = ++(count);   /* Remember 1-based indexing. */
-
-        /* Keep moving parents down until a place is found for this node. */
-        int par = loc / 2;                 /* Location of parent. */
-        while (par > 0  && value < heap[par]) {
-            heap[loc] = heap[par];     /* Move parent down to loc. */
-            loc = par;
-            par = loc / 2;
-        }
-        /* Insert the element at the determined location. */
-        heap[loc] = value;
+        heap.push_back(value);
+        static CompareT compareT;
+        std::push_heap(heap.begin(), heap.end(), compareT);
+        ++count;
     }
 
 
@@ -160,52 +150,307 @@ public:
             return false;
         }
 
+        value = heap[0];
+        static CompareT compareT;
+        std::pop_heap(heap.begin(), heap.end(), compareT);
+        heap.pop_back();
+        --count;
 
-        if (count == 1) {
-            count = 0;    /* For size 1, no need to swap node with itself */
+        return true;  /* Return old last node. */
+    }
+};
+
+
+template <typename T>
+class IntervalHeap
+{
+	struct Interval
+	{
+		T left;
+		T right;
+	};
+
+    /**
+     * Storage array for the heap.
+     * Type T must be comparable.
+     */
+    std::vector<Interval> heap;
+    size_t capacity_;
+    size_t size_;
+
+public:
+    /**
+     * Constructor.
+     *
+     * Params:
+     *     size = heap size
+     */
+
+    IntervalHeap(int capacity) : capacity_(capacity), size_(0)
+    {
+        heap.resize(capacity/2 + capacity%2 + 1); // 1-based indexing
+    }
+
+    /**
+     * @return Heap size
+     */
+    size_t size()
+    {
+        return size_;
+    }
+
+    /**
+     * Tests if the heap is empty
+     * @return true is heap empty, false otherwise
+     */
+    bool empty()
+    {
+        return size_==0;
+    }
+
+    /**
+     * Clears the heap.
+     */
+    void clear()
+    {
+        size_ = 0;
+    }
+
+    void insert(const T& value)
+    {
+        /* If heap is full, then return without adding this element. */
+        if (size_ == capacity_) {
+            return;
+        }
+
+        // insert into the root
+        if (size_<2) {
+        	if (size_==0) {
+        		heap[1].left = value;
+        		heap[1].right = value;
+        	}
+        	else {
+        		if (value<heap[1].left) {
+        			heap[1].left = value;
+        		}
+        		else {
+        			heap[1].right = value;
+        		}
+        	}
+        	++size_;
+        	return;
+        }
+
+        size_t last_pos = size_/2 + size_%2;
+        bool min_heap;
+
+        if (size_%2) { // odd number of elements
+        	min_heap = (value<heap[last_pos].left)? true : false;
         }
         else {
-            std::swap(heap[1],heap[count]);  /* Switch first node with last. */
-            count -= 1;
-            heapify(1);      /* Move new node 1 to right position. */
+        	++last_pos;
+        	min_heap = (value<heap[last_pos/2].left)? true : false;
         }
-        value = heap[count + 1];
-        return true;  /* Return old last node. */
+
+        if (min_heap) {
+        	size_t pos = last_pos;
+        	size_t par = pos/2;
+        	while (pos>1 && value < heap[par].left) {
+        		heap[pos].left = heap[par].left;
+        		pos = par;
+        		par = pos/2;
+        	}
+        	heap[pos].left = value;
+        	++size_;
+
+        	if (size_%2) { // duplicate element in last position if size is odd
+        		heap[last_pos].right = heap[last_pos].left;
+        	}
+        }
+        else {
+        	size_t pos = last_pos;
+        	size_t par = pos/2;
+        	while (pos>1 && heap[par].right < value) {
+        		heap[pos].right = heap[par].right;
+        		pos = par;
+        		par = pos/2;
+        	}
+        	heap[pos].right = value;
+        	++size_;
+
+        	if (size_%2) { // duplicate element in last position if size is odd
+        		heap[last_pos].left = heap[last_pos].right;
+        	}
+        }
     }
 
 
     /**
-     * Reorganizes the heap (a parent is smaller than its children)
-     * starting with a node.
-     *
-     * Params:
-     *     parent = node form which to start heap reorganization.
+     * Returns the node of minimum value from the heap
+     * @param value out parameter used to return the min element
+     * @return false if heap empty
      */
-    void heapify(int parent)
+    bool popMin(T& value)
     {
-        int minloc = parent;
-
-        /* Check the left child */
-        int left = 2 * parent;
-        if ((left <= count)&&(heap[left] < heap[parent])) {
-            minloc = left;
+        if (size_ == 0) {
+            return false;
         }
 
-        /* Check the right child */
-        int right = left + 1;
-        if ((right <= count)&&(heap[right] < heap[minloc])) {
-            minloc = right;
-        }
+        value = heap[1].left;
+        size_t last_pos = size_/2 + size_%2;
+        T elem = heap[last_pos].left;
 
-        /* If a child was smaller, than swap parent with it and Heapify. */
-        if (minloc != parent) {
-            std::swap(heap[parent],heap[minloc]);
-            heapify(minloc);
+        if (size_ % 2) { // odd number of elements
+        	--last_pos;
         }
+        else {
+        	heap[last_pos].left = heap[last_pos].right;
+        }
+        --size_;
+        if (size_<2) return true;
+
+        size_t crt=1; // root node
+        size_t child = crt*2;
+
+        while (child <= last_pos) {
+        	if (child < last_pos && heap[child+1].left < heap[child].left) ++child; // pick the child with min
+
+        	if (!(heap[child].left<elem)) break;
+
+        	heap[crt].left = heap[child].left;
+        	if (heap[child].right<elem) {
+        		std::swap(elem, heap[child].right);
+        	}
+
+        	crt = child;
+    		child *= 2;
+        }
+        heap[crt].left = elem;
+        return true;
     }
 
+
+    /**
+     * Returns the element of maximum value from the heap
+     * @param value
+     * @return false if heap empty
+     */
+    bool popMax(T& value)
+    {
+        if (size_ == 0) {
+            return false;
+        }
+
+        value = heap[1].right;
+        size_t last_pos = size_/2 + size_%2;
+        T elem = heap[last_pos].right;
+
+        if (size_%2) { // odd number of elements
+        	--last_pos;
+        }
+        else {
+        	heap[last_pos].right = heap[last_pos].left;
+        }
+        --size_;
+        if (size_<2) return true;
+
+        size_t crt=1; // root node
+        size_t child = crt*2;
+
+        while (child <= last_pos) {
+        	if (child < last_pos && heap[child].right < heap[child+1].right) ++child; // pick the child with max
+
+        	if (!(elem < heap[child].right)) break;
+
+        	heap[crt].right = heap[child].right;
+        	if (elem<heap[child].left) {
+        		std::swap(elem, heap[child].left);
+        	}
+
+        	crt = child;
+    		child *= 2;
+        }
+        heap[crt].right = elem;
+        return true;
+    }
+
+
+    bool getMin(T& value)
+    {
+    	if (size_==0) {
+    		return false;
+    	}
+    	value = heap[1].left;
+    	return true;
+    }
+
+
+    bool getMax(T& value)
+    {
+    	if (size_==0) {
+    		return false;
+    	}
+    	value = heap[1].right;
+    	return true;
+    }
 };
+
+
+template <typename T>
+class BoundedHeap
+{
+	IntervalHeap<T> interval_heap_;
+	size_t capacity_;
+public:
+	BoundedHeap(size_t capacity) : interval_heap_(capacity), capacity_(capacity)
+	{
+
+	}
+
+    /**
+     * Returns: heap size
+     */
+    int size()
+    {
+        return interval_heap_.size();
+    }
+
+    /**
+     * Tests if the heap is empty
+     * Returns: true is heap empty, false otherwise
+     */
+    bool empty()
+    {
+        return interval_heap_.empty();
+    }
+
+    /**
+     * Clears the heap.
+     */
+    void clear()
+    {
+    	interval_heap_.clear();
+    }
+
+    void insert(const T& value)
+    {
+    	if (interval_heap_.size()==capacity_) {
+    		T max;
+    		interval_heap_.getMax(max);
+    		if (max<value) return;
+   			interval_heap_.popMax(max);
+    	}
+    	interval_heap_.insert(value);
+    }
+
+    bool popMin(T& value)
+    {
+    	return interval_heap_.popMin(value);
+    }
+};
+
+
 
 }
 
-#endif //HEAP_H
+#endif //FLANN_HEAP_H_

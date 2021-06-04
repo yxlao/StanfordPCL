@@ -1,14 +1,6 @@
 macro(GET_OS_INFO)
     string(REGEX MATCH "Linux" OS_IS_LINUX ${CMAKE_SYSTEM_NAME})
-    if(OS_IS_LINUX)
-        if(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
-            set(FLANN_LIB_INSTALL_DIR "lib64")
-        else(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
-            set(FLANN_LIB_INSTALL_DIR "lib")
-        endif(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
-    else(OS_IS_LINUX)
-        set(FLANN_LIB_INSTALL_DIR "lib")
-    endif(OS_IS_LINUX)
+    set(FLANN_LIB_INSTALL_DIR "lib")
     set(FLANN_INCLUDE_INSTALL_DIR
         "include/${PROJECT_NAME_LOWER}-${FLANN_MAJOR_VERSION}.${FLANN_MINOR_VERSION}")
 endmacro(GET_OS_INFO)
@@ -54,6 +46,26 @@ macro(flann_add_gtest exe)
     add_executable(${exe} EXCLUDE_FROM_ALL ${ARGN})
     target_link_libraries(${exe} ${GTEST_LIBRARIES})
     # add dependency to 'tests' target
+    add_dependencies(flann_gtests ${exe})
+
+    # add target for running test
+    string(REPLACE "/" "_" _testname ${exe})
+    add_custom_target(test_${_testname}
+                    COMMAND ${exe}
+                    ARGS --gtest_print_time
+                    DEPENDS ${exe}
+                    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/test
+                    VERBATIM
+                    COMMENT "Runnint gtest test(s) ${exe}")
+    # add dependency to 'test' target
+    add_dependencies(flann_gtest test_${_testname})
+endmacro(flann_add_gtest)
+
+macro(flann_add_cuda_gtest exe)
+    # add build target
+    cuda_add_executable(${exe} EXCLUDE_FROM_ALL ${ARGN})
+    target_link_libraries(${exe} ${GTEST_LIBRARIES})
+    # add dependency to 'tests' target
     add_dependencies(tests ${exe})
 
     # add target for running test
@@ -67,8 +79,7 @@ macro(flann_add_gtest exe)
                     COMMENT "Runnint gtest test(s) ${exe}")
     # add dependency to 'test' target
     add_dependencies(test test_${_testname})
-endmacro(flann_add_gtest)
-
+endmacro(flann_add_cuda_gtest)
 
 macro(flann_add_pyunit file)
     # find test file

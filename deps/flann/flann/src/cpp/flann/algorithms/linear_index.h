@@ -28,8 +28,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *************************************************************************/
 
-#ifndef LINEARSEARCH_H
-#define LINEARSEARCH_H
+#ifndef FLANN_LINEAR_INDEX_H_
+#define FLANN_LINEAR_INDEX_H_
 
 #include "flann/general.h"
 #include "flann/algorithms/nn_index.h"
@@ -39,41 +39,56 @@ namespace flann
 
 struct LinearIndexParams : public IndexParams
 {
-    LinearIndexParams() : IndexParams(FLANN_INDEX_LINEAR) {}
-
-    void fromParameters(const FLANNParameters& p)
+    LinearIndexParams()
     {
-        assert(p.algorithm==algorithm);
-    }
-
-    void toParameters(FLANNParameters& p) const
-    {
-        p.algorithm = algorithm;
-    }
-
-    void print() const
-    {
-        logger.info("Index type: %d\n",(int)algorithm);
+        (* this)["algorithm"] = FLANN_INDEX_LINEAR;
     }
 };
 
 template <typename Distance>
 class LinearIndex : public NNIndex<Distance>
 {
+public:
+
     typedef typename Distance::ElementType ElementType;
     typedef typename Distance::ResultType DistanceType;
 
-    const Matrix<ElementType> dataset;
-    const LinearIndexParams index_params;
+    typedef NNIndex<Distance> BaseClass;
 
-    Distance distance;
-
-public:
-
-    LinearIndex(const Matrix<ElementType>& inputData, const LinearIndexParams& params = LinearIndexParams(),
-                Distance d = Distance()) :
-        dataset(inputData), index_params(params), distance(d)
+    LinearIndex(const IndexParams& params = LinearIndexParams(), Distance d = Distance()) :
+    	BaseClass(params, d)
     {
+    }
+
+    LinearIndex(const Matrix<ElementType>& input_data, const IndexParams& params = LinearIndexParams(), Distance d = Distance()) :
+    	BaseClass(params, d)
+    {
+        setDataset(input_data);
+    }
+
+    LinearIndex(const LinearIndex& other) : BaseClass(other)
+    {
+    }
+
+    LinearIndex& operator=(LinearIndex other)
+    {
+    	this->swap(other);
+    	return *this;
+    }
+
+    virtual ~LinearIndex()
+    {
+    }
+
+    BaseClass* clone() const
+    {
+    	return new LinearIndex(*this);
+    }
+
+    void addPoints(const Matrix<ElementType>& points, float rebuild_threshold = 2)
+    {
+        assert(points.cols==veclen_);
+        extendDataset(points);
     }
 
     flann_algorithm_t getType() const
@@ -82,53 +97,64 @@ public:
     }
 
 
-    size_t size() const
-    {
-        return dataset.rows;
-    }
-
-    size_t veclen() const
-    {
-        return dataset.cols;
-    }
-
-
     int usedMemory() const
     {
         return 0;
     }
+
+    using NNIndex<Distance>::buildIndex;
 
     void buildIndex()
     {
         /* nothing to do here for linear search */
     }
 
-    void saveIndex(FILE* stream)
+    template<typename Archive>
+    void serialize(Archive& ar)
     {
-        /* nothing to do here for linear search */
+    	ar.setObject(this);
+
+    	ar & *static_cast<NNIndex<Distance>*>(this);
+
+    	if (Archive::is_loading::value) {
+            index_params_["algorithm"] = getType();
+    	}
     }
 
+    void saveIndex(FILE* stream)
+    {
+    	serialization::SaveArchive sa(stream);
+    	sa & *this;
+    }
 
     void loadIndex(FILE* stream)
     {
-        /* nothing to do here for linear search */
+    	serialization::LoadArchive la(stream);
+    	la & *this;
     }
 
-    void findNeighbors(ResultSet<DistanceType>& resultSet, const ElementType* vec, const SearchParams& searchParams)
+    void findNeighbors(ResultSet<DistanceType>& resultSet, const ElementType* vec, const SearchParams& /*searchParams*/) const
     {
-        for (size_t i=0; i<dataset.rows; ++i) {
-            DistanceType dist = distance(dataset[i],vec, dataset.cols);
-            resultSet.addPoint(dist,i);
-        }
+    	if (removed_) {
+    		for (size_t i = 0; i < points_.size(); ++i) {
+    			if (removed_points_.test(i)) continue;
+    			DistanceType dist = distance_(points_[i], vec, veclen_);
+    			resultSet.addPoint(dist, i);
+    		}
+    	}
+    	else {
+    		for (size_t i = 0; i < points_.size(); ++i) {
+    			DistanceType dist = distance_(points_[i], vec, veclen_);
+    			resultSet.addPoint(dist, i);
+    		}
+    	}
     }
 
-    const IndexParams* getParameters() const
-    {
-        return &index_params;
-    }
+private:
 
+    USING_BASECLASS_SYMBOLS
 };
 
 }
 
-#endif // LINEARSEARCH_H
+#endif // FLANN_LINEAR_INDEX_H_

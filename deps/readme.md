@@ -5,6 +5,7 @@
 ## Flann
 
 `1.6.11`: https://src.fedoraproject.org/lookaside/extras/flann/flann-1.6.11-src.zip/5fd889b9f3777aa6e0d05b2546d25eb5/flann-1.6.11-src.zip
+`1.8.0`: https://github.com/flann-lib/flann/releases/tag/1.8.0-src
 
 ## OpenNI
 

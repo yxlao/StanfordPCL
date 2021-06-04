@@ -28,8 +28,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *************************************************************************/
 
-#ifndef ALLOCATOR_H
-#define ALLOCATOR_H
+#ifndef FLANN_ALLOCATOR_H_
+#define FLANN_ALLOCATOR_H_
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -51,6 +51,7 @@ T* allocate(size_t count = 1)
     T* mem = (T*) ::malloc(sizeof(T)*count);
     return mem;
 }
+
 
 
 /**
@@ -107,20 +108,28 @@ public:
      */
     ~PooledAllocator()
     {
+        free();
+    }
+    
+    void free()
+    {
         void* prev;
-
         while (base != NULL) {
             prev = *((void**) base); /* Get pointer to prev block. */
             ::free(base);
             base = prev;
         }
+        base = NULL;
+        remaining = 0;
+        usedMemory = 0;
+        wastedMemory = 0;
     }
 
     /**
      * Returns a pointer to a piece of new memory of the given size in bytes
      * allocated from the pool.
      */
-    void* malloc(int size)
+    void* allocateMemory(int size)
     {
         int blocksize;
 
@@ -177,7 +186,7 @@ public:
     template <typename T>
     T* allocate(size_t count = 1)
     {
-        T* mem = (T*) this->malloc(sizeof(T)*count);
+        T* mem = (T*) this->allocateMemory((int)(sizeof(T)*count));
         return mem;
     }
 
@@ -185,4 +194,9 @@ public:
 
 }
 
-#endif //ALLOCATOR_H
+inline void* operator new (std::size_t size, flann::PooledAllocator& allocator)
+{
+    return allocator.allocateMemory(size) ;
+}
+
+#endif //FLANN_ALLOCATOR_H_

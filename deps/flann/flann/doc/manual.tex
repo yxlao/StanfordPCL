@@ -94,10 +94,10 @@ int main(int argc, char** argv)
 
     flann::save_to_file(indices,"result.hdf5","result");
 
-    dataset.free();
-    query.free();
-    indices.free();
-    dists.free();
+    delete[] dataset.ptr();
+    delete[] query.ptr();
+    delete[] indices.ptr();
+    delete[] dists.ptr();
     
     return 0;
 }
@@ -192,6 +192,7 @@ result,dists = flann.nn(dataset,testset,5,algorithm="kmeans",
 
 
 \section{Downloading and compiling FLANN}
+\label{sec:downloading_and_compiling}
 
 FLANN can be downloaded from the following address:
 \begin{center}
@@ -246,8 +247,36 @@ options use the \texttt{cmake-gui} application after \texttt{cmake} has finished
   \end{center}
 \end{figure}
 
+\subsection{Upgrading from a previous version}
+
+This section contains changes that you need to be aware of when upgrading from a previous version of FLANN.
+
+\begin{description}
+ \item[Version 1.7.0] A small breaking API change in \texttt{flann::Matrix} requires client code to be updated. In order
+to release the memory used by a matrix, use:
+\begin{Verbatim}[fontsize=\scriptsize]
+ delete[] matrix.ptr();
+\end{Verbatim}
+instead of:
+\begin{Verbatim}[fontsize=\scriptsize]
+ delete[] matrix.data;
+\end{Verbatim}
+or:
+\begin{Verbatim}[fontsize=\scriptsize]
+ matrix.free();
+\end{Verbatim}
+The member \texttt{data} of \texttt{flann::Matrix} is not publicly accessible any more, use the \texttt{ptr()} method
+to obtain the pointer to the memory buffer.
+\end{description}
 
 
+
+\subsection{Compiling FLANN with multithreading support}
+
+For taking advantage of multithreaded search, the project that uses FLANN needs to be compiled with a compiler that 
+supports the OpenMP standard and the OpenMP support must be enabled. The number of cores to be used can be selected with 
+the \texttt{cores} field in the \texttt{SearchParams} structure. By default a single core will be used. 
+Setting the \texttt{cores} field to zero will automatically use as many threads as cores available on the machine.
 
 \section{Using FLANN}
 
@@ -255,13 +284,10 @@ options use the \texttt{cmake-gui} application after \texttt{cmake} has finished
 
 The core of the FLANN library is written in C++. To make use of the full power 
 and flexibility of the templated code one should use the C++ bindings if possible. 
-To use the C++ bindings, the library header file \texttt{flann.hpp} must be included 
-and the library \texttt{libflann\_cpp.so} (for linking dynamically) or
-the \texttt{libflann\_cpp\_s.a} (for linking statically) must be linked in. An example
+To use the C++ bindings you only need to include the  the library header file \texttt{flann.hpp}. An example
 of the compile command that must be used will look something like this:
 \begin{Verbatim}[fontsize=\footnotesize]
-g++ flann_example.cpp -I $FLANN_ROOT/include -L $FLANN_ROOT/lib -o flann_example_cpp
- -lflann_cpp
+g++ flann_example.cpp -I $FLANN_ROOT/include -o flann_example_cpp
 \end{Verbatim}
 where \texttt{\$FLANN\_ROOT} is the library main directory.
 
@@ -269,8 +295,8 @@ The following sections describe the public C++ API.
 
 \subsubsection{flann::Index}
 \label{sec:flann::Index}
-The FLANN nearest neighbor index class. This class is used to abstract different
-types of nearest neighbor search indexes.
+The FLANN nearest neighbor index class. This class is used to abstract different types of nearest neighbor search
+indexes. The class is templated on the distance functor to be used for computing distances between pairs of features. 
 
 \begin{Verbatim}[fontsize=\footnotesize,frame=single]
 namespace flann
@@ -281,23 +307,45 @@ namespace flann
 	typedef typename Distance::ElementType ElementType;
 	typedef typename Distance::ResultType DistanceType;
     public:
-	Index(const Matrix<ElementType>& features, const IndexParams& params);
+        Index(const IndexParams& params, Distance distance = Distance() );
+        
+        Index(const Matrix<ElementType>& points, const IndexParams& params,
+                Distance distance = Distance() );
 
 	~Index();
 
-	void buildIndex();
+	void buildIndex();        
+        
+        void buildIndex(const Matrix<ElementType>& points);
+        
+        void addPoints(const Matrix<ElementType>& points, 
+                       float rebuild_threshold = 2);
+        
+        void removePoint(size_t point_id);
 
-	void knnSearch(const Matrix<ElementType>& queries, 
+	int knnSearch(const Matrix<ElementType>& queries, 
 		       Matrix<int>& indices, 
 		       Matrix<DistanceType>& dists, 
-		       int knn, 
+		       size_t knn, 
 		       const SearchParams& params);
 
-	int radiusSearch(const Matrix<ElementType>& query, 
+        int knnSearch(const Matrix<ElementType>& queries,
+                       std::vector< std::vector<int> >& indices,
+                       std::vector<std::vector<DistanceType> >& dists,
+                       size_t knn,
+                       const SearchParams& params);
+
+	int radiusSearch(const Matrix<ElementType>& queries, 
 			 Matrix<int>& indices, 
 			 Matrix<DistanceType>& dists, 
 			 float radius, 
 			 const SearchParams& params);
+
+        int radiusSearch(const Matrix<ElementType>& queries,
+                          std::vector< std::vector<int> >& indices,
+                          std::vector<std::vector<DistanceType> >& dists,
+                          float radius,
+                          const SearchParams& params);
 
 	void save(std::string filename);
 
@@ -305,19 +353,77 @@ namespace flann
 
 	int size() const;
 
-	const IndexParams* getIndexParameters();
+	IndexParams getParameters() const;
+
+        flann_algorithm_t getType() const;
+
     };
 }
 \end{Verbatim}
 
+
+\textbf{The Distance functor}
+
+The distance functor is a class whose \texttt{operator()} computes the distance between two features. If the distance is
+also a kd-tree compatible distance it should also provide an \texttt{accum\_dist()} method that computes the distance
+between individual feature dimensions. A typical distance functor looks like this (see the \texttt{dist.h} file for more
+examples):
+
+\begin{Verbatim}[fontsize=\footnotesize,frame=single]
+template<class T>
+struct L2
+{
+    typedef bool is_kdtree_distance;
+
+    typedef T ElementType;
+    typedef typename Accumulator<T>::Type ResultType;
+
+    template <typename Iterator1, typename Iterator2>
+    ResultType operator()(Iterator1 a, Iterator2 b, size_t size, 
+                          ResultType /*worst_dist*/ = -1) const
+    {
+        ResultType result = ResultType();
+        ResultType diff;
+        for(size_t i = 0; i < size; ++i ) {
+            diff = *a++ - *b++;
+            result += diff*diff;
+        }
+        return result;
+    }
+
+    template <typename U, typename V>
+    inline ResultType accum_dist(const U& a, const V& b, int) const
+    {
+        return (a-b)*(a-b);
+    }
+};
+\end{Verbatim}
+
+In addition to \texttt{operator()} and \texttt{accum\_dist()}, a distance functor should also define the
+\texttt{ElementType} and the \texttt{ResultType} as the types of the elements it operates on and the type of the result
+it computes.
+
+If a distance functor can be used as a kd-tree distance (meaning that the full distance between a pair of features can
+be accumulated from the partial distances between the individual dimensions) a typedef \texttt{is\_kdtree\_distance}
+should be present inside the distance functor. If the distance is not a kd-tree distance, but it's a distance in a
+vector space (the individual dimensions of the elements it operates on can be accessed independently) a typedef
+\texttt{is\_vector\_space\_distance} should be defined inside the functor. If neither typedef is defined, the distance
+is assumed to be a metric distance and will only be used with indexes operating on generic metric distances.
+\\
+
+
 \textbf{flann::Index::Index}
 Constructs a nearest neighbor search index for a given dataset.
 \begin{Verbatim}[fontsize=\footnotesize,frame=single]
-Index(const Matrix<ElementType>& features, const IndexParams& params);
+Index(const IndexParams& params, Distance distance = Distance() );
+
+Index(const Matrix<ElementType>& points, const IndexParams& params,
+        Distance distance = Distance() );
 \end{Verbatim}
 \begin{description}
 \item[features] Matrix containing the features(points) that should be indexed, stored in a row-major order (one point 
-of each row of the matrix). The size of the matrix is $num\_features \times dimensionality$.
+on each row of the matrix). The size of the matrix is $num\_features \times dimensionality$.
+
 \item[params] Structure containing the index parameters. The type of index that will be constructed depends on the type 
 of this parameter. The possible parameter types are:
 
@@ -366,12 +472,41 @@ struct KMeansIndexParams : public IndexParams
 		  A value greater then zero also takes into account the size of the domain.}
 \end{description}
 
+
+\textbf{CompositeIndexParams} When using a parameters object of this type the index created combines the randomized
+kd-trees 
+        and the hierarchical k-means tree.
+\begin{Verbatim}[fontsize=\footnotesize]
+struct CompositeIndexParams : public IndexParams
+{
+        CompositeIndexParams( int trees = 4,
+                          int branching = 32,
+                          int iterations = 11,
+                          flann_centers_init_t centers_init = FLANN_CENTERS_RANDOM, 
+                          float cb_index = 0.2 );
+};
+\end{Verbatim}
+
+
 \textbf{KDTreeSingleIndexParams} When passing an object of this type the index will contain a single kd-tree
 optimized for searching lower dimensionality data (for example 3D point clouds)
 \begin{Verbatim}[fontsize=\footnotesize]
 struct KDTreeSingleIndexParams : public IndexParams
 {
-      KDTreeSingleIndexParams( int max_leaf_size = 10 );
+      KDTreeSingleIndexParams( int leaf_max_size = 10 );
+};
+\end{Verbatim}
+\begin{description}
+ \item[max\_leaf\_size] The maximum number of points to have in a leaf for not branching the tree any more.
+\end{description}
+
+\textbf{KDTreeCuda3dIndexParams} When passing an object of this type the index will be a single kd-tree that 
+is built and performs searches on a CUDA compatible GPU. Search performance is best for large numbers of search and query points.
+For more information, see section \ref{sec:flann::cuda}
+\begin{Verbatim}[fontsize=\footnotesize]
+struct KDTreeCuda3dIndexParams : public IndexParams
+{
+    KDTreeCuda3dIndexParams( int leaf_max_size = 64 );
 };
 \end{Verbatim}
 \begin{description}
@@ -379,18 +514,45 @@ struct KDTreeSingleIndexParams : public IndexParams
 \end{description}
 
 
-\textbf{CompositeIndexParams} When using a parameters object of this type the index created combines the randomized kd-trees 
-	and the hierarchical k-means tree.
+\textbf{HierarchicalClusteringIndexParams} When passing an object of this type the index constructed will be a
+hierarchical clustering index. This type of index works with any metric distance and can be used for matching 
+binary features using Hamming distances.
 \begin{Verbatim}[fontsize=\footnotesize]
-struct CompositeIndexParams : public IndexParams
+struct HierarchicalClusteringIndexParams : public IndexParams
 {
-	CompositeIndexParams( int trees = 4,
-			  int branching = 32,
-			  int iterations = 11,
-			  flann_centers_init_t centers_init = FLANN_CENTERS_RANDOM, 
-			  float cb_index = 0.2 );
+    HierarchicalClusteringIndexParams(int branching = 32,
+                              flann_centers_init_t centers_init = FLANN_CENTERS_RANDOM,
+                              int trees = 4, int leaf_max_size = 100)
 };
 \end{Verbatim}
+\begin{description}
+\item[branching]{ The branching factor to use for the hierarchical clustering tree }
+\item[centers\_init]{ The algorithm to use for selecting the initial
+                  centers when performing a k-means clustering step. The possible values are
+                  CENTERS\_RANDOM (picks the initial cluster centers randomly), CENTERS\_GONZALES (picks the
+                  initial centers using Gonzales' algorithm) and CENTERS\_KMEANSPP (picks the initial
+                centers using the algorithm suggested in \cite{arthur_kmeanspp_2007}) }
+\item[trees] The number of parallel trees to use. Good values are in the range [3..8]
+\item[leaf\_size] The maximum number of points a leaf node should contain.
+\end{description}
+
+
+\textbf{LshIndexParams} When passing an object of this type the index constructed will be a multi-probe LSH
+(Locality-Sensitive Hashing) index. This type of index can only be used for matching binary features using Hamming
+distances.
+\begin{Verbatim}[fontsize=\footnotesize]
+struct LshIndexParams : public IndexParams
+{
+    LshIndexParams(unsigned int table_number = 12, 
+                  unsigned int key_size = 20, 
+                  unsigned int multi_probe_level = 2);
+};
+\end{Verbatim}
+\begin{description}
+\item[table\_number]{ The number of hash tables to use }
+\item[key\_size]{ The length of the key in the hash tables}
+\item[multi\_probe\_level] Number of levels to use in multi-probe (0 for standard LSH)
+\end{description}
 
 
 \textbf{AutotunedIndexParams}
@@ -400,7 +562,7 @@ dataset provided.
 \begin{Verbatim}[fontsize=\footnotesize]
 struct AutotunedIndexParams : public IndexParams
 {
-	autotunedindexparams( float target_precision = 0.9,
+	AutotunedIndexParams( float target_precision = 0.9,
 			  float build_weight = 0.01,
 			  float memory_weight = 0,
 			  float sample_fraction = 0.1 );
@@ -447,27 +609,58 @@ struct SavedIndexParams : public IndexParams
 \end{description}
 
 \subsubsection{flann::Index::buildIndex}
-Constructs the nearest neighbor search index using the parameters provided to the constructor (with the
-exception of saved index type).
+Builds the nearest neighbor search index. There are two versions of the \texttt{buildIndex} method, one that
+uses the points provided as argument and one that uses the points provided to the constructor when the object was
+constructed.
 \begin{Verbatim}[fontsize=\footnotesize,frame=single]
-      void buildIndex();
+void buildIndex();        
+
+void buildIndex(const Matrix<ElementType>& points);
 \end{Verbatim}
 
+\subsubsection{flann::Index::addPoints}
+The \texttt{addPoints} method can be used to incrementally add points to the index after the index was build.
+To avoid the index getting unbalanced, the \texttt{addPoints} method has the option of rebuilding the index after a
+large number of points have been added. The \texttt{rebuild\_threshold} parameter controls when the index is
+rebuild, by default this is done when it doubles in size (\texttt{rebuild\_threshold} = 2).
+
+\begin{Verbatim}[fontsize=\footnotesize,frame=single]
+void addPoints(const Matrix<ElementType>& points, float rebuild_threshold = 2);
+\end{Verbatim}
+
+\subsubsection{flann::Index::removePoint}
+The \texttt{removePoint} method removes one point with the specified \texttt{point\_id} from the index. The indices
+ (of the remaining points) returned by the nearest neighbor operations do not change when points are removed from the
+index.
+
+\begin{Verbatim}[fontsize=\footnotesize,frame=single]
+void removePoint(size_t point_id);
+\end{Verbatim}
 
 
 \subsubsection{flann::Index::knnSearch}
-Performs a K-nearest neighbor search for a given query point using the index.
+Performs a K-nearest neighbor search for a set of query points. There are two signatures for this
+method, one that takes pre-allocated \texttt{flann::Matrix} objects for returning the indices of and distances to the
+neighbors found, and one that takes \texttt{std::vector<std::vector>} that will re resized automatically as needed.
 \begin{Verbatim}[fontsize=\footnotesize,frame=single]
-void Index::knnSearch(const Matrix<ElementType>& queries,
+int Index::knnSearch(const Matrix<ElementType>& queries,
 		Matrix<int>& indices, 
 		Matrix<DistanceType>& dists,
-		int knn,
+		size_t knn,
 		const SearchParams& params);
+
+int Index::knnSearch(const Matrix<ElementType>& queries,
+                std::vector< std::vector<int> >& indices,
+                std::vector<std::vector<DistanceType> >& dists,
+                size_t knn,
+                const SearchParams& params);
 \end{Verbatim}
 \begin{description}
-\item[query]{Matrix containing the query points. Size of matrix is ($num\_queries \times dimentionality $)}
-\item[indices]{Matrix that will contain the indices of the K-nearest neighbors found (size should be at least $num\_queries \times knn$)}
-\item[dists]{Matrix that will contain the distances to the K-nearest neighbors found. (size should be at least $num\_queries \times knn$). The distance values are computed by the distance function used (see \texttt{flann::set\_distance\_type} below), for example in the case of euclidean distance function, this will contain the squared euclidean distances.}
+\item[queries]{Matrix containing the query points. Size of matrix is ($num\_queries \times dimentionality $)}
+\item[indices]{Matrix that will contain the indices of the K-nearest neighbors found (size should be at least
+$num\_queries \times knn$ for the pre-allocated version).}
+\item[dists]{Matrix that will contain the distances to the K-nearest neighbors found (size should be at least
+$num\_queries \times knn$ for the pre-allocated version).}
 \item[knn]{Number of nearest neighbors to search for.}
 \item[params]{Search parameters.} Structure containing parameters used during search.
 
@@ -478,6 +671,14 @@ struct SearchParams
 	SearchParams(int checks = 32,
 		  float eps = 0,
 		  bool sorted = true);
+
+    int checks;
+    float eps;
+    bool sorted;
+    int max_neighbors;
+    tri_type use_heap;
+    int cores;
+    bool matrices_in_gpu_ram;
 };
 \end{Verbatim}
 \begin{description}
@@ -486,26 +687,47 @@ higher value for this parameter would give better search precision, but
 also take more time. For all leafs to be checked use the value \texttt{CHECKS\_UNLIMITED}.
 If automatic configuration was used when the index was created, the number of checks 
 required to achieve the specified precision was also computed, to use that value specify \texttt{CHECKS\_AUTOTUNED}.
- \item[eps] Search for eps-approximate neighbors (only used by KDTreeSingleIndex).
+ \item[eps] Search for eps-approximate neighbors (only used by KDTreeSingleIndex and KDTreeCuda3dIndex).
  \item[sorted] Used only by radius search, specifies if the neighbors returned should be sorted by distance.
+ \item[max\_neighbours] Specifies the maximum number of neighbors radius search should return (default: -1 =
+unlimited). Only used for radius search.
+ \item[use\_heap] Use a heap data structure to manage the list of neighbors internally (possible values: FLANN\_False,
+FLANN\_True, FLANN\_Undefined). A heap is more efficient for a large number of neighbors and less efficient for a small
+number of neighbors. Default value is FLANN\_Undefined, which lets the code choose the best option depending on the
+number of neighbors requested. Only used for KNN search.
+ \item[cores] How many cores to assign to the search (specify 0 for automatic core selection).
+ \item[matrices\_in\_gpu\_ram] for GPU search indicates if matrices are already in GPU ram.
 \end{description}
 \end{description}
 
 
 \subsubsection{flann::Index::radiusSearch}
-Performs a radius nearest neighbor search for a given query point.
+Performs a radius nearest neighbor search for a set of query points. There are two signatures for this method,
+one that takes pre-allocated \texttt{flann::Matrix} objects for returning the indices of and distances to the neighbors
+found, and one that takes \texttt{std::vector<std::vector>} that will resized automatically as needed.
 \begin{Verbatim}[fontsize=\footnotesize,frame=single]
-int Index::radiusSearch(const Matrix<ElementType>& query,
+int Index::radiusSearch(const Matrix<ElementType>& queries,
 		  Matrix<int>& indices,
 		  Matrix<DistanceType>& dists,
 		  float radius,
 		  const SearchParams& params); 
+
+int Index::radiusSearch(const Matrix<ElementType>& queries,
+                  std::vector< std::vector<int> >& indices,
+                  std::vector<std::vector<DistanceType> >& dists,
+                  float radius,
+                  const SearchParams& params);
 \end{Verbatim}
 
 \begin{description}
-\item[query]{The query point}
-\item[indices]{Vector that will contain the indices of the points found within the search radius in decreasing order of the distance to the query point. If the number of neighbors in the search radius is bigger than the size of this vector, the ones that don't fit in the vector are ignored. }
-\item[dists]{Vector that will contain the distances to the points found within the search radius}
+\item[queries]{The query point. Size of matrix is ($num\_queries \times dimentionality $).}
+\item[indices]{Matrix that will contain the indices of the K-nearest neighbors found. For the pre-allocated version,
+only as many neighbors are returned as many columns in this matrix. If fewer neighbors are found than
+columns in this matrix, the element after that last index returned is -1. In case of the std::vector version, the rows
+will be resized as needed to fit all the neighbors to be returned, except if the ``max\_neighbors'' search parameter is
+set.}
+\item[dists]{Matrix that will contain the distances to the K-nearest neighbors found. The same number of values are
+returned here as for the \texttt{indices} matrix.}
 \item[radius]{The search radius}
 \item[params]{Search parameters}
 \end{description}
@@ -542,14 +764,80 @@ branching factor (see description of the KMeansIndexParams).  }
 \end{description}
 The function returns the number of clusters computed.
 
+\subsubsection{flann::KdTreeCuda3dIndex}
+\label{sec:flann::cuda}
+FLANN provides a CUDA implementation of the kd-tree build and search algorithms to improve the build and query speed for large 3d data sets. This section will provide all the necessary information to use the \texttt{KdTreeCuda3dIndex} index type.
 
+\textbf{Building:}
+If CMake detects a CUDA install during the build (see section \ref{sec:downloading_and_compiling}), a library \texttt{libflann\_cuda.so} will be built. 
 
+\textbf{Basic Usage:}
+To be able to use the new index type, you have to include the FLANN header this way:
+\begin{Verbatim}[fontsize=\footnotesize,frame=single]
+#define FLANN_USE_CUDA
+#include <flann/flann.hpp>
+\end{Verbatim}
+If you define the symbol \texttt{FLANN\_USE\_CUDA} before including the FLANN header, you will have to link \texttt{libflann\_cuda.so} or \texttt{libflann\_cuda\_s.a} with your project. 
+However, you will not have to compile your source code with \texttt{nvcc}, except if you use other CUDA code, of course.
+
+You can then create your index by using the \texttt{KDTreeCuda3dIndexParams} to create the index. The index will take care of copying all the data from and to the GPU for you, both 
+for index creation and search.
+
+A word of caution: A general guideline for deciding whether to use the CUDA kd tree or a (multi-threaded) CPU implementation is hard to give, since it depends on the combination of CPU and GPU in each system and the data sets.
+For example, on a system with a Phenom II 955 CPU and a Geforce GTX 260 GPU, the maximum search speedup on a synthetic (random) data set is a factor of about 8-9 vs the single-core CPU search, and starts to be reached at about 100k search and query points. (This includes transfer times.)
+Build time does not profit as much from the GPU acceleration; here the benefit is about 2x at 200k points, but this largely depends on the data set. The only way to know which implementation is best suited is to try it.
+
+\textbf{Advanced Usage:}
+In some cases, you might already have your data in a buffer on the GPU. In this case, you can re-use these buffers instead of copying the buffers back to system RAM for index creation and search.
+The way to do this is to pass GPU pointers via the \texttt{flann::Matrix} inputs and tell the index via the index and search params to treat the pointers as GPU pointers.
+\begin{Verbatim}[fontsize=\footnotesize,frame=single]
+thrust::device_vector<float4>  points_vector( n_points );
+// ... fill vector here...
+
+float* gpu_pointer = (float*)thrust::raw_pointer_cast(&points_vector[0]);
+flann::Matrix<float> matrix_gpu(gpu_pointer,n_points,3, 4);
+
+flann::KDTreeCuda3dIndexParams params;
+params["input_is_gpu_float4"]=true;
+flann::Index<flann::L2<float> > flannindex( matrix_gpu, params  );
+flannindex.buildIndex();
+\end{Verbatim}
+\begin{description}
+ \item First, a GPU buffer of float4 values is created and filled with points. \footnote{For index creation, only \texttt{float4} points are supported, \texttt{float3} or structure-of-array (SOA) representations are currently not supported since
+\texttt{float4} proved to be best in terms of access speed for tree creation and search.}
+ \item Then, a GPU pointer to the buffer is stored in a flann matrix with 3 columns and a stride of 4 (since the last element in the \texttt{float4} is unused).
+ \item Last, the index is created. The \texttt{input\_is\_gpu\_float4} flag tells the index to treat the matrix as a gpu buffer.
+\end{description}
+
+Similarly, you can specify GPU buffers for the search routines that return the result via flann matrices (but not for those that return them via \texttt{std::vector}s).
+To do this, the pointers in the index and dist matrices have to point to GPU buffers and the \texttt{cols} value has to be set to 3 (as we are dealing with 3d points). Here, any value for \texttt{stride} can be used.
+\begin{Verbatim}[fontsize=\footnotesize,frame=single]
+flann::Matrix<int> indices_gpu(gpu_pointer_indices,n_points, knn, stride);
+flann::Matrix<float> dists_gpu(gpu_pointer_dists,n_points, knn, stride);
+
+flann::SearchParams params;
+params.matrices_in_gpu_ram = true;
+
+flannindex.knnSearch( queries_gpu ,indices_gpu,dists_gpu,knn, params);
+\end{Verbatim}
+\begin{description}
+ \item Note that you cannot mix matrices in system and CPU ram here!
+\end{description}
+
+\textbf{Search Parameters:}
+The search routines support three parameters:
+\begin{itemize}
+ \item \texttt{eps} - used for approximate knn search. The maximum possible error is $e= d_{best} * eps$, i.e. the distance of the returned neighbor is at maximum $eps$ times larget than the distance to the real best neighbor.
+ \item \texttt{use\_heap} - used in knn and radius search. If set to true, a heap structure will be used in the search to keep track of the distance to the farthest neighbor. Beneficial with about $k>64$ elements.
+ \item \texttt{sorted} - if set to true, the results of the radius and knn searches will be sorted in ascending order by their distance to the query point.
+ \item \texttt{matrices\_in\_gpu\_ram} - set to true to indicate that all (input and output) matrices are located in GPU RAM.
+\end{itemize}
 
 
 \subsection{Using FLANN from C}
 
 FLANN can be used in C programs through the C bindings provided
-with the library. Because there is not template support in C, there
+with the library. Because there is no template support in C, there
 are bindings provided for the following data types: \texttt{unsigned char},
 \texttt{int}, \texttt{float} and \texttt{double}. For each of the functions 
 below there is a corresponding version for each of the for data types, for example
@@ -617,6 +905,11 @@ struct FLANNParameters {
   float build_weight;        /* build tree time weighting factor */
   float memory_weight;       /* index memory weigthing factor */
   float sample_fraction;     /* what fraction of the dataset to use for autotuning */
+
+  /* LSH parameters */
+  unsigned int table_number_; /** The number of hash tables to use */
+  unsigned int key_size_;     /** The length of the key in the hash tables */
+  unsigned int multi_probe_level_; /** Number of levels to use in multi-probe LSH, 0 for standard LSH */
 
   /* other parameters */
   enum flann_log_level_t log_level;   /* determines the verbosity of each flann function */
@@ -1071,14 +1364,15 @@ used:
 
 \subsubsection{Example 1:}
 
-In this example the index is constructed using automatic parameter estimation, requesting 90\% as desired precision and using the default values for the build time and memory usage factors. The index is then used to search for the nearest-neighbors of the points in the testset matrix and finally the index is deleted.
+In this example the index is constructed using automatic parameter estimation, requesting 70\% as desired precision and using the default values for the build time and memory usage factors. The index is then used to search for the nearest-neighbors of the points in the testset matrix and finally the index is deleted.
 
 \begin{Verbatim}[fontsize=\footnotesize,frame=single]
 
 dataset = single(rand(128,10000));
 testset = single(rand(128,1000));
 
-build_params.target_precision = 0.9;
+build_params.algorithm = 'autotuned';
+build_params.target_precision = 0.7;
 build_params.build_weight = 0.01;
 build_params.memory_weight = 0;
 
@@ -1132,14 +1426,10 @@ testset = single(rand(128,1000));
 
 \subsection{Using FLANN from python}
 
-FLANN can be used from python programs using the python bindings distributed
-with the library. The python bindings can be installed on a system using the
-distutils script provided (setup.py), by running the following command in the
-build/python directory:
-\begin{Verbatim}[fontsize=\footnotesize,frame=single]
-$ python setup.py install
-\end{Verbatim}
-The python bindings also require the numpy package to be installed.
+The python bindings are automatically installed on the system with the FLANN library
+if the option \texttt{BUILD\_PYTHON\_BINDINGS} is enabled. You may need to set the 
+\texttt{PYTHONPATH} to the location of the bindings if you installed FLANN in a
+non-standard location. The python bindings also require the numpy package to be installed.
 
 To use the python FLANN bindings the package \texttt{pyflann} must be imported
 (see the python example in section \ref{sec:quickstart}). This package contains
@@ -1183,7 +1473,7 @@ dataset = rand(10000, 128)
 testset = rand(1000, 128)
 
 flann = FLANN()
-params = flann.build_index(dataset, target_precision=0.9, log_level = "info");
+params = flann.build_index(dataset, algorithm="autotuned", target_precision=0.9, log_level = "info");
 print params
 
 result, dists = flann.nn_index(testset,5, checks=params["checks"]);

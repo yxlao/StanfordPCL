@@ -26,11 +26,15 @@
    THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/* Workaround for MSVC 10, Matlab incompatibility */
+#if (_MSC_VER >= 1600)
+#include <yvals.h>
+#define __STDC_UTF_16__
+#endif
 #include <mex.h>
 #include <flann/flann.h>
 #include <stdio.h>
 #include <string.h>
-#include <sstream>
 
 
 
@@ -83,11 +87,15 @@ static void flannStructToMatlabStruct( const FLANNParameters& flannParams, mxArr
 {
     mxSetField(mexParams, 0, "algorithm", to_mx_array(flannParams.algorithm));
     mxSetField(mexParams, 0, "checks", to_mx_array(flannParams.checks));
+    mxSetField(mexParams, 0, "cb_index", to_mx_array(flannParams.cb_index));
+    mxSetField(mexParams, 0, "eps", to_mx_array(flannParams.eps));
+
     mxSetField(mexParams, 0, "trees", to_mx_array(flannParams.trees));
+    mxSetField(mexParams, 0, "leaf_max_size", to_mx_array(flannParams.trees));
+    
     mxSetField(mexParams, 0, "branching", to_mx_array(flannParams.branching));
     mxSetField(mexParams, 0, "iterations", to_mx_array(flannParams.iterations));
     mxSetField(mexParams, 0, "centers_init", to_mx_array(flannParams.centers_init));
-    mxSetField(mexParams, 0, "cb_index", to_mx_array(flannParams.cb_index));
 }
 
 
@@ -380,7 +388,7 @@ static void _build_index(int nOutArray, mxArray* OutArray[], int nInArray, const
     pOut[0] = typedIndex;
 
     if (nOutArray > 1) {
-        const char* fieldnames[] = {"algorithm", "checks", "trees", "branching", "iterations", "centers_init", "cb_index"};
+        const char* fieldnames[] = {"algorithm", "checks", "cb_index", "eps", "trees", "leaf_max_size", "branching", "iterations", "centers_init"};
         OutArray[1] = mxCreateStructMatrix(1, 1, sizeof(fieldnames)/sizeof(const char*), fieldnames);
         flannStructToMatlabStruct(p, OutArray[1]);
     }
@@ -582,17 +590,21 @@ static mexFunctionEntry __functionTable[] = {
 
 static void print_selector_error()
 {
-    std::ostringstream oss;
-    oss << "Expecting first argument to be one of: ";
+    char buf[512];
+    char* msg = buf;
 
+    sprintf(msg, "%s", "Expecting first argument to be one of: ");
+    msg = buf+strlen(buf);
     for (int i=0; i<sizeof(__functionTable)/sizeof(mexFunctionEntry); ++i) {
         if (i!=0) {
-            oss << ", ";
+            sprintf(msg,", ");
+            msg = buf+strlen(buf);
         }
-        oss << __functionTable[i].name;
+        sprintf(msg, "%s", __functionTable[i].name);
+        msg = buf+strlen(buf);
     }
 
-    mexErrMsgTxt(oss.str().c_str());
+    mexErrMsgTxt(buf);
 }
 
 

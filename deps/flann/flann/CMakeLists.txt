@@ -8,9 +8,11 @@ project(flann)
 string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
 
 include(${PROJECT_SOURCE_DIR}/cmake/flann_utils.cmake)
-set(FLANN_VERSION 1.6.11)
+set(FLANN_VERSION 1.8.0)
 DISSECT_VERSION()
 GET_OS_INFO()
+
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 # Add an "uninstall" target
 CONFIGURE_FILE ("${PROJECT_SOURCE_DIR}/cmake/uninstall_target.cmake.in"
@@ -40,8 +42,11 @@ set(TEST_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/test)
 option(BUILD_C_BINDINGS "Build C bindings" ON)
 option(BUILD_PYTHON_BINDINGS "Build Python bindings" ON)
 option(BUILD_MATLAB_BINDINGS "Build Matlab bindings" ON)
+option(BUILD_CUDA_LIB "Build CUDA library" OFF)
+option(USE_OPENMP "Use OpenMP multi-threading" ON)
 option(USE_MPI "Use MPI" OFF)
 
+set(NVCC_COMPILER_BINDIR "" CACHE PATH  "Directory where nvcc should look for C++ compiler. This is passed to nvcc through the --compiler-bindir option.")
 
 if (NOT BUILD_C_BINDINGS)
     set(BUILD_PYTHON_BINDINGS OFF)
@@ -75,19 +80,45 @@ endif()
 if (USE_MPI)
     if (NOT MPI_FOUND)
         message(WARNING "Could not find an MPI library. Define the MPI_COMPILER variable to the path of your MPI compiler.")
+        set(USE_MPI OFF)
     endif()
 
     if (NOT HDF5_IS_PARALLEL)
         message(WARNING "For MPI support the Parallel HDF5 library is required.")
+        set(USE_MPI OFF)
     endif()
-
 endif(USE_MPI)
+
 
 find_package(GTest) 
 if (NOT GTEST_FOUND)
 	message(WARNING "gtest library not found, some tests will not be run")
 endif()
 
+
+if (USE_OPENMP)
+    find_package(OpenMP)
+    if(OPENMP_FOUND)
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+    else()
+        message(WARNING "OpenMP NOT found")
+    endif()
+endif()
+
+
+# CUDA support
+if (BUILD_CUDA_LIB)
+    find_package(CUDA)
+    if (CUDA_FOUND)
+        message(STATUS "CUDA found (include: ${CUDA_INCLUDE_DIRS}, lib: ${CUDA_LIBRARIES})")
+        include_directories(${CUDA_INCLUDE_DIRS})
+    else(CUDA_FOUND)
+        message(STATUS "CUDA not found, CUDA library will not be built")
+        set(BUILD_CUDA_LIB OFF)
+    endif(CUDA_FOUND)
+endif(BUILD_CUDA_LIB)
 
 #set the C/C++ include path to the "include" directory
 include_directories(${PROJECT_SOURCE_DIR}/src/cpp)
@@ -96,11 +127,10 @@ include_directories(${PROJECT_SOURCE_DIR}/src/cpp)
 #add_definitions( "-Wall -ansi -pedantic" )
 # HDF5 uses long long which is not ansi
 if (WIN32)
-    # lots of warnings with cl.exe right now
-    # TODO: fix this
-    add_definitions( "-w" )
+    # lots of warnings with cl.exe right now, use /W1
+    add_definitions("/W1 -D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS /bigobj")
 else(WIN32)
-    add_definitions( "-Wall" )
+    add_definitions( "-Wall -Wno-unknown-pragmas" )
 endif(WIN32)
 
 add_subdirectory( cmake )
@@ -152,4 +182,6 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "Building C bindings: ${BUILD_C_BINDINGS}")
 message(STATUS "Building python bindings: ${BUILD_PYTHON_BINDINGS}")
 message(STATUS "Building matlab bindings: ${BUILD_MATLAB_BINDINGS}")
+message(STATUS "Building CUDA library: ${BUILD_CUDA_LIB}")
+message(STATUS "Using OpenMP support: ${USE_OPENMP}")
 message(STATUS "Using MPI support: ${USE_MPI}")
