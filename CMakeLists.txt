@@ -255,11 +255,13 @@ include(${PCL_SOURCE_DIR}/cmake/pcl_find_cuda.cmake)
 
 # Find ROS
 include(${PCL_SOURCE_DIR}/cmake/pcl_find_ros.cmake)
+
 # Find QT4
 find_package(Qt4)
 if (QT4_FOUND)
   include(${QT_USE_FILE})
 endif (QT4_FOUND)
+
 # Find VTK
 include(${PROJECT_SOURCE_DIR}/deps/vtk/vtk.cmake)
 # find_package(VTK)
@@ -277,9 +279,14 @@ if(VTK_FOUND)
     message ("Warning: You are to build PCL in STATIC but VTK is SHARED!")
     message ("Warning: VTK disabled!")
   endif ()
-else()
-  message(FATAL_ERROR "VTK not found.")
+  message(STATUS "VTK_FOUND: ${VTK_FOUND}")
+  message(STATUS "VTK_INCLUDE_DIRS: ${VTK_INCLUDE_DIRS}")
+  message(STATUS "VTK_LIBRARY_DIRS: ${VTK_LIBRARY_DIRS}")
 endif(VTK_FOUND)
+if(NOT VTK_FOUND)
+  message(FATAL_ERROR "VTK not found.")
+endif()
+
 # Find MPI
 if (WITH_MPI) # this script searches for MPI 10 sec under windows, annoying especially if you do this often
   find_package(MPI)
@@ -343,3 +350,4 @@ PCL_RESET_MAPS()
 
 add_custom_target(deps COMMAND cmake -E echo)
 add_dependencies(deps ext_openni)
+add_dependencies(deps ext_vtk)
