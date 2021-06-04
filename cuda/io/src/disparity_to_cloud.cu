@@ -31,11 +31,9 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: disparity_to_cloud.cu 4203 2012-02-02 09:53:55Z nerei $
+ * $Id$
  *
  */
-
-#define PCL_CUDA_IO
 
 #include "pcl/cuda/io/disparity_to_cloud.h"
 #include "pcl/cuda/io/debayering.h"
@@ -96,10 +94,10 @@ ComputeXYZRGB::operator () (const Tuple &t)
 
 //////////////////////////////////////////////////////////////////////////
 //void
-//DisparityToCloud::compute (const sensor_msgs::Image::ConstPtr &depth_image,
-//                                     const sensor_msgs::Image::ConstPtr &rgb_image,
-//                                     const sensor_msgs::CameraInfo::ConstPtr &info,
-//                                     PointCloudAOS<Device>::Ptr &output)
+//DisparityToCloud::compute (const pcl::PCLImage::ConstPtr &depth_image,
+//                                     const pcl::PCLImage::ConstPtr &rgb_image,
+//                                     const pcl::CameraInfo::ConstPtr &info,
+//                                     PointCloudAOS<Device>::Ptr &output) 
 //{
 //  if (!output)
 //    output.reset (new PointCloudAOS<Device>);
@@ -129,10 +127,10 @@ ComputeXYZRGB::operator () (const Tuple &t)
 //    // Send the data to the device
 //    transform (
 //        make_zip_iterator (make_tuple (depth.begin (), rgb.begin (), counting_iterator<int>(0))),
-//        make_zip_iterator (make_tuple (depth.begin (), rgb.begin (), counting_iterator<int>(0))) +
+//        make_zip_iterator (make_tuple (depth.begin (), rgb.begin (), counting_iterator<int>(0))) + 
 //                           depth_image->width * depth_image->height,
-//        output->points.begin (),
-//        ComputeXYZRGB (depth_image->width, depth_image->height,
+//        output->points.begin (), 
+//        ComputeXYZRGB (depth_image->width, depth_image->height, 
 //                       depth_image->width >> 1, depth_image->height >> 1, 1.0 / info->P[0]));
 //  }
 //  else
@@ -140,10 +138,10 @@ ComputeXYZRGB::operator () (const Tuple &t)
 //    // Send the data to the device
 //    transform (
 //        make_zip_iterator (make_tuple (depth.begin (), counting_iterator<int>(0))),
-//        make_zip_iterator (make_tuple (depth.begin (), counting_iterator<int>(0))) +
+//        make_zip_iterator (make_tuple (depth.begin (), counting_iterator<int>(0))) + 
 //                           depth_image->width * depth_image->height,
-//        output->points.begin (),
-//        ComputeXYZ (depth_image->width, depth_image->height,
+//        output->points.begin (), 
+//        ComputeXYZ (depth_image->width, depth_image->height, 
 //                    depth_image->width >> 1, depth_image->height >> 1, 1.0 / info->P[0]));
 //  }
 //
@@ -151,10 +149,10 @@ ComputeXYZRGB::operator () (const Tuple &t)
 //
 ////////////////////////////////////////////////////////////////////////////
 //void
-//DisparityToCloud::compute (const sensor_msgs::Image::ConstPtr &depth_image,
-//                                     const sensor_msgs::Image::ConstPtr &rgb_image,
-//                                     const sensor_msgs::CameraInfo::ConstPtr &info,
-//                                     PointCloudAOS<Host>::Ptr &output)
+//DisparityToCloud::compute (const pcl::PCLImage::ConstPtr &depth_image,
+//                                     const pcl::PCLImage::ConstPtr &rgb_image,
+//                                     const pcl::CameraInfo::ConstPtr &info,
+//                                     PointCloudAOS<Host>::Ptr &output) 
 //{
 //  if (!output)
 //    output.reset (new PointCloudAOS<Host>);
@@ -166,7 +164,7 @@ ComputeXYZRGB::operator () (const Tuple &t)
 
     template <typename T>
     void save_pgm (const T* depth, std::string filename, int w, int h)
-    {
+    {   
       std::ofstream ofs (filename.c_str());
       ofs << "P2" << std::endl << w << " " << h << std::endl;
       T max_el = 0;
@@ -175,23 +173,23 @@ ComputeXYZRGB::operator () (const Tuple &t)
           max_el = depth[depthIdx];
       ofs << (int)max_el << std::endl;
       for (int yIdx = 0; yIdx < h; ++yIdx)
-      {
+      {   
         for (int xIdx = 0; xIdx < w; ++xIdx)
-        {
+        {   
           ofs << (int)depth[w*yIdx+xIdx] << " ";
-        }
+        }   
         ofs << std::endl;
-      }
-    }
+      }   
+    }   
 
 //////////////////////////////////////////////////////////////////////////
 template <template <typename> class Storage> void
-DisparityToCloud::compute (const boost::uint16_t* depth_image,
+DisparityToCloud::compute (const std::uint16_t* depth_image,
                            const OpenNIRGB* rgb_image,
                            int width, int height,
                            float constant,
                            typename PointCloudAOS<Storage>::Ptr &output,
-                           int smoothing_nr_iterations, int smoothing_filter_size)
+                           int smoothing_nr_iterations, int smoothing_filter_size) 
 {
   using namespace thrust;
   if (!output)
@@ -222,7 +220,7 @@ DisparityToCloud::compute (const boost::uint16_t* depth_image,
 
     transform (counting_iterator<int>(0),
                counting_iterator<int>(0) + output_size,
-               disp_helper_map.begin (),
+               disp_helper_map.begin (), 
                DisparityHelperMap (depth_ptr, width, height, smoothing_filter_size, baseline, 1.0f/constant, disp_thresh));
 
     for (int iter = 0; iter < smoothing_nr_iterations; iter++)
@@ -237,8 +235,8 @@ DisparityToCloud::compute (const boost::uint16_t* depth_image,
     transform (
         make_zip_iterator (make_tuple (depth.begin (), rgb.begin(), counting_iterator<int>(0))),
         make_zip_iterator (make_tuple (depth.begin (), rgb.begin(), counting_iterator<int>(0))) + output_size,
-        output->points.begin (),
-        ComputeXYZRGB (width, height,
+        output->points.begin (), 
+        ComputeXYZRGB (width, height, 
                        width >> 1, height >> 1, constant));
   }
   else
@@ -246,19 +244,19 @@ DisparityToCloud::compute (const boost::uint16_t* depth_image,
     transform (
         make_zip_iterator (make_tuple (depth.begin(), rgb.begin(), counting_iterator<int>(0))),
         make_zip_iterator (make_tuple (depth.begin(), rgb.begin(), counting_iterator<int>(0))) + output_size,
-        output->points.begin (),
-        ComputeXYZRGB (width, height,
+        output->points.begin (), 
+        ComputeXYZRGB (width, height, 
                        width >> 1, height >> 1, constant));
   }
 }
 
 //////////////////////////////////////////////////////////////////////////
 template <template <typename> class Storage> void
-DisparityToCloud::compute (const boost::shared_ptr<openni_wrapper::DepthImage>& depth_image,
-                                     const boost::shared_ptr<openni_wrapper::Image>& rgb_image,
+DisparityToCloud::compute (const openni_wrapper::DepthImage::Ptr& depth_image,
+                                     const openni_wrapper::Image::Ptr& rgb_image,
                                      float constant,
                                      typename PointCloudAOS<Storage>::Ptr &output,
-                                     bool downsample, int stride, int smoothing_nr_iterations, int smoothing_filter_size)
+                                     bool downsample, int stride, int smoothing_nr_iterations, int smoothing_filter_size) 
 {
   if (!output)
     output.reset (new PointCloudAOS<Storage>);
@@ -293,15 +291,15 @@ DisparityToCloud::compute (const boost::shared_ptr<openni_wrapper::DepthImage>& 
     typename Storage<float>::type depth_device (depth_width * depth_height);
     // first, copy from host to Storage
     thrust::copy (depth_buffer, (unsigned short*)(&depth_buffer[depth_width * depth_height]), depth_device.begin ());
-
+    
     thrust::counting_iterator<int> counter (0);
     //typename Storage<int>::type downsampled_indices;
     //downsampled_indices.resize ((output->width/2) * (output->height/2));
     //thrust::copy_if (counting_iterator<int>(0), counting_iterator<int>(0)+depth_width*depth_height, downsampled_indices.begin (), downsampleIndices (output->width, output->height, 2));
-    thrust::copy_if (depth_device.begin (),
+    thrust::copy_if (depth_device.begin (), 
                     depth_device.end (),
                     //thrust::make_constant_iterator (12), thrust::make_constant_iterator (12) + depth_width * depth_height,
-                    counter,
+                    counter, 
                     depth.begin (),
                     downsampleIndices (depth_width, depth_height, stride));
     //host_vector<float> h_depth = depth;
@@ -358,7 +356,7 @@ DisparityToCloud::compute (const boost::shared_ptr<openni_wrapper::DepthImage>& 
 
     transform (counting_iterator<int>(0),
                counting_iterator<int>(0) + output_size,
-               disp_helper_map.begin (),
+               disp_helper_map.begin (), 
                DisparityHelperMap (thrust::raw_pointer_cast(&depth[0]), output->width, output->height, smoothing_filter_size, baseline, 1.0f/constant, disp_thresh));
 
     for (int iter = 0; iter < smoothing_nr_iterations; iter++)
@@ -373,10 +371,10 @@ DisparityToCloud::compute (const boost::shared_ptr<openni_wrapper::DepthImage>& 
     transform (
         make_zip_iterator (make_tuple (depth.begin (), rgb.begin (), counting_iterator<int>(0))),
         make_zip_iterator (make_tuple (depth.begin (), rgb.begin (), counting_iterator<int>(0))) + output_size,
-        output->points.begin (),
-        ComputeXYZRGB (output->width, output->height,
+        output->points.begin (), 
+        ComputeXYZRGB (output->width, output->height, 
                        output->width >> 1, output->height >> 1, constant));
-#else
+#else 
 //      typename Storage<float>::type smooth_depth1 (output_size);
 //      typename Storage<float>::type smooth_depth2 (output_size);
 //
@@ -403,8 +401,8 @@ DisparityToCloud::compute (const boost::shared_ptr<openni_wrapper::DepthImage>& 
 //      transform (
 //          make_zip_iterator (make_tuple (smooth_depth1.begin (), rgb.begin (), counting_iterator<int>(0))),
 //          make_zip_iterator (make_tuple (smooth_depth1.begin (), rgb.begin (), counting_iterator<int>(0))) + output_size,
-//          output->points.begin (),
-//          ComputeXYZRGB (output->width, output->height,
+//          output->points.begin (), 
+//          ComputeXYZRGB (output->width, output->height, 
 //                         output->width >> 1, output->height >> 1, constant));
 #endif
     }
@@ -414,8 +412,8 @@ DisparityToCloud::compute (const boost::shared_ptr<openni_wrapper::DepthImage>& 
       transform (
           make_zip_iterator (make_tuple (depth.begin (), rgb.begin (), counting_iterator<int>(0))),
           make_zip_iterator (make_tuple (depth.begin (), rgb.begin (), counting_iterator<int>(0))) + output_size,
-          output->points.begin (),
-          ComputeXYZRGB (output->width, output->height,
+          output->points.begin (), 
+          ComputeXYZRGB (output->width, output->height, 
                          output->width >> 1, output->height >> 1, constant));
     }
   }
@@ -424,10 +422,10 @@ DisparityToCloud::compute (const boost::shared_ptr<openni_wrapper::DepthImage>& 
     // Send the data to the device
     transform (
         make_zip_iterator (make_tuple (depth.begin (), counting_iterator<int>(0))),
-        make_zip_iterator (make_tuple (depth.begin (), counting_iterator<int>(0))) +
+        make_zip_iterator (make_tuple (depth.begin (), counting_iterator<int>(0))) + 
                            output->width * output->height,
-        output->points.begin (),
-        ComputeXYZ (output->width, output->height,
+        output->points.begin (), 
+        ComputeXYZ (output->width, output->height, 
                     output->width >> 1, output->height >> 1, constant));
   }
 
@@ -435,10 +433,10 @@ DisparityToCloud::compute (const boost::shared_ptr<openni_wrapper::DepthImage>& 
 
 //////////////////////////////////////////////////////////////////////////
 /*void
-DisparityToCloud::compute (const boost::shared_ptr<openni_wrapper::DepthImage>& depth_image,
-                                     const boost::shared_ptr<openni_wrapper::Image>& rgb_image,
+DisparityToCloud::compute (const openni_wrapper::DepthImage::Ptr& depth_image,
+                                     const openni_wrapper::Image::Ptr& rgb_image,
                                      float constant,
-                                     PointCloudAOS<Host>::Ptr &output)
+                                     PointCloudAOS<Host>::Ptr &output) 
 {
   if (!output)
     output.reset (new PointCloudAOS<Host>);
@@ -450,21 +448,21 @@ DisparityToCloud::compute (const boost::shared_ptr<openni_wrapper::DepthImage>& 
 
 //////////////////////////////////////////////////////////////////////////
 //void
-//DisparityToCloud::compute (const sensor_msgs::Image::ConstPtr &depth_image,
-//                                     const sensor_msgs::CameraInfo::ConstPtr &info,
-//                                     PointCloudAOS<Device>::Ptr &output)
+//DisparityToCloud::compute (const pcl::PCLImage::ConstPtr &depth_image,
+//                                     const pcl::CameraInfo::ConstPtr &info,
+//                                     PointCloudAOS<Device>::Ptr &output) 
 //{
 //  if (!output)
 //    output.reset (new PointCloudAOS<Device>);
 //
-//  compute (depth_image, sensor_msgs::Image::ConstPtr(), info, output);
+//  compute (depth_image, pcl::PCLImage::ConstPtr(), info, output);
 //}
 //
 ////////////////////////////////////////////////////////////////////////////
 //void
-//DisparityToCloud::compute (const sensor_msgs::Image::ConstPtr &depth_image,
-//                                     const sensor_msgs::CameraInfo::ConstPtr &info,
-//                                     PointCloudAOS<Host>::Ptr &output)
+//DisparityToCloud::compute (const pcl::PCLImage::ConstPtr &depth_image,
+//                                     const pcl::CameraInfo::ConstPtr &info,
+//                                     PointCloudAOS<Host>::Ptr &output) 
 //{
 //  if (!output)
 //    output.reset (new PointCloudAOS<Host>);
@@ -476,52 +474,52 @@ DisparityToCloud::compute (const boost::shared_ptr<openni_wrapper::DepthImage>& 
 
 //////////////////////////////////////////////////////////////////////////
 void
-DisparityToCloud::compute (const boost::shared_ptr<openni_wrapper::DepthImage>& depth_image,
+DisparityToCloud::compute (const openni_wrapper::DepthImage::Ptr& depth_image,
                                      float constant,
                                      PointCloudAOS<Device>::Ptr &output)
 {
   if (!output)
     output.reset (new PointCloudAOS<Device>);
 
-  compute<Device> (depth_image, boost::shared_ptr<openni_wrapper::Image>(), constant, output, false);
+  compute<Device> (depth_image, openni_wrapper::Image::Ptr(), constant, output, false);
 }
 
 //////////////////////////////////////////////////////////////////////////
 void
-DisparityToCloud::compute (const boost::shared_ptr<openni_wrapper::DepthImage>& depth_image,
+DisparityToCloud::compute (const openni_wrapper::DepthImage::Ptr& depth_image,
                                      float constant,
                                      PointCloudAOS<Host>::Ptr &output)
 {
   if (!output)
     output.reset (new PointCloudAOS<Host>);
 
-  compute<Host> (depth_image, boost::shared_ptr<openni_wrapper::Image>(), constant, output, false);
+  compute<Host> (depth_image, openni_wrapper::Image::Ptr(), constant, output, false);
   //PointCloudAOS<Device>::Ptr data;
   //compute (depth_image, constant, data);
   //*output << *data;
 }
 
 template PCL_EXPORTS void
-DisparityToCloud::compute<Host> (const boost::shared_ptr<openni_wrapper::DepthImage>& depth_image,
-                                     const boost::shared_ptr<openni_wrapper::Image>& rgb_image,
+DisparityToCloud::compute<Host> (const openni_wrapper::DepthImage::Ptr& depth_image,
+                                     const openni_wrapper::Image::Ptr& rgb_image,
                                      float constant,
                                      PointCloudAOS<Host>::Ptr &output,
                                      bool downsample, int stride, int, int);
 template PCL_EXPORTS void
-DisparityToCloud::compute<Device> (const boost::shared_ptr<openni_wrapper::DepthImage>& depth_image,
-                                     const boost::shared_ptr<openni_wrapper::Image>& rgb_image,
+DisparityToCloud::compute<Device> (const openni_wrapper::DepthImage::Ptr& depth_image,
+                                     const openni_wrapper::Image::Ptr& rgb_image,
                                      float constant,
                                      PointCloudAOS<Device>::Ptr &output,
                                      bool downsample, int stridem, int, int);
 template PCL_EXPORTS void
-DisparityToCloud::compute<Host> (const boost::uint16_t* depth_image,
+DisparityToCloud::compute<Host> (const std::uint16_t* depth_image,
                                  const OpenNIRGB* rgb_image,
                                  int width, int height,
                                  float constant,
                                  typename PointCloudAOS<Host>::Ptr &output,
                                  int smoothing_nr_iterations, int smoothing_filter_size);
 template PCL_EXPORTS void
-DisparityToCloud::compute<Device> (const boost::uint16_t* depth_image,
+DisparityToCloud::compute<Device> (const std::uint16_t* depth_image,
                                    const OpenNIRGB* rgb_image,
                                    int width, int height,
                                    float constant,
@@ -530,4 +528,3 @@ DisparityToCloud::compute<Device> (const boost::uint16_t* depth_image,
 } // namespace
 } // namespace
 
-#undef PCL_CUDA_IO

@@ -31,12 +31,11 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: cloud_to_pcl.h 6459 2012-07-18 07:50:37Z dpb $
+ * $Id$
  *
  */
 
-#ifndef PCL_CUDA_CLOUD_TO_PCL_H_
-#define PCL_CUDA_CLOUD_TO_PCL_H_
+#pragma once
 
 #include <pcl/cuda/point_cloud.h>
 
@@ -57,13 +56,13 @@ namespace pcl
     toPCL (const PointCloudAOS<Host> &input, const thrust::host_vector<float4> &normals, pcl::PointCloud<pcl::PointXYZRGBNormal> &output);
     PCL_EXPORTS void
     toPCL (const PointCloudAOS<Device> &input, const thrust::device_vector<float4> &normals, pcl::PointCloud<pcl::PointXYZRGBNormal> &output);
-
+  
     // convert point cloud with color
     PCL_EXPORTS void
     toPCL (const PointCloudAOS<Host> &input, pcl::PointCloud<pcl::PointXYZRGB> &output);
     PCL_EXPORTS void
     toPCL (const PointCloudAOS<Device> &input, pcl::PointCloud<pcl::PointXYZRGB> &output);
-
+  
     // convert pcl point cloud with color to pcl::cuda cloud
     PCL_EXPORTS void
     fromPCL (const pcl::PointCloud<pcl::PointXYZRGB> &input, PointCloudAOS<Host> &output);
@@ -71,5 +70,3 @@ namespace pcl
     fromPCL (const pcl::PointCloud<pcl::PointXYZRGB> &input, PointCloudAOS<Device> &output);
   } // namespace
 } // namespace
-
-#endif  //#ifndef PCL_CUDA_CLOUD_TO_PCL_H_

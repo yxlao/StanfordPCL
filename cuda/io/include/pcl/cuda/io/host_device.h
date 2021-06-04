@@ -31,12 +31,11 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: host_device.h 6459 2012-07-18 07:50:37Z dpb $
+ * $Id$
  *
  */
 
-#ifndef PCL_CUDA_HOST_DEVICE_H_
-#define PCL_CUDA_HOST_DEVICE_H_
+#pragma once
 
 #include <pcl/cuda/point_cloud.h>
 
@@ -52,14 +51,12 @@ namespace pcl
 
     template <template <typename> class Storage, template <typename> class OtherStorage>
     typename PointCloudAOS<OtherStorage>::Ptr toStorage (const PointCloudAOS<Storage> &input);
-
+  
     template <template <typename> class Storage>
     void toHost (const PointCloudAOS<Storage> &input, PointCloudAOS<Host> &output);
-
+  
     template <template <typename> class Storage>
     void toDevice (const PointCloudAOS<Storage> &input, PointCloudAOS<Device> &output);
 
   } // namespace
 } // namespace
-
-#endif  //#ifndef PCL_CUDA_HOST_DEVICE_H_

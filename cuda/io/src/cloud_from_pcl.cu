@@ -31,7 +31,7 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: cloud_from_pcl.cu 1265 2011-06-14 08:44:41Z blodow $
+ * $Id$
  *
  */
 
@@ -48,22 +48,22 @@ namespace cuda
 void
 fromPCL (const pcl::PointCloud<pcl::PointXYZRGB> &input, PointCloudAOS<Host> &output)
 {
-//  output.points.resize (input.points.size());
-//  for (size_t i = 0; i < input.points.size (); ++i)
+//  output.resize (input.size());
+//  for (std::size_t i = 0; i < input.size (); ++i)
 //  {
-//    output.points[i].x = input.points[i].x;
-//    output.points[i].y = input.points[i].y;
-//    output.points[i].z = input.points[i].z;
+//    output[i].x = input[i].x;
+//    output[i].y = input[i].y;
+//    output[i].z = input[i].z;
 //    // Pack RGB into a float
-//    output.points[i].rgb = *(float*)(&input.points[i].rgb);
+//    output[i].rgb = *(float*)(&input[i].rgb);
 //  }
-//  thrust::copy (output.points.begin(), output.points.end (), input.points.begin());
+//  thrust::copy (output.begin(), output.end (), input.begin());
 //  output.width    = input.width;
 //  output.height   = input.height;
 //  output.is_dense = input.is_dense;
 }
 
-void
+void                                                                                  
 fromPCL (const pcl::PointCloud<pcl::PointXYZRGB> &input, PointCloudAOS<Device> &output)
 {
 //  PointCloudAOS<Host> output_host;

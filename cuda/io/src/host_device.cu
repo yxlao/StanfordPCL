@@ -31,7 +31,7 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: host_device.cu 4203 2012-02-02 09:53:55Z nerei $
+ * $Id$
  *
  */
 
@@ -44,7 +44,7 @@ namespace pcl
 {
   namespace cuda
   {
-
+  
     template <template <typename> class Storage, template <typename> class OtherStorage>
     typename PointCloudAOS<OtherStorage>::Ptr toStorage (const PointCloudAOS<Storage> &input)
     {
@@ -52,16 +52,16 @@ namespace pcl
       *out << input;
       return out;
     }
-
+    
     template <template <typename> class Storage>
     void
     toHost (const PointCloudAOS<Storage> &input, PointCloudAOS<Host> &output)
     {
       output << input;
     }
-
+    
     template <template <typename> class Storage>
-    void
+    void                                                                                  
     toDevice (const PointCloudAOS<Storage> &input, PointCloudAOS<Device> &output)
     {
       output << input;

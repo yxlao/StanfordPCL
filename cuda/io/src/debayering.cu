@@ -31,11 +31,9 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: debayering.cu 5291 2012-03-25 17:31:04Z rusu $
+ * $Id$
  *
  */
-
-#define PCL_CUDA_IO
 
 #include <pcl/pcl_exports.h>
 
@@ -55,7 +53,7 @@ namespace pcl
       : width(width), height(height), data(yuv_image)
     {
     }
-
+  
     template <template <typename> class Storage>
     OpenNIRGB YUV2RGBKernel<Storage>::operator () (int index) const
     {
@@ -76,7 +74,7 @@ namespace pcl
       }
 
       int y = data[yuv_index + 1];
-
+      
 #define CLIP_CHAR(c) ((c)>255?255:(c)<0?0:(c))
     	OpenNIRGB result;
       result.b =  CLIP_CHAR (y + ((v * 18678 + 8192 ) >> 14));
@@ -111,19 +109,19 @@ namespace pcl
     		 //std::cout << cudaErrorInvalidValue << " , " << cudaErrorInvalidDevicePointer << " , " << cudaErrorInvalidMemcpyDirection << std::endl;
     	}*/
     }
-
+    
     template <template <typename> class Storage>
     OpenNIRGB DebayerBilinear<Storage>::operator () (int index) const
     {
     	// get position
-    	int xIdx = index % width;
-    	int yIdx = index / width;
+    	unsigned int xIdx = index % width;
+    	unsigned int yIdx = index / width;
     	
     	OpenNIRGB result;
-
+      
     //  result.r = result.g = result.b = 0;
     //  return result;
-
+      
     	// ToDo: need to be handled later on!
     	if (xIdx == 0 || xIdx == width-1 || yIdx == 0 || yIdx == height-1)
     	{
@@ -164,11 +162,11 @@ namespace pcl
     	
     	return result;
     }
-
+    
     /*unsigned char* DebayerEdgeAware::global_data = 0;
     unsigned DebayerEdgeAware::dataSize = 0;
-
-    DebayerEdgeAware::DebayerEdgeAware (const boost::shared_ptr<openni_wrapper::Image>& bayer_image)
+    
+    DebayerEdgeAware::DebayerEdgeAware (const openni_wrapper::Image::Ptr& bayer_image)
     {
     	if (dataSize < bayer_image->getWidth () * bayer_image->getHeight ())
     	{
@@ -188,12 +186,12 @@ namespace pcl
     		 //std::cout << cudaErrorInvalidValue << " , " << cudaErrorInvalidDevicePointer << " , " << cudaErrorInvalidMemcpyDirection << std::endl;
     	}
     }
-
+    
     DebayerEdgeAware::~DebayerEdgeAware ()
     {
     	//cudaFree (data);
     }
-
+    
     OpenNIRGB DebayerEdgeAware::operator () (int index) const
     {
     	// get position
@@ -201,7 +199,7 @@ namespace pcl
     	int yIdx = index / width;
     	
     	OpenNIRGB result;
-
+      
     	// ToDo: need to be handled later on!
     	if (xIdx == 0 || xIdx == width-1 || yIdx == 0 || yIdx == height-1)
     	{
@@ -249,15 +247,15 @@ namespace pcl
     	
     	return result;
     }*/
-
+    
     template<template <typename> class Storage>
-    void Debayering<Storage>::computeBilinear (const boost::shared_ptr<openni_wrapper::Image>& bayer_image, RGBImageType& rgb_image) const
+    void Debayering<Storage>::computeBilinear (const openni_wrapper::Image::Ptr& bayer_image, RGBImageType& rgb_image) const
     {
     	//pcl::ScopeTime t ("computeBilinear");
     	typename Storage<unsigned char>::type bayer_data (bayer_image->getWidth () * bayer_image->getHeight ());
     //	thrust::device_vector<unsigned char> bayer_data (bayer_image->getWidth () * bayer_image->getHeight ());
     	thrust::copy ((unsigned char*)(bayer_image->getMetaData().Data()),
-    	              (unsigned char*)(bayer_image->getMetaData().Data() + bayer_image->getMetaData().DataSize()),
+    	              (unsigned char*)(bayer_image->getMetaData().Data() + bayer_image->getMetaData().DataSize()), 
     	              bayer_data.begin ());
     //	thrust::device_vector<int> indices(bayer_image->getWidth () * bayer_image->getHeight ());
     //	thrust::sequence (indices.begin(), indices.end() );
@@ -273,11 +271,11 @@ namespace pcl
     }
 
     template<template <typename> class Storage>
-    void YUV2RGB<Storage>::compute (const boost::shared_ptr<openni_wrapper::Image>& yuv_image, RGBImageType& rgb_image) const
+    void YUV2RGB<Storage>::compute (const openni_wrapper::Image::Ptr& yuv_image, RGBImageType& rgb_image) const
     {
     	typename Storage<unsigned char>::type yuv_data (yuv_image->getMetaData().DataSize());
     	thrust::copy ((unsigned char*)(yuv_image->getMetaData().Data()),
-    	              (unsigned char*)(yuv_image->getMetaData().Data() + yuv_image->getMetaData().DataSize()),
+    	              (unsigned char*)(yuv_image->getMetaData().Data() + yuv_image->getMetaData().DataSize()), 
     	              yuv_data.begin ());
     	thrust::counting_iterator<int> first (0);
     	thrust::transform (first,
@@ -285,39 +283,39 @@ namespace pcl
     	                   rgb_image.begin(),
     	                   YUV2RGBKernel<Storage> (thrust::raw_pointer_cast (&yuv_data[0]), yuv_image->getWidth (), yuv_image->getHeight ()) );
     }
-
+    
     template <template <typename> class Storage>
     struct DebayerDownsample
     {
       DebayerDownsample (unsigned char *bayer_image, unsigned width, unsigned stride)
         : width(width), stride(stride), data(bayer_image) {}
-
+    
       int width, height, stride;
       unsigned char *data;
-
+    
       __host__ __device__
       OpenNIRGB operator() (int i)
       {
         OpenNIRGB result;
         result.r = data [i+1];
         result.g = (data [i] + data[i + width + 1]) / 2;
-        result.b = data [i + width];
+        result.b = data [i + width]; 
         return result;
       }
-
+        
     };
-
-
+    
+    
     template<template <typename> class Storage>
-    void DebayeringDownsampling<Storage>::compute (const boost::shared_ptr<openni_wrapper::Image>& bayer_image, RGBImageType& rgb_image) const
+    void DebayeringDownsampling<Storage>::compute (const openni_wrapper::Image::Ptr& bayer_image, RGBImageType& rgb_image) const
     {
     	//pcl::ScopeTime t ("computeBilinear");
     	typename Storage<unsigned char>::type bayer_data (bayer_image->getWidth () * bayer_image->getHeight ());
     //	thrust::device_vector<unsigned char> bayer_data (bayer_image->getWidth () * bayer_image->getHeight ());
     	thrust::copy ((unsigned char*)(bayer_image->getMetaData().Data()),
-    	              (unsigned char*)(bayer_image->getMetaData().Data() + bayer_image->getMetaData().DataSize()),
+    	              (unsigned char*)(bayer_image->getMetaData().Data() + bayer_image->getMetaData().DataSize()), 
     	              bayer_data.begin ());
-
+    
     	thrust::counting_iterator<int> first (0);
       typename Storage<int>::type downsampled_indices;
       downsampled_indices.resize ((bayer_image->getWidth()/2) * (bayer_image->getHeight()/2));
@@ -325,36 +323,35 @@ namespace pcl
                        first + (int)(bayer_image->getWidth () * bayer_image->getHeight ()),
                        downsampled_indices.begin(),
                        downsampleIndices(bayer_image->getWidth (), bayer_image->getHeight (), 2));
-
+             
     	thrust::transform (downsampled_indices.begin (),
       	                 downsampled_indices.end (),
     	                   rgb_image.begin(),
     	                   DebayerDownsample<Storage> (thrust::raw_pointer_cast (&bayer_data[0]), bayer_image->getWidth (), 2) );
     }
     /*
-    void Debayering::computeEdgeAware (const boost::shared_ptr<openni_wrapper::Image>& bayer_image, thrust::host_vector<OpenNIRGB>& rgb_image) const
+    void Debayering::computeEdgeAware (const openni_wrapper::Image::Ptr& bayer_image, thrust::host_vector<OpenNIRGB>& rgb_image) const
     {
     	thrust::device_vector<OpenNIRGB> image (bayer_image->getWidth () * bayer_image->getHeight ()) ;
     	computeEdgeAware (bayer_image, image );
     	rgb_image = image;
     }
-
-    void Debayering::computeEdgeAware (const boost::shared_ptr<openni_wrapper::Image>& bayer_image, thrust::device_vector<OpenNIRGB>& rgb_image) const
+    
+    void Debayering::computeEdgeAware (const openni_wrapper::Image::Ptr& bayer_image, thrust::device_vector<OpenNIRGB>& rgb_image) const
     {
     	//pcl::ScopeTime t ("computeEdgeAware");
     	thrust::device_vector<int> indices(bayer_image->getWidth () * bayer_image->getHeight ());
     	thrust::sequence( indices.begin(), indices.end() );
     	thrust::transform ( indices.begin(), indices.end(), rgb_image.begin(), DebayerEdgeAware (bayer_image) );
     }*/
-
+    
     template class PCL_EXPORTS YUV2RGB<Device>;
     template class PCL_EXPORTS YUV2RGB<Host>;
     template class PCL_EXPORTS Debayering<Device>;
     template class PCL_EXPORTS Debayering<Host>;
     template class PCL_EXPORTS DebayeringDownsampling<Device>;
     template class PCL_EXPORTS DebayeringDownsampling<Host>;
-
+  
   } // namespace
 } // namespace
 
-#undef PCL_CUDA_IO

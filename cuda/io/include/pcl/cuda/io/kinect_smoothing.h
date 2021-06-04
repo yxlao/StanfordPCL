@@ -35,8 +35,7 @@
  *
  */
 
-#ifndef PCL_CUDA_KINECT_SMOOTHING_H_
-#define PCL_CUDA_KINECT_SMOOTHING_H_
+#pragma once
 
 #include <pcl/io/openni_camera/openni_image.h>
 #include <thrust/tuple.h>
@@ -54,7 +53,7 @@ namespace pcl
         , focal_length_(focal_length), baseline_(baseline), disparity_threshold_(disparity_threshold)
         , data_(data), raw_data_(raw_data)
       {}
-
+  
       int width_, height_;
       int window_size_;
       float focal_length_;
@@ -64,7 +63,7 @@ namespace pcl
       float *raw_data_;
 
       // helper function
-      inline __host__ __device__
+      inline __host__ __device__ 
         float disparity2depth (float disparity)
       {
         return baseline_ * focal_length_ / disparity;
@@ -93,17 +92,17 @@ namespace pcl
 
         return avg_depth;
       }
-
+  
       // actual kernel operator
       inline __host__ __device__
       float operator () (int idx)
       {
         float depth = data_ [idx];
-#ifdef __CUDACC__
+#ifdef __CUDACC__        
         if (depth == 0 | isnan(depth) | isinf(depth))
           return 0;
 #else
-        if (depth == 0 | pcl_isnan(depth) | pcl_isinf(depth))
+        if (depth == 0 | std::isnan(depth) | std::isinf(depth))
           return 0;
 #endif
         int xIdx = idx % width_;
@@ -116,13 +115,13 @@ namespace pcl
             yIdx - window_size_,
             yIdx + window_size_
             );
-
+        
         // clamp the coordinates to fit to depth image size
         bounds.x = clamp (bounds.x, 0, width_-1);
         bounds.y = clamp (bounds.y, 0, width_-1);
         bounds.z = clamp (bounds.z, 0, height_-1);
         bounds.w = clamp (bounds.w, 0, height_-1);
-
+    
         float average_depth = depth;
         int counter = 1;
         // iterate over all pixels in the rectangular region
@@ -137,7 +136,7 @@ namespace pcl
             // ignore invalid points
             if (otherDepth == 0)
               continue;
-            if (fabs(otherDepth - depth) > 200)
+            if (std::abs(otherDepth - depth) > 200)
               continue;
 
             ++counter;
@@ -153,7 +152,7 @@ namespace pcl
     // This version requires a pre-computed map of float3 (nr_valid_points, min_allowable_depth, max_allowable_depth);
     struct DisparityClampedSmoothing
     {
-      DisparityClampedSmoothing (float* data, float3* disparity_helper_map, int width, int height, int window_size)
+      DisparityClampedSmoothing (float* data, float3* disparity_helper_map, int width, int height, int window_size) 
         : data_(data), disparity_helper_map_(disparity_helper_map), width_(width), height_(height), window_size_(window_size)
       {}
 
@@ -173,11 +172,11 @@ namespace pcl
         int nr = (int) dhel.x;
         float min_d = dhel.y;
         float max_d = dhel.z;
-#ifdef __CUDACC__
+#ifdef __CUDACC__        
         if (depth == 0 | isnan(depth) | isinf(depth))
           return 0.0f;
 #else
-        if (depth == 0 | pcl_isnan(depth) | pcl_isinf(depth))
+        if (depth == 0 | std::isnan(depth) | std::isinf(depth))
           return 0.0f;
 #endif
         int xIdx = idx % width_;
@@ -190,7 +189,7 @@ namespace pcl
             yIdx - window_size_,
             yIdx + window_size_
             );
-
+        
         // clamp the coordinates to fit to disparity image size
         bounds.x = clamp (bounds.x, 0, width_-1);
         bounds.y = clamp (bounds.y, 0, width_-1);
@@ -207,14 +206,14 @@ namespace pcl
             depth += data_[otherIdx];
           }
         }
-
+      
         return clamp (depth / nr, min_d, max_d);
       }
     };
 
     struct DisparityHelperMap
     {
-      DisparityHelperMap (float* data, int width, int height, int window_size, float baseline, float focal_length, float disp_thresh)
+      DisparityHelperMap (float* data, int width, int height, int window_size, float baseline, float focal_length, float disp_thresh) 
         : data_(data), width_(width), height_(height), window_size_(window_size), baseline_(baseline), focal_length_(focal_length), disp_thresh_(disp_thresh)
       {}
 
@@ -227,7 +226,7 @@ namespace pcl
       float disp_thresh_;
 
       // helper function
-      inline __host__ __device__
+      inline __host__ __device__ 
         float disparity2depth (float disparity)
       {
         return baseline_ * focal_length_ / disparity;
@@ -244,11 +243,11 @@ namespace pcl
         float3 operator () (int idx)
       {
         float disparity = depth2disparity (data_ [idx]);
-#ifdef __CUDACC__
+#ifdef __CUDACC__         
         if (disparity == 0 | isnan(disparity) | isinf(disparity))
           return make_float3 (0,0,0);
 #else
-        if (disparity == 0 | pcl_isnan(disparity) | pcl_isinf(disparity))
+        if (disparity == 0 | std::isnan(disparity) | std::isinf(disparity))
           return make_float3 (0,0,0);
 #endif
         int xIdx = idx % width_;
@@ -261,7 +260,7 @@ namespace pcl
             yIdx - window_size_,
             yIdx + window_size_
             );
-
+        
         // clamp the coordinates to fit to disparity image size
         bounds.x = clamp (bounds.x, 0, width_-1);
         bounds.y = clamp (bounds.y, 0, width_-1);
@@ -283,8 +282,8 @@ namespace pcl
               ++counter;
           }
         }
-
-        return make_float3 ((float) counter,
+        
+        return make_float3 ((float) counter, 
                             disparity2depth (disparity + disp_thresh_),
                             disparity2depth (disparity - disp_thresh_));
       }
@@ -293,6 +292,3 @@ namespace pcl
 
   } // namespace
 } // namespace
-
-#endif
-

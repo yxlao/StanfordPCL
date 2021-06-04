@@ -31,12 +31,11 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: predicate.h 6459 2012-07-18 07:50:37Z dpb $
+ * $Id$
  *
  */
 
-#ifndef PCL_CUDA_PREDICATE_H_
-#define PCL_CUDA_PREDICATE_H_
+#pragma once
 
 //#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 //#undef __MMX__
@@ -53,26 +52,26 @@ namespace cuda
   template <class T>
   struct isNotZero
   {
-      __inline__ __host__ __device__ bool
+      __inline__ __host__ __device__ bool 
       operator()(T x) { return (x != 0); }
   };
 
   struct isInlier
   {
-      __inline__ __host__ __device__ bool
+      __inline__ __host__ __device__ bool 
       operator()(int x) { return (x != -1); }
   };
 
   struct isNotInlier
   {
-      __inline__ __host__ __device__ bool
+      __inline__ __host__ __device__ bool 
       operator()(int x) { return (x == -1); }
   };
 
   struct SetColor
   {
     SetColor (const OpenNIRGB& color) : color_(color) {}
-    __inline__ __host__ __device__ void
+    __inline__ __host__ __device__ void 
        operator()(PointXYZRGB& point) { point.rgb.r = color_.r; point.rgb.g = color_.g; point.rgb.b = color_.b;}
     OpenNIRGB color_;
   };
@@ -91,7 +90,3 @@ namespace cuda
 
 } // namespace
 } // namespace
-
-#endif  //#ifndef PCL_CUDA_PREDICATE_H_
-
-
