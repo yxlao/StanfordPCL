@@ -16,3 +16,7 @@ add_dependencies(ext_flann ext_openni)
 # VTK
 include(${PROJECT_SOURCE_DIR}/vtk/vtk.cmake)
 add_dependencies(ext_vtk ext_openni)
+
+# Eigen
+include(${PROJECT_SOURCE_DIR}/eigen/eigen.cmake)
+add_dependencies(ext_eigen ext_openni)
