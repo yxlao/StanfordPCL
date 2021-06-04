@@ -338,3 +338,6 @@ MAKE_DEP_GRAPH()
 ### ---[ Finish up
 PCL_WRITE_STATUS_REPORT()
 PCL_RESET_MAPS()
+
+add_custom_target(deps COMMAND cmake -E echo)
+add_dependencies(deps ext_openni)
