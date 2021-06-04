@@ -22,9 +22,9 @@ package org.openni;
 
 /**
  * Stores the position of one skeleton joint in 3-space. <BR><BR>
- * 
- * Also stores a  
- * confidence value that allows skeleton middleware writers to quantify the 
+ *
+ * Also stores a
+ * confidence value that allows skeleton middleware writers to quantify the
  * uncertainty of the calculation.
  *
  */
@@ -41,7 +41,7 @@ public class SkeletonJointPosition
 		this.confidence = confidence;
 	}
 	
-	/** 
+	/**
 	 * Getter function for the joint position
 	 * @return The position of the joint
 	 */

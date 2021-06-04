@@ -49,7 +49,7 @@ while [ "$1" ]; do
 		shift
 		rootfs=$1
 		;;
-	-h|--help) 
+	-h|--help)
 		echo "$usage"
 		exit 0
 		;;

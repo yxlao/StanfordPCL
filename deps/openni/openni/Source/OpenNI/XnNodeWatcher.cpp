@@ -28,10 +28,10 @@
 namespace xn
 {
 
-XnStatus CreateNodeWatcher(ProductionNode &node, 
-						   XnProductionNodeType type, 
-						   void* pCookie, 
-						   XnNodeNotifications &notifications, 
+XnStatus CreateNodeWatcher(ProductionNode &node,
+						   XnProductionNodeType type,
+						   void* pCookie,
+						   XnNodeNotifications &notifications,
 						   NodeWatcher*& pNodeWatcher)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -122,8 +122,8 @@ XnStatus CreateNodeWatcher(ProductionNode &node,
 /********************/
 /* NodeWatcher		*/
 /********************/
-NodeWatcher::NodeWatcher(const ProductionNode& node, 
-						 XnNodeNotifications& notifications, 
+NodeWatcher::NodeWatcher(const ProductionNode& node,
+						 XnNodeNotifications& notifications,
 						 void* pCookie) :
 	m_node(node),
 	m_notifications(notifications),
@@ -179,8 +179,8 @@ XnStatus NodeWatcher::NotifyGeneralPropChanged(const XnChar* strPropName, XnUInt
 /********************/
 /* NodeWatcher		*/
 /********************/
-DeviceWatcher::DeviceWatcher(const Device& device, 
-						 XnNodeNotifications& notifications, 
+DeviceWatcher::DeviceWatcher(const Device& device,
+						 XnNodeNotifications& notifications,
 						 void* pCookie) :
 	NodeWatcher(device, notifications, pCookie)
 {}
@@ -189,8 +189,8 @@ DeviceWatcher::DeviceWatcher(const Device& device,
 /* GeneratorWatcher */
 /********************/
 GeneratorWatcher::GeneratorWatcher(const Generator &generator,
-								   XnNodeNotifications& notifications, 
-								   void* pCookie) : 
+								   XnNodeNotifications& notifications,
+								   void* pCookie) :
 	NodeWatcher(generator, notifications, pCookie),
 	m_generator(generator),
 	m_hGenerationRunningChangeCB(NULL),
@@ -213,7 +213,7 @@ XnStatus GeneratorWatcher::Register()
 	nRetVal = NodeWatcher::Register();
 	XN_IS_STATUS_OK(nRetVal);
 	
-	nRetVal = m_generator.RegisterToGenerationRunningChange(&HandleGenerationRunningChange, this, 
+	nRetVal = m_generator.RegisterToGenerationRunningChange(&HandleGenerationRunningChange, this,
 		m_hGenerationRunningChangeCB);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -319,7 +319,7 @@ XnStatus GeneratorWatcher::Watch()
 
 	// check if timestamp has changed since last time.
 	// Note that the first frame might have a timestamp of zero, so also make sure frame ID changes
-	if ((nCurrentTimeStamp > m_nLastDataTimeStamp) || 
+	if ((nCurrentTimeStamp > m_nLastDataTimeStamp) ||
 		(nCurrentFrameID > m_nLastDataFrameID))
 	{
 		m_nLastDataTimeStamp = nCurrentTimeStamp;
@@ -328,9 +328,9 @@ XnStatus GeneratorWatcher::Watch()
 		const void* pData = GetCurrentData();
 		if (pData != NULL)
 		{
-			nRetVal = m_notifications.OnNodeNewData(m_pCookie, 
-				m_generator.GetName(), 
-				nCurrentTimeStamp, 
+			nRetVal = m_notifications.OnNodeNewData(m_pCookie,
+				m_generator.GetName(),
+				nCurrentTimeStamp,
 				m_generator.GetFrameID(),
 				pData,
 				m_generator.GetDataSize());
@@ -422,9 +422,9 @@ XnStatus GeneratorWatcher::UpdateFrameSync()
 /**************/
 /* MapWatcher */
 /**************/
-MapWatcher::MapWatcher(const MapGenerator &mapGenerator, 
-					   XnNodeNotifications& notifications, 
-					   void* pCookie) : 
+MapWatcher::MapWatcher(const MapGenerator &mapGenerator,
+					   XnNodeNotifications& notifications,
+					   void* pCookie) :
 	m_mapGenerator(mapGenerator),
 	GeneratorWatcher(mapGenerator, notifications, pCookie),
 	m_hMapOutputModeChangeCB(NULL),
@@ -582,9 +582,9 @@ void XN_CALLBACK_TYPE MapWatcher::HandleCroppingChange(ProductionNode& /*node*/,
 /****************/
 /* ImageWatcher */
 /****************/
-ImageWatcher::ImageWatcher(const ImageGenerator &imageGenerator, 
-						   XnNodeNotifications& notifications, 
-						   void* pCookie) : 
+ImageWatcher::ImageWatcher(const ImageGenerator &imageGenerator,
+						   XnNodeNotifications& notifications,
+						   void* pCookie) :
 	m_imageGenerator(imageGenerator),
 	MapWatcher(imageGenerator, notifications, pCookie),
 	m_hPixelFormatChangeCB(NULL)
@@ -655,8 +655,8 @@ void XN_CALLBACK_TYPE ImageWatcher::HandlePixelFormatChange(ProductionNode& /*no
 /*************/
 /* IRWatcher */
 /*************/
-IRWatcher::IRWatcher(const IRGenerator &irGenerator, 
-					 XnNodeNotifications& notifications, 
+IRWatcher::IRWatcher(const IRGenerator &irGenerator,
+					 XnNodeNotifications& notifications,
 					 void* pCookie) :
 	m_irGenerator(irGenerator),
 	MapWatcher(irGenerator, notifications, pCookie)
@@ -666,9 +666,9 @@ IRWatcher::IRWatcher(const IRGenerator &irGenerator,
 /****************/
 /* DepthWatcher */
 /****************/
-DepthWatcher::DepthWatcher(const DepthGenerator &depthGenerator, 
-						   XnNodeNotifications& notifications, 
-						   void* pCookie) : 
+DepthWatcher::DepthWatcher(const DepthGenerator &depthGenerator,
+						   XnNodeNotifications& notifications,
+						   void* pCookie) :
 	m_depthGenerator(depthGenerator),
 	MapWatcher(depthGenerator, notifications, pCookie),
 	m_hFieldOfViewChangeCB(NULL),
@@ -828,9 +828,9 @@ void XN_CALLBACK_TYPE DepthWatcher::HandleUserPositionChange(ProductionNode& /*n
 /****************/
 /* AudioWatcher */
 /****************/
-AudioWatcher::AudioWatcher(const AudioGenerator &audioGenerator, 
-						   XnNodeNotifications& notifications, 
-						   void* pCookie) : 
+AudioWatcher::AudioWatcher(const AudioGenerator &audioGenerator,
+						   XnNodeNotifications& notifications,
+						   void* pCookie) :
 	m_audioGenerator(audioGenerator),
 	GeneratorWatcher(audioGenerator, notifications, pCookie),
 	m_hOutputModeChangeCB(NULL)
@@ -923,9 +923,9 @@ void XN_CALLBACK_TYPE AudioWatcher::HandleWaveOutputModeChange(ProductionNode& /
 /******************/
 /* GestureWatcher */
 /******************/
-GestureWatcher::GestureWatcher(const GestureGenerator &gestureGenerator, 
-							   XnNodeNotifications& notifications, 
-							   void* pCookie) : 
+GestureWatcher::GestureWatcher(const GestureGenerator &gestureGenerator,
+							   XnNodeNotifications& notifications,
+							   void* pCookie) :
 	m_gestureGenerator(gestureGenerator),
 	GeneratorWatcher(gestureGenerator, notifications, pCookie),
 	m_hGestureCB(NULL)
@@ -959,10 +959,10 @@ XnStatus GestureWatcher::NotifyStateImpl()
 	return XN_STATUS_OK;
 }
 
-void XN_CALLBACK_TYPE GestureWatcher::HandleGestureRecognized(GestureGenerator& /*generator*/, 
-															  const XnChar* strGesture, 
-														  	  const XnPoint3D* pIDPosition, 
-															  const XnPoint3D* pEndPosition, 
+void XN_CALLBACK_TYPE GestureWatcher::HandleGestureRecognized(GestureGenerator& /*generator*/,
+															  const XnChar* strGesture,
+														  	  const XnPoint3D* pIDPosition,
+															  const XnPoint3D* pEndPosition,
 															  void* pCookie)
 {
 	GestureWatcher *pThis = (GestureWatcher*)pCookie;
@@ -974,14 +974,14 @@ void XN_CALLBACK_TYPE GestureWatcher::HandleGestureRecognized(GestureGenerator& 
 	}
 
 	XnGestureRecognizedParams gestureRecognizedParams(strGesture, *pIDPosition, *pEndPosition);
-	pThis->NotifyGeneralPropChanged(XN_PROP_GESTURE_RECOGNIZED, 
+	pThis->NotifyGeneralPropChanged(XN_PROP_GESTURE_RECOGNIZED,
 		sizeof(gestureRecognizedParams), &gestureRecognizedParams);
 }
 
-void XN_CALLBACK_TYPE GestureWatcher::HandleGestureProgress(GestureGenerator& /*generator*/, 
-														    const XnChar* strGesture, 
-														    const XnPoint3D* pPosition, 
-														    XnFloat fProgress, 
+void XN_CALLBACK_TYPE GestureWatcher::HandleGestureProgress(GestureGenerator& /*generator*/,
+														    const XnChar* strGesture,
+														    const XnPoint3D* pPosition,
+														    XnFloat fProgress,
 														    void* pCookie)
 {
 	GestureWatcher *pThis = (GestureWatcher*)pCookie;
@@ -994,7 +994,7 @@ void XN_CALLBACK_TYPE GestureWatcher::HandleGestureProgress(GestureGenerator& /*
 	}
 
 	XnGestureProgressParams gestureProgressParams(strGesture, *pPosition, fProgress);
-	pThis->NotifyGeneralPropChanged(XN_PROP_GESTURE_PROGRESS, 
+	pThis->NotifyGeneralPropChanged(XN_PROP_GESTURE_PROGRESS,
 		sizeof(gestureProgressParams), &gestureProgressParams);
 }
 

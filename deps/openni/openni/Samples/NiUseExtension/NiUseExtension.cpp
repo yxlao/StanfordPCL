@@ -22,7 +22,7 @@
 // Documentation
 //---------------------------------------------------------------------------
 /*
-This sample demonstrates how to use an extension. It uses the 
+This sample demonstrates how to use an extension. It uses the
 NiSampleExtensionModule sample module.
 Make sure this module is registered with OpenNI before running this sample.
 Also, unregister the module after using this sample, otherwise you might

@@ -22,10 +22,10 @@ package org.openni;
 
 /**
  * Base class for all integer based capabilities. <BR><BR>
- * 
+ *
  * This class serves to implement a family of classes that are controlled by setting a single
  * integer property in the underlying node.<BR><BR>
- * 
+ *
  * These capabilities are accessed via the appropriate function for the specific capability desired.
  * All functions for specific GeneralInt capabilities can be found in the MapGenerator class.
  *
@@ -58,16 +58,16 @@ public class GeneralIntCapability extends CapabilityBase
 		this.defaultVal = pDefault.value;
 		this.autoSupported = pAutoSupported.value;
 		
-		this.valueChanged = new StateChangedObservable() 
+		this.valueChanged = new StateChangedObservable()
 		{
 			@Override
-			protected int registerNative(String cb, OutArg<Long> phCallback) 
+			protected int registerNative(String cb, OutArg<Long> phCallback)
 			{
 				return NativeMethods.xnRegisterToGeneralIntValueChange(toNative(), getCapName(), this, cb, phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromNodeErrorStateChange(toNative(), hCallback);
 			}

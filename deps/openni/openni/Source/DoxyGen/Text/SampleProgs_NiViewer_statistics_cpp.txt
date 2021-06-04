@@ -6,11 +6,11 @@
 		- Statistics.cpp
 
 
-	This file contains the code for calculating the statistics for the frames from the OpenNI generator nodes. 
+	This file contains the code for calculating the statistics for the frames from the OpenNI generator nodes.
 	
 	@section statistics_cpp_glb_decls Global Type Declarations for Statistics.cpp 	
 	
-		The XnPixelStatistics data structure is defined in Statistics.h of this sample program. 
+		The XnPixelStatistics data structure is defined in Statistics.h of this sample program.
 		@code
 			XnPixelStatistics* g_PixelStatistics = NULL;
 
@@ -28,7 +28,7 @@
 	
 		This function initializes the statistics collecting mechanism.
 		
-		This function gets a saved @ref glos_frame_object DepthGenerator node's "frame object", assigning them to <code>pDepthMD</code>. The frame object is a snapshot of the generated data, saved as a metadata object, at a certain point in time. The @ref xn::OutputMetaData::Data() method gets a pointer to the data frame of the frame object saved in the metadata. 
+		This function gets a saved @ref glos_frame_object DepthGenerator node's "frame object", assigning them to <code>pDepthMD</code>. The frame object is a snapshot of the generated data, saved as a metadata object, at a certain point in time. The @ref xn::OutputMetaData::Data() method gets a pointer to the data frame of the frame object saved in the metadata.
 		@code
 			const DepthMetaData* pDepthMD = getDepthMetaData();
 			if (pDepthMD != NULL)

@@ -58,7 +58,7 @@ XnUInt32 UserTracker::s_nColors = 10;
 }
 
 
-UserTracker::UserTracker(int argc, char **argv, XnUInt64 timeSpanForExitPose) : m_bValid(FALSE), 
+UserTracker::UserTracker(int argc, char **argv, XnUInt64 timeSpanForExitPose) : m_bValid(FALSE),
                                                                                 m_timeSpanForExitPose(timeSpanForExitPose),
                                                                                 m_pExitPoseDetector(NULL)
 {
@@ -173,7 +173,7 @@ void UserTracker::CalcHistogram(const XnDepthPixel* pDepth, XnUInt16 xRes,XnUInt
 
 
     XnUInt32 nNumberOfPoints = 0; // will hold the number of points in the histogram
-    XnDepthPixel nValue; // will hold temporary pixel values. 
+    XnDepthPixel nValue; // will hold temporary pixel values.
 
     xnOSMemSet(s_pDepthHist, 0, zRes*sizeof(float)); // clear everything, we start from scratch
 
@@ -221,7 +221,7 @@ void UserTracker::FillTexture(unsigned char* pTexBuf, XnUInt16 nTexWidth, XnUInt
 
     CalcHistogram(pDepth, xRes, yRes);
 
-    XnDepthPixel nValue; // will hold temporary pixel values. 
+    XnDepthPixel nValue; // will hold temporary pixel values.
 
     const XnLabel* pLabels = GetUsersPixelsData(); // holds a label map, i.e. the label (user ID) for each pixel
 
@@ -230,7 +230,7 @@ void UserTracker::FillTexture(unsigned char* pTexBuf, XnUInt16 nTexWidth, XnUInt
     // NOTE: we go over the original map and the assumption is that the texture size is equal or larger
     // to the depth map resolution and that anything larger (e.g. because we increase to the closest,
     // larger power of two) is not changed (therefore will remain whatever color was set before which
-    // in the initialization is probably 0). 
+    // in the initialization is probably 0).
     for (XnUInt16 nY=0; nY<yRes; nY++)
     {
         for (XnUInt16 nX=0; nX < xRes; nX++)
@@ -255,7 +255,7 @@ void UserTracker::FillTexture(unsigned char* pTexBuf, XnUInt16 nTexWidth, XnUInt
                 {
                     XnFloat newValue = s_pDepthHist[nValue]; // translate to the multiplier from the histogram
 
-                    pTexBuf[0] = (unsigned char)(newValue * s_Colors[nColorID][0]); 
+                    pTexBuf[0] = (unsigned char)(newValue * s_Colors[nColorID][0]);
                     pTexBuf[1] = (unsigned char)(newValue * s_Colors[nColorID][1]);
                     pTexBuf[2] = (unsigned char)(newValue * s_Colors[nColorID][2]);
                 }
@@ -317,7 +317,7 @@ XnStatus UserTracker::GetLimbs(XnUserID nUserID, XnPoint3D *pLimbs,XnFloat *pCon
 {
     // following is a static array of the limbs to draw. Each pair represents a line which
     // should be drawn
-    static XnSkeletonJoint jointsToPrint[][2] = 
+    static XnSkeletonJoint jointsToPrint[][2] =
     {
         { XN_SKEL_HEAD, XN_SKEL_NECK },
         { XN_SKEL_NECK, XN_SKEL_LEFT_SHOULDER },

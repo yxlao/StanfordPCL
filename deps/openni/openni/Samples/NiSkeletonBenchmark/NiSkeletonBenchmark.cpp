@@ -356,7 +356,7 @@ int main(int argc, char **argv)
 			Sample= true;
 			totalLatency = 0;
 		}
-        
+
     }
     g_scriptNode.Release();
     g_DepthGenerator.Release();

@@ -5,10 +5,10 @@
 	<b>Source files:</b> Click the following link to view the source code file:
 		- Device.cpp
 
-	This file contains the code for declaring, initalizing, and creating the basic OpenNI objects and nodes, and provides the basic access routiese. 
+	This file contains the code for declaring, initalizing, and creating the basic OpenNI objects and nodes, and provides the basic access routiese.
 	
-	@section device_cpp_decls Main File Declarations 
-	@section device_cpp_decls Main File Declarations 
+	@section device_cpp_decls Main File Declarations
+	@section device_cpp_decls Main File Declarations
 	
 		The declarations at the head of this file define the main OpenNI objects and other environment variables.
 		
@@ -22,7 +22,7 @@
 		
 		the @ref xn::ScriptNode object loads an XML script from a file or string, and then runs the XML script to build a production graph.				
 	
-		The <i>@ref prod_graph "Production Graph"</i> is a network of software objects - called production nodes - that can identify blobs as hands or human users. In this sample program the production graph identifies blobs as human users, and tracks them as they move. 
+		The <i>@ref prod_graph "Production Graph"</i> is a network of software objects - called production nodes - that can identify blobs as hands or human users. In this sample program the production graph identifies blobs as human users, and tracks them as they move.
 
 		a @ref xn::Context object is a workspace in which the application builds an OpenNI production graph. 	
 		
@@ -52,10 +52,10 @@
 		
 		A @ref xn::ImageGenerator "ImageGenerator" node generates color image maps of various formats, such as the RGB24 image format. Call its @ref xn::ImageGenerator::SetPixelFormat() "SetPixelFormat()" method to set the image format to be generated.		
 		
-		A @ref xn::IRGenerator "IRGenerator" node is a map generator that outputs infra-red maps. 
+		A @ref xn::IRGenerator "IRGenerator" node is a map generator that outputs infra-red maps.
 		The IR Generator node supports all MapGenerator functionality, as well as adding additional functionality.
 		
-		A @ref xn::AudioGenerator "AudioGenerator" node generates audio data. 
+		A @ref xn::AudioGenerator "AudioGenerator" node generates audio data.
 		
 		A @ref xn::Player "Player" node plays a saved recording of an OpenNI data generation session.
 		
@@ -96,7 +96,7 @@
 		
 	@section device_cpp_initConstants - onErrorStateChanged() - Callback invoked when  the Error State Changed
 		
-		This function tests whether the error state is now xn::XN_STATUS_OK, i.e., no error, or is an error. On error, the error message is accessed according to the value of @ref xn::XnStatus "errorState". The high word represents the error group of the  error. The low word is the sequential error number within the group. 
+		This function tests whether the error state is now xn::XN_STATUS_OK, i.e., no error, or is an error. On error, the error message is accessed according to the value of @ref xn::XnStatus "errorState". The high word represents the error group of the  error. The low word is the sequential error number within the group.
 		
 	@section device_cpp_openCommon - openCommon() - Common Initialize Function
 	
@@ -108,9 +108,9 @@
 			}			
 		@endcode			
 		
-		This function uses @ref xn::Context::EnumerateExistingNodes to enumerate for all production nodes defined in the production graph, which returns in the <code>list</code> return parameter a @ref xn::NodeInfoList containing all the context's existing created nodes. Each node is represented by a @ref xn::NodeInfo "NodeInfo" object in the list. 
+		This function uses @ref xn::Context::EnumerateExistingNodes to enumerate for all production nodes defined in the production graph, which returns in the <code>list</code> return parameter a @ref xn::NodeInfoList containing all the context's existing created nodes. Each node is represented by a @ref xn::NodeInfo "NodeInfo" object in the list.
 		
-		The following for-loop iterates for all NodeInfo objects in the list. For each NodeInfo object found, this function calls @ref xn::NodeInfo::GetInstance() "GetInstance()" to return a reference to the actual production node instance represented by this NodeInfo object. The for-loop is shown below (in part): 
+		The following for-loop iterates for all NodeInfo objects in the list. For each NodeInfo object found, this function calls @ref xn::NodeInfo::GetInstance() "GetInstance()" to return a reference to the actual production node instance represented by this NodeInfo object. The for-loop is shown below (in part):
 		@code
 			for (NodeInfoList::Iterator it = list.Begin(); it != list.End(); ++it)
 			{
@@ -129,12 +129,12 @@
 		
 		The above loop sets the generating state of all nodes to 'On', e.g., <code>g_bIsDepthOn = true</code>.
 		
-		The following statement registers an event handler, <code>onErrorStateChanged()</code>, for all OpenNI errors that might occur. 
+		The following statement registers an event handler, <code>onErrorStateChanged()</code>, for all OpenNI errors that might occur.
 		@code
 			g_Context.RegisterToErrorStateChange(onErrorStateChanged, NULL, hDummy);
 		@endcode
 		
-		The following statements initialize the constants (see @ref device_cpp_initConstants above) and calls the @ref device_cpp_readFrame "readFrame()" method to read the first data frame. The readFrame() method reads the data frame from each and every one of all the generators in the production graph. 
+		The following statements initialize the constants (see @ref device_cpp_initConstants above) and calls the @ref device_cpp_readFrame "readFrame()" method to read the first data frame. The readFrame() method reads the data frame from each and every one of all the generators in the production graph.
 		@code
 			initConstants();
 			readFrame();
@@ -155,7 +155,7 @@
 			XN_IS_STATUS_OK(nRetVal);
 		@endcode
 		
-		The following call to @ref xn::Context::OpenFileRecording() "OpenFileRecording()" recreates a production graph from a recorded ONI file and then replays the data generation exactly as it was recorded. The <code>csFile </code>parameter provides the name of the recorded file to be run. The <code>g_Player</code> parameter returns a @ref xn::ProductionNode object through which playback can be controlled, e.g., seeking and setting playback. 
+		The following call to @ref xn::Context::OpenFileRecording() "OpenFileRecording()" recreates a production graph from a recorded ONI file and then replays the data generation exactly as it was recorded. The <code>csFile </code>parameter provides the name of the recorded file to be run. The <code>g_Player</code> parameter returns a @ref xn::ProductionNode object through which playback can be controlled, e.g., seeking and setting playback.
 		@code
 			nRetVal = g_Context.OpenFileRecording(csFile, g_Player);
 		@endcode
@@ -176,7 +176,7 @@
 		@endcode			
 		
 		
-	@section device_cpp_openDeviceFromXmlWithChoice - openDeviceFromXmlWithChoice() - Builds a Production Graph from an XML Script, Allowing User to Select a Device 
+	@section device_cpp_openDeviceFromXmlWithChoice - openDeviceFromXmlWithChoice() - Builds a Production Graph from an XML Script, Allowing User to Select a Device
 	
 		This function does the same as the previous function, i.e., it builds the Production Graph from an OpenNI XML Script File, but it allows the user to intervene and select a device.
 		
@@ -187,7 +187,7 @@
 		The function then interacts with the user using simple C functions to allow the user to select which device to use.
 
 
-	@section device_cpp_closeDevice - closeDevice() - Releases all the Production Nodes 
+	@section device_cpp_closeDevice - closeDevice() - Releases all the Production Nodes
 	
 		This function releases all the production graph nodes.
 		
@@ -199,9 +199,9 @@
 	
 		If <code>g_pPrimary</code> has been set to point to any particular node (i.e., not NULL; <code>g_pPrimary</code> is initialized in the <code>changePrimaryStream()</code> function) then this function calls @ref xn::Context::WaitOneUpdateAll() "WaitOneUpdateAll()" to wait only for that particular node to generate new data, and then this function refreshes the data available in all the nodes.
 		
-		<code>g_pPrimary</code> can be pointing to NULL. This is a valid user selection, available from the GUI menu. <code>g_pPrimary</code> == NULL means that the user is not selcting any particular generator node. 
+		<code>g_pPrimary</code> can be pointing to NULL. This is a valid user selection, available from the GUI menu. <code>g_pPrimary</code> == NULL means that the user is not selcting any particular generator node.
 	
-		Then the function checks if all the node pointers (e.g., <code>g-depth</code>) point to real nodes, and if so the function gets the node's @ref glos_frame_object "frame object", saving it in a metadata object. For example: the application saves a frame object from a  @ref xn::DepthGenerator "DepthGenerator" node as a ref xn::DepthMetaData object. 
+		Then the function checks if all the node pointers (e.g., <code>g-depth</code>) point to real nodes, and if so the function gets the node's @ref glos_frame_object "frame object", saving it in a metadata object. For example: the application saves a frame object from a  @ref xn::DepthGenerator "DepthGenerator" node as a ref xn::DepthMetaData object.
 		@code
 			if (g_Depth.IsValid())
 			{
@@ -214,7 +214,7 @@
 		
 		<i>Viewpoint registration</i> is an OpenNI term for performing the mathematical conversion of one node's coordinate system to match the coordinate system of another node.
 		
-		In this sample program, this specific function can toggle the viewpoint registration of the DepthGenerator node to that of the ImageGenerator node and back again - i.e., reset it - depending on the input parameter. This particular conversion is a consequence of the particular type of the supplied hardware sensor. 
+		In this sample program, this specific function can toggle the viewpoint registration of the DepthGenerator node to that of the ImageGenerator node and back again - i.e., reset it - depending on the input parameter. This particular conversion is a consequence of the particular type of the supplied hardware sensor.
 		
 		The following test checks verifies that the DepthGenerator node is a valid node and that it supports the Alternative View Point capability.
 		@code
@@ -249,7 +249,7 @@
 		
 	@section device_cpp_createStream createStream() - Creates a New Data Generatation Node
 		
-		This function creates a new stream by creating a new data generation node of a specified type calling the @ref xn::Context.CreateAnyProductionTree() method, as follows. 
+		This function creates a new stream by creating a new data generation node of a specified type calling the @ref xn::Context.CreateAnyProductionTree() method, as follows.
 		@code
 			EnumerationErrors errors;
 			XnStatus nRetVal = g_Context.CreateAnyProductionTree(type, NULL, generator, &errors);
@@ -265,7 +265,7 @@
 	
 		This function toggles between starting and stopping a generator node. The first two statements ensure that the specified generator is a valid node, and if not it calls createStream() (described above) to create a node of the required type.
 		
-		In the following statement, the @ref xn::Generator::IsValid() method checks that the reference points to a real node instance, or to to NULL, where in the  latter case the function calls createStream() to create the generator node. 
+		In the following statement, the @ref xn::Generator::IsValid() method checks that the reference points to a real node instance, or to to NULL, where in the  latter case the function calls createStream() to create the generator node.
 		@code
 			if (!generator.IsValid())
 			{
@@ -294,9 +294,9 @@
 		Finally, this function then sets the boolean return parameter <code>bIsOn </code>from the <code>IsGenerating()</code> method. This parameter returns the updated 'Is Generating' state for all the 'Toggle Generating State' functions that follow below.
 		
 		
-	@section device_cpp_StartStopGen Starting and Stopping each of the Generators 
+	@section device_cpp_StartStopGen Starting and Stopping each of the Generators
 	
-		The following group of functions start and stop each of the generators in this application. 
+		The following group of functions start and stop each of the generators in this application.
 		@code
 			void toggleDepthState(int nDummy)
 			{
@@ -332,9 +332,9 @@
 		Use the GUI menu access to toggle the GlobalMirrior.
 		
 	
-	@section device_cpp_seekFrame  Function: seekFrame() - Seeks a Data Frame in a Recording 
+	@section device_cpp_seekFrame  Function: seekFrame() - Seeks a Data Frame in a Recording
 	
-		This function seeks a data frame from the primary stream (generator node) in an OpenNI recording. 
+		This function seeks a data frame from the primary stream (generator node) in an OpenNI recording.
 		
 		The first thing this function does is to get the node name of the primary stream. if the primary stream is found to be NULL, this function then gets node name of any other valid node.
 		
@@ -343,7 +343,7 @@
 			nRetVal = g_Player.SeekToFrame(strNodeName, nDiff, XN_PLAYER_SEEK_CUR);
 		@endcode
 		
-		In the call above, the <code>nDiff</code> and <code>@ref xn::XN_PLAYER_SEEK_CUR</code> parameters specify that the seek operation moves <code>nDiff</code> frames from the current frame of the specified node. A positive value means to move forward, and a negative value means to move backwards. 
+		In the call above, the <code>nDiff</code> and <code>@ref xn::XN_PLAYER_SEEK_CUR</code> parameters specify that the seek operation moves <code>nDiff</code> frames from the current frame of the specified node. A positive value means to move forward, and a negative value means to move backwards.
 		
 		In the following statement, the call to the @ref xn::Player::TellFrame() "TellFrame()" method gets the absolute current frame number of a specific node played by a player, i.e., the number of frames passed since the beginning of the recording.
 		
@@ -365,7 +365,7 @@
 	
 		This function sets the resolution component of the generator node's current map output mode. This map output mode includes the frame resolution, i.e., its X and Y dimensions, which are the number of elements in each of the X- and Y- axes) and also the frame rate. This is the map output mode that the generator node will use to generate its next data frame.
 		
-		The resolution is provided y the <code>res</code> parameter to this function call, which is an enum value of type @ref xn::XnResolution "XnResolution", e.g., @ref xn::XN_RES_QVGA "XN_RES_QVGA". 
+		The resolution is provided y the <code>res</code> parameter to this function call, which is an enum value of type @ref xn::XnResolution "XnResolution", e.g., @ref xn::XN_RES_QVGA "XN_RES_QVGA".
 		
 		The following code block calls the @ref xn::MapGenerator::GetMapOutputMode() "GetMapOutputMode()" method to get an @ref xn::XnMapOutputMode struct containing the generator node's current map output mode. The code then updates the mode's  resolution fields with new values, and then completes the operation by calling @ref xn::MapGenerator::SetMapOutputMode() "SetMapOutputMode()", passing the @ref xn::XnMapOutputMode struct as a parameter, to update the node's map output mode.
 		@code
@@ -383,9 +383,9 @@
 		
 	@section device_cpp_setfps Function: setFPS() - Selects a Resolution for the Output Map
 	
-		This function sets the frame rate component of the generator node's current map output mode. 
+		This function sets the frame rate component of the generator node's current map output mode.
 		
-		This function works in a similar way to the <code>setResolution()</code> function above. 
+		This function works in a similar way to the <code>setResolution()</code> function above.
 		
 		The following code block calls the @ref xn::MapGenerator::GetMapOutputMode() "GetMapOutputMode()" method to get an @ref xn::XnMapOutputMode struct containing the generator node's current map output mode. The code then updates the mode's  frmae rate field, <code>nFPS</code>, with a new value, and then completes the operation by calling @ref xn::MapGenerator::SetMapOutputMode() "SetMapOutputMode()", passing the @ref xn::XnMapOutputMode struct as a parameter, to update the node's map output mode.
 		@code
@@ -398,7 +398,7 @@
 		
 	@section device_cpp_grp_setResolutionFps 'setResolution/Fps()' - Group of Functions for Setting Resolutions and Frame Rates
 	
-		The next functions defined in this file are a group of functions for setting  resolutions and frame rates for all generators in this sample application. All use the methods just defined above, @ref device_cpp_setResolution "setResolution()" and @ref device_cpp_setfps "setFPS()". The code below shows  some examples. 
+		The next functions defined in this file are a group of functions for setting  resolutions and frame rates for all generators in this sample application. All use the methods just defined above, @ref device_cpp_setResolution "setResolution()" and @ref device_cpp_setfps "setFPS()". The code below shows  some examples.
 		@code
 			void setDepthResolution(int res)
 			{
@@ -414,7 +414,7 @@
 		
 		The 'get' functions used in the above are defined later in this file.
 		
-		All these 'set resolution/fps' functions are invoked by the user clicking the GUI menu items to make these settings. 
+		All these 'set resolution/fps' functions are invoked by the user clicking the GUI menu items to make these settings.
 
 	
 	@section device_cpp_setStreamCropping Function: setStreamCropping() - Crops the Map Area of the Generator Output
@@ -423,7 +423,7 @@
 		
 		<b>Usage: </b> For user area selections where the user can use the mouse to select just a part of the full map area for applying OpenNI or other graphic operations.
 		
-		<b>Parameters: </b> 
+		<b>Parameters: </b>
 		
 		<code>pGenerator</code> - generator node for which to set the cropping area.
 		
@@ -443,12 +443,12 @@
 		The code then gets the crop capability using the @ref xn::MapGenerator::GetCroppingCap()  "GetCroppingCap()" method, and through it calls  the @ref xn::CroppingCapability::SetCropping() method.
 		
 		
-	@section device_cpp_setPlaybackSpeed Function: setPlaybackSpeed() - Sets the  playback speed 
+	@section device_cpp_setPlaybackSpeed Function: setPlaybackSpeed() - Sets the  playback speed
 	
-		<b>Group:</b>  Recording and Playback 
+		<b>Group:</b>  Recording and Playback
 		{If I want to use this format I will have to go back and make it consistent - ie at least for this sample NiViewer.}
 		
-		<b>Parameter:</b>  ratioDiff - Ratio of recording rate 
+		<b>Parameter:</b>  ratioDiff - Ratio of recording rate
 	
 		This function sets the playback speed of an OpenNI recording as a ratio of the rate that the recording was made at. This OpenNI recording is a recording of all the actual map data that was generated during the time that recording was enabled. This is not the  same as a production graph stired in an OpenNI XML script file: a script file stores only the structure of the production graph but not the data that the production graph has or will generate.
 		@code
@@ -460,9 +460,9 @@
 		
 	@section device_cpp_getPlaybackSpeed Function: getPlaybackSpeed() - Gets the  playback speed 			
 	
-		<b>Group:</b>  Recording and Playback 
+		<b>Group:</b>  Recording and Playback
 	
-		This function calls the @ref xn::Player::GetPlaybackSpeed() to get current playback speed. If the player is not valid it returns the "identity' ratio, 1. 
+		This function calls the @ref xn::Player::GetPlaybackSpeed() to get current playback speed. If the player is not valid it returns the "identity' ratio, 1.
 		
 		
 	@section device_cpp_grp_getobject Function: setFPS() - Group of Functions for Setting Resolutions and Frame Rates

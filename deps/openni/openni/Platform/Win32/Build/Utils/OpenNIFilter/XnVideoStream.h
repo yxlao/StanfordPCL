@@ -31,10 +31,10 @@
 //---------------------------------------------------------------------------
 // Types
 //---------------------------------------------------------------------------
-class XnVideoStream : 
-	public CSourceStream, 
-	public IAMStreamConfig, 
-	public IKsPropertySet, 
+class XnVideoStream :
+	public CSourceStream,
+	public IAMStreamConfig,
+	public IKsPropertySet,
 	public ISpecifyPropertyPages
 {
 public:

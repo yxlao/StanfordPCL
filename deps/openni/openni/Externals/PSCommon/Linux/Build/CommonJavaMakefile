@@ -31,8 +31,8 @@ endif
 OUTPUT_NAME = $(JAR_NAME).jar
 
 # create manifest file if needed
-JAR_MANIFEST_CREATE_COMMAND := 
-MANIFEST_FILE := 
+JAR_MANIFEST_CREATE_COMMAND :=
+MANIFEST_FILE :=
 JAR_OPTIONS = -cf
 
 ifneq (, $(if $(or $(MAIN_CLASS), $(USED_JARS)),1))
@@ -48,7 +48,7 @@ ifneq (, $(if $(or $(MAIN_CLASS), $(USED_JARS)),1))
 	JAR_MANIFEST_CREATE_COMMAND += ) > $(MANIFEST_FILE)
 endif
 
-CREATE_SHORTCUT = 
+CREATE_SHORTCUT =
 ifneq (, $(MAIN_CLASS))
 	SHORTCUT = $(OUT_DIR)/$(JAR_NAME)
 	CREATE_SHORTCUT = echo java -jar $(OUTPUT_NAME) > $(SHORTCUT); chmod +x $(SHORTCUT)

@@ -25,13 +25,13 @@ import java.nio.ByteOrder;
 
 /**
  * Base class of Depth, IR, Image, and Scene maps. <BR><BR>
- * 
+ *
  * This is the base class of all two dimensional image type maps.  This
  * class would not generally be instantiated on its own, but its member
  * functions might be called by users of its descendants.
  *
  */
-public class Map 
+public class Map
 {
 	/**
 	 * Default constructor.  Does nothing
@@ -40,7 +40,7 @@ public class Map
 	{
 	}
 	
-	/** 
+	/**
 	 * Constructor to create map with desired pointer value, resolution, and bit depth
 	 * @param ptr Desired pointer value to point to this map
 	 * @param xRes Desired horizontal resolution of the map
@@ -55,7 +55,7 @@ public class Map
 		this.bytesPerPixel = bytesPerPixel;
 	}
 	
-	/** 
+	/**
 	 * Getter function for the native pointer to this object
 	 * @return Pointer to this object suitable for use in native code
 	 */
@@ -90,7 +90,7 @@ public class Map
 	
 	/**
 	 * Copies data from native code to a buffer available in Java
-	 * @param buffer The buffer to copy into 
+	 * @param buffer The buffer to copy into
 	 * @param size Number of bytes to copy
 	 */
 	public void copyToBuffer(ByteBuffer buffer, int size)
@@ -104,10 +104,10 @@ public class Map
 	 * @param y Y coordinate of desired pixel
 	 * @return Pointer to pixel suitable for use in native code, represented as a long integer
 	 */
-	protected long getPixelPtr(int x, int y) 
-	{ 
-		return this.ptr + (y * this.xRes + x) * this.bytesPerPixel; 
-	} 
+	protected long getPixelPtr(int x, int y)
+	{
+		return this.ptr + (y * this.xRes + x) * this.bytesPerPixel;
+	}
 
 	/**
 	 * Getter function for the horizontal resolution of this map

@@ -49,10 +49,10 @@
 
 
 PoseToggleUserSelector::PoseToggleUserSelector(xn::UserGenerator* pUserGenerator,
-                                               TrackingInitializer* pTrackingInitializer, 
+                                               TrackingInitializer* pTrackingInitializer,
                                                const char* poseToTrack,
                                                XnUInt32 maxUsersToTrack,
-                                               XnUInt64 timeBeforeToggle) : 
+                                               XnUInt64 timeBeforeToggle) :
                     PoseUserSelector(pUserGenerator,pTrackingInitializer,poseToTrack),
                     m_nMaxUsersToTrack(maxUsersToTrack),
                     m_timeBeforeToggle(timeBeforeToggle)
@@ -61,7 +61,7 @@ PoseToggleUserSelector::PoseToggleUserSelector(xn::UserGenerator* pUserGenerator
     XnStatus nRetVal = m_pUserGenerator->GetPoseDetectionCap().RegisterToOutOfPose(OutOfPoseCallback,this,m_hOutOfPoseDetectCallback);
     VALIDATE_WITH_ACTION(nRetVal == XN_STATUS_OK,"Failed to register to pose detection",m_hOutOfPoseDetectCallback = NULL);
 }
-                                     
+
 
     /// @brief destructor.
 PoseToggleUserSelector::~PoseToggleUserSelector()

@@ -22,10 +22,10 @@ package org.openni;
 
 /**
  * Enables a node to report that it is in "Error" status. <BR><BR>
- * 
- * This capability is normally accessed by requesting it with the GetErrorStateCapability(), a 
+ *
+ * This capability is normally accessed by requesting it with the GetErrorStateCapability(), a
  * member function of the ProductionNode class. <BR><BR>
- * 
+ *
  * Provides the following events:
  * errorStateChanged: Triggered when the error state of the node changes
  *
@@ -34,23 +34,23 @@ public class ErrorStateCapability extends CapabilityBase
 {
 	/**
 	 * Creates a new ErrorStateCapability object for a given node
-	 * @param node Node to create the capability for 
+	 * @param node Node to create the capability for
 	 * @throws StatusException If underlying native code returns errors, Status Exception is thrown by this function
 	 */
 	public ErrorStateCapability(ProductionNode node) throws StatusException
 	{
 		super(node);
 		
-		this.errorStateChanged = new StateChangedObservable() 
+		this.errorStateChanged = new StateChangedObservable()
 		{
 			@Override
-			protected int registerNative(String cb, OutArg<Long> phCallback) 
+			protected int registerNative(String cb, OutArg<Long> phCallback)
 			{
 				return NativeMethods.xnRegisterToNodeErrorStateChange(toNative(), this, cb, phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromNodeErrorStateChange(toNative(), hCallback);
 			}

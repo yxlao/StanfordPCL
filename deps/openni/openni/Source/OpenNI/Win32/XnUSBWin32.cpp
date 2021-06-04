@@ -85,8 +85,8 @@ LRESULT CALLBACK DevDetectWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 				if(pBroadcastHdr)
 				{
-					DWORD nEventType = (DWORD)wParam; 
-					if (pBroadcastHdr->dbch_devicetype == DBT_DEVTYP_DEVICEINTERFACE) 
+					DWORD nEventType = (DWORD)wParam;
+					if (pBroadcastHdr->dbch_devicetype == DBT_DEVTYP_DEVICEINTERFACE)
 					{
 						_strlwr(pDevIF->dbcc_name);
 
@@ -1252,7 +1252,7 @@ XN_C_API XnStatus xnUSBWriteEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffe
 		// Something failed... let's get the last error
 		DWORD nLastErr = GetLastError();
 
-		// Was it a timeout? 
+		// Was it a timeout?
 		if (nLastErr == ERROR_SEM_TIMEOUT)
 		{
 			return (XN_STATUS_USB_TRANSFER_TIMEOUT);
@@ -1449,7 +1449,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 		{
 //			printf ("xnUSBReadThreadMain: GetQueuedCompletionStatus error! (%d)\n", GetLastError());
 
-			// if the error is SEM_TIMEOUT, the overlapped I/O operation has ended with a timeout, 
+			// if the error is SEM_TIMEOUT, the overlapped I/O operation has ended with a timeout,
 			// and we still need to requeue it. Other errors does not return the Finished OV, and so
 			// we should just try again.
 			if (GetLastError() != ERROR_SEM_TIMEOUT)

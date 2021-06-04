@@ -76,7 +76,7 @@ public:
 
 		/**
 		* Copy constructor
-		* 
+		*
 		* @param	other	[in]	instance to copy from
 		*/
 		ConstIterator(const ConstIterator& other) :
@@ -121,7 +121,7 @@ public:
 			while (m_Iterator == m_pHash->m_Bins[m_nCurrentBin]->end() &&
 				m_Iterator != m_pHash->m_Bins[XN_HASH_LAST_BIN]->end())
 			{
-				do 
+				do
 				{
 					if (m_nCurrentBin == 0)
 					{
@@ -148,7 +148,7 @@ public:
 
 		/**
 		* Operator to check if 2 iterators point to the same object
-		* 
+		*
 		* @param	other	[in]	instance to compare with
 		*/
 		XnBool operator==(const ConstIterator& other) const
@@ -158,7 +158,7 @@ public:
 
 		/**
 		* Operator to check if 2 iterators point to different objects
-		* 
+		*
 		* @param	other	[in]	instance to compare with
 		*/
 		XnBool operator!=(const ConstIterator& other) const
@@ -201,7 +201,7 @@ public:
 	protected:
 		/**
 		* constructor to be used from inside the XnHash
-		* 
+		*
 		* @param	pHash			[in]	The hash to which the iterator belongs
 		* @param	nBin			[in]	The bin of the current object
 		* @param	listIterator	[in]	Iterator on the bin (each bin is a XnList)
@@ -223,10 +223,10 @@ public:
 
 		/**
 		* constructor to be used from inside the XnHash. It points to the first value in the hash.
-		* 
+		*
 		* @param	pHash	[in]	The hash to which the iterator belongs
 		*/
-		ConstIterator(const XnHash* pHash) : 
+		ConstIterator(const XnHash* pHash) :
 			 m_pHash(pHash), m_nCurrentBin(0), m_Iterator(m_pHash->m_Bins[XN_HASH_LAST_BIN]->end()) {}
 
 		/** The hash to which the iterator belongs */
@@ -247,7 +247,7 @@ public:
 
 		/**
 		* Copy constructor
-		* 
+		*
 		* @param	other	[in]	instance to copy from
 		*/
 		inline Iterator(const Iterator& other) : ConstIterator(other) {}
@@ -255,16 +255,16 @@ public:
 		/**
 		* Support ++iterator, go to the next object in the list
 		*/
-		inline Iterator& operator++() 
-		{ 
+		inline Iterator& operator++()
+		{
 			++(*(ConstIterator*)this);
 			return (*this);
 		}
 		/**
 		* Support iterator++, go to the next object in the list, returning the old value
 		*/
-		inline Iterator operator++(int) 
-		{ 
+		inline Iterator operator++(int)
+		{
 			Iterator result = *this;
 			++*this;
 			return (result);
@@ -273,16 +273,16 @@ public:
 		/**
 		* Support --iterator, go to the next object in the list
 		*/
-		inline Iterator& operator--() 
-		{ 
-			--(*(ConstIterator*)this); 
+		inline Iterator& operator--()
+		{
+			--(*(ConstIterator*)this);
 			return (*this);
 		}
 		/**
 		* Support iterator--, go to the next object in the list, returning the old value
 		*/
 		inline Iterator operator--(int)
-		{ 
+		{
 			Iterator result = *this;
 			--*this;
 			return (result);
@@ -301,7 +301,7 @@ public:
 	protected:
 		/**
 		* constructor to be used from inside the XnHash
-		* 
+		*
 		* @param	pHash			[in]	The hash to which the iterator belongs
 		* @param	nBin			[in]	The bin of the current object
 		* @param	listIterator	[in]	Iterator on the bin (each bin is a XnList)
@@ -312,7 +312,7 @@ public:
 
 		/**
 		* constructor to be used from inside the XnHash. It points to the first value in the hash.
-		* 
+		*
 		* @param	pHash	[in]	The hash to which the iterator belongs
 		*/
 		Iterator(const XnHash* pHash) : ConstIterator(pHash) {}
@@ -357,7 +357,7 @@ public:
 
 	/**
 	* Returns the status of the initialization of the hash.
-	* @returns XN_STATUS_OK if the hash was initialized successfully, or an error code otherwise 
+	* @returns XN_STATUS_OK if the hash was initialized successfully, or an error code otherwise
 	* (e.g. if memory could not be allocated).
 	*/
 	XnStatus GetInitStatus() const
@@ -367,7 +367,7 @@ public:
 
 	/**
 	* Set a new key-value entry. If key exists, will replace value.
-	* 
+	*
 	* @param	key		[in]	The key to which to associate the value
 	* @param	value	[in]	The value to add to the XnHash
 	*/
@@ -434,7 +434,7 @@ public:
 
 	/**
 	* Get the value associated with the supplied key
-	* 
+	*
 	* @param	key		[in]	The key of the entry
 	* @param	value	[out]	The retrieved value
 	*
@@ -457,7 +457,7 @@ public:
 
 	/**
 	* Remove a key-value entry from the XnHash
-	* 
+	*
 	* @param	key		[in]	The key of the entry
 	* @param	value	[out]	The value that was in the removed entry
 
@@ -482,7 +482,7 @@ public:
 
 	/**
 	* Remove an entry from the XnHash by iterator
-	* 
+	*
 	* @param	iter	[in]	Iterator pointing to an entry in the hash
 	* @param	key		[out]	The key that was in the removed entry
 	* @param	value	[out]	The value that was in the removed entry
@@ -506,7 +506,7 @@ public:
 
 	/**
 	* Remove an entry from the XnHash by iterator
-	* 
+	*
 	* @param	iter	[in]	Iterator pointing to an entry in the hash
 	*
 	* @return	XN_STATUS_ILLEGAL_POSITION	if iterator is invalid
@@ -570,7 +570,7 @@ public:
 
 	/**
 	* Get an iterator pointing to the entry to which the key belongs
-	* 
+	*
 	* @param	key		[in]	The key of the entry
 	* @param	hiter	[out]	Iterator to the entry described by key
 	*
@@ -583,7 +583,7 @@ public:
 
 	/**
 	* Get an iterator pointing to the entry to which the key belongs
-	* 
+	*
 	* @param	key		[in]	The key of the entry
 	* @param	hiter	[out]	Iterator to the entry described by key
 	*
@@ -634,7 +634,7 @@ public:
 
 	/**
 	* Change the hash function. The XnHash must be empty for this to succeed.
-	* 
+	*
 	* @param	hashFunction	[in]	The new hash function
 	*
 	* @return XN_STATUS_IS_NOT_EMPTY	if the XnHash isn't empty
@@ -651,7 +651,7 @@ public:
 
 	/**
 	* Change the comparison function. The XnHash must be empty for this to succeed.
-	* 
+	*
 	* @param	compareFunction	[in]	The new hash function
 	*
 	* @return XN_STATUS_IS_NOT_EMPTY	if the XnHash isn't empty
@@ -689,7 +689,7 @@ protected:
 
 	/**
 	* Get an iterator pointing to the entry to which the key belongs
-	* 
+	*
 	* @param	key			[in]	The key of the entry
 	* @param	hashValue	[in]	The hash value of the key
 	* @param	hiter		[out]	Iterator to the entry described by key

@@ -10,7 +10,7 @@ This ovverview comprises the following major sections:
 - @subpage additional
 - @subpage tutorials
 - @subpage smpls_n_guides
-- @subpage glossary   
+- @subpage glossary
 - @subpage legal
 */
 

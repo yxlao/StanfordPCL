@@ -121,9 +121,9 @@ void TestCurrentListState(TestList& list, int nExpectedSize, TestStruct* pExpect
 	TestCurrentListStateT<const TestList, TestList::ConstIterator>(list, nExpectedSize, pExpectedValues);
 }
 
-TEST(ListTests, TestAll) 
+TEST(ListTests, TestAll)
 {
-	static TestStruct sValues[] = 
+	static TestStruct sValues[] =
 	{
 		{ 1, 1.1 },
 		{ 2, 2.2 },
@@ -165,7 +165,7 @@ TEST(ListTests, TestAll)
 
 	// test Remove by value
 	ASSERT_EQ(list.Remove(sValues[1]), XN_STATUS_OK);
-	TestStruct aTemp[] = 
+	TestStruct aTemp[] =
 	{
 		sValues[0],
 		sValues[2]
@@ -186,7 +186,7 @@ TEST(ListTests, TestAll)
 
 	// test AddBefore in the middle
 	ASSERT_EQ(list.AddBefore(++list.Begin(), sValues[3]), XN_STATUS_OK);
-	TestStruct aTemp2[] = 
+	TestStruct aTemp2[] =
 	{
 		sValues[0],
 		sValues[3],
@@ -197,7 +197,7 @@ TEST(ListTests, TestAll)
 
 	// remove one (needed for next test)
 	ASSERT_EQ(list.Remove(++list.Begin()), XN_STATUS_OK);
-	TestStruct aTemp3[] = 
+	TestStruct aTemp3[] =
 	{
 		sValues[0],
 		sValues[1],
@@ -207,7 +207,7 @@ TEST(ListTests, TestAll)
 
 	// test AddAfter in the middle
 	ASSERT_EQ(list.AddAfter(--list.ReverseBegin(), sValues[3]), XN_STATUS_OK);
-	TestStruct aTemp4[] = 
+	TestStruct aTemp4[] =
 	{
 		sValues[0],
 		sValues[1],

@@ -44,7 +44,7 @@
 #define XN_PLATFORM_USE_ARC_VAARGS_STYLE   4
 
 //---------------------------------------------------------------------------
-// Platform Identifier 
+// Platform Identifier
 //---------------------------------------------------------------------------
 
 #if defined(_WIN32) // Microsoft Visual Studio

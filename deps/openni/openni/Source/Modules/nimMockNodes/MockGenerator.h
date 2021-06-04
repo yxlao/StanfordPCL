@@ -27,7 +27,7 @@
 
 XN_PRAGMA_START_DISABLED_WARNING_SECTION(XN_INHERITS_VIA_DOMINANCE_WARNING_ID)
 
-class MockGenerator : 
+class MockGenerator :
 	public MockProductionNode,
 	virtual public xn::ModuleGenerator,
 	virtual public xn::ModuleMirrorInterface,
@@ -109,9 +109,9 @@ private:
 		XnUInt64 nTimeStamp;
 		XnUInt32 nFrameID;
 	} m_data[NUM_BUFFERS];
-	/*We save two buffers - one for current data and one for next data. The current data is in 
+	/*We save two buffers - one for current data and one for next data. The current data is in
 	  m_data[m_nCurrentDataIdx], and the next data is in m_data[m_nNextDataIdx]. UpdateData just exchanges the
-	  two indices, and so the next data becomes the current data. The next data buffer's contents are not 
+	  two indices, and so the next data becomes the current data. The next data buffer's contents are not
 	  interesting anymore, and will be overwritten by the next call to SetNextData().
 	*/
 

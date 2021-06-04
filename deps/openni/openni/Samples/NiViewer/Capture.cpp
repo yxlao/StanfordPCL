@@ -234,7 +234,7 @@ void captureBrowse(int)
 	ofn.lpstrTitle = TEXT("Capture to...");
 	ofn.Flags = OFN_EXPLORER | OFN_NOCHANGEDIR;
 
-	GetSaveFileName(&ofn); 
+	GetSaveFileName(&ofn);
 
 	if (g_Capture.csFileName[0] != 0)
 	{

@@ -22,7 +22,7 @@ package org.openni;
 
 /**
  * Holds the data generated when an Error State Event is generated. <BR><BR>
- * 
+ *
  * This data consists of a predefined string message associated with an error code.  Error
  * codes are generally created by native OpenNI code.
  *
@@ -32,7 +32,7 @@ public class ErrorStateEventArgs extends EventArgs
 	/**
 	 * Constructor -- creates a new object with specified integer status code.  For all
 	 * non-zero codes, the appropriate error message for that code is retrieved and stored
-	 * @param status The integer error 
+	 * @param status The integer error
 	 */
 	public ErrorStateEventArgs(int status)
 	{

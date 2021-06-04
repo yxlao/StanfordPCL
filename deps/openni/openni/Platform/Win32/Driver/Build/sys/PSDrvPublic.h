@@ -107,7 +107,7 @@ typedef struct PSUSBDRV_INTERFACE_PROPERTY
 												   IOCTL_INDEX + 0,			\
                                                    METHOD_BUFFERED,         \
                                                    FILE_ANY_ACCESS)
-                                                   
+
 #define IOCTL_PSDRV_RESET_DEVICE          CTL_CODE(FILE_DEVICE_UNKNOWN,     \
                                                    IOCTL_INDEX + 1,			\
                                                    METHOD_BUFFERED,         \

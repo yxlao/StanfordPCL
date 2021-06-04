@@ -58,7 +58,7 @@ public:
 #ifdef UNICODE
     CBasePropertyPage(__in_opt LPCSTR pName,
                       __inout_opt LPUNKNOWN pUnk,
-                      int DialogId,  
+                      int DialogId,
                       int TitleId);
 #endif
     virtual ~CBasePropertyPage() { };

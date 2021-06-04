@@ -74,7 +74,7 @@ void ExportedMockNodeBase::Destroy(xn::ModuleProductionNode* pInstance)
 /*********************/
 /* ExportedMockDevice */
 /*********************/
-ExportedMockDevice::ExportedMockDevice() : 
+ExportedMockDevice::ExportedMockDevice() :
 	ExportedMockNodeBase(XN_NODE_TYPE_DEVICE)
 {
 }
@@ -87,7 +87,7 @@ xn::ModuleProductionNode* ExportedMockDevice::CreateImpl(xn::Context& context, c
 /*********************/
 /* ExportedMockDepth */
 /*********************/
-ExportedMockDepth::ExportedMockDepth() : 
+ExportedMockDepth::ExportedMockDepth() :
 	ExportedMockNodeBase(XN_NODE_TYPE_DEPTH)
 {
 }
@@ -128,7 +128,7 @@ xn::ModuleProductionNode* ExportedMockIR::CreateImpl(xn::Context& context, const
 /*********************/
 /* ExportedMockAudio */
 /*********************/
-ExportedMockAudio::ExportedMockAudio() : 
+ExportedMockAudio::ExportedMockAudio() :
 	ExportedMockNodeBase(XN_NODE_TYPE_AUDIO)
 {
 }

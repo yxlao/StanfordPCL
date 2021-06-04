@@ -44,7 +44,7 @@ typedef struct XnErrorCodeData
 //---------------------------------------------------------------------------
 /**
 * This function registers error codes to the message map.
-* 
+*
 * @param	nGroup			[in]	The group for which these errors belong to.
 * @param	nFirst			[in]	The first value.
 * @param	nCount			[in]	The number of status messages to register.
@@ -66,7 +66,7 @@ XN_C_API XnStatus XN_C_DECL xnRegisterErrorCodeMessages(XnUInt16 nGroup, XnUInt1
 	{																	\
 		{ first, XN_STRINGIFY(group) "_OK", XN_STRINGIFY(group) " OK" },
 
-/** Adds an entry to the message map. */ 
+/** Adds an entry to the message map. */
 #define XN_STATUS_MESSAGE(csName, csMessage)		\
 		{ 0, XN_STRINGIFY(csName), csMessage },
 

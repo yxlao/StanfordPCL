@@ -54,7 +54,7 @@ private:
 
 	struct NodeTypeInfo
 	{
-		NodeTypeInfo() : type(XN_NODE_TYPE_INVALID) 
+		NodeTypeInfo() : type(XN_NODE_TYPE_INVALID)
 		{
 			this->strName[0] = '\0';
 		}
@@ -77,7 +77,7 @@ private:
 	XnProductionNodeType m_nNextExtendedNodeType;
 	XN_CRITICAL_SECTION_HANDLE m_hLock;
 
-	// we use a regular array instead of a collection (XnArray, XnList, etc.) because we want thread safety 
+	// we use a regular array instead of a collection (XnArray, XnList, etc.) because we want thread safety
 	// without locks. We know types are never removed from the array, only added.
 	NodeTypeInfo* m_pTypesArray[XN_MAX_TYPES_COUNT];
 };

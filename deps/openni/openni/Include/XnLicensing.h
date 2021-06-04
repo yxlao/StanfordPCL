@@ -38,14 +38,14 @@
 //---------------------------------------------------------------------------
 
 /**
- * Adds a license to the context. 
+ * Adds a license to the context.
  *
  * @param	pContext	[in]	OpenNI context.
  * @param	pLicense	[in]	A license key.
  */
 XN_C_API XnStatus XN_C_DECL xnAddLicense(XnContext* pContext, const XnLicense* pLicense);
 
-/** 
+/**
  * Enumerates all licenses currently registered. The list of licenses should later be freed
  * by calling @ref xnFreeLicensesList().
  *

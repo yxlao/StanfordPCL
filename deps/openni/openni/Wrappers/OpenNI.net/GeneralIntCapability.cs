@@ -84,7 +84,7 @@ namespace OpenNI
 
 		public event EventHandler ValueChanged
 		{
-			add 
+			add
 			{
 				if (this.valueChangedEvent == null)
 				{
@@ -92,10 +92,10 @@ namespace OpenNI
 					WrapperUtils.ThrowOnError(status);
 				}
 
-				this.valueChangedEvent += value; 
+				this.valueChangedEvent += value;
 			}
-			remove 
-			{ 
+			remove
+			{
 				this.valueChangedEvent -= value;
 
 				if (this.valueChangedEvent == null)

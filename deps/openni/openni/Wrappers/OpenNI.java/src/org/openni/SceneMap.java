@@ -22,7 +22,7 @@ package org.openni;
 
 /**
  * Map type that holds the results of SceneAnalysis. <BR><BR>
- * 
+ *
  * This data type holds the output map from a SceneAnalyzer.  It is very similar to its
  * parent class (ShortMap)
  *
@@ -30,14 +30,14 @@ package org.openni;
 public class SceneMap extends ShortMap
 {
 	/**
-	 * Default constructor, simply calls the parent class default.  This sets the bit depth equal to the 
+	 * Default constructor, simply calls the parent class default.  This sets the bit depth equal to the
 	 * number of bits in a short int on this system, and does nothing else.
 	 */
 	SceneMap()
 	{
 		super();
 	}
-	/** Creates a SceneMap (essentially the same as a short map) with specified x and y resolution, and the 
+	/** Creates a SceneMap (essentially the same as a short map) with specified x and y resolution, and the
 	 * specified pointer
 	 * @param ptr Pointer to the map created
 	 * @param xres Horizontal resolution of the map

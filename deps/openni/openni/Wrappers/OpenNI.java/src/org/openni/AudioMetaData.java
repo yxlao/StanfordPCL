@@ -25,7 +25,7 @@ import java.nio.ByteOrder;
 
 /**
  * This class stores a complete set of audio configuration parameters. <BR><BR>
- * 
+ *
  * This is what the Audio Generators use to store/recall their settings.
  *
  */
@@ -81,8 +81,8 @@ public class AudioMetaData extends OutputMetaData
 	
 	/**
 	 * Allocates an audio buffer, with a size determined by the values of
-	 * number of channels, bits per sample and samples per second.  This is 
-	 * more useful than direct allocation, since it takes into account the varying 
+	 * number of channels, bits per sample and samples per second.  This is
+	 * more useful than direct allocation, since it takes into account the varying
 	 * size of the audio data as settings change.
 	 * @return
 	 */

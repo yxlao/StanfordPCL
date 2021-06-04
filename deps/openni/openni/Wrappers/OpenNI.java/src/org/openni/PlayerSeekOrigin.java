@@ -40,7 +40,7 @@ public enum PlayerSeekOrigin
 	
 	public static PlayerSeekOrigin fromNative(int value)
 	{
-		for (PlayerSeekOrigin type : PlayerSeekOrigin.values()) 
+		for (PlayerSeekOrigin type : PlayerSeekOrigin.values())
 		{
 			if (type.val == value)
 				return type;

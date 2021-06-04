@@ -26,7 +26,7 @@ import java.util.NoSuchElementException;
  * Provides string names for all available output resolution codes. <BR><BR>
  *
  */
-public enum Resolution 
+public enum Resolution
 {
 	CUSTOM (0),
 	QQVGA (1),
@@ -67,7 +67,7 @@ public enum Resolution
 	
 	public static Resolution fromNative(int value)
 	{
-		for (Resolution type : Resolution.values()) 
+		for (Resolution type : Resolution.values())
 		{
 			if (type.val == value)
 				return type;

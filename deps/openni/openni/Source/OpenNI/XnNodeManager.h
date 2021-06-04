@@ -52,21 +52,21 @@ public:
 
 	/**
 	* Provide an available XnNode from the pool
-	* 
+	*
 	* @return	NULL	if no nodes are available and allocating new ones failed
 	*/
 	virtual XnNode* Allocate();
 	/**
 	* Release an XnNode to the pool
-	* 
+	*
 	* @param	pNode	[in]	The node to return to the pool
 	*/
 	virtual void Deallocate(XnNode* pNode);
 
 protected:
 	/**
-	* Add more nodes to the pool. 
-	* 
+	* Add more nodes to the pool.
+	*
 	* @param	nDeltaSize	[in]	Number of new nodes required
 	*/
 	XnStatus Resize(XnUInt32 nDeltaSize);

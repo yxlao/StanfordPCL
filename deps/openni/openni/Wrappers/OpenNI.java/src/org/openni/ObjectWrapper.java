@@ -22,7 +22,7 @@ package org.openni;
 
 /**
  * Base class for much of the OpenNI Java wrapper. <BR><BR>
- * 
+ *
  * Used by the API to facilitate Java wrapping of the the Native C code that makes
  * up OpenNI.  These functions are unlikely to be directly useful to application
  * programmers.  This function serves as the base class to a large percentage
@@ -31,7 +31,7 @@ package org.openni;
  */
 public abstract class ObjectWrapper
 {
-	/** Constructor that creates an object and sets its internal pointer value to the given 
+	/** Constructor that creates an object and sets its internal pointer value to the given
 	 * value.
 	 * @param ptr Desired pointer value for this object.
 	 */

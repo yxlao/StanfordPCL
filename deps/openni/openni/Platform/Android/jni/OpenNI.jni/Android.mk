@@ -3,7 +3,7 @@
 #
 
 LOCAL_PATH:= $(call my-dir)
-include $(CLEAR_VARS) 
+include $(CLEAR_VARS)
 
 # set path to source
 MY_PREFIX := $(LOCAL_PATH)/../../../../Wrappers/OpenNI.jni/
@@ -18,17 +18,17 @@ MY_SRC_FILE_EXPANDED := $(wildcard $(MY_SRC_FILES))
 LOCAL_SRC_FILES := $(MY_SRC_FILE_EXPANDED:$(LOCAL_PATH)/%=%)
 
 LOCAL_C_INCLUDES := \
-	$(LOCAL_PATH)/../../../../Wrappers/OpenNI.jni/ 
+	$(LOCAL_PATH)/../../../../Wrappers/OpenNI.jni/
 
 LOCAL_CFLAGS:= -fvisibility=hidden -DXN_EXPORTS
 
-LOCAL_LDFLAGS += -Wl,--export-dynamic 
+LOCAL_LDFLAGS += -Wl,--export-dynamic
 
 LOCAL_LDLIBS := -llog
 
 LOCAL_SHARED_LIBRARIES := OpenNI
 
-LOCAL_PREBUILT_LIBS := libc 
+LOCAL_PREBUILT_LIBS := libc
 
 LOCAL_MODULE:= OpenNI.jni
 

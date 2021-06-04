@@ -28,7 +28,7 @@ class XnBitSet
 public:
 	XnBitSet() : m_nSize(0) {}
 
-	/** Reserves space in this bitset for the specified number of bits. 
+	/** Reserves space in this bitset for the specified number of bits.
 	    This saves you re-allocations and data copies if you know the size in advance. **/
 	XnStatus Reserve(XnUInt32 nBits)
 	{

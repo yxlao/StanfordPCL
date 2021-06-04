@@ -40,7 +40,7 @@
  * @ingroup prd_node
  * @defgroup node Production Node
  *
- * A production node is the most basic unit of processing in OpenNI. The following functions can be 
+ * A production node is the most basic unit of processing in OpenNI. The following functions can be
  * executed for every node in an OpenNI context.
  * @{
  */
@@ -72,7 +72,7 @@ XN_C_API XnContextPtr XN_API_DEPRECATED("Please use xnGetRefContextFromNodeHandl
 
 /**
  * @brief Checks if a production node supports specific capability.
- * 
+ *
  * @param	hInstance			[in]	A handle to the instance to be queried.
  * @param	strCapabilityName	[in]	The name of the capability to check.
  */
@@ -133,8 +133,8 @@ XN_C_API XnStatus XN_C_DECL xnGetRealProperty(XnNodeHandle hInstance, const XnCh
  *
  * @param	hInstance	[in]	A handle to the instance.
  * @param	strName		[in]	Property name
- * @param	csValue		[out]	Current value 
- * @param	nBufSize	[in]	The size of the csValue buffer. 
+ * @param	csValue		[out]	Current value
+ * @param	nBufSize	[in]	The size of the csValue buffer.
  */
 XN_C_API XnStatus XN_C_DECL xnGetStringProperty(XnNodeHandle hInstance, const XnChar* strName, XnChar* csValue, XnUInt32 nBufSize);
 /**
@@ -164,9 +164,9 @@ XN_C_API XnStatus XN_C_DECL xnLockNodeForChanges(XnNodeHandle hInstance, XnLockH
 XN_C_API XnStatus XN_C_DECL xnUnlockNodeForChanges(XnNodeHandle hInstance, XnLockHandle hLock);
 
 /**
- * @brief Start changes request on a locked node, without releasing that lock. 
+ * @brief Start changes request on a locked node, without releasing that lock.
  *
- * It allows "set" operations from the same context (same thread for that matter) until a call is made to 
+ * It allows "set" operations from the same context (same thread for that matter) until a call is made to
  * @ref xnLockedNodeEndChanges().
  *
  * @param	hInstance	[in]	A handle to the node.
@@ -175,7 +175,7 @@ XN_C_API XnStatus XN_C_DECL xnUnlockNodeForChanges(XnNodeHandle hInstance, XnLoc
 XN_C_API XnStatus XN_C_DECL xnLockedNodeStartChanges(XnNodeHandle hInstance, XnLockHandle hLock);
 
 /**
- * @brief Ends changes request on a locked node. 
+ * @brief Ends changes request on a locked node.
  *
  * @param	hInstance	[in]	A handle to the node.
  * @param	hLock		[in]	The handle of the lock, returned from @ref xnLockNodeForChanges().
@@ -191,9 +191,9 @@ XN_C_API XnStatus XN_C_DECL xnLockedNodeEndChanges(XnNodeHandle hInstance, XnLoc
 XN_C_API XnStatus XN_C_DECL xnAddNeededNode(XnNodeHandle hInstance, XnNodeHandle hNeededNode);
 
 /**
- * @brief Removes a needed node from the list of needed nodes. 
+ * @brief Removes a needed node from the list of needed nodes.
  *
- * If this node is no longer needed by any other node, and @ref xnRefProductionNode() was not called on it, 
+ * If this node is no longer needed by any other node, and @ref xnRefProductionNode() was not called on it,
  * it will be destroyed.
  *
  * @param	hInstance	[in]	A handle to the node.
@@ -211,7 +211,7 @@ XN_C_API XnStatus XN_C_DECL xnRemoveNeededNode(XnNodeHandle hInstance, XnNodeHan
  * @ingroup prd_node
  * @defgroup device Device
  *
- * A device node represents a physical device. The following functions can be 
+ * A device node represents a physical device. The following functions can be
  * executed for device nodes in an OpenNI context.
  * @{
  */
@@ -286,12 +286,12 @@ XN_C_API XnStatus XN_C_DECL xnGetSerialNumber(XnNodeHandle hInstance, XnChar* st
 // ErrorState Capability
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @ingroup node
  * @defgroup err_state Error State Capability
  *
  * The Error State capability (@ref XN_CAPABILITY_ERROR_STATE) allows a node to report it is now in
- * an error state, and so, might not function correctly. An application may, at all times, check the 
+ * an error state, and so, might not function correctly. An application may, at all times, check the
  * error state of a node, and it may also register a callback function to be called whenever that state
  * changes.
  *
@@ -336,12 +336,12 @@ XN_C_API void XN_C_DECL xnUnregisterFromNodeErrorStateChange
 // GeneralIntCapability
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @ingroup node
  * @defgroup general_int General Int Capability
  *
  * The General Int Capability is a set of method that is used by several capabilities. It allows
- * a general range value to be changed. If supported by the node, the value can also be set to 
+ * a general range value to be changed. If supported by the node, the value can also be set to
  * @ref XN_AUTO_CONTROL for automatic adjustment.
  *
  * The capabilities supporting this interface are:
@@ -359,7 +359,7 @@ XN_C_API void XN_C_DECL xnUnregisterFromNodeErrorStateChange
  * - Roll (@ref XN_CAPABILITY_ROLL)
  * - Zoom (@ref XN_CAPABILITY_ZOOM)
  * - Exposure (@ref XN_CAPABILITY_EXPOSURE)
- * - AutoExposure (@ref XN_CAPABILITY_AUTO_EXPOSURE) 
+ * - AutoExposure (@ref XN_CAPABILITY_AUTO_EXPOSURE)
  * - Iris (@ref XN_CAPABILITY_IRIS)
  * - Focus (@ref XN_CAPABILITY_FOCUS)
  * - Low Light Compensation (@ref XN_CAPABILITY_LOW_LIGHT_COMPENSATION)
@@ -426,10 +426,10 @@ XN_C_API void XN_C_DECL xnUnregisterFromGeneralIntValueChange
 // Generators
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @ingroup prd_node
  * @defgroup generator Generator
- * 
+ *
  * A Generator node is a production node that also generates continuous data. It supports all @ref node functions,
  * and adds additional functions.
  * @{
@@ -441,27 +441,27 @@ XN_C_API void XN_C_DECL xnUnregisterFromGeneralIntValueChange
  * @{
  */
 
-/** 
+/**
  * @brief Starts generation of the output. This will also cause all dependencies to start generating.
- * 
+ *
  * @param	hInstance	[in]	A handle to the instance to start generating.
  *
  * @returns	XN_STATUS_INVALID_OPERATION if this production node is not a generator.
  */
 XN_C_API XnStatus XN_C_DECL xnStartGenerating(XnNodeHandle hInstance);
 
-/** 
+/**
  * @brief Checks if this node is currently generating.
- * 
+ *
  * @param	hInstance	[in]	A handle to the instance.
  *
  * @returns FALSE if this production node is not a generator.
  */
 XN_C_API XnBool XN_C_DECL xnIsGenerating(XnNodeHandle hInstance);
 
-/** 
+/**
  * @brief Stops generation of the output.
- * 
+ *
  * @param	hInstance	[in]	A handle to the instance to stop generating.
  *
  * @returns	XN_STATUS_INVALID_OPERATION if this production node is not a generator.
@@ -535,7 +535,7 @@ XN_C_API XnBool XN_C_DECL xnIsNewDataAvailable(XnNodeHandle hInstance, XnUInt64*
  * @{
  */
 
-/** 
+/**
  * @brief Updates the data to the latest available one. If needed, the call will block until new data is available.
  *
  * @param	hInstance	[in]	A handle to the instance to be updated.
@@ -603,7 +603,7 @@ XN_C_API XnUInt32 XN_C_DECL xnGetFrameID(XnNodeHandle hInstance);
 // Mirror Capability
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @ingroup generator
  * @defgroup mirror Mirror Capability
  * The mirror capability (@ref XN_CAPABILITY_MIRROR) allows mirroring of the data produced by a @ref generator.
@@ -654,7 +654,7 @@ XN_C_API void XN_C_DECL xnUnregisterFromMirrorChange
 // Alternative View Point Capability
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @ingroup generator
  * @defgroup altviewpoint Alternative View Point Capability
  * The Alternative View Point capability (@ref XN_CAPABILITY_ALTERNATIVE_VIEW_POINT) allows a @ref generator
@@ -737,7 +737,7 @@ XN_C_API XnStatus XN_C_DECL xnGetPixelCoordinatesInViewPoint(XnNodeHandle hInsta
 // FrameSync Capability
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @ingroup generator
  * @defgroup framesync Frame-Sync Capability
  * The Frame Sync capability (@ref XN_CAPABILITY_FRAME_SYNC) allows two sensors producing frame data to synchronize
@@ -804,7 +804,7 @@ XN_C_API void XN_C_DECL xnUnregisterFromFrameSyncChange(XnNodeHandle hInstance, 
 // Map Generators
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @ingroup prd_node
  * @defgroup mapgen Map Generator
  * A Map Generator node is a @ref generator that has output data in the form of a pixel map. It supports all @ref generator functions,
@@ -812,7 +812,7 @@ XN_C_API void XN_C_DECL xnUnregisterFromFrameSyncChange(XnNodeHandle hInstance, 
  * @{
  */
 
-/** 
+/**
  * @brief Gets the number of supported modes. This is useful for allocating an array that will be passed to @ref xnGetSupportedMapOutputModes().
  *
  * @param	hInstance	[in]	A handle to the instance.
@@ -821,11 +821,11 @@ XN_C_API void XN_C_DECL xnUnregisterFromFrameSyncChange(XnNodeHandle hInstance, 
  */
 XN_C_API XnUInt32 XN_C_DECL xnGetSupportedMapOutputModesCount(XnNodeHandle hInstance);
 
-/** 
+/**
  * @brief Gets a list of all supported modes. The size of the array that should be passed can be obtained by calling @ref xnGetSupportedMapOutputModesCount().
  *
  * @param	hInstance	[in]		A handle to the instance.
- * @param	aModes		[in/out]	An array to be filled with supported modes. 
+ * @param	aModes		[in/out]	An array to be filled with supported modes.
  * @param	pnCount		[in/out]	In: number of elements allocated in the array. Out: number of elements
  *									actually written to the array.
  *
@@ -833,8 +833,8 @@ XN_C_API XnUInt32 XN_C_DECL xnGetSupportedMapOutputModesCount(XnNodeHandle hInst
  */
 XN_C_API XnStatus XN_C_DECL xnGetSupportedMapOutputModes(XnNodeHandle hInstance, XnMapOutputMode* aModes, XnUInt32* pnCount);
 
-/** 
- * @brief Sets the output mode. 
+/**
+ * @brief Sets the output mode.
  *
  * @param	hInstance	[in]	A handle to the instance.
  * @param	pOutputMode	[in]	The output mode to be set.
@@ -843,9 +843,9 @@ XN_C_API XnStatus XN_C_DECL xnGetSupportedMapOutputModes(XnNodeHandle hInstance,
  */
 XN_C_API XnStatus XN_C_DECL xnSetMapOutputMode(XnNodeHandle hInstance, const XnMapOutputMode* pOutputMode);
 
-/** 
- * @brief Gets the current output mode. 
- * 
+/**
+ * @brief Gets the current output mode.
+ *
  * @param	hInstance	[in]	A handle to the instance.
  * @param	pOutputMode	[out]	Current output mode.
  *
@@ -902,7 +902,7 @@ XN_C_API XnUInt32 XN_C_DECL xnGetBytesPerPixel(XnNodeHandle hInstance);
  * @{
  */
 
-/** 
+/**
  * @brief Sets the cropping.
  *
  * @param	hInstance	[in]	A handle to the instance.
@@ -912,7 +912,7 @@ XN_C_API XnUInt32 XN_C_DECL xnGetBytesPerPixel(XnNodeHandle hInstance);
  */
 XN_C_API XnStatus XN_C_DECL xnSetCropping(XnNodeHandle hInstance, const XnCropping* pCropping);
 
-/** 
+/**
  * @brief Gets current cropping configuration.
  *
  * @param	hInstance	[in]	A handle to the instance.
@@ -955,7 +955,7 @@ XN_C_API void XN_C_DECL xnUnregisterFromCroppingChange(XnNodeHandle hInstance, X
  * @{
  */
 
-/** 
+/**
  * @brief Sets the power line frequency: 50 Hz, 60 Hz, or 0 to turn off anti-flicker.
  *
  * @param	hGenerator	[in]	A handle to the instance.
@@ -963,7 +963,7 @@ XN_C_API void XN_C_DECL xnUnregisterFromCroppingChange(XnNodeHandle hInstance, X
  */
 XN_C_API XnStatus XN_C_DECL xnSetPowerLineFrequency(XnNodeHandle hGenerator, XnPowerLineFrequency nFrequency);
 
-/** 
+/**
  * @brief Gets the power line frequency.
  *
  * @param	hGenerator	[in]	A handle to the instance.
@@ -998,7 +998,7 @@ XN_C_API void XN_C_DECL xnUnregisterFromPowerLineFrequencyChange
 // Depth Generators
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @ingroup prd_node
  * @defgroup depthgen Depth Generator
  * A Depth Generator node is a @ref mapgen that outputs depth maps. It supports all @ref mapgen functions,
@@ -1017,11 +1017,11 @@ XN_C_API void XN_C_DECL xnUnregisterFromPowerLineFrequencyChange
 XN_C_API XnStatus XN_C_DECL xnCreateDepthGenerator(
 	XnContext* pContext,
 	XnNodeHandle* phDepthGenerator,
-	XnNodeQuery* pQuery, 
+	XnNodeQuery* pQuery,
 	XnEnumerationErrors* pErrors);
 
-/** 
- * @brief Gets the maximum depth the device can produce. 
+/**
+ * @brief Gets the maximum depth the device can produce.
  *
  * @param	hInstance	[in]	A handle to the instance.
  *
@@ -1029,7 +1029,7 @@ XN_C_API XnStatus XN_C_DECL xnCreateDepthGenerator(
  */
 XN_C_API XnDepthPixel XN_C_DECL xnGetDeviceMaxDepth(XnNodeHandle hInstance);
 
-/** 
+/**
  * @brief Gets the Field-Of-View of the depth generator, in radians.
  *
  * @param	hInstance	[in]	A handle to the instance.
@@ -1086,8 +1086,8 @@ XN_C_API XnStatus XN_C_DECL xnConvertProjectiveToRealWorld(
 XN_C_API XnStatus XN_C_DECL xnConvertRealWorldToProjective(
 	XnNodeHandle hInstance, XnUInt32 nCount, const XnPoint3D* aRealWorld, XnPoint3D* aProjective);
 
-/** 
- * @brief Gets the current depth-map. This map is updated after a call to @ref xnWaitAndUpdateData(). 
+/**
+ * @brief Gets the current depth-map. This map is updated after a call to @ref xnWaitAndUpdateData().
  *
  * @param	hInstance	[in]		A handle to the instance.
  *
@@ -1109,7 +1109,7 @@ XN_C_API void XN_C_DECL xnGetDepthMetaData(XnNodeHandle hInstance, XnDepthMetaDa
 // User Position Capability
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @ingroup depthgen
  * @defgroup userpos User Position Capability
  * The User Position capability (@ref XN_CAPABILITY_USER_POSITION) allows a @ref depthgen to change its
@@ -1126,9 +1126,9 @@ XN_C_API void XN_C_DECL xnGetDepthMetaData(XnNodeHandle hInstance, XnDepthMetaDa
  */
 XN_C_API XnUInt32 XN_C_DECL xnGetSupportedUserPositionsCount(XnNodeHandle hInstance);
 
-/** 
- * @brief Sets the current user position. 
- * 
+/**
+ * @brief Sets the current user position.
+ *
  * @param	hInstance	[in]		A handle to the instance.
  * @param	nIndex		[in]		The user position to set.
  * @param	pPosition	[in]		The user position in the frame.
@@ -1137,8 +1137,8 @@ XN_C_API XnUInt32 XN_C_DECL xnGetSupportedUserPositionsCount(XnNodeHandle hInsta
  */
 XN_C_API XnStatus XN_C_DECL xnSetUserPosition(XnNodeHandle hInstance, XnUInt32 nIndex, const XnBoundingBox3D* pPosition);
 
-/** 
- * @brief Gets the current user position. 
+/**
+ * @brief Gets the current user position.
  *
  * @param	hInstance	[in]	A handle to the instance.
  * @param	nIndex		[in]	The user position to get.
@@ -1175,7 +1175,7 @@ XN_C_API void XN_C_DECL xnUnregisterFromUserPositionChange(XnNodeHandle hInstanc
 // Image Generators
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @ingroup prd_node
  * @defgroup imagegen Image Generator
  * An Image Generator node is a @ref mapgen that outputs image maps. It supports all @ref mapgen functions,
@@ -1195,12 +1195,12 @@ XN_C_API void XN_C_DECL xnUnregisterFromUserPositionChange(XnNodeHandle hInstanc
 XN_C_API XnStatus XN_C_DECL xnCreateImageGenerator(
 	XnContext* pContext,
 	XnNodeHandle* phImageGenerator,
-	XnNodeQuery* pQuery, 
+	XnNodeQuery* pQuery,
 	XnEnumerationErrors* pErrors
 	);
 
-/** 
- * @brief Gets the current RGB24 image-map. 
+/**
+ * @brief Gets the current RGB24 image-map.
  * This map is updated after a call to @ref xnWaitAndUpdateData(). It is assumed that the node is currently in RGB24 pixel format.
  *
  * @param	hInstance	[in]		A handle to the instance.
@@ -1209,8 +1209,8 @@ XN_C_API XnStatus XN_C_DECL xnCreateImageGenerator(
  */
 XN_C_API XnRGB24Pixel* XN_C_DECL xnGetRGB24ImageMap(XnNodeHandle hInstance);
 
-/** 
- * @brief Gets the current YUV422 image-map. 
+/**
+ * @brief Gets the current YUV422 image-map.
  * This map is updated after a call to @ref xnWaitAndUpdateData(). It is assumed that the node is currently in YUV422 pixel format.
  *
  * @param	hInstance	[in]		A handle to the instance.
@@ -1219,8 +1219,8 @@ XN_C_API XnRGB24Pixel* XN_C_DECL xnGetRGB24ImageMap(XnNodeHandle hInstance);
  */
 XN_C_API XnYUV422DoublePixel* XN_C_DECL xnGetYUV422ImageMap(XnNodeHandle hInstance);
 
-/** 
- * @brief Gets the current Grayscale8 image-map. 
+/**
+ * @brief Gets the current Grayscale8 image-map.
  * This map is updated after a call to @ref xnWaitAndUpdateData(). It is assumed that the node is currently in Grayscale8 pixel format.
  *
  * @param	hInstance	[in]		A handle to the instance.
@@ -1229,8 +1229,8 @@ XN_C_API XnYUV422DoublePixel* XN_C_DECL xnGetYUV422ImageMap(XnNodeHandle hInstan
  */
 XN_C_API XnGrayscale8Pixel* XN_C_DECL xnGetGrayscale8ImageMap(XnNodeHandle hInstance);
 
-/** 
- * @brief Gets the current Grayscale16 image-map. 
+/**
+ * @brief Gets the current Grayscale16 image-map.
  * This map is updated after a call to @ref xnWaitAndUpdateData(). It is assumed that the node is currently in Grayscale16 pixel format.
  *
  * @param	hInstance	[in]		A handle to the instance.
@@ -1239,12 +1239,12 @@ XN_C_API XnGrayscale8Pixel* XN_C_DECL xnGetGrayscale8ImageMap(XnNodeHandle hInst
  */
 XN_C_API XnGrayscale16Pixel* XN_C_DECL xnGetGrayscale16ImageMap(XnNodeHandle hInstance);
 
-/** 
- * @brief Gets the current image-map as a byte buffer. 
+/**
+ * @brief Gets the current image-map as a byte buffer.
  *
- * This map is updated after a call to @ref xnWaitAndUpdateData(). 
+ * This map is updated after a call to @ref xnWaitAndUpdateData().
  * It is highly advised not to use this function. Instead, if you know the format of the image, use
- * @ref xnGetRGB24ImageMap(), @ref xnGetYUV422ImageMap(), @ref xnGetGrayscale8ImageMap() or 
+ * @ref xnGetRGB24ImageMap(), @ref xnGetYUV422ImageMap(), @ref xnGetGrayscale8ImageMap() or
  * @ref xnGetGrayscale16ImageMap().
  *
  * @param	hInstance	[in]		A handle to the instance.
@@ -1315,7 +1315,7 @@ XN_C_API void XN_C_DECL xnGetImageMetaData(XnNodeHandle hInstance, XnImageMetaDa
 // IR Generators
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @ingroup prd_node
  * @defgroup irgen IR Generator
  * An IR Generator node is a @ref mapgen that outputs infra-red maps. It supports all @ref mapgen functions,
@@ -1334,12 +1334,12 @@ XN_C_API void XN_C_DECL xnGetImageMetaData(XnNodeHandle hInstance, XnImageMetaDa
 XN_C_API XnStatus XN_C_DECL xnCreateIRGenerator(
 	XnContext* pContext,
 	XnNodeHandle* phIRGenerator,
-	XnNodeQuery* pQuery, 
+	XnNodeQuery* pQuery,
 	XnEnumerationErrors* pErrors
 	);
 
-/** 
- * @brief Gets the current IR-map. This map is updated after a call to @ref xnWaitAndUpdateData(). 
+/**
+ * @brief Gets the current IR-map. This map is updated after a call to @ref xnWaitAndUpdateData().
  *
  * @param	hInstance	[in]		A handle to the instance.
  *
@@ -1361,7 +1361,7 @@ XN_C_API void XN_C_DECL xnGetIRMetaData(XnNodeHandle hInstance, XnIRMetaData* pM
 // Gesture Generators
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @ingroup prd_node
  * @defgroup gestures Gesture Generator
  * A Gestures Generator node is a @ref generator that recognizes certain gestures. It supports all @ref generator functions,
@@ -1380,7 +1380,7 @@ XN_C_API void XN_C_DECL xnGetIRMetaData(XnNodeHandle hInstance, XnIRMetaData* pM
 XN_C_API XnStatus XN_C_DECL xnCreateGestureGenerator(
 	XnContext* pContext,
 	XnNodeHandle* phGestureGenerator,
-	XnNodeQuery* pQuery, 
+	XnNodeQuery* pQuery,
 	XnEnumerationErrors* pErrors
 	);
 
@@ -1401,7 +1401,7 @@ XN_C_API XnStatus XN_C_DECL xnAddGesture(XnNodeHandle hInstance, const XnChar* s
 XN_C_API XnStatus XN_C_DECL xnRemoveGesture(XnNodeHandle hInstance, const XnChar* strGesture);
 /**
  * @brief Get the names of the gestures that are currently active
- * 
+ *
  * @param	hInstance		[in]		A handle to the instance
  * @param	pstrGestures	[out]		Preallocated memory, for the gesture names
  * @param	nGestures		[in,out]	The size of the preallocated memory. Changed to number of gestures
@@ -1409,7 +1409,7 @@ XN_C_API XnStatus XN_C_DECL xnRemoveGesture(XnNodeHandle hInstance, const XnChar
 XN_C_API XnStatus XN_C_DECL xnGetActiveGestures(XnNodeHandle hInstance, XnChar** pstrGestures, XnUInt16* nGestures);
 /**
  * @brief Get the names of the gestures that are currently active
- * 
+ *
  * @param	hInstance		[in]		A handle to the instance
  * @param	pstrGestures	[out]		Preallocated memory, for the gesture names
  * @param	nNameLength		[in]		Memory size for each gesture name
@@ -1418,7 +1418,7 @@ XN_C_API XnStatus XN_C_DECL xnGetActiveGestures(XnNodeHandle hInstance, XnChar**
 XN_C_API XnStatus XN_C_DECL xnGetAllActiveGestures(XnNodeHandle hInstance, XnChar** pstrGestures, XnUInt32 nNameLength, XnUInt16* nGestures);
 /**
  * @brief Get the names of all gestures available
- * 
+ *
  * @param	hInstance		[in]		A handle to the instance
  * @param	pstrGestures	[out]		Preallocated memory, for the gesture names
  * @param	nGestures		[in,out]	The size of the preallocated memory. Changed to number of gestures
@@ -1426,7 +1426,7 @@ XN_C_API XnStatus XN_C_DECL xnGetAllActiveGestures(XnNodeHandle hInstance, XnCha
 XN_C_API XnStatus XN_C_DECL xnEnumerateGestures(XnNodeHandle hInstance, XnChar** pstrGestures, XnUInt16* nGestures);
 /**
  * @brief Get the names of all gestures available
- * 
+ *
  * @param	hInstance		[in]		A handle to the instance
  * @param	pstrGestures	[out]		Preallocated memory, for the gesture names
  * @param	nNameLength		[in]		Memory size for each gesture name
@@ -1436,7 +1436,7 @@ XN_C_API XnStatus XN_C_DECL xnEnumerateAllGestures(XnNodeHandle hInstance, XnCha
 
 /**
  * @brief Get the number of all gestures available
- * 
+ *
  * @param	hInstance		[in]		A handle to the instance
  * @return the number of gestures available
  */
@@ -1445,21 +1445,21 @@ XN_C_API XnUInt16 XN_C_DECL xnGetNumberOfAvailableGestures(XnNodeHandle hInstanc
 
 /**
  * @brief Check if a specific gesture is available in this generator
- * 
+ *
  * @param	hInstance	[in]		A handle to the instance
  * @param	strGesture	[in]		Name of the gesture to check
  */
 XN_C_API XnBool XN_C_DECL xnIsGestureAvailable(XnNodeHandle hInstance, const XnChar* strGesture);
 /**
  * @brief Check if the specific gesture supports 'in progress' callbacks
- * 
+ *
  * @param	hInstance	[in]		A handle to the instance
  * @param	strGesture	[in]		Name of the gesture to check
  */
 XN_C_API XnBool XN_C_DECL xnIsGestureProgressSupported(XnNodeHandle hInstance, const XnChar* strGesture);
 /**
  * @brief Register to all gesture callbacks.
- * 
+ *
  * @param	hInstance		[in]	A handle to the instance
  * @param	RecognizedCB	[in]	A callback to be called when a gesture is recognized
  * @param	ProgressCB		[in]	A callback to be called when a gesture is on its way to be recognized
@@ -1469,14 +1469,14 @@ XN_C_API XnBool XN_C_DECL xnIsGestureProgressSupported(XnNodeHandle hInstance, c
 XN_C_API XnStatus XN_C_DECL xnRegisterGestureCallbacks(XnNodeHandle hInstance, XnGestureRecognized RecognizedCB, XnGestureProgress ProgressCB, void* pCookie, XnCallbackHandle* phCallback);
 /**
  * @brief Unregister from gesture callbacks
- * 
+ *
  * @param	hInstance	[in]		A handle to the instance
  * @param	hCallback	[in]		The handle received from registration
  */
 XN_C_API void XN_C_DECL xnUnregisterGestureCallbacks(XnNodeHandle hInstance, XnCallbackHandle hCallback);
 /**
  * @brief Register to when gestures are added or removed
- * 
+ *
  * @param	hInstance	[in]		A handle to the instance
  * @param	handler		[in]		The callback to be called when gesture configuration changes.
  * @param	pCookie		[in]		User's cookie, to be delivered to the callbacks
@@ -1485,7 +1485,7 @@ XN_C_API void XN_C_DECL xnUnregisterGestureCallbacks(XnNodeHandle hInstance, XnC
 XN_C_API XnStatus XN_C_DECL xnRegisterToGestureChange(XnNodeHandle hInstance, XnStateChangedHandler handler, void* pCookie, XnCallbackHandle* phCallback);
 /**
  * @brief Unregister from when gestures are added or removed
- * 
+ *
  * @param	hInstance	[in]		A handle to the instance
  * @param	hCallback	[in]		The handle received from registration
  */
@@ -1502,7 +1502,7 @@ XN_C_API void XN_C_DECL xnUnregisterFromGestureChange(XnNodeHandle hInstance, Xn
 XN_C_API XnStatus XN_C_DECL xnRegisterToGestureIntermediateStageCompleted(XnNodeHandle hInstance, XnGestureIntermediateStageCompleted handler, void* pCookie, XnCallbackHandle* phCallback);
 /**
  * @brief Unregister from when a gesture is in progress
- * 
+ *
  * @param	hInstance	[in]		A handle to the instance
  * @param	hCallback	[in]		The handle received from registration
  */
@@ -1518,7 +1518,7 @@ XN_C_API void XN_C_DECL xnUnregisterFromGestureIntermediateStageCompleted(XnNode
 XN_C_API XnStatus XN_C_DECL xnRegisterToGestureReadyForNextIntermediateStage(XnNodeHandle hInstance, XnGestureReadyForNextIntermediateStage handler, void* pCookie, XnCallbackHandle* phCallback);
 /**
  * @brief Unregister from when a gesture is ready for its next stage
- * 
+ *
  * @param	hInstance	[in]		A handle to the instance
  * @param	hCallback	[in]		The handle received from registration
  */
@@ -1529,7 +1529,7 @@ XN_C_API void XN_C_DECL xnUnregisterFromGestureReadyForNextIntermediateStage(XnN
 // Scene Analysis
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @ingroup prd_node
  * @defgroup scene Scene Analyzer
  * A Scene Analyzer node is a @ref mapgen that performs scene analysis. It supports all @ref mapgen functions,
@@ -1548,19 +1548,19 @@ XN_C_API void XN_C_DECL xnUnregisterFromGestureReadyForNextIntermediateStage(XnN
 XN_C_API XnStatus XN_C_DECL xnCreateSceneAnalyzer(
 	XnContext* pContext,
 	XnNodeHandle* phSceneAnalyzer,
-	XnNodeQuery* pQuery, 
+	XnNodeQuery* pQuery,
 	XnEnumerationErrors* pErrors
 	);
 
 /**
  * @brief Gets the label map, describing the current segmentation of the scene.
- * 
+ *
  * @param	hInstance	[in]		A handle to the instance
  */
 XN_C_API const XnLabel* XN_C_DECL xnGetLabelMap(XnNodeHandle hInstance);
 /**
  * @brief Gets a description of the floor, if it was found.
- * 
+ *
  * @param	hInstance	[in]		A handle to the instance
  * @param	pPlane		[out]		A description of the floor
  */
@@ -1580,7 +1580,7 @@ XN_C_API void XN_C_DECL xnGetSceneMetaData(XnNodeHandle hInstance, XnSceneMetaDa
 // User Generator
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @ingroup prd_node
  * @defgroup user User Generator
  * A User Generator node is a @ref generator that identifies a user in the scene. It supports all @ref generator functions,
@@ -1599,7 +1599,7 @@ XN_C_API void XN_C_DECL xnGetSceneMetaData(XnNodeHandle hInstance, XnSceneMetaDa
 XN_C_API XnStatus XN_C_DECL xnCreateUserGenerator(
 	XnContext* pContext,
 	XnNodeHandle* phUserGenerator,
-	XnNodeQuery* pQuery, 
+	XnNodeQuery* pQuery,
 	XnEnumerationErrors* pErrors
 	);
 
@@ -1694,7 +1694,7 @@ XN_C_API void XN_C_DECL xnUnregisterFromUserReEnter(XnNodeHandle hInstance, XnCa
 // Skeleton Capability
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @ingroup user
  * @defgroup skeleton Skeleton Capability
  * The Skeleton capability (@ref XN_CAPABILITY_SKELETON) allows a @ref user to also output the skeleton
@@ -1984,7 +1984,7 @@ XN_C_API void XN_C_DECL xnUnregisterFromCalibrationComplete(XnNodeHandle hInstan
 // Pose Detection Capability
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @ingroup user
  * @defgroup pose Pose Detection Capability
  * The Pose capability (@ref XN_CAPABILITY_POSE_DETECTION) allows a @ref user to recognize when the user
@@ -2025,14 +2025,14 @@ XN_C_API XnStatus XN_C_DECL xnGetAllAvailablePoses(XnNodeHandle hInstance, XnCha
 */
 XN_C_API XnBool XN_C_DECL xnIsPoseSupported(XnNodeHandle hInstance, const XnChar* strPose);
 
-/** 
+/**
 * @brief Gets the current pose status
 *
 * @param	hInstance	[in]	A handle to the instance
 * @param    userID      [in]    The user whose pose status we are interested in.
 * @param    poseName    [in]    The pose we want to get a status on.
-* @param    poseTime    [out]   The time stamp in which the user entered into the pose (0 if not in pose). 
-* @param    eStatus     [out]   The status of the user's pose, i.e. the progress error for getting into 
+* @param    poseTime    [out]   The time stamp in which the user entered into the pose (0 if not in pose).
+* @param    eStatus     [out]   The status of the user's pose, i.e. the progress error for getting into
 *                               pose (XnPoseDetectionStatus, the same as received from the in progress
 *                               callback. See @ref xnRegisterToPoseDetectionInProgress).
 * @param    eState      [out]   The state of the user pose (i.e. in pose, out of pose).
@@ -2137,7 +2137,7 @@ XN_C_API void XN_C_DECL xnUnregisterFromPoseDetectionInProgress(XnNodeHandle hIn
 // Hands Generator
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @ingroup prd_node
  * @defgroup hands Hands Generator
  * A Hands Generator node is a @ref generator that tracks hand points. It supports all @ref generator functions,
@@ -2156,7 +2156,7 @@ XN_C_API void XN_C_DECL xnUnregisterFromPoseDetectionInProgress(XnNodeHandle hIn
 XN_C_API XnStatus XN_C_DECL xnCreateHandsGenerator(
 	XnContext* pContext,
 	XnNodeHandle* phHandsGenerator,
-	XnNodeQuery* pQuery, 
+	XnNodeQuery* pQuery,
 	XnEnumerationErrors* pErrors
 	);
 
@@ -2211,7 +2211,7 @@ XN_C_API XnStatus XN_C_DECL xnSetTrackingSmoothing(XnNodeHandle hInstance, XnFlo
 // Hand Touching FOV Edge Capability
 //---------------------------------------------------------------------------
 
-/** 
+/**
 * @ingroup user
 * @defgroup touchingEdge Hand Touching FOV Edge Capability
 * The Touching FOV Edge capability (@ref XN_CAPABILITY_HAND_TOUCHING_FOV_EDGE) allows callbacks when a hand (from hands generator) is touching the edge of the FOV
@@ -2240,7 +2240,7 @@ XN_C_API void XN_C_DECL xnUnregisterFromHandTouchingFOVEdge(XnNodeHandle hInstan
 // Audio Generator
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @ingroup prd_node
  * @defgroup audio Audio Generator
  * An Audio Generator node is a @ref generator that outputs audio data. It supports all @ref generator functions,
@@ -2259,7 +2259,7 @@ XN_C_API void XN_C_DECL xnUnregisterFromHandTouchingFOVEdge(XnNodeHandle hInstan
 XN_C_API XnStatus XN_C_DECL xnCreateAudioGenerator(
 	XnContext* pContext,
 	XnNodeHandle* phAudioGenerator,
-	XnNodeQuery* pQuery, 
+	XnNodeQuery* pQuery,
 	XnEnumerationErrors* pErrors
 	);
 
@@ -2285,7 +2285,7 @@ XN_C_API void XN_C_DECL xnGetAudioMetaData(XnNodeHandle hInstance, XnAudioMetaDa
 // Mocks
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @ingroup prd_node
  * @defgroup mocks Mock Nodes
  * @{
@@ -2313,9 +2313,9 @@ XN_C_API XnStatus XN_C_DECL xnMockRawSetData(XnNodeHandle hInstance, XnUInt32 nF
 
 XN_C_API XnStatus XN_C_DECL xnCreateCodec(XnContext* pContext, XnCodecID codecID, XnNodeHandle hInitializerNode, XnNodeHandle* phCodec);
 XN_C_API XnCodecID XN_C_DECL xnGetCodecID(XnNodeHandle hCodec);
-XN_C_API XnStatus XN_C_DECL xnEncodeData(XnNodeHandle hCodec, const void* pSrc, XnUInt32 nSrcSize, 
+XN_C_API XnStatus XN_C_DECL xnEncodeData(XnNodeHandle hCodec, const void* pSrc, XnUInt32 nSrcSize,
 							   void* pDst, XnUInt32 nDstSize, XnUInt* pnBytesWritten);
-XN_C_API XnStatus XN_C_DECL xnDecodeData(XnNodeHandle hCodec, const void* pSrc, XnUInt32 nSrcSize, 
+XN_C_API XnStatus XN_C_DECL xnDecodeData(XnNodeHandle hCodec, const void* pSrc, XnUInt32 nSrcSize,
 							   void* pDst, XnUInt32 nDstSize, XnUInt* pnBytesWritten);
 
 /** @} */
@@ -2323,7 +2323,7 @@ XN_C_API XnStatus XN_C_DECL xnDecodeData(XnNodeHandle hCodec, const void* pSrc, 
 //---------------------------------------------------------------------------
 // Recorder
 //---------------------------------------------------------------------------
-/** 
+/**
  * @ingroup prd_node
  * @defgroup recorder Recorder
  * A Recorder node is a @ref node that allows recording of data. It supports all @ref node functions,
@@ -2360,19 +2360,19 @@ XN_C_API XnStatus XN_C_DECL xnSetRecorderDestination(XnNodeHandle hRecorder, XnR
 XN_C_API XnStatus XN_C_DECL xnGetRecorderDestination(XnNodeHandle hRecorder, XnRecordMedium* pDestType, XnChar* strDest, XnUInt32 nBufSize);
 
 /**
- * @brief Adds a node to recording and start recording it. This function must be called on each node that is to be 
+ * @brief Adds a node to recording and start recording it. This function must be called on each node that is to be
  * recorded with this recorder.
  *
  * @param	hRecorder	[in]	A handle to the recorder.
  * @param	hNode		[in]	The node to add to the recording.
- * @param	compression	[in]	The type of compression that will be used to encode the node's data 
- *								(See @ref XnCodecIDs.h). If XN_CODEC_NULL is specified, a default compression 
+ * @param	compression	[in]	The type of compression that will be used to encode the node's data
+ *								(See @ref XnCodecIDs.h). If XN_CODEC_NULL is specified, a default compression
  *								will be chosen according to the node type.
  */
 XN_C_API XnStatus XN_C_DECL xnAddNodeToRecording(XnNodeHandle hRecorder, XnNodeHandle hNode, XnCodecID compression);
 
 /**
- * @brief Removes node from recording and stop recording it. This function can be called on a node that was added to 
+ * @brief Removes node from recording and stop recording it. This function can be called on a node that was added to
  * recording with @ref xnAddNodeToRecording.
  *
  * @param	hRecorder	[in]	A handle to the recorder.
@@ -2400,7 +2400,7 @@ XN_C_API const XnChar* XN_C_DECL xnGetRecorderFormat(XnNodeHandle hRecorder);
 // Player
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @ingroup prd_node
  * @defgroup player Player
  * A Player node is a @ref node that allows playing of a recording. It supports all @ref node functions,
@@ -2422,15 +2422,15 @@ XN_C_API XnStatus XN_C_DECL xnCreatePlayer(XnContext* pContext, const XnChar* st
  *
  * @param	hPlayer	[in]	A handle to the player.
  * @param	bRepeat	[in]	Determines whether the player will repeat or not.
- * 
+ *
  * @remark If bRepeat is set to TRUE, the player will automatically rewind when reaching the end.
  * @remark If bRepeat is set to FALSE, the player will stop playing when reaching the end, and will raise the event that was registered with @ref xnRegisterToEndOfFileReached(). In this state, @ref xnIsPlayerAtEOF() returns TRUE.
  */
 XN_C_API XnStatus XN_C_DECL xnSetPlayerRepeat(XnNodeHandle hPlayer, XnBool bRepeat);
 
 /**
- * @brief Sets the source for the player, i.e. where the played events will come from. 
- 
+ * @brief Sets the source for the player, i.e. where the played events will come from.
+
  * The only supported source type at this point is a file.
  *
  * @param	hPlayer		[in]	A handle to the player.
@@ -2454,7 +2454,7 @@ XN_C_API XnStatus XN_C_DECL xnSetPlayerSource(XnNodeHandle hPlayer, XnRecordMedi
 XN_C_API XnStatus XN_C_DECL xnGetPlayerSource(XnNodeHandle hPlayer, XnRecordMedium* pSourceType, XnChar* strSource, XnUInt32 nBufSize);
 
 /**
- * @brief Reads the next data element from the player. 
+ * @brief Reads the next data element from the player.
  *
  * Can cause data updates and/or property updates of the played nodes.
  *

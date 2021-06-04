@@ -22,11 +22,11 @@ package org.openni;
 
 /**
  * Locates and continuously tracks a user's hands. <BR><BR>
- * 
+ *
  * HandPoint generators generally make use of the data from a depth generator to
- * located and track a user's hands.  Exact requirements will vary depending on 
+ * located and track a user's hands.  Exact requirements will vary depending on
  * middleware implementation.
- * 
+ *
  * This generator implements the following events:
  * handCreateEvent -- Triggered when the system finds a new hand in a scene
  * handUpdateEvent -- Triggered whenever a previously located hand changes location
@@ -36,7 +36,7 @@ package org.openni;
 public class HandsGenerator extends Generator
 {
 
-	/** 
+	/**
 	 * Constructor, creates a new hands generator form the given context
 	 * @param context OpenNI context for this generator
 	 * @param nodeHandle Native pointer to this object
@@ -52,13 +52,13 @@ public class HandsGenerator extends Generator
 		handCreateEvent = new Observable<ActiveHandEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterHandCallbacks(toNative(), this, "callback", null, null, phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterHandCallbacks(toNative(), hCallback);
 			}
@@ -72,13 +72,13 @@ public class HandsGenerator extends Generator
 		handUpdateEvent = new Observable<ActiveHandEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterHandCallbacks(toNative(), this, null, "callback", null, phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterHandCallbacks(toNative(), hCallback);
 			}
@@ -92,13 +92,13 @@ public class HandsGenerator extends Generator
 		handDestroyEvent = new Observable<InactiveHandEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterHandCallbacks(toNative(), this, null, null, "callback", phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterHandCallbacks(toNative(), hCallback);
 			}
@@ -132,7 +132,7 @@ public class HandsGenerator extends Generator
 		return result;
 	}
 
-	/** 	 
+	/** 	
 	 * Creates a hands generator in a given context, filtered by a given query object, discarding error data
 	 * @param context OpenNI Context for this generator
 	 * @param query Query object to filter results

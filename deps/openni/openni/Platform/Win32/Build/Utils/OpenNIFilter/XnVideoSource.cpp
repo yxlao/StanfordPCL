@@ -125,7 +125,7 @@ STDMETHODIMP XnVideoSource::GetPages(CAUUID *pPages)
 
 	pPages->cElems = 3;
 	pPages->pElems = reinterpret_cast<GUID*>(CoTaskMemAlloc(sizeof(GUID)*pPages->cElems));
-	if (pPages->pElems == NULL) 
+	if (pPages->pElems == NULL)
 	{
 		XN_METHOD_RETURN(E_OUTOFMEMORY);
 	}
@@ -134,7 +134,7 @@ STDMETHODIMP XnVideoSource::GetPages(CAUUID *pPages)
 	pPages->pElems[2] = CLSID_AdditionalOpenNIControlsPropertyPage;
 
 	XN_METHOD_RETURN(S_OK);
-} 
+}
 
 STDMETHODIMP XnVideoSource::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 {
@@ -234,11 +234,11 @@ HRESULT STDMETHODCALLTYPE XnVideoSource::SetMode( IPin *pPin, long Mode )
 	xnLogVerbose(XN_MASK_FILTER, "Setting flip mode to %d", Mode);
 
 	hr = pVideoStream->SetMirror(Mode & VideoControlFlag_FlipHorizontal);
-	if (FAILED(hr)) 
+	if (FAILED(hr))
 		XN_METHOD_RETURN(hr);
 
 	hr = pVideoStream->SetVerticalFlip(Mode & VideoControlFlag_FlipVertical);
-	if (FAILED(hr)) 
+	if (FAILED(hr))
 		XN_METHOD_RETURN(hr);
 
 	XN_METHOD_RETURN(S_OK);
@@ -601,8 +601,8 @@ HRESULT XnVideoSource::SetCap(const XnChar* strCap, long lValue, long Flags)
 	XN_METHOD_RETURN(S_OK);
 }
 
-XnVideoSource::VideoProcAmp::VideoProcAmp(XnVideoSource* pSource) : 
-	CUnknown(NAME("XnVideoSource::VideoProcAmp"), pSource->GetOwner()), 
+XnVideoSource::VideoProcAmp::VideoProcAmp(XnVideoSource* pSource) :
+	CUnknown(NAME("XnVideoSource::VideoProcAmp"), pSource->GetOwner()),
 	m_pSource(pSource),
 	m_Dump(pSource->m_Dump)
 {}
@@ -652,8 +652,8 @@ STDMETHODIMP XnVideoSource::VideoProcAmp::Get(long Property, long *lValue, long 
 	return m_pSource->GetCap(GetPropertyCap(Property), lValue, Flags);
 }
 
-XnVideoSource::CameraControl::CameraControl(XnVideoSource* pSource) : 
-	CUnknown(NAME("XnVideoSource::CameraControl"), pSource->GetOwner()), 
+XnVideoSource::CameraControl::CameraControl(XnVideoSource* pSource) :
+	CUnknown(NAME("XnVideoSource::CameraControl"), pSource->GetOwner()),
 	m_pSource(pSource),
 	m_Dump(pSource->m_Dump)
 {}

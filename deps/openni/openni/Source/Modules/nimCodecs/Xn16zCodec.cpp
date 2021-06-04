@@ -53,12 +53,12 @@ XnStatus Xn16zCodec::DecompressImpl(const XnUChar* pCompressedData, XnUInt32 nCo
 /********************/
 /* Exported16zCodec */
 /********************/
-Exported16zCodec::Exported16zCodec() : ExportedCodec(XN_CODEC_16Z) 
+Exported16zCodec::Exported16zCodec() : ExportedCodec(XN_CODEC_16Z)
 {
 }
 
-XnCodec* Exported16zCodec::CreateCodec() 
-{ 
-	return XN_NEW(Xn16zCodec); 
+XnCodec* Exported16zCodec::CreateCodec()
+{
+	return XN_NEW(Xn16zCodec);
 }
 

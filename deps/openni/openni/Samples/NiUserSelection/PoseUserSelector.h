@@ -35,7 +35,7 @@
 
 
 /// @brief User selector based on pose
-/// 
+///
 /// This basic user selector select users which perform a certain pose.
 /// The pose is define in initialization.
 /// The base class selects all users which perform the pose but inheriting classes can override this
@@ -45,7 +45,7 @@ class PoseUserSelector : public UserSelector
 {
 public:
     /// @brief constructor.
-    /// 
+    ///
     /// @param pUserGenerator A pointer to the user generator node which holds the users.
     /// @param pTrackingInitializer A pointer to the tracking initializer to use to start tracking.
     /// @param poseToTrack The pose to use for selection.
@@ -55,7 +55,7 @@ public:
     ~PoseUserSelector();
 protected:
     /// @brief Internal method to do the actual tracking.
-    /// 
+    ///
     /// This method is called internally when we decide to track a user. It does all tracking elements.
     /// @param nUserId The user we want to start tracking.
     /// @return The success status
@@ -68,20 +68,20 @@ protected:
     virtual XnStatus RemoveUser(XnUserID nUserId);
 
     /// @brief Internal method which is called whenever a PoseInProgressCallback callback is called.
-    /// 
+    ///
     /// @param nUserId the user whose pose progress is being updated
     /// @param ePoseError the pose error (representing the pose progress) for the user
     /// @return The success code.
     virtual XnStatus UpdatePoseProgress(XnUserID nUserId,XnPoseDetectionStatus ePoseError);
 
     /// @brief Internal method which is called from the callback whenever a Pose is detected.
-    /// 
+    ///
     /// @param nUserId the user whose pose progress was detected
     /// @return The success code.
     virtual XnStatus DetectPose(XnUserID nUserId);
 
     /// @brief translate a calibration error to a string
-    /// 
+    ///
     /// @param eError The calibration error
     /// @return The string version of the error.
     const XnChar* GetPoseErrorString(XnPoseDetectionStatus eError);

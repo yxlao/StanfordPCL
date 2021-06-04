@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Fragment>  
+  <Fragment>
 
     <UI Id="CostumeInstallUI">
 
@@ -8,13 +8,13 @@
       <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
       <TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />
 
-      <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />      
+      <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
 
 
-      <Dialog Id="CostumeInstallUIDlg" Width="370" Height="270" Title="!(loc.InstallDirDlg_Title)">        
+      <Dialog Id="CostumeInstallUIDlg" Width="370" Height="270" Title="!(loc.InstallDirDlg_Title)">
 
-        
-        <Control Id="Install" Type="PushButton" ElevationShield="yes" X="212" Y="243" Width="80" Height="17" Default="yes" Text="!(loc.WelcomeEulaDlgInstall)" Hidden="yes">          
+
+        <Control Id="Install" Type="PushButton" ElevationShield="yes" X="212" Y="243" Width="80" Height="17" Default="yes" Text="!(loc.WelcomeEulaDlgInstall)" Hidden="yes">
           <Publish Event="EndDialog" Value="Return"><![CDATA[OutOfDiskSpace <> 1]]></Publish>
           <Publish Event="SpawnDialog" Value="OutOfRbDiskDlg">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND (PROMPTROLLBACKCOST="P" OR NOT PROMPTROLLBACKCOST)</Publish>
           <Publish Event="EndDialog" Value="Return">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
@@ -22,9 +22,9 @@
           <Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
           <Condition Action="show">ALLUSERS</Condition>
         </Control>
-        
+
        <!--
-        <Control Id="InstallNoShield" Type="PushButton" ElevationShield="no" X="212" Y="243" Width="80" Height="17" Default="yes" Text="!(loc.WelcomeEulaDlgInstall)" Hidden="yes">          
+        <Control Id="InstallNoShield" Type="PushButton" ElevationShield="no" X="212" Y="243" Width="80" Height="17" Default="yes" Text="!(loc.WelcomeEulaDlgInstall)" Hidden="yes">
           <Publish Event="EndDialog" Value="Return"><![CDATA[OutOfDiskSpace <> 1]]></Publish>
           <Publish Event="SpawnDialog" Value="OutOfRbDiskDlg">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND (PROMPTROLLBACKCOST="P" OR NOT PROMPTROLLBACKCOST)</Publish>
           <Publish Event="EndDialog" Value="Return">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
@@ -33,8 +33,8 @@
           <Condition Action="show">NOT ALLUSERS</Condition>
         </Control>
         -->
-        
-       
+
+
         <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
           <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
         </Control>
@@ -53,10 +53,10 @@
       <DialogRef Id="ErrorDlg" />
       <DialogRef Id="FatalError" />
       <DialogRef Id="FilesInUse" />
-      <DialogRef Id="MsiRMFilesInUse" />      
+      <DialogRef Id="MsiRMFilesInUse" />
       <DialogRef Id="ProgressDlg" />
       <!--DialogRef Id="ResumeDlg" /-->
-      <DialogRef Id="UserExit" />      
+      <DialogRef Id="UserExit" />
 
       <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
 
@@ -76,7 +76,7 @@
     <InstallUISequence>
       <Show Dialog="CostumeInstallUIDlg" Before="ProgressDlg">NOT Installed</Show>
     </InstallUISequence>
-    
+
     <UIRef Id="WixUI_Common" />
   </Fragment>
 </Wix>

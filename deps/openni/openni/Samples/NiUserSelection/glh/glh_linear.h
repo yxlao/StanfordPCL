@@ -1,5 +1,5 @@
 /*
-    glh - is a platform-indepenedent C++ OpenGL helper library 
+    glh - is a platform-indepenedent C++ OpenGL helper library
 
 
     Copyright (c) 2000 Cass Everitt
@@ -21,7 +21,7 @@
 
      * The names of contributors to this software may not be used
 	   to endorse or promote products derived from this software
-	   without specific prior written permission. 
+	   without specific prior written permission.
 
        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 	   ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -33,8 +33,8 @@
 	   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 	   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
 	   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-	   ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
-	   POSSIBILITY OF SUCH DAMAGE. 
+	   ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+	   POSSIBILITY OF SUCH DAMAGE.
 
 
     Cass Everitt - cass@r3.nu
@@ -75,7 +75,7 @@ glh_linear.h
 #define     GLH_ONE             GLH_REAL(1.0)
 #define     GLH_TWO             GLH_REAL(2.0)
 #define     GLH_EPSILON         GLH_REAL(10e-6)
-#define     GLH_PI              GLH_REAL(3.1415926535897932384626433832795)    
+#define     GLH_PI              GLH_REAL(3.1415926535897932384626433832795)
 
 #define     equivalent(a,b)     (((a < b + GLH_EPSILON) && (a > b - GLH_EPSILON)) ? true : false)
 
@@ -92,7 +92,7 @@ namespace glh
     public:
 		int size() const { return N; }
 		
-		vec(const T & t = T()) 
+		vec(const T & t = T())
 		{ for(int i = 0; i < N; i++) v[i] = t; }
 		vec(const T * tp)
 		{ for(int i = 0; i < N; i++) v[i] = tp[i]; }
@@ -102,7 +102,7 @@ namespace glh
 		
 		
 		T dot( const vec<N,T> & rhs ) const
-		{ 
+		{
 			T r = 0;
 			for(int i = 0; i < N; i++) r += v[i]*rhs.v[i];
 			return r;
@@ -111,14 +111,14 @@ namespace glh
 		T length() const
 		{
 			T r = 0;
-			for(int i = 0; i < N; i++) r += v[i]*v[i]; 
+			for(int i = 0; i < N; i++) r += v[i]*v[i];
 			return T(sqrt(r));
 		}	
 		
 		T square_norm() const
 		{
 			T r = 0;
-			for(int i = 0; i < N; i++) r += v[i]*v[i]; 
+			for(int i = 0; i < N; i++) r += v[i]*v[i];
 			return r;
 		}	
 		
@@ -126,14 +126,14 @@ namespace glh
 		{ for(int i = 0; i < N; i++) v[i] = -v[i]; }
 		
 		
-		T normalize() 
-		{ 
+		T normalize()
+		{
 			T sum(0);
-			for(int i = 0; i < N; i++) 
+			for(int i = 0; i < N; i++)
                 sum += v[i]*v[i];
 			sum = T(sqrt(sum));
             if (sum > GLH_EPSILON)
-			    for(int i = 0; i < N; i++) 
+			    for(int i = 0; i < N; i++)
                     v[i] /= sum;
 			return sum;
 		}
@@ -248,8 +248,8 @@ namespace glh
 	class plane;
 	class matrix4;
 	class quaternion;
-	typedef quaternion rotation; 
-  
+	typedef quaternion rotation;
+
 	class vec2 : public vec<2,real>
 	{
     public:
@@ -321,7 +321,7 @@ namespace glh
 
         void get_value(real & x, real & y, real & z, real & w) const
         { x = v[0]; y = v[1]; z = v[2]; w = v[3]; }
-  
+
         vec4 & set_value( const real & x, const real & y, const real & z, const real & w)
         { v[0] = x; v[1] = y; v[2] = z; v[3] = w; return *this; }
     };
@@ -336,13 +336,13 @@ namespace glh
       rt.v[2] = v.v[2]/v.v[3];
       return rt;
     }
-  
+
 
 
     class line
     {
     public:
-  
+
         line()
         { set_value(vec3(0,0,0),vec3(0,0,1)); }
 
@@ -355,19 +355,19 @@ namespace glh
           direction = p1-p0;
           direction.normalize();
         }
-  
-        bool get_closest_points(const line &line2, 
+
+        bool get_closest_points(const line &line2,
 					          vec3 &pointOnThis,
 					          vec3 &pointOnThat)
         {
-  
+
           // quick check to see if parallel -- if so, quit.
           if(fabs(direction.dot(line2.direction)) == 1.0)
 	          return 0;
           line l2 = line2;
-  
+
           // Algorithm: Brian Jean
-          // 
+          //
           register real u;
           register real v;
           vec3 Vr = direction;
@@ -377,35 +377,33 @@ namespace glh
           vec3 C = l2.position - position;
           register real C_Dot_Vr =  C.dot(Vr);
           register real C_Dot_Vs =  C.dot(Vs);
-  
+
           u = (C_Dot_Vr - Vr_Dot_Vs * C_Dot_Vs)/detA;
           v = (C_Dot_Vr * Vr_Dot_Vs - C_Dot_Vs)/detA;
-  
+
           pointOnThis = position;
           pointOnThis += direction * u;
           pointOnThat = l2.position;
           pointOnThat += l2.direction * v;
-  
+
           return 1;
         }
-  
+
         vec3 get_closest_point(const vec3 &point)
         {
           vec3 np = point - position;
           vec3 rp = direction*direction.dot(np)+position;
           return rp;
         }
-  
+
         const vec3 & get_position() const {return position;}
 
         const vec3 & get_direction() const {return direction;}
-  
+
     //protected:
         vec3 position;
         vec3 direction;
     };
-  
-  
 
 
 
@@ -420,8 +418,10 @@ namespace glh
 
 
 
-  
-  
+
+
+
+
 
 
 
@@ -435,20 +435,20 @@ namespace glh
 
   // matrix
 
-  
+
   class matrix4
   {
-    
+
   public:
-        
+
     matrix4() { make_identity(); }
-    
-	matrix4( real r ) 
+
+	matrix4( real r )
 	{ set_value(r); }
 
 	matrix4( real * m )
 	{ set_value(m); }
-    
+
     matrix4( real a00, real a01, real a02, real a03,
 	       real a10, real a11, real a12, real a13,
 		   real a20, real a21, real a22, real a23,
@@ -474,8 +474,8 @@ namespace glh
 		element(3,2) = a32;
 		element(3,3) = a33;
 	}
-            
-    
+
+
     void get_value( real * mp ) const
 	{
 		int c = 0;
@@ -483,11 +483,11 @@ namespace glh
 			for(int i=0; i < 4; i++)
 				mp[c++] = element(i,j);
 	}
-    
-    
+
+
     const real * get_value() const
 	{ return m; }
-    
+
 	void set_value( real * mp)
 	{
 		int c = 0;
@@ -495,23 +495,23 @@ namespace glh
 			for(int i=0; i < 4; i++)
 				element(i,j) = mp[c++];
 	}
-    
-	void set_value( real r ) 
+
+	void set_value( real r )
 	{
 		for(int i=0; i < 4; i++)
 			for(int j=0; j < 4; j++)
 				element(i,j) = r;
 	}
-    
+
     void make_identity()
 	{
 		element(0,0) = 1.0;
 		element(0,1) = 0.0;
-		element(0,2) = 0.0; 
+		element(0,2) = 0.0;
 		element(0,3) = 0.0;
 		
 		element(1,0) = 0.0;
-		element(1,1) = 1.0; 
+		element(1,1) = 1.0;
 		element(1,2) = 0.0;
 		element(1,3) = 0.0;
 		
@@ -520,8 +520,8 @@ namespace glh
 		element(2,2) = 1.0;
 		element(2,3) = 0.0;
 		
-		element(3,0) = 0.0; 
-		element(3,1) = 0.0; 
+		element(3,0) = 0.0;
+		element(3,1) = 0.0;
 		element(3,2) = 0.0;
 		element(3,3) = 1.0;
 	}
@@ -536,30 +536,30 @@ namespace glh
 			0.0, 0.0, 0.0, 1.0  );
 		return mident;
 	}
-    
-        
+
+
     void set_scale( real s )
 	{
 		element(0,0) = s;
 		element(1,1) = s;
 		element(2,2) = s;
 	}
-    
+
     void set_scale( const vec3 & s )
 	{
 		element(0,0) = s.v[0];
 		element(1,1) = s.v[1];
 		element(2,2) = s.v[2];
 	}
-    
-    
+
+
     void set_translate( const vec3 & t )
 	{
 		element(0,3) = t.v[0];
 		element(1,3) = t.v[1];
 		element(2,3) = t.v[2];
 	}
-    
+
 	void set_row(int r, const vec4 & t)
 	{
 		element(r,0) = t.v[0];
@@ -576,7 +576,7 @@ namespace glh
 		element(3,c) = t.v[3];
 	}
 
-    
+
 	void get_row(int r, vec4 & t) const
 	{
 		t.v[0] = element(r,0);
@@ -675,7 +675,7 @@ namespace glh
 		// Now we have an upper triangular matrix.
 		//
 		//  x x x x | y y y y
-		//  0 x x x | y y y y 
+		//  0 x x x | y y y y
 		//  0 0 x x | y y y y
 		//  0 0 0 x | y y y y
 		//
@@ -684,7 +684,7 @@ namespace glh
 		//  1 0 0 0 | z z z z
 		//  0 1 0 0 | z z z z
 		//  0 0 1 0 | z z z z
-		//  0 0 0 1 | z z z z 
+		//  0 0 0 1 | z z z z
 		//
 		
 		real mij;
@@ -704,8 +704,8 @@ namespace glh
 			
 			return minv;
 	}
-    
-    
+
+
     matrix4 transpose() const
 	{
 		matrix4 mtrans;
@@ -715,7 +715,7 @@ namespace glh
 				mtrans(i,j) = element(j,i);		
 		return mtrans;
 	}
-    
+
     matrix4 & mult_right( const matrix4 & b )
 	{
 		matrix4 mt(*this);
@@ -726,7 +726,7 @@ namespace glh
 				for(int c=0; c < 4; c++)
 					element(i,j) += mt(i,c) * b(c,j);
 		return *this;
-	}    
+	}
 
     matrix4 & mult_left( const matrix4 & b )
 	{
@@ -745,10 +745,10 @@ namespace glh
 	{
 		real w = (
 			src.v[0] * element(3,0) +
-			src.v[1] * element(3,1) + 
+			src.v[1] * element(3,1) +
 			src.v[2] * element(3,2) +
 			element(3,3)          );
-        
+
         assert(w != GLH_ZERO);
 
         dst.v[0]  = (
@@ -763,11 +763,11 @@ namespace glh
 			element(1,3)          ) / w;
 		dst.v[2]  = (
 			src.v[0] * element(2,0) +
-			src.v[1] * element(2,1) + 
+			src.v[1] * element(2,1) +
 			src.v[2] * element(2,2) +
 			element(2,3)          ) / w;
 	}
-    
+
 	void mult_matrix_vec( vec3 & src_and_dst) const
 	{ mult_matrix_vec(vec3(src_and_dst), src_and_dst); }
 
@@ -780,13 +780,13 @@ namespace glh
 			src.v[1] * element(1,3) +
 			src.v[2] * element(2,3) +
 			element(3,3)          );
-        
+
         assert(w != GLH_ZERO);
 
 		dst.v[0]  = (
 			src.v[0] * element(0,0) +
-			src.v[1] * element(1,0) + 
-			src.v[2] * element(2,0) + 
+			src.v[1] * element(1,0) +
+			src.v[2] * element(2,0) +
 			element(3,0)          ) / w;
 		dst.v[1]  = (
 			src.v[0] * element(0,1) +
@@ -799,7 +799,7 @@ namespace glh
 			src.v[2] * element(2,2) +
 			element(3,2)          ) / w;
 	}
-        
+
 
 	void mult_vec_matrix( vec3 & src_and_dst) const
 	{ mult_vec_matrix(vec3(src_and_dst), src_and_dst); }
@@ -819,16 +819,16 @@ namespace glh
 			src.v[3] * element(1,3));
 		dst.v[2]  = (
 			src.v[0] * element(2,0) +
-			src.v[1] * element(2,1) + 
+			src.v[1] * element(2,1) +
 			src.v[2] * element(2,2) +
 			src.v[3] * element(2,3));
 		dst.v[3] = (
 			src.v[0] * element(3,0) +
-			src.v[1] * element(3,1) + 
+			src.v[1] * element(3,1) +
 			src.v[2] * element(3,2) +
 			src.v[3] * element(3,3));
 	}
-    
+
 	void mult_matrix_vec( vec4 & src_and_dst) const
 	{ mult_matrix_vec(vec4(src_and_dst), src_and_dst); }
 
@@ -838,8 +838,8 @@ namespace glh
 	{
 		dst.v[0]  = (
 			src.v[0] * element(0,0) +
-			src.v[1] * element(1,0) + 
-			src.v[2] * element(2,0) + 
+			src.v[1] * element(1,0) +
+			src.v[2] * element(2,0) +
 			src.v[3] * element(3,0));
 		dst.v[1]  = (
 			src.v[0] * element(0,1) +
@@ -857,12 +857,12 @@ namespace glh
 			src.v[2] * element(2,3) +
 			src.v[3] * element(3,3));
 	}
-        
+
 
 	void mult_vec_matrix( vec4 & src_and_dst) const
 	{ mult_vec_matrix(vec4(src_and_dst), src_and_dst); }
 
-    
+
     // dst = M * src
     void mult_matrix_dir( const vec3 &src, vec3 &dst ) const
 	{
@@ -870,16 +870,16 @@ namespace glh
 			src.v[0] * element(0,0) +
 			src.v[1] * element(0,1) +
 			src.v[2] * element(0,2) ) ;
-		dst.v[1]  = ( 
+		dst.v[1]  = (
 			src.v[0] * element(1,0) +
 			src.v[1] * element(1,1) +
 			src.v[2] * element(1,2) ) ;
-		dst.v[2]  = ( 
+		dst.v[2]  = (
 			src.v[0] * element(2,0) +
-			src.v[1] * element(2,1) + 
+			src.v[1] * element(2,1) +
 			src.v[2] * element(2,2) ) ;
 	}
-        
+
 
 	void mult_matrix_dir( vec3 & src_and_dst) const
 	{ mult_matrix_dir(vec3(src_and_dst), src_and_dst); }
@@ -888,21 +888,21 @@ namespace glh
 	// dst = src * M
     void mult_dir_matrix( const vec3 &src, vec3 &dst ) const
 	{
-		dst.v[0]  = ( 
+		dst.v[0]  = (
 			src.v[0] * element(0,0) +
 			src.v[1] * element(1,0) +
 			src.v[2] * element(2,0) ) ;
-		dst.v[1]  = ( 
+		dst.v[1]  = (
 			src.v[0] * element(0,1) +
 			src.v[1] * element(1,1) +
 			src.v[2] * element(2,1) ) ;
 		dst.v[2]  = (
 			src.v[0] * element(0,2) +
-			src.v[1] * element(1,2) + 
+			src.v[1] * element(1,2) +
 			src.v[2] * element(2,2) ) ;
 	}
-    
-    
+
+
 	void mult_dir_matrix( vec3 & src_and_dst) const
 	{ mult_dir_matrix(vec3(src_and_dst), src_and_dst); }
 
@@ -924,7 +924,7 @@ namespace glh
 		mult_right( mat );
 		return *this;
 	}
-    
+
     matrix4 & operator *= ( const real & r )
 	{
 		for (int i = 0; i < 4; ++i)
@@ -952,26 +952,26 @@ namespace glh
     friend matrix4 operator * ( const matrix4 & m1,	const matrix4 & m2 );
     friend bool operator == ( const matrix4 & m1, const matrix4 & m2 );
     friend bool operator != ( const matrix4 & m1, const matrix4 & m2 );
-    
+
   //protected:
 	  real m[16];
   };
-  
-  inline  
+
+  inline
   matrix4 operator * ( const matrix4 & m1, const matrix4 & m2 )
   {
 	  matrix4 product;
-	  
+	
 	  product = m1;
 	  product.mult_right(m2);
-	  
+	
 	  return product;
   }
-  
+
   inline
   bool operator ==( const matrix4 &m1, const matrix4 &m2 )
   {
-	  return ( 
+	  return (
 		  m1(0,0) == m2(0,0) &&
 		  m1(0,1) == m2(0,1) &&
 		  m1(0,2) == m2(0,2) &&
@@ -989,10 +989,10 @@ namespace glh
 		  m1(3,2) == m2(3,2) &&
 		  m1(3,3) == m2(3,3) );
   }
-  
+
   inline
   bool operator != ( const matrix4 & m1, const matrix4 & m2 )
-  { return !( m1 == m2 ); }  
+  { return !( m1 == m2 ); }
 
 
 
@@ -1005,11 +1005,11 @@ namespace glh
 
 
 
-  
+
     class quaternion
     {
     public:
-    
+
     quaternion()
     {
         *this = identity();
@@ -1188,13 +1188,13 @@ namespace glh
             // axis too small.
             x = y = z = 0.0;
             w = 1.0;
-        } 
-        else 
+        }
+        else
         {
             theta *= real(0.5);
             real sin_theta = real(sin(theta));
 
-            if (!equivalent(sqnorm,GLH_ONE)) 
+            if (!equivalent(sqnorm,GLH_ONE))
               sin_theta /= real(sqrt(sqnorm));
             x = sin_theta * axis.v[0];
             y = sin_theta * axis.v[1];
@@ -1209,17 +1209,17 @@ namespace glh
         vec3 p1, p2;
         real alpha;
 
-        p1 = rotateFrom; 
+        p1 = rotateFrom;
         p1.normalize();
-        p2 = rotateTo;  
+        p2 = rotateTo;
         p2.normalize();
 
         alpha = p1.dot(p2);
 
         if(equivalent(alpha,GLH_ONE))
-        { 
-            *this = identity(); 
-            return *this; 
+        {
+            *this = identity();
+            return *this;
         }
 
         // ensures that the anti-parallel case leads to a positive dot
@@ -1239,7 +1239,7 @@ namespace glh
             return *this;
         }
 
-        p1 = p1.cross(p2);  
+        p1 = p1.cross(p2);
         p1.normalize();
         set_value(p1,real(acos(alpha)));
 
@@ -1251,12 +1251,12 @@ namespace glh
 		      const vec3 & to_look, const vec3 & to_up)
     {
 	    quaternion r_look = quaternion(from_look, to_look);
-	    
+	
 	    vec3 rotated_from_up(from_up);
 	    r_look.mult_vec(rotated_from_up);
-	    
+	
 	    quaternion r_twist = quaternion(rotated_from_up, to_up);
-	    
+	
 	    *this = r_twist;
 	    *this *= r_look;
 	    return *this;
@@ -1265,7 +1265,7 @@ namespace glh
     quaternion & operator *= ( const quaternion & qr )
     {
         quaternion ql(*this);
-   
+
         w = ql.w * qr.w - ql.x * qr.x - ql.y * qr.y - ql.z * qr.z;
         x = ql.w * qr.x + ql.x * qr.w + ql.y * qr.z - ql.z * qr.y;
         y = ql.w * qr.y + ql.y * qr.w + ql.z * qr.x - ql.x * qr.z;
@@ -1289,7 +1289,7 @@ namespace glh
         counter = 0;
     }
 
-    friend bool operator == ( const quaternion & q1, const quaternion & q2 );      
+    friend bool operator == ( const quaternion & q1, const quaternion & q2 );
 
     friend bool operator != ( const quaternion & q1, const quaternion & q2 );
 
@@ -1304,7 +1304,7 @@ namespace glh
             (q[1]-r.q[1])*(q[1]-r.q[1]) +
             (q[2]-r.q[2])*(q[2]-r.q[2]) +
             (q[3]-r.q[3])*(q[3]-r.q[3]) );
-        if(t > GLH_EPSILON) 
+        if(t > GLH_EPSILON)
             return false;
         return 1;
     }
@@ -1334,9 +1334,9 @@ namespace glh
     //
     void mult_vec( const vec3 &src, vec3 &dst ) const
     {
-        real v_coef = w * w - x * x - y * y - z * z;                     
-        real u_coef = GLH_TWO * (src.v[0] * x + src.v[1] * y + src.v[2] * z);  
-        real c_coef = GLH_TWO * w;                                       
+        real v_coef = w * w - x * x - y * y - z * z;
+        real u_coef = GLH_TWO * (src.v[0] * x + src.v[1] * y + src.v[2] * z);
+        real c_coef = GLH_TWO * w;
 
         dst.v[0] = v_coef * src.v[0] + u_coef * x + c_coef * (y * src.v[2] - z * src.v[1]);
         dst.v[1] = v_coef * src.v[1] + u_coef * y + c_coef * (z * src.v[0] - x * src.v[2]);
@@ -1364,13 +1364,13 @@ namespace glh
 
         real cos_omega = p.x * q.x + p.y * q.y + p.z * q.z + p.w * q.w;
         // if B is on opposite hemisphere from A, use -B instead
-      
+
         int bflip;
         if ( ( bflip = (cos_omega < GLH_ZERO)) )
             cos_omega = -cos_omega;
 
         // complementary interpolation parameter
-        real beta = GLH_ONE - alpha;     
+        real beta = GLH_ONE - alpha;
 
         if(cos_omega >= GLH_ONE - GLH_EPSILON)
             return p;
@@ -1417,13 +1417,13 @@ namespace glh
                 normalize();
         }
 
-        union 
+        union
         {
-            struct 
+            struct
             {
                 real q[4];
             };
-            struct 
+            struct
             {
                 real x;
                 real y;
@@ -1447,75 +1447,75 @@ namespace glh
 
     inline
     bool operator != ( const quaternion & q1, const quaternion & q2 )
-    { 
-        return ! ( q1 == q2 ); 
+    {
+        return ! ( q1 == q2 );
     }
 
     inline
     quaternion operator * ( const quaternion & q1, const quaternion & q2 )
     {	
-        quaternion r(q1); 
-        r *= q2; 
-        return r; 
+        quaternion r(q1);
+        r *= q2;
+        return r;
     }
-  
-      
-    
 
 
 
 
 
-  
-  
+
+
+
+
+
   class plane
   {
   public:
-	  
+	
 	  plane()
       {
 		  planedistance = 0.0;
 		  planenormal.set_value( 0.0, 0.0, 1.0 );
       }
-	  
-	  
+	
+	
 	  plane( const vec3 &p0, const vec3 &p1, const vec3 &p2 )
       {
 		  vec3 v0 = p1 - p0;
 		  vec3 v1 = p2 - p0;
-		  planenormal = v0.cross(v1);  
+		  planenormal = v0.cross(v1);
 		  planenormal.normalize();
 		  planedistance = p0.dot(planenormal);
       }
-	  
+	
 	  plane( const vec3 &normal, real distance )
       {
 		  planedistance = distance;
 		  planenormal = normal;
 		  planenormal.normalize();
       }
-	  
+	
 	  plane( const vec3 &normal, const vec3 &point )
       {
 		  planenormal = normal;
 		  planenormal.normalize();
 		  planedistance = point.dot(planenormal);
       }
-	  
+	
 	  void offset( real d )
       {
 		  planedistance += d;
       }
-	  
+	
 	  bool intersect( const line &l, vec3 &intersection ) const
       {
 		  vec3 pos, dir;
 		  vec3 pn = planenormal;
 		  real pd = planedistance;
-		  
+		
 		  pos = l.get_position();
 		  dir = l.get_direction();
-		  
+		
 		  if(dir.dot(pn) == 0.0) return 0;
 		  pos -= pn*pd;
 		  // now we're talking about a plane passing through the origin
@@ -1531,66 +1531,66 @@ namespace glh
       {
 		  matrix4 invtr = matrix.inverse();
 		  invtr = invtr.transpose();
-		  
+		
 		  vec3 pntOnplane = planenormal * planedistance;
 		  vec3 newPntOnplane;
 		  vec3 newnormal;
-		  
+		
 		  invtr.mult_dir_matrix(planenormal, newnormal);
 		  matrix.mult_vec_matrix(pntOnplane, newPntOnplane);
-		  
+		
 		  newnormal.normalize();
 		  planenormal = newnormal;
 		  planedistance = newPntOnplane.dot(planenormal);
       }
-	  
+	
 	  bool is_in_half_space( const vec3 &point ) const
       {
-		  
+		
 		  if(( point.dot(planenormal) - planedistance) < 0.0)
 			  return 0;
 		  return 1;
       }
-	  
-	  
-	  real distance( const vec3 & point ) const 
+	
+	
+	  real distance( const vec3 & point ) const
       {
 		  return planenormal.dot(point - planenormal*planedistance);
       }
-	  
+	
 	  const vec3 &get_normal() const
       {
 		  return planenormal;
       }
-	  
-	  
+	
+	
 	  real get_distance_from_origin() const
       {
 		  return planedistance;
       }
-	  
-	  
+	
+	
 	  friend bool operator == ( const plane & p1, const plane & p2 );
-	  
-	  
+	
+	
 	  friend bool operator != ( const plane & p1, const plane & p2 );
-	  
+	
   //protected:
 	  vec3 planenormal;
 	  real planedistance;
   };
-  
+
   inline
   bool operator == (const plane & p1, const plane & p2 )
   {
 	  return (  p1.planedistance == p2.planedistance && p1.planenormal == p2.planenormal);
   }
-  
+
   inline
   bool operator != ( const plane & p1, const plane & p2 )
   { return  ! (p1 == p2); }
-  
-  
+
+
 
   } // "ns_##GLH_REAL"
 
@@ -1606,7 +1606,7 @@ namespace glh
   typedef GLH_REAL_NAMESPACE::matrix4 matrix4f;
 #endif
 
-  
+
 
 
 }  // namespace glh

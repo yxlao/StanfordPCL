@@ -23,7 +23,7 @@
 //---------------------------------------------------------------------------
 #include "TrackingInitializer.h"
 
-TrackingInitializer::TrackingInitializer(xn::UserGenerator *pUserGenerato) : 
+TrackingInitializer::TrackingInitializer(xn::UserGenerator *pUserGenerato) :
                                                        m_pUserSelector(NULL),
                                                        m_pUserGenerator(pUserGenerato),
                                                        m_bValid(FALSE)

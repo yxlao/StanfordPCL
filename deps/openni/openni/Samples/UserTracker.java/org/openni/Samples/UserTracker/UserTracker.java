@@ -114,7 +114,7 @@ public class UserTracker extends Component
 		}
 	}
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private OutArg<ScriptNode> scriptNode;
@@ -133,11 +133,11 @@ public class UserTracker extends Component
     private boolean drawSkeleton = true;
     private boolean printID = true;
     private boolean printState = true;
-    
-    
+
+
     private BufferedImage bimg;
     int width, height;
-    
+
     private final String SAMPLE_XML_FILE = "../../../../Data/SamplesConfig.xml";
     public UserTracker()
     {
@@ -152,21 +152,21 @@ public class UserTracker extends Component
             histogram = new float[10000];
             width = depthMD.getFullXRes();
             height = depthMD.getFullYRes();
-            
+
             imgbytes = new byte[width*height*3];
 
             userGen = UserGenerator.create(context);
             skeletonCap = userGen.getSkeletonCapability();
             poseDetectionCap = userGen.getPoseDetectionCapability();
-            
+
             userGen.getNewUserEvent().addObserver(new NewUserObserver());
             userGen.getLostUserEvent().addObserver(new LostUserObserver());
             skeletonCap.getCalibrationCompleteEvent().addObserver(new CalibrationCompleteObserver());
             poseDetectionCap.getPoseDetectedEvent().addObserver(new PoseDetectedObserver());
-            
+
             calibPose = skeletonCap.getSkeletonCalibrationPose();
             joints = new HashMap<Integer, HashMap<SkeletonJoint,SkeletonJointPosition>>();
-            
+
             skeletonCap.setSkeletonProfile(SkeletonProfile.ALL);
 			
 			context.startGeneratingAll();
@@ -175,13 +175,13 @@ public class UserTracker extends Component
             System.exit(1);
         }
     }
-    
+
     private void calcHist(ShortBuffer depth)
     {
         // reset
         for (int i = 0; i < histogram.length; ++i)
             histogram[i] = 0;
-        
+
         depth.rewind();
 
         int points = 0;
@@ -194,7 +194,7 @@ public class UserTracker extends Component
                 points++;
             }
         }
-        
+
         for (int i = 1; i < histogram.length; i++)
         {
             histogram[i] += histogram[i-1];
@@ -223,13 +223,13 @@ public class UserTracker extends Component
             ShortBuffer depth = depthMD.getData().createShortBuffer();
             calcHist(depth);
             depth.rewind();
-            
+
             while(depth.remaining() > 0)
             {
                 int pos = depth.position();
                 short pixel = depth.get();
                 short user = scene.get();
-                
+
         		imgbytes[3*pos] = 0;
         		imgbytes[3*pos+1] = 0;
         		imgbytes[3*pos+2] = 0;                	
@@ -336,14 +336,14 @@ public class UserTracker extends Component
     	drawLine(g, dict, SkeletonJoint.RIGHT_KNEE, SkeletonJoint.RIGHT_FOOT);
 
     }
-    
+
     public void paint(Graphics g)
     {
     	if (drawPixels)
     	{
             DataBufferByte dataBuffer = new DataBufferByte(imgbytes, width*height*3);
 
-            WritableRaster raster = Raster.createInterleavedRaster(dataBuffer, width, height, width * 3, 3, new int[]{0, 1, 2}, null); 
+            WritableRaster raster = Raster.createInterleavedRaster(dataBuffer, width, height, width * 3, 3, new int[]{0, 1, 2}, null);
 
             ColorModel colorModel = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB), new int[]{8, 8, 8}, false, false, ComponentColorModel.OPAQUE, DataBuffer.TYPE_BYTE);
 

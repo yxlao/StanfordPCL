@@ -22,12 +22,12 @@ package org.openni;
 
 /**
  * Stores info about a ProductionNode. <BR><BR>
- * 
- * This class normally serves as a data member of a Production Node, and keeps track of 
+ *
+ * This class normally serves as a data member of a Production Node, and keeps track of
  * various properties for the node that possesses it.
  *
  */
-public class NodeInfo extends ObjectWrapper 
+public class NodeInfo extends ObjectWrapper
 {
 	/**
 	 * Provides access to the description value for this production node.
@@ -82,20 +82,20 @@ public class NodeInfo extends ObjectWrapper
 	 * @return String representation of this nodeInfo object
 	 */
 	@Override
-	public String toString() 
+	public String toString()
 	{
 		OutArg<String> result = new OutArg<String>();
 		NativeMethods.xnNodeInfoGetTreeStringRepresentation(toNative(), result);
 		return result.value;
 	}
 	
-	protected NodeInfo(long pNodeInfo) throws GeneralException 
+	protected NodeInfo(long pNodeInfo) throws GeneralException
 	{
 		super(pNodeInfo);
 	}
 	
 	@Override
-	protected void freeObject(long ptr) 
+	protected void freeObject(long ptr)
 	{
 		// no need to free
 	}

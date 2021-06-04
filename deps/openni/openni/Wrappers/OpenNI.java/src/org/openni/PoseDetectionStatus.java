@@ -44,7 +44,7 @@ public enum PoseDetectionStatus
 	
 	public static PoseDetectionStatus fromNative(int value)
 	{
-		for (PoseDetectionStatus type : PoseDetectionStatus.values()) 
+		for (PoseDetectionStatus type : PoseDetectionStatus.values())
 		{
 			if (type.val == value)
 				return type;

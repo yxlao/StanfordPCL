@@ -3,7 +3,7 @@
 #
 
 LOCAL_PATH:= $(call my-dir)
-include $(CLEAR_VARS) 
+include $(CLEAR_VARS)
 
 # set path to source
 MY_PREFIX := $(LOCAL_PATH)/../../../../../Source/Modules/nimMockNodes/
@@ -17,7 +17,7 @@ MY_SRC_FILE_EXPANDED := $(wildcard $(MY_SRC_FILES))
 # make those paths relative to here
 LOCAL_SRC_FILES := $(MY_SRC_FILE_EXPANDED:$(LOCAL_PATH)/%=%)
 
-LOCAL_C_INCLUDES := 
+LOCAL_C_INCLUDES :=
 
 LOCAL_CFLAGS := -fvisibility=hidden
 

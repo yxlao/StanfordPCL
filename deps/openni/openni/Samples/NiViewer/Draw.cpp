@@ -60,9 +60,9 @@
 // --------------------------------
 // Types
 // --------------------------------
-typedef struct  
+typedef struct
 {
-	StreamsDrawConfig Streams; 
+	StreamsDrawConfig Streams;
 	bool bShowPointer;
 	bool bShowMessage;
 	bool bHelp;
@@ -116,7 +116,7 @@ DrawUserInput g_DrawUserInput;
 
 int g_nMaxDepth = 0;
 
-DrawConfigPreset g_Presets[PRESET_COUNT] = 
+DrawConfigPreset g_Presets[PRESET_COUNT] =
 {
 	// NAME,								BACKGRD, { Depth_Type, Transparency}, { Image_Type  }			Arrangement }}
 	{ "Standard Deviation",					{ false, { STANDARD_DEVIATION,	1 }, { IMAGE_OFF },				OVERLAY } },
@@ -364,8 +364,8 @@ void glPrintString(void *font, const char *str)
 void drawConfigChanged()
 {
 	// recalculate registration
-	bool bRegistration = 
-		(g_DrawConfig.Streams.ScreenArrangement == OVERLAY) && 
+	bool bRegistration =
+		(g_DrawConfig.Streams.ScreenArrangement == OVERLAY) &&
 		(g_DrawConfig.Streams.Image.Coloring != IMAGE_OFF) &&
 		(g_DrawConfig.Streams.Depth.Coloring != DEPTH_OFF || g_DrawConfig.Streams.Image.Coloring == DEPTH_MASKED_IMAGE);
 
@@ -653,7 +653,7 @@ void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBAImage, XnUInt32 nYUV
 		G =     Y - 0.39466 U - 0.58060 V
 		B =     Y + 2.03211 U
 
-		*/ 
+		*/
 
 		temp = _mm_mul_ps(plus113983, v);
 		r = _mm_add_ps(y, temp);
@@ -856,18 +856,18 @@ void drawColorImage(IntRect* pLocation, IntPair* pPointer, int pointerRed, int p
 					pTexture[0] = pImage[0];
 					pTexture[1] = pImage[1];
 					pTexture[2] = pImage[2];
-					pImage+=3; 
+					pImage+=3;
 					break;
 				case XN_PIXEL_FORMAT_GRAYSCALE_8_BIT:
 					pTexture[0] = pTexture[1] = pTexture[2] = *pImage;
-					pImage+=1; 
+					pImage+=1;
 					break;
 				case XN_PIXEL_FORMAT_GRAYSCALE_16_BIT:
 					XnUInt16* p16 = (XnUInt16*)pImage;
 					XnUInt8 textureValue = 0;
 					textureValue = (XnUInt8)((*p16) * grayscale16Factor);
 					pTexture[0] = pTexture[1] = pTexture[2] = textureValue;
-					pImage+=2; 
+					pImage+=2;
 					break;
 				}
 
@@ -1156,7 +1156,7 @@ void drawPointerMode(IntPair* pPointer)
 	if (pPointer != NULL && isStatisticsActive())
 	{
 		XnPixelStatistics* pStatistics = &g_PixelStatistics[pPointer->Y * pDepthMD->XRes() + pPointer->X];
-		sprintf(buf, "Collected: %3u, Min: %4u Max: %4u Avg: %6.2f StdDev: %6.2f", 
+		sprintf(buf, "Collected: %3u, Min: %4u Max: %4u Avg: %6.2f StdDev: %6.2f",
 			pStatistics->nCount, pStatistics->nMin, pStatistics->nMax, pStatistics->dAverage, pStatistics->dStdDev);
 		glRasterPos2i(10,nYLocation);
 		glPrintString(GLUT_BITMAP_HELVETICA_18, buf);
@@ -1179,7 +1179,7 @@ void drawPointerMode(IntPair* pPointer)
 			sprintf(sPointerValue, "-");
 		}
 
-		sprintf(buf, "Pointer Value: %s (X:%d Y:%d) Cutoff: %llu-%llu.", 
+		sprintf(buf, "Pointer Value: %s (X:%d Y:%d) Cutoff: %llu-%llu.",
 			sPointerValue, pPointer->X, pPointer->Y, nCutOffMin, nCutOffMax);
 
 		glRasterPos2i(10,nYLocation);
@@ -1288,9 +1288,9 @@ void printRecordingInfo()
 		drawCenteredMessage(GLUT_BITMAP_TIMES_ROMAN_24, 30, csMessage, 1, 0, 0);
 
 	sprintf(csMessage, "Capture Formats - Depth: %s | Image: %s | IR: %s | Audio: %s",
-		captureGetDepthFormatName(), 
-		captureGetImageFormatName(), 
-		captureGetIRFormatName(), 
+		captureGetDepthFormatName(),
+		captureGetImageFormatName(),
+		captureGetIRFormatName(),
 		captureGetAudioFormatName());
 
 	drawCenteredMessage(GLUT_BITMAP_HELVETICA_12, WIN_SIZE_Y - 3, csMessage, 0, 1, 0);
@@ -1468,7 +1468,7 @@ void fixLocation(IntRect* pLocation, int xRes, int yRes)
 
 	double locationRatio = double(pLocation->uRight - pLocation->uLeft) / (pLocation->uTop - pLocation->uBottom);
 
-	if (locationRatio > resRatio) 
+	if (locationRatio > resRatio)
 	{
 		// location is wider. use height as reference.
 		double width = (pLocation->uTop - pLocation->uBottom) * resRatio;
@@ -1604,7 +1604,7 @@ void drawFrame()
 	glPushMatrix();
 	glLoadIdentity();
 	glOrtho(0,WIN_SIZE_X,WIN_SIZE_Y,0,-1.0,1.0);
-	glDisable(GL_DEPTH_TEST); 
+	glDisable(GL_DEPTH_TEST);
 
 	if (g_DrawConfig.Streams.Depth.Coloring == CYCLIC_RAINBOW_HISTOGRAM || g_DrawConfig.Streams.Depth.Coloring == LINEAR_HISTOGRAM || g_DrawConfig.bShowPointer)
 		calculateHistogram();

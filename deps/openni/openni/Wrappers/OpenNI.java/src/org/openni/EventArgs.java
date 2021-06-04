@@ -22,10 +22,10 @@ package org.openni;
 
 /**
  * Serves as the parent class for the various types of Event Arguments. <BR><BR>
- * 
+ *
  * This class is currently empty.
  *
  */
-public class EventArgs 
+public class EventArgs
 {
 }

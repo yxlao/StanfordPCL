@@ -95,7 +95,7 @@ class HandTracker extends Component
 	}
 	
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private OutArg<ScriptNode> scriptNode;
@@ -109,7 +109,7 @@ class HandTracker extends Component
 
     private BufferedImage bimg;
     int width, height;
-    
+
     private final String SAMPLE_XML_FILE = "../../../../Data/SamplesConfig.xml";
     public HandTracker()
     {
@@ -121,25 +121,25 @@ class HandTracker extends Component
             gestureGen = GestureGenerator.create(context);
             gestureGen.addGesture("Click");
             gestureGen.getGestureRecognizedEvent().addObserver(new MyGestureRecognized());
-            
+
             handsGen = HandsGenerator.create(context);
             handsGen.getHandCreateEvent().addObserver(new MyHandCreateEvent());
             handsGen.getHandUpdateEvent().addObserver(new MyHandUpdateEvent());
             handsGen.getHandDestroyEvent().addObserver(new MyHandDestroyEvent());
-            
+
             depthGen = DepthGenerator.create(context);
             DepthMetaData depthMD = depthGen.getMetaData();
 
 			context.startGeneratingAll();
 			
-            history = new HashMap<Integer, ArrayList<Point3D>>(); 
-            
+            history = new HashMap<Integer, ArrayList<Point3D>>();
+
             histogram = new float[10000];
             width = depthMD.getFullXRes();
             height = depthMD.getFullYRes();
-            
+
             imgbytes = new byte[width*height];
-            
+
             DataBufferByte dataBuffer = new DataBufferByte(imgbytes, width*height);
             Raster raster = Raster.createPackedRaster(dataBuffer, width, height, 8, null);
             bimg = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
@@ -150,13 +150,13 @@ class HandTracker extends Component
             System.exit(1);
         }
     }
-    
+
     private void calcHist(ShortBuffer depth)
     {
         // reset
         for (int i = 0; i < histogram.length; ++i)
             histogram[i] = 0;
-        
+
         depth.rewind();
 
         int points = 0;
@@ -169,7 +169,7 @@ class HandTracker extends Component
                 points++;
             }
         }
-        
+
         for (int i = 1; i < histogram.length; i++)
         {
             histogram[i] += histogram[i-1];
@@ -191,11 +191,11 @@ class HandTracker extends Component
             DepthMetaData depthMD = depthGen.getMetaData();
 
             context.waitAnyUpdateAll();
-            
+
             ShortBuffer depth = depthMD.getData().createShortBuffer();
             calcHist(depth);
             depth.rewind();
-            
+
             while(depth.remaining() > 0)
             {
                 int pos = depth.position();
@@ -242,7 +242,7 @@ class HandTracker extends Component
         		e.printStackTrace();
         	}
         }
-        
+
     }
 }
 

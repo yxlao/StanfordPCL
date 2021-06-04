@@ -1,5 +1,5 @@
 /*
-    glh - is a platform-indepenedent C++ OpenGL helper library 
+    glh - is a platform-indepenedent C++ OpenGL helper library
 
     Copyright (c) 2000 Cass Everitt
 	Copyright (c) 2000 NVIDIA Corporation
@@ -20,7 +20,7 @@
 
      * The names of contributors to this software may not be used
 	   to endorse or promote products derived from this software
-	   without specific prior written permission. 
+	   without specific prior written permission.
 
        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 	   ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -32,14 +32,14 @@
 	   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 	   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
 	   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-	   ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
-	   POSSIBILITY OF SUCH DAMAGE. 
+	   ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+	   POSSIBILITY OF SUCH DAMAGE.
 
     Cass Everitt - cass@r3.nu
 */
 
 // Simple array template.
-// Copyright (c) Cass W. Everitt 1999 
+// Copyright (c) Cass W. Everitt 1999
 // Copyright (c) NVIDIA 2000
 
 #ifndef _GLH_ARRAY_H_
@@ -56,7 +56,7 @@ namespace glh
   public:
 	typedef T value_type;
 
-	array2(int width=1, int height=1) 
+	array2(int width=1, int height=1)
     {
       w = width;
       h = height;
@@ -71,7 +71,7 @@ namespace glh
       (*this) = t;
     }
 	
-	// intentionally non-virtual 
+	// intentionally non-virtual
 	~array2() { delete [] data; }
 	
 	const array2 & operator = (const array2<T> & t)
@@ -111,7 +111,7 @@ namespace glh
 
 	int get_height() const { return h; }
 	
-	void clear(const T & val) 
+	void clear(const T & val)
     {
       int sz = w * h;
       for(int i = 0; i < sz; i++) data[i] = val;
@@ -163,7 +163,7 @@ namespace glh
 	public:
 	typedef T value_type;
 
-	array3(int width=1, int height=1, int depth=1) 
+	array3(int width=1, int height=1, int depth=1)
 	{
 		w = width;
 		h = height;
@@ -179,7 +179,7 @@ namespace glh
 		(*this) = t;
 	}
 	
-	// intentionally non-virtual 
+	// intentionally non-virtual
 	~array3() { delete [] data; }
 	
 	const array3 & operator = (const array3<T> & t)
@@ -225,7 +225,7 @@ namespace glh
 	int get_depth() const
 	{ return d; }
 	
-	void clear(const T & val) 
+	void clear(const T & val)
 	{
 		int sz = w * h * d;
 		for(int i = 0; i < sz; i++)

@@ -32,11 +32,11 @@
 #define RETURN_WITH_CLEANUP(returnCode,errorMsg)                                \
                             Cleanup();                                          \
                             printf("Failed to start sample: %s\n", errorMsg);   \
-                            return returnCode; 
+                            return returnCode;
 
 
-SampleManager::SampleManager() : m_pUserTracker(NULL), 
-                                   m_pTrackingInitializer(NULL), 
+SampleManager::SampleManager() : m_pUserTracker(NULL),
+                                   m_pTrackingInitializer(NULL),
                                    m_pUserSelector(NULL)
 {
 
@@ -46,19 +46,19 @@ SampleManager::SampleManager() : m_pUserTracker(NULL),
 XnStatus SampleManager::StartSample(int argc, char **argv)
 {
     // first we create a UserTracker object. This initializes all the openNI portions...
-    m_pUserTracker = XN_NEW(UserTracker,argc,argv,3000000); 
+    m_pUserTracker = XN_NEW(UserTracker,argc,argv,3000000);
 
     // make sure the initialization was a success
-    if(m_pUserTracker->Valid()==FALSE) 
+    if(m_pUserTracker->Valid()==FALSE)
     {
-        RETURN_WITH_CLEANUP(XN_STATUS_ERROR, "User tracker invalid"); 
+        RETURN_WITH_CLEANUP(XN_STATUS_ERROR, "User tracker invalid");
     }
 
-    // set the user selector and tracking initializers. This is the main method overriden by 
+    // set the user selector and tracking initializers. This is the main method overriden by
     // inheriting classes.
     if(SetSelectors()!=XN_STATUS_OK)
     {
-        RETURN_WITH_CLEANUP(XN_STATUS_ERROR, "Failed to initialize user selector and tracking initializers"); 
+        RETURN_WITH_CLEANUP(XN_STATUS_ERROR, "Failed to initialize user selector and tracking initializers");
     }
 
     // test if we show low confidence joints (if this is true we show low confidence joints as
@@ -76,9 +76,9 @@ XnStatus SampleManager::StartSample(int argc, char **argv)
     // note pUserTracker is deleted inside DrawScene when quitting.
     SceneDrawer *singleton=SceneDrawer::GetInstance();
     // This starts the actual program. NOTE: the DrawScene method never ends except for
-    // using the exit call to end the program. 
+    // using the exit call to end the program.
     singleton->DrawScene(m_pUserTracker,argc,argv,this, bShowLowConfidence);
-    return XN_STATUS_OK; 
+    return XN_STATUS_OK;
 }
 
 void SampleManager::Cleanup()
@@ -118,14 +118,14 @@ XnStatus DefaultInitializerWithCalibPose::SetSelectors()
     // make sure the user generator is good.
     if(pUserGenerator->IsCapabilitySupported(XN_CAPABILITY_SKELETON)==FALSE)
     {
-        RETURN_WITH_CLEANUP(XN_STATUS_ERROR, "User generator does not support skeleton!"); 
+        RETURN_WITH_CLEANUP(XN_STATUS_ERROR, "User generator does not support skeleton!");
     }
 
     // tracking initializer to use is the default one.
-    m_pTrackingInitializer=XN_NEW(DefaultTrackingInitializer,pUserGenerator); 
+    m_pTrackingInitializer=XN_NEW(DefaultTrackingInitializer,pUserGenerator);
     if(m_pTrackingInitializer->IsValid()==FALSE)
     {
-        RETURN_WITH_CLEANUP(XN_STATUS_ERROR, "Failed to create tracking initializer"); 
+        RETURN_WITH_CLEANUP(XN_STATUS_ERROR, "Failed to create tracking initializer");
     }
 
     // pick the user selector.
@@ -139,7 +139,7 @@ XnStatus DefaultInitializerWithCalibPose::SetSelectors()
 		// make sure we have a pose detection capability (which is what this selector is all about).
 		if(pUserGenerator->IsCapabilitySupported(XN_CAPABILITY_POSE_DETECTION)==FALSE)
 		{
-			RETURN_WITH_CLEANUP(XN_STATUS_ERROR, "User tracker invalid"); 
+			RETURN_WITH_CLEANUP(XN_STATUS_ERROR, "User tracker invalid");
 		
 		}
         // first we get the pose from the skeleton capability
@@ -163,10 +163,10 @@ XnStatus DefaultInitializerWithCalibPose::SetSelectors()
     // initialize the tracking initializer with the relevant user selector.
     m_pTrackingInitializer->SetUserTracker(m_pUserSelector);
 
-    // set the user selector and tracking initializer to the 
+    // set the user selector and tracking initializer to the
     m_pUserTracker->InitUserSelection(m_pUserSelector,m_pTrackingInitializer);
 
-    return XN_STATUS_OK; 
+    return XN_STATUS_OK;
 }
 
 

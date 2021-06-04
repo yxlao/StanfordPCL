@@ -61,8 +61,8 @@ typedef struct XnRealWorldTranslationData
 //---------------------------------------------------------------------------
 
 //DATA_MAX_SIZE is set to support a resolution of 1600x1200 with 24 bits per pixel
-const XnUInt64 PlayerNode::DATA_MAX_SIZE = 1600 * 1200 * 3; 
-const XnUInt64 PlayerNode::RECORD_MAX_SIZE = 
+const XnUInt64 PlayerNode::DATA_MAX_SIZE = 1600 * 1200 * 3;
+const XnUInt64 PlayerNode::RECORD_MAX_SIZE =
 	NewDataRecordHeader::MAX_SIZE +
 	PlayerNode::DATA_MAX_SIZE; //Maximum data size
 
@@ -239,7 +239,7 @@ XnStatus PlayerNode::UndoRecord(PlayerNode::RecordUndoInfo& undoInfo, XnUInt64 n
 
 	if (undoInfo.nRecordPos <= nDestPos)
 	{
-		/*We found a record that can undo the record originally pointed to by undoInfo.nDestRecordPos, 
+		/*We found a record that can undo the record originally pointed to by undoInfo.nDestRecordPos,
 		  so now we handle it. */
 		nRetVal = ReadRecordFields(record);
 		XN_IS_STATUS_OK(nRetVal);
@@ -434,7 +434,7 @@ XnStatus PlayerNode::SeekToFrameAbsolute(XnUInt32 nNodeID, XnUInt32 nDestFrame)
 			{
 				//Rollback all properties to match the state the stream was in at position nDestRecordPos
 				PlayerNodeInfo &pni = m_pNodeInfoMap[i];
-				for (RecordUndoInfoMap::Iterator it = pni.recordUndoInfoMap.Begin(); 
+				for (RecordUndoInfoMap::Iterator it = pni.recordUndoInfoMap.Begin();
 					 it != pni.recordUndoInfoMap.End(); ++it)
 				{
 					if ((it->Value().nRecordPos > nDestRecordPos) && (it->Value().nRecordPos < nStartPos))
@@ -499,7 +499,7 @@ XnStatus PlayerNode::ProcessEachNodeLastData(XnUInt32 nIDToProcessLast)
 	
 	for (XnUInt32 i = 0; i < m_nMaxNodes; i++)
 	{
-		/*We switch positions between nIDToProcessLast and the last position, to make sure that nIDToProcessLast is 
+		/*We switch positions between nIDToProcessLast and the last position, to make sure that nIDToProcessLast is
 		  handled last. This way the position at the end of our seek operation is right after the record we read
 		  for nIDToProcessLast.*/
 		if (i == nIDToProcessLast)
@@ -684,7 +684,7 @@ XnStatus PlayerNode::Read(void *pData, XnUInt32 nSize, XnUInt32 &nBytesRead)
 	}
 
 	return m_pInputStream->Read(m_pStreamCookie, pData, nSize, &nBytesRead);
-} 
+}
 
 XnStatus PlayerNode::ReadRecordHeader(Record &record)
 {
@@ -1097,15 +1097,15 @@ XnStatus PlayerNode::HandleGeneralPropRecord(GeneralPropRecord record)
 	else
 	{
 		nRetVal = m_pNodeNotifications->OnNodeGeneralPropChanged(m_pNotificationsCookie,
-			pPlayerNodeInfo->strName, 
+			pPlayerNodeInfo->strName,
 			record.GetPropName(),
 			record.GetPropDataSize(),
 			record.GetPropData());
 		XN_IS_STATUS_OK(nRetVal);
 	}
 	
-	nRetVal = SaveRecordUndoInfo(pPlayerNodeInfo, 
-		record.GetPropName(), 
+	nRetVal = SaveRecordUndoInfo(pPlayerNodeInfo,
+		record.GetPropName(),
 		TellStream() - record.GetSize(),
 		record.GetUndoRecordPos());
 	XN_IS_STATUS_OK(nRetVal);
@@ -1139,14 +1139,14 @@ XnStatus PlayerNode::HandleIntPropRecord(IntPropRecord record)
 		nValue = TRUE;
 	}
 
-	nRetVal = m_pNodeNotifications->OnNodeIntPropChanged(m_pNotificationsCookie, 
+	nRetVal = m_pNodeNotifications->OnNodeIntPropChanged(m_pNotificationsCookie,
 		pPlayerNodeInfo->strName,
 		strPropName,
 		nValue);
 	XN_IS_STATUS_OK(nRetVal);
 
-	nRetVal = SaveRecordUndoInfo(pPlayerNodeInfo, 
-		record.GetPropName(), 
+	nRetVal = SaveRecordUndoInfo(pPlayerNodeInfo,
+		record.GetPropName(),
 		TellStream() - record.GetSize(),
 		record.GetUndoRecordPos());
 	XN_IS_STATUS_OK(nRetVal);
@@ -1169,14 +1169,14 @@ XnStatus PlayerNode::HandleRealPropRecord(RealPropRecord record)
 		return XN_STATUS_CORRUPT_FILE;
 	}
 
-	nRetVal = m_pNodeNotifications->OnNodeRealPropChanged(m_pNotificationsCookie, 
+	nRetVal = m_pNodeNotifications->OnNodeRealPropChanged(m_pNotificationsCookie,
 		pPlayerNodeInfo->strName,
 		record.GetPropName(),
 		record.GetValue());
 	XN_IS_STATUS_OK(nRetVal);
 
-	nRetVal = SaveRecordUndoInfo(pPlayerNodeInfo, 
-		record.GetPropName(), 
+	nRetVal = SaveRecordUndoInfo(pPlayerNodeInfo,
+		record.GetPropName(),
 		TellStream() - record.GetSize(),
 		record.GetUndoRecordPos());
 	XN_IS_STATUS_OK(nRetVal);
@@ -1198,14 +1198,14 @@ XnStatus PlayerNode::HandleStringPropRecord(StringPropRecord record)
 		return XN_STATUS_CORRUPT_FILE;
 	}
 
-	nRetVal = m_pNodeNotifications->OnNodeStringPropChanged(m_pNotificationsCookie, 
+	nRetVal = m_pNodeNotifications->OnNodeStringPropChanged(m_pNotificationsCookie,
 		pPlayerNodeInfo->strName,
 		record.GetPropName(),
 		record.GetValue());
 	XN_IS_STATUS_OK(nRetVal);
 
-	nRetVal = SaveRecordUndoInfo(pPlayerNodeInfo, 
-		record.GetPropName(), 
+	nRetVal = SaveRecordUndoInfo(pPlayerNodeInfo,
+		record.GetPropName(),
 		TellStream() - record.GetSize(),
 		record.GetUndoRecordPos());
 	XN_IS_STATUS_OK(nRetVal);
@@ -1254,12 +1254,12 @@ XnStatus PlayerNode::HandleNodeStateReadyRecord(NodeStateReadyRecord record)
 		XN_IS_STATUS_OK(nRetVal);
 	}
 
-	if (pPlayerNodeInfo->bIsGenerator && 
-		(pPlayerNodeInfo->compression != XN_CODEC_NULL) && 
+	if (pPlayerNodeInfo->bIsGenerator &&
+		(pPlayerNodeInfo->compression != XN_CODEC_NULL) &&
 		!pPlayerNodeInfo->codec.IsValid())
 	{
 		xn::ProductionNode node;
-		/*at this point the node should have all its properties set so we can create the codec. A node 
+		/*at this point the node should have all its properties set so we can create the codec. A node
 		  with the name pPlayerNodeInfo->strName should have been created by now. If it wasn't,
 		  GetProductionNodeByName() will fail. */
 		nRetVal = m_context.GetProductionNodeByName(pPlayerNodeInfo->strName, node);
@@ -1370,13 +1370,13 @@ XnStatus PlayerNode::HandleNewDataRecord(NewDataRecordHeader record, XnBool bRea
 		else
 		{
 			//Decode data with codec
-			nRetVal = pPlayerNodeInfo->codec.DecodeData(pCompressedData, nCompressedDataSize, 
+			nRetVal = pPlayerNodeInfo->codec.DecodeData(pCompressedData, nCompressedDataSize,
 				m_pUncompressedData, DATA_MAX_SIZE, &nUncompressedDataSize);
 			XN_IS_STATUS_OK_ASSERT(nRetVal);
 			pUncompressedData = m_pUncompressedData;
 		}
 
-		nRetVal = m_pNodeNotifications->OnNodeNewData(m_pNotificationsCookie, pPlayerNodeInfo->strName, 
+		nRetVal = m_pNodeNotifications->OnNodeNewData(m_pNotificationsCookie, pPlayerNodeInfo->strName,
 			record.GetTimeStamp(), record.GetFrameNumber(), pUncompressedData, nUncompressedDataSize);
 		XN_IS_STATUS_OK_ASSERT(nRetVal);
 	}
@@ -1568,8 +1568,8 @@ XnStatus PlayerNode::SeekToTimeStampAbsolute(XnUInt64 nDestTimeStamp)
 			case RECORD_NEW_DATA:
 			{
 				//We already read Record::HEADER_SIZE, now read the rest of the new data record header
-				nRetVal = Read(m_pRecordBuffer + record.HEADER_SIZE, 
-					NewDataRecordHeader::MAX_SIZE - record.HEADER_SIZE, 
+				nRetVal = Read(m_pRecordBuffer + record.HEADER_SIZE,
+					NewDataRecordHeader::MAX_SIZE - record.HEADER_SIZE,
 					nBytesRead);
 				XN_IS_STATUS_OK(nRetVal);
 				if (nBytesRead < NewDataRecordHeader::MAX_SIZE - record.HEADER_SIZE)
@@ -1591,7 +1591,7 @@ XnStatus PlayerNode::SeekToTimeStampAbsolute(XnUInt64 nDestTimeStamp)
 				else
 				{
 					//Skip to next record
-					nRetVal = SeekStream(XN_OS_SEEK_CUR, 
+					nRetVal = SeekStream(XN_OS_SEEK_CUR,
 						newDataRecordHeader.GetSize() - NewDataRecordHeader::MAX_SIZE);
 					XN_IS_STATUS_OK(nRetVal);
 				}
@@ -1665,8 +1665,8 @@ PlayerNode::PlayerNodeInfo* PlayerNode::GetPlayerNodeInfoByName(const XnChar* st
 	return (nNodeID == INVALID_NODE_ID) ? NULL : &m_pNodeInfoMap[nNodeID];
 }
 
-XnStatus PlayerNode::SaveRecordUndoInfo(PlayerNodeInfo* pPlayerNodeInfo, 
-										const XnChar* strPropName, 
+XnStatus PlayerNode::SaveRecordUndoInfo(PlayerNodeInfo* pPlayerNodeInfo,
+										const XnChar* strPropName,
 										XnUInt64 nRecordPos,
 										XnUInt64 nUndoRecordPos)
 {
@@ -1702,7 +1702,7 @@ XnNodeHandle PlayerNode::GetSelfNodeHandle()
 		XN_ASSERT(nRetVal == XN_STATUS_OK);
 		XN_REFERENCE_VARIABLE(nRetVal);
 
-		// we keep just the handle, without a reference (otherwise, we keep a reference to ourselves, 
+		// we keep just the handle, without a reference (otherwise, we keep a reference to ourselves,
 		// and we will never be destroyed)
 		m_hSelf = thisPlayer;
 	}
@@ -1725,7 +1725,7 @@ void PlayerNode::PlayerNodeInfo::Reset()
 	xnOSMemSet(strName, 0, sizeof(strName));
 	nLastDataPos = 0;
 	compression = XN_CODEC_NULL;
-	nFrames = 0; 
+	nFrames = 0;
 	nCurFrame = 0;
 	nMaxTimeStamp = 0;
 	bStateReady = FALSE;

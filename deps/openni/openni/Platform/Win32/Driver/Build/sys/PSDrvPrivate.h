@@ -21,7 +21,7 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
-#pragma warning(disable:4200)  
+#pragma warning(disable:4200)
 #pragma warning(disable:4201)  // nameless struct/union
 #pragma warning(disable:4214)  // bit field types other than int
 

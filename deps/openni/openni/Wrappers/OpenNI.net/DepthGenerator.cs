@@ -135,7 +135,7 @@ namespace OpenNI
             ConvertRealWorldToProjective(realWorldPoints, projective);
             return projective;
         }
-        
+
         public Point3D ConvertRealWorldToProjective(Point3D realWorldPoint)
 		{
             Point3D[] realWorldPoints = new Point3D[1];

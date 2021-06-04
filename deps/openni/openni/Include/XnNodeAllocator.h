@@ -29,14 +29,14 @@ class XnNodeAllocator : public INiNodeAllocator
 public:
 	/**
 	* Allocate a new XnNode
-	* 
+	*
 	* @return	NULL	if allocating a new node failed
 	*/
 	virtual XnNode *Allocate() { return XnNode::Allocate();	}
 
 	/**
 	* Release an XnNode
-	* 
+	*
 	* @param	pNode	[in]	The node to deallocate
 	*/
 	virtual void Deallocate(XnNode *pNode) { XnNode::Deallocate(pNode); }

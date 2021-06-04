@@ -23,7 +23,7 @@
 #include <XnOS.h>
 #include <XnLog.h>
 
-MockMapGenerator::MockMapGenerator(xn::Context& context, const XnChar* strName) : 
+MockMapGenerator::MockMapGenerator(xn::Context& context, const XnChar* strName) :
 	MockGenerator(context, strName),
 	m_nSupportedMapOutputModesCount(0),
 	m_bSupportedMapOutputModesCountReceived(0),

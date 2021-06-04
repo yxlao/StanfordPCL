@@ -22,8 +22,8 @@ package org.openni;
 
 /**
  * This class enables the implementing object to be added to an observer list. <BR><BR>
- * 
- * The purpose of this interface is to enable the implementing object to be added to the 
+ *
+ * The purpose of this interface is to enable the implementing object to be added to the
  * Observer list of another object that implements the IObservable interface.  The most common
  * use for this is to enable events listeners to be created.  The class generating the event
  * implements IObservable, and the class wishing to listen for evens implements the IObserver
@@ -31,7 +31,7 @@ package org.openni;
  *
  * @param <Args> The argument format of the event being observed
  */
-public interface IObserver<Args> 
+public interface IObserver<Args>
 {
 	/**
 	 * Checks for new events

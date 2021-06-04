@@ -273,13 +273,13 @@ clean-noinstPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
-dpfp$(EXEEXT): $(dpfp_OBJECTS) $(dpfp_DEPENDENCIES) 
+dpfp$(EXEEXT): $(dpfp_OBJECTS) $(dpfp_DEPENDENCIES)
 	@rm -f dpfp$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(dpfp_OBJECTS) $(dpfp_LDADD) $(LIBS)
-dpfp_threaded$(EXEEXT): $(dpfp_threaded_OBJECTS) $(dpfp_threaded_DEPENDENCIES) 
+dpfp_threaded$(EXEEXT): $(dpfp_threaded_OBJECTS) $(dpfp_threaded_DEPENDENCIES)
 	@rm -f dpfp_threaded$(EXEEXT)
 	$(AM_V_CCLD)$(dpfp_threaded_LINK) $(dpfp_threaded_OBJECTS) $(dpfp_threaded_LDADD) $(LIBS)
-listdevs$(EXEEXT): $(listdevs_OBJECTS) $(listdevs_DEPENDENCIES) 
+listdevs$(EXEEXT): $(listdevs_OBJECTS) $(listdevs_DEPENDENCIES)
 	@rm -f listdevs$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(listdevs_OBJECTS) $(listdevs_LDADD) $(LIBS)
 

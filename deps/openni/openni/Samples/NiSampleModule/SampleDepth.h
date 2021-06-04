@@ -21,7 +21,7 @@
 #include <XnModuleCppInterface.h>
 #include <XnEventT.h>
 
-class SampleDepth : 
+class SampleDepth :
 	public virtual xn::ModuleDepthGenerator,
 	public virtual xn::ModuleMirrorInterface
 {

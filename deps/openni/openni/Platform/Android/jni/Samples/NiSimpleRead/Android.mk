@@ -7,7 +7,7 @@ include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES:= ../../../../../Samples/NiSimpleRead/NiSimpleRead.cpp
 
-LOCAL_C_INCLUDES := 
+LOCAL_C_INCLUDES :=
 
 LOCAL_CFLAGS:= -fvisibility=hidden -DXN_EXPORTS
 

@@ -87,7 +87,7 @@ XnStatus DefaultTrackingInitializer::StartTracking(XnUserID nUserId, XnBool bFor
 {
     if(m_pUserGenerator->GetSkeletonCap().IsTracking(nUserId)==TRUE)
     {
-        // we don't need to do anything (other than notifying the user selector) as we are 
+        // we don't need to do anything (other than notifying the user selector) as we are
         // already tracking
         if(m_pUserSelector!=NULL)
         {
@@ -95,7 +95,7 @@ XnStatus DefaultTrackingInitializer::StartTracking(XnUserID nUserId, XnBool bFor
         }
         else
             return XN_STATUS_OK;
-        
+
     }
     // request calibration.
     return m_pUserGenerator->GetSkeletonCap().RequestCalibration(nUserId,bForce);
@@ -126,11 +126,11 @@ XnStatus DefaultTrackingInitializer::CalibrationComplete(XnUserID nUserId,XnCali
     if (eStatus == XN_CALIBRATION_STATUS_OK)
     {
         // we start the actual tracking!
-        if(m_pUserGenerator->GetSkeletonCap().StartTracking(nUserId)==XN_STATUS_OK) 
+        if(m_pUserGenerator->GetSkeletonCap().StartTracking(nUserId)==XN_STATUS_OK)
         {
             retVal=TRUE;
         }
-        
+
     }
     if(m_pUserSelector!=NULL)
     {

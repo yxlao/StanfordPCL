@@ -8,7 +8,7 @@
 		Samples\\Bin\\Debug
 		
 		 - or -
-		 
+		
 		Samples\\Bin\\Release
 	@endcode
 	
@@ -30,7 +30,7 @@
 	- @subpage smpl_simple_read
 	- @subpage smpl_simple_view
 	- @subpage smpl_user_tracker
-	- @subpage smpl_niviewer  
+	- @subpage smpl_niviewer
 	- @subpage smpl_simple_read_java
 	- @subpage smpl_simple_read_net
 	- @subpage smpl_simple_view_java
@@ -44,7 +44,7 @@
 @section smpls_overview  Summary of Sample Programs
 	
 
-	Following are brief descriptions of the basic purpose of some of the main sample programs above. 
+	Following are brief descriptions of the basic purpose of some of the main sample programs above.
 
 	@subsection nisimpleread NiSimpleRead for C++
 
@@ -56,7 +56,7 @@
 
 	@subsection nisimplecreate NiSimpleCreate for C++
 
-		NiSimpleCreate is an example of creating a production node programmatically in code, rather than using the 
+		NiSimpleCreate is an example of creating a production node programmatically in code, rather than using the
 		SamplesConfig XML file. After creating a depth node, it reads from it like NiSimpleRead does.
 
 	@subsection nisimpleviewer NiSimpleViewer for C++
@@ -119,13 +119,13 @@
 			@endcode
 
 			The following options are mandatory:
-			- @b time	Number of seconds to dump each time. 
+			- @b time	Number of seconds to dump each time.
 
 			The following options can be used:
 			- @b depth	Sets the resolution of the depth, to either QVGA or VGA. If not mentioned, depth is off. If no resolution is mentioned, QVGA is used.
 			- @b image	Sets the resolution of the image, to either QVGA or VGA. If not mentioned, image is off. If no resolution is mentioned, QVGA is used.
 			- @b verbose	Turns on the log.
-			- @b mirror	Set the mirror mode. If not mentioned, uses whatever was configured. 
+			- @b mirror	Set the mirror mode. If not mentioned, uses whatever was configured.
 			- @b registration	Change depth to match image.
 			- @b framesync	Syncronize between depth and image.
 			- @b outdir	Where to create the oni files. Default is the execution directory.
@@ -157,14 +157,14 @@
 	
 	@subsection nirecordraw NiRecordRaw for C++
 	
-		NiRecordRaw is an OpenNI sample program for recording raw data, and then playing it back. Recording raw data may be useful for middleware developers who produce a custom type of data that isn't defined by OpenNI. In addition, recording raw data may also be useful for middleware developers who save additional debugging information in the ONI file. This additional data may be used in conjunction with the standard OpenNI data types such as depth output data stored in the file. In this case, each frame of debugging information will match a depth frame. 
+		NiRecordRaw is an OpenNI sample program for recording raw data, and then playing it back. Recording raw data may be useful for middleware developers who produce a custom type of data that isn't defined by OpenNI. In addition, recording raw data may also be useful for middleware developers who save additional debugging information in the ONI file. This additional data may be used in conjunction with the standard OpenNI data types such as depth output data stored in the file. In this case, each frame of debugging information will match a depth frame.
 	
 		In this sample, the raw data is artificial data that the application itself synthesizes.
 	
 	
 	@subsection niaudiosample NiAudioSample for C++
 	
-		NiAudioSample is an OpenNI sample program for using the Audio interface. 
+		NiAudioSample is an OpenNI sample program for using the Audio interface.
 		
 		It demonstrates an OpenNI production graph using an AudioGenerator node to play audio, reading the audio data from an audio input device. This sample also demonstrates recording the audio data to a PCM file.
 

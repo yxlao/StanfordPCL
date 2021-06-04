@@ -154,7 +154,7 @@ namespace OpenNI
 			get { return m_croppingCapablity; }
 		}
 
-        
+
 		public GeneralIntCapability BrightnessCapability
 		{
 			get	{ return m_brightnessCapability;}
@@ -360,7 +360,7 @@ namespace OpenNI
 
         protected GeneralIntCapability m_brightnessCapability;
         protected GeneralIntCapability m_contractCapability;
-        protected GeneralIntCapability m_saturationCapability; 
+        protected GeneralIntCapability m_saturationCapability;
         protected GeneralIntCapability m_heuCapability;
         protected GeneralIntCapability m_sharpnessCapability;
         protected GeneralIntCapability m_gammaCapability;

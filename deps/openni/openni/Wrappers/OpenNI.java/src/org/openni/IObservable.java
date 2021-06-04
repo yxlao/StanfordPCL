@@ -22,16 +22,16 @@ package org.openni;
 
 /**
  * Interface that enables a class to maintain a list of observers. <BR><BR>
- * 
+ *
  * This interface is primarily used to allow the implementing class to generate events.
- * The list of observers is notified when an event is generated.  The template allows 
+ * The list of observers is notified when an event is generated.  The template allows
  * the Observer list to understand the number and type of data values created
- * along with the event.  
+ * along with the event.
  *
  * @param <Args> The Args type (eg EventArgs) that the registered observers of this class should
  * be prepared to receive when an event is generated
  */
-public interface IObservable<Args> 
+public interface IObservable<Args>
 {
 	/**
 	 * Adds a new observer to this object's list of observers

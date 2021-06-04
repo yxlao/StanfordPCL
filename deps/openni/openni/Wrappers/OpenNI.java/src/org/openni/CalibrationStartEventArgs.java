@@ -22,7 +22,7 @@ package org.openni;
 
 /**
  * Holds the data generated when a Calibration Start Event is created. <BR><BR>
- * 
+ *
  * This data currently consists only of hte user ID of the user being calibrated.
  *
  */

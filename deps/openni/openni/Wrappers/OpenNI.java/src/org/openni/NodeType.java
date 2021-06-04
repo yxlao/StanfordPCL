@@ -24,7 +24,7 @@ package org.openni;
  * Stores type information about a Production Node. <BR><BR>
  *
  */
-public class NodeType 
+public class NodeType
 {
 	public static NodeType INVALID = new NodeType(0);
 

@@ -22,14 +22,14 @@ package org.openni;
 
 /**
  * Stores a single frame of depth map data. <BR><BR>
- * 
+ *
  * This class is normally used as a member of the DepthMetaData class
  * in order to provide resolution information.  It is a good practice to
  * make use of the metadata information provided with each frame so that
  * the application is robust to changes in hardware output resolution.
  *
  */
-public class DepthMap extends ShortMap 
+public class DepthMap extends ShortMap
 {
 	/**
 	 * Default constructor -- creates a new empty DepthMap

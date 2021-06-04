@@ -47,7 +47,7 @@ def calc_jobs_number():
         cores = int(txt)
     except:
         pass
-       
+
     return str(cores * 2)
 
 def finish_script(exit_code):
@@ -128,7 +128,7 @@ def fix_file(arg,dirname,fname):
                 s = re.sub(r"include ../../Common/CommonJavaMakefile",r"LIB_DIRS += ../../Lib\ninclude ../Build/Common/CommonJavaMakefile",s)
 
                 output.write(s)
-                
+
                 #if s != olds:
                     #print "Changed : " + olds.strip("\n")
                     #print "To      : " + s.strip("\n")
@@ -143,17 +143,17 @@ def copy_install_script(platform, filePath, dest):
     input = open(filePath)
     dest_name = os.path.join(dest, os.path.basename(filePath))
     output = open(dest_name, 'w')
-    
+
     for line in input:
         if platform == 'CE4100':
             line = re.sub(r"/var/lib/ni", r"/usr/etc/ni", line)
-            
+
         output.write(line)
-        
+
     input.close()
     output.close()
     os.chmod(dest_name, stat.S_IRUSR | stat.S_IXUSR | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
-    
+
 def execute_check(cmd, name):
     "Executes command and checks the return code. If it's not 0, stops redist."
     ret = os.system(cmd)
@@ -162,7 +162,7 @@ def execute_check(cmd, name):
         print name + " Failed!"
         logger.critical(name + " Failed!")
         finish_script(1)
-        
+
 
 #------------Constants and globals---------------------------------------------#
 DateTimeSTR = strftime("%Y-%m-%d %H:%M:%S")
@@ -318,7 +318,7 @@ if PLATFORM == 'x86' or PLATFORM == 'x64':
         shutil.copy("Bin/" + PLATFORM + "-Release/OpenNI.net.dll", REDIST_DIR + "/Samples/Bin/" + PLATFORM + "-Debug")
         shutil.copy("Bin/" + PLATFORM + "-Release/OpenNI.net.dll", REDIST_DIR + "/Samples/Bin/" + PLATFORM + "-Release")
         MonoDetected = 1
-        
+
 # java wrapper
 shutil.copy("Bin/" + PLATFORM + "-Release/org.openni.jar", REDIST_DIR + "/Jar")
 shutil.copy("Bin/" + PLATFORM + "-Release/org.openni.jar", REDIST_DIR + "/Samples/Bin/" + PLATFORM + "-Debug")
@@ -416,7 +416,7 @@ for sample in samples_list:
     MAKEFILE.write(".PHONY: "+sample+"\n")
     MAKEFILE.write(sample+":\n")
     MAKEFILE.write("\t$(MAKE) -C ../"+sample+"\n")
-    
+
 # Close files
 MAKEFILE.close()
 

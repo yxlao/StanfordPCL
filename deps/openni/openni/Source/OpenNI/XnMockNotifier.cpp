@@ -22,7 +22,7 @@
 #include <XnPrdNode.h>
 #include <XnPropNames.h>
 
-namespace xn 
+namespace xn
 {
 
 MockNotifier::MockNotifier()

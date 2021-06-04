@@ -24,11 +24,11 @@ package org.openni;
  * Allows recording of the output from another Production Node. <BR><BR>
  *
  * OpenNI's recording functionality can be used to record the output of a Production Node for later
- * playback.  This can be used for creating applications that record and playback image, depth, IR, and 
+ * playback.  This can be used for creating applications that record and playback image, depth, IR, and
  * audio data.  It is also useful for algorithmic testing, since it allows for repeated testing of different
  * algorithms with identical input data sets.  It also allows for the simulation of a sensor when actual
  * hardware is not available for whatever reason.
- * 
+ *
  * The recorder can record the output of a specific node, or any subset of all the nodes in the current context.
  *
  */

@@ -27,7 +27,7 @@
 // Types
 //---------------------------------------------------------------------------
 
-/** Defines the XnStatus type. 
+/** Defines the XnStatus type.
  *	The high word represents the group to which this error belongs to.
  *	The low word is a sequential number inside the group. */
 typedef XnUInt32 XnStatus;
@@ -86,7 +86,7 @@ typedef enum XnErrorGroup
 /** Returns the code of the status. */
 #define XN_STATUS_CODE(status)			XnUInt16(status & 0x0000FFFF)
 
-/** Marks the beginning of a message map of a specific module. */ 
+/** Marks the beginning of a message map of a specific module. */
 #define XN_STATUS_MESSAGE_MAP_START_FROM(group, first)		\
 	enum _##group##first##Errors							\
 	{														\
@@ -95,7 +95,7 @@ typedef enum XnErrorGroup
 #define XN_STATUS_MESSAGE_MAP_START(group)					\
 	XN_STATUS_MESSAGE_MAP_START_FROM(group, 0)
 
-/** Adds an entry to the message map. */ 
+/** Adds an entry to the message map. */
 #define XN_STATUS_MESSAGE(csName, csMessage)	\
 		csName,
 

@@ -54,7 +54,7 @@
  * The busnum file is important as that is the only way we can relate sysfs
  * devices to usbfs nodes.
  *
- * If we also have descriptors, we can obtain the device descriptor and active 
+ * If we also have descriptors, we can obtain the device descriptor and active
  * configuration without touching usbfs at all.
  *
  * The descriptors file originally only contained the active configuration
@@ -212,7 +212,7 @@ static int check_usb_vfs(const char *dirname)
 
 static const char *find_usbfs_path(void)
 {
-// *** PrimeSense patch for Android *** 
+// *** PrimeSense patch for Android ***
 /*
  * Some Android platforms such as the Sony Experia prevent opening /dev/bus/usb, even though they do
  * allow accessing its sub-directories. This cause check_usb_vfs() to fail. In Android, we can
@@ -525,7 +525,7 @@ static int sysfs_get_active_config(struct libusb_device *dev, int *config)
 	r = read(fd, tmp, sizeof(tmp));
 	close(fd);
 	if (r < 0) {
-		usbi_err(DEVICE_CTX(dev), 
+		usbi_err(DEVICE_CTX(dev),
 			"read bConfigurationValue failed ret=%d errno=%d", r, errno);
 		return LIBUSB_ERROR_IO;
 	} else if (r == 0) {
@@ -752,7 +752,7 @@ static int op_get_config_descriptor(struct libusb_device *dev,
 }
 
 /* cache the active config descriptor in memory. a value of -1 means that
- * we aren't sure which one is active, so just assume the first one. 
+ * we aren't sure which one is active, so just assume the first one.
  * only for usbfs. */
 static int cache_active_config(struct libusb_device *dev, int fd,
 	int active_config)

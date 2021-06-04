@@ -98,8 +98,8 @@ XnStatus xnXmlReadBoolAttribute(const TiXmlElement* pElem, const XnChar* strName
 	}
 	else
 	{
-		XN_LOG_WARNING_RETURN(XN_STATUS_CORRUPT_FILE, XN_MASK_OPEN_NI, 
-			"Invalid '%s' xml entry - '%s' attribute value should be 'true' or 'false' (line %u, col %u)!", 
+		XN_LOG_WARNING_RETURN(XN_STATUS_CORRUPT_FILE, XN_MASK_OPEN_NI,
+			"Invalid '%s' xml entry - '%s' attribute value should be 'true' or 'false' (line %u, col %u)!",
 			pElem->Value(), strName, pElem->Row(), pElem->Column());
 	}
 
@@ -116,8 +116,8 @@ XnStatus xnXmlReadIntAttribute(const TiXmlElement* pElem, const XnChar* strName,
 
 	if (sscanf(strValue, "%d", pnValue) == 0)
 	{
-		XN_LOG_WARNING_RETURN(XN_STATUS_CORRUPT_FILE, XN_MASK_OPEN_NI, 
-			"Invalid '%s' xml entry - '%s' attribute value should be a number (line %u, col %u)!", 
+		XN_LOG_WARNING_RETURN(XN_STATUS_CORRUPT_FILE, XN_MASK_OPEN_NI,
+			"Invalid '%s' xml entry - '%s' attribute value should be a number (line %u, col %u)!",
 			pElem->Value(), strName, pElem->Row(), pElem->Column());
 	}
 	
@@ -134,8 +134,8 @@ XnStatus xnXmlReadUInt32Attribute(const TiXmlElement* pElem, const XnChar* strNa
 
 	if (sscanf(strValue, "%u", pnValue) == 0)
 	{
-		XN_LOG_WARNING_RETURN(XN_STATUS_CORRUPT_FILE, XN_MASK_OPEN_NI, 
-			"Invalid '%s' xml entry - '%s' attribute value should be a positive number (line %u, col %u)!", 
+		XN_LOG_WARNING_RETURN(XN_STATUS_CORRUPT_FILE, XN_MASK_OPEN_NI,
+			"Invalid '%s' xml entry - '%s' attribute value should be a positive number (line %u, col %u)!",
 			pElem->Value(), strName, pElem->Row(), pElem->Column());
 	}
 
@@ -152,7 +152,7 @@ XnStatus xnXmlReadUInt16Attribute(const TiXmlElement* pElem, const XnChar* strNa
 
 	if (nValue > XN_MAX_UINT16)
 	{
-		XN_LOG_WARNING_RETURN(XN_STATUS_BAD_PARAM, XN_MASK_OPEN_NI, 
+		XN_LOG_WARNING_RETURN(XN_STATUS_BAD_PARAM, XN_MASK_OPEN_NI,
 			"Invalid '%s' xml entry - '%s' attribute value should be unsigned 16-bit number (line %u, col %u)!",
 			pElem->Value(), strName, pElem->Row(), pElem->Column());
 	}
@@ -172,7 +172,7 @@ XnStatus xnXmlReadUInt8Attribute(const TiXmlElement* pElem, const XnChar* strNam
 
 	if (nValue > XN_MAX_UINT8)
 	{
-		XN_LOG_WARNING_RETURN(XN_STATUS_BAD_PARAM, XN_MASK_OPEN_NI, 
+		XN_LOG_WARNING_RETURN(XN_STATUS_BAD_PARAM, XN_MASK_OPEN_NI,
 			"Invalid '%s' xml entry - '%s' attribute value should be unsigned 8-bit number (line %u, col %u)!",
 			pElem->Value(), strName, pElem->Row(), pElem->Column());
 	}
@@ -192,8 +192,8 @@ XnStatus xnXmlReadRealAttribute(const TiXmlElement* pElem, const XnChar* strName
 
 	if (sscanf(strValue, "%lf", pdValue) == 0)
 	{
-		XN_LOG_WARNING_RETURN(XN_STATUS_CORRUPT_FILE, XN_MASK_OPEN_NI, 
-			"Invalid '%s' xml entry - '%s' attribute value should be a floating point (line %u, col %u)!", 
+		XN_LOG_WARNING_RETURN(XN_STATUS_CORRUPT_FILE, XN_MASK_OPEN_NI,
+			"Invalid '%s' xml entry - '%s' attribute value should be a floating point (line %u, col %u)!",
 			pElem->Value(), strName, pElem->Row(), pElem->Column());
 	}
 
@@ -204,8 +204,8 @@ XnStatus xnXmlReadTextAsInt(const TiXmlElement* pElem, XnInt* pnValue)
 {
 	if (sscanf(pElem->GetText(), "%d", pnValue) == 0)
 	{
-		XN_LOG_WARNING_RETURN(XN_STATUS_CORRUPT_FILE, XN_MASK_OPEN_NI, 
-			"Invalid '%s' xml entry - text should be a number (line %u, col %u)!", 
+		XN_LOG_WARNING_RETURN(XN_STATUS_CORRUPT_FILE, XN_MASK_OPEN_NI,
+			"Invalid '%s' xml entry - text should be a number (line %u, col %u)!",
 			pElem->Value(), pElem->Row(), pElem->Column());
 	}
 

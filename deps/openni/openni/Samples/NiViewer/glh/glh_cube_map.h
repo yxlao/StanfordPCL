@@ -1,5 +1,5 @@
 /*
-    glh - is a platform-indepenedent C++ OpenGL helper library 
+    glh - is a platform-indepenedent C++ OpenGL helper library
 
 
     Copyright (c) 2000 Cass Everitt
@@ -21,7 +21,7 @@
 
      * The names of contributors to this software may not be used
 	   to endorse or promote products derived from this software
-	   without specific prior written permission. 
+	   without specific prior written permission.
 
        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 	   ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -33,8 +33,8 @@
 	   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 	   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
 	   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-	   ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
-	   POSSIBILITY OF SUCH DAMAGE. 
+	   ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+	   POSSIBILITY OF SUCH DAMAGE.
 
 
     Cass Everitt - cass@r3.nu
@@ -242,7 +242,7 @@ namespace glh
 
 		void cull_for_projection(int i)
 		{
-			GLfloat plane[6][4] = 
+			GLfloat plane[6][4] =
 			{
 				{ 1, 0, 0, 0 },
 				{-1, 0, 0, 0 },
@@ -258,7 +258,7 @@ namespace glh
 
 		void cull_for_reflection(int i)
 		{
-			GLfloat dir[6][4] = 
+			GLfloat dir[6][4] =
 			{
 				{ 1, 0, 0, 0 },
 				{-1, 0, 0, 0 },

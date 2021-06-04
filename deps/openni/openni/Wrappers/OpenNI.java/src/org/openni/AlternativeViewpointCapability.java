@@ -22,16 +22,16 @@ package org.openni;
 
 /**
  * Transforms image output to simulate a change in camera position. <BR><BR>
- * 
+ *
  * This capability allows for one map generator to transform its data to appear
  * as if it was taken from the point of view of a different map generator.<BR><BR>
- * 
+ *
  * This is generally most useful when a device generates two types of image data
  * from two different physical cameras, where the geometric relationship between
  * those cameras is known.  Two cameras viewing the same scene from different positions
- * will see a slightly different image.  Applying this transformation to one of those 
+ * will see a slightly different image.  Applying this transformation to one of those
  * images to be superimposed on the other.<BR><BR>
- * 
+ *
  * With the PrimeSense sensor family, this capability is used primarily to allow RGB
  * and depth images to correspond with each other.  The math required to do this
  * transformation is hardware accelerated in the PrimeSense sensor family.  This functionality
@@ -49,16 +49,16 @@ public class AlternativeViewpointCapability extends CapabilityBase
 	{
 		super(node);
 		
-		this.viewPointChanged = new StateChangedObservable() 
+		this.viewPointChanged = new StateChangedObservable()
 		{
 			@Override
-			protected int registerNative(String cb, OutArg<Long> phCallback) 
+			protected int registerNative(String cb, OutArg<Long> phCallback)
 			{
 				return NativeMethods.xnRegisterToViewPointChange(toNative(), this, cb, phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromViewPointChange(toNative(), hCallback);
 			}
@@ -77,7 +77,7 @@ public class AlternativeViewpointCapability extends CapabilityBase
 	}
 	
 	/**
-	 * Actually sets the point of view of the node using this capability to be 
+	 * Actually sets the point of view of the node using this capability to be
 	 * equivalent to a different production node
 	 * @param other The production node that we wish to simulate a view of
 	 * @throws StatusException Required since this function actually changes hardware parameters
@@ -89,7 +89,7 @@ public class AlternativeViewpointCapability extends CapabilityBase
 	}
 	
 	/**
-	 * Resets this production node to use its default viewpoint, ie stops transforming 
+	 * Resets this production node to use its default viewpoint, ie stops transforming
 	 * the image
 	 * @throws StatusException Required since this function actually communicates with sensor hardware
 	 */
@@ -110,7 +110,7 @@ public class AlternativeViewpointCapability extends CapabilityBase
 	}
 	
 	/**
-	 * This function allows you to transform a set of X,Y coordinates into equivalent X,Y coordinates in 
+	 * This function allows you to transform a set of X,Y coordinates into equivalent X,Y coordinates in
 	 * another viewpoint
 	 * @param viewPoint The Production Node whose viewpoint you wish to transform your coordinates into
 	 * @param x The X coordinate, from the viewpoint of the production node that has this capability enabled

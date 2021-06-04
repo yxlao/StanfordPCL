@@ -162,7 +162,7 @@ DOCUMENT
 </pre></div><h2>Attributes </h2>
 <p>Given an existing node, settings attributes is easy:</p>
 <div class="fragment"><pre class="fragment">
-window = new TiXmlElement( "Demo" );  
+window = new TiXmlElement( "Demo" );
 window-&gt;SetAttribute("name", "Circle");
 window-&gt;SetAttribute("x", 5);
 window-&gt;SetAttribute("y", 15);
@@ -197,7 +197,7 @@ int dump_attribs_to_stdout(TiXmlElement* pElement, unsigned int indent)
 </pre></div><h2>Writing a document to a file </h2>
 <p>Writing a pre-built DOM to a file is trivial:</p>
 <div class="fragment"><pre class="fragment">
-doc.SaveFile( saveFilename );  
+doc.SaveFile( saveFilename );
 </pre></div><p>Recall, for example, example 4:</p>
 <div class="fragment"><pre class="fragment">
 &lt;?xml version="1.0" ?&gt;
@@ -214,51 +214,51 @@ doc.SaveFile( saveFilename );
 &lt;/MyApp&gt;
 </pre></div><p>The following function builds this DOM and writes the file "appsettings.xml":</p>
 <div class="fragment"><pre class="fragment">
-void write_app_settings_doc( )  
-{  
-	TiXmlDocument doc;  
+void write_app_settings_doc( )
+{
+	TiXmlDocument doc;
 	TiXmlElement* msg;
- 	TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "", "" );  
-	doc.LinkEndChild( decl );  
- 
-	TiXmlElement * root = new TiXmlElement( "MyApp" );  
-	doc.LinkEndChild( root );  
+ 	TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "", "" );
+	doc.LinkEndChild( decl );
+
+	TiXmlElement * root = new TiXmlElement( "MyApp" );
+	doc.LinkEndChild( root );
 
 	TiXmlComment * comment = new TiXmlComment();
-	comment-&gt;SetValue(" Settings for MyApp " );  
-	root-&gt;LinkEndChild( comment );  
- 
-	TiXmlElement * msgs = new TiXmlElement( "Messages" );  
-	root-&gt;LinkEndChild( msgs );  
- 
-	msg = new TiXmlElement( "Welcome" );  
-	msg-&gt;LinkEndChild( new TiXmlText( "Welcome to MyApp" ));  
-	msgs-&gt;LinkEndChild( msg );  
- 
-	msg = new TiXmlElement( "Farewell" );  
-	msg-&gt;LinkEndChild( new TiXmlText( "Thank you for using MyApp" ));  
-	msgs-&gt;LinkEndChild( msg );  
- 
-	TiXmlElement * windows = new TiXmlElement( "Windows" );  
-	root-&gt;LinkEndChild( windows );  
+	comment-&gt;SetValue(" Settings for MyApp " );
+	root-&gt;LinkEndChild( comment );
+
+	TiXmlElement * msgs = new TiXmlElement( "Messages" );
+	root-&gt;LinkEndChild( msgs );
+
+	msg = new TiXmlElement( "Welcome" );
+	msg-&gt;LinkEndChild( new TiXmlText( "Welcome to MyApp" ));
+	msgs-&gt;LinkEndChild( msg );
+
+	msg = new TiXmlElement( "Farewell" );
+	msg-&gt;LinkEndChild( new TiXmlText( "Thank you for using MyApp" ));
+	msgs-&gt;LinkEndChild( msg );
+
+	TiXmlElement * windows = new TiXmlElement( "Windows" );
+	root-&gt;LinkEndChild( windows );
 
 	TiXmlElement * window;
-	window = new TiXmlElement( "Window" );  
-	windows-&gt;LinkEndChild( window );  
+	window = new TiXmlElement( "Window" );
+	windows-&gt;LinkEndChild( window );
 	window-&gt;SetAttribute("name", "MainFrame");
 	window-&gt;SetAttribute("x", 5);
 	window-&gt;SetAttribute("y", 15);
 	window-&gt;SetAttribute("w", 400);
 	window-&gt;SetAttribute("h", 250);
 
-	TiXmlElement * cxn = new TiXmlElement( "Connection" );  
-	root-&gt;LinkEndChild( cxn );  
+	TiXmlElement * cxn = new TiXmlElement( "Connection" );
+	root-&gt;LinkEndChild( cxn );
 	cxn-&gt;SetAttribute("ip", "192.168.0.1");
 	cxn-&gt;SetDoubleAttribute("timeout", 123.456); // floating point attrib
 	
 	dump_to_stdout( &amp;doc );
-	doc.SaveFile( "appsettings.xml" );  
-} 
+	doc.SaveFile( "appsettings.xml" );
+}
 </pre></div><p>The dump_to_stdout function will show this structure:</p>
 <div class="fragment"><pre class="fragment">
 Document
@@ -390,10 +390,10 @@ int main(void)
 	{
 		AppSettings settings;
 		settings.load("appsettings2.xml");
-		printf("%s: %s\n", settings.m_name.c_str(), 
+		printf("%s: %s\n", settings.m_name.c_str(),
 			settings.m_messages["Welcome"].c_str());
 		WindowSettings &amp; w=settings.m_windows.front();
-		printf("%s: Show window '%s' at %d,%d (%d x %d)\n", 
+		printf("%s: Show window '%s' at %d,%d (%d x %d)\n",
 			settings.m_name.c_str(), w.name.c_str(), w.x, w.y, w.w, w.h);
 		printf("%s: %s\n", settings.m_name.c_str(), settings.m_messages["Farewell"].c_str());
 	}
@@ -409,42 +409,42 @@ HitchHikerApp: Thanks for all the fish
 <div class="fragment"><pre class="fragment">
 void AppSettings::save(const char* pFilename)
 {
-	TiXmlDocument doc;  
+	TiXmlDocument doc;
 	TiXmlElement* msg;
 	TiXmlComment * comment;
 	string s;
- 	TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "", "" );  
-	doc.LinkEndChild( decl ); 
- 
-	TiXmlElement * root = new TiXmlElement(m_name.c_str());  
-	doc.LinkEndChild( root );  
+ 	TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "", "" );
+	doc.LinkEndChild( decl );
+
+	TiXmlElement * root = new TiXmlElement(m_name.c_str());
+	doc.LinkEndChild( root );
 
 	comment = new TiXmlComment();
 	s=" Settings for "+m_name+" ";
-	comment-&gt;SetValue(s.c_str());  
-	root-&gt;LinkEndChild( comment );  
+	comment-&gt;SetValue(s.c_str());
+	root-&gt;LinkEndChild( comment );
 
 	// block: messages
 	{
 		MessageMap::iterator iter;
 
-		TiXmlElement * msgs = new TiXmlElement( "Messages" );  
-		root-&gt;LinkEndChild( msgs );  
- 
+		TiXmlElement * msgs = new TiXmlElement( "Messages" );
+		root-&gt;LinkEndChild( msgs );
+
 		for (iter=m_messages.begin(); iter != m_messages.end(); iter++)
 		{
 			const string &amp; key=(*iter).first;
 			const string &amp; value=(*iter).second;
-			msg = new TiXmlElement(key.c_str());  
-			msg-&gt;LinkEndChild( new TiXmlText(value.c_str()));  
-			msgs-&gt;LinkEndChild( msg );  
+			msg = new TiXmlElement(key.c_str());
+			msg-&gt;LinkEndChild( new TiXmlText(value.c_str()));
+			msgs-&gt;LinkEndChild( msg );
 		}
 	}
 
 	// block: windows
 	{
-		TiXmlElement * windowsNode = new TiXmlElement( "Windows" );  
-		root-&gt;LinkEndChild( windowsNode );  
+		TiXmlElement * windowsNode = new TiXmlElement( "Windows" );
+		root-&gt;LinkEndChild( windowsNode );
 
 		list&lt;WindowSettings&gt;::iterator iter;
 
@@ -453,8 +453,8 @@ void AppSettings::save(const char* pFilename)
 			const WindowSettings&amp; w=*iter;
 
 			TiXmlElement * window;
-			window = new TiXmlElement( "Window" );  
-			windowsNode-&gt;LinkEndChild( window );  
+			window = new TiXmlElement( "Window" );
+			windowsNode-&gt;LinkEndChild( window );
 			window-&gt;SetAttribute("name", w.name.c_str());
 			window-&gt;SetAttribute("x", w.x);
 			window-&gt;SetAttribute("y", w.y);
@@ -465,13 +465,13 @@ void AppSettings::save(const char* pFilename)
 
 	// block: connection
 	{
-		TiXmlElement * cxn = new TiXmlElement( "Connection" );  
-		root-&gt;LinkEndChild( cxn );  
+		TiXmlElement * cxn = new TiXmlElement( "Connection" );
+		root-&gt;LinkEndChild( cxn );
 		cxn-&gt;SetAttribute("ip", m_connection.ip.c_str());
-		cxn-&gt;SetDoubleAttribute("timeout", m_connection.timeout); 
+		cxn-&gt;SetDoubleAttribute("timeout", m_connection.timeout);
 	}
 
-	doc.SaveFile(pFilename);  
+	doc.SaveFile(pFilename);
 }
 </pre></div><p>Running this with the modified main produces this file:</p>
 <div class="fragment"><pre class="fragment">
@@ -519,7 +519,7 @@ void AppSettings::load(const char* pFilename)
 		{
 			const char *pKey=pElem-&gt;Value();
 			const char *pText=pElem-&gt;GetText();
-			if (pKey &amp;&amp; pText) 
+			if (pKey &amp;&amp; pText)
 			{
 				m_messages[pKey]=pText;
 			}
@@ -659,7 +659,7 @@ void dump_to_stdout( TiXmlNode* pParent, unsigned int indent = 0 )
 		break;
 	}
 	printf( "\n" );
-	for ( pChild = pParent-&gt;FirstChild(); pChild != 0; pChild = pChild-&gt;NextSibling()) 
+	for ( pChild = pParent-&gt;FirstChild(); pChild != 0; pChild = pChild-&gt;NextSibling())
 	{
 		dump_to_stdout( pChild, indent+1 );
 	}

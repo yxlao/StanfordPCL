@@ -212,11 +212,11 @@ class RedistBase(object):
             self.VS_INST_DIR = get_reg_values(MSVC_KEY, MSVC_VALUES)[0]
         except Exception as e:
             self.VC_version = 10
-            
+
         if self.VC_version == 10:
             if not self.project_is_2010:
                 self.VS_NEED_UPGRADE = 1
-                
+
             if self.is_64_bit_platform:
                 MSVC_KEY = (win32con.HKEY_LOCAL_MACHINE, r"SOFTWARE\Wow6432Node\Microsoft\VisualStudio\10.0")
             else:
@@ -467,7 +467,7 @@ class RedistBase(object):
                             sample_data.project_guid = ProjGUIDtmp.group(1)
 
                 prj.close()
-            
+
             elif os.path.exists(cs_proj_name):
                 # a .NET project
                 sample_data.project_file = cs_proj_name
@@ -565,7 +565,7 @@ class RedistBase(object):
             OUTFILESLN2010 = open("Redist\\Samples\\Build\\All_2010.sln",'w')
         else:
             OUTFILESLN2010 = open("Redist\\Samples\\Build\\All.sln",'w')
-        
+
         OUTFILESLN2010.write("Microsoft Visual Studio Solution File, Format Version 11.00\n")
         OUTFILESLN2010.write("# Visual Studio 2010\n")
 
@@ -618,7 +618,7 @@ class RedistBase(object):
                         OUTFILESLN2008.write("\tEndProjectSection\n")
                         if self.write_2010_sample_dependency == True:
                             write_dependencides(OUTFILESLN2010,all_samples,sample)
-                            
+
                 if not self.project_is_2010:
                     OUTFILESLN2008.write("EndProject\n")
                 OUTFILESLN2010.write("EndProject\n")

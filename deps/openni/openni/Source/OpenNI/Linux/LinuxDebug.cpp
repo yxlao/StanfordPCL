@@ -54,14 +54,14 @@ XN_C_API XnStatus xnOSGetCurrentCallStack(XnUInt32 nFramesToSkip, XnChar** astrF
         *pnFrames = 0;
         return (XN_STATUS_OK);
     }
-    
+
     for (XnUInt i = 0; i < nResolve; ++i)
     {
         strncpy(astrFrames[i], pstrFrames[i], nMaxNameLength);
     }
-    
+
     free(pstrFrames);
-    
+
     *pnFrames = nResolve;
 
 	return XN_STATUS_OK;

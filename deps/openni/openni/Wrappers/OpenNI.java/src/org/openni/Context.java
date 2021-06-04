@@ -24,12 +24,12 @@ import java.util.Hashtable;
 
 /**
  * Stores state and settings for OpenNI SDK. <BR><BR>
- * 
+ *
  * This class is most commonly used to initialize settings from an XML file. <BR><BR>
- * 
- * Once initialized, this class is also used for determining which production nodes are available, 
+ *
+ * Once initialized, this class is also used for determining which production nodes are available,
  * for creating production nodes, and for updating the data in production nodes.<BR><BR>
- * 
+ *
  * Defines the following events:
  * errorStateChangedEvent: Triggered when the error state changes
  * nodeCreatedEvent: Triggered when a new node is created
@@ -86,7 +86,7 @@ public class Context extends ObjectWrapper
 	
 	/**
 	 * Checks the OpenNI version of this context
-	 * @return Version 
+	 * @return Version
 	 * @throws StatusException If underlying native code returns errors, Status Exception is thrown by this function
 	 */
 	public static Version getVersion() throws StatusException
@@ -142,7 +142,7 @@ public class Context extends ObjectWrapper
 	}
 	
 	/**
-	 * This is an alternate way to call the dispose() function 
+	 * This is an alternate way to call the dispose() function
 	 */
 	public void release()
 	{
@@ -302,7 +302,7 @@ public class Context extends ObjectWrapper
 	/**
 	 * Finds a production node with the given name value, and obtains the nodeInfo from it
 	 * @param name String name of the production node to be returned
-	 * @return NodeInfo associated with the production node searched for 
+	 * @return NodeInfo associated with the production node searched for
 	 * @throws GeneralException If underlying native code returns errors, General Exception is thrown by this function
 	 */
 	public NodeInfo getProductionNodeInfoByName(String name) throws GeneralException
@@ -438,7 +438,7 @@ public class Context extends ObjectWrapper
 	 */
 	protected void freeObject(long ptr)
 	{
-		synchronized (Context.allContexts) 
+		synchronized (Context.allContexts)
 		{
 			Context.allContexts.remove(ptr);
 		}
@@ -452,13 +452,13 @@ public class Context extends ObjectWrapper
 		errorStateChangedEvent = new Observable<ErrorStateEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterToGlobalErrorStateChange(toNative(), this, "callback", phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromGlobalErrorStateChange(toNative(), hCallback);
 			}
@@ -473,13 +473,13 @@ public class Context extends ObjectWrapper
 		nodeCreatedEvent = new Observable<NodeCreatedEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterToNodeCreation(toNative(), this, "callback", phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromNodeCreation(toNative(), hCallback);
 			}
@@ -495,13 +495,13 @@ public class Context extends ObjectWrapper
 		nodeDestroyedEvent = new Observable<NodeDestroyedEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterToNodeDestruction(toNative(), this, "callback", phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromNodeDestruction(toNative(), hCallback);
 			}
@@ -513,7 +513,7 @@ public class Context extends ObjectWrapper
 			}
 		};
 		
-		synchronized (Context.allContexts) 
+		synchronized (Context.allContexts)
 		{
 			if (Context.allContexts.containsKey(pContext))
 			{
@@ -614,5 +614,5 @@ public class Context extends ObjectWrapper
 
 	private Hashtable<Long, ProductionNode> allNodes = new Hashtable<Long, ProductionNode>();
 	
-	private static Hashtable<Long, Context> allContexts = new Hashtable<Long, Context>(); 
+	private static Hashtable<Long, Context> allContexts = new Hashtable<Long, Context>();
 }

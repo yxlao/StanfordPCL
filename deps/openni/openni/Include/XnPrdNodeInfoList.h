@@ -27,11 +27,11 @@
  * This page details functions for handling production nodes lists. The lists are implemented as
  * doubly-linked lists, but it's not recommended to access the list members directly.
  * instead, use the provided functions for handling the list.
- * 
+ *
  * @section append Adding and Removing Node Info Objects
  *
  * Nodes can be added to the list using @ref xnNodeInfoListAdd(). Note that once an info object
- * is part of the list, it will be freed if that list is freed. A node can be removed by calling @ref 
+ * is part of the list, it will be freed if that list is freed. A node can be removed by calling @ref
  * xnNodeInfoListRemove(), which also frees that element.
  *
  * A short example:
@@ -52,8 +52,8 @@ pList = xnNodeInfoListAdd(pList, pDescription2, NULL, NULL);
  *
  * Forward Iteration:
  * @code
-for (XnNodeInfoListIterator it = xnNodeInfoListGetFirst(pList); 
-	xnNodeInfoListIteratorIsValid(it); 
+for (XnNodeInfoListIterator it = xnNodeInfoListGetFirst(pList);
+	xnNodeInfoListIteratorIsValid(it);
 	it = xnNodeInfoListGetNext(it))
 {
 	XnNodeInfo* pCurrent = xnNodeInfoListGetCurrent(it);
@@ -63,8 +63,8 @@ for (XnNodeInfoListIterator it = xnNodeInfoListGetFirst(pList);
  *
  * Backwards Iteration:
  * @code
-for (XnNodeInfoListIterator it = xnNodeInfoListGetLast(pList); 
-	xnNodeInfoListIteratorIsValid(it); 
+for (XnNodeInfoListIterator it = xnNodeInfoListGetLast(pList);
+	xnNodeInfoListIteratorIsValid(it);
 	it = xnNodeInfoListGetPrevious(it))
 {
 	XnNodeInfo* pCurrent = xnNodeInfoListGetCurrent(it);
@@ -194,10 +194,10 @@ XN_C_API XnNodeInfoListIterator XN_C_DECL xnNodeInfoListGetLast(XnNodeInfoList* 
 XN_C_API XnBool XN_C_DECL xnNodeInfoListIteratorIsValid(XnNodeInfoListIterator it);
 
 /**
- * Gets current element from an iterator. 
+ * Gets current element from an iterator.
  *
  * @param	it		[in]	An iterator.
- * 
+ *
  * @returns an @ref XnNodeInfo pointer.
  */
 XN_C_API XnNodeInfo* XN_C_DECL xnNodeInfoListGetCurrent(XnNodeInfoListIterator it);
@@ -206,7 +206,7 @@ XN_C_API XnNodeInfo* XN_C_DECL xnNodeInfoListGetCurrent(XnNodeInfoListIterator i
  * Gets an iterator to the next element from a current iterator.
  *
  * @param	it		[in]	An iterator.
- * 
+ *
  * @returns an iterator to the next element.
  */
 XN_C_API XnNodeInfoListIterator XN_C_DECL xnNodeInfoListGetNext(XnNodeInfoListIterator it);
@@ -215,7 +215,7 @@ XN_C_API XnNodeInfoListIterator XN_C_DECL xnNodeInfoListGetNext(XnNodeInfoListIt
  * Gets an iterator to the previous element from a current iterator.
  *
  * @param	it		[in]	An iterator.
- * 
+ *
  * @returns an iterator to the previous element.
  */
 XN_C_API XnNodeInfoListIterator XN_C_DECL xnNodeInfoListGetPrevious(XnNodeInfoListIterator it);

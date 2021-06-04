@@ -42,7 +42,7 @@ typedef XnInt32 XnProfilingHandle;
 
 /**
 * Initializes profiling.
-* 
+*
 * @param	nProfilingInterval	[in]	The number of milliseconds between profiler printings. A value
 *										of zero means profiling is off.
 */
@@ -67,7 +67,7 @@ XN_C_API XnStatus XN_C_DECL xnProfilingShutdown();
 XN_C_API XnBool XN_C_DECL xnProfilingIsActive();
 
 /**
-* Start a profiled section. This function is not meant to be used directly. Please use the 
+* Start a profiled section. This function is not meant to be used directly. Please use the
 * XN_PROFILING_START_SECTION macro.
 *
 * @param	csSectionName	[in]		The name of the profiled section.
@@ -77,7 +77,7 @@ XN_C_API XnBool XN_C_DECL xnProfilingIsActive();
 XN_C_API XnStatus XN_C_DECL xnProfilingSectionStart(const char* csSectionName, XnBool bMT, XnProfilingHandle* pHandle);
 
 /**
-* Ends a profiled section. This function is not meant to be used directly. Please use the 
+* Ends a profiled section. This function is not meant to be used directly. Please use the
 * XN_PROFILING_END_SECTION macro.
 *
 * @param	pHandle		[in]	A handle returned from xnProfilingSectionStart.
@@ -104,7 +104,7 @@ XN_C_API XnStatus XN_C_DECL xnProfilingSectionEnd(XnProfilingHandle* pHandle);
 #define XN_PROFILING_START_MT_SECTION(name) _XN_PROFILING_START_SECTION(name, TRUE)
 
 /**
-* Ends a profiled section. 
+* Ends a profiled section.
 */
 #define XN_PROFILING_END_SECTION							\
 		if (__profiling != INVALID_PROFILING_HANDLE)		\
@@ -114,8 +114,8 @@ XN_C_API XnStatus XN_C_DECL xnProfilingSectionEnd(XnProfilingHandle* pHandle);
 	}
 
 /**
-* Starts a profiled section, giving it the name of the current function. 
-* The code section between this declaration and the following XN_PROFILING_END_FUNCTION 
+* Starts a profiled section, giving it the name of the current function.
+* The code section between this declaration and the following XN_PROFILING_END_FUNCTION
 * declaration will be time-measured.
 *
 * @param	name		[in]	The name of the section (for printing purposes).
@@ -123,7 +123,7 @@ XN_C_API XnStatus XN_C_DECL xnProfilingSectionEnd(XnProfilingHandle* pHandle);
 #define XN_PROFILING_START_FUNCTION		XN_PROFILING_START_SECTION(__FUNCTION__)
 
 /**
-* Ends a profiled function. 
+* Ends a profiled function.
 */
 #define XN_PROFILING_END_FUNCTION		XN_PROFILING_END_SECTION
 

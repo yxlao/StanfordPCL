@@ -29,7 +29,7 @@ import java.awt.image.*;
 class SimpleViewer extends Component {
 
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private OutArg<ScriptNode> scriptNode;
@@ -41,7 +41,7 @@ class SimpleViewer extends Component {
     private BufferedImage bimg;
     int width, height;
 
-    private final String SAMPLE_XML_FILE = "../../../../Data/SamplesConfig.xml";    
+    private final String SAMPLE_XML_FILE = "../../../../Data/SamplesConfig.xml";
     public SimpleViewer() {
 
         try {
@@ -54,9 +54,9 @@ class SimpleViewer extends Component {
             histogram = new float[10000];
             width = depthMD.getFullXRes();
             height = depthMD.getFullYRes();
-            
+
             imgbytes = new byte[width*height];
-            
+
             DataBufferByte dataBuffer = new DataBufferByte(imgbytes, width*height);
             Raster raster = Raster.createPackedRaster(dataBuffer, width, height, 8, null);
             bimg = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
@@ -67,13 +67,13 @@ class SimpleViewer extends Component {
             System.exit(1);
         }
     }
-    
+
     private void calcHist(DepthMetaData depthMD)
     {
         // reset
         for (int i = 0; i < histogram.length; ++i)
             histogram[i] = 0;
-        
+
         ShortBuffer depth = depthMD.getData().createShortBuffer();
         depth.rewind();
 
@@ -87,7 +87,7 @@ class SimpleViewer extends Component {
                 points++;
             }
         }
-        
+
         for (int i = 1; i < histogram.length; i++)
         {
             histogram[i] += histogram[i-1];
@@ -109,11 +109,11 @@ class SimpleViewer extends Component {
             DepthMetaData depthMD = depthGen.getMetaData();
 
             context.waitAnyUpdateAll();
-            
+
             calcHist(depthMD);
             ShortBuffer depth = depthMD.getData().createShortBuffer();
             depth.rewind();
-            
+
             while(depth.remaining() > 0)
             {
                 int pos = depth.position();

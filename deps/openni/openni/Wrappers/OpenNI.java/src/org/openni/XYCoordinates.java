@@ -21,14 +21,14 @@
 package org.openni;
 
 /**
- * Represents a pair of two dimensional integral coordinates. <BR><BR>  
- * 
+ * Represents a pair of two dimensional integral coordinates. <BR><BR>
+ *
  * Primarily useful to keep track of things measured in pixels.  This class doesn't include any kind
  * of internal consistency checking -- it is just a handy way to store two numbers.
- * 
+ *
  *
  */
-public class XYCoordinates 
+public class XYCoordinates
 {
 	/**
 	 * Constructor to create a new object with specified initial coordinate values.

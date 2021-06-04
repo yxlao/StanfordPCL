@@ -22,12 +22,12 @@ package org.openni;
 
 /**
  * Base class for all map generators. <BR><BR>
- * 
+ *
  * This class primarily serves as the base class for the image, IR, and depth
  * generators.  It would not generally be instantiated on its own.
  *
  */
-public class MapGenerator extends Generator 
+public class MapGenerator extends Generator
 {
 	/**
 	 * Create a new MapGenerator
@@ -36,24 +36,24 @@ public class MapGenerator extends Generator
 	 * @param addRef
 	 * @throws GeneralException Function may touch hardware, so exceptions will be common
 	 */
-	MapGenerator(Context context, long nodeHandle, boolean addRef) throws GeneralException 
+	MapGenerator(Context context, long nodeHandle, boolean addRef) throws GeneralException
 	{
 		super(context, nodeHandle, addRef);
 		
-		this.mapOutputModeChanged = new StateChangedObservable() 
+		this.mapOutputModeChanged = new StateChangedObservable()
 		{
 			@Override
-			protected int registerNative(String cb, OutArg<Long> phCallback) 
+			protected int registerNative(String cb, OutArg<Long> phCallback)
 			{
 				return NativeMethods.xnRegisterToMapOutputModeChange(toNative(), this, cb, phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromMapOutputModeChange(toNative(), hCallback);
 			}
-		}; 
+		};
 	}
 
 	/**

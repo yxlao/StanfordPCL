@@ -26,7 +26,7 @@ namespace OpenNI
 {
 	public class Query : ObjectWrapper
 	{
-		public Query() : 
+		public Query() :
 			this(Create())
 		{
 		}

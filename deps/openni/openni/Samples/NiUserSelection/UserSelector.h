@@ -35,7 +35,7 @@
 
 
 /// @brief Class to select which users to track
-/// 
+///
 /// The goal of this class is to decide which users to track. This is an abstract class
 /// used as an interface for all user selection implementations. The assumption is that the user
 /// selector will receive a user generator node and will output which users are at which state as
@@ -46,7 +46,7 @@ class UserSelector
 public:
     /// @brief This method is aimed to be called by the TrackingInitializer to update the sub
     /// state of a user when trying to track.
-    /// 
+    ///
     /// This is an update of the progress of starting to track the user, i.e. the user is in state
     /// selected (and not yet tracking) and the sub state represents the progress.
     /// @param nUserId The user whose progress is to be updated
@@ -54,9 +54,9 @@ public:
    /// @return The success status
     virtual XnStatus UpdateUserTrackingProgress(XnUserID nUserId, XnInt64 newSubState);
 
-   /// @brief This method is aimed to be called by the TrackingInitializer when the user 
+   /// @brief This method is aimed to be called by the TrackingInitializer when the user
    /// tracking initialization is complete.
-   /// 
+   ///
    /// This tells the user selector how a selection went (succeed or failed).
    /// @param nUserId The user whose progress is to be updated
    /// @param bTracked True if the user is now being tracked and false otherwise.
@@ -65,20 +65,20 @@ public:
    virtual XnStatus UpdateUserTracking(XnUserID nUserId, XnBool bTracked, XnInt64 newSubState);
 
    /// @brief This method should be called every frame.
-   /// 
+   ///
    /// @note The default implementation is to do nothing as many implementations would be event driven.
    virtual void UpdateFrame() {};
 
    /// @brief Method to get the current state (and sub state) of a user.
-   /// 
+   ///
    /// @param nUserId The user whose state we want to know
-   /// @param newState The state to fill with new data 
+   /// @param newState The state to fill with new data
    /// @return The success status
    virtual XnStatus GetUserState(XnUserID nUserId, UserSelectionState& newState);
 
 
    /// @brief Method to Fill in the string label for a user (state + sub state).
-   /// 
+   ///
    /// @param nUserId The user whose label we want
    /// @param strLabel Where to put the label
    /// @param maxStrLen The maximum allowed string length.
@@ -104,7 +104,7 @@ protected:
    XnStatus TranslateStateToLabel(const UserSelectionState* pUserState, char* strLabel, XnUInt32 maxStrLen);
 
     /// @brief constructor
-    /// 
+    ///
     /// @param pUserGenerator The user generator which holds all the users.
     UserSelector(xn::UserGenerator* pUserGenerator);
 
@@ -123,19 +123,19 @@ protected:
     virtual XnStatus RemoveUser(XnUserID nUserId);
 
     /// @brief translate a calibration error to a string
-    /// 
+    ///
     /// @param eError The calibration error
     /// @return The string version of the error.
     const XnChar* GetCalibrationErrorString(XnCalibrationStatus eError);
 
     /// @brief Creates a new user selection state object of the appropriate type
-    /// 
+    ///
     /// @return A pointer to the new object (NULL if failed).
     virtual UserSelectionState* CreateUserSelectionState();
 
 
     /// @brief Updates the user selection state object of the appropriate type
-    /// 
+    ///
     /// @param nUserId the user whose state we want to update
     /// @param eState The new state of the user
     /// @param subState The new sub state of the user
@@ -147,17 +147,17 @@ protected:
 
     xn::UserGenerator *m_pUserGenerator; ///< @brief the user generator to get user information from
     /// @brief A hash for user states.
-    /// 
+    ///
     /// This is a hash which holds for each user in the scene a state and substate.
     /// @see @ref UserSelectionState
-    UserStateHash m_hUsersState; 
+    UserStateHash m_hUsersState;
     XnBool m_bValid; ///< @brief Holds true if the user selector is valid and false otherwise
     XnCallbackHandle m_hUserCallbacks; ///< @brief A handle to be able to unregister the user callbacks
 
 
 private:
     /// @brief New user callback.
-    /// 
+    ///
     /// Called when a new user is found.
     /// @param generator The user generator which called the callback
     /// @param nUserId The newly found user
@@ -165,7 +165,7 @@ private:
     static void XN_CALLBACK_TYPE NewUserCallback(xn::UserGenerator& generator, XnUserID nUserId, void* pCookie);
 
     /// @brief Lost user callback.
-    /// 
+    ///
     /// Called when a user is lost (i.e. no longer counted in the scene. Does not include exiting).
     /// @param generator The user generator which called the callback
     /// @param nUserId The lost user

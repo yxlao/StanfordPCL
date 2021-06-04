@@ -35,17 +35,17 @@
 //---------------------------------------------------------------------------
 // Structs
 //---------------------------------------------------------------------------
-/** The Xiron OS network socket structure. */ 
+/** The Xiron OS network socket structure. */
 typedef struct xnOSSocket
 {
-	/** The OS socket handle. */ 
+	/** The OS socket handle. */
 	int Socket;
 
-	/** The OS socket address (IP and port). */ 
+	/** The OS socket address (IP and port). */
 	sockaddr_in SocketAddress;
 	socklen_t nSocketAddressLen;
 
-	/** The socket type enum (UDP, TDP, etc...) */ 
+	/** The socket type enum (UDP, TDP, etc...) */
 	XnUInt32 nSocketType;
 } xnOSSocket;
 
@@ -112,7 +112,7 @@ XN_C_API XnStatus xnOSCreateSocket(const XnOSSocketType SocketType, const XnChar
 	// Set the socket server address
 	Socket->SocketAddress.sin_family = AF_INET;
 
-	if (isalpha(cpIPAddress[0])) 
+	if (isalpha(cpIPAddress[0]))
 	{
 		HostEnt = gethostbyname(cpIPAddress);
 		if (HostEnt == NULL)
@@ -413,7 +413,7 @@ XN_C_API XnStatus xnOSSendNetworkBuffer(XN_SOCKET_HANDLE Socket, const XnChar* c
 #if (XN_PLATFORM == XN_PLATFORM_MACOSX)
 	int on = 1;
 	setsockopt(Socket->Socket, SOL_SOCKET, SO_NOSIGPIPE, (char*)&on, sizeof(on));	
-	nRetVal = send(Socket->Socket, cpBuffer, nBufferSize, NULL); 
+	nRetVal = send(Socket->Socket, cpBuffer, nBufferSize, NULL);
 #else
 	nRetVal = send(Socket->Socket, cpBuffer, nBufferSize, MSG_NOSIGNAL);
 #endif

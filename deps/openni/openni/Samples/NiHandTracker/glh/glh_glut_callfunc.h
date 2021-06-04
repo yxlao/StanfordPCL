@@ -1,7 +1,7 @@
 /*
-glh - is a platform-indepenedent C++ OpenGL helper library 
+glh - is a platform-indepenedent C++ OpenGL helper library
 
-  
+
     Copyright (c) 2000 Cass Everitt
 	Copyright (c) 2000 NVIDIA Corporation
     All rights reserved.
@@ -9,7 +9,7 @@ glh - is a platform-indepenedent C++ OpenGL helper library
     Redistribution and use in source and binary forms, with or
     without modification, are permitted provided that the following
     conditions are met:
-	  
+	
 	* Redistributions of source code must retain the above
 	  copyright notice, this list of conditions and the following
 	  disclaimer.
@@ -18,10 +18,10 @@ glh - is a platform-indepenedent C++ OpenGL helper library
 	  copyright notice, this list of conditions and the following
 	  disclaimer in the documentation and/or other materials
 	  provided with the distribution.
-		  
+		
 	* The names of contributors to this software may not be used
 	  to endorse or promote products derived from this software
-	  without specific prior written permission. 
+	  without specific prior written permission.
 			
 	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 	``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -33,9 +33,9 @@ glh - is a platform-indepenedent C++ OpenGL helper library
 	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 	CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
 	LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-	ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
-	POSSIBILITY OF SUCH DAMAGE. 
-			  
+	ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+	POSSIBILITY OF SUCH DAMAGE.
+			
 				
 	Cass Everitt - cass@r3.nu
 */
@@ -46,7 +46,7 @@ glh - is a platform-indepenedent C++ OpenGL helper library
 #include <string>
 
 #ifdef _WIN32
-#define GLH_FUNC extern "C" __declspec(dllexport) 
+#define GLH_FUNC extern "C" __declspec(dllexport)
 #else
 #define GLH_FUNC
 #endif

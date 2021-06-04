@@ -29,7 +29,7 @@
 #define SUPPORTED_FPS 30
 #define MAX_DEPTH_VALUE	15000
 
-SampleDepth::SampleDepth() : 
+SampleDepth::SampleDepth() :
 	m_bGenerating(FALSE),
 	m_bDataAvailable(FALSE),
 	m_pDepthMap(NULL),

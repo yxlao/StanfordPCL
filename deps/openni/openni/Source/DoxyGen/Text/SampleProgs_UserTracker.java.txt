@@ -13,7 +13,7 @@
 	
 	@section utj_main_run Main Run Routine
 	
-	The main <code>Run()</code> routine shown in the following code block is located in the <code>UserTrackerApplication.java</code> file. The main program loop calls the <code>updateDepth()</code> function, which is located in the <code>UserTracker.java </code> file. The <code>updateDepth()</code> function causes the OpenNI system to make OpenNI user data available with each execution of the loop. The <code>repaint()</code> function then causes the refresh of the user data display.    
+	The main <code>Run()</code> routine shown in the following code block is located in the <code>UserTrackerApplication.java</code> file. The main program loop calls the <code>updateDepth()</code> function, which is located in the <code>UserTracker.java </code> file. The <code>updateDepth()</code> function causes the OpenNI system to make OpenNI user data available with each execution of the loop. The <code>repaint()</code> function then causes the refresh of the user data display.
 	@code
 		void run()
 		{
@@ -37,7 +37,7 @@
 		
 	@section utj_event_handlers Declarations of Event Handlers
 	
-		The following sections describe the event handlers this sample program requires, describing the nature of the events themselves and what is done inside the handlers. 
+		The following sections describe the event handlers this sample program requires, describing the nature of the events themselves and what is done inside the handlers.
 Detected'
 	
 		A typical order of invocation of the events in the default configuration, where online-calibration is enabled, would be:
@@ -46,7 +46,7 @@ Detected'
 		3. 'Lost User' event
 		
 		Online-calibration enables the acquisition of a skeleton without the need for poses.
-		The events are described below in order of their declaration in the source code. 
+		The events are described below in order of their declaration in the source code.
 
 		Note: When online-calibration is turned off ( which is <i>not </i> the default configuration) a 'Pose Detected' event would typically occur after the 'New User' event and before the Calibration Complete' event.
 		
@@ -55,7 +55,7 @@ Detected'
 	
 		The <b>'New User' event</b> signals that a new user has now been recognized in the scene. A new user is a user that was not previously recognized in the scene, and is now recognized in the scene. The user is identified by a persistent ID.
 		
-		An example <b>'New User' event handler</b> is as below. On detecting a new user, the handler checks if a pose is needed. If it is, it calls @ref xn::PoseDetectionCapability::StartPoseDetection()to start pose detection. If not, it requests calibration. 
+		An example <b>'New User' event handler</b> is as below. On detecting a new user, the handler checks if a pose is needed. If it is, it calls @ref xn::PoseDetectionCapability::StartPoseDetection()to start pose detection. If not, it requests calibration.
 		@code	
 			class NewUserObserver implements IObserver<UserEventArgs>
 			{
@@ -107,7 +107,7 @@ Detected'
 	
 		The <b>'Calibration Complete' event</b> signals that a specific user's skeleton has now completed the calibration process, and provides a result status. The user is identified by the ID given by the <code>e.ID</code> parameter.
 		
-		An example <b>'Calibration Complete' event handler</b> is as below. On detecting that the calibration has completed, the handler tests whether the calibration process was completed successfully. If yes, that means that a user has been detected and calibrated, and enough information has been obtained to create a skeleton to represent the user. 
+		An example <b>'Calibration Complete' event handler</b> is as below. On detecting that the calibration has completed, the handler tests whether the calibration process was completed successfully. If yes, that means that a user has been detected and calibrated, and enough information has been obtained to create a skeleton to represent the user.
 		
 		The handler startTracking(then advances the processing to the next stage, i.e., to call @ref xn::SkeletonCapability::StartTracking() to start tracking the skeleton, which represents a human user body, within a real-life (3D) scene for analysis, interpretation, and use by the application.
 		(Description continued after the code.)			
@@ -146,12 +146,12 @@ Detected'
 			}
 		@endcode
 		
-		In the above, the handler then creates, for the new user, a new user entry in the @ref utcs_init_joints_array <code>joints</code> array. This is a database for users and skeletons. In the <code>joints</code> database, each user has a list of entries where each entry is a data pair: 
+		In the above, the handler then creates, for the new user, a new user entry in the @ref utcs_init_joints_array <code>joints</code> array. This is a database for users and skeletons. In the <code>joints</code> database, each user has a list of entries where each entry is a data pair:
 		@verbatim
-			<SkeletonJoint, SkeletonJointPosition> 
+			<SkeletonJoint, SkeletonJointPosition>
 		@endverbatim
 		
-		In the above handler, if the calibration process failed, the handler restarts the whole calibration sequence.The way the handler restarts the calibration sequence depends on whether the specific generator demands detecting a pose before starting calibration 
+		In the above handler, if the calibration process failed, the handler restarts the whole calibration sequence.The way the handler restarts the calibration sequence depends on whether the specific generator demands detecting a pose before starting calibration
 		
 		
 		
@@ -161,9 +161,9 @@ Detected'
 
 		The PoseDetected observer is only relevant when not in Online Calibration mode (when <code>needPoseForCalibration </code> is <code>true</code>).
 		
-		An example <b>'Pose Detected' event handler</b> is as below. 
+		An example <b>'Pose Detected' event handler</b> is as below.
 		On detecting that a pose has been detected, the handler calls @ref xn::PoseDetectionCapability::StopPoseDetection() "stopPoseDetection()" to stop pose detection. The handler then calls @ref xn::SkeletonCapability::RequestCalibration() "requestSkeletonCalibration()" to start calibration. The <code>true</code> disregards any previous calibration and forces a new calibration.			
-		@code	 
+		@code	
 			class PoseDetectedObserver implements IObserver<PoseDetectionEventArgs>
 			{
 				@Override
@@ -175,7 +175,7 @@ Detected'
 					{
 						poseDetectionCap.stopPoseDetection(args.getUser());
 						skeletonCap.requestSkeletonCalibration(args.getUser(), true);
-					} 
+					}
 					catch (StatusException e)
 					{
 						e.printStackTrace();
@@ -205,7 +205,7 @@ Detected'
 			private OutArg<ScriptNode> scriptNode;
 		@endcode				
 	
-		The <i>production graph</i> is a network of software objects - called production nodes - that can identify blobs as hands or human users. In this sample program the production graph identifies blobs as human users, and tracks them as they move. 
+		The <i>production graph</i> is a network of software objects - called production nodes - that can identify blobs as hands or human users. In this sample program the production graph identifies blobs as human users, and tracks them as they move.
 
 		a @ref xn::Context object is a workspace in which the application builds an OpenNI production graph. 	
 		@code	
@@ -222,15 +222,15 @@ Detected'
 			private UserGenerator userGen;
 		@endcode
 
-		The @ref xn::SkeletonCapability lets the node generate a skeleton representation for  each human user generated by the node. Each UserGenerator node can have exactly one skeleton representation. 
-		The skeleton data includes the location of the skeletal joints, the ability to track skeleton positions and the user calibration capabilities. 
+		The @ref xn::SkeletonCapability lets the node generate a skeleton representation for  each human user generated by the node. Each UserGenerator node can have exactly one skeleton representation.
+		The skeleton data includes the location of the skeletal joints, the ability to track skeleton positions and the user calibration capabilities.
 		
 		To help track a user's skeleton, the @ref xn::SkeletonCapability can execute a calibration process to measure and record the lengths of the human user's limbs.			
 		@code	
 			private SkeletonCapability skeletonCap;
 		@endcode
 
-		The PoseDetectionCapability object lets a @ref xn::UserGenerator "UserGenerator" node recognize when the user is posed in a specific position. 
+		The PoseDetectionCapability object lets a @ref xn::UserGenerator "UserGenerator" node recognize when the user is posed in a specific position.
 		@code	
 			private PoseDetectionCapability poseDetectionCap;
 		@endcode		
@@ -250,7 +250,7 @@ Detected'
 
 		@subsection utj_get_dg_node_from_pg Gets a DepthGenerator Node from the Production Graph
 		
-			The following statement creates and returns a reference to a @ref xn::DepthGenerator "DepthGenerator" node. The create() method can return a reference to an existing DepthGenerator node if one already exists in the production graph created from the XML. If no DepthGenerator node already exists, this method creates a new DepthGenerator node and returns a reference to the new node.      
+			The following statement creates and returns a reference to a @ref xn::DepthGenerator "DepthGenerator" node. The create() method can return a reference to an existing DepthGenerator node if one already exists in the production graph created from the XML. If no DepthGenerator node already exists, this method creates a new DepthGenerator node and returns a reference to the new node.
 			@code
 				depthGen = DepthGenerator.create(context);
 			@endcode
@@ -263,11 +263,11 @@ Detected'
 			
 		@subsection utj_setup_hist_array Defines the Histogram Array
 			
-			The following defines the histogram array. This array is a key part of this sample program (although this code is not OpenNI specific). 
+			The following defines the histogram array. This array is a key part of this sample program (although this code is not OpenNI specific).
 
 			<code>histogram[]</code> is an array with MAX_DEPTH entries (10,000 at the time of writing), one entry for each depth value that the sensor can output. This array is used for the histogram feature in the <code>DrawDepthMap()</code> function later in this file.
 
-			The histogram feature of this sample program creates a gradient of the scene's depth scene, from dark (far away) to light (close), regardless of the color. Each entry of the array is a counter for the corresponding depth value. 
+			The histogram feature of this sample program creates a gradient of the scene's depth scene, from dark (far away) to light (close), regardless of the color. Each entry of the array is a counter for the corresponding depth value.
 
 			<code>histogram[]</code> is used later in this application file to build the histogram. The application scans the depth map.  For each depth pixel the application inspects the depth value, and for that value's entry in the array, it increments its counter by 1. The application performs also further processing, as described later in the description.
 
@@ -283,7 +283,7 @@ Detected'
 
 		@subsection utj_create_ug_node Creates a UserGenerator Node
 			
-			The following program code creates a @ref xn::UserGenerator "UserGenerator" node and then gets two capabilities of the node: a @ref xn::SkeletonCapability "SkeletonCapability" object and a @ref xn::PoseDetectionCapability "PoseDetectionCapability" object. The code then assigns references to the two capabilities for easy access to them. 
+			The following program code creates a @ref xn::UserGenerator "UserGenerator" node and then gets two capabilities of the node: a @ref xn::SkeletonCapability "SkeletonCapability" object and a @ref xn::PoseDetectionCapability "PoseDetectionCapability" object. The code then assigns references to the two capabilities for easy access to them.
 			@code		
 				userGen = UserGenerator.create(context);
 				skeletonCap = userGen.getSkeletonCapability();
@@ -292,12 +292,12 @@ Detected'
 
 			Each of these declarations is described separately in the following paragraphs.
 			
-			The following statement creates and returns a reference to a @ref xn::UserGenerator "UserGenerator" node. The create() method can return a reference to an existing UserGenerator node if one already exists in the production graph created from the XML. If no UserGenerator node already exists, this method creates a new UserGenerator node and returns a reference to the new node.    
+			The following statement creates and returns a reference to a @ref xn::UserGenerator "UserGenerator" node. The create() method can return a reference to an existing UserGenerator node if one already exists in the production graph created from the XML. If no UserGenerator node already exists, this method creates a new UserGenerator node and returns a reference to the new node.
 			@code		
 				userGen = UserGenerator.create(context);
 			@endcode	
 
-			The following two statements get a @ref xn::SkeletonCapability object for accessing Skeleton functionality and a PoseDetectionCapability for accessing Pose Detection functionality. 
+			The following two statements get a @ref xn::SkeletonCapability object for accessing Skeleton functionality and a PoseDetectionCapability for accessing Pose Detection functionality.
 			@code		
 				skeletonCap = userGen.getSkeletonCapability();
 				poseDetectionCap = userGen.getPoseDetectionCapability();
@@ -313,7 +313,7 @@ Detected'
 				poseDetectionCap.getPoseDetectedEvent().addObserver(new PoseDetectedObserver());
 			@endcode
 
-			See @ref utj_event_handlers for the descriptions of these events and their usages. 
+			See @ref utj_event_handlers for the descriptions of these events and their usages.
 			
 			
 		@subsection utj_init_joints_array Initializes the 'joints' Array
@@ -323,7 +323,7 @@ Detected'
 			@endverbatim
 			Meaning for each user ID (the Integer), we keep a mapping of the current position of each joint.
 			
-			Each entry maps a particular @ref xn::XnSkeletonJoint skeleton joint (an ID identifying a particular joint in the skeleton) to its <code>SkeletonJointPosition</code> "3D position". 
+			Each entry maps a particular @ref xn::XnSkeletonJoint skeleton joint (an ID identifying a particular joint in the skeleton) to its <code>SkeletonJointPosition</code> "3D position".
 			@code
 				joints = new HashMap<Integer, HashMap<SkeletonJoint,SkeletonJointPosition>>();
 			@endcode
@@ -336,9 +336,9 @@ Detected'
 				skeletonCap.setSkeletonProfile(SkeletonProfile.ALL);
 			@endcode	
 			
-		@subsection utcs_start_node_generating  Starts the Node Generating 
+		@subsection utcs_start_node_generating  Starts the Node Generating
 		
-			The following statement ensures that all created @ref dict_gen_node "generator nodes" are in Generating state. Each node can be in Generating state or Non-Generating state. When a node is in Generating state it generates data. 
+			The following statement ensures that all created @ref dict_gen_node "generator nodes" are in Generating state. Each node can be in Generating state or Non-Generating state. When a node is in Generating state it generates data.
 			@code	
 				context.startGeneratingAll();
 			@endcode	
@@ -411,8 +411,8 @@ Detected'
             depth.rewind();
 		@endcode
 		
-		The following code block builds an image buffer according to the frequency of each depth value in the histogram. 
-		@code        
+		The following code block builds an image buffer according to the frequency of each depth value in the histogram.
+		@code
 			while(depth.remaining() > 0)
 			{
 				int pos = depth.position();
@@ -472,7 +472,7 @@ Detected'
 			if (pos.getPosition().getZ() != 0)
 		@endcode
 		
-		If the position is not zero depth, a new @ref xn::XnSkeletonJointPosition object is created for the joint and inserted into the <code>joints</code> mapping table. The position structure comprises a 3D position and a confidence that the joint is in fact in that position. The 3D position structure is a projective coordinate, so <code>convertRealWorldToProjective()</code> is used to convert the real world cordinate to a projective coordinate. 
+		If the position is not zero depth, a new @ref xn::XnSkeletonJointPosition object is created for the joint and inserted into the <code>joints</code> mapping table. The position structure comprises a 3D position and a confidence that the joint is in fact in that position. The 3D position structure is a projective coordinate, so <code>convertRealWorldToProjective()</code> is used to convert the real world cordinate to a projective coordinate.
 		@code
 			joints.get(user).put(joint,
 						new SkeletonJointPosition(
@@ -502,14 +502,14 @@ Detected'
 			{
 				getJoint(user, SkeletonJoint.HEAD);
 				getJoint(user, SkeletonJoint.NECK);
-				 ... 
+				 ...
 			}
 		@endcode
 		
 
 	@section utj_draw_line drawLine() method
 
-		This method draws a limb of the avatar representation of a human user by drawing a line between two adjacent OpenNI @ref xn::XnSkeletonJoint "joints" passed as parameters to this function. The two joints are points in the scene. The two adjacent joints come from the <code>jointHash</code> mapping table (whose scope is in the drawSkeleton() method) through the <i>jointHash</i> parameter. 
+		This method draws a limb of the avatar representation of a human user by drawing a line between two adjacent OpenNI @ref xn::XnSkeletonJoint "joints" passed as parameters to this function. The two joints are points in the scene. The two adjacent joints come from the <code>jointHash</code> mapping table (whose scope is in the drawSkeleton() method) through the <i>jointHash</i> parameter.
 		@code
 			    void drawLine(Graphics g, HashMap<SkeletonJoint, SkeletonJointPosition> jointHash, SkeletonJoint joint1, SkeletonJoint joint2)
 			{
@@ -550,7 +550,7 @@ Detected'
 
 				drawLine(g, dict, SkeletonJoint.LEFT_SHOULDER, SkeletonJoint.TORSO);
 				drawLine(g, dict, SkeletonJoint.RIGHT_SHOULDER, SkeletonJoint.TORSO);		
-				  ...		  
+				  ...		
 			}
 		@endcode
 	
@@ -564,7 +564,7 @@ Detected'
 		    {
            DataBufferByte dataBuffer = new DataBufferByte(imgbytes, width*height*3);
 
-           WritableRaster raster = Raster.createInterleavedRaster(dataBuffer, width, height, width * 3, 3, new int[]{0, 1, 2}, null); 
+           WritableRaster raster = Raster.createInterleavedRaster(dataBuffer, width, height, width * 3, 3, new int[]{0, 1, 2}, null);
 
            ColorModel colorModel = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB), new int[]{8, 8, 8}, false, false, ComponentColorModel.OPAQUE, DataBuffer.TYPE_BYTE);
 
@@ -580,7 +580,7 @@ Detected'
 			int[] users = userGen.getUsers();
 			for (int i = 0; i < users.length; ++i)
 			{
-			  ... 
+			  ...
 			}				
 		@endcode
 
@@ -639,7 +639,7 @@ Detected'
 			else if (skeletonCap.IsTracking(users[i]))
 		@endcode
 		
-		The @ref xn::SkeletonCapability::IsCalibrating "isSkeletonCalibrating" method returns whether a user is being currently calibrated. 
+		The @ref xn::SkeletonCapability::IsCalibrating "isSkeletonCalibrating" method returns whether a user is being currently calibrated.
 		@code			
 			else if (skeletonCap.isSkeletonCalibrating(users[i]))
 		@endcode

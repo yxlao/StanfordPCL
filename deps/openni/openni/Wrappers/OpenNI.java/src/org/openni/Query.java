@@ -22,9 +22,9 @@ package org.openni;
 
 /**
  * Used to filter the results of searching an OpenNI Context. <BR><BR>
- * 
+ *
  * Most types of production nodes that can be searched for in an OpenNI context have
- * many possible parameters.  This object stores search parameters to limit searches of 
+ * many possible parameters.  This object stores search parameters to limit searches of
  * the context for a given node type
  *
  */
@@ -34,7 +34,7 @@ public class Query extends ObjectWrapper
 	 * Default Constructor, creates a new empty Query
 	 * @throws GeneralException If underlying native code returns errors, a General Exception will be generated
 	 */
-	public Query() throws GeneralException 
+	public Query() throws GeneralException
 	{
 		super(allocate());
 	}
@@ -111,7 +111,7 @@ public class Query extends ObjectWrapper
 	}
 
 	@Override
-	protected void freeObject(long ptr) 
+	protected void freeObject(long ptr)
 	{
 		NativeMethods.xnNodeQueryFree(ptr);
 	}

@@ -22,8 +22,8 @@ package org.openni;
 
 /**
  * Represents the orientation of a skeleton joint as two vectors with a common origin. <BR><BR>
- * 
- * One point is given as the origin.  Two more points each define a vector when joined with the first point.  
+ *
+ * One point is given as the origin.  Two more points each define a vector when joined with the first point.
  * A confidence value is also stored enabling skeleton middleware to quantify uncertainty in the values.
  *
  */
@@ -55,7 +55,7 @@ public class SkeletonJointOrientation
 		this.confidence = confidence;
 	}
 	
-	/** 
+	/**
 	 * Getter function for X1
 	 * @return Current value of X1
 	 */
@@ -71,7 +71,7 @@ public class SkeletonJointOrientation
 	{
 		return this.y1;
 	}
-	/** 
+	/**
 	 * Getter function for Z1
 	 * @return Current value for Z1
 	 */
@@ -79,7 +79,7 @@ public class SkeletonJointOrientation
 	{
 		return this.z1;
 	}
-	/** 
+	/**
 	 * Getter function for X2
 	 * @return Current value for X2
 	 */
@@ -103,7 +103,7 @@ public class SkeletonJointOrientation
 	{
 		return this.z2;
 	}
-	/** 
+	/**
 	 * Getter function for X3
 	 * @return Current value for X3
 	 */

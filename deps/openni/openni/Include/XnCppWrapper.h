@@ -47,22 +47,22 @@ namespace xn
 	 * @ingroup cppref
 	 * @defgroup cppref_glb_ev_hndlrs Global Event Handlers
 	 */
-	 
+	
 	/**
 	 * @ingroup cppref
 	 * @defgroup cppref_graph_mgmt Managing the Production Graph
 	 */
-	 
+	
 	/**
 	 * @ingroup cppref
 	 * @defgroup cppref_meta_data Meta-Data Objects (Frame Objects)
 	 */
-	 
+	
 	/**
 	 * @ingroup cppref
 	 * @defgroup cppref_prd_func Production Nodes Functionality
 	 */
-	 
+	
 	/**
 	 * @ingroup cppref
 	 * @defgroup cppref_misc Misc

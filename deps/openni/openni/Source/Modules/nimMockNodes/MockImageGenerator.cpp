@@ -22,7 +22,7 @@
 #include <XnPropNames.h>
 #include <XnLog.h>
 
-MockImageGenerator::MockImageGenerator(xn::Context& context, const XnChar* strName) : 
+MockImageGenerator::MockImageGenerator(xn::Context& context, const XnChar* strName) :
 	MockMapGenerator(context, strName),
 	m_pixelFormat(XN_PIXEL_FORMAT_RGB24)
 {

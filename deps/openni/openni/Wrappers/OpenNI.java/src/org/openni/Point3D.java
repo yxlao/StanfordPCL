@@ -22,19 +22,19 @@ package org.openni;
 
 /**
  * Represents a single 3D point. <BR><BR>
- * 
+ *
  * Coordinates may be in either Projective or Real World format.
  * There is no internal representation of coordinate type -- it is the responsibility of the application
- * to keep track of what format the point is in.  The Point3D object simply stores the coordinate values 
+ * to keep track of what format the point is in.  The Point3D object simply stores the coordinate values
  * as numbers, with no attempt made to interpret them according to type.<BR><BR>
- * 
+ *
  * The common conventions for storing coordinates is as follows:<BR><BR>
- * 
- * If using Projective coordinates (the default for reading depth map from the PrimeSense sensor) X and Y represent 
- * pixels.  X is the horizontal pixel number, with far left pixel counted as Zero.  Y is vertical pixel with 
+ *
+ * If using Projective coordinates (the default for reading depth map from the PrimeSense sensor) X and Y represent
+ * pixels.  X is the horizontal pixel number, with far left pixel counted as Zero.  Y is vertical pixel with
  * Top pixel counted as zero.  Z is distance from sensor to observed object, along a line that passes through
  * the pixel represented by X and Y.<BR><BR>
- * 
+ *
  * If using real world coordinates, X is distance from the sensor in mm left is increasingly positive (from sensor perspective),
  * Y is distance up or down from sensor in mm, with up being increasingly positive.  Z is distance in mm on a line perpendicular to X/Y,
  * with 0 representing contact with the sensor, and moving away from the sensor represented as increasingly positive.
@@ -89,7 +89,7 @@ public class Point3D
 	{
 		return Y;
 	}
-	/** 
+	/**
 	 * Getter function for the Z coordinate
 	 * @return Current value of the Z coordinate
 	 */

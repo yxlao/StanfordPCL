@@ -114,7 +114,7 @@ XN_C_API XnNodeHandle XN_C_DECL xnNodeInfoGetRefHandle(XnNodeInfo* pNodeInfo);
 XN_C_API XnNodeHandle XN_API_DEPRECATED("Please use xnNodeInfoGetRefHandle() instead") XN_C_DECL xnNodeInfoGetHandle(XnNodeInfo* pNodeInfo);
 
 /**
- * Gets the additional data object attached to the node info object. 
+ * Gets the additional data object attached to the node info object.
  *
  * @param	pNodeInfo		[in]	A production node info object.
  */

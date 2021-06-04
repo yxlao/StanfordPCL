@@ -64,7 +64,7 @@ XN_C_API XnDumpFile* XN_C_DECL xnDumpFileOpen(const XnChar* strDumpName, const X
 
 /**
 * Opens a file for writing dump using some advanced options.
-* 
+*
 * You would usually prefer to use @ref xnDumpFileOpen().
 *
 * @param	strDumpName		[in]	Name of the dump mask this file belongs to.
@@ -152,7 +152,7 @@ XN_C_API void XN_C_DECL _xnDumpFileClose(XnDumpFile* pFile);
 
 #include "XnOS.h"
 
-typedef struct XnDump 
+typedef struct XnDump
 {
 	XN_FILE_HANDLE hFile;
 } XnDump;

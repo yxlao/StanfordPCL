@@ -62,10 +62,10 @@ XnListT<HandTracker*>	HandTracker::sm_Instances;
 //---------------------------------------------------------------------------
 // Hooks
 //---------------------------------------------------------------------------
-void XN_CALLBACK_TYPE HandTracker::Gesture_Recognized(	xn::GestureGenerator&	/*generator*/, 
-														const XnChar*			strGesture, 
-														const XnPoint3D*		/*pIDPosition*/, 
-														const XnPoint3D*		pEndPosition, 
+void XN_CALLBACK_TYPE HandTracker::Gesture_Recognized(	xn::GestureGenerator&	/*generator*/,
+														const XnChar*			strGesture,
+														const XnPoint3D*		/*pIDPosition*/,
+														const XnPoint3D*		pEndPosition,
 														void*					pCookie)
 {
 	printf("Gesture recognized: %s\n", strGesture);
@@ -80,10 +80,10 @@ void XN_CALLBACK_TYPE HandTracker::Gesture_Recognized(	xn::GestureGenerator&	/*g
 	pThis->m_HandsGenerator.StartTracking(*pEndPosition);
 }
 
-void XN_CALLBACK_TYPE HandTracker::Hand_Create(	xn::HandsGenerator& /*generator*/, 
-												XnUserID			nId, 
-												const XnPoint3D*	pPosition, 
-												XnFloat				/*fTime*/, 
+void XN_CALLBACK_TYPE HandTracker::Hand_Create(	xn::HandsGenerator& /*generator*/,
+												XnUserID			nId,
+												const XnPoint3D*	pPosition,
+												XnFloat				/*fTime*/,
 												void*				pCookie)
 {
 	printf("New Hand: %d @ (%f,%f,%f)\n", nId, pPosition->X, pPosition->Y, pPosition->Z);
@@ -98,10 +98,10 @@ void XN_CALLBACK_TYPE HandTracker::Hand_Create(	xn::HandsGenerator& /*generator*
 	pThis->m_History[nId].Push(*pPosition);
 }
 
-void XN_CALLBACK_TYPE HandTracker::Hand_Update(	xn::HandsGenerator& /*generator*/, 
-												XnUserID			nId, 
-												const XnPoint3D*	pPosition, 
-												XnFloat				/*fTime*/, 
+void XN_CALLBACK_TYPE HandTracker::Hand_Update(	xn::HandsGenerator& /*generator*/,
+												XnUserID			nId,
+												const XnPoint3D*	pPosition,
+												XnFloat				/*fTime*/,
 												void*				pCookie)
 {
 	HandTracker*	pThis = static_cast<HandTracker*>(pCookie);
@@ -122,9 +122,9 @@ void XN_CALLBACK_TYPE HandTracker::Hand_Update(	xn::HandsGenerator& /*generator*
 	it->Value().Push(*pPosition);
 }
 
-void XN_CALLBACK_TYPE HandTracker::Hand_Destroy(	xn::HandsGenerator& /*generator*/, 
-													XnUserID			nId, 
-													XnFloat				/*fTime*/, 
+void XN_CALLBACK_TYPE HandTracker::Hand_Destroy(	xn::HandsGenerator& /*generator*/,
+													XnUserID			nId,
+													XnFloat				/*fTime*/,
 													void*				pCookie)
 {
 	printf("Lost Hand: %d\n", nId);
@@ -164,7 +164,7 @@ HandTracker::~HandTracker()
 }
 
 XnStatus HandTracker::Init()
-{            
+{
 	XnStatus			rc;
 	XnCallbackHandle	chandle;
 

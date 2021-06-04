@@ -22,16 +22,16 @@ package org.openni;
 
 /**
  * Allows identification of a hardware device. <BR><BR>
- * 
- * This capability is used to query identification strings stored in 
- * a hardware device.  
+ *
+ * This capability is used to query identification strings stored in
+ * a hardware device.
  *
  */
 public class DeviceIdentificationCapability extends CapabilityBase
 {
 	/**
 	 * Constructor to create a new Device Identification Capability
-	 * This function will not normally be called directly by application code. 
+	 * This function will not normally be called directly by application code.
 	 * The GetDeviceIdentificationCapability() function in class Device should instead
 	 * be used to create a new capability.
 	 * @param node The device the capability will be attached to

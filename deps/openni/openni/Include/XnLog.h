@@ -32,7 +32,7 @@
 // Exported Function Declaration
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * @name Initialization
  * Functions for initializing and shutting down the logger.
  * @{
@@ -45,7 +45,7 @@ XN_C_API XnStatus XN_C_DECL xnLogInitSystem();
 
 /**
 * This function initializes the log from an INI file.
-* 
+*
 * @param	csINIFile		[in]	The name of the INI file.
 * @param	csSectionName	[in]	The name of the section to read values from.
 */
@@ -53,7 +53,7 @@ XN_C_API XnStatus XN_C_DECL xnLogInitFromINIFile(const XnChar* csINIFile, const 
 
 /**
 * This function initializes the log from an XML file.
-* 
+*
 * @param	strFileName		[in]	The name of the XML file.
 */
 XN_C_API XnStatus XN_C_DECL xnLogInitFromXmlFile(const XnChar* strFileName);
@@ -65,7 +65,7 @@ XN_C_API XnStatus XN_C_DECL xnLogClose();
 
 // @}
 
-/** 
+/**
  * @name Filtering Log Messages
  * Functions for managing filters on the log system.
  * @{
@@ -90,7 +90,7 @@ XN_C_API XnLogSeverity XN_C_DECL xnLogGetMaskMinSeverity(const XnChar* strMask);
 
 // @}
 
-/** 
+/**
  * @name Log Writers
  * Functions for managing which writers are active in the log system (i.e. which outputs
  * will be generated).
@@ -135,7 +135,7 @@ XN_C_API XnStatus XN_C_DECL xnLogSetAndroidOutput(XnBool bAndroidOutput);
 
 // @}
 
-/** 
+/**
  * @name File Output
  * Functions for configuring how files are created.
  * @{
@@ -155,22 +155,22 @@ XN_C_API XnStatus XN_C_DECL xnLogSetLineInfo(XnBool bLineInfo);
 
 /**
  * Configures the folder under which logs will be written.
- * 
+ *
  * @param	strOutputFolder	[in]	Folder to write to
- */ 
+ */
 XN_C_API XnStatus XN_C_DECL xnLogSetOutputFolder(const XnChar* strOutputFolder);
 
 /**
  * Gets current log file name
- * 
+ *
  * @param	strFileName		[in]	A buffer to be filled
  * @param	nBufferSize		[in]	The size of the buffer
- */ 
+ */
 XN_C_API XnStatus XN_C_DECL xnLogGetFileName(XnChar* strFileName, XnUInt32 nBufferSize);
 
 // @}
 
-/** 
+/**
  * @name Logger API
  * Functions for writing entries to the log (used mainly by middleware developers)
  * @{
@@ -393,7 +393,7 @@ XN_C_API void XN_C_DECL _xnLoggerClose(XnLogger* pLogger);
 
 // @}
 
-/** 
+/**
  * @name Misc.
  * Miscellaneous functions regarding the log system.
  * @{

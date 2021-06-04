@@ -160,12 +160,12 @@ class UpdateVersion:
 
         lines[0] = 'OpenNI ' + str(self.version_major) + '.' + str(self.version_minor) + '.' + str(self.version_maintenance) + ' Build ' + str(self.version_build) + '\n'
         lines[1] = today.strftime('%B ') + str(today.day) + ' ' + str(today.year) + '\n'
-        
+
         for s in lines:
             output.write(s)
         output.close()
         os.remove(filePath)
-        os.rename(tempName,filePath)        
-        
+        os.rename(tempName,filePath)
+
 if __name__ == '__main__':
     UpdateVersion().main()

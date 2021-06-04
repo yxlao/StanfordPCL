@@ -78,7 +78,7 @@ namespace OpenNI
 		private static IntPtr CreateBasedOn(DepthGenerator basedOn, string name)
 		{
 			IntPtr handle;
-			int status = SafeNativeMethods.xnCreateMockNodeBasedOn(basedOn.Context.InternalObject, 
+			int status = SafeNativeMethods.xnCreateMockNodeBasedOn(basedOn.Context.InternalObject,
 				basedOn.InternalObject, name, out handle);
 			WrapperUtils.ThrowOnError(status);
 			return handle;

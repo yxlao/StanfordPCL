@@ -25,7 +25,7 @@ package org.openni;
  *
  * @param <T> Type of the variable to be wrapped
  */
-public class OutArg<T> 
+public class OutArg<T>
 {
 	public T value;
 }

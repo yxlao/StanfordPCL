@@ -22,14 +22,14 @@ package org.openni;
 
 /**
  * Holds an IRMap along with all relevant meta data about that map. <BR><BR>
- * 
+ *
  * Currently, the only additional data beside the map itself is the pixel format.
  *
  */
 public class IRMetaData extends MapMetaData
 {
 	/**
-	 * Default constructor.  Creates an empty IRMetaData object, including an empty IRMap, and 
+	 * Default constructor.  Creates an empty IRMetaData object, including an empty IRMap, and
 	 * sets the pixel format to the appropriate value
 	 */
 	public IRMetaData()

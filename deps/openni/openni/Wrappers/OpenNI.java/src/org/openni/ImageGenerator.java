@@ -23,8 +23,8 @@ package org.openni;
 /**
  * Generates RGB Images. <BR><BR>
  *
- * This generator is used to obtain the data from an RGB camera.  
- * 
+ * This generator is used to obtain the data from an RGB camera.
+ *
  * This class defines the following events:
  * pixelFormatChanged: Triggered when the pixel format of this generator changes
  */
@@ -41,16 +41,16 @@ public class ImageGenerator extends MapGenerator
 	{
 		super(context, nodeHandle, addRef);
 		
-		this.pixelFormatChanged = new StateChangedObservable() 
+		this.pixelFormatChanged = new StateChangedObservable()
 		{
 			@Override
-			protected int registerNative(String cb, OutArg<Long> phCallback) 
+			protected int registerNative(String cb, OutArg<Long> phCallback)
 			{
 				return NativeMethods.xnRegisterToPixelFormatChange(toNative(), this, cb, phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromPixelFormatChange(toNative(), hCallback);
 			}
@@ -142,7 +142,7 @@ public class ImageGenerator extends MapGenerator
 			long ptr = NativeMethods.xnGetImageMap(toNative());
 			MapOutputMode mode = getMapOutputMode();
 			this.currImageMap = new ImageMap(ptr, mode.getXRes(), mode.getYRes(), NativeMethods.xnGetBytesPerPixel(toNative()));
-			this.currImageMapFrameID = frameID; 
+			this.currImageMapFrameID = frameID;
 		}
 
 		return this.currImageMap;
@@ -155,7 +155,7 @@ public class ImageGenerator extends MapGenerator
 	public IStateChangedObservable getPixelFormatChangedEvent() { return this.pixelFormatChanged; }
 	
 	/**
-	 * Provides the current map data for this generator, wrapped in a Meta Data, and 
+	 * Provides the current map data for this generator, wrapped in a Meta Data, and
 	 * copies this into a given ImageMetaData object
 	 * @param ImageMD Place to copy the data
 	 */

@@ -22,12 +22,12 @@ package org.openni;
 
 /**
  * Detects when a hand is at the edge of the sensor FOV. <BR><BR>
- * 
+ *
  * This capability detects when a hand is at the edge of the available field
  * of view.  It is normally accessed by using the function
  * GetHandTouchingFOVEdgeCapability, a member function of the HandsGenerator
  * class.<BR><BR>
- * 
+ *
  * This class defines the following events:
  * handTouchingFOVEdgeEvent: triggered when a hand is touching the FOV edge
  *
@@ -47,13 +47,13 @@ public class HandTouchingFOVEdgeCapability extends CapabilityBase
 		handTouchingFOVEdgeEvent = new Observable<ActiveHandDirectionEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterToHandTouchingFOVEdge(toNative(), this, "callback", phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromHandTouchingFOVEdge(toNative(), hCallback);
 			}

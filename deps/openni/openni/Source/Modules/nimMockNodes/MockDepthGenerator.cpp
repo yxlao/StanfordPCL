@@ -23,7 +23,7 @@
 #include <XnOS.h>
 #include <XnLog.h>
 
-MockDepthGenerator::MockDepthGenerator(xn::Context& context, const XnChar* strName) : 
+MockDepthGenerator::MockDepthGenerator(xn::Context& context, const XnChar* strName) :
 	MockMapGenerator(context, strName),
 	m_nDeviceMaxDepth(0),
 	m_nSupportedUserPositionsCount(0),
@@ -98,7 +98,7 @@ XnStatus MockDepthGenerator::SetGeneralProperty(const XnChar* strName, XnUInt32 
 		}
 		else
 		{
-			/*We got XN_PROP_USER_POSITIONS without 
+			/*We got XN_PROP_USER_POSITIONS without
 			  XN_PROP_SUPPORTED_USER_POSITIONS_COUNT before it - that's an error*/
 			XN_ASSERT(FALSE);
 			XN_LOG_ERROR_RETURN(XN_STATUS_ERROR, XN_MASK_OPEN_NI, "got XN_PROP_USER_POSITIONS without XN_PROP_SUPPORTED_USER_POSITIONS_COUNT before it.")

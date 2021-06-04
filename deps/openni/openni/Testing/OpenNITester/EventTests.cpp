@@ -54,7 +54,7 @@ void XN_CALLBACK_TYPE Handler(int num, void* pCookie)
 	}
 }
 
-TEST(EventTests, TestGeneral) 
+TEST(EventTests, TestGeneral)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -116,7 +116,7 @@ TEST(EventTests, TestGeneral)
 	EXPECT_EQ(g_nCalled, 0);
 }
 
-TEST(EventTests, TestRegisterUnregisterFromCallback) 
+TEST(EventTests, TestRegisterUnregisterFromCallback)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

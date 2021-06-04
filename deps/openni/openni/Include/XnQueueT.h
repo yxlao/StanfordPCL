@@ -19,7 +19,7 @@
 *                                                                            *
 *****************************************************************************/
 #ifndef _XN_QUEUE_T_H_
-#define _XN_QUEUE_T_H_ 
+#define _XN_QUEUE_T_H_
 
 //---------------------------------------------------------------------------
 // Includes
@@ -37,7 +37,7 @@ public:
 
 	XnQueueT() : Base() {}
 
-	XnQueueT(const XnQueueT& other) : Base() 
+	XnQueueT(const XnQueueT& other) : Base()
 	{
 		*this = other;
 	}
@@ -54,9 +54,9 @@ public:
 	using Base::ConstIterator;
 	using Base::IsEmpty;
 
-	XnStatus Push(T const& value) 
-	{ 
-		return Base::AddLast(value); 
+	XnStatus Push(T const& value)
+	{
+		return Base::AddLast(value);
 	}
 
 	XnStatus Pop(T& value)

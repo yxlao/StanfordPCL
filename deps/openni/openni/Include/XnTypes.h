@@ -147,8 +147,8 @@ typedef enum XnPredefinedProductionNodeType
 
 } XnPredefinedProductionNodeType;
 
-/** 
- * A Version. 
+/**
+ * A Version.
  */
 typedef struct XnVersion
 {
@@ -158,7 +158,7 @@ typedef struct XnVersion
 	XnUInt32 nBuild;
 } XnVersion;
 
-/** 
+/**
  * An exported generator description.
  */
 typedef struct XnProductionNodeDescription
@@ -179,7 +179,7 @@ typedef struct XnProductionNodeDescription
 typedef struct XnNodeInfo XnNodeInfo;
 
 /**
- * A single node in a node info list. 
+ * A single node in a node info list.
  */
 typedef struct XnNodeInfoListNode XnNodeInfoListNode;
 
@@ -215,28 +215,28 @@ typedef struct XnLicense
  */
 typedef struct XnEnumerationErrors XnEnumerationErrors;
 
-/** 
- * A handle to an instance of a generator. 
+/**
+ * A handle to an instance of a generator.
  **/
 typedef void* XnModuleNodeHandle;
 
-/** 
- * Prototype for state change callback function. 
+/**
+ * Prototype for state change callback function.
  *
  * @param	hNode	[in]	A handle to the node that raised the event.
  * @param	pCookie	[in]	A user-provided cookie that was given when registering to the event.
  **/
 typedef void (XN_CALLBACK_TYPE* XnStateChangedHandler)(XnNodeHandle hNode, void* pCookie);
 
-/** 
- * Prototype for error state change callback function. 
- * 
+/**
+ * Prototype for error state change callback function.
+ *
  * @param	errorState	[in]	The new error state. A value of XN_STATUS_OK means there is no longer an error.
  * @param	pCookie		[in]	A user-provided cookie that was given when registering to the event.
  **/
 typedef void (XN_CALLBACK_TYPE* XnErrorStateChangedHandler)(XnStatus errorState, void* pCookie);
 
-/** 
+/**
  * Prototype for freeing data callbacks.
  *
  * @param	pData	[in]	The data to be freed.
@@ -557,7 +557,7 @@ typedef struct XnMatrix3X3
 } XnMatrix3X3;
 
 /**
-* A representation of a 3D plane. 
+* A representation of a 3D plane.
 * A plane is described by a point on it and a normal
 */
 typedef struct XnPlane3D
@@ -766,7 +766,7 @@ typedef void (XN_CALLBACK_TYPE* XnHandTouchingFOVEdge)(XnNodeHandle hNode, XnUse
 // Gesture Module
 /**
  * Callback for the recognition of a gesture
- * 
+ *
  * @param	hNode		[in]	A handle to the gesture generator that raised this event.
  * @param	strGesture	[in]	The gesture that was recognized.
  * @param	pIDPosition	[in]	The position in which the gesture was identified.
@@ -791,7 +791,7 @@ typedef void (XN_CALLBACK_TYPE* XnGestureReadyForNextIntermediateStage)(XnNodeHa
 // Skeleton
 /**
  * Callback for indication that a specific user's skeleton is now starting the calibration process
- * 
+ *
  * @param	hNode		[in]	A handle to the skeleton capability that raised this event.
  * @param	user		[in]	The id of the user that's being calibrated.
  * @param	pCookie		[in]	A user-provided cookie that was given when registering to this event.
@@ -799,7 +799,7 @@ typedef void (XN_CALLBACK_TYPE* XnGestureReadyForNextIntermediateStage)(XnNodeHa
 typedef void (XN_CALLBACK_TYPE* XnCalibrationStart)(XnNodeHandle hNode, XnUserID user, void* pCookie);
 /**
  * Callback for indication that a specific user's skeleton has now completed the calibration process
- * 
+ *
  * @param	hNode		[in]	A handle to the skeleton capability that raised this event.
  * @param	user		[in]	The id of the user for which calibration was attempted.
  * @param	bSuccess	[in]	An indication of whether or not the calibration attempt succeeded.
@@ -844,7 +844,7 @@ typedef XnUInt32 XnCodecID;
 /** Define a Codec ID by 4 characters, e.g. XN_CODEC_ID('J','P','E','G') **/
 #define XN_CODEC_ID(c1, c2, c3, c4) (XnCodecID)((c4 << 24) | (c3 << 16) | (c2 << 8) | c1)
 
-/** 
+/**
  * An interface used for communication between OpenNI and a recorder module. This interface is used by a recorder
  * module to send recorded data to OpenNI, which then knows how to store them according to one of the values of
  * @ref XnRecordMedium.
@@ -866,7 +866,7 @@ typedef struct XnRecorderOutputStreamInterface
 	 * @param	pData		 [in]	A pointer to the data to write.
 	 * @param	nSize		 [in]	Number of bytes to be written.
 	 */
-	XnStatus (XN_CALLBACK_TYPE* Write)(void* pCookie, const XnChar* strNodeName, 
+	XnStatus (XN_CALLBACK_TYPE* Write)(void* pCookie, const XnChar* strNodeName,
 		const void* pData, XnUInt32 nSize);
 
 	/**
@@ -916,7 +916,7 @@ typedef struct XnRecorderOutputStreamInterface
 
 } XnRecorderOutputStreamInterface;
 
-/** 
+/**
  * An interface used for communication between OpenNI and a player module. This interface is used by a player
  * module to receive recorded data from OpenNI, which knows where to get them according to one of the values of
  * @ref XnRecordMedium.
@@ -931,7 +931,7 @@ typedef struct XnPlayerInputStreamInterface
 	XnStatus (XN_CALLBACK_TYPE* Open)(void* pCookie);
 
 	/**
-	 * Reads data from the stream. May read less data than asked, if the stream is near its end. This is not 
+	 * Reads data from the stream. May read less data than asked, if the stream is near its end. This is not
 	 * considered an error.
 	 *
 	 * @param	pCookie		 [in]	A cookie that was received with this interface.
@@ -987,7 +987,7 @@ typedef struct XnPlayerInputStreamInterface
 
 } XnPlayerInputStreamInterface;
 
-/** 
+/**
  * An interface that is used for notifications about node events.
  **/
 typedef struct XnNodeNotifications
@@ -1020,7 +1020,7 @@ typedef struct XnNodeNotifications
 	 * @param	nValue		[in]	The new value of the property.
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeIntPropChanged)
-		(void* pCookie, const XnChar* strNodeName, 
+		(void* pCookie, const XnChar* strNodeName,
 		const XnChar* strPropName, XnUInt64 nValue);
 
 	/**
@@ -1032,7 +1032,7 @@ typedef struct XnNodeNotifications
 	 * @param	dValue		[in]	The new value of the property.
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeRealPropChanged)
-		(void* pCookie, const XnChar* strNodeName, 
+		(void* pCookie, const XnChar* strNodeName,
 		const XnChar* strPropName, XnDouble dValue);
 
 	/**
@@ -1044,7 +1044,7 @@ typedef struct XnNodeNotifications
 	 * @param	strValue	[in]	The new value of the property.
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeStringPropChanged)
-		(void* pCookie, const XnChar* strNodeName, 
+		(void* pCookie, const XnChar* strNodeName,
 		const XnChar* strPropName, const XnChar* strValue);
 
 	/**
@@ -1057,12 +1057,12 @@ typedef struct XnNodeNotifications
 	 * @param	pBuffer		[in]	The buffer that holds the new value of the property.
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeGeneralPropChanged)
-		(void* pCookie, const XnChar* strNodeName, 
+		(void* pCookie, const XnChar* strNodeName,
 		const XnChar* strPropName, XnUInt32 nBufferSize, const void* pBuffer);
 
 	/**
 	 * Notifies the object that a node has finished sending all the initial 'property changed' notifications.
-	 * 
+	 *
 	 * @param	pCookie		[in]	A cookie that was received with this interface.
 	 * @param	strNodeName	[in]	The name of the node whose state is ready.
 	 */

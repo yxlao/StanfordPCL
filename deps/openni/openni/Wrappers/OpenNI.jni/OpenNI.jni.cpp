@@ -90,7 +90,7 @@ jint JNICALL JNI_OnLoad(JavaVM* vm, void* /*reserved*/)
         LOGE("ERROR: GetEnv failed");
         return -1;
     }
-    
+
     if (!registerNatives(uenv.env))
     {
         LOGE("ERROR: registerNatives failed");

@@ -26,7 +26,7 @@ import java.util.NoSuchElementException;
  * Provides string names values for all pixel format codes. <BR><BR>
  *
  */
-public enum PixelFormat 
+public enum PixelFormat
 {
 	RGB24 (1),
 	YUV422 (2),
@@ -47,7 +47,7 @@ public enum PixelFormat
 	
 	public static PixelFormat fromNative(int value)
 	{
-		for (PixelFormat type : PixelFormat.values()) 
+		for (PixelFormat type : PixelFormat.values())
 		{
 			if (type.val == value)
 				return type;

@@ -17,9 +17,9 @@
 		@subsection cnvx2o_mainprg_dcl_blk Main Program Declaration Block		
 			
 			
-			The following code block sets the limits for the main program loop later in the program. 
+			The following code block sets the limits for the main program loop later in the program.
 			
-			Setting seekNodeType to xn::XN_NODE_TYPE_INVALID "XN_NODE_TYPE_INVALID" is an initialization for <code>seekNodeType</code> gets from the users run arguments  an indication whether the user wants to play back all nodes or just one specified node. The XN_NODE_TYPE_INVALID value for <code>seekNodeType</code> initialization makes the program play back all nodes. 
+			Setting seekNodeType to xn::XN_NODE_TYPE_INVALID "XN_NODE_TYPE_INVALID" is an initialization for <code>seekNodeType</code> gets from the users run arguments  an indication whether the user wants to play back all nodes or just one specified node. The XN_NODE_TYPE_INVALID value for <code>seekNodeType</code> initialization makes the program play back all nodes.
 			@code			
 				XnUInt32 nStartFrame = 1;
 				XnUInt32 nEndFrame = XN_MAX_UINT32;
@@ -41,7 +41,7 @@
 				}		
 			@endcode
 			
-			The following initializes the @ref xn::Context object. This is where the application builds an OpenNI production graph. The <i>production graph</i> is a network of <i>production nodes</i> and is the principal OpenNI object structure.  
+			The following initializes the @ref xn::Context object. This is where the application builds an OpenNI production graph. The <i>production graph</i> is a network of <i>production nodes</i> and is the principal OpenNI object structure.
 			@code		
 				Context context;
 				nRetVal = context.Init();
@@ -49,7 +49,7 @@
 
 			The following code uses the @ref xn::Player node to replay a recorded file of a session of OpenNI data generation exactly as it was recorded. <code>strInputFile</code> contains the input file name, as above. 			
 			
-			The @ref xn::Context::OpenFileRecording() "OpenFileRecording()" method replays a recorded file of a session of OpenNI data generation exactly as it was recorded. This includes recreating the whole @ref prod_graph "production graph", with all its nodes, that was built to run the original data generation session. 
+			The @ref xn::Context::OpenFileRecording() "OpenFileRecording()" method replays a recorded file of a session of OpenNI data generation exactly as it was recorded. This includes recreating the whole @ref prod_graph "production graph", with all its nodes, that was built to run the original data generation session.
 			@code
 				Player player;
 				nRetVal = context.OpenFileRecording(strInputFile, player);
@@ -60,7 +60,7 @@
 				nRetVal = player.SetPlaybackSpeed(XN_PLAYBACK_SPEED_FASTEST);
 			@endcode
 			
-		    In the following statement, the @ref xn::Player::EnumerateNodes() "EnumerateNodes()" method places in <code>nodes</code> the list of all nodes created by the earlier call to @ref xn::Context::OpenFileRecording() "OpenFileRecording()". 
+		    In the following statement, the @ref xn::Player::EnumerateNodes() "EnumerateNodes()" method places in <code>nodes</code> the list of all nodes created by the earlier call to @ref xn::Context::OpenFileRecording() "OpenFileRecording()".
 			@code
 				NodeInfoList nodes;
 				nRetVal = player.EnumerateNodes(nodes);
@@ -106,7 +106,7 @@
 					nRetVal = nodeInfo.GetInstance(node);
 				@endcode
 				
-				The following '<code>if</code>' determines whether the user wants to play back all nodes or just one specific node. The XN_NODE_TYPE_INVALID value for <code>seekNodeType</code> indicates that the user wants to play back all nodes. This value was set in earlier code above. 
+				The following '<code>if</code>' determines whether the user wants to play back all nodes or just one specific node. The XN_NODE_TYPE_INVALID value for <code>seekNodeType</code> indicates that the user wants to play back all nodes. This value was set in earlier code above.
 				@code
 					if (seekNodeType == XN_NODE_TYPE_INVALID)
 				@endcode
@@ -119,7 +119,7 @@
 					}
 				@endcode
 				
-				If the user specifies a certain node type, the program selects and records only nodes of that type, <code>seekNodeType</code>, in the run parameter (explained earlier).  
+				If the user specifies a certain node type, the program selects and records only nodes of that type, <code>seekNodeType</code>, in the run parameter (explained earlier).
 				
 				The @ref xn::Player::SeekToFrame() "SeekToFrame()" moves the player to a specific frame of a specific node, e.g., a DepthGenerator node, so it sets up the player so that it will play that node and from that frame onwards.
 				<code>XN_PLAYER_SEEK_SET</code> specifies that the player must start from the frame number, <code>nStartFrame</code>.
@@ -131,7 +131,7 @@
 					}				
 				@endcode
 				
-				In the following, @ref xn::Player::SetRepeat() "SetRepeat()" specifies that the player will not automatically rewind to the beginning of the recording after reaching the end of the recording (the default behavior is to rewind). 
+				In the following, @ref xn::Player::SetRepeat() "SetRepeat()" specifies that the player will not automatically rewind to the beginning of the recording after reaching the end of the recording (the default behavior is to rewind).
 				@code
 					nRetVal = player.SetRepeat(FALSE);
 				@endcode
@@ -140,9 +140,9 @@
 			
 		@subsection cnvx2o_main_prog_loop - Main Program Loop
 		
-			Following is the main program loop. It waits for available data from any generator node and records it. The call to the @ref xn::Context::WaitAnyUpdateAll()  "context.WaitAnyUpdateAll()" method updates all generator nodes in the context to the latest available data, first waiting for any of the nodes to have new data available. Since this method is being fed from a recording, the end of the recording is indicated by returning the XN_STATUS_EOF value. 
+			Following is the main program loop. It waits for available data from any generator node and records it. The call to the @ref xn::Context::WaitAnyUpdateAll()  "context.WaitAnyUpdateAll()" method updates all generator nodes in the context to the latest available data, first waiting for any of the nodes to have new data available. Since this method is being fed from a recording, the end of the recording is indicated by returning the XN_STATUS_EOF value.
 			
-			Note that the @ref xn::Context::WaitAnyUpdateAll() "WaitAnyUpdateAll()" method has to be called for each and every loop to refresh the node's data.			 
+			Note that the @ref xn::Context::WaitAnyUpdateAll() "WaitAnyUpdateAll()" method has to be called for each and every loop to refresh the node's data.			
 			@code
 				while ((nRetVal = depth.WaitAnyUpdateAll ()) != XN_STATUS_EOF)
 				{
@@ -150,7 +150,7 @@
 				}
 			@endcode			
 			
-			Inside the body of the main program loop <code>nFrame</code> is incremented. An 'if' statement tests whether the user has specified a single node type and if so, and if the requested number of frames has been played back, then the execution of the main program loop is terminated. 
+			Inside the body of the main program loop <code>nFrame</code> is incremented. An 'if' statement tests whether the user has specified a single node type and if so, and if the requested number of frames has been played back, then the execution of the main program loop is terminated.
 			@code			
 				printf("Recording: %u\r", nFrame++);
 				if ((seekNodeType != XN_NODE_TYPE_INVALID) && (nFrame == nEndFrame))

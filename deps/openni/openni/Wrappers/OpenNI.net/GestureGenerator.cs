@@ -266,7 +266,7 @@ namespace OpenNI
             {
                 return (Int32)SafeNativeMethods.xnGetNumberOfAvailableGestures(this.InternalObject);
             }
-            
+
         }
 
 		public bool IsGestureAvailable(string gesture)

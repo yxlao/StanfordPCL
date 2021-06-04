@@ -38,7 +38,7 @@ elif sys.argv[1] == "64":
 else:
     print ('First argument must be "32", "64" or empty (32)')
     exit(1)
-    
+
 proj_dir = os.path.abspath(sys.argv[2])
 source_dir = os.path.abspath(os.path.join(proj_dir, sys.argv[3]))
 proj_name = sys.argv[4]
@@ -60,7 +60,7 @@ JAVA_HOME = os.path.expandvars("$JAVA_HOME")
 if JAVA_HOME == "":
     print ("JAVA_HOME is not set!")
     exit(1)
-    
+
 CLASS_PATH = os.path.expandvars("$CLASSPATH")
 
 TEMP_BUILD_DIR = os.path.join(proj_dir, "bin")
@@ -68,7 +68,7 @@ TEMP_BUILD_DIR = os.path.join(proj_dir, "bin")
 # create bin dir if needed
 if not os.path.exists(TEMP_BUILD_DIR):
     os.mkdir(TEMP_BUILD_DIR)
- 
+
 # build
 cmd = '"' + os.path.join(JAVA_HOME, 'bin\javac.exe') + '" '
 if needed_jar_files != "":
@@ -113,7 +113,7 @@ if res != 0:
 
 # copy jar to Bin/Debug
 shutil.copy(JAR_FILE, DEBUG_DIR)
-    
+
 # create batch file (by default, windows does not open a console when double-clicking jar files)
 if main_class != "":
     batch = open(BATCH_FILE, 'w')

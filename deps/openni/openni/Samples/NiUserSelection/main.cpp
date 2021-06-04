@@ -47,12 +47,12 @@ void UsageAndExit(char* filename)
 
 
 /// @brief The main function of the sample
-/// 
+///
 /// This is the main function of the sample. Its purpose is to be the starting point for the
 /// sample and according to the command line arguments, to decide which sample behavior to use.
 /// @ingroup UserSelectionMain
 int main(int argc, char** argv)
-{    
+{
     SampleManager* pSampleManager=NULL; // will hold the sample manager which initializes and runs the sample
     if(argc>1)
     {
@@ -78,7 +78,7 @@ int main(int argc, char** argv)
             {
                 if(xnOSStrCmp(argv[i+1],"ClosestSelector")==0)
                 {
-                    // we are in the option '-s ClosestSelector N'. 
+                    // we are in the option '-s ClosestSelector N'.
                     if(argc<=i+2 || strlen(argv[i+2])>2)
                     {
                         UsageAndExit(argv[0]); // either there is no N at all or it is more than 1 digit
@@ -115,7 +115,7 @@ int main(int argc, char** argv)
         pSampleManager=XN_NEW(ClosestSampleManager,1); // choose the default.
     }
 
-    if(pSampleManager->StartSample(argc,argv)!=XN_STATUS_OK) 
+    if(pSampleManager->StartSample(argc,argv)!=XN_STATUS_OK)
     {
 		XN_DELETE(pSampleManager);
         UsageAndExit(argv[0]); // The manager will only return if it fails to initialize...

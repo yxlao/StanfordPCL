@@ -57,7 +57,7 @@ namespace Sample
 		{
 			XnNodeHandle hNode;
 			XnStatus nRetVal = XN_STATUS_OK;
-			nRetVal = xnCreateAnyProductionTree(context.GetUnderlyingObject(), XN_NODE_TYPE_ROTATING_DEVICE, 
+			nRetVal = xnCreateAnyProductionTree(context.GetUnderlyingObject(), XN_NODE_TYPE_ROTATING_DEVICE,
 				pQuery == NULL ? NULL : pQuery->GetUnderlyingObject(),
 				&hNode,
 				pErrors == NULL ? NULL : pErrors->GetUnderlying());

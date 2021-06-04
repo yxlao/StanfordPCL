@@ -35,31 +35,31 @@
 
 
 /// @brief Class to start tracking a user
-/// 
-/// The goal of this class is to start performing the actual tracking of a user. It returns the 
+///
+/// The goal of this class is to start performing the actual tracking of a user. It returns the
 /// results to the UserSelector which called it.
 /// @ingroup UserSelectionInitializers
 class TrackingInitializer
 {
 public:
     /// @brief Method to start the tracking process
-    /// 
+    ///
     /// This method is called when we want to track a specific user and it starts the process.
     /// @param nUserId The user to track
     /// @param bForce If this is true then the tracking will forget all previous tracking information
-    /// @return The success status 
+    /// @return The success status
     virtual XnStatus StartTracking(XnUserID nUserId, XnBool bForce)=0;
 
     /// @brief Method to stop tracking a user
-    /// 
+    ///
     /// @param nUserId The user to stop track
-    /// @return The success status 
+    /// @return The success status
     virtual XnStatus AbortTracking(XnUserID nUserId)=0;
     /// @brief Returns true if the Tracking Initializer is valid and false otherwise.
     XnBool IsValid() { return m_bValid; };
 
     /// @brief Sets the user selector to use to send feedback on tracking progress.
-    /// 
+    ///
     /// @note This will fail if the user selector is not NULL before setting.
     /// @param pUserSelector The user selector
     /// @return success status
@@ -69,7 +69,7 @@ public:
     virtual ~TrackingInitializer();
 protected:
     /// @brief Constructor
-    /// 
+    ///
     /// @param pUserGenerator The user selector to update
     TrackingInitializer(xn::UserGenerator *pUserGenerator);
 

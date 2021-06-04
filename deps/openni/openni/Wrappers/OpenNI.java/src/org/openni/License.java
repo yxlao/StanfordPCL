@@ -22,14 +22,14 @@ package org.openni;
 
 /**
  * Holds a pair of values, representing a vendor and key. <BR><BR>
- * 
- * This class stores an associated vendor and key value, both as strings.  This 
+ *
+ * This class stores an associated vendor and key value, both as strings.  This
  * information is intended to be used as part of the infrastructure to support
  * a license system for middleware.  Objects of this class are read-only once
  * they have been generated.<BR><BR>
- * 
- * The details of how this information is utilized is dependent on the middleware 
- * package that chooses to make use of it.  Contact your middleware vendor for more 
+ *
+ * The details of how this information is utilized is dependent on the middleware
+ * package that chooses to make use of it.  Contact your middleware vendor for more
  * details if you are having license difficulties.
  *
  */
@@ -46,7 +46,7 @@ public class License
 		this.key = key;
 	}
 	
-	/** 
+	/**
 	 * Getter function for the Vendor value
 	 * @return The vendor value stored by the license object
 	 */

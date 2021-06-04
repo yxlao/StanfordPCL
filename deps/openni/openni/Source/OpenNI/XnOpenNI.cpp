@@ -751,7 +751,7 @@ typedef struct XnResolutionInfo
 #define _XN_REGISTER_RES(x)	\
 	{ XN_RES_##x, XN_##x##_X_RES, XN_##x##_Y_RES, XN_STRINGIFY(x) },
 
-static XnResolutionInfo g_resInfo[] = 
+static XnResolutionInfo g_resInfo[] =
 {
 	_XN_REGISTER_RES(QQVGA)
 	_XN_REGISTER_RES(CGA)
@@ -1074,7 +1074,7 @@ XnStatus xnNodeInfoGetTreeStringRepresentationImpl(XnNodeInfo* pNodeInfo, XnChar
 		// add list of needed nodes
 		XnBool bFirst = TRUE;
 
-		for (XnNodeInfoListIterator it = xnNodeInfoListGetFirst(pNodeInfo->pNeededTrees); 
+		for (XnNodeInfoListIterator it = xnNodeInfoListGetFirst(pNodeInfo->pNeededTrees);
 			xnNodeInfoListIteratorIsValid(it);
 			it = xnNodeInfoListGetNext(it))
 		{
@@ -1906,7 +1906,7 @@ void xnDestroyProductionNodeImpl(XnNodeHandle hNode)
 	if (hNode->pPrivateData != NULL)
 	{
 		//Notify the object's private data that the node that's holding it is about to be destroyed.
-		hNode->pPrivateData->BeforeNodeDestroy(); 
+		hNode->pPrivateData->BeforeNodeDestroy();
 	}
 
 	// unregister from events
@@ -2127,9 +2127,9 @@ XN_C_API XnStatus xnCreateMockNode(XnContext* pContext, XnProductionNodeType typ
 	return XN_STATUS_OK;
 }
 
-XN_C_API XnStatus xnCreateMockNodeBasedOn(XnContext* pContext, 
-										  XnNodeHandle hOriginalNode, 
-										  const XnChar* strName, 
+XN_C_API XnStatus xnCreateMockNodeBasedOn(XnContext* pContext,
+										  XnNodeHandle hOriginalNode,
+										  const XnChar* strName,
 										  XnNodeHandle* phMockNode)
 {
 	XN_VALIDATE_INPUT_PTR(pContext);
@@ -2450,7 +2450,7 @@ XnBool xnDidNodeAdvanced(XnNodeHandle hNode)
 			return (FALSE);
 		}
 
-		// check for frame sync 
+		// check for frame sync
 		XnUInt64 nNow;
 		xnOSGetHighResTimeStamp(&nNow);
 		xnDumpFileWriteString(hNode->pContext->pDumpDataFlow, "%llu,FrameSyncCheck,%s,%llu\n", nNow, hNode->pNodeInfo->strInstanceName, nTimestamp);
@@ -3173,7 +3173,7 @@ XN_C_API void xnUnregisterFromGeneralIntValueChange(XnNodeHandle hInstance, cons
 inline XnBool xnAreChangesAllowed(XnNodeHandle hInstance)
 {
 	// changes are allowed if the node is not locked
-	// - OR - 
+	// - OR -
 	// it is locked, but the locker started a change, and the change comes from the same thread.
 	XN_THREAD_ID nCurrThread = 0;
 	return (hInstance->LockData.nCurrentLock == 0 ||
@@ -3444,7 +3444,7 @@ XN_C_API XnStatus xnRemoveNeededNode(XnNodeHandle hInstance, XnNodeHandle hNeede
 XN_C_API XnStatus xnCreateDevice(
 	XnContext* pContext,
 	XnNodeHandle* phDevice,
-	XnNodeQuery* pQuery, 
+	XnNodeQuery* pQuery,
 	XnEnumerationErrors* pErrors)
 {
 	return xnCreateAnyProductionTree(pContext, XN_NODE_TYPE_DEVICE, pQuery, phDevice, pErrors);
@@ -3911,8 +3911,8 @@ XN_C_API XnStatus xnGetPlayerSource(XnNodeHandle hPlayer, XnRecordMedium* pSourc
 	return XN_STATUS_OK;	
 }
 
-XN_C_API XnStatus xnSeekPlayerToTimeStamp(XnNodeHandle hPlayer, 
-										  XnInt64 nTimeOffset, 
+XN_C_API XnStatus xnSeekPlayerToTimeStamp(XnNodeHandle hPlayer,
+										  XnInt64 nTimeOffset,
 										  XnPlayerSeekOrigin origin)
 {
 	XN_VALIDATE_INPUT_PTR(hPlayer);
@@ -3924,9 +3924,9 @@ XN_C_API XnStatus xnSeekPlayerToTimeStamp(XnNodeHandle hPlayer,
 	return pPlayerImpl->SeekToTimestamp(nTimeOffset, origin);
 }
 
-XN_C_API XnStatus xnSeekPlayerToFrame(XnNodeHandle hPlayer, 
-									  const XnChar* strNodeName, 
-									  XnInt32 nFrameOffset, 
+XN_C_API XnStatus xnSeekPlayerToFrame(XnNodeHandle hPlayer,
+									  const XnChar* strNodeName,
+									  XnInt32 nFrameOffset,
 									  XnPlayerSeekOrigin origin)
 {
 	XN_VALIDATE_INPUT_PTR(hPlayer);
@@ -4409,8 +4409,8 @@ XN_C_API void xnUnregisterFromPowerLineFrequencyChange(XnNodeHandle hInstance, X
 // Depth Generators
 //---------------------------------------------------------------------------
 
-xn::DepthPrivateData::DepthPrivateData() : 
-	m_fRealWorldXtoZ(0), 
+xn::DepthPrivateData::DepthPrivateData() :
+	m_fRealWorldXtoZ(0),
 	m_fRealWorldYtoZ(0),
 	m_hNode(NULL),
 	m_hFOVCallbackHandle(NULL)
@@ -4672,7 +4672,7 @@ void XN_CALLBACK_TYPE xn::PosePrivateData::XnOutOfPoseDetectedCallback(XnNodeHan
 XN_C_API XnStatus xnCreateDepthGenerator(
 	XnContext* pContext,
 	XnNodeHandle* phDepthGenerator,
-	XnNodeQuery* pQuery, 
+	XnNodeQuery* pQuery,
 	XnEnumerationErrors* pErrors
 	)
 {
@@ -4857,7 +4857,7 @@ XN_C_API void xnUnregisterFromUserPositionChange(XnNodeHandle hInstance, XnCallb
 XN_C_API XnStatus xnCreateImageGenerator(
 	XnContext* pContext,
 	XnNodeHandle* phImageGenerator,
-	XnNodeQuery* pQuery, 
+	XnNodeQuery* pQuery,
 	XnEnumerationErrors* pErrors)
 {
 	return xnCreateAnyProductionTree(pContext, XN_NODE_TYPE_IMAGE, pQuery, phImageGenerator, pErrors);
@@ -4945,7 +4945,7 @@ XN_C_API void xnGetImageMetaData(XnNodeHandle hInstance, XnImageMetaData* pMetaD
 XN_C_API XnStatus xnCreateIRGenerator(
 	XnContext* pContext,
 	XnNodeHandle* phIRGenerator,
-	XnNodeQuery* pQuery, 
+	XnNodeQuery* pQuery,
 	XnEnumerationErrors* pErrors)
 {
 	return xnCreateAnyProductionTree(pContext, XN_NODE_TYPE_IR, pQuery, phIRGenerator, pErrors);
@@ -4971,7 +4971,7 @@ XN_C_API void xnGetIRMetaData(XnNodeHandle hInstance, XnIRMetaData* pMetaData)
 XN_C_API XnStatus xnCreateGestureGenerator(
 	XnContext* pContext,
 	XnNodeHandle* phGestureGenerator,
-	XnNodeQuery* pQuery, 
+	XnNodeQuery* pQuery,
 	XnEnumerationErrors* pErrors)
 {
 	return xnCreateAnyProductionTree(pContext, XN_NODE_TYPE_GESTURE, pQuery, phGestureGenerator, pErrors);
@@ -5332,7 +5332,7 @@ XN_C_API void xnUnregisterFromGestureReadyForNextIntermediateStage(XnNodeHandle 
 XN_C_API XnStatus xnCreateSceneAnalyzer(
 	XnContext* pContext,
 	XnNodeHandle* phSceneAnalyzer,
-	XnNodeQuery* pQuery, 
+	XnNodeQuery* pQuery,
 	XnEnumerationErrors* pErrors)
 {
 	return xnCreateAnyProductionTree(pContext, XN_NODE_TYPE_SCENE, pQuery, phSceneAnalyzer, pErrors);
@@ -5366,7 +5366,7 @@ XN_C_API void xnGetSceneMetaData(XnNodeHandle hInstance, XnSceneMetaData* pMetaD
 XN_C_API XnStatus xnCreateUserGenerator(
 	XnContext* pContext,
 	XnNodeHandle* phUserGenerator,
-	XnNodeQuery* pQuery, 
+	XnNodeQuery* pQuery,
 	XnEnumerationErrors* pErrors)
 {
 	return xnCreateAnyProductionTree(pContext, XN_NODE_TYPE_USER, pQuery, phUserGenerator, pErrors);
@@ -5589,7 +5589,7 @@ XN_C_API void xnUnregisterFromUserReEnter(XnNodeHandle hInstance, XnCallbackHand
 XN_C_API XnStatus xnCreateHandsGenerator(
 	XnContext* pContext,
 	XnNodeHandle* phHandsGenerator,
-	XnNodeQuery* pQuery, 
+	XnNodeQuery* pQuery,
 	XnEnumerationErrors* pErrors)
 {
 	return xnCreateAnyProductionTree(pContext, XN_NODE_TYPE_HANDS, pQuery, phHandsGenerator, pErrors);
@@ -6684,7 +6684,7 @@ XN_C_API void xnUnregisterFromPoseDetectionInProgress(XnNodeHandle hInstance, Xn
 XN_C_API XnStatus xnCreateAudioGenerator(
 	XnContext* pContext,
 	XnNodeHandle* phAudioGenerator,
-	XnNodeQuery* pQuery, 
+	XnNodeQuery* pQuery,
 	XnEnumerationErrors* pErrors)
 {
 	return xnCreateAnyProductionTree(pContext, XN_NODE_TYPE_AUDIO, pQuery, phAudioGenerator, pErrors);

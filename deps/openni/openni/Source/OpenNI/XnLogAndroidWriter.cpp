@@ -24,7 +24,7 @@
 #include <XnPlatform.h>
 #if XN_PLATFORM == XN_PLATFORM_ANDROID_ARM
 #include "XnLogAndroidWriter.h"
-#include <XnLog.h> 
+#include <XnLog.h>
 
 #include <android/log.h>
 	

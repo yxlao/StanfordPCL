@@ -22,14 +22,14 @@ package org.openni;
 
 /**
  * Represents a box in 3D space. <BR><BR>
- * 
+ *
  * Box is oriented parallel to the X, Y, and Z axis of the scene.  Dimensions and position of the box
- * are represented by storing two vertices of the box.  
+ * are represented by storing two vertices of the box.
  *
  */
 public class BoundingBox3D
 {
-	/** 
+	/**
 	 * Constructor, creates a BoundingBox3D object from two opposite points
 	 * @param leftBottomNear The bottom left vertex of the box, nearest to the camera
 	 * @param rightTopFar The top right vertex of the box, furthest from the camera

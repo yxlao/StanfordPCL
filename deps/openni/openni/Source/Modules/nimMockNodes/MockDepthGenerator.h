@@ -27,7 +27,7 @@
 
 XN_PRAGMA_START_DISABLED_WARNING_SECTION(XN_INHERITS_VIA_DOMINANCE_WARNING_ID)
 
-class MockDepthGenerator : 
+class MockDepthGenerator :
 	public MockMapGenerator,
 	virtual public xn::ModuleDepthGenerator
 {

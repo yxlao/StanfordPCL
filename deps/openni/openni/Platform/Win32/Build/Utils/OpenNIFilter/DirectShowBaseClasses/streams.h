@@ -48,7 +48,7 @@
    #define NUMELMS(aa) (sizeof(aa)/sizeof((aa)[0]))
 #else
    #define NUMELMS(aa) ARRAYSIZE(aa)
-#endif   
+#endif
 #endif
 
 ///////////////////////////////////////////////////////////////////////////
@@ -117,7 +117,7 @@ typedef struct {
 #ifndef DWLP_MSGRESULT
   #define DWLP_MSGRESULT  0
 #endif
-#ifndef DWLP_DLGPROC 
+#ifndef DWLP_DLGPROC
   #define DWLP_DLGPROC    DWLP_MSGRESULT + sizeof(LRESULT)
 #endif
 #ifndef DWLP_USER

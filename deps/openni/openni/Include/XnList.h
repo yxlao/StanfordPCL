@@ -47,7 +47,7 @@ public:
 
 		/**
 		* Copy constructor
-		* 
+		*
 		* @param	other	[in]	instance to copy from
 		*/
 		ConstIterator(const ConstIterator& other) : m_pCurrent(other.m_pCurrent) {}
@@ -92,7 +92,7 @@ public:
 
 		/**
 		* Operator to check if 2 iterators point to the same object
-		* 
+		*
 		* @param	other	[in]	instance to compare with
 		*/
 		XnBool operator==(const ConstIterator& other) const
@@ -101,7 +101,7 @@ public:
 		}
 		/**
 		* Operator to check if 2 iterators point to different objects
-		* 
+		*
 		* @param	other	[in]	instance to compare with
 		*/
 		XnBool operator!=(const ConstIterator& other) const
@@ -137,7 +137,7 @@ public:
 	protected:
 		/**
 		* constructor to be used from inside the XnList. It points to the node supplied.
-		* 
+		*
 		* @param	pNode	[in]	The XnNode to which to currently point
 		*/
 		ConstIterator(XnNode* pNode) : m_pCurrent(pNode) {}
@@ -156,7 +156,7 @@ public:
 
 		/**
 		* Copy constructor
-		* 
+		*
 		* @param	other	[in]	instance to copy from
 		*/
 		inline Iterator(const Iterator& other) : ConstIterator(other) {}
@@ -164,16 +164,16 @@ public:
 		/**
 		* Support ++iterator, go to the next object in the list
 		*/
-		inline Iterator& operator++() 
-		{ 
+		inline Iterator& operator++()
+		{
 			++(*(ConstIterator*)this);
 			return (*this);
 		}
 		/**
 		* Support iterator++, go to the next object in the list, returning the old value
 		*/
-		inline Iterator operator++(int) 
-		{ 
+		inline Iterator operator++(int)
+		{
 			Iterator result = *this;
 			++*this;
 			return (result);
@@ -182,16 +182,16 @@ public:
 		/**
 		* Support --iterator, go to the next object in the list
 		*/
-		inline Iterator& operator--() 
-		{ 
-			--(*(ConstIterator*)this); 
+		inline Iterator& operator--()
+		{
+			--(*(ConstIterator*)this);
 			return (*this);
 		}
 		/**
 		* Support iterator--, go to the next object in the list, returning the old value
 		*/
 		inline Iterator operator--(int)
-		{ 
+		{
 			Iterator result = *this;
 			--*this;
 			return (result);
@@ -205,7 +205,7 @@ public:
 	protected:
 		/**
 		* constructor to be used from inside the XnList. It points to the node supplied.
-		* 
+		*
 		* @param	pNode	[in]	The XnNode to which to currently point
 		*/
 		inline Iterator(XnNode* pNode) : ConstIterator(pNode) {}
@@ -241,7 +241,7 @@ public:
 
 	/**
 	* Add a new value at the beginning of list
-	* 
+	*
 	* @param	value	[in]	The value to add to the head of the list
 	*
 	* @return	XN_STATUS_ALLOC_FAILED	Failed to add to the list because no nodes are available.
@@ -253,7 +253,7 @@ public:
 
 	/**
 	* Add a new value at the end of the list
-	* 
+	*
 	* @param	value	[in]	The value to add to the tail of the list
 	*
 	* @return	XN_STATUS_ALLOC_FAILED	Failed to add to the list because no nodes are available.
@@ -265,7 +265,7 @@ public:
 
 	/**
 	* Add a new value after the object pointed to by the iterator
-	* 
+	*
 	* @param	where	[in]	iterator to the position after which to add the new value
 	* @param	val		[in]	The value to add to the list
 	*
@@ -284,7 +284,7 @@ public:
 
 	/**
 	* Add a new value before the object pointed to by the iterator
-	* 
+	*
 	* @param	where	[in]	iterator to the position before which to add the new value
 	* @param	val		[in]	The value to add to the list
 	*
@@ -303,8 +303,8 @@ public:
 
 	/**
 	* Get an iterator pointing to a value in the list.
-	* 
-	* @param	value	[in]	The searched value 
+	*
+	* @param	value	[in]	The searched value
 	*
 	* @return	end()	if value doesn't exist
 	*/
@@ -327,8 +327,8 @@ public:
 
 	/**
 	* Get an iterator pointing to a value in the list.
-	* 
-	* @param	value	[in]	The searched value 
+	*
+	* @param	value	[in]	The searched value
 	*
 	* @return	end()	if value doesn't exist
 	*/
@@ -351,7 +351,7 @@ public:
 
 	/**
 	* Remove a value from the list
-	* 
+	*
 	* @param	where	[in]	Iterator pointing to an entry in the list
 	* @param	value	[out]	The value that was in the removed entry
 	*
@@ -365,7 +365,7 @@ public:
 
 	/**
 	* Remove a value from the list
-	* 
+	*
 	* @param	where	[in]	Iterator pointing to an entry in the list
 	*
 	* @return XN_STATUS_ILLEGAL_POSITION	iterator was invalid
@@ -517,7 +517,7 @@ protected:
 
 	/**
 	* Add a new value to the list
-	* 
+	*
 	* @param	pWhere	[in]	The XnNode after which to add the new value
 	* @param	val		[in]	The value to add to the list
 	*

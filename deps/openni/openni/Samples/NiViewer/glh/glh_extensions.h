@@ -5,10 +5,10 @@
 // the header.  You don't want multiple implementations defined or the linker
 // gets mad, but one file must have the implementations in it or the linker
 // gets mad for different reasons.
-// 
+//
 //   The goal was to avoid having this helper require a separate cpp file.  One
 // thing you could do is just have a glh_extensions.cpp that did
-// 
+//
 // #define GLH_EXT_SINGLE_FILE
 // #include <glh_extensions.h>
 //
@@ -102,7 +102,7 @@ static int ExtensionExists(const char* extName, const char* sysExts)
         const char *version = (const char*)glGetString(GL_VERSION);
         if (strstr(version, "1.0") == version ||
             strstr(version, "1.1") == version ||
-            strstr(version, "1.2") == version || 
+            strstr(version, "1.2") == version ||
             strstr(version, "1.3") == version) {
             return GL_FALSE;
         } else {
@@ -113,8 +113,8 @@ static int ExtensionExists(const char* extName, const char* sysExts)
         const char *version = (const char*)glGetString(GL_VERSION);
         if (strstr(version, "1.0") == version ||
             strstr(version, "1.1") == version ||
-            strstr(version, "1.2") == version || 
-            strstr(version, "1.3") == version || 
+            strstr(version, "1.2") == version ||
+            strstr(version, "1.3") == version ||
             strstr(version, "1.4") == version) {
             return GL_FALSE;
         } else {
@@ -154,7 +154,7 @@ int glh_init_extensions(const char *origReqExts)
     if (NULL == sysExts) {
         const char *extensions = (const char*)glGetString(GL_EXTENSIONS);
         size_t sysExtsLen = strlen(extensions);
-        const char *winsys_extensions = "";     
+        const char *winsys_extensions = "";
         size_t winsysExtsLen = 0;
 #if defined(WIN32)
         {
@@ -245,12 +245,12 @@ int glh_extension_supported(const char *extension)
     static const GLubyte *extensions = NULL;
     const GLubyte *start;
     GLubyte *where, *terminator;
-    
+
     // Extension names should not have spaces.
     where = (GLubyte *) strchr(extension, ' ');
     if (where || *extension == '\0')
       return 0;
-    
+
     if (!extensions)
       extensions = glGetString(GL_EXTENSIONS);
 
@@ -258,15 +258,15 @@ int glh_extension_supported(const char *extension)
     // OpenGL extensions string.  Don't be fooled by sub-strings,
     // etc.
     start = extensions;
-    for (;;) 
+    for (;;)
     {
         where = (GLubyte *) strstr((const char *) start, extension);
         if (!where)
             break;
         terminator = where + strlen(extension);
-        if (where == start || *(where - 1) == ' ') 
+        if (where == start || *(where - 1) == ' ')
         {
-            if (*terminator == ' ' || *terminator == '\0') 
+            if (*terminator == ' ' || *terminator == '\0')
             {
                 return 1;
             }

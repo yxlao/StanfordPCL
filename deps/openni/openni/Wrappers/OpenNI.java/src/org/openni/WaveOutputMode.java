@@ -64,7 +64,7 @@ public class WaveOutputMode
 	{
 		return this.bitsPerSample;
 	}
-	/** 
+	/**
 	 * Setter function for the sample resolution
 	 * @param bitsPerSample Desired new sample resolution, in bits per sample
 	 */

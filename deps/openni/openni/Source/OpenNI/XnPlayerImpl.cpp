@@ -32,7 +32,7 @@
 namespace xn
 {
 
-XnPlayerInputStreamInterface PlayerImpl::s_fileInputStream = 
+XnPlayerInputStreamInterface PlayerImpl::s_fileInputStream =
 {
 	&OpenFile,
 	&ReadFile,
@@ -55,8 +55,8 @@ XnNodeNotifications PlayerImpl::s_nodeNotifications =
 	&OnNodeNewData
 };
 
-PlayerImpl::PlayerImpl() : 
-	m_hPlayer(NULL), 
+PlayerImpl::PlayerImpl() :
+	m_hPlayer(NULL),
 	m_bIsFileOpen(FALSE),
 	m_hInFile(XN_INVALID_FILE_HANDLE),
 	m_sourceType(XnRecordMedium(-1)),

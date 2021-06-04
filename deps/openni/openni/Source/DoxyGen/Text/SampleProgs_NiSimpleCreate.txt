@@ -1,9 +1,9 @@
 
 /**
-@page smpl_simple_create NiSimpleCreate.cpp - sample program  
+@page smpl_simple_create NiSimpleCreate.cpp - sample program
 
 	<b>Source file:</b> Click the following link to view the source code file:
-		- NiSimpleCreate.cpp 
+		- NiSimpleCreate.cpp
 		
 	This section describes the NiSimpleCreate sample program. This sample program is similar to NiSimpleRead, but sets up a production graph using function calls instead of an XML file.		
 	
@@ -11,14 +11,14 @@
 
 	@section sc_ftrs Key Features of the Sample Program
 	
-		This sample program demonstrates how to set up an OpenNI production graph 
+		This sample program demonstrates how to set up an OpenNI production graph
 		These are the features and concepts demonstrated by the sample program:
 		-	The OpenNI production graph
 		-	Setting up a production graph by using function calls
-		-	Node types: DepthGenerator node 
-		-	Metadata ("frame objects") 
+		-	Node types: DepthGenerator node
+		-	Metadata ("frame objects")
 		-	Context
-		-	Method status returns and errors - At every stage of the program, error checking is performed 
+		-	Method status returns and errors - At every stage of the program, error checking is performed
 
 	@section sc_glb_dcl_blk Global Declaration Block
 	
@@ -32,7 +32,7 @@
 			CHECK_RC(nRetVal, "Initialize context");
 		@endcode
 	
-	@section sc_cntxt_init Initializing a Context 
+	@section sc_cntxt_init Initializing a Context
 
 		The context initialization block of code at the top of the program declares and initializes a Context object. A context is a work space where you build your OpenNI production graph
 		@code	
@@ -64,14 +64,14 @@
 		
 	@section sc_decl_dg_fo Declaring the DepthGenerator Frame Object
 	
-	The application accesses the DepthGenerator node's data and associated configuration through the node's frame object (provided by the metadata object). This frame object provides fast access to a stored @ref glos_frame_object "frame object" data and its associated configuration. 
+	The application accesses the DepthGenerator node's data and associated configuration through the node's frame object (provided by the metadata object). This frame object provides fast access to a stored @ref glos_frame_object "frame object" data and its associated configuration.
 	@code
 		DepthMetaData depthMD;
 	@endcode
 	
-	3.6	Main Program Loop 
+	3.6	Main Program Loop
 	
-	@section sc_main_loop Main Program Loop 
+	@section sc_main_loop Main Program Loop
 	
 	The main program loop keeps going forever, or until somebody presses a keyboard key. The main body of the program is all within this loop.
 	
@@ -79,7 +79,7 @@
 	@code
 		while (!xnOSWasKeyboardHit())
 		{
-		 < main program body > 
+		 < main program body >
 		}
 	@endcode
 	
@@ -100,14 +100,14 @@
 				depth.GetMetaData(depthMD);
 			@endcode
 		
-		@subsection sc_main_loop_get_dg_data_a_cfg Getting the Depth Data and Configuration  
+		@subsection sc_main_loop_get_dg_data_a_cfg Getting the Depth Data and Configuration
 		
 			The following print statement accesses the frame data, its ID, and some attributes of the frame data's associated configuration. The frame ID is the ID of the frame object. XRes() and YRes() are from the frame configuration; they are the resolution of the FOV in the scene.
 			
 			The call to depthMD() accesses a depth pixel through an (X,Y) coordinate. By calculating XRes()/2 and YRes()/2, this accesses the middle pixel.
 			@code
-				printf("Frame %d Middle point is: %u. FPS: %f\n", depthMD.FrameID(), 
-					depthMD(depthMD.XRes() / 2, depthMD.YRes() / 2), 
+				printf("Frame %d Middle point is: %u. FPS: %f\n", depthMD.FrameID(),
+					depthMD(depthMD.XRes() / 2, depthMD.YRes() / 2),
 					xnFPSCalc(&xnFPS));
 			@endcode	
 

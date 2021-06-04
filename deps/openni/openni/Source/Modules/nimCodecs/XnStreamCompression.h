@@ -52,7 +52,7 @@ typedef struct XnLibJpegErrorMgr
 	struct jpeg_error_mgr pub;
 
 	jmp_buf setjmpBuffer;
-} XnLibJpegErrorMgr; 
+} XnLibJpegErrorMgr;
 
 XN_PRAGMA_STOP_DISABLED_WARNING_SECTION;
 

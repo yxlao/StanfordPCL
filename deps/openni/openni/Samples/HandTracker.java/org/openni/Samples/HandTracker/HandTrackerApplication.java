@@ -30,7 +30,7 @@ import javax.swing.JFrame;
 public class HandTrackerApplication {
 
     /**
-	 * 
+	 *
 	 */
 	public HandTracker viewer;
 	private boolean shouldRun = true;
@@ -72,7 +72,7 @@ public class HandTrackerApplication {
             public void windowClosing(WindowEvent e) {System.exit(0);}
         });
         HandTrackerApplication app = new HandTrackerApplication(f);
-        
+
         app.viewer = new HandTracker();
         f.add("Center", app.viewer);
         f.pack();
@@ -88,5 +88,5 @@ public class HandTrackerApplication {
         }
         frame.dispose();
     }
-    
+
 }

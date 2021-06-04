@@ -85,18 +85,18 @@ namespace xn
     public:
         PosePrivateData(); ///< constructor
         virtual ~PosePrivateData(); ///< destructor
-        virtual void BeforeNodeDestroy(); ///< cleans the internals. 
+        virtual void BeforeNodeDestroy(); ///< cleans the internals.
         /// @brief Initializes the class.
-        /// 
+        ///
         /// @param hUserGenerator The user generator node which holds the pose detection capability.
         /// @return The success status.
-        XnStatus Init(XnNodeHandle hUserGenerator); 
+        XnStatus Init(XnNodeHandle hUserGenerator);
         /// @brief Gets the current pose status
-        /// 
+        ///
         /// @param userID The user whose pose status we are interested in.
         /// @param poseName The pose we want to get a status on.
-        /// @param poseTime The time stamp in which the user entered into the pose (0 if not in pose). 
-        /// @param eStatus The status of the user's pose, i.e. the progress error for getting into 
+        /// @param poseTime The time stamp in which the user entered into the pose (0 if not in pose).
+        /// @param eStatus The status of the user's pose, i.e. the progress error for getting into
         ///                pose (XnPoseDetectionStatus, the same as received from the in progress
         ///                callback. See @ref xnRegisterToPoseDetectionInProgress).
         /// @param eState  The state of the user pose (i.e. in pose, out of pose).
@@ -110,11 +110,11 @@ namespace xn
             XnPoseDetectionStatus m_lastStatus; ///< @brief The last status message from in progress.
             XnPoseDetectionState m_lastState;  ///< @brief The last state (in/out of pose). Determined by pose detected and out of pose callbacks!
             PoseData() { Reset(); };
-            /// @brief Resets the struct to the default state which is being out of pose, with a 
+            /// @brief Resets the struct to the default state which is being out of pose, with a
             /// general error and time 0.
-            void Reset() 
-            { 
-                m_lastState=XN_POSE_DETECTION_STATE_OUT_OF_POSE; 
+            void Reset()
+            {
+                m_lastState=XN_POSE_DETECTION_STATE_OUT_OF_POSE;
                 m_lastStatus=XN_POSE_DETECTION_STATUS_ERROR;
                 m_lastTimeInPose=0;
             }
@@ -203,11 +203,11 @@ struct XnGestureRecognizedParams
 struct XnGestureProgressParams
 {
 	XnGestureProgressParams(const XnChar *strGesture, const XnPoint3D &position, XnFloat fProgress) :
-		m_position(position), m_fProgress(fProgress) 
+		m_position(position), m_fProgress(fProgress)
 	{
 		xnOSStrNCopy(m_strGesture, strGesture, sizeof(m_strGesture)-1, sizeof(m_strGesture));
 	}
-	XnChar m_strGesture[XN_MAX_NAME_LENGTH]; 
+	XnChar m_strGesture[XN_MAX_NAME_LENGTH];
 	XnPoint3D m_position;
 	XnFloat m_fProgress;
 };
@@ -228,7 +228,7 @@ class XnModuleLoader;
 /** NI Context. */
 struct XnContext
 {
-	XnContext() : 
+	XnContext() :
 		bGlobalMirrorSet(FALSE),
 		bGlobalMirror(FALSE),
 		globalErrorState(XN_STATUS_OK),
@@ -275,7 +275,7 @@ struct XnNodeInfo
 	/** Additional creation info (this can contain S/N, etc.) */
 	XnChar strCreationInfo[XN_MAX_CREATION_INFO_LENGTH];
 
-	/** 
+	/**
 	 * A handle that can be used for production nodes functions. A value of NULL signifies an
 	 * option that currently does not exist in the context.
 	 */

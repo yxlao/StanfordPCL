@@ -30,7 +30,7 @@ import javax.swing.JFrame;
 public class UserTrackerApplication {
 
     /**
-	 * 
+	 *
 	 */
 	public UserTracker viewer;
 	private boolean shouldRun = true;
@@ -62,7 +62,7 @@ public class UserTrackerApplication {
             public void windowClosing(WindowEvent e) {System.exit(0);}
         });
         UserTrackerApplication app = new UserTrackerApplication(f);
-        
+
         app.viewer = new UserTracker();
         f.add("Center", app.viewer);
         f.pack();
@@ -78,5 +78,5 @@ public class UserTrackerApplication {
         }
         frame.dispose();
     }
-    
+
 }

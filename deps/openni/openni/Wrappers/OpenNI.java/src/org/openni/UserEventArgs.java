@@ -22,7 +22,7 @@ package org.openni;
 
 /**
  * Stores the arguments list of a User event. <BR><BR>
- * 
+ *
  */
 public class UserEventArgs extends EventArgs
 {

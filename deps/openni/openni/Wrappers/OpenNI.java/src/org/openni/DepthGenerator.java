@@ -22,25 +22,25 @@ package org.openni;
 
 /**
  * Represents a Depth Generator Production Node. <BR><BR>
- * 
+ *
  * Creates the following events:
  * FieldOfViewChanged: Triggered if the field of view of the generator changes
  *
  */
-public class DepthGenerator extends MapGenerator 
+public class DepthGenerator extends MapGenerator
 {
 	/**
 	 * Constructor, creates new DepthGenerator for given context
 	 * @param context OpenNI Context of the generator
 	 * @param nodeHandle Native pointer to the object created
-	 * @param addRef Indicates whether to register the object created 
+	 * @param addRef Indicates whether to register the object created
 	 * @throws GeneralException If underlying native code returns errors, General Exception is thrown by this function
 	 */
-	DepthGenerator(Context context, long nodeHandle, boolean addRef) throws GeneralException 
+	DepthGenerator(Context context, long nodeHandle, boolean addRef) throws GeneralException
 	{
 		super(context, nodeHandle, addRef);
 		
-		this.fovChanged = new StateChangedObservable() 
+		this.fovChanged = new StateChangedObservable()
 		{
 			@Override
 			protected int registerNative(String cb, OutArg<Long> phCallback)
@@ -49,7 +49,7 @@ public class DepthGenerator extends MapGenerator
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromDepthFieldOfViewChange(toNative(), hCallback);
 			}
@@ -78,7 +78,7 @@ public class DepthGenerator extends MapGenerator
 
 	/**
 	 * Creates a new depth generator from given context, using a query to filter results, discarding errors
-	 * @param context OpenNI context to create the generator from 
+	 * @param context OpenNI context to create the generator from
 	 * @param query Query object to filter results
 	 * @return resulting DepthGenerator object created
 	 * @throws GeneralException If underlying native code returns errors, General Exception is thrown by this function
@@ -90,8 +90,8 @@ public class DepthGenerator extends MapGenerator
 
 	/**
 	 * Creates a new depth generator object in the given context	
-	 * @param context OpenNI context 
-	 * @return New DepthGenerator object created 
+	 * @param context OpenNI context
+	 * @return New DepthGenerator object created
 	 * @throws GeneralException If underlying native code returns errors, General Exception is thrown by this function
 	 */
 	public static DepthGenerator create(Context context) throws GeneralException
@@ -113,7 +113,7 @@ public class DepthGenerator extends MapGenerator
 			long ptr = NativeMethods.xnGetDepthMap(toNative());
 			MapOutputMode mode = getMapOutputMode();
 			this.currDepthMap = new DepthMap(ptr, mode.getXRes(), mode.getYRes());
-			this.currDepthMapFrameID = frameID; 
+			this.currDepthMapFrameID = frameID;
 		}
 
 		return this.currDepthMap;
@@ -148,18 +148,18 @@ public class DepthGenerator extends MapGenerator
 	 */
 	public IStateChangedObservable getFieldOfViewChangedEvent() { return this.fovChanged; }
 
-    /** 
+    /**
      * Convert an array of points that is currently in Projective format to Real World format.<BR><BR>
-     * 
-     * Note that all input points must be in Real World format for this function to work properly, as there is no 
+     *
+     * Note that all input points must be in Real World format for this function to work properly, as there is no
      * format information stored as part of the Point3D class.<BR><BR>
-     * 
-     * This function is part of the Depth Generator class because converting between real world and projective 
+     *
+     * This function is part of the Depth Generator class because converting between real world and projective
      * coordinates requires information specific to the hardware creating the depth information, such as resolution
      * and field of view angles. <BR><BR>
-     * 
+     *
      * Note that the entire input array is copied and populated, the input array is not altered.
-     * 
+     *
      * @param projectivePoints Array of input points to be converted, all points should be in Projective format
      * @return Array of points with same length as input array, and each point converted to Real World coordinates
      * @throws StatusException If underlying native code returns errors, Status Exception is thrown by this function
@@ -174,14 +174,14 @@ public class DepthGenerator extends MapGenerator
 
     /**
      * Convert a point that is currently in Projective format to Real World format.<BR><BR>
-     * 
-     * Note that the input point must be in Projective format for this function to work properly, as there is no 
+     *
+     * Note that the input point must be in Projective format for this function to work properly, as there is no
      * format information stored as part of the Point3D class.<BR><BR>
-     * 
-     * This function is part of the Depth Generator class because converting between real world and projective 
+     *
+     * This function is part of the Depth Generator class because converting between real world and projective
      * coordinates requires information specific to the hardware creating the depth information, such as resolution
      * and field of view angles. <BR><BR>
-     * 
+     *
      * @param projectivePoint Input point to be converted, should be a set of coordinates in Real World format.
      * @return Real World representation of the input point
      * @throws StatusException If underlying native code returns errors, Status Exception is thrown by this function
@@ -194,19 +194,19 @@ public class DepthGenerator extends MapGenerator
         return convertProjectiveToRealWorld(projectivePoints)[0];
     }
 
-    
-    /** 
+
+    /**
      * Convert an array of points that is currently in Real-World format to Projective format.<BR><BR>
-     * 
-     * Note that all input points must be in Real World format for this function to work properly, as there is no 
+     *
+     * Note that all input points must be in Real World format for this function to work properly, as there is no
      * format information stored as part of the Point3D class.<BR><BR>
-     * 
-     * This function is part of the Depth Generator class because converting between real world and projective 
+     *
+     * This function is part of the Depth Generator class because converting between real world and projective
      * coordinates requires information specific to the hardware creating the depth information, such as resolution
      * and field of view angles. <BR><BR>
-     * 
+     *
      * Note that the entire input array is copied and populated, the input array is not altered.
-     * 
+     *
      * @param realWorldPoints Array of input points to be converted, all points should be in Real World format
      * @return Array of points with same length as input array, and each point converted to projective coordinates
      * @throws StatusException If underlying native code returns errors, Status Exception is thrown by this function
@@ -218,18 +218,18 @@ public class DepthGenerator extends MapGenerator
         WrapperUtils.throwOnError(status);
         return projective;
     }
-    
-    
+
+
     /**
      * Convert a point that is currently in Real-World format to Projective format.<BR><BR>
-     * 
-     * Note that the input point must be in Real World format for this function to work properly, as there is no 
+     *
+     * Note that the input point must be in Real World format for this function to work properly, as there is no
      * format information stored as part of the Point3D class.<BR><BR>
-     * 
-     * This function is part of the Depth Generator class because converting between real world and projective 
+     *
+     * This function is part of the Depth Generator class because converting between real world and projective
      * coordinates requires information specific to the hardware creating the depth information, such as resolution
      * and field of view angles. <BR><BR>
-     * 
+     *
      * @param realWorldPoint Input point to be converted, should be a set of coordinates in Real World format.
      * @return Projective representation of the input point
      * @throws StatusException If underlying native code returns errors, Status Exception is thrown by this function

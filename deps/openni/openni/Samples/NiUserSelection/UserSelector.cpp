@@ -37,10 +37,10 @@ XnStatus UserSelector::GetUserState(XnUserID nUserId, UserSelectionState& newSta
 }
 
 
-UserSelector::UserSelector(xn::UserGenerator* pUserGenerator) : m_bValid(FALSE), 
+UserSelector::UserSelector(xn::UserGenerator* pUserGenerator) : m_bValid(FALSE),
                                                                 m_pUserGenerator(pUserGenerator),
                                                                 m_hUserCallbacks(NULL)
-{ 
+{
     if(m_pUserGenerator == NULL)
     {
         return; // no user generator
@@ -72,7 +72,7 @@ UserSelector::~UserSelector()
         {
             m_pUserGenerator->UnregisterUserCallbacks(m_hUserCallbacks);
             m_hUserCallbacks = NULL;
-        }        
+        }
         m_pUserGenerator = NULL;
     }
 }
@@ -96,7 +96,7 @@ XnStatus UserSelector::UpdateUserTrackingProgress(XnUserID nUserId, XnInt64 newS
 }
 XnStatus UserSelector::UpdateUserTracking(XnUserID nUserId, XnBool bTracked, XnInt64 newSubState)
 {
-    // update by checking the current state is ok and then update it based on the success and the 
+    // update by checking the current state is ok and then update it based on the success and the
     // sub state.
     UserSelectionState* pState;
     XnStatus nRetVal = m_hUsersState.Get(nUserId,pState);
@@ -186,7 +186,7 @@ XnStatus UserSelector::GetUserLabel(XnUserID nUserId, char* strLabel, XnUInt32 m
 {
     UserSelectionState* pState;
     XnStatus nRetVal=m_hUsersState.Get(nUserId, pState);
-    
+
     if(nRetVal!=XN_STATUS_OK)
     {
         return nRetVal;

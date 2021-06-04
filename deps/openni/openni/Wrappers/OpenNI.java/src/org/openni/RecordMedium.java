@@ -24,9 +24,9 @@ import java.util.NoSuchElementException;
 
 /**
  * Provides string names for all possible recording medium types. <BR><BR>
- * 
+ *
  * Currently, the only available recording medium is to record to a file,
- * so this enumeration is largely redundant until additional mediums are 
+ * so this enumeration is largely redundant until additional mediums are
  * added.
  */
 public enum RecordMedium
@@ -42,7 +42,7 @@ public enum RecordMedium
 	
 	public static RecordMedium fromNative(int value)
 	{
-		for (RecordMedium type : RecordMedium.values()) 
+		for (RecordMedium type : RecordMedium.values())
 		{
 			if (type.val == value)
 				return type;

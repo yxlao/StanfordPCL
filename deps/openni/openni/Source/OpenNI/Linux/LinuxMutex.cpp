@@ -136,7 +136,7 @@ XnStatus xnOSNamedMutexCreate(XnMutex* pMutex, const XnChar* csMutexName)
 
 	if (bCreated)
 	{
-		union semun 
+		union semun
 		{
 				   int              val;    /* Value for SETVAL */
 				   struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */

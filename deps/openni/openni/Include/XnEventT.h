@@ -19,7 +19,7 @@
 *                                                                            *
 *****************************************************************************/
 #ifndef _XN_EVENT_T_H_
-#define _XN_EVENT_T_H_ 
+#define _XN_EVENT_T_H_
 
 //---------------------------------------------------------------------------
 // Includes
@@ -32,7 +32,7 @@
 // Types
 //---------------------------------------------------------------------------
 
-/** 
+/**
 * A struct for holding a callback function with its cookie
 *
 * @tparam	FuncPtr		The callback signature
@@ -46,7 +46,7 @@ struct XnCallbackT
 	void* pCookie;
 };
 
-/** 
+/**
 * A class that contains the interface of an event (i.e. Register and Unregister)
 *
 * @tparam	FuncPtr		The callback signature
@@ -74,7 +74,7 @@ public:
 		TCallback* pCallback = NULL;
 		XN_VALIDATE_NEW(pCallback, TCallback, pFunc, pCookie);
 
-		// always add to list of added (actual list will be updated in Raise method, to allow registering 
+		// always add to list of added (actual list will be updated in Raise method, to allow registering
 		// from a callback).
 		{
 			XnAutoCSLocker locker(m_hLock);

@@ -46,7 +46,7 @@ public:
 
 	/**
 	* Push a new value to the stack
-	* 
+	*
 	* @param	value	[in]	The value to add to the stack
 	*
 	* @return	XN_STATUS_ALLOC_FAILED	Failed to add to the stack because no nodes are available.
@@ -58,7 +58,7 @@ public:
 
 	/**
 	* Pop the value at the top of the stack
-	* 
+	*
 	* @param	value	[out]	The value that was at the top of the stack
 	*
 	* @return	XN_STATUS_IS_EMPTY	The stack is empty
@@ -76,7 +76,7 @@ public:
 
 	/**
 	* Get the value at the top of the queue (it is user responsibility to check queue is not empty)
-	* 
+	*
 	* @return	a reference to the object at head of the queue.
 	*/
 	XnValue const& Top() const
@@ -86,7 +86,7 @@ public:
 
 	/**
 	* Get the value at the top of the queue (it is user responsibility to check queue is not empty)
-	* 
+	*
 	* @return	a reference to the object at head of the queue.
 	*/
 	XnValue& Top()
@@ -120,7 +120,7 @@ private:
 /**
 * Declares a stack of type @a Type, named @a ClassName. The class uses @a Translator for translating
 * from @a Type to XnValue. It is declared using the declspec @a decl.
-*/ 
+*/
 #define XN_DECLARE_STACK_WITH_TRANSLATOR_DECL(decl, Type, ClassName, Translator)		\
 	/* Note: we use queue declaration, as this is the same interface. */				\
 	XN_DECLARE_QUEUE_WITH_TRANSLATOR_DECL(decl, Type, ClassName, Translator, XnStack)
@@ -128,21 +128,21 @@ private:
 /**
 * Declares a stack of type @a Type, named @a ClassName. The class uses @a Translator for translating
 * from @a Type to XnValue.
-*/ 
+*/
 #define XN_DECLARE_STACK_WITH_TRANSLATOR(Type, ClassName, Translator)	\
 	XN_DECLARE_STACK_WITH_TRANSLATOR_DECL(, ClassName, Translator)
 
 /**
 * Declares a stack of type @a Type, named @a ClassName, that uses the default translator.
 * It is declared using the declspec @a decl.
-*/ 
+*/
 #define XN_DECLARE_STACK_DECL(decl, Type, ClassName)													\
 	XN_DECLARE_DEFAULT_VALUE_TRANSLATOR_DECL(decl, Type, XN_DEFAULT_TRANSLATOR_NAME(ClassName))			\
 	XN_DECLARE_STACK_WITH_TRANSLATOR_DECL(decl, Type, ClassName, XN_DEFAULT_TRANSLATOR_NAME(ClassName))
 
 /**
 * Declares a stack of type @a Type, named @a ClassName, that uses the default translator.
-*/ 
+*/
 #define XN_DECLARE_STACK(Type, ClassName)			\
 	XN_DECLARE_STACK_DECL(, Type, ClassName)
 

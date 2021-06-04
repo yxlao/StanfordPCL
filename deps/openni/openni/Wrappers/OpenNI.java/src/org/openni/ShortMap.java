@@ -24,11 +24,11 @@ import java.nio.ShortBuffer;
 
 /**
  * Base class of all maps that store their data as shorts. <BR><BR>
- * 
+ *
  * Currently used as a base class for Depth, Scene and IR maps.
  *
  */
-public class ShortMap extends Map 
+public class ShortMap extends Map
 {
 	/**
 	 * Default constructor.  Sets the bytes per pixel equal to the size of a short map, and
@@ -57,7 +57,7 @@ public class ShortMap extends Map
 	 * @param x X coordinate of desired pixel
 	 * @param y Y coordinate of the desired pixel
 	 * @return value stored in that pixel
-	 */ 
+	 */
 	public short readPixel(int x, int y)
 	{
 		return NativeMethods.readShort(getPixelPtr(x, y));

@@ -222,7 +222,7 @@ int main()
                                                                 torsoJoint.position.position.Y,
                                                                 torsoJoint.position.position.Z);
         }
-        
+
     }
     g_scriptNode.Release();
     g_UserGenerator.Release();

@@ -22,7 +22,7 @@ package org.openni;
 
 /**
  * Stores a SceneMap, along with associated metadata. <BR><BR>
- * 
+ *
  * Intended to store a SceneMap along with any required metadata about that map.  Currently,
  * there is no data stored other than the map itself and its pixel depth
  *
@@ -33,7 +33,7 @@ public class SceneMetaData extends MapMetaData
 	 * Default Constructor -- Creates a new SceneMetaData object, including initiating a SceneMap,
 	 * and storing the appropriate pixel format.
 	 */
-	public SceneMetaData() 
+	public SceneMetaData()
 	{
 		super(PixelFormat.GRAYSCALE_16BIT, new SceneMap());
 	}

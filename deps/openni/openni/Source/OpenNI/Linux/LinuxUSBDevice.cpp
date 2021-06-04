@@ -219,7 +219,7 @@ static XnStatus buildGadgetFSDescriptors(const XnUSBDeviceDescriptorHolder* pDes
 	
 	// write device
 	WRITE_OBJ_TO_BUF(buf, pDescriptors->descriptor);
-    
+
     return nRetVal;
 }
 

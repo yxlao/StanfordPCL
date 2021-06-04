@@ -40,7 +40,7 @@ public enum SkeletonPoseProcessingMode
 	
 	public static SkeletonPoseProcessingMode fromNative(int value)
 	{
-		for (SkeletonPoseProcessingMode type : SkeletonPoseProcessingMode.values()) 
+		for (SkeletonPoseProcessingMode type : SkeletonPoseProcessingMode.values())
 		{
 			if (type.val == value)
 				return type;

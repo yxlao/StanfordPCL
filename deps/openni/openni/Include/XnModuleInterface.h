@@ -107,15 +107,15 @@ typedef void (XN_CALLBACK_TYPE* XnModulePoseDetectionInProgressCallback)(const X
 
 typedef struct XnModuleExportedProductionNodeInterface
 {
-	/** 
-	* Gets a description of this generator. 
-	* 
+	/**
+	* Gets a description of this generator.
+	*
 	* @param	pDescription	[in/out]	A struct to be filled with the description.
 	*/
 	void (XN_CALLBACK_TYPE* GetDescription)
 		(XnProductionNodeDescription* pDescription);
 
-	/** 
+	/**
 	* Find all tree possibilities for this production node.
 	*
 	* @param	pContext		[in]	Current OpenNI context
@@ -127,8 +127,8 @@ typedef struct XnModuleExportedProductionNodeInterface
 		XnNodeInfoList* pNodesList,
 		XnEnumerationErrors* pErrors);
 
-	/** 
-	* Creates an instance of this generator. 
+	/**
+	* Creates an instance of this generator.
 	*
 	* @param	pContext			[in]	Current OpenNI context
 	* @param	strInstanceName		[in]	The name of this new instance.
@@ -139,15 +139,15 @@ typedef struct XnModuleExportedProductionNodeInterface
 	*/
 	XnStatus (XN_CALLBACK_TYPE* Create)
 		(XnContext* pContext,
-		const XnChar* strInstanceName, 
+		const XnChar* strInstanceName,
 		const XnChar* strCreationInfo,
-		XnNodeInfoList* pNeededNodes, 
+		XnNodeInfoList* pNeededNodes,
 		const XnChar* strConfigurationDir,
 		XnModuleNodeHandle* phInstance);
 
-	/** 
-	* Destroys an instance previously created using Create(). 
-	* 
+	/**
+	* Destroys an instance previously created using Create().
+	*
 	* @param	hGenerator	[in]	A handle to the instance to be destroyed.
 	*/
 	void (XN_CALLBACK_TYPE* Destroy)
@@ -323,14 +323,14 @@ typedef struct XnModuleGeneralIntInterface
 
 typedef struct XnModuleProductionNodeInterface
 {
-	/** 
-	* Checks if the specified capability is supported. 
-	* 
+	/**
+	* Checks if the specified capability is supported.
+	*
 	* @param	hInstance			[in]	A handle to the instance to be queried.
 	* @param	strCapabilityName	[in]	The name of the capability to check.
 	*/
 	XnBool (XN_CALLBACK_TYPE* IsCapabilitySupported)(
-		XnModuleNodeHandle hInstance, 
+		XnModuleNodeHandle hInstance,
 		const XnChar* strCapabilityName
 		);
 
@@ -459,7 +459,7 @@ typedef struct XnModuleMirrorInterface
 typedef struct XnModuleAlternativeViewPointInterface
 {
 	/**
-	 * Checks if this generator can change its output to look like as if it was taken from 
+	 * Checks if this generator can change its output to look like as if it was taken from
 	 * a different location, represented by another generator.
 	 *
 	 * @param	hGenerator	[in]	A handle to the instance.
@@ -588,25 +588,25 @@ typedef struct XnModuleGeneratorInterface
 	 */
 	XnModuleProductionNodeInterface* pProductionNodeInterface;
 
-	/** 
-	 * Starts generation of the output. 
-	 * 
+	/**
+	 * Starts generation of the output.
+	 *
 	 * @param	hGenerator	[in]	A handle to the instance to start generating.
 	 */
 	XnStatus (XN_CALLBACK_TYPE* StartGenerating)
 		(XnModuleNodeHandle hGenerator);
 
-	/** 
+	/**
 	 * Checks if the generator is currently generating.
-	 * 
+	 *
 	 * @param	hGenerator	[in]	A handle to the instance.
 	 */
 	XnBool (XN_CALLBACK_TYPE* IsGenerating)
 		(XnModuleNodeHandle hGenerator);
 
-	/** 
+	/**
 	 * Stops generation of the output.
-	 * 
+	 *
 	 * @param	hGenerator	[in]	A handle to the instance to stop generating.
 	 */
 	void (XN_CALLBACK_TYPE* StopGenerating)
@@ -653,7 +653,7 @@ typedef struct XnModuleGeneratorInterface
 	void (XN_CALLBACK_TYPE* UnregisterFromNewDataAvailable)
 		(XnModuleNodeHandle hGenerator, XnCallbackHandle hCallback);
 
-	/** 
+	/**
 	* Checks whether this node has new data (and so a call to @ref xn::Generator::WaitAndUpdateData() will not block).
 	*
 	* @param	hGenerator	[in]	A handle to the instance to be updated.
@@ -662,7 +662,7 @@ typedef struct XnModuleGeneratorInterface
 	XnBool (XN_CALLBACK_TYPE* IsNewDataAvailable)
 		(XnModuleNodeHandle hGenerator, XnUInt64* pnTimestamp);
 
-	/** 
+	/**
 	* Updates the data to the latest available one. This function will only be called AFTER the node
 	* notified OpenNI it has new data available.
 	*
@@ -699,7 +699,7 @@ typedef struct XnModuleGeneratorInterface
 
 	//Note: The GetData() function was added in version 1.0.0.28
 	/**
-	 * Gets pointer to current data. 
+	 * Gets pointer to current data.
 	 *
 	 * @param	hGenerator	[in]	A handle to the instance.
 	 */
@@ -814,7 +814,7 @@ typedef struct XnModulePlayerInterface
 
 typedef struct XnModuleCroppingInterface
 {
-	/** 
+	/**
 	 * Sets the cropping.
 	 *
 	 * @param	hGenerator	[in]	A handle to the instance.
@@ -822,7 +822,7 @@ typedef struct XnModuleCroppingInterface
 	 */
 	XnStatus (XN_CALLBACK_TYPE* SetCropping)(XnModuleNodeHandle hGenerator, const XnCropping* pCropping);
 
-	/** 
+	/**
 	 * Gets current cropping configuration.
 	 *
 	 * @param	hGenerator	[in]	A handle to the instance.
@@ -855,7 +855,7 @@ typedef struct XnModuleCroppingInterface
 
 typedef struct XnModuleAntiFlickerInterface
 {
-	/** 
+	/**
 	 * Sets the power line frequency: 50 Hz, 60 Hz, or 0 to turn off anti-flicker.
 	 *
 	 * @param	hGenerator	[in]	A handle to the instance.
@@ -863,7 +863,7 @@ typedef struct XnModuleAntiFlickerInterface
 	 */
 	XnStatus (XN_CALLBACK_TYPE* SetPowerLineFrequency)(XnModuleNodeHandle hGenerator, XnPowerLineFrequency nFrequency);
 
-	/** 
+	/**
 	 * Gets the power line frequency.
 	 *
 	 * @param	hGenerator	[in]	A handle to the instance.
@@ -900,7 +900,7 @@ typedef struct XnModuleMapGeneratorInterface
 	 */
 	XnModuleGeneratorInterface* pGeneratorInterface;
 
-	/** 
+	/**
 	 * Gets the number of supported modes. This is useful for allocating an array that will be passed to
 	 * @ref GetSupportedMapOutputModes().
 	 *
@@ -909,21 +909,21 @@ typedef struct XnModuleMapGeneratorInterface
 	XnUInt32 (XN_CALLBACK_TYPE* GetSupportedMapOutputModesCount)
 		(XnModuleNodeHandle hGenerator);
 
-	/** 
+	/**
 	 * Gets a list of all supported modes. The size of the array that should be passed can be obtained by calling
 	 * @ref GetSupportedMapOutputModesCount().
 	 *
 	 * @param	hInstance	[in]		A handle to the instance.
-	 * @param	aModes		[in/out]	An array to be filled with supported modes. 
+	 * @param	aModes		[in/out]	An array to be filled with supported modes.
 	 * @param	pnCount		[in/out]	In: number of elements allocated in the array. Out: number of elements
 	 *									actually written to the array.
 	 */
 	XnStatus (XN_CALLBACK_TYPE* GetSupportedMapOutputModes)
-		(XnModuleNodeHandle hGenerator, 
+		(XnModuleNodeHandle hGenerator,
 		XnMapOutputMode* aModes, XnUInt32* pnCount);
 
-	/** 
-	 * Sets the output mode. 
+	/**
+	 * Sets the output mode.
 	 *
 	 * @param	hGenerator	[in]	A handle to the instance.
 	 * @param	pOutputMode	[in]	The output mode to be set.
@@ -931,9 +931,9 @@ typedef struct XnModuleMapGeneratorInterface
 	XnStatus (XN_CALLBACK_TYPE* SetMapOutputMode)
 		(XnModuleNodeHandle hGenerator, const XnMapOutputMode* pOutputMode);
 
-	/** 
-	 * Gets the current output mode. 
-	 * 
+	/**
+	 * Gets the current output mode.
+	 *
 	 * @param	hGenerator	[in]	A handle to the instance.
 	 * @param	pOutputMode	[out]	Current output mode.
 	 */
@@ -964,9 +964,9 @@ typedef struct XnModuleMapGeneratorInterface
 	XnModuleCroppingInterface* pCroppingInterface;
 
 	// NOTE: GetBytesPerPixel() was added in OpenNI 1.0.0.30
-	/** 
+	/**
 	 * Gets the number of bytes per pixel
-	 * 
+	 *
 	 * @param	hGenerator	[in]	A handle to the instance.
 	 */
 	XnUInt32 (XN_CALLBACK_TYPE* GetBytesPerPixel)
@@ -989,20 +989,20 @@ typedef struct XnModuleUserPositionCapabilityInterface
 	XnUInt32 (XN_CALLBACK_TYPE* GetSupportedUserPositionsCount)
 		(XnModuleNodeHandle hGenerator);
 
-	/** 
-	 * Sets the current user position. 
-	 * 
+	/**
+	 * Sets the current user position.
+	 *
 	 * @param	hGenerator	[in]		A handle to the instance.
 	 * @param	nIndex		[in]		The user position to set.
 	 * @param	pPosition	[in]		The user position in the frame.
 	 */
 	XnStatus (XN_CALLBACK_TYPE* SetUserPosition)(
-		XnModuleNodeHandle hGenerator, 
-		XnUInt32 nIndex, 
+		XnModuleNodeHandle hGenerator,
+		XnUInt32 nIndex,
 		const XnBoundingBox3D* pPosition);
 
-	/** 
-	 * Gets the current user position. 
+	/**
+	 * Gets the current user position.
 	 *
 	 * @param	hGenerator	[in]		A handle to the instance.
 	 * @param	nIndex		[in]		The user position to get.
@@ -1042,16 +1042,16 @@ typedef struct XnModuleDepthGeneratorInterface
 	 */
 	XnModuleMapGeneratorInterface* pMapInterface;
 
-	/** 
-	 * Gets the current depth-map. This map is updated after a call to WaitAndUpdateData(). 
+	/**
+	 * Gets the current depth-map. This map is updated after a call to WaitAndUpdateData().
 	 *
 	 * @param	hGenerator	[in]		A handle to the instance.
 	 */
 	XnDepthPixel* (XN_CALLBACK_TYPE* GetDepthMap)
 		(XnModuleNodeHandle hGenerator);
 
-	/** 
-	 * Gets the maximum depth the device can produce. 
+	/**
+	 * Gets the maximum depth the device can produce.
 	 *
 	 * @param	hGenerator	[in]	A handle to the instance.
 	 */
@@ -1060,7 +1060,7 @@ typedef struct XnModuleDepthGeneratorInterface
 
 	/**
 	 * Gets the field of view of the sensor, in radians.
-	 * This value will be used for translation between projective and real-world coordinates. 
+	 * This value will be used for translation between projective and real-world coordinates.
 	 * It is assumed that the sensor is a pinhole camera.
 	 *
 	 * @param	hGenerator			[in]		A handle to the instance.

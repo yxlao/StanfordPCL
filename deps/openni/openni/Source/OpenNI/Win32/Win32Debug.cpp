@@ -84,8 +84,8 @@ static void Init()
 	g_pSymFunctionTableAccess64 = (SymFunctionTableAccess64Prot)GetProcAddress(hDbg, "SymFunctionTableAccess64");
 	g_pSymGetModuleBase64 = (SymGetModuleBase64Prot)GetProcAddress(hDbg, "SymGetModuleBase64");
 
-	g_bAvailable = 
-		(g_pStackWalk64 != NULL) && 
+	g_bAvailable =
+		(g_pStackWalk64 != NULL) &&
 		(g_pSymFromAddr != NULL) &&
 		(g_pSymFunctionTableAccess64 != NULL) &&
 		(g_pSymGetModuleBase64 != NULL);

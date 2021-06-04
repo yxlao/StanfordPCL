@@ -91,7 +91,7 @@ static const XnChar* GetOSName(OSVERSIONINFOEX& osVersionInfo)
 			return "Windows Server 2003 Enterprise Edition";
 		else if((osVersionInfo.wSuiteMask & VER_SUITE_BLADE) == VER_SUITE_BLADE)
 			return "Windows Server 2003 Web Edition";
-		else 
+		else
 			return "Windows Server 2003 Standard Edition";
 	}
 	else if (osVersionInfo.dwMajorVersion == 6 && osVersionInfo.dwMinorVersion == 0)

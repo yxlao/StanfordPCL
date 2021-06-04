@@ -54,7 +54,7 @@ public:
 
 	/**
 	* Push a new value to the queue
-	* 
+	*
 	* @param	value	[in]	The value to add to the queue
 	*
 	* @return	XN_STATUS_ALLOC_FAILED	Failed to add to the queue because no nodes are available.
@@ -70,7 +70,7 @@ public:
 	}
 	/**
 	* Pop the value at the top of the queue
-	* 
+	*
 	* @param	value	[out]	The value that was at the top of the queue
 	*
 	* @return	XN_STATUS_IS_EMPTY	The queue is empty
@@ -88,7 +88,7 @@ public:
 
 	/**
 	* Get the value at the top of the queue (it is user responsibility to check queue is not empty)
-	* 
+	*
 	* @return	a reference to the object at head of the queue.
 	*/
 	XnValue const& Top() const
@@ -98,7 +98,7 @@ public:
 
 	/**
 	* Get the value at the top of the queue (it is user responsibility to check queue is not empty)
-	* 
+	*
 	* @return	a reference to the object at head of the queue.
 	*/
 	XnValue& Top()
@@ -133,7 +133,7 @@ private:
 * Declares a queue of type @a Type, named @a ClassName. The class uses @a Translator for translating
 * from @a Type to XnValue. It is declared using the declspec @a decl.
 * It inherits from @a base. Note that @a base must be a derivative of XnQueue.
-*/ 
+*/
 #define XN_DECLARE_QUEUE_WITH_TRANSLATOR_DECL(decl, Type, ClassName, Translator, base)	\
 	class decl ClassName : public base													\
 	{																					\
@@ -176,21 +176,21 @@ private:
 * Declares a queue of type @a Type, named @a ClassName. The class uses @a Translator for translating
 * from @a Type to XnValue.
 * It inherits from @a base. Note that @a base must be a derivative of XnQueue.
-*/ 
+*/
 #define XN_DECLARE_QUEUE_WITH_TRANSLATOR(Type, ClassName, Translator, base)				\
 	XN_DECLARE_QUEUE_WITH_TRANSLATOR_DECL(, Type, ClassName, Translator, base)
 
 /**
 * Declares a queue of type @a Type, named @a ClassName, that uses the default translator.
 * It is declared using the declspec @a decl.
-*/ 
+*/
 #define XN_DECLARE_QUEUE_DECL(decl, Type, ClassName)													\
 	XN_DECLARE_DEFAULT_VALUE_TRANSLATOR_DECL(decl, Type, XN_DEFAULT_TRANSLATOR_NAME(ClassName))			\
 	XN_DECLARE_QUEUE_WITH_TRANSLATOR_DECL(decl, Type, ClassName, XN_DEFAULT_TRANSLATOR_NAME(ClassName), XnQueue)
 
 /**
 * Declares a queue of type @a Type, named @a ClassName, that uses the default translator.
-*/ 
+*/
 #define XN_DECLARE_QUEUE(Type, ClassName)		\
 	XN_DECLARE_QUEUE_DECL(, Type, ClassName)
 

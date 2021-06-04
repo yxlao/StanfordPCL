@@ -10,12 +10,12 @@ extern "C" {
 #include <GL/glext.h>
 #if defined(WIN32)
 #  include <GL/wglext.h>
-#  define GLH_EXT_GET_PROC_ADDRESS(p)   wglGetProcAddress(p) 
+#  define GLH_EXT_GET_PROC_ADDRESS(p)   wglGetProcAddress(p)
 #elif defined(UNIX)
 #  include <string.h>
 #  include <GL/glx.h>
 #  include <GL/glxext.h>
-#  define GLH_EXT_GET_PROC_ADDRESS(p)   glXGetProcAddressARB( (const GLubyte *) p) 
+#  define GLH_EXT_GET_PROC_ADDRESS(p)   glXGetProcAddressARB( (const GLubyte *) p)
 #endif
 
 #ifdef GLH_EXT_SINGLE_FILE

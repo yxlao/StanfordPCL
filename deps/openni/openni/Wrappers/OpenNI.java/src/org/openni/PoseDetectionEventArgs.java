@@ -22,7 +22,7 @@ package org.openni;
 
 /**
  * Stores the arguments from a Pose Detection Event. <BR><BR>
- * 
+ *
  *
  */
 public class PoseDetectionEventArgs extends EventArgs

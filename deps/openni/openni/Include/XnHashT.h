@@ -19,7 +19,7 @@
 *                                                                            *
 *****************************************************************************/
 #ifndef _XN_HASH_T_H_
-#define _XN_HASH_T_H_ 
+#define _XN_HASH_T_H_
 
 //---------------------------------------------------------------------------
 // Includes
@@ -70,9 +70,9 @@ public:
 	}
 };
 
-template<class TKey, 
-		class TValue, 
-		class TKeyManager = XnDefaultKeyManagerT<TKey>, 
+template<class TKey,
+		class TValue,
+		class TKeyManager = XnDefaultKeyManagerT<TKey>,
 		class TAlloc = XnLinkedNodeDefaultAllocatorT<XnKeyValuePair<TKey, TValue> > >
 class XnHashT
 {
@@ -80,8 +80,8 @@ public:
 	typedef XnKeyValuePair<TKey, TValue> TPair;
 	typedef XnListT<TPair, TAlloc> TPairList;
 
-	enum 
-	{ 
+	enum
+	{
 		LAST_BIN = (1 << (sizeof(XnHashCode)*8)),
 		NUM_BINS = LAST_BIN + 1,
 	};
@@ -123,10 +123,10 @@ public:
 			if (m_currIt == m_ppBins[m_nCurrBin]->End())
 			{
 				// go forward through bins, until we either reach the end or a non-empty bin
-				do 
+				do
 				{
 					++m_nCurrBin;
-				} while (m_nCurrBin < LAST_BIN && 
+				} while (m_nCurrBin < LAST_BIN &&
 						(m_ppBins[m_nCurrBin] == NULL || m_ppBins[m_nCurrBin]->IsEmpty()));
 
 				m_currIt = m_ppBins[m_nCurrBin]->Begin();
@@ -162,7 +162,7 @@ public:
 			if (m_currIt == m_ppBins[m_nCurrBin]->ReverseEnd())
 			{
 				// go backwards through bins, until we either reach the end or a non-empty bin
-				do 
+				do
 				{
 					if (m_nCurrBin == 0)
 					{
@@ -193,7 +193,7 @@ public:
 
 		/**
 		* Operator to check if two iterators point to the same object
-		* 
+		*
 		* @param	other	[in]	instance to compare with
 		*/
 		inline XnBool operator==(const ConstIterator& other) const
@@ -203,7 +203,7 @@ public:
 
 		/**
 		* Operator to check if two iterators point to different objects
-		* 
+		*
 		* @param	other	[in]	instance to compare with
 		*/
 		inline XnBool operator!=(const ConstIterator& other) const
@@ -260,8 +260,8 @@ public:
 		/**
 		* Support iterator++, go to the next object in the list, returning the old value
 		*/
-		inline Iterator operator++(int) 
-		{ 
+		inline Iterator operator++(int)
+		{
 			Iterator retVal(*this);
 			++*this;
 			return (retVal);
@@ -270,9 +270,9 @@ public:
 		/**
 		* Support --iterator, go to the next object in the list
 		*/
-		inline Iterator& operator--() 
-		{ 
-			--(*(ConstIterator*)this); 
+		inline Iterator& operator--()
+		{
+			--(*(ConstIterator*)this);
 			return (*this);
 		}
 
@@ -280,7 +280,7 @@ public:
 		* Support iterator--, go to the next object in the list, returning the old value
 		*/
 		inline Iterator operator--(int)
-		{ 
+		{
 			Iterator retVal(*this);
 			--*this;
 			return (retVal);
@@ -289,7 +289,7 @@ public:
 		/**
 		* Get the value of the current object
 		*/
-		inline TPair& operator*() const 
+		inline TPair& operator*() const
 		{
 			return const_cast<TPair&>(*this->m_currIt);
 		}
@@ -375,7 +375,7 @@ public:
 
 	/**
 	* Set a new key-value entry. If key exists, will replace value.
-	* 
+	*
 	* @param	key		[in]	The key to which to associate the value
 	* @param	value	[in]	The value to add to the XnHash
 	*/
@@ -412,8 +412,8 @@ public:
 
 	/**
 	* Get an iterator pointing to the pair in the hash (const version).
-	* 
-	* @param	key		[in]	The searched key 
+	*
+	* @param	key		[in]	The searched key
 	*
 	* @return	End()	if value doesn't exist
 	*/
@@ -433,8 +433,8 @@ public:
 
 	/**
 	* Get an iterator pointing to the pair in the hash.
-	* 
-	* @param	key		[in]	The searched key 
+	*
+	* @param	key		[in]	The searched key
 	*
 	* @return	End()	if value doesn't exist
 	*/
@@ -454,8 +454,8 @@ public:
 
 	/**
 	* Get an iterator pointing to the pair in the hash (const version).
-	* 
-	* @param	key		[in]	The searched key 
+	*
+	* @param	key		[in]	The searched key
 	* @param	it		[out]	An iterator to the entry in the hash.
 	*
 	* @return	XN_STATUS_NO_MATCH	if value doesn't exist
@@ -468,8 +468,8 @@ public:
 
 	/**
 	* Get an iterator pointing to the pair in the hash (const version).
-	* 
-	* @param	key		[in]	The searched key 
+	*
+	* @param	key		[in]	The searched key
 	* @param	it		[out]	An iterator to the entry in the hash.
 	*
 	* @return	XN_STATUS_NO_MATCH	if value doesn't exist
@@ -482,7 +482,7 @@ public:
 
 	/**
 	* Get the value associated with the supplied key
-	* 
+	*
 	* @param	key		[in]	The key of the entry
 	* @param	value	[out]	The retrieved value
 	*
@@ -504,7 +504,7 @@ public:
 
 	/**
 	* Get a pointer to the value associated with the supplied key
-	* 
+	*
 	* @param	key		[in]	The key of the entry
 	* @param	pValue	[out]	A const pointer to the value that is stored in the hash.
 	*
@@ -526,7 +526,7 @@ public:
 
 	/**
 	* Get the value associated with the supplied key
-	* 
+	*
 	* @param	key		[in]	The key of the entry
 	* @param	value	[out]	The retrieved value
 	*
@@ -548,7 +548,7 @@ public:
 
 	/**
 	* Get a pointer to the value associated with the supplied key
-	* 
+	*
 	* @param	key		[in]	The key of the entry
 	* @param	pValue	[out]	A pointer to the value that is stored in the hash
 	*

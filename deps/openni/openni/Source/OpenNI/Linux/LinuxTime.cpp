@@ -157,7 +157,7 @@ XN_C_API XnStatus xnOSGetMonoTime(struct timespec* pTime)
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
 	pTime->tv_sec = tv.tv_sec;
-	pTime->tv_nsec = tv.tv_usec * 1000;  
+	pTime->tv_nsec = tv.tv_usec * 1000;
 #endif
 	return (XN_STATUS_OK);
 }

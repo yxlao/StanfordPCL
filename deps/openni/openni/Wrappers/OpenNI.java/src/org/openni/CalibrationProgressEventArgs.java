@@ -22,10 +22,10 @@ package org.openni;
 
 /**
  * Holds the data created by a Skeleton Calibration Progress Event. <BR><BR>
- * 
- * Indicates which user is being calibrated, and which state (from a list) that that 
- * calibration process is currently in.  This is a read only data type once it is 
- * created.  
+ *
+ * Indicates which user is being calibrated, and which state (from a list) that that
+ * calibration process is currently in.  This is a read only data type once it is
+ * created.
  *
  */
 public class CalibrationProgressEventArgs extends EventArgs
@@ -41,7 +41,7 @@ public class CalibrationProgressEventArgs extends EventArgs
 		this.state = state;
 	}
 	
-	/** 
+	/**
 	 * Getter function for the user ID
 	 * @return User ID of the user this event refers to
 	 */

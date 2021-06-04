@@ -24,14 +24,14 @@ import java.util.ArrayList;
 
 /**
  * Base class for events thrown by generators. <BR><BR>
- * 
+ *
  * This class, along with StateChangedObservable, serves as the type for
  * events.  A list of observers is maintained, and notified of new events
  * via the notify function.<BR><BR>
  *
  * @param <Args> This will be the appropriate Args type for the event in question
  */
-public abstract class Observable<Args> implements IObservable<Args> 
+public abstract class Observable<Args> implements IObservable<Args>
 {
 	/**
 	 * Default constructor, creates a new Observable with an empty observer list
@@ -42,13 +42,13 @@ public abstract class Observable<Args> implements IObservable<Args>
 	}
 	
 	/**
-	 * Adds a new observer to the list of observers -- every object added 
+	 * Adds a new observer to the list of observers -- every object added
 	 * by this function will be notified of new events
 	 * @param observer Class to be notified of new events
 	 * @throws StatusException Underlying native code may cause an exception
 	 */
 	@Override
-	public void addObserver(IObserver<Args> observer) throws StatusException 
+	public void addObserver(IObserver<Args> observer) throws StatusException
 	{
 		if (this.observers.size() == 0)
 		{
@@ -66,7 +66,7 @@ public abstract class Observable<Args> implements IObservable<Args>
 	 * @param observer Object to be removed from the observer list
 	 */
 	@Override
-	public void deleteObserver(IObserver<Args> observer) 
+	public void deleteObserver(IObserver<Args> observer)
 	{
 		this.observers.remove(observer);
 
@@ -92,6 +92,6 @@ public abstract class Observable<Args> implements IObservable<Args>
 	protected abstract int registerNative(OutArg<Long> phCallback) throws StatusException;
 	protected abstract void unregisterNative(long hCallback);
 
-	private ArrayList<IObserver<Args>> observers; 
+	private ArrayList<IObserver<Args>> observers;
 	private long hCallback;
 }

@@ -33,7 +33,7 @@ public abstract class StateChangedObservable extends Observable<EventArgs> imple
 	 * @return Result code from the native call
 	 */
 	@Override
-	protected int registerNative(OutArg<Long> phCallback) 
+	protected int registerNative(OutArg<Long> phCallback)
 	{
 		return registerNative("callback", phCallback);
 	}

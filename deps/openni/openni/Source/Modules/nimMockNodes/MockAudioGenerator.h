@@ -27,7 +27,7 @@
 
 XN_PRAGMA_START_DISABLED_WARNING_SECTION(XN_INHERITS_VIA_DOMINANCE_WARNING_ID)
 
-class MockAudioGenerator : 
+class MockAudioGenerator :
 	public MockGenerator,
 	virtual public xn::ModuleAudioGenerator
 {

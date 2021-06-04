@@ -22,13 +22,13 @@ package org.openni;
 
 /**
  * Production node that represents a physical device. <BR><BR>
- * 
- * This class provides a ProductionNode that can be tied to a physical sensing device. 
+ *
+ * This class provides a ProductionNode that can be tied to a physical sensing device.
  * It enables application code to connect to a device, and obtain the required capabilities
  * to properly identify that device
  *
  */
-public class Device extends ProductionNode 
+public class Device extends ProductionNode
 {
 	/**
 	 * Creates a new device object
@@ -37,7 +37,7 @@ public class Device extends ProductionNode
 	 * @param addRef
 	 * @throws StatusException Function potentially communicates with hardware, so status exception possible
 	 */
-	public Device(Context context, long nodeHandle, boolean addRef) throws StatusException 
+	public Device(Context context, long nodeHandle, boolean addRef) throws StatusException
 	{
 		super(context, nodeHandle, addRef);
 	}

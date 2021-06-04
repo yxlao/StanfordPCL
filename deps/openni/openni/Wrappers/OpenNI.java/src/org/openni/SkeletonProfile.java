@@ -52,7 +52,7 @@ public enum SkeletonProfile
 	
 	public static SkeletonProfile fromNative(int value)
 	{
-		for (SkeletonProfile type : SkeletonProfile.values()) 
+		for (SkeletonProfile type : SkeletonProfile.values())
 		{
 			if (type.val == value)
 				return type;

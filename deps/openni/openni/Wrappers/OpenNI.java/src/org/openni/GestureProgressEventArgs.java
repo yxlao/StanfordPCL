@@ -22,12 +22,12 @@ package org.openni;
 
 /**
  * Stores the data created when a Gesture Progress Event is generated. <BR><BR>
- * 
+ *
  * This data consists of the gesture detected, where it was detected, and how close
  * that gesture is to completion.  This is a read only data type once it is created.
- * Generally, application code will not instantiate this object, but may use the 
+ * Generally, application code will not instantiate this object, but may use the
  * member functions to read the data it is carrying.<BR><BR>
- * 
+ *
  * This event type is most often used to implement feedback mechanisms to help the
  * user understand that he has successfully started a gesture, and to provide feedback
  * as the user completes the gesture.

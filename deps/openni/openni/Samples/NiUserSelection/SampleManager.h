@@ -28,19 +28,19 @@
 #include "TrackingInitializer.h"
 #include "UserSelector.h"
 
-/// @brief abstract class to create and manage the sample. 
+/// @brief abstract class to create and manage the sample.
 /// @ingroup UserSelectionSampleManagers
 class SampleManager
 {
 public:
     /// @brief method to start running the sample.
-    /// 
+    ///
     /// @param argc The number of command line arguments (same as @ref main()).
     /// @param argv The command line arguments array (same as @ref main()).
     /// @return the success code.
     virtual XnStatus StartSample(int argc, char **argv);
     /// @brief Cleanup method.
-    /// 
+    ///
     /// This method is called by the graphics when exiting and should clean everything up.
     virtual void Cleanup();
     /// @brief destructor
@@ -49,9 +49,9 @@ protected:
     /// @brief constructor
     SampleManager();
     /// @brief Method to choose the UserSelector and TrackingInitializer
-    /// 
+    ///
     /// This is the method to overwrite when inheriting. It is responsible for filling up
-    /// m_pUserSelector with the user selector type and m_pTrackingInitializer with the tracking 
+    /// m_pUserSelector with the user selector type and m_pTrackingInitializer with the tracking
     /// initializer type matching the require behavior.
     virtual XnStatus SetSelectors()=0;
     UserTracker *m_pUserTracker; ///< @brief The user tracker used when running
@@ -81,7 +81,7 @@ protected:
 /// @ingroup UserSelectionSampleManagers
 class SingleWaveSampleManager : public DefaultInitializerWithCalibPose
 {
-public: 
+public:
     /// @brief Constructor
     SingleWaveSampleManager();
 protected:
@@ -94,9 +94,9 @@ protected:
 /// @ingroup UserSelectionSampleManagers
 class MultipleWaveSampleManager : public DefaultInitializerWithCalibPose
 {
-public: 
+public:
     /// @brief Constructor
-    /// 
+    ///
     /// @param nMaxNumUsers maximum number of tracked users
     MultipleWaveSampleManager(XnUInt32 nMaxNumUsers);
 protected:
@@ -106,14 +106,14 @@ protected:
     XnUInt32 m_nMaxNumUsers; ///< @brief The maximum allowed number of users
 };
 
-/// @brief class to implement the sample with a closest user selector (waving causes the closest 
+/// @brief class to implement the sample with a closest user selector (waving causes the closest
 /// users to be selected).
 /// @ingroup UserSelectionSampleManagers
 class ClosestSampleManager : public DefaultInitializerWithCalibPose
 {
-public: 
+public:
     /// @brief Constructor
-    /// 
+    ///
     /// @param nMaxNumUsers maximum number of tracked users
     ClosestSampleManager(XnUInt32 nMaxNumUsers);
 protected:

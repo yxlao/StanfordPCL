@@ -22,7 +22,7 @@ package org.openni;
 
 /**
  * Contains miscellaneous functions that are useful in the Java wrapper. <BR><BR>
- * 
+ *
  * Normally, none of these functions would be called directly by an application.  They
  * are used primarily by internal functions of the OpenNI Java wrapper to translate
  * OpenNI function output codes into appropriate exceptions and error messages.
@@ -45,7 +45,7 @@ public class WrapperUtils
 	}
 	
 	/**
-	 * This function examines the integer status output from some native OpenNI functions.  If 
+	 * This function examines the integer status output from some native OpenNI functions.  If
 	 * status is non-zero, and there are errors, then an appropriate GeneralException is thrown.  If
 	 * status is non-zero, but there are no errors, then an appropriate StatusException is thrown.
 	 * @param status

@@ -22,26 +22,26 @@ package org.openni;
 
 /**
  * Alters Map Generator timing to reduce power line noise. <BR><BR>
- * 
+ *
  * This capability allows a Map Generator to time its frame in such a manner that
  * interference from power line frequency (ie electric mains) noise is minimized
  * or eliminated.<BR><BR>
- * 
+ *
  * Common AC power lines emit electromagnetic radiation at their base frequency (usually 50-60 Hz), as
- * well as creating power supply noise in any electronics using AC power.  This noise spike is the 
+ * well as creating power supply noise in any electronics using AC power.  This noise spike is the
  * source of the familiar 50 or 60 Hertz "hum" heard near power transformers.  This noise can also induce
  * artifacts in image sensors.  This capability is intended to inform a device of the dominant AC power frequency
- * in its current area of operation.  Some devices can use this information to optimize timing of internal 
- * image sensors to minimize the effects of this noise.<BR><BR>  
- * 
- * Available nominal power line frequencies are 50 hertz, 60 hertz, or 0 hertz (capability off).  This 
- * is intended to cover the most common AC frequencies used by the power utilities in 
+ * in its current area of operation.  Some devices can use this information to optimize timing of internal
+ * image sensors to minimize the effects of this noise.<BR><BR>
+ *
+ * Available nominal power line frequencies are 50 hertz, 60 hertz, or 0 hertz (capability off).  This
+ * is intended to cover the most common AC frequencies used by the power utilities in
  * most countries.<BR><BR>
- * 
- * Power in North America, most of South America, Taiwan and Korea is 60 hertz.  Europe, Australia, China and 
+ *
+ * Power in North America, most of South America, Taiwan and Korea is 60 hertz.  Europe, Australia, China and
  * the Middle East are mostly 50 hertz. Most but not all African countries use 50 hertz.  Japan uses both.
  * Antarctica remains mostly uncovered by an electric grid, though isolated systems can be found using
- * both 50 Hz and 60 Hz.  
+ * both 50 Hz and 60 Hz.
  */
 public class AntiFlickerCapability extends CapabilityBase
 {
@@ -53,16 +53,16 @@ public class AntiFlickerCapability extends CapabilityBase
 	{
 		super(node);
 
-		this.powerLineFrequencyChanged = new StateChangedObservable() 
+		this.powerLineFrequencyChanged = new StateChangedObservable()
 		{
 			@Override
-			protected int registerNative(String cb, OutArg<Long> phCallback) 
+			protected int registerNative(String cb, OutArg<Long> phCallback)
 			{
 				return NativeMethods.xnRegisterToPowerLineFrequencyChange(toNative(), this, cb, phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromPowerLineFrequencyChange(toNative(), hCallback);
 			}

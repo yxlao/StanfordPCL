@@ -270,8 +270,8 @@ namespace xn
 		virtual XnStatus OnNodeNewData(const XnChar* strNodeName, XnUInt64 nTimeStamp, XnUInt32 nFrame, const void* pData, XnUInt32 nSize) = 0;
 	};
 
-	class ModuleRecorder : 
-		virtual public ModuleProductionNode, 
+	class ModuleRecorder :
+		virtual public ModuleProductionNode,
 		virtual public ModuleNodeNotifications
 	{
 	public:

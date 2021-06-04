@@ -19,7 +19,7 @@
 *                                                                            *
 *****************************************************************************/
 #ifndef _XN_STACK_T_H_
-#define _XN_STACK_T_H_ 
+#define _XN_STACK_T_H_
 
 //---------------------------------------------------------------------------
 // Includes
@@ -39,7 +39,7 @@ public:
 
 	XnStackT() : Base() {}
 
-	XnStackT(const XnStackT& other) : Base() 
+	XnStackT(const XnStackT& other) : Base()
 	{
 		*this = other;
 	}

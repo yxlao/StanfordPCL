@@ -47,7 +47,7 @@ public:
 class XnEvent : public XnEventInterface
 {
 public:
-	XnEvent() : m_hLock(0) 
+	XnEvent() : m_hLock(0)
 	{
 		xnOSCreateCriticalSection(&m_hLock);
 	}
@@ -67,7 +67,7 @@ public:
 		XnCallback* pCallback = NULL;
 		XN_VALIDATE_NEW(pCallback, XnCallback, (XnFuncPtr)pFunc, pCookie);
 
-		// always add to list of added (actual list will be updated in Raise method, to allow registering 
+		// always add to list of added (actual list will be updated in Raise method, to allow registering
 		// from a callback).
 		{
 			XnAutoCSLocker lock(m_hLock);

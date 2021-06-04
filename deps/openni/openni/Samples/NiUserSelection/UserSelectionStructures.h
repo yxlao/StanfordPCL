@@ -31,12 +31,12 @@
 
 /// @brief Enumeration of legal user selection states
 /// @ingroup UserSelectionClasses
-typedef enum XnSelectionState 
+typedef enum XnSelectionState
 {
     XN_SELECTION_UNSELECTED = 0,  ///< @brief The user is not selected and is available for selection
     XN_SELECTION_SELECTED = 1,    ///< @brief The user have been selected but is not tracked yet
     XN_SELECTION_TRACKING = 2,    ///< @brief The user is being tracked
-    XN_SELECTION_FAILED = 3       ///< @brief The user is not selected and not tracked and in the past when selected it failed to be tracked. 
+    XN_SELECTION_FAILED = 3       ///< @brief The user is not selected and not tracked and in the past when selected it failed to be tracked.
 
 } XnSelectionState; ///< @brief Enum for states of a user
 

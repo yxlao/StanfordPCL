@@ -1,5 +1,5 @@
 /*
-    glh - is a platform-indepenedent C++ OpenGL helper library 
+    glh - is a platform-indepenedent C++ OpenGL helper library
 
 
     Copyright (c) 2000 Cass Everitt
@@ -21,7 +21,7 @@
 
      * The names of contributors to this software may not be used
 	   to endorse or promote products derived from this software
-	   without specific prior written permission. 
+	   without specific prior written permission.
 
        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 	   ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -33,8 +33,8 @@
 	   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 	   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
 	   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-	   ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
-	   POSSIBILITY OF SUCH DAMAGE. 
+	   ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+	   POSSIBILITY OF SUCH DAMAGE.
 
 
     Cass Everitt - cass@r3.nu
@@ -126,7 +126,7 @@ namespace glh
 	for(std::list<glut_interactor *>::iterator it=interactors.begin(); it != interactors.end() && propagate; it++)
 	  (*it)->mouse(button, state, x, y);
   }
-  
+
   void glut_passive_motion_function(int x, int y)
   {
 	propagate = true;
@@ -162,7 +162,7 @@ namespace glh
 	  (*it)->visibility(v);
   }
 
-  // stop processing the current event 
+  // stop processing the current event
   inline void glut_event_processed()
   {
 	  propagate = false;
@@ -184,7 +184,7 @@ namespace glh
 
   inline void glut_remove_interactor(glut_interactor *gi)
   {
-	  std::list<glut_interactor *>::iterator it = 
+	  std::list<glut_interactor *>::iterator it =
 		  std::find(interactors.begin(), interactors.end(), gi);
 	if(it != interactors.end())
 	  interactors.erase(it);
@@ -280,7 +280,7 @@ namespace glh
   public:
 	  glut_perspective_reshaper(float infovy = 60.f, float inzNear = .1f, float inzFar = 10.f)
 		  : fovy(infovy), zNear(inzNear), zFar(inzFar), aspect_factor(1) {}
-	  
+	
 	  void reshape(int w, int h)
 	  {
 		  width = w; height = h;
@@ -303,7 +303,7 @@ namespace glh
 		  {
 			  // fovy is a misnomer.. we really mean the fov applies to the
 			  // smaller dimension
-			  float fovx = fovy; 
+			  float fovx = fovy;
 			  float real_fov = to_degrees(2 * atan(tan(to_radians(fovx/2))/aspect));
               gluPerspective(real_fov, aspect, zNear, zFar);
 		  }
@@ -364,7 +364,7 @@ namespace glh
 		  width = w; height = h;
 	}
 
-	virtual void apply_transform() = 0; 
+	virtual void apply_transform() = 0;
 	virtual void apply_inverse_transform() = 0;
 	virtual matrix4f get_transform() = 0;
 	virtual matrix4f get_inverse_transform() = 0;
@@ -438,7 +438,7 @@ namespace glh
 	float scale;
   };
 
-  
+
   class glut_dolly : public glut_simple_interactor
   {
   public:
@@ -451,7 +451,7 @@ namespace glh
 	void update()
 	{
 	  vec3f v(0,0,dy);
-	  if(parent_rotation != 0) parent_rotation->mult_vec(v); 
+	  if(parent_rotation != 0) parent_rotation->mult_vec(v);
 
 	  if(invert_increment)
 		  dolly += v * scale;
@@ -560,7 +560,7 @@ namespace glh
 				
 		}
 
-		// fixme: shouldn't operator*() preserve 'r' in this case? 
+		// fixme: shouldn't operator*() preserve 'r' in this case?
 		if(incr[3] != 0)
 			r = incr * r;
 		glutPostRedisplay();
@@ -569,7 +569,7 @@ namespace glh
 	void increment_rotation()
 	{
 		if(active) return;
-		// fixme: shouldn't operator*() preserve 'r' in this case? 
+		// fixme: shouldn't operator*() preserve 'r' in this case?
 		if(incr[3] != 0)
 			r = incr * r;
 		glutPostRedisplay();
@@ -615,9 +615,9 @@ namespace glh
 	float scale;
 	bool legacy_mode;
 	rotationf incr;
-  }; 
+  };
 
-  
+
   class glut_rotate : public glut_simple_interactor
   {
   public:
@@ -662,7 +662,7 @@ namespace glh
 		matrix4f mx, my;
 		rx.get_value(mx);
 		ry.get_value(my);
-		return my * mx; 
+		return my * mx;
 	}	
 
 	float rotate_x, rotate_y, scale;
@@ -793,7 +793,7 @@ namespace glh
 	}
 
 	virtual void motion(int x, int y)
-	{ 
+	{
 
 		trackball.motion(x,y);
 

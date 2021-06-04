@@ -25,11 +25,11 @@
  * @ingroup cref
  * @defgroup context Context
  * This page details functions for managing an OpenNI context.
- * 
+ *
  * @section init Initializing and Deinitializing OpenNI Context
  *
  * Initialization must be performed before using any OpenNI functionality, and similarly you
- * must not call any OpenNI functions after deinitialization. 
+ * must not call any OpenNI functions after deinitialization.
  *
  * @section trees Enumerating and Creating Production Trees
  *
@@ -44,9 +44,9 @@
  * The results from an enumeration operation is a pointer to the first node of a linked list, representing
  * all the different possibilities to get data of the requested type. A single possibility contains
  * the provider description, an optional instance name (that can be used by the provider as proprietary
- * information, like a device S/N), and the bExists field, which tells if this node already exists in 
+ * information, like a device S/N), and the bExists field, which tells if this node already exists in
  * the context (and as such, doesn't need to be created) or not, and a list of needed nodes by this node.
- * 
+ *
  * @subsection enumex Enumerating Example
  *
  * For example, let's take a look at an application in need of depth maps:
@@ -91,7 +91,7 @@ xnNodeInfoListFree(pNodesList);
  */
 
 /**
- * @brief Initializes the OpenNI library. 
+ * @brief Initializes the OpenNI library.
  *
  * This function must be called before calling any other OpenNI function (except for @ref xnInitFromXmlFile())
  *
@@ -226,13 +226,13 @@ XN_C_API void XN_API_DEPRECATED("Use xnContextRelease() instead") XN_C_DECL xnSh
 XN_C_API void XN_C_DECL xnForceShutdown(XnContext* pContext);
 
 /**
- * @brief Registers for context shutting down event. This function is used for backwards compatibility and 
+ * @brief Registers for context shutting down event. This function is used for backwards compatibility and
  * should not be called by any client.
  */
 XN_C_API XnStatus XN_C_DECL xnContextRegisterForShutdown(XnContext* pContext, XnContextShuttingDownHandler pHandler, void* pCookie, XnCallbackHandle* phCallback);
 
 /**
- * @brief Unregisters from context shutting down event. This function is used for backwards compatibility and 
+ * @brief Unregisters from context shutting down event. This function is used for backwards compatibility and
  * should not be called by any client.
  */
 XN_C_API void XN_C_DECL xnContextUnregisterFromShutdown(XnContext* pContext, XnCallbackHandle hCallback);
@@ -244,7 +244,7 @@ XN_C_API void XN_C_DECL xnContextUnregisterFromShutdown(XnContext* pContext, XnC
  *  @{
  */
 
-/** 
+/**
  * @brief Enumerates all available production trees for a specific node type. The trees populated in the
  * list should be freed by calling @ref xnNodeInfoListFree() once not needed.
  *
@@ -256,16 +256,16 @@ XN_C_API void XN_C_DECL xnContextUnregisterFromShutdown(XnContext* pContext, XnC
  */
 XN_C_API XnStatus XN_C_DECL xnEnumerateProductionTrees(
 	XnContext* pContext,
-	XnProductionNodeType Type, 
+	XnProductionNodeType Type,
 	const XnNodeQuery* pQuery,
 	XnNodeInfoList** ppTreesList,
 	XnEnumerationErrors* pErrors
 	);
 
-/** 
+/**
  * @brief Creates a production node. If the tree specifies additional needed nodes, and those nodes
  * do not exist, they will be created too, and passed to this node as input.
- * 
+ *
  * @param	pContext		[in]		OpenNI context.
  * @param	pTree			[in]		A production tree to create.
  * @param	phNode			[out]		A handle to the newly created node.
@@ -307,14 +307,14 @@ XN_C_API XnStatus XN_C_DECL xnCreateAnyProductionTree(
  * @param	phNode			[out]		A handle to the newly created node.
  */
 XN_C_API XnStatus XN_C_DECL xnCreateMockNode(
-	XnContext* pContext, 
+	XnContext* pContext,
 	XnProductionNodeType type,
 	const XnChar* strName,
 	XnNodeHandle* phNode
 	);
 
 /**
- * @brief Creates a production node which is only a mock, base on the type and properties of another node. 
+ * @brief Creates a production node which is only a mock, base on the type and properties of another node.
  * This node does not represent an actual node, but only keeps a state and implements an interface above it.
  * Mock nodes are useful when simulating nodes for playing recordings, or for use in tests.
  * See also @ref xnCreateMockNode().
@@ -474,7 +474,7 @@ XN_C_API XnStatus XN_C_DECL xnStartGeneratingAll(XnContext* pContext);
 XN_C_API XnStatus XN_C_DECL xnStopGeneratingAll(XnContext* pContext);
 
 /**
- * @brief Sets the global mirror flag. This will set all current existing nodes' mirror state, and also 
+ * @brief Sets the global mirror flag. This will set all current existing nodes' mirror state, and also
  * affect future created nodes. The default mirror flag is FALSE.
  *
  * @param	pContext		[in]	OpenNI context.

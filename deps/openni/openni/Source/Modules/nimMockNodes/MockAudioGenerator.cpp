@@ -24,7 +24,7 @@
 #include <XnLog.h>
 
 
-MockAudioGenerator::MockAudioGenerator(xn::Context& context, const XnChar* strName) : 
+MockAudioGenerator::MockAudioGenerator(xn::Context& context, const XnChar* strName) :
 	MockGenerator(context, strName, TRUE),
 	m_pSupportedOutputModes(NULL),
 	m_nSupportedOutputModesCount(0),

@@ -28,12 +28,12 @@
 			ScriptNode scriptNode;
 		@endcode			
 		
-		The following statement declares a @ref xn::Context "Context" object and creates the production graph from an OpenNI XML script file. The context is the workspace where the application builds an OpenNI production graph. 
+		The following statement declares a @ref xn::Context "Context" object and creates the production graph from an OpenNI XML script file. The context is the workspace where the application builds an OpenNI production graph.
 		@code
 			Context context = Context.CreateFromXmlFile(SAMPLE_XML_FILE, out scriptNode);
 		@endcode						
 		
-		The @ref xn::Context::FindExistingNode() "FindExistingNode()" method in the following code block tries to get a reference to any production nodes in the production graph. This call specifies the <code>NodeType.Depth</code> parameter to get a reference to a @ref xn::DepthGenerator "DepthGenerator" node. A DepthGenerator node generates a depth map as an array of pixels, where each pixel is a depth value representing a distance from the sensor in millimeters. A reference to the node is returned in the depth parameter.   
+		The @ref xn::Context::FindExistingNode() "FindExistingNode()" method in the following code block tries to get a reference to any production nodes in the production graph. This call specifies the <code>NodeType.Depth</code> parameter to get a reference to a @ref xn::DepthGenerator "DepthGenerator" node. A DepthGenerator node generates a depth map as an array of pixels, where each pixel is a depth value representing a distance from the sensor in millimeters. A reference to the node is returned in the depth parameter.
 		@code
 			DepthGenerator depth = context.FindExistingNode(NodeType.Depth) as DepthGenerator;
 			if (depth == null)
@@ -43,7 +43,7 @@
 			}
 		@endcode	
 		
-		The following statement gets the map output mode of the @ref xn::DepthGenerator "DepthGenerator" node.  The map output mode is the combination of the node's scene resolution and frame rate. 
+		The following statement gets the map output mode of the @ref xn::DepthGenerator "DepthGenerator" node.  The map output mode is the combination of the node's scene resolution and frame rate.
 		@code	
 			MapOutputMode mapMode = depth.MapOutputMode;
 		@endcode	
@@ -66,7 +66,7 @@
 			@endcode
 			The following sections describe the statements in the main program loop above.
 		
-		@subsection srj_main_upd_data Updating the Data Available for Output 
+		@subsection srj_main_upd_data Updating the Data Available for Output
 
 			the @ref xn::Context::WaitAnyUpdateAll() "WaitAnyUpdateAll()" method in the following statement waits for a specific node to have generated a new data frame. The method then makes the data frames of all nodes in the entire production graph available for getting. The application can then get the data (for example, using a metadata GetData() method). This method has a timeout.			
 			@code

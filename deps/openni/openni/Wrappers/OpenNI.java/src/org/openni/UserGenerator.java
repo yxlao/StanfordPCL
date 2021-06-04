@@ -22,26 +22,26 @@ package org.openni;
 
 /**
  * Identifies a user in the scene. <BR><BR>
- * 
+ *
  * A User Generator node is a Generator that identifies a user in the scene. It supports all Generator functions, and adds additional functions.
  *
  */
 public class UserGenerator extends Generator
 {
-	UserGenerator(Context context, long nodeHandle, boolean addRef) throws GeneralException 
+	UserGenerator(Context context, long nodeHandle, boolean addRef) throws GeneralException
 	{
 		super(context, nodeHandle, addRef);
 		
 		newUserEvent = new Observable<UserEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterUserCallbacks(toNative(), this, "callback", null, phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterUserCallbacks(toNative(), hCallback);
 			}
@@ -55,13 +55,13 @@ public class UserGenerator extends Generator
 		lostUserEvent = new Observable<UserEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterUserCallbacks(toNative(), this, null, "callback", phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterUserCallbacks(toNative(), hCallback);
 			}
@@ -75,13 +75,13 @@ public class UserGenerator extends Generator
 		userExitEvent = new Observable<UserEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterToUserExit(toNative(), this, "callback", phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromUserExit(toNative(), hCallback);
 			}
@@ -95,13 +95,13 @@ public class UserGenerator extends Generator
 		userReenterEvent = new Observable<UserEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterToUserReEnter(toNative(), this, "callback", phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromUserExit(toNative(), hCallback);
 			}

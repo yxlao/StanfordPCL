@@ -322,7 +322,7 @@ namespace OpenNI
                 return retVal;
             }
         }
-        
+
         public byte Major
 		{
 			get { return major; }

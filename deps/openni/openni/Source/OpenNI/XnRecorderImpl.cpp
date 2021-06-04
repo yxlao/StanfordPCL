@@ -29,10 +29,10 @@
 #include <XnCodecIDs.h>
 #include "XnTypeManager.h"
 
-namespace xn 
+namespace xn
 {
 
-XnRecorderOutputStreamInterface RecorderImpl::s_fileOutputStream = 
+XnRecorderOutputStreamInterface RecorderImpl::s_fileOutputStream =
 {
 	&RecorderImpl::OpenFile,
 	&RecorderImpl::WriteFile,
@@ -43,7 +43,7 @@ XnRecorderOutputStreamInterface RecorderImpl::s_fileOutputStream =
 	&RecorderImpl::TellFile64
 };
 
-RecorderImpl::RecorderImpl() : 
+RecorderImpl::RecorderImpl() :
 	m_destType(XN_RECORD_MEDIUM_FILE),
 	m_bIsFileOpen(FALSE),
 	m_hOutFile(XN_INVALID_FILE_HANDLE),
@@ -178,7 +178,7 @@ XnStatus RecorderImpl::AddRawNode(const XnChar* strNodeName)
 		return XN_STATUS_INVALID_OPERATION;
 	}
 
-	XnStatus nRetVal = Notifications().OnNodeAdded(ModuleHandle(), 
+	XnStatus nRetVal = Notifications().OnNodeAdded(ModuleHandle(),
 		strNodeName, (XnProductionNodeType)0, XN_CODEC_UNCOMPRESSED);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -368,7 +368,7 @@ XnStatus RecorderImpl::GetDestination(XnRecordMedium& destType, XnChar* strDest,
 	return XN_STATUS_OK;
 }
 
-typedef struct 
+typedef struct
 {
 	NodeWatcher* pWatcher;
 	XnUInt64 nTimestamp;
@@ -512,8 +512,8 @@ XnStatus RecorderImpl::OpenFileImpl()
 	return XN_STATUS_OK;	
 }
 
-XnStatus RecorderImpl::WriteFileImpl(const XnChar* /*strNodeName*/, 
-									 const void* pData, 
+XnStatus RecorderImpl::WriteFileImpl(const XnChar* /*strNodeName*/,
+									 const void* pData,
 									 XnUInt32 nSize)
 {
 	//strNodeName may be NULL

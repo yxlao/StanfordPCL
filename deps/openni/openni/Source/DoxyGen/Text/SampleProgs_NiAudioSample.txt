@@ -3,7 +3,7 @@
 @page smpl_audio NiAudioSample.cpp - sample program
 
 	<b>Source file:</b> Click the following link to view the source code file:
-		- NiAudioSample.cpp 
+		- NiAudioSample.cpp
 		
 	This section describes an OpenNI sample program for using the Audio interface.
 
@@ -106,7 +106,7 @@
 			}
 		@endcode		
 	
-		The application then calls an @ref conc_updating_data "'Update Data'" method, in this case xn::Context.WaitAnyUpdateAll(), to update all generator nodes in the context to the latest available data, first waiting for any of the nodes to have new data available. The first call is used just to flush the node. 
+		The application then calls an @ref conc_updating_data "'Update Data'" method, in this case xn::Context.WaitAnyUpdateAll(), to update all generator nodes in the context to the latest available data, first waiting for any of the nodes to have new data available. The first call is used just to flush the node.
 		@code			
 			context.WaitAnyUpdateAll();
 		@endcode
@@ -162,7 +162,7 @@
 				}
 			@endcode
 		
-			The following code block searches for xn::AudioGenerator nodes in the production graph. The nodes are returned in the @ref xn::NodeInfoList object. This object is a list xn::NodeInfo objects, each containing information about a node found in the above  EnumerateExistingNodes() call. 
+			The following code block searches for xn::AudioGenerator nodes in the production graph. The nodes are returned in the @ref xn::NodeInfoList object. This object is a list xn::NodeInfo objects, each containing information about a node found in the above  EnumerateExistingNodes() call.
 			
 			@code
 				NodeInfoList list;

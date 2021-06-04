@@ -20,9 +20,9 @@
 *****************************************************************************/
 package org.openni;
 
-public class Cropping 
+public class Cropping
 {
-	public Cropping(int xOffset, int yOffset, int xSize, int ySize, boolean enabled) 
+	public Cropping(int xOffset, int yOffset, int xSize, int ySize, boolean enabled)
 	{
 		super();
 		this.xOffset = xOffset;
@@ -32,43 +32,43 @@ public class Cropping
 		this.enabled = enabled;
 	}
 
-	public int getXOffset() 
+	public int getXOffset()
 	{
 		return xOffset;
 	}
-	public void setXOffset(int xOffset) 
+	public void setXOffset(int xOffset)
 	{
 		this.xOffset = xOffset;
 	}
-	public int getYOffset() 
+	public int getYOffset()
 	{
 		return yOffset;
 	}
-	public void setYOffset(int yOffset) 
+	public void setYOffset(int yOffset)
 	{
 		this.yOffset = yOffset;
 	}
-	public int getXSize() 
+	public int getXSize()
 	{
 		return xSize;
 	}
-	public void setXSize(int xSize) 
+	public void setXSize(int xSize)
 	{
 		this.xSize = xSize;
 	}
-	public int getYSize() 
+	public int getYSize()
 	{
 		return ySize;
 	}
-	public void setYSize(int ySize) 
+	public void setYSize(int ySize)
 	{
 		this.ySize = ySize;
 	}
-	public boolean isEnabled() 
+	public boolean isEnabled()
 	{
 		return enabled;
 	}
-	public void setEnabled(boolean enabled) 
+	public void setEnabled(boolean enabled)
 	{
 		this.enabled = enabled;
 	}

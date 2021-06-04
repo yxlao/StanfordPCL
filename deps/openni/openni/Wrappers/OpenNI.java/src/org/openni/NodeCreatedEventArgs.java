@@ -22,7 +22,7 @@ package org.openni;
 
 /**
  * Stores the data created when a Node Created Event is generated. <BR><BR>
- * 
+ *
  * This data consists only of a reference to the production node that was just created.
  *
  */

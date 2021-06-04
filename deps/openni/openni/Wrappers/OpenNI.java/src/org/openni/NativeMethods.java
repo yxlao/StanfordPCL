@@ -24,19 +24,19 @@ import java.nio.ByteBuffer;
 
 /**
  * Encapsulates calls to native OpenNI code. <BR><BR>
- * 
- * This class encapsulates prototypes for all calls to native OpenNI 
+ *
+ * This class encapsulates prototypes for all calls to native OpenNI
  * code used in the rest of the SDK.  Application developers will not
  * generally have a direct need for these functions.
  *
  */
 class NativeMethods
 {
-	static 
-	{ 
+	static
+	{
 		String arch = System.getenv("PROCESSOR_ARCHITECTURE");
 		if ((arch != null) && ((arch.equals("AMD64")) || (arch.equals("IA64"))))
-			System.loadLibrary("OpenNI.jni64"); 
+			System.loadLibrary("OpenNI.jni64");
 		else
 			System.loadLibrary("OpenNI.jni");
 	}
@@ -315,7 +315,7 @@ class NativeMethods
 	static native int xnCreateSceneAnalyzer(
 			long pContext,
 			OutArg<Long> phSceneAnalyzer,
-			long pQuery, 
+			long pQuery,
 			long pErrors
 			);
 	static native long xnGetLabelMap(long hInstance);
@@ -326,7 +326,7 @@ class NativeMethods
 	static native int xnCreateUserGenerator(
 			long pContext,
 			OutArg<Long> phUserGenerator,
-			long pQuery, 
+			long pQuery,
 			long pErrors
 			);
 	static native int xnGetNumberOfUsers(long hInstance);
@@ -393,7 +393,7 @@ class NativeMethods
 	static native int xnCreateHandsGenerator(
 			long pContext,
 			OutArg<Long> phHandsGenerator,
-			long pQuery, 
+			long pQuery,
 			long pErrors
 			);
 	static native int xnRegisterHandCallbacks(long hInstance, Object obj, String createCB, String updateCB, String destroyCB, OutArg<Long> phCallback);
@@ -409,7 +409,7 @@ class NativeMethods
 	static native int xnCreateAudioGenerator(
 			long pContext,
 			OutArg<Long> phAudioGenerator,
-			long pQuery, 
+			long pQuery,
 			long pErrors
 			);
 
@@ -432,9 +432,9 @@ class NativeMethods
 	// Codecs
 	static native int xnCreateCodec(long pContext, int codecID, long hInitializerNode, OutArg<Long> phCodec);
 	static native int xnGetCodecID(long hCodec);
-	static native int xnEncodeData(long hCodec, long pSrc, int nSrcSize, 
+	static native int xnEncodeData(long hCodec, long pSrc, int nSrcSize,
 								   long pDst, int nDstSize, OutArg<Integer> pnBytesWritten);
-	static native int xnDecodeData(long hCodec, long pSrc, int nSrcSize, 
+	static native int xnDecodeData(long hCodec, long pSrc, int nSrcSize,
 								   long pDst, int nDstSize, OutArg<Integer> pnBytesWritten);
 
 	// Recorder

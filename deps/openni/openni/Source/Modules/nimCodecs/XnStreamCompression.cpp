@@ -384,7 +384,7 @@ XnStatus XnStreamUncompressDepth16Z(const XnUInt8* pInput, const XnUInt32 nInput
 			*pOutput = nLastFullValue;
 			pOutput++;
 
-			if (cInData2 != 0x0f) 
+			if (cInData2 != 0x0f)
 			{
 				if (cInData2 != 0x0d)
 				{
@@ -535,7 +535,7 @@ XnStatus XnStreamUncompressDepth16ZWithEmbTable(const XnUInt8* pInput, const XnU
 			*pOutput =  pEmbTable[nLastFullValue];
 			pOutput++;
 
-			if (cInData2 != 0x0f) 
+			if (cInData2 != 0x0f)
 			{
 				if (cInData2 != 0x0d)
 				{
@@ -810,7 +810,7 @@ XnStatus XnStreamUncompressImage8Z(const XnUInt8* pInput, const XnUInt32 nInputS
 			*pOutput = nLastFullValue;
 			pOutput++;
 
-			if (cInData2 != 0x0f) 
+			if (cInData2 != 0x0f)
 			{
 				if (cInData2 != 0x0d)
 				{
@@ -843,7 +843,7 @@ XnStatus XnStreamUncompressImage8Z(const XnUInt8* pInput, const XnUInt32 nInputS
 
 			cInData2 = cInput & 0xF;
 
-			if (cInData2 == 0x0F) 
+			if (cInData2 == 0x0F)
 			{
 				pInput++;
 				nLastFullValue = *pInput;
@@ -982,9 +982,9 @@ boolean XnStreamJPEGCompDummyFailFunction(struct jpeg_compress_struct* /*pjCompS
 
 void XnStreamJPEGDummyErrorExit(j_common_ptr cinfo)
 {
-	XnLibJpegErrorMgr* errMgr = (XnLibJpegErrorMgr*)cinfo->err; 
+	XnLibJpegErrorMgr* errMgr = (XnLibJpegErrorMgr*)cinfo->err;
 
-	longjmp(errMgr->setjmpBuffer, 1); 
+	longjmp(errMgr->setjmpBuffer, 1);
 }
 
 void XnStreamJPEGOutputMessage(j_common_ptr cinfo)
@@ -1078,7 +1078,7 @@ XnStatus XnStreamCompressImage8J(XnStreamCompJPEGContext* pStreamCompJPEGContext
 
 		xnLogError(XN_MASK_JPEG, "JPEG compressor error :(");
 		return (XN_STATUS_ERROR);
-	} 
+	}
 
 	pjCompStruct->in_color_space = JCS_GRAYSCALE;
 	jpeg_set_defaults(pjCompStruct);
@@ -1137,7 +1137,7 @@ XnStatus XnStreamCompressImage24J(XnStreamCompJPEGContext* pStreamCompJPEGContex
 
 		xnLogError(XN_MASK_JPEG, "JPEG compressor error :(");
 		return (XN_STATUS_ERROR);
-	} 
+	}
 
 	pjCompStruct->in_color_space = JCS_RGB;
 	jpeg_set_defaults(pjCompStruct);
@@ -1261,7 +1261,7 @@ XnStatus XnStreamUncompressImageJ(XnStreamUncompJPEGContext* pStreamUncompJPEGCo
 
 		xnLogError(XN_MASK_JPEG, "JPEG compressor error :(");
 		return (XN_STATUS_ERROR);
-	} 
+	}
 
 	jpeg_read_header(pjDecompStruct, TRUE);
 

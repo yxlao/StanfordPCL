@@ -84,7 +84,7 @@ public:
 	virtual void WriteEntry(const XnLogEntry* pEntry) = 0;
 	virtual void WriteUnformatted(const XnChar* strMessage) = 0;
 	virtual void OnConfigurationChanged() {};
-	virtual void OnClosing() 
+	virtual void OnClosing()
 	{
 		Unregister();
 	};

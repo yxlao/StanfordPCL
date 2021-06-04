@@ -19,7 +19,7 @@
 *                                                                            *
 *****************************************************************************/
 #ifndef _XNLISTT_H_
-#define _XNLISTT_H_ 
+#define _XNLISTT_H_
 
 //---------------------------------------------------------------------------
 // Includes
@@ -32,7 +32,7 @@
 // Code
 //---------------------------------------------------------------------------
 
-/** 
+/**
  * A node in a linked list.
  *
  * @tparam	T	the type of value in the list.
@@ -140,7 +140,7 @@ public:
 
 		/**
 		* Operator to check if two iterators point to the same object
-		* 
+		*
 		* @param	other	[in]	instance to compare with
 		*/
 		inline XnBool operator==(const ConstIterator& other) const
@@ -150,7 +150,7 @@ public:
 
 		/**
 		* Operator to check if two iterators point to different objects
-		* 
+		*
 		* @param	other	[in]	instance to compare with
 		*/
 		inline XnBool operator!=(const ConstIterator& other) const
@@ -196,7 +196,7 @@ public:
 		/**
 		* Support ++iterator, go to the next object in the list
 		*/
-		inline Iterator& operator++() 
+		inline Iterator& operator++()
 		{
 			++(*(ConstIterator*)this);
 			return (*this);
@@ -205,8 +205,8 @@ public:
 		/**
 		* Support iterator++, go to the next object in the list, returning the old value
 		*/
-		inline Iterator operator++(int) 
-		{ 
+		inline Iterator operator++(int)
+		{
 			Iterator retVal(*this);
 			++*this;
 			return (retVal);
@@ -215,16 +215,16 @@ public:
 		/**
 		* Support --iterator, go to the next object in the list
 		*/
-		inline Iterator& operator--() 
-		{ 
-			--(*(ConstIterator*)this); 
+		inline Iterator& operator--()
+		{
+			--(*(ConstIterator*)this);
 			return (*this);
 		}
 		/**
 		* Support iterator--, go to the next object in the list, returning the old value
 		*/
 		inline Iterator operator--(int)
-		{ 
+		{
 			Iterator retVal(*this);
 			--*this;
 			return (retVal);
@@ -233,7 +233,7 @@ public:
 		/**
 		* Get the value of the current object
 		*/
-		inline T& operator*() const 
+		inline T& operator*() const
 		{
 			return this->m_pCurrent->value;
 		}
@@ -345,7 +345,7 @@ public:
 
 	/**
 	* Add a new value after the object pointed to by the iterator
-	* 
+	*
 	* @param	where	[in]	iterator to the position after which to add the new value
 	* @param	value	[in]	The value to add to the list
 	*
@@ -364,7 +364,7 @@ public:
 
 	/**
 	* Add a new value before the object pointed to by the iterator
-	* 
+	*
 	* @param	where	[in]	iterator to the position before which to add the new value
 	* @param	value		[in]	The value to add to the list
 	*
@@ -383,7 +383,7 @@ public:
 
 	/**
 	* Add a new value at the beginning of list
-	* 
+	*
 	* @param	value	[in]	The value to add to the head of the list
 	*
 	* @return	XN_STATUS_ALLOC_FAILED		failed to allocate new node
@@ -395,7 +395,7 @@ public:
 
 	/**
 	* Add a new value at the end of the list
-	* 
+	*
 	* @param	value	[in]	The value to add to the tail of the list
 	*
 	* @return	XN_STATUS_ALLOC_FAILED		failed to allocate new node
@@ -407,8 +407,8 @@ public:
 
 	/**
 	* Get an iterator pointing to a value in the list.
-	* 
-	* @param	value	[in]	The searched value 
+	*
+	* @param	value	[in]	The searched value
 	*
 	* @return	End()	if value doesn't exist
 	*/
@@ -425,8 +425,8 @@ public:
 
 	/**
 	* Get an iterator pointing to a value in the list.
-	* 
-	* @param	value	[in]	The searched value 
+	*
+	* @param	value	[in]	The searched value
 	*
 	* @return	End()	if value doesn't exist
 	*/
@@ -438,7 +438,7 @@ public:
 
 	/**
 	* Remove a value from the list
-	* 
+	*
 	* @param	where	[in]	Iterator pointing to an entry in the list
 	*
 	* @return XN_STATUS_ILLEGAL_POSITION	iterator was invalid
@@ -467,7 +467,7 @@ public:
 
 	/**
 	* Removes the first occurrence of a value from the list
-	* 
+	*
 	* @param	value	[in]	The value to be removed
 	*
 	* @return XN_STATUS_NO_MATCH	value wasn't found.
@@ -515,7 +515,7 @@ public:
 	/**
 	* Copies all values in the list to an array.
 	*
-	* @param	pArray	A pre-allocated array that values should be copied to. The allocation size can be 
+	* @param	pArray	A pre-allocated array that values should be copied to. The allocation size can be
 						determined using @ref Size().
 	*/
 	void CopyTo(T* pArray) const
@@ -532,7 +532,7 @@ public:
 protected:
 	/**
 	* Add a new value to the list
-	* 
+	*
 	* @param	pAfter	[in]	The node after which to add the new value
 	* @param	val		[in]	The value to add to the list
 	*

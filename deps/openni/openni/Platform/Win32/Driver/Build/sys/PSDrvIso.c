@@ -22,7 +22,7 @@
 // Includes
 //---------------------------------------------------------------------------
 #include "PSDrvPrivate.h"
-       
+
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
@@ -590,7 +590,7 @@ VOID PerformHighSpeedIsochTransfer(IN WDFDEVICE Device, IN WDFQUEUE Queue, IN WD
         WdfRequestSetCompletionRoutine(subRequest,
                                         SubRequestCompletionRoutine,
                                         rwContext);
-  
+
         if (WdfRequestSend(subRequest, WdfUsbTargetPipeGetIoTarget(pipe), WDF_NO_SEND_OPTIONS) == FALSE) {
             status = WdfRequestGetStatus(subRequest);
             PSDrv_DbgPrint(1, ("WdfRequestSend failed with status code 0x%x\n", status));
@@ -622,9 +622,9 @@ Exit:
                 WdfRequestCompleteWithInformation(Request, STATUS_SUCCESS, rwContext->Numxfer);
             }
             else {
-                WdfRequestCompleteWithInformation(Request, status, rwContext->Numxfer); 
+                WdfRequestCompleteWithInformation(Request, status, rwContext->Numxfer);
             }
-            
+
         }
 
     }
@@ -698,7 +698,7 @@ VOID SubRequestCompletionRoutine(IN WDFREQUEST Request, IN WDFIOTARGET Target, P
 		pDataBuffer = (PUCHAR)MmGetSystemAddressForMdlSafe(subReqContext->SubMdl,NormalPagePriority);
 
 		// Make sure it's a valid pointer...
-		if(pDataBuffer!=NULL) 
+		if(pDataBuffer!=NULL)
 		{
 			PSDrv_DbgPrint(3, ("Repacking the data buffer:\n"));
 
@@ -792,7 +792,7 @@ VOID SubRequestCompletionRoutine(IN WDFREQUEST Request, IN WDFIOTARGET Target, P
         PSDrv_DbgPrint(1, ("Total data transferred = %X\n", rwContext->Numxfer));
 
         PSDrv_DbgPrint(3, ("SubRequestCompletionRoutine %s completed\n", rwContext->Read?"Read":"Write"));
-        
+
         if (rwContext->Numxfer > 0 )
 		{
             WdfRequestCompleteWithInformation(mainRequest, STATUS_SUCCESS, rwContext->Numxfer);
@@ -801,9 +801,9 @@ VOID SubRequestCompletionRoutine(IN WDFREQUEST Request, IN WDFIOTARGET Target, P
 		{
             PSDrv_DbgPrint(3, ("SubRequestCompletionRoutine completed with failure status %x\n", CompletionParams->IoStatus.Status));
 
-            WdfRequestCompleteWithInformation(mainRequest, CompletionParams->IoStatus.Status, rwContext->Numxfer); 
-        }       
-        
+            WdfRequestCompleteWithInformation(mainRequest, CompletionParams->IoStatus.Status, rwContext->Numxfer);
+        }
+
     }
 
     // Since we created the subrequests, we should free it by removing the reference.

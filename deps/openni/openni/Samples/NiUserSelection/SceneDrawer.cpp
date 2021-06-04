@@ -83,7 +83,7 @@ void SceneDrawer::DrawScene(UserTracker *pUserTrackerObj,int argc, char **argv,S
         eglSwapBuffers(display, surface);
     }
     // we should never reach here! we have a while(1) above!
-    ExitSample(EXIT_SUCCESS); 
+    ExitSample(EXIT_SUCCESS);
 
 #endif
 }
@@ -112,7 +112,7 @@ SceneDrawer::SceneDrawer()
 
     // following are dummy assignments which will be overriden when DrawScene is called
     // (either in DrawScene itself or in InitTexture
-    m_pUserTrackerObj=NULL; 
+    m_pUserTrackerObj=NULL;
     depthTexID=0;
     pDepthTexBuf=NULL;
     texWidth=0;
@@ -126,8 +126,8 @@ SceneDrawer::SceneDrawer()
 
 void SceneDrawer::DrawDepthMapTexture()
 {
-    XnUInt16 g_nXRes; 
-    XnUInt16 g_nYRes; 
+    XnUInt16 g_nXRes;
+    XnUInt16 g_nYRes;
     m_pUserTrackerObj->GetImageRes(g_nXRes,g_nYRes);
 
     if (g_bDrawPixels)
@@ -192,9 +192,9 @@ void SceneDrawer::DrawLabels(XnUserID nUserId)
         {
             sprintf(strOutputLabel, "%d", nUserId);
         }
-        
+
     }
-    else 
+    else
     {
         if(userExitPose>0)
         {
@@ -204,7 +204,7 @@ void SceneDrawer::DrawLabels(XnUserID nUserId)
         {
             sprintf(strOutputLabel, "%d - %s", nUserId,strUserLabel);
         }
-        
+
     }
 
     glColor4f(1-color[0], 1-color[1], 1-color[2], 1);
@@ -254,7 +254,7 @@ void SceneDrawer::DrawSkeleton(XnUserID nUserId)
             else
             {
                 glLineStipple(1,0x00FF);
-            }            
+            }
         }
         glBegin(GL_LINES);
         glVertex2f(pLimbsPosArr[j*2].X, pLimbsPosArr[j*2].Y);
@@ -289,8 +289,8 @@ void SceneDrawer::ExitSample(int exitCode)
 
 void SceneDrawer::InitTexture()
 {
-    XnUInt16 g_nXRes; 
-    XnUInt16 g_nYRes; 
+    XnUInt16 g_nXRes;
+    XnUInt16 g_nYRes;
     m_pUserTrackerObj->GetImageRes(g_nXRes,g_nYRes);
 
     // get the width and height of the texture as the nearest power of two larger than the
@@ -325,8 +325,8 @@ void SceneDrawer::glutDisplay (void)
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
-    XnUInt16 g_nXRes; 
-    XnUInt16 g_nYRes; 
+    XnUInt16 g_nXRes;
+    XnUInt16 g_nYRes;
     SceneDrawer *singleton=GetInstance();
 
     singleton->m_pUserTrackerObj->GetImageRes(g_nXRes,g_nYRes);
@@ -364,7 +364,7 @@ void SceneDrawer::glutDisplay (void)
             {
                 singleton->DrawSkeleton(aUsers[i]);
             }
-            
+
         }
 
     }
@@ -392,7 +392,7 @@ void SceneDrawer::glutKeyboard (unsigned char key, int /*x*/, int /*y*/)
     switch (key)
     {
     case 27:
-        singleton->ExitSample(EXIT_SUCCESS); 
+        singleton->ExitSample(EXIT_SUCCESS);
     case 'b':
         // Draw background?
         singleton->g_bDrawBackground = !singleton->g_bDrawBackground;

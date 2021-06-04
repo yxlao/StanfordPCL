@@ -374,17 +374,17 @@ STDMETHODIMP XnVideoStream::GetPages(CAUUID *pPages)
 
 	pPages->cElems = 1;
 	pPages->pElems = reinterpret_cast<GUID*>(CoTaskMemAlloc(sizeof(GUID)*pPages->cElems));
-	if (pPages->pElems == NULL) 
+	if (pPages->pElems == NULL)
 	{
 		XN_METHOD_RETURN(E_OUTOFMEMORY);
 	}
 	pPages->pElems[0] = CLSID_VideoStreamConfigPropertyPage;
 	XN_METHOD_RETURN(S_OK);
-} 
+}
 
 //IUnknown
 STDMETHODIMP XnVideoStream::NonDelegatingQueryInterface(REFIID riid, void **ppv)
-{   
+{
 	XN_METHOD_START;
 
 	XN_METHOD_CHECK_POINTER(ppv);
@@ -392,7 +392,7 @@ STDMETHODIMP XnVideoStream::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 	HRESULT hr = S_OK;
 
 	// Standard OLE stuff
-	if(riid == IID_IAMStreamConfig) 
+	if(riid == IID_IAMStreamConfig)
 	{
 		xnDumpFileWriteString(m_Dump, "\tPin query interface to IAMStreamConfig\n");
 		hr = GetInterface(static_cast<IAMStreamConfig*>(this), ppv);
@@ -407,7 +407,7 @@ STDMETHODIMP XnVideoStream::NonDelegatingQueryInterface(REFIID riid, void **ppv)
 		xnDumpFileWriteString(m_Dump, "\tPin query interface to ISpecifyPropertyPages\n");
 		hr = GetInterface(static_cast<ISpecifyPropertyPages*>(this), ppv);
 	}
-	else 
+	else
 	{
 		OLECHAR strGuid[40];
 		StringFromGUID2(riid, strGuid, 40);
@@ -481,7 +481,7 @@ HRESULT STDMETHODCALLTYPE XnVideoStream::SetFormat(AM_MEDIA_TYPE *pmt)
 	m_nPreferredMode = index;
 
 	// try to reconnect (if needed)
-	IPin* pin; 
+	IPin* pin;
 	ConnectedTo(&pin);
 	if (pin)
 	{
@@ -525,7 +525,7 @@ HRESULT STDMETHODCALLTYPE XnVideoStream::GetFormat(AM_MEDIA_TYPE **ppmt)
 //////////////////////////////////////////////////////////////////////////
 
 
-HRESULT XnVideoStream::Set(REFGUID guidPropSet, DWORD dwID, void *pInstanceData, 
+HRESULT XnVideoStream::Set(REFGUID guidPropSet, DWORD dwID, void *pInstanceData,
 						   DWORD cbInstanceData, void *pPropData, DWORD cbPropData)
 {
 	XN_METHOD_START;
@@ -534,7 +534,7 @@ HRESULT XnVideoStream::Set(REFGUID guidPropSet, DWORD dwID, void *pInstanceData,
 	XN_METHOD_RETURN(E_NOTIMPL);
 }
 
-// Get: Return the pin category (our only property). 
+// Get: Return the pin category (our only property).
 HRESULT XnVideoStream::Get(
 						   REFGUID guidPropSet,   // Which property set.
 						   DWORD dwPropID,        // Which property in that set.
@@ -548,7 +548,7 @@ HRESULT XnVideoStream::Get(
 	XN_METHOD_START;
 
 	// Taken from MSDN
-	if (guidPropSet != AMPROPSETID_Pin) 
+	if (guidPropSet != AMPROPSETID_Pin)
 		XN_METHOD_RETURN(E_PROP_SET_UNSUPPORTED);
 	if (dwPropID != AMPROPERTY_PIN_CATEGORY)
 		XN_METHOD_RETURN(E_PROP_ID_UNSUPPORTED);
@@ -576,7 +576,7 @@ HRESULT XnVideoStream::QuerySupported(REFGUID guidPropSet, DWORD dwPropID, DWORD
 		XN_METHOD_RETURN(E_PROP_ID_UNSUPPORTED);
 	if (pTypeSupport)
 		// We support getting this property, but not setting it.
-		*pTypeSupport = KSPROPERTY_SUPPORT_GET; 
+		*pTypeSupport = KSPROPERTY_SUPPORT_GET;
 	XN_METHOD_RETURN(S_OK);
 }
 
@@ -659,7 +659,7 @@ HRESULT XnVideoStream::GetStreamCapability(int iIndex, CMediaType& mediaType, VI
 	SetRectEmpty(&(pvi->rcSource)); // we want the whole image area rendered.
 	SetRectEmpty(&(pvi->rcTarget)); // no particular destination rectangle
 
-	pvi->dwBitRate = 
+	pvi->dwBitRate =
 		GetBitmapSize(&pvi->bmiHeader) * // bytes per frame
 		m_aSupportedModes[iIndex].OutputMode.nFPS * // frames per second
 		8; // bits per byte
@@ -702,7 +702,7 @@ HRESULT XnVideoStream::GetStreamCapability(int iIndex, CMediaType& mediaType, VI
 	// Frame interval is in 100 nanosecond units
 	vscc.MinFrameInterval = nFrameTime;
 	vscc.MaxFrameInterval = nFrameTime;
-	vscc.MinBitsPerSecond = 
+	vscc.MinBitsPerSecond =
 		mediaType.GetSampleSize() * // bytes in frame
 		m_aSupportedModes[iIndex].OutputMode.nFPS * // frames per second
 		8; // bits per byte
@@ -736,7 +736,7 @@ XnVideoStream::Mode XnVideoStream::MediaTypeToMode(const CMediaType& mediaType)
 	Mode result = {0};
 
 	if (*mediaType.Type() != MEDIATYPE_Video)   // we only output video
-	{                                                  
+	{
 		xnLogError(XN_MASK_FILTER, "bad type");
 		return result;
 	}
@@ -744,7 +744,7 @@ XnVideoStream::Mode XnVideoStream::MediaTypeToMode(const CMediaType& mediaType)
 	// Check for the subtypes we support
 	const GUID *SubType = mediaType.Subtype();
 
-	if (SubType && *SubType != GUID_NULL) 
+	if (SubType && *SubType != GUID_NULL)
 	{
 		if (*SubType == MEDIASUBTYPE_RGB24)
 		{

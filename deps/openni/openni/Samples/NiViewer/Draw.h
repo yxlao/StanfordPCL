@@ -47,7 +47,7 @@ typedef enum
 	SIDE_BY_SIDE
 } ScreenArrangementType;
 
-typedef enum 
+typedef enum
 {
 	DEPTH_OFF,
 	LINEAR_HISTOGRAM,
@@ -72,7 +72,7 @@ typedef enum
 
 extern const char* g_ImageColoring[NUM_OF_IMAGE_TYPES];
 
-typedef struct  
+typedef struct
 {
 	DepthColoringType Coloring;
 	float fTransparency;

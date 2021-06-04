@@ -70,7 +70,7 @@ GLuint initTexture(void** buf, int& width, int& height)
 	glGenTextures(1,&texID);
 
 	width = getClosestPowerOfTwo(width);
-	height = getClosestPowerOfTwo(height); 
+	height = getClosestPowerOfTwo(height);
 	*buf = new unsigned char[width*height*4];
 	glBindTexture(GL_TEXTURE_2D,texID);
 
@@ -172,17 +172,17 @@ bool DrawLimb(XnUserID player, XnSkeletonJoint eJoint1, XnSkeletonJoint eJoint2)
 }
 
 static const float DEG2RAD = 3.14159/180;
- 
+
 void drawCircle(float x, float y, float radius)
 {
    glBegin(GL_TRIANGLE_FAN);
- 
+
    for (int i=0; i < 360; i++)
    {
       float degInRad = i*DEG2RAD;
       glVertex2f(x + cos(degInRad)*radius, y + sin(degInRad)*radius);
    }
- 
+
    glEnd();
 }
 void DrawJoint(XnUserID player, XnSkeletonJoint eJoint)
@@ -370,7 +370,7 @@ void DrawDepthMap(const xn::DepthMetaData& dmd, const xn::SceneMetaData& smd)
 					{
 						nHistValue = pDepthHist[nValue];
 
-						pDestImage[0] = nHistValue * Colors[nColorID][0]; 
+						pDestImage[0] = nHistValue * Colors[nColorID][0];
 						pDestImage[1] = nHistValue * Colors[nColorID][1];
 						pDestImage[2] = nHistValue * Colors[nColorID][2];
 					}

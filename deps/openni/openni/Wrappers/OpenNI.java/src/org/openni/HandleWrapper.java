@@ -24,7 +24,7 @@ package org.openni;
  * Provides a Java object to wrap the integer handles used by native OpenNI code. <BR><BR>
  *
  */
-public class HandleWrapper 
+public class HandleWrapper
 {
 	/**
 	 * Constructor, creates a new HandleWrapper, and stores the specified value

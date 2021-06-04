@@ -17,7 +17,7 @@
 
 	@section utcpp_glb_dcl_blk Global Declaration Block
 
-		The following declarations define the OpenNI objects required for building the OpenNI production graph. The production graph is the main object model in OpenNI. 
+		The following declarations define the OpenNI objects required for building the OpenNI production graph. The production graph is the main object model in OpenNI.
 		
 		@code	
 			xn::Context g_Context;
@@ -58,7 +58,7 @@
 		
 	@section utcpp_event_handlers Declarations of Event Handlers
 	
-		This section describes the event handlers this sample program requires, describing the nature of the events themselves and what is done inside the handlers. 
+		This section describes the event handlers this sample program requires, describing the nature of the events themselves and what is done inside the handlers.
 	
 		A typical order of invocation of the events in the default configuration, where online-calibration is enabled, would be:
 		1. 'New User' event
@@ -66,7 +66,7 @@
 		3. 'Lost User' event
 		
 		Online-calibration enables the acquisition of a skeleton without the need for poses.
-		The events are described below in order of their declaration in the source code. 
+		The events are described below in order of their declaration in the source code.
 
 		Note: When online-calibration is turned off ( which is <i>not </i> the default configuration) a 'Pose Detected' event would typically occur after the 'New User' event and before the Calibration Complete' event.
 		
@@ -75,7 +75,7 @@
 		
 			The <b>'New User' event</b> signals that a new user has now been recognized in the scene. A new user is a user that was not previously recognized in the scene, and is now recognized in the scene. The user is identified by a persistent ID.
 			
-			Below is a typical implementation of the event handler. It's processing is as follows. 
+			Below is a typical implementation of the event handler. It's processing is as follows.
 			Now that a new user has been detected, the handler calls @ref xn::PoseDetectionCapability::StartPoseDetection() "StartPoseDetection()" to start pose detection.
 			@code	
 				void XN_CALLBACK_TYPE User_NewUser(xn::UserGenerator& generator, XnUserID nId, void* pCookie)
@@ -100,7 +100,7 @@
 			
 			The <b>'Lost User' event</b> signals that a user has been lost from the list of previously recognized users in the scene. The exact meaning of a 'lost user' is decided by the developer of the @ref xn::UserGenerator. However, a typical implementation would define that a lost user is a previously recognized user that then exits the scene and does not return, even after a 'Lost User' timeout has elapsed. Thus this event might be raised only after some delay after the user actually exited the scene.
 
-			Below is a typical implementation of the event handler. It's processing is as follows. 
+			Below is a typical implementation of the event handler. It's processing is as follows.
 			Now that an existing user has been lost, the handler deletes the user's entry from the @ref utcs_init_joints_array <code>joints</code> array.
 			@code	
 				void XN_CALLBACK_TYPE User_LostUser(xn::UserGenerator& generator, XnUserID nId, void* pCookie)
@@ -116,7 +116,7 @@
 			
 			The <b>'Pose Detected' event</b> signals that a human user made the pose named in the call to the StartPoseDetection() method. The user is designated with the ID given by the <code>nID</code> parameter.
 			
-			Below is a typical implementation of the event handler. It's processing is as follows. 
+			Below is a typical implementation of the event handler. It's processing is as follows.
 			Now that a pose has been detected, the handler calls @ref xn::PoseDetectionCapability::StopPoseDetection() "StopPoseDetection()" to stop pose detection. The handler then calls @ref xn::SkeletonCapability::RequestCalibration() "requestSkeletonCalibration()" to start calibration. The <code>true</code> disregards any previous calibration and forces a new calibration.			
 			@code	
 				void XN_CALLBACK_TYPE UserPose_PoseDetected(xn::PoseDetectionCapability& capability, const XnChar* strPose, XnUserID nId, void* pCookie)
@@ -150,7 +150,7 @@
 		
 			The <b>'Calibration Complete' event</b> signals that a specific user's skeleton has now completed the calibration process, and provides a result status. The user is identified by the ID given by the <code>nId</code> parameter.
 			
-			Below is a typical implementation of the event handler. It's processing is as follows. The handler tests whether the calibration process was completed successfully. If successful, that means that a user has been detected and calibrated, and enough information has been obtained to create a skeleton to represent the user. 
+			Below is a typical implementation of the event handler. It's processing is as follows. The handler tests whether the calibration process was completed successfully. If successful, that means that a user has been detected and calibrated, and enough information has been obtained to create a skeleton to represent the user.
 			
 			The handler then advances the processing to the next stage, i.e., to call @ref xn::HandsGenerator::StartTracking() "StartTracking()" to start tracking the skeleton, which represents a human user body, within a real-life (3D) scene for analysis, interpretation, and use by the application.
 			(Description continued after the code.)			
@@ -223,7 +223,7 @@
 		@section utcpp_fnLoadCalibration LoadCalibration() function
 
 			The following routine loads the user skeleton calibration data from a file.			
-			This is a very useful tool for developers. They can save their own calibration, and test their application again without calibrating each time (going into pose, spend time on calibration). The code loads data only for the first found user that is not yet calibrated or in the middle of being calibrated. 
+			This is a very useful tool for developers. They can save their own calibration, and test their application again without calibrating each time (going into pose, spend time on calibration). The code loads data only for the first found user that is not yet calibrated or in the middle of being calibrated.
 			@code		
 				void LoadCalibration()
 				{
@@ -280,7 +280,7 @@
 
 	@section utcpp_fnglutDisplay glutDisplay() function
 	
-		This routine graphically displays the data on a screen. 
+		This routine graphically displays the data on a screen.
 		
 		The following declare metadata objects to provide frame objects for the @ref xn::DepthGenerator node and for the @ref xn::UserGenerator node. A @ref dict_gen_node "generator node's" @ref glos_frame_object "frame object" stores a generated data frame and all its associated properties. This data frame and its properties are accessible through the node's metadata object.
 		@code	
@@ -317,7 +317,7 @@
 		@ref xn::UserGenerator::GetUserPixels() "GetUserPixels()" gets the pixel map of the specified user. This is a pixel map of the entire scene saved as a frame object, where the pixels that represent the body are labeled with user IDs. Each pixel is labeled with the ID of the user that contains that pixel.
 
 			
-	@section utcpp_func_main main() - Main Program 
+	@section utcpp_func_main main() - Main Program
 	
 		@code
 			int main(int argc, char **argv)
@@ -333,11 +333,11 @@
 				XnStatus nRetVal = XN_STATUS_OK;
 				if (argc > 1)
 				{
-				  // Here the production graph is initialized from a recording 
+				  // Here the production graph is initialized from a recording
 				}
 				else
 				{
-				  // Here the production graph is initialized from the standard OpenNI XML file 
+				  // Here the production graph is initialized from the standard OpenNI XML file
 				}
 			@endcode
 			
@@ -349,7 +349,7 @@
 					CHECK_RC(nRetVal, "Init");
 					nRetVal = g_Context.OpenFileRecording(argv[1], g_Player);
 					
-					// ... code for testing & printing status - see complete program 
+					// ... code for testing & printing status - see complete program
 				}
 			@endcode
 
@@ -360,12 +360,12 @@
 					xn::EnumerationErrors errors;
 					nRetVal = g_Context.InitFromXmlFile(SAMPLE_XML_PATH, g_scriptNode, &errors);
 					
-					// ... code for testing & printing status - see complete program 
+					// ... code for testing & printing status - see complete program
 				}
 			@endcode
 			
 			
-		@subsection utcpp_get_nodes_from_prodgrph Gets Nodes from Production Graph 
+		@subsection utcpp_get_nodes_from_prodgrph Gets Nodes from Production Graph
 		
 			In the following code, the @ref xn::Context::FindExistingNode() "FindExistingNode()" call gets a reference to production nodes in the production graph. In this example, the application passes the g_depth parameter to get a reference to a @ref xn::DepthGenerator "DepthGenerator node" so that it can work with it. Then the same for a @ref xn::UserGenerator "UserGenerator node".
 			@code				
@@ -390,7 +390,7 @@
 			
 			To be able to track a user's skeleton, the SkeletonCapability can execute a calibration process to measure and record the lengths of the human user's limbs. This would make it easier for OpenNI to then successfully track the human user. The calibration process can be initiated by the human user performing an agreed calibration pose.
 			
-			Here is the code for registering the event handlers. The @ref xn::UserGenerator accesses its skeleton capability by calling the @ref xn::UserGenerator.GetSkeletonCap() method. 
+			Here is the code for registering the event handlers. The @ref xn::UserGenerator accesses its skeleton capability by calling the @ref xn::UserGenerator.GetSkeletonCap() method.
 			@code						
 				nRetVal = g_UserGenerator.RegisterUserCallbacks(User_NewUser, User_LostUser, NULL, hUserCallbacks);
 				CHECK_RC(nRetVal, "Register to user callbacks");
@@ -450,12 +450,12 @@
 
 	@section ut_scenedrawer_cpp_inc Includes
 
-		@code 
+		@code
 			#include "SceneDrawer.h"
 			...
 			...
 			#include <map>
-		@endcode 
+		@endcode
 	
 	@section ut_evhndlr_calib_in_prgrs MyCalibrationInProgress() - 'Calibration In Progress' event handler	
 
@@ -485,7 +485,7 @@
 
 		<code> g_pDepthHist[]</code> is an array with MAX_DEPTH entries (10,000 at the time of writing), one entry for each depth value that the sensor can output. This array is used for the histogram feature in the <code>DrawDepthMap()</code> function later in this file.
 
-		Each entry of the array is a counter for the corresponding depth value. 
+		Each entry of the array is a counter for the corresponding depth value.
 
 		<code>Histogram[] </code> is used in the DrawDepthMap() function later in this file. As the first stage of processing, DrawDepthMap() builds the histogram by scanning the depth map. For each depth pixel, DrawDepthMap() inspects the depth value, and for that value's entry in the array, it increments its counter by 1. The DrawDepthMap() function then performs further processing, as described later in the description for that function.
 		@code
@@ -550,7 +550,7 @@
 		
 		The following code block draws the avatar's limb by drawing a line between the two adjacent points. It uses the locations <code>joint1 </code> and <code> joint 2</code> obtained above. 			
 		
-		The @ref xn::XnSkeletonJointPosition coordinates are real-world coordinates, so the @ref xn::DepthGenerator::ConvertRealWorldToProjective() "convertRealWorldToProjective()" is used to convert the real world coordinates to projective coordinates for the purpose of drawing them on a 2D texture. 
+		The @ref xn::XnSkeletonJointPosition coordinates are real-world coordinates, so the @ref xn::DepthGenerator::ConvertRealWorldToProjective() "convertRealWorldToProjective()" is used to convert the real world coordinates to projective coordinates for the purpose of drawing them on a 2D texture.
 		@code
 			XnPoint3D pt[2];
 			pt[0] = joint1.position;
@@ -564,7 +564,7 @@
 		
 	@section utcpp_get_calibration_error_string GetCalibrationErrorString() function
 	
-		This function converts an @ref xn::XnCalibrationStatus type to a string. This is shown in the code block below, with example cases.  
+		This function converts an @ref xn::XnCalibrationStatus type to a string. This is shown in the code block below, with example cases.
 		@code
 			const XnChar* GetCalibrationErrorString(XnCalibrationStatus error)
 			{
@@ -586,7 +586,7 @@
 		
 	@section utcpp_get_pose_error_string GetPoseErrorString() function
 
-		This function converts an @ref xn::XnPoseDetectionStatus type to a string. This is shown in the code block below, with example cases.  
+		This function converts an @ref xn::XnPoseDetectionStatus type to a string. This is shown in the code block below, with example cases.
 		@code	
 			const XnChar* GetPoseErrorString(XnPoseDetectionStatus error)
 			{		
@@ -605,7 +605,7 @@
 	
 	@section utcpp_fndrawdepthmap DrawDepthMap() function
 	
-		The DrawDepthMap() function is located on the <code>SceneDrawer.cpp</code> file. In this function, both the frame objects -- <code>dmd</code> and <code>smd</code> -- are accessed to get their data. The same method is used, <code>Data()</code>, which is the standard metadata method for returning a pointer to a frame object's data. 
+		The DrawDepthMap() function is located on the <code>SceneDrawer.cpp</code> file. In this function, both the frame objects -- <code>dmd</code> and <code>smd</code> -- are accessed to get their data. The same method is used, <code>Data()</code>, which is the standard metadata method for returning a pointer to a frame object's data.
 		@code									
 			const XnDepthPixel* pDepth = dmd.Data();
 			const XnLabel* pLabels = smd.Data();			
@@ -647,7 +647,7 @@
 				}
 			@endcode		
 
-			The following loop converts the frequency count into an accumulative count. Starting from the first entry this loop calculates a new value for each entry's counter as the sum of itself (<code>[n]</code>) and the value of the previous counter (<code>[n-1]</code>). 
+			The following loop converts the frequency count into an accumulative count. Starting from the first entry this loop calculates a new value for each entry's counter as the sum of itself (<code>[n]</code>) and the value of the previous counter (<code>[n-1]</code>).
 			@code		
 				for (nIndex=1; nIndex<MAX_DEPTH; nIndex++)
 				{
@@ -698,7 +698,7 @@
 									{
 										nHistValue = g_pDepthHist[nValue];
 
-										pDestImage[0] = nHistValue * Colors[nColorID][0]; 
+										pDestImage[0] = nHistValue * Colors[nColorID][0];
 										pDestImage[1] = nHistValue * Colors[nColorID][1];
 										pDestImage[2] = nHistValue * Colors[nColorID][2];
 									}
@@ -720,7 +720,7 @@
 
 			@subsection utcpp_ddm_loop Main Loop for Processing Users (DrawDepthMap())
 				
-				The main loop of this function for processing users gets each user in turn and displays it.  
+				The main loop of this function for processing users gets each user in turn and displays it.
 				@code									
 					char strLabel[50] = "";
 					XnUserID aUsers[15];
@@ -744,7 +744,7 @@
 				
 				The following statements access the status of each user to display it above each corresponding user image that is displayed on the output display device.
 				
-				The following statement  adds the user's ID to the label, to be displayed on the com of the user the name of the user. 
+				The following statement  adds the user's ID to the label, to be displayed on the com of the user the name of the user.
 				@code
 				if (!g_bPrintState)
 					sprintf(strLabel, "%d", aUsers[i]);

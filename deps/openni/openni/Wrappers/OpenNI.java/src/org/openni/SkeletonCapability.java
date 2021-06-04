@@ -22,8 +22,8 @@ package org.openni;
 
 /**
  * Enables a user generator to output the skeletal data of the user. <BR><BR>
- * 
- * This data includes the location of the skeletal joints, the ability to track skeleton 
+ *
+ * This data includes the location of the skeletal joints, the ability to track skeleton
  * positions and the user calibration capabilities.
  *
  */
@@ -50,13 +50,13 @@ public class SkeletonCapability extends CapabilityBase
 		calibrationStartEvent = new Observable<CalibrationStartEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterToCalibrationStart(toNative(), this, "callback", phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromCalibrationStart(toNative(), hCallback);
 			}
@@ -70,13 +70,13 @@ public class SkeletonCapability extends CapabilityBase
 		calibrationInProgressEvent = new Observable<CalibrationProgressEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterToCalibrationInProgress(toNative(), this, "callback", phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromCalibrationInProgress(toNative(), hCallback);
 			}
@@ -90,13 +90,13 @@ public class SkeletonCapability extends CapabilityBase
 		calibrationCompleteEvent = new Observable<CalibrationProgressEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterToCalibrationComplete(toNative(), this, "callback", phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromCalibrationComplete(toNative(), hCallback);
 			}

@@ -116,7 +116,7 @@ XnHashCode XnModuleLoader::XnDescriptionKeyManager::Hash(XnProductionNodeDescrip
 	nTotalCRC += nTempCRC;
 
 	// convert from UINT32 to XnHashValue
-	return nTotalCRC % (1 << (sizeof(XnHashCode)*8)); 
+	return nTotalCRC % (1 << (sizeof(XnHashCode)*8));
 }
 
 XnInt32 XnModuleLoader::XnDescriptionKeyManager::Compare(XnProductionNodeDescription const& key1, XnProductionNodeDescription const& key2)
@@ -1237,12 +1237,12 @@ XnStatus XnModuleLoader::ValidateUserGeneratorInterface(XnVersion& moduleOpenNIV
 	XN_VALIDATE_FUNC_NOT_NULL(pInterface, RegisterUserCallbacks);
 	XN_VALIDATE_FUNC_NOT_NULL(pInterface, UnregisterUserCallbacks);
 
-	// now check Skeleton capability. NOTE: we don't check the entire struct. Only the first 28 
+	// now check Skeleton capability. NOTE: we don't check the entire struct. Only the first 28
 	// functions are mandatory. The rest were added in future versions
 	nRetVal = ValidateFunctionGroup("Skeleton", (void**)pInterface->pSkeletonInterface, 28);
 	XN_IS_STATUS_OK(nRetVal);
 
-	// now check Skeleton capability. NOTE: we don't check the entire struct. Only the first 6 
+	// now check Skeleton capability. NOTE: we don't check the entire struct. Only the first 6
 	// functions are mandatory. The rest were added in future versions
 	nRetVal = ValidateFunctionGroup("PoseDetection", (void**)pInterface->pPoseDetectionInterface, 6);
 	XN_IS_STATUS_OK(nRetVal);

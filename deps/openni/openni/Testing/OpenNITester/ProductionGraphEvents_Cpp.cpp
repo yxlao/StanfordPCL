@@ -23,7 +23,7 @@
 
 using namespace xn;
 
-typedef struct 
+typedef struct
 {
 	Context context;
 	const XnChar* strName;
@@ -117,7 +117,7 @@ void TestCreation(Context& context, void* pHandler1Cookie, void* pHandler2Cookie
 	node.Release();
 }
 
-TEST(ContextTests_Cpp, TestNodeCreationEvent) 
+TEST(ContextTests_Cpp, TestNodeCreationEvent)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -182,7 +182,7 @@ void TestDestruction(Context& context, void* pHandler1Cookie, void* pHandler2Coo
 	xnOSFree(strName);
 }
 
-TEST(ContextTests_Cpp, TestNodeDestructionEvent) 
+TEST(ContextTests_Cpp, TestNodeDestructionEvent)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

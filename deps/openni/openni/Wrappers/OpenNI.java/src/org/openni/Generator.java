@@ -25,18 +25,18 @@ import java.nio.ByteOrder;
 
 /**
  * Base class for all generator node types. <BR><BR>
- * 
+ *
  * Generally this class would not be instantiated by application code, though
  * some of its member functions may be called by users of its descendant classes.<BR><BR>
- * 
+ *
  * This class defines the following Observable Events:
- * 
+ *
  * generationRunningChanged -- Triggered when generation is started or stopped
  * newDataAvailable -- Triggered when the generator has fresh data available
- * 
+ *
  *
  */
-public class Generator extends ProductionNode 
+public class Generator extends ProductionNode
 {
 	/**
 	 * Constructor -- creates a new generator, given an OpenNI context
@@ -45,35 +45,35 @@ public class Generator extends ProductionNode
 	 * @param addRef Indicates whether a reference to this generator should be stored
 	 * @throws GeneralException If underlying native code returns errors, a General Exception will be generated
 	 */
-	Generator(Context context, long nodeHandle, boolean addRef) throws GeneralException 
+	Generator(Context context, long nodeHandle, boolean addRef) throws GeneralException
 	{
 		super(context, nodeHandle, addRef);
 		
-		this.generationRunningChanged = new StateChangedObservable() 
+		this.generationRunningChanged = new StateChangedObservable()
 		{
 			@Override
-			protected int registerNative(String cb, OutArg<Long> phCallback) 
+			protected int registerNative(String cb, OutArg<Long> phCallback)
 			{
 				return NativeMethods.xnRegisterToGenerationRunningChange(toNative(), this, cb, phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromGenerationRunningChange(toNative(), hCallback);
 			}
 		};
 		
-		this.newDataAvailable = new StateChangedObservable() 
+		this.newDataAvailable = new StateChangedObservable()
 		{
 			@Override
-			protected int registerNative(String cb, OutArg<Long> phCallback) 
+			protected int registerNative(String cb, OutArg<Long> phCallback)
 			{
 				return NativeMethods.xnRegisterToNewDataAvailable(toNative(), this, cb, phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromNewDataAvailable(toNative(), hCallback);
 			}
@@ -186,7 +186,7 @@ public class Generator extends ProductionNode
 	}
 
 	/**
-	 * Creates a buffer of appropriate size to hold this node's data, and 
+	 * Creates a buffer of appropriate size to hold this node's data, and
 	 * copies this data into that buffer
 	 * @return The buffer created
 	 */
@@ -248,7 +248,7 @@ public class Generator extends ProductionNode
 	}
 
 	/**
-	 * Requests a FrameSyncCapability 
+	 * Requests a FrameSyncCapability
 	 * @return FrameSyncCapability object -- this is the standard way for an application to access this capability
 	 * @throws StatusException Function may communicate with hardware, so exceptions are possible
 	 */

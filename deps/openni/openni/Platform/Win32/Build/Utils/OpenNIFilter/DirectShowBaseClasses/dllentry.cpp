@@ -267,11 +267,11 @@ extern "C" BOOL WINAPI _DllEntryPoint(HINSTANCE, ULONG, __inout_opt LPVOID);
 
 extern "C"
 DECLSPEC_NOINLINE
-BOOL 
+BOOL
 WINAPI
 DllEntryPoint(
-    HINSTANCE hInstance, 
-    ULONG ulReason, 
+    HINSTANCE hInstance,
+    ULONG ulReason,
     __inout_opt LPVOID pv
     )
 {
@@ -284,11 +284,11 @@ DllEntryPoint(
 
 
 DECLSPEC_NOINLINE
-BOOL 
+BOOL
 WINAPI
 _DllEntryPoint(
-    HINSTANCE hInstance, 
-    ULONG ulReason, 
+    HINSTANCE hInstance,
+    ULONG ulReason,
     __inout_opt LPVOID pv
     )
 {
@@ -309,7 +309,7 @@ _DllEntryPoint(
     	    // full unicode support is available or not.  Hence the
     	    // default will be the lowest common denominator - i.e. N/A
                 g_amPlatform = VER_PLATFORM_WIN32_WINDOWS; // win95 assumed in case GetVersionEx fails
-    
+
                 g_osInfo.dwOSVersionInfoSize = sizeof(g_osInfo);
                 if (GetVersionEx(&g_osInfo)) {
             	g_amPlatform = g_osInfo.dwPlatformId;

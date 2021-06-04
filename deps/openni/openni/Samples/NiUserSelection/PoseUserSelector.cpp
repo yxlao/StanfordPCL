@@ -67,7 +67,7 @@ PoseUserSelector::PoseUserSelector(xn::UserGenerator* pUserGenerator,
     VALIDATE_WITH_ACTION(nRetVal == XN_STATUS_OK,"Failed to register to pose detection",m_hPoseDetectCallback = NULL);
     nRetVal = m_pUserGenerator->GetPoseDetectionCap().RegisterToPoseInProgress(PoseInProgressCallback,this,m_hPoseInProgressCallback);
     VALIDATE_WITH_ACTION(nRetVal == XN_STATUS_OK,"Failed to register to pose in progress",m_hPoseInProgressCallback = NULL);
-    
+
     int len = (int)strlen(poseToTrack)+1;
     m_strPoseToTrack=XN_NEW_ARR(char, len); // the length is +1 to accommodate the null terminator
     xnOSStrCopy(m_strPoseToTrack,poseToTrack,len);
@@ -89,11 +89,11 @@ PoseUserSelector::~PoseUserSelector()
                 m_pUserGenerator->GetPoseDetectionCap().UnregisterFromPoseDetected(m_hPoseDetectCallback);
                 m_hPoseDetectCallback = NULL;
             }
-            if(m_hPoseInProgressCallback != NULL)        
+            if(m_hPoseInProgressCallback != NULL)
             {
                 m_pUserGenerator->GetPoseDetectionCap().UnregisterFromPoseInProgress(m_hPoseInProgressCallback);
                 m_hPoseInProgressCallback = NULL;
-            }        
+            }
         }
         m_pUserGenerator = NULL;
     }

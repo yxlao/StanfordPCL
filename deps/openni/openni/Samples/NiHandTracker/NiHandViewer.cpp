@@ -133,7 +133,7 @@ void HandViewer::DisplayPostDraw()
 
 XnStatus HandViewer::InitOpenGL( int argc, char **argv )
 {
-	XnStatus rc = SimpleViewer::InitOpenGL(argc, argv); 
+	XnStatus rc = SimpleViewer::InitOpenGL(argc, argv);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);

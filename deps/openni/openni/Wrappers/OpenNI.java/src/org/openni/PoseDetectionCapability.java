@@ -22,7 +22,7 @@ package org.openni;
 
 /**
  * Enables a user generator to recognize when the user is posed in a specific position. <BR><BR>
- * 
+ *
  * This is used most commonly to recognize when a user has entered a "calibration pose" for the skeleton.  It
  * is used less frequently if a no-calibration skeleton is available.
  *
@@ -37,13 +37,13 @@ public class PoseDetectionCapability extends CapabilityBase
 		poseDetectedEvent = new Observable<PoseDetectionEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterToPoseDetected(toNative(), this, "callback", phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromPoseDetected(toNative(), hCallback);
 			}
@@ -57,13 +57,13 @@ public class PoseDetectionCapability extends CapabilityBase
 		outOfPoseEvent = new Observable<PoseDetectionEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterToOutOfPose(toNative(), this, "callback", phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromOutOfPose(toNative(), hCallback);
 			}
@@ -77,13 +77,13 @@ public class PoseDetectionCapability extends CapabilityBase
 		poseDetectionInProgressEvent = new Observable<PoseDetectionInProgressEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterToPoseDetectionInProgress(toNative(), this, "callback", phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromPoseDetectionInProgress(toNative(), hCallback);
 			}
@@ -125,7 +125,7 @@ public class PoseDetectionCapability extends CapabilityBase
 	}
 	/**
 	 * @deprecated Out of date. Use startPoseDetection() instead.
-	 */ 
+	 */
 	@Deprecated
 	 public void StartPoseDetection(String pose, int user) throws StatusException
 	{
@@ -134,7 +134,7 @@ public class PoseDetectionCapability extends CapabilityBase
 	}
 	/**
 	 * @deprecated Out of date. Use stopPoseDetection() instead.
-	 */ 
+	 */
 	@Deprecated
 	public void StopPoseDetection(int user) throws StatusException
 	{

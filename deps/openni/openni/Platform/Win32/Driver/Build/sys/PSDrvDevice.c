@@ -354,7 +354,7 @@ NTSTATUS ReadAndSelectDescriptors(IN WDFDEVICE Device)
             return status;
         }
     }
-    
+
     WdfUsbTargetDeviceGetDeviceDescriptor(pDeviceContext->WdfUsbTargetDevice, &pDeviceContext->UsbDeviceDescriptor);
 
     ASSERT(pDeviceContext->UsbDeviceDescriptor.bNumConfigurations);

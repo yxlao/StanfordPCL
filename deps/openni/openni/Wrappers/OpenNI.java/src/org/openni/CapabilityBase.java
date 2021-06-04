@@ -22,7 +22,7 @@ package org.openni;
 
 /**
  * This is the base class for all capability types. <BR><BR>
- * 
+ *
  * There would usually be no reason to use this class directly.  It is provided
  * primarily to factor out common parts of the constructor for each capability.
  *
@@ -30,11 +30,11 @@ package org.openni;
 public class CapabilityBase extends NodeWrapper
 {
 	/**
-	 * This is a constructor that factors out common functionality of the various 
-	 * capability classes that extend CapabilityBase.  Normally this function 
+	 * This is a constructor that factors out common functionality of the various
+	 * capability classes that extend CapabilityBase.  Normally this function
 	 * would only be called by the constructors of its descendants.
 	 * @param node Production node that this capability will be attached to
-	 * @throws StatusException Required since we may be talking to hardware when we 
+	 * @throws StatusException Required since we may be talking to hardware when we
 	 * access the node
 	 */
 	public CapabilityBase(ProductionNode node) throws StatusException

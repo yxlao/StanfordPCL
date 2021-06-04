@@ -17,14 +17,14 @@
 	the following files. Click any of the links to go straight to the start of the code
 	descriptions and skip this overview.
 	
-	<b>Important :</b> 
+	<b>Important :</b>
 	
 	This sample program is a relatively long and complex example of OpenNI features. Thus, it is
 	recommended to first study the other - smaller - sample programs provided with this release.		
 	
-	- @subpage smpl_niviewer_capture_cpp 
-	- @subpage smpl_niviewer_device_cpp 
-	- @subpage smpl_niviewer_draw_cpp 
+	- @subpage smpl_niviewer_capture_cpp
+	- @subpage smpl_niviewer_device_cpp
+	- @subpage smpl_niviewer_draw_cpp
 	- @subpage smpl_niviewer_stat
 
 	
@@ -37,10 +37,10 @@
 	will configure OpenNI using the SamplesConfig XML file.
 	
 	NiViewer is automatically associated with the .ONI file extension, for opening OpenNI
-	recordings. 
+	recordings.
 	
 	NiViewer provides a menu GUI access using GL functionality to display the various types of
-	data generated. 
+	data generated.
 	
 	<b>Organization:</b>  This documentation item describes the sample program's code, one
 	source code file at a time. There is a separate major section describing each source file

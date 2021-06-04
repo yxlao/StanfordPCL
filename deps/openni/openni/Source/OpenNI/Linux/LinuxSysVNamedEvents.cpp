@@ -161,7 +161,7 @@ XnStatus XnLinuxSysVNamedEvent::Destroy()
 	op.sem_num = XN_EVENT_SEM_REF_COUNT;
 	op.sem_op = -1;
 	op.sem_flg = IPC_NOWAIT | SEM_UNDO;
-	semop(m_hSem, &op, 1); 
+	semop(m_hSem, &op, 1);
 
 	// check current ref count. If 0, destroy it
 	int val = semctl(m_hSem, 0, GETVAL);

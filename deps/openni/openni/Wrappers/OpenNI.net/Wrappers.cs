@@ -119,13 +119,13 @@ namespace OpenNI
 
 		internal IntPtr InternalObject
 		{
-			get 
+			get
 			{
 				if (this.ptr == IntPtr.Zero)
 				{
 					throw new ObjectDisposedException(GetType().Name);
 				}
-				return this.ptr; 
+				return this.ptr;
 			}
 		}
 
@@ -166,7 +166,7 @@ namespace OpenNI
 		{
 		}
 
-		protected GeneralException(SerializationInfo info, StreamingContext context) : 
+		protected GeneralException(SerializationInfo info, StreamingContext context) :
 			base(info, context)
 		{
 		}
@@ -196,7 +196,7 @@ namespace OpenNI
 		{
 		}
 
-		protected StatusException(SerializationInfo info, StreamingContext context) : 
+		protected StatusException(SerializationInfo info, StreamingContext context) :
 			base(info, context)
 		{
 		}

@@ -29,17 +29,17 @@ namespace xn
 
 class NodeWatcher;
 
-XnStatus CreateNodeWatcher(ProductionNode &node, 
-						   XnProductionNodeType type, 
-						   void* pCookie, 
-						   XnNodeNotifications &notifications, 
+XnStatus CreateNodeWatcher(ProductionNode &node,
+						   XnProductionNodeType type,
+						   void* pCookie,
+						   XnNodeNotifications &notifications,
 						   NodeWatcher*& pNodeWatcher);
 
 class NodeWatcher
 {
 public:
 	NodeWatcher(const ProductionNode& node,
-				XnNodeNotifications& notifications, 
+				XnNodeNotifications& notifications,
 				void* pCookie);
 	virtual ~NodeWatcher() {}
 	virtual XnStatus Register() { return XN_STATUS_OK; }
@@ -67,7 +67,7 @@ class DeviceWatcher : public NodeWatcher
 {
 public:
 	DeviceWatcher(const Device& device,
-	              XnNodeNotifications& notifications, 
+	              XnNodeNotifications& notifications,
 				  void* pCookie);
 };
 
@@ -75,7 +75,7 @@ class GeneratorWatcher : public NodeWatcher
 {
 public:
 	GeneratorWatcher(const Generator &generator,
-		             XnNodeNotifications& notifications, 
+		             XnNodeNotifications& notifications,
 		             void* pCookie);
 	virtual ~GeneratorWatcher();
 	virtual XnStatus Register();
@@ -107,8 +107,8 @@ private:
 class MapWatcher : public GeneratorWatcher
 {
 public:
-	MapWatcher(const MapGenerator &mapGenerator, 
-		       XnNodeNotifications& notifications, 
+	MapWatcher(const MapGenerator &mapGenerator,
+		       XnNodeNotifications& notifications,
 		       void* pCookie);
 	virtual ~MapWatcher();
 	virtual XnStatus Register();
@@ -133,8 +133,8 @@ private:
 class ImageWatcher : public MapWatcher
 {
 public:
-	ImageWatcher(const ImageGenerator &imageGenerator, 
-		XnNodeNotifications& notifications, 
+	ImageWatcher(const ImageGenerator &imageGenerator,
+		XnNodeNotifications& notifications,
 		void* pCookie);
 	virtual ~ImageWatcher();
 	virtual XnStatus Register();
@@ -152,8 +152,8 @@ private:
 class IRWatcher : public MapWatcher
 {
 public:
-	IRWatcher(const IRGenerator &irGenerator, 
-		XnNodeNotifications& notifications, 
+	IRWatcher(const IRGenerator &irGenerator,
+		XnNodeNotifications& notifications,
 		void* pCookie);
 
 private:
@@ -163,8 +163,8 @@ private:
 class DepthWatcher : public MapWatcher
 {
 public:
-	DepthWatcher(const DepthGenerator &depthGenerator, 
-		XnNodeNotifications& notifications, 
+	DepthWatcher(const DepthGenerator &depthGenerator,
+		XnNodeNotifications& notifications,
 		void* pCookie);
 	virtual ~DepthWatcher();
 	virtual XnStatus Register();
@@ -185,8 +185,8 @@ private:
 class AudioWatcher : public GeneratorWatcher
 {
 public:
-	AudioWatcher(const AudioGenerator &audioGenerator, 
-		XnNodeNotifications& notifications, 
+	AudioWatcher(const AudioGenerator &audioGenerator,
+		XnNodeNotifications& notifications,
 		void* pCookie);
 	virtual ~AudioWatcher();
 	virtual XnStatus Register();
@@ -206,8 +206,8 @@ private:
 class GestureWatcher : public GeneratorWatcher
 {
 public:
-	GestureWatcher(const GestureGenerator &gestureGenerator, 
-		XnNodeNotifications& notifications, 
+	GestureWatcher(const GestureGenerator &gestureGenerator,
+		XnNodeNotifications& notifications,
 		void* pCookie);
 	virtual ~GestureWatcher();
 	virtual XnStatus Register();
@@ -216,17 +216,17 @@ public:
 
 private:
 	static void XN_CALLBACK_TYPE HandleGestureRecognized(
-		GestureGenerator& generator, 
-		const XnChar* strGesture, 
-		const XnPoint3D* pIDPosition, 
-		const XnPoint3D* pEndPosition, 
+		GestureGenerator& generator,
+		const XnChar* strGesture,
+		const XnPoint3D* pIDPosition,
+		const XnPoint3D* pEndPosition,
 		void* pCookie);
 	
 	static void XN_CALLBACK_TYPE HandleGestureProgress(
-		GestureGenerator& generator, 
-		const XnChar* strGesture, 
-		const XnPoint3D* pPosition, 
-		XnFloat fProgress, 
+		GestureGenerator& generator,
+		const XnChar* strGesture,
+		const XnPoint3D* pPosition,
+		XnFloat fProgress,
 		void* pCookie);
 	
 	XnCallbackHandle m_hGestureCB;

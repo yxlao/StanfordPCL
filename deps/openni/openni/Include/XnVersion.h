@@ -29,16 +29,16 @@
 //---------------------------------------------------------------------------
 // Defines
 //---------------------------------------------------------------------------
-/** OpenNI major version. */ 
+/** OpenNI major version. */
 #define XN_MAJOR_VERSION 1
-/** OpenNI minor version. */ 
+/** OpenNI minor version. */
 #define XN_MINOR_VERSION 5
-/** OpenNI maintenance version. */ 
+/** OpenNI maintenance version. */
 #define XN_MAINTENANCE_VERSION 7
-/** OpenNI build version. */ 
+/** OpenNI build version. */
 #define XN_BUILD_VERSION 10
 
-/** OpenNI version (in brief string format): "Major.Minor.Maintenance (Build)" */ 
+/** OpenNI version (in brief string format): "Major.Minor.Maintenance (Build)" */
 #define XN_BRIEF_VERSION_STRING \
 	XN_STRINGIFY(XN_MAJOR_VERSION) "." \
 	XN_STRINGIFY(XN_MINOR_VERSION) "." \
@@ -48,7 +48,7 @@
 /** OpenNI version (in numeric format): (OpenNI major version * 100000000 + OpenNI minor version * 1000000 + OpenNI maintenance version * 10000 + OpenNI build version). */
 #define XN_VERSION (XN_MAJOR_VERSION*100000000 + XN_MINOR_VERSION*1000000 + XN_MAINTENANCE_VERSION*10000 + XN_BUILD_VERSION)
 
-/** OpenNI version (in string format): "Major.Minor.Maintenance.Build-Platform (MMM DD YYYY HH:MM:SS)". */ 
+/** OpenNI version (in string format): "Major.Minor.Maintenance.Build-Platform (MMM DD YYYY HH:MM:SS)". */
 #define XN_VERSION_STRING \
 		XN_BRIEF_VERSION_STRING  "-" \
 		XN_PLATFORM_STRING " (" XN_TIMESTAMP ")"

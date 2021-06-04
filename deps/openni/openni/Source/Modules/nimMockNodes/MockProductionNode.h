@@ -27,7 +27,7 @@
 #include <XnGeneralBuffer.h>
 #include <XnEventT.h>
 
-class MockProductionNode : 
+class MockProductionNode :
 	virtual public xn::ModuleProductionNode,
 	virtual public xn::ModuleExtendedSerializationInterface
 {

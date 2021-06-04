@@ -51,7 +51,7 @@ public class EnumerationErrors extends ObjectWrapper
 	 * @return Error messages, stored as a string
 	 */
 	@Override
-	public String toString() 
+	public String toString()
 	{
 		OutArg<String> result = new OutArg<String>();
 		NativeMethods.xnEnumerationErrorsToString(toNative(), result);
@@ -63,12 +63,12 @@ public class EnumerationErrors extends ObjectWrapper
 	 * @param ptr Long integer, representing a native point to an EnumerationErrors object
 	 */
 	@Override
-	protected void freeObject(long ptr) 
+	protected void freeObject(long ptr)
 	{
 		NativeMethods.xnEnumerationErrorsFree(ptr);
 	}
 
-	private EnumerationErrors(long ptr) 
+	private EnumerationErrors(long ptr)
 	{
 		super(ptr);
 	}

@@ -4,7 +4,7 @@
 	<b>Source file:</b> Click the following link to view the source code file:
 		- NiRecordRaw.cpp
 
-	This section describes an OpenNI sample program for recording raw data, and then playing it back. Recording raw data may be useful for middleware developers who produce a custom type of data that isn't defined by OpenNI. In addition, recording raw data may also be useful for middleware developers who save additional debugging information in the ONI file. This additional data may be used in conjunction with the standard OpenNI data types such as depth output data stored in the file. In this case, each frame of debugging information will match a depth frame. 
+	This section describes an OpenNI sample program for recording raw data, and then playing it back. Recording raw data may be useful for middleware developers who produce a custom type of data that isn't defined by OpenNI. In addition, recording raw data may also be useful for middleware developers who save additional debugging information in the ONI file. This additional data may be used in conjunction with the standard OpenNI data types such as depth output data stored in the file. In this case, each frame of debugging information will match a depth frame.
 	
 	In this sample, the raw data is artificial data that the application itself synthesizes.
 
@@ -39,7 +39,7 @@
 	
 		@subsection recraw_record Recording Data
 	
-			In the following, the @ref xn::xnLogInitFromXmlFile() function initializes the log from an XML file. 
+			In the following, the @ref xn::xnLogInitFromXmlFile() function initializes the log from an XML file.
 			@code		
 				nRetVal = xnLogInitFromXmlFile(SAMPLE_XML_PATH);
 			@endcode
@@ -50,12 +50,12 @@
 				nRetVal = context.Init();
 			@endcode
 
-			The following statement initializes a Recorder object. This object records to a specified destination medium the frames of data from each node that was added to the Recorder node. 
+			The following statement initializes a Recorder object. This object records to a specified destination medium the frames of data from each node that was added to the Recorder node.
 			@code		
 				nRetVal = recorder.Create(context);
 			@endcode
 			
-			The following call specifies to where the recorder must send its recording. 
+			The following call specifies to where the recorder must send its recording.
 			
 			@note Disk files are the only medium that this installation currently supports.
 			
@@ -63,7 +63,7 @@
 				nRetVal = recorder.SetDestination(XN_RECORD_MEDIUM_FILE, RECORDING_FILE_NAME);
 			@endcode		
 			
-			The following code creates a mock node. This is to simulate an actual node when recording or playing data from a recording. A mock node does not contain any logic for generating data. Instead, it allows an outside component &ndash; such as an application or a real node &ndash; to feed it configuration changes and data. 
+			The following code creates a mock node. This is to simulate an actual node when recording or playing data from a recording. A mock node does not contain any logic for generating data. Instead, it allows an outside component &ndash; such as an application or a real node &ndash; to feed it configuration changes and data.
 			@code		
 				MockRawGenerator rawGenerator;
 				nRetVal = rawGenerator.Create(context, "MockRaw");
@@ -80,7 +80,7 @@
 				nRetVal = recorder.AddNodeToRecording(rawGenerator);
 			@endcode
 			
-			The following example shows that properties can also be set after the node has been added to the recording. 
+			The following example shows that properties can also be set after the node has been added to the recording.
 			@code
 				nRetVal = rawGenerator.SetIntProperty("Y", 8);
 			@endcode
@@ -99,7 +99,7 @@
 			
 			In the above, the @ref xn::Recorder::Record() "Record()" method records one frame of data from each node added to the recorder. To record continually, the recorder node must be called repeatedly for each frame.
 			
-			On completion of the loop, the following code removes the node from the Recorder object and so stops recording the node output. The code then releases the @ref xn::Recorder "Recorder" and  @ref xn::MockRawGenerator "MockRawGenerator" nodes. Releasing the nodes unreferences them, decreasing their reference counts by 1. If a node's reference count reaches zero, it will be destroyed. 
+			On completion of the loop, the following code removes the node from the Recorder object and so stops recording the node output. The code then releases the @ref xn::Recorder "Recorder" and  @ref xn::MockRawGenerator "MockRawGenerator" nodes. Releasing the nodes unreferences them, decreasing their reference counts by 1. If a node's reference count reaches zero, it will be destroyed.
 			@code
 				nRetVal = recorder.RemoveNodeFromRecording(rawGenerator);
 				   ...
@@ -113,14 +113,14 @@
 		
 		@subsection recraw_play Plays Back Recorded Data
 		
-			The application now builds a production graph to play back the data recorded above 
+			The application now builds a production graph to play back the data recorded above
 			
 			The following statement gets a handle to an existing production node instance using that instance name. It is already known that there exists a node with the instance name "MockRaw".	
 			@code
 				nRetVal = context.GetProductionNodeByName("MockRaw", rawGenerator);
 			@endcode
 			
-			The following code replays a recorded file of a session of OpenNI data generation exactly as it was recorded. the @ref xn::Player node is for playing a saved recording of an OpenNI data generation session. The RECORDING_FILE_NAME string contains the file name, as above. 
+			The following code replays a recorded file of a session of OpenNI data generation exactly as it was recorded. the @ref xn::Player node is for playing a saved recording of an OpenNI data generation session. The RECORDING_FILE_NAME string contains the file name, as above.
 			@code
 				Player player;
 				nRetVal = context.OpenFileRecording(RECORDING_FILE_NAME, player);

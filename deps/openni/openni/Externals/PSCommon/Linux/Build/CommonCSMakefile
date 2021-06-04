@@ -53,6 +53,6 @@ OUTPUT_COMMAND = gmcs -out:$(OUTPUT_FILE) -target:$(TARGET) $(CSFLAGS) $(USED_NE
 include $(COMMON_CS_MAKE_FILE_DIR)CommonTargets.mak
 
 # Final output file
-$(OUTPUT_FILE): 
+$(OUTPUT_FILE):
 	$(OUTPUT_COMMAND)
 

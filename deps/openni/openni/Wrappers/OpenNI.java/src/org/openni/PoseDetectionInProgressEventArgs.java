@@ -22,10 +22,10 @@ package org.openni;
 
 /**
  * Stores the data created when a Pose Detection In Progress event is generated. <BR><BR>
- * 
+ *
  * This data consists of the pose that was detected, the user ID of the user performing the pose,
  * and the status of the pose detection process.  This event is triggered when the system is still
- * in the process of detecting the pose, and is most useful for providing feedback to the user to 
+ * in the process of detecting the pose, and is most useful for providing feedback to the user to
  * continue performing the pose until it is fully detected.
  *
  */

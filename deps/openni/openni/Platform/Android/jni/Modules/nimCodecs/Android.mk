@@ -3,7 +3,7 @@
 #
 
 LOCAL_PATH:= $(call my-dir)
-include $(CLEAR_VARS) 
+include $(CLEAR_VARS)
 
 # set path to source
 MY_PREFIX := $(LOCAL_PATH)/../../../../../Source/
@@ -24,7 +24,7 @@ LOCAL_C_INCLUDES := \
 
 LOCAL_CFLAGS := -fvisibility=hidden
 
-LOCAL_SHARED_LIBRARIES := OpenNI 
+LOCAL_SHARED_LIBRARIES := OpenNI
 
 LOCAL_MODULE := nimCodecs
 

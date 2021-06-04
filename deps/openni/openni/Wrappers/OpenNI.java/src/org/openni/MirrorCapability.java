@@ -21,13 +21,13 @@
 package org.openni;
 
 /**
- * Enables mirroring of the data produced by a generator. <BR><BR> 
- * 
- * Mirroring is useful if the sensor is placed in front of the user, as the image 
- * captured by the sensor is mirrored, so the right hand appears as the left hand of the 
- * mirrored figure.  This class is normally accessed by using GetMirrorCapability(), 
+ * Enables mirroring of the data produced by a generator. <BR><BR>
+ *
+ * Mirroring is useful if the sensor is placed in front of the user, as the image
+ * captured by the sensor is mirrored, so the right hand appears as the left hand of the
+ * mirrored figure.  This class is normally accessed by using GetMirrorCapability(),
  * a member function of class Generator.<BR><BR>
- * 
+ *
  * This class defines the following events:
  * MirrorChanged: Triggered when the value of the mirror flag changes
  *
@@ -43,16 +43,16 @@ public class MirrorCapability extends CapabilityBase
 	{
 		super(node);
 		
-		this.mirrorChanged = new StateChangedObservable() 
+		this.mirrorChanged = new StateChangedObservable()
 		{
 			@Override
-			protected int registerNative(String cb, OutArg<Long> phCallback) 
+			protected int registerNative(String cb, OutArg<Long> phCallback)
 			{
 				return NativeMethods.xnRegisterToMirrorChange(toNative(), this, cb, phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromMirrorChange(toNative(), hCallback);
 			}

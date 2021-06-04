@@ -63,7 +63,7 @@ namespace OpenNI
 
 	public class UserGenerator : Generator
     {
-		public UserGenerator(Context context, IntPtr nodeHandle, bool addRef) : 
+		public UserGenerator(Context context, IntPtr nodeHandle, bool addRef) :
 			base(context, nodeHandle, addRef)
         {
             this.internalNewUser = new SafeNativeMethods.XnUserHandler(this.InternalNewUser);
@@ -110,7 +110,7 @@ namespace OpenNI
 				return SafeNativeMethods.xnGetNumberOfUsers(this.InternalObject);
 			}
         }
-        
+
         public UserID[] GetUsers()
         {
             ushort count = (ushort)NumberOfUsers;
@@ -119,7 +119,7 @@ namespace OpenNI
             WrapperUtils.ThrowOnError(status);
             return users;
         }
-        
+
         public Point3D GetCoM(UserID id)
         {
             Point3D com = new Point3D();
@@ -300,7 +300,7 @@ namespace OpenNI
                 m_poseDetectionCapability.InternalDispose();
                 m_poseDetectionCapability = null;
             }
-            
+
             base.Dispose();
         }
 
@@ -308,7 +308,7 @@ namespace OpenNI
 
         // internal capabilities to avoid doing "new" all the time. They are initialized in
         // the construction and are null if not supported.
-        // NOTE: everyone getting a capability will get THE SAME capability! i.e. dispose should not be 
+        // NOTE: everyone getting a capability will get THE SAME capability! i.e. dispose should not be
         // called!
         protected SkeletonCapability m_skeletonCapability;
         protected PoseDetectionCapability m_poseDetectionCapability;

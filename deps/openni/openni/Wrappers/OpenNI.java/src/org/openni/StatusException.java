@@ -22,17 +22,17 @@ package org.openni;
 
 /**
  * Extends the GeneralException to include an integer status value. <BR><BR>
- * 
+ *
  * This is used for OpenNI exceptions originating from Native code returning
  * non-zero status values.<BR><BR>
- * 
+ *
  * Translates the integer status code into an error message.
  *
  */
 public class StatusException extends GeneralException
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 

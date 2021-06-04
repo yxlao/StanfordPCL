@@ -22,18 +22,18 @@ package org.openni;
 
 /**
  * Identifies predefined gestures in a scene. <BR><BR>
- * 
+ *
  * This generator type is responsible for identifying specific predefined gestures when
  * performed by a person in the scene.  This will usually require a DepthGenerator to
  * produce the raw data that the gestures are recognized in.<BR><BR>
- * 
+ *
  * The most common use for the GestureGenerator is to create a "Focus" gesture that
  * is used to identify an active user.  Once this has been done, it is generally more
- * useful to track handpoints and operate on higher level objects such as those 
+ * useful to track handpoints and operate on higher level objects such as those
  * provided in the PrimeSense NiTE handpoint API. <BR><BR>
- * 
+ *
  * Events defined by this class:
- * 
+ *
  * gestureRecognizedEvent: triggered when a complete gesture is recognized.<BR>
  * gestureProgressEvent: triggered when a gesture is being performed.<BR>
  * gestureIntermediateStateCompletedEvent: triggered when one step of a multi-step gesture is completed.<BR>
@@ -45,26 +45,26 @@ public class GestureGenerator extends Generator
 {
 	/**
 	 * Creates a new gesture generator
-	 * 
-	 * @param context OpenNI Context 
+	 *
+	 * @param context OpenNI Context
 	 * @param nodeHandle Native pointer to this generator
 	 * @param addRef Whether the generator should be registered
 	 * @throws GeneralException If underlying native code returns errors, General Exception is thrown by this function
 	 */
-	GestureGenerator(Context context, long nodeHandle, boolean addRef) throws GeneralException 
+	GestureGenerator(Context context, long nodeHandle, boolean addRef) throws GeneralException
 	{
 		super(context, nodeHandle, addRef);
 		
 		gestureRecognizedEvent = new Observable<GestureRecognizedEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterGestureCallbacks(toNative(), this, "callback", null, phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterHandCallbacks(toNative(), hCallback);
 			}
@@ -78,13 +78,13 @@ public class GestureGenerator extends Generator
 		gestureProgressEvent = new Observable<GestureProgressEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterGestureCallbacks(toNative(), this, null, "callback", phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterHandCallbacks(toNative(), hCallback);
 			}
@@ -98,13 +98,13 @@ public class GestureGenerator extends Generator
 		gestureIntermediateStageCompletedEvent = new Observable<GesturePositionEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterToGestureIntermediateStageCompleted(toNative(), this, "callback", phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromGestureIntermediateStageCompleted(toNative(), hCallback);
 			}
@@ -118,13 +118,13 @@ public class GestureGenerator extends Generator
 		gestureReadyForNextIntermediateStageEvent = new Observable<GesturePositionEventArgs>()
 		{
 			@Override
-			protected int registerNative(OutArg<Long> phCallback) throws StatusException 
+			protected int registerNative(OutArg<Long> phCallback) throws StatusException
 			{
 				return NativeMethods.xnRegisterToGestureReadyForNextIntermediateStage(toNative(), this, "callback", phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromGestureReadyForNextIntermediateStage(toNative(), hCallback);
 			}
@@ -171,7 +171,7 @@ public class GestureGenerator extends Generator
 		return result;
 	}
 
-	/** Creates a new gesture generator, filtering by query 
+	/** Creates a new gesture generator, filtering by query
 	 * @param context OpenNI context
 	 * @param query Query object to filter results
 	 * @return Resulting GestureGenerator
@@ -301,7 +301,7 @@ public class GestureGenerator extends Generator
 	{
 		return gestureProgressEvent;
 	}
-	/** 
+	/**
 	 * Provides access to the Gesture Intermediate Stage Completed event
 	 * @return
 	 */

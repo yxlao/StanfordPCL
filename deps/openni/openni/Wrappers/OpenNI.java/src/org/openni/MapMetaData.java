@@ -24,12 +24,12 @@ package org.openni;
  * Base class for Depth, IR, and Image metadata objects. <BR><BR>
  *
  */
-public abstract class MapMetaData extends OutputMetaData 
+public abstract class MapMetaData extends OutputMetaData
 {
 	/**
 	 * Constructor, creates a new MapMetaData from a map and given
-	 * pixel format 
-	 * @param format Desired format of the new object 
+	 * pixel format
+	 * @param format Desired format of the new object
 	 * @param map Map that this meta data object will wrap
 	 */
 	MapMetaData(PixelFormat format, Map map)
@@ -46,7 +46,7 @@ public abstract class MapMetaData extends OutputMetaData
 		return xRes;
 	}
 	/**
-	 * Sets the stored horizontal resolution of this object's map 
+	 * Sets the stored horizontal resolution of this object's map
 	 * @param xRes Desired X Resolution in pixels
 	 */
 	public void setXRes(int xRes) {
@@ -68,7 +68,7 @@ public abstract class MapMetaData extends OutputMetaData
 		this.yRes = yRes;
 		this.map.setYRes(yRes);
 	}
-	/** 
+	/**
 	 * Provides the current horizontal offset of this object's map
 	 * @return x offset of the map in pixels
 	 */
@@ -117,7 +117,7 @@ public abstract class MapMetaData extends OutputMetaData
 	public int getFullYRes() {
 		return fullYRes;
 	}
-	/** 
+	/**
 	 * Sets the full, non-windowed Y resolution stored for this map
 	 * @param fullYRes Desired new Y resolution value in pixels
 	 */

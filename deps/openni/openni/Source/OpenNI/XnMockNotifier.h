@@ -40,7 +40,7 @@ private:
 	static XnStatus XN_CALLBACK_TYPE OnNodeStringPropChangedImpl(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, const XnChar* strValue);
 	static XnStatus XN_CALLBACK_TYPE OnNodeGeneralPropChangedImpl(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, XnUInt32 nBufferSize, const void* pBuffer);
 	static XnStatus XN_CALLBACK_TYPE OnNodeStateReadyImpl(void* pCookie, const XnChar* strNodeName);
-	static XnStatus XN_CALLBACK_TYPE OnNodeNewDataImpl(void* pCookie, const XnChar* strNodeName, 
+	static XnStatus XN_CALLBACK_TYPE OnNodeNewDataImpl(void* pCookie, const XnChar* strNodeName,
 		XnUInt64 nTimeStamp, XnUInt32 nFrame, const void* pData, XnUInt32 nSize);
 };
 

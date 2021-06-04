@@ -22,18 +22,18 @@ package org.openni;
 
 /**
  * This class stores a version value. <BR><BR>
- * 
+ *
  * Values are set at object construction; data is read only after that.<BR><BR>
- * 
+ *
  * Normally, this would be used internally by the SDK to report its version.  It
  * could be reused by applications to track their own versions, though.<BR><BR>
- * 
+ *
  * The format uses four numbers to store a version -- Major, Minor, Maintenance, and Build.
- * For example Note 1.5.2.23, would be Major Version 1, Minor Version 5, Maintenance release 2, 
+ * For example Note 1.5.2.23, would be Major Version 1, Minor Version 5, Maintenance release 2,
  * build 23.
  *
  */
-public class Version 
+public class Version
 {
 	/**
 	 * Constructor to create a new version object with specified major, minor, maintenance,

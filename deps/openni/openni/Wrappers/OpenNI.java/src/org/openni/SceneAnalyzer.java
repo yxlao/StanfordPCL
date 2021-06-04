@@ -22,8 +22,8 @@ package org.openni;
 
 /**
  * Performs Scene Analysis. <BR><BR>
- * 
- * A Scene Analyzer node is a Map Generator that performs scene analysis. It supports all Map Generator functions, and adds additional functions. 
+ *
+ * A Scene Analyzer node is a Map Generator that performs scene analysis. It supports all Map Generator functions, and adds additional functions.
  *
  */
 public class SceneAnalyzer extends MapGenerator
@@ -66,7 +66,7 @@ public class SceneAnalyzer extends MapGenerator
 			long ptr = NativeMethods.xnGetLabelMap(toNative());
 			MapOutputMode mode = getMapOutputMode();
 			this.currSceneMap = new SceneMap(ptr, mode.getXRes(), mode.getYRes());
-			this.currSceneMapFrameID = frameID; 
+			this.currSceneMapFrameID = frameID;
 		}
 
 		return this.currSceneMap;

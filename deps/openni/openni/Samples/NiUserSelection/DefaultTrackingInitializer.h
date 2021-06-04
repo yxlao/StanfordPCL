@@ -34,8 +34,8 @@
 
 
 /// @brief Class to start tracking a user
-/// 
-/// The goal of this class is to start performing the actual tracking of a user. It returns the 
+///
+/// The goal of this class is to start performing the actual tracking of a user. It returns the
 /// results to the UserSelector which called it.
 /// @ingroup UserSelectionInitializers
 class DefaultTrackingInitializer : public TrackingInitializer
@@ -45,23 +45,23 @@ public:
     virtual XnStatus AbortTracking(XnUserID nUserId);
 
     /// @brief Constructor
-    /// 
+    ///
     /// @param pUserGenerator The user generator to use
     DefaultTrackingInitializer(xn::UserGenerator *pUserGenerator);
     virtual ~DefaultTrackingInitializer();
 protected:
     /// @brief Method called by the calibration start callback
-    /// 
+    ///
     /// @param nUserId The user the calibration started on
     virtual XnStatus CalibrationStart(XnUserID nUserId);
 
     /// @brief Method called by the calibration complete callback
-    /// 
+    ///
     /// @param nUserId The user the calibration finished on
     /// @param eStatus The status (success/fail and why)
     virtual XnStatus CalibrationComplete(XnUserID nUserId,XnCalibrationStatus eStatus);
     /// @brief Method called by the calibration in progress callback
-    /// 
+    ///
     /// @param nUserId The user the calibration progress is on
     /// @param eStatus The status (success/fail and why)
     virtual XnStatus CalibrationInProgress(XnUserID nUserId,XnCalibrationStatus eStatus);

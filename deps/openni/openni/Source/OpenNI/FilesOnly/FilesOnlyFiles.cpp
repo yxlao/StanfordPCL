@@ -87,7 +87,7 @@ XN_C_API XnStatus xnOSOpenFile(const XnChar* cpFileName, const XnUInt32 nFlags, 
 			// If the file was opened for write but without the create only flag, return a generic file open failure
 			return (XN_STATUS_OS_FILE_OPEN_FAILED);
 		}
-		else if (nFlags & XN_OS_FILE_READ) 
+		else if (nFlags & XN_OS_FILE_READ)
 		{
 			// If the file was opened for read, this probably means the file doesn't exist
 			return (XN_STATUS_OS_FILE_NOT_FOUND);

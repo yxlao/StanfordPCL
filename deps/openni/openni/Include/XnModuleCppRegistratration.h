@@ -288,7 +288,7 @@ XN_MODULE_FUNC_TYPE void XN_C_DECL XN_MODULE_GET_OPEN_NI_VERSION(XnVersion* pVer
 #if !XN_PLATFORM_SUPPORTS_DYNAMIC_LIBS
 #include <XnUtils.h>
 
-static XnOpenNIModuleInterface moduleInterface = 
+static XnOpenNIModuleInterface moduleInterface =
 {
 	XN_MODULE_LOAD,
 	XN_MODULE_UNLOAD,

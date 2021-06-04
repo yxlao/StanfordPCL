@@ -36,14 +36,14 @@ public:
 
 	/**
 	* Allocate a new XnNode
-	* 
+	*
 	* @return	NULL	if allocating a new node failed
 	*/
 	virtual XnNode *Allocate() = 0;
 
 	/**
 	* Release an XnNode
-	* 
+	*
 	* @param	pNode	[in]	The node to deallocate
 	*/
 	virtual void Deallocate(XnNode *pNode) = 0;

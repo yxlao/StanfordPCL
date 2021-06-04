@@ -22,12 +22,12 @@ package org.openni;
 
 /**
  * Base class for all generator output types. <BR><BR>
- * 
+ *
  * This class serves as the base class for generator output meta data types.
  * It encapsulates the output parameters that are common to all output types.
  *
  */
-public class OutputMetaData 
+public class OutputMetaData
 {
 
 	/**

@@ -24,7 +24,7 @@ package org.openni;
  * Provides string names for all available capabilities
  *
  */
-public enum Capability 
+public enum Capability
 {
 	ExtendedSerialization ("ExtendedSerialization"),
 	Mirror ("Mirror"),

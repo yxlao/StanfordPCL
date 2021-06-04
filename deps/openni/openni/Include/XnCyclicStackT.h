@@ -19,7 +19,7 @@
 *                                                                            *
 *****************************************************************************/
 #ifndef _XN_CYCLIC_STACK_T_H_
-#define _XN_CYCLIC_STACK_T_H_ 
+#define _XN_CYCLIC_STACK_T_H_
 
 //---------------------------------------------------------------------------
 // Includes
@@ -38,7 +38,7 @@ public:
 
 	XnCyclicStackT(XnUInt32 nMaxDepth = TDefaultMaxDepth) : Base(), m_nMaxDepth(nMaxDepth) {}
 
-	XnCyclicStackT(const XnCyclicStackT& other) : Base(other) 
+	XnCyclicStackT(const XnCyclicStackT& other) : Base(other)
 	{
 		*this = other;
 	}
@@ -72,8 +72,8 @@ public:
 		return (XN_STATUS_OK);
 	}
 
-	XnStatus Push(T const& value) 
-	{ 
+	XnStatus Push(T const& value)
+	{
 		XnStatus nRetVal = XN_STATUS_OK;
 		if (Size() == m_nMaxDepth)
 		{
@@ -81,7 +81,7 @@ public:
 			XN_IS_STATUS_OK(nRetVal);
 		}
 
-		nRetVal = Base::Push(value); 
+		nRetVal = Base::Push(value);
 		XN_IS_STATUS_OK(nRetVal);
 
 		return (XN_STATUS_OK);

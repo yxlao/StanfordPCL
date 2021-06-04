@@ -22,7 +22,7 @@ package org.openni;
 
 /**
  * This class holds the data created when a Gesture Recognized Event is generated. <BR><BR>
- * 
+ *
  * This data consists of the name of the gesture detected, the location of the user, and the end point where that
  * gesture was detected.  This event type is associated with a user completely performing the given gesture type.
  *

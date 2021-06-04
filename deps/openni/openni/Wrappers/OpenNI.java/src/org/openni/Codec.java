@@ -22,7 +22,7 @@ package org.openni;
 
 /**
  * Represents a specific Codec used for recording and playback of sensor data. <BR><BR>
- * 
+ *
  *
  */
 public class Codec extends ProductionNode

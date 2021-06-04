@@ -76,7 +76,7 @@ namespace xn
 		typedef XnStringsHashT<RawNodeInfo> RawNodesMap;
 
 		static XnStatus XN_CALLBACK_TYPE OpenFile(void* pCookie);
-		static XnStatus XN_CALLBACK_TYPE WriteFile(void* pCookie, const XnChar* strNodeName, 
+		static XnStatus XN_CALLBACK_TYPE WriteFile(void* pCookie, const XnChar* strNodeName,
 			const void* pData, XnUInt32 nSize);
 		static XnStatus XN_CALLBACK_TYPE SeekFile  (void* pCookie, XnOSSeekType seekType, const XnInt32 nOffset);
 		static XnStatus XN_CALLBACK_TYPE SeekFile64(void* pCookie, XnOSSeekType seekType, const XnInt64 nOffset);

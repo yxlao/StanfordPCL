@@ -22,27 +22,27 @@ package org.openni;
 
 /**
  * Plays back recorded production node information from a file. <BR><BR>
- * 
- * The player is a production node that reads recorded data from a file, and 
+ *
+ * The player is a production node that reads recorded data from a file, and
  * plays back that data as if from a live node.
  *
  */
-public class Player extends ProductionNode 
+public class Player extends ProductionNode
 {
-	Player(Context context, long nodeHandle, boolean addRef) throws StatusException 
+	Player(Context context, long nodeHandle, boolean addRef) throws StatusException
 	{
 		super(context, nodeHandle, addRef);
 		
-		this.eofReached = new StateChangedObservable() 
+		this.eofReached = new StateChangedObservable()
 		{
 			@Override
-			protected int registerNative(String cb, OutArg<Long> phCallback) 
+			protected int registerNative(String cb, OutArg<Long> phCallback)
 			{
 				return NativeMethods.xnRegisterToEndOfFileReached(toNative(), this, cb, phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromEndOfFileReached(toNative(), hCallback);
 			}
@@ -90,7 +90,7 @@ public class Player extends ProductionNode
 
 	/**
 	 * Sets the value of the repeat flag.  If repeat is set, the recorded data will
-	 * be played in an infinite loop.  If not set, playback will stop at the end of 
+	 * be played in an infinite loop.  If not set, playback will stop at the end of
 	 * the recording.
 	 * @param repeat Desired value for repeat flag, TRUE = enable repeat, FALSE = disable repeat
 	 * @throws StatusException If underlying native code returns errors, a Status Exception will be generated

@@ -22,17 +22,17 @@ package org.openni;
 
 /**
  * Stores a single frame DepthMap along with relevant meta data. <BR><BR>
- * 
+ *
  * Note that despite its name, this function stores the actual depth data
  * as well as associated meta data -- it does not just store meta data.
  *
  */
-public class DepthMetaData extends MapMetaData 
+public class DepthMetaData extends MapMetaData
 {
 	/**
-	 * Default constructor, creates an empty DepthMap 
+	 * Default constructor, creates an empty DepthMap
 	 */
-	public DepthMetaData() 
+	public DepthMetaData()
 	{
 		super(PixelFormat.GRAYSCALE_16BIT, new DepthMap());
 	}
@@ -48,9 +48,9 @@ public class DepthMetaData extends MapMetaData
 	}
 
 	/**
-	 * Stores a new value in the zRes parameter of this class.  Note that 
-	 * this does NOT reconfigure the device -- this is a reference value 
-	 * used for calculations.  This value should only be set to the current 
+	 * Stores a new value in the zRes parameter of this class.  Note that
+	 * this does NOT reconfigure the device -- this is a reference value
+	 * used for calculations.  This value should only be set to the current
 	 * value returned by DepthGenerator::GetDeviceMaxDepth()
 	 * @param zRes
 	 */

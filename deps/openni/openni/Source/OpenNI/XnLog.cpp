@@ -120,7 +120,7 @@ private:
 		// NOTE: as our log implementation returns a pointer directly into this hash, we can't
 		// free this memory in our dtor (static objects dtors are called in unknown order. modules
 		// might still access this memory after our dtor is called).
-		// As in any case, this is a static object which will only be destroyed when the process goes 
+		// As in any case, this is a static object which will only be destroyed when the process goes
 		// down - we can allow this.
 		this->pMasksHash = XN_NEW(XnLogMasksHash);
 		XN_ASSERT(this->pMasksHash != NULL);
@@ -248,7 +248,7 @@ XN_C_API XnStatus XN_C_DECL xnLogCreateNewFile(const XnChar* strName, XnBool bSe
 	{
 		time_t currtime;
 		time(&currtime);
-		strftime(logData.strSessionTimestamp, sizeof(logData.strSessionTimestamp)-1, "%Y_%m_%d__%H_%M_%S", localtime(&currtime)); 
+		strftime(logData.strSessionTimestamp, sizeof(logData.strSessionTimestamp)-1, "%Y_%m_%d__%H_%M_%S", localtime(&currtime));
 	}
 
 	XN_PROCESS_ID nProcID = 0;
@@ -347,7 +347,7 @@ XN_C_API void xnLogWriteBanner(const XnLogWriter* pWriter)
 	time_t currtime;
 	time(&currtime);
 	XnChar strTime[200];
-	strftime(strTime, sizeof(strTime) - 1, "%Y-%m-%d %H:%M:%S", localtime(&currtime)); 
+	strftime(strTime, sizeof(strTime) - 1, "%Y-%m-%d %H:%M:%S", localtime(&currtime));
 	xnLogCreateEntry(&entry, XN_MASK_LOG, XN_LOG_INFO, __FILE__, __LINE__, "New log started on %s", strTime);
 	pWriter->WriteEntry(&entry, pWriter->pCookie);
 

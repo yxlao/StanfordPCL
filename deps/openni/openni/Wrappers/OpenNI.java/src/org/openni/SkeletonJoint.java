@@ -61,7 +61,7 @@ public enum SkeletonJoint
 	
 	public static SkeletonJoint fromNative(int value)
 	{
-		for (SkeletonJoint type : SkeletonJoint.values()) 
+		for (SkeletonJoint type : SkeletonJoint.values())
 		{
 			if (type.val == value)
 				return type;

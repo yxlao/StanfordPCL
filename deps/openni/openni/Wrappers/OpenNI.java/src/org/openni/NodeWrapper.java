@@ -22,7 +22,7 @@ package org.openni;
 
 /**
  * Based class for Production Nodes. <BR><BR>
- * 
+ *
  * This is the base class for many production node classes
  *
  */

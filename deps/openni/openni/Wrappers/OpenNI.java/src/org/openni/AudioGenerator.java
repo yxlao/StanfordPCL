@@ -22,15 +22,15 @@ package org.openni;
 
 /**
  * Generates PCM audio data from a sensor's hardware microphones. <BR><BR>
- * 
+ *
  * This generator is used to read the audio data from a sensor's microphones.  Number
- * of available channels is determined by number of available microphones.  A variety of 
+ * of available channels is determined by number of available microphones.  A variety of
  * data formats are available, but the exact mix of supported formats will depend on the
  * sensor being used.
- * 
+ *
  * Defines the following events:
  * waveOutputModeChanged -- Triggered when the audio format changes
- * 
+ *
  */
 public class AudioGenerator extends Generator
 {
@@ -45,26 +45,26 @@ public class AudioGenerator extends Generator
 	{
 		super(context, nodeHandle, addRef);
 		
-		this.waveOutputModeChanged = new StateChangedObservable() 
+		this.waveOutputModeChanged = new StateChangedObservable()
 		{
 			@Override
-			protected int registerNative(String cb, OutArg<Long> phCallback) 
+			protected int registerNative(String cb, OutArg<Long> phCallback)
 			{
 				return NativeMethods.xnRegisterToWaveOutputModeChanges(toNative(), this, cb, phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromWaveOutputModeChanges(toNative(), hCallback);
 			}
-		}; 
+		};
 	}
 
 	/**
 	 * Creates a new audio generator
 	 * @param context OpenNI context for this generator
-	 * @param query Place to store query information 
+	 * @param query Place to store query information
 	 * @param errors Place to store error information
 	 * @return A new audio generator, created according to the given query
 	 * @throws GeneralException If underlying native code returns errors, General Exception is thrown by this function
@@ -105,7 +105,7 @@ public class AudioGenerator extends Generator
 	}
 	
 	/**
-	 * Generates a list of available output modes 
+	 * Generates a list of available output modes
 	 * @return A list of WaveOutputModes, one for each available output mode
 	 * @throws StatusException If underlying native code returns errors, Status Exception is thrown by this function
 	 */

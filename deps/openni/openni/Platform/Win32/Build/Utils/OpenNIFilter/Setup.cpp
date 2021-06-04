@@ -52,7 +52,7 @@ const AMOVIESETUP_PIN sudVideoPin =
 	&CLSID_NULL,            // Connects to filter
 	NULL,                   // Connects to pin
 	1,                      // Number of types
-	&sudVideoPinTypes 
+	&sudVideoPinTypes
 };
 
 const AMOVIESETUP_FILTER sudVideoFilter =
@@ -66,21 +66,21 @@ const AMOVIESETUP_FILTER sudVideoFilter =
 
 // COM global table of objects in this dll
 
-CFactoryTemplate g_Templates[] = 
+CFactoryTemplate g_Templates[] =
 {
-	{ 
+	{
 		g_videoName,
 		&CLSID_OpenNIVideo,
 		XnVideoSource::CreateInstance,
 		NULL,
-		&sudVideoFilter 
+		&sudVideoFilter
 	},
 	// This entry is for the property page.
-	{ 
+	{
 		g_propertyPageName,
 		&CLSID_AdditionalOpenNIControlsPropertyPage,
-		XnAdditionalControlsPropertyPage::CreateInstance, 
-		NULL, 
+		XnAdditionalControlsPropertyPage::CreateInstance,
+		NULL,
 		NULL
 	}
 };
@@ -88,7 +88,7 @@ int g_cTemplates = sizeof(g_Templates) / sizeof(g_Templates[0]);
 
 ////////////////////////////////////////////////////////////////////////
 //
-// Exported entry points for registration and unregistration 
+// Exported entry points for registration and unregistration
 // (in this case they only call through to default implementations).
 //
 ////////////////////////////////////////////////////////////////////////
@@ -167,8 +167,8 @@ STDAPI DllUnregisterServer()
 //
 extern "C" BOOL WINAPI DllEntryPoint(HINSTANCE, ULONG, LPVOID);
 
-BOOL APIENTRY DllMain(HANDLE hModule, 
-					  DWORD  dwReason, 
+BOOL APIENTRY DllMain(HANDLE hModule,
+					  DWORD  dwReason,
 					  LPVOID lpReserved)
 {
 	if (dwReason == DLL_PROCESS_DETACH)

@@ -22,13 +22,13 @@ package org.openni;
 
 /**
  * Represents the output settings for a map generator. <BR><BR>
- * 
+ *
  * This class is intended to contain the resolution and frame rate settings
- * used by a MapGenerator.  It is used when configuring a MapGenerator, 
+ * used by a MapGenerator.  It is used when configuring a MapGenerator,
  * querying available settings, and querying current settings.
  *
  */
-public class MapOutputMode 
+public class MapOutputMode
 {
 	/**
 	 * Creates a new MapOutputMode object with specified Resolution and frame rate

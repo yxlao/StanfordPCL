@@ -24,7 +24,7 @@
 #include "ClosestUserSelector.h"
 
 /// @brief Utility macro which validates a condition and if it fails it prints an error message.
-/// 
+///
 /// This macro is aimed to be called from within the constructor as if it fails it invalidates the
 /// object (m_bValid=false).
 #define VALIDATE(cond, errorMsg)                                    \
@@ -36,7 +36,7 @@
 }                                                                   \
 
 
-/// @brief The square distance for changes of COM (set for 20cm squared) to be considered moved 
+/// @brief The square distance for changes of COM (set for 20cm squared) to be considered moved
 /// in order to avoid the modifier @ref DIST_MOD_FOR_FAILURE.
 #define MIN_SQR_DIST_TO_RETRY 40000
 /// @brief A modifier for failing to calibrated (set at 10m).
@@ -138,7 +138,7 @@ void ClosestUserSelector::UpdateFrame()
                 bForce=TRUE;
             }
             // start tracking
-            m_pTrackingInitializer->StartTracking(curUser,bForce); 
+            m_pTrackingInitializer->StartTracking(curUser,bForce);
         }
         else
         {

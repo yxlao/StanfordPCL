@@ -22,10 +22,10 @@ package org.openni;
 
 /**
  * Parent class of all production node types. <BR><BR>
- * 
- * Factors common functionality into a single place.  Normally, application code would not 
+ *
+ * Factors common functionality into a single place.  Normally, application code would not
  * instantiate this class, though users of child classes may need to refer to functions here.<BR><BR>
- * 
+ *
  * Capabilities common to all Production Nodes are accessed via calls to this class.
  *
  */
@@ -36,7 +36,7 @@ public class ProductionNode extends NodeWrapper
 	 * that extend ProductionNode
 	 * @param context An OpenNI context
 	 * @param nodeHandle Handle used to refer to this particular node
-	 * @param addRef 
+	 * @param addRef
 	 * @throws StatusException Required as this function will directly access sensor hardware
 	 */
 	ProductionNode(Context context, long nodeHandle, boolean addRef) throws StatusException
@@ -44,7 +44,7 @@ public class ProductionNode extends NodeWrapper
 		super(context, nodeHandle, addRef);
 	}
 	
-	/** 
+	/**
 	 * Constructor to create a production node given a pointer to a node already
 	 * created by Native Code.  Generally only called by descendant classes.
 	 * @param hNode
@@ -203,7 +203,7 @@ public class ProductionNode extends NodeWrapper
 	}
 	
 	/**
-	 * Provides access to a general valued property stored in the underlying node.  This 
+	 * Provides access to a general valued property stored in the underlying node.  This
 	 * function returns the value as a pointer and size value
 	 * @param propName String name of the property to be accessed
 	 * @param size Size of the property to be accessed, in bytes
@@ -217,10 +217,10 @@ public class ProductionNode extends NodeWrapper
 	}
 
 	/**
-	 * Provides access to a general valued property stored in the underlying node.  This 
+	 * Provides access to a general valued property stored in the underlying node.  This
 	 * function returns the value as an array
 	 * @param propName String name of the property to be accessed
-	 * @param buffer Byte array to place the return value in 
+	 * @param buffer Byte array to place the return value in
 	 * @throws StatusException If underlying native code returns non-zero status, Status Exception is thrown by this function
 	 */
 	public void getGeneralProperty(String propName, byte[] buffer) throws StatusException
@@ -276,7 +276,7 @@ public class ProductionNode extends NodeWrapper
 	}
 	
 	/**
-	 * Provides access to the Error State Capability of this node by returning the appropriate capability 
+	 * Provides access to the Error State Capability of this node by returning the appropriate capability
 	 * object
 	 * @return Error state capability object, connected to this node
 	 * @throws StatusException If underlying native code returns non-zero status, Status Exception is thrown by this function

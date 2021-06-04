@@ -22,7 +22,7 @@ package org.openni;
 
 /**
  * Optimizes the output depth map that is generated for a specific area of the scene. <BR><BR>
- * 
+ *
  * The exact nature of this optimization is left up to the implementation of the Depth Generator that
  * includes this capability.
  *
@@ -38,23 +38,23 @@ public class UserPositionCapability extends CapabilityBase
 	{
 		super(node);
 		
-		this.userPositionChanged = new StateChangedObservable() 
+		this.userPositionChanged = new StateChangedObservable()
 		{
 			@Override
-			protected int registerNative(String cb, OutArg<Long> phCallback) 
+			protected int registerNative(String cb, OutArg<Long> phCallback)
 			{
 				return NativeMethods.xnRegisterToUserPositionChange(toNative(), this, cb, phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromUserPositionChange(toNative(), hCallback);
 			}
 		};
 	}
 
-	/** 
+	/**
 	 * Counts the number of possible user positions supported by this depth generator.
 	 * @return Number of supported positions that the user can occupy for depth optimization purposes
 	 */

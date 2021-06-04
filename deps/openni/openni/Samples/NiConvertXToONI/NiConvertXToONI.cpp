@@ -213,7 +213,7 @@ int main(int argc, char* argv[])
 	}
 
 	// start and end requires primary node
-	if ((nStartFrame != 0 || nEndFrame != XN_MAX_UINT32) && 
+	if ((nStartFrame != 0 || nEndFrame != XN_MAX_UINT32) &&
 		(strPrimaryNode == NULL && primaryNodeType == XN_NODE_TYPE_INVALID))
 	{
 		printf("A primary node must be defined for using --start-frame or --end-frame.\n");

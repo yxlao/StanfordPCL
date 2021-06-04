@@ -204,11 +204,11 @@ class RedistOpenNI(redist_base.RedistBase):
                 # Fix include paths
                 s = re.sub(r"../../../../../Include",r"$(OPEN_NI_INCLUDE)",s)
                 s = re.sub(r"..\\..\\..\\..\\..\\Include",r"$(OPEN_NI_INCLUDE)",s)
-                
+
                 sample_name = os.path.basename(dirname)
                 s = re.sub(r"..\\..\\..\\..\\..\\Samples\\" + sample_name, r".", s)
                 s = re.sub(r"../../../../../Samples/" + sample_name, r".", s)
-                
+
                 # fix path to "Data" folder
                 s = re.sub(r"..\\\\..\\\\..\\\\..\\\\Data\\",r"..\\\\..\\\\..\\\\Data\\",s)
                 s = re.sub(r"..\\..\\..\\..\\Data\\",r"..\\..\\..\\Data\\",s)
@@ -219,13 +219,13 @@ class RedistOpenNI(redist_base.RedistBase):
 
                 # fix path to java build script
                 s = re.sub(r"..\\..\\BuildJava.py", r"..\\Build\\BuildJava.py", s)
-                
+
                 # fix bin and lib path for 32 bit configuration
                 s = re.sub(r"../../../Bin/",r"../Bin/",s)
                 s = re.sub(r"..\\..\\..\\Bin\\",r"../Bin/",s)
                 s = re.sub(r"../../../Lib/\$\(Configuration\)",r"$(OPEN_NI_LIB)",s)
                 s = re.sub(r"..\\..\\..\\Lib\\\$\(Configuration\)",r"$(OPEN_NI_LIB)",s)
-                
+
                 # fix bin and lib path for 64 bit configuration
                 s = re.sub(r"../../../Bin64/",r"../Bin64/",s)
                 s = re.sub(r"..\\..\\..\\Bin64\\",r"../Bin64/",s)
@@ -235,7 +235,7 @@ class RedistOpenNI(redist_base.RedistBase):
                 # fix general path problems
                 s = re.sub(r"..\\..\\..\\..\\..\\",r"..\\..\\",s)
                 s = re.sub(r"../../../../../",r"../../",s)
-                
+
                 # remove source control integraion (if exists)
                 s = re.sub(r".*SccProjectName=\".*", r"", s);
                 s = re.sub(r".*SSccAuxPath=\".*", r"", s);
@@ -248,7 +248,7 @@ class RedistOpenNI(redist_base.RedistBase):
                     link_re += r"\s*<Link>(?P=file)</Link>"
                     compiled_re = re.compile(link_re, re.MULTILINE)
                     s = compiled_re.sub("<Compile Include=\"\g<file>\">", s)
-                    
+
                 # remove dependencies from samples vcxproj to non-sample projects
                 if file_ext == "vcxproj":
                     # dependency to another sample will be to ..\<sample>
@@ -261,7 +261,7 @@ class RedistOpenNI(redist_base.RedistBase):
                         # look for end
                         match_end = compiled_end.search(s, match_start.end())
                         s = s[:match_start.start()] + s[match_end.end():]
-                    
+
                 file.truncate()
                 file.write(s)
                 file.close()
@@ -281,7 +281,7 @@ class RedistOpenNI(redist_base.RedistBase):
         self.logger.info("PrimeSense OpenNI Redist Started")
         self.build_project()
         self.fixing_files()
-        
+
         # set OpenNI environment variables to point to the redist folder (so that samples can compile correctly)
         REDIST_DIR = os.path.join(self.WORK_DIR,"Platform","Win32","Redist")
         os.environ['OPEN_NI_INCLUDE'] = REDIST_DIR + "\\Include"

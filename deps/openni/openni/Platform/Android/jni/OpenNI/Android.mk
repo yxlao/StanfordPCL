@@ -3,7 +3,7 @@
 #
 
 LOCAL_PATH:= $(call my-dir)
-include $(CLEAR_VARS) 
+include $(CLEAR_VARS)
 
 # set path to source
 MY_PREFIX := $(LOCAL_PATH)/../../../../Source/OpenNI/
@@ -33,9 +33,9 @@ LOCAL_LDFLAGS += -Wl,--export-dynamic -llog
 LOCAL_LDLIBS += -llog
 
 LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/../../../../Include
-LOCAL_SHARED_LIBRARIES := libusb 
+LOCAL_SHARED_LIBRARIES := libusb
 
-LOCAL_PREBUILT_LIBS := libc 
+LOCAL_PREBUILT_LIBS := libc
 
 LOCAL_MODULE:= OpenNI
 

@@ -33,7 +33,7 @@ XN_EXPORT_NODE(XnXmlScriptNodeExporter, XN_NODE_TYPE_SCRIPT);
 
 XnOpenNIModuleInterface* GetOpenNIModuleInterface()
 {
-	static XnOpenNIModuleInterface moduleInterface = 
+	static XnOpenNIModuleInterface moduleInterface =
 	{
 		XN_MODULE_LOAD,
 		XN_MODULE_UNLOAD,

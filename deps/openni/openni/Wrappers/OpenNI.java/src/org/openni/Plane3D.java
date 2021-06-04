@@ -22,10 +22,10 @@ package org.openni;
 
 /**
  * Represents a two dimensional plane in three dimensional space. <BR><BR>
- * 
- * Stores the plane as a single point on the plane, plus a vector normal to 
+ *
+ * Stores the plane as a single point on the plane, plus a vector normal to
  * that plane.<BR><BR>
- * 
+ *
  * This is a read only data type after it is created.
  *
  */

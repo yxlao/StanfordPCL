@@ -33,12 +33,12 @@ while True:
     if match is None:
         break
     method_name = match.group(1)
-    
+
     match = re.search("Signature:\s*([\w\(\)\[;/]*)", cont)
     if match is None:
         break
     signature = match.group(1)
-        
+
     match = re.search("JNIEXPORT.*JNICALL (\w*)", cont)
     if match is None:
         break

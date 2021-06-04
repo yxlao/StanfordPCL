@@ -22,7 +22,7 @@
 #include <XnContext.h>
 #include <XnPrdNode.h>
 
-typedef struct 
+typedef struct
 {
 	XnContext* pContext;
 	const XnChar* strName;
@@ -114,7 +114,7 @@ void TestCreation(XnContext* pContext, void* pHandler1Cookie, void* pHandler2Coo
 	xnProductionNodeRelease(hNode);
 }
 
-TEST(ContextTests_C, TestNodeCreationEvent) 
+TEST(ContextTests_C, TestNodeCreationEvent)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -179,7 +179,7 @@ void TestDestruction(XnContext* pContext, void* pHandler1Cookie, void* pHandler2
 	xnOSFree(strName);
 }
 
-TEST(ContextTests_C, TestNodeDestructionEvent) 
+TEST(ContextTests_C, TestNodeDestructionEvent)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

@@ -1,19 +1,19 @@
 /**
 @page modules_node_capabilities Support Capabilities
 
-If you want your new node implementation to support any capabilities, it 
-should both declare that and implement their interfaces. 
+If you want your new node implementation to support any capabilities, it
+should both declare that and implement their interfaces.
 
-Declaring the node implementation supported capabilities is done by 
-implementing the @ref xn::ModuleProductionNode::IsCapabilitySupported 
-"IsCapabilitySupported()" method. This method only declares if a certain 
-capability is supported or not. 
+Declaring the node implementation supported capabilities is done by
+implementing the @ref xn::ModuleProductionNode::IsCapabilitySupported
+"IsCapabilitySupported()" method. This method only declares if a certain
+capability is supported or not.
 
-The actual implementation of the capability is done by implementing this 
-capability interface. This implementation can be done in a different 
-class, or in your node implementation class. In any case, your node 
-implementation must implement the proper 'get' mechanism for this 
-interface. 
+The actual implementation of the capability is done by implementing this
+capability interface. This implementation can be done in a different
+class, or in your node implementation class. In any case, your node
+implementation must implement the proper 'get' mechanism for this
+interface.
 
 The following table summarizes all capabilities:
 
@@ -206,17 +206,17 @@ The following table summarizes all capabilities:
 	</tr>
 </table>
 
-For example, let's say your hands generator supports the mirror 
-capability as well as the error state capability. The HandsGenerator can 
-implement the error state capability in the same class and the mirror 
-capability in a different class. 
+For example, let's say your hands generator supports the mirror
+capability as well as the error state capability. The HandsGenerator can
+implement the error state capability in the same class and the mirror
+capability in a different class.
 
-Thus, in the class implementation below, the 
-<code>GetErrorStateInterface()</code> method returns <code>this</code>, 
-since the 'Error State Interface' is also implemented by this class. On 
-the other hand, the <code>GetMirrorInterface()</code> method has to 
-return a reference to <code>m_mirrorCap</code>, which is an instance of 
-the helper class, <code>MyHandsGeneratorMirror</code>. 
+Thus, in the class implementation below, the
+<code>GetErrorStateInterface()</code> method returns <code>this</code>,
+since the 'Error State Interface' is also implemented by this class. On
+the other hand, the <code>GetMirrorInterface()</code> method has to
+return a reference to <code>m_mirrorCap</code>, which is an instance of
+the helper class, <code>MyHandsGeneratorMirror</code>.
 
 @code
 class MyHandsGeneratorMirror : public virtual xn::ModuleMirrorInterface
@@ -224,8 +224,8 @@ class MyHandsGeneratorMirror : public virtual xn::ModuleMirrorInterface
 ...
 };
 
-class MyHandGenerator: 
-	public virtual xn::ModuleHandsGenerator, 
+class MyHandGenerator:
+	public virtual xn::ModuleHandsGenerator,
 	public virtual xn::ModuleErrorStateInterface
 {
 public:

@@ -19,7 +19,7 @@
 *                                                                            *
 *****************************************************************************/
 #ifndef _XN_CYCLIC_QUEUE_T_H_
-#define _XN_CYCLIC_QUEUE_T_H_ 
+#define _XN_CYCLIC_QUEUE_T_H_
 
 //---------------------------------------------------------------------------
 // Includes
@@ -38,7 +38,7 @@ public:
 
 	XnCyclicQueueT(XnUInt32 nMaxDepth = TDefaultMaxDepth) : Base(), m_nMaxDepth(nMaxDepth) {}
 
-	XnCyclicQueueT(const XnCyclicQueueT& other) : Base(other) 
+	XnCyclicQueueT(const XnCyclicQueueT& other) : Base(other)
 	{
 		*this = other;
 	}
@@ -71,8 +71,8 @@ public:
 		return (XN_STATUS_OK);
 	}
 
-	XnStatus Push(T const& value) 
-	{ 
+	XnStatus Push(T const& value)
+	{
 		XnStatus nRetVal = XN_STATUS_OK;
 		if (Size() == m_nMaxDepth)
 		{
@@ -80,7 +80,7 @@ public:
 			XN_IS_STATUS_OK(nRetVal);
 		}
 
-		nRetVal = Base::Push(value); 
+		nRetVal = Base::Push(value);
 		XN_IS_STATUS_OK(nRetVal);
 
 		return (XN_STATUS_OK);

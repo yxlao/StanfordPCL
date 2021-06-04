@@ -22,14 +22,14 @@ package org.openni;
 
 /**
  * Allows a Map Generator to output only a portion of a frame. <BR><BR>
- * 
- * The Cropping capability allows a Map Generator to output a 
- * selected area of the frame instead of the entire frame. When cropping is turned on, 
- * the data buffer looks just like resolution is smaller, meaning data is packed. For 
- * example if the MapGenerator is working in VGA resolution (640x480) and the application 
- * chose a cropping of 300x200, then after first 300 pixels the next pixel row begins. 
- * Pixels outside the cropping area are not returned in the buffer (and not just being blacked out). 
- * This is very useful for performance boost. 
+ *
+ * The Cropping capability allows a Map Generator to output a
+ * selected area of the frame instead of the entire frame. When cropping is turned on,
+ * the data buffer looks just like resolution is smaller, meaning data is packed. For
+ * example if the MapGenerator is working in VGA resolution (640x480) and the application
+ * chose a cropping of 300x200, then after first 300 pixels the next pixel row begins.
+ * Pixels outside the cropping area are not returned in the buffer (and not just being blacked out).
+ * This is very useful for performance boost.
  *
  */
 public class CroppingCapability extends CapabilityBase
@@ -47,13 +47,13 @@ public class CroppingCapability extends CapabilityBase
 		this.croppingChanged = new StateChangedObservable()
 		{
 			@Override
-			protected int registerNative(String cb, OutArg<Long> phCallback) 
+			protected int registerNative(String cb, OutArg<Long> phCallback)
 			{
 				return NativeMethods.xnRegisterToCroppingChange(toNative(), this, cb, phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromCroppingChange(toNative(), hCallback);
 			}

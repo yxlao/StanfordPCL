@@ -26,9 +26,9 @@ public class SimpleRead implements IObserver<ErrorStateEventArgs>
 {
 	public static final String SAMPLES_XML = "../../../../Data/SamplesConfig.xml";
 	
-	public static void main(String[] args) 
+	public static void main(String[] args)
 	{
-		try 
+		try
 		{
 			OutArg<ScriptNode> scriptNodeArg = new OutArg<ScriptNode>();
 			Context context = Context.createFromXmlFile(SAMPLES_XML, scriptNodeArg);
@@ -49,8 +49,8 @@ public class SimpleRead implements IObserver<ErrorStateEventArgs>
 				
 				System.out.printf("Frame %d Middle point is: %d.\n", depthMD.getFrameID(), depthMD.getData().readPixel(depthMD.getXRes() / 2, depthMD.getYRes() / 2));
 			}
-		} 
-		catch (Throwable e) 
+		}
+		catch (Throwable e)
 		{
 			e.printStackTrace();
 		}

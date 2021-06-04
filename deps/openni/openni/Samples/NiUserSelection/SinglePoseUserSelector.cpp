@@ -29,8 +29,8 @@
 
 
 SinglePoseUserSelector::SinglePoseUserSelector(xn::UserGenerator* pUserGenerator,
-                                               TrackingInitializer* pTrackingInitializer, 
-                                               const char* poseToTrack) : 
+                                               TrackingInitializer* pTrackingInitializer,
+                                               const char* poseToTrack) :
               PoseUserSelector(pUserGenerator, pTrackingInitializer, poseToTrack)
 {
 }
@@ -57,7 +57,7 @@ XnStatus SinglePoseUserSelector::StartTracking(XnUserID nUserId)
         if(iter->Value()->m_eState!=XN_SELECTION_FAILED)
         {
             UpdateUserSelectionState(iter->Key(),XN_SELECTION_UNSELECTED,0);
-        }        
+        }
         m_pTrackingInitializer->AbortTracking(iter->Key()); // stop tracking
     }
     return XN_STATUS_OK;

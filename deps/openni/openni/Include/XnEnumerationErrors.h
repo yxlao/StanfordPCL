@@ -35,8 +35,8 @@
  *
  * The following code iterates over an enumeration errors object:
  * @code
-for (XnEnumerationErrorsIterator it = xnEnumerationErrorsGetFirst(pList); 
-	xnEnumerationErrorsIteratorIsValid(it); 
+for (XnEnumerationErrorsIterator it = xnEnumerationErrorsGetFirst(pList);
+	xnEnumerationErrorsIteratorIsValid(it);
 	it = xnEnumerationErrorsGetNext(it))
 {
 	const XnProductionNodeDescription* pCurrDesc = xnEnumerationErrorsGetCurrentDescription(it);

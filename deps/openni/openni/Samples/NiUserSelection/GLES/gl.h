@@ -57,7 +57,7 @@ extern "C" {
 #   endif
 #endif
 
-#define GL_APIENTRY 
+#define GL_APIENTRY
 
 #ifndef GLAPI
 #	define GLAPI GL_API

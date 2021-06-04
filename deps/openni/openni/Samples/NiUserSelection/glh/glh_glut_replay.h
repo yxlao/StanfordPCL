@@ -1,5 +1,5 @@
 /*
-    glh - is a platform-indepenedent C++ OpenGL helper library 
+    glh - is a platform-indepenedent C++ OpenGL helper library
 
 
     Copyright (c) 2000 Cass Everitt
@@ -21,7 +21,7 @@
 
      * The names of contributors to this software may not be used
 	   to endorse or promote products derived from this software
-	   without specific prior written permission. 
+	   without specific prior written permission.
 
        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 	   ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -33,8 +33,8 @@
 	   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 	   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
 	   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-	   ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
-	   POSSIBILITY OF SUCH DAMAGE. 
+	   ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+	   POSSIBILITY OF SUCH DAMAGE.
 
 
     Cass Everitt - cass@r3.nu
@@ -95,7 +95,7 @@ namespace glh
 	  virtual void dispatch() { glut_menu_status_function(s,x,y); }
 	  int s, x, y;
   };
-  
+
   struct glut_motion_event : public glut_event
   {
 	  glut_motion_event(int xpos, int ypos)
@@ -135,7 +135,7 @@ namespace glh
   struct glut_special_event : public glut_event
   {
 	  glut_special_event(int key, int xpos, int ypos)
-		  :	glut_event(SPECIAL), k(key), x(xpos), y(ypos) 
+		  :	glut_event(SPECIAL), k(key), x(xpos), y(ypos)
 	  {}
 	  virtual void dispatch() { glut_special_function(k,x,y); }
 	  int k, x, y;
@@ -144,7 +144,7 @@ namespace glh
   struct glut_timer_event : public glut_event
   {
 	  glut_timer_event(int value)
-		  :	glut_event(TIMER), v(value) 
+		  :	glut_event(TIMER), v(value)
 	  {}
 	  virtual void dispatch() { glut_timer_function(v); }
 	  int v;
@@ -193,32 +193,32 @@ namespace glh
 		if(enabled && RECORD == mode && ! paused)
 			event_list.push_back(new glut_keyboard_event(key,x,y));
 	}
-	virtual void menu_status(int status, int x, int y) 
+	virtual void menu_status(int status, int x, int y)
 	{
 		if(enabled && RECORD == mode && ! paused)
 			event_list.push_back(new glut_menu_status_event(status,x,y));
 	}
-	virtual void motion(int x, int y) 
+	virtual void motion(int x, int y)
 	{
 		if(enabled && RECORD == mode && ! paused)
 			event_list.push_back(new glut_motion_event(x,y));
 	}
-	virtual void mouse(int button, int state, int x, int y) 
+	virtual void mouse(int button, int state, int x, int y)
 	{
 		if(enabled && RECORD == mode && ! paused)
 			event_list.push_back(new glut_mouse_event(button,state,x,y));
 	}
-	virtual void passive_motion(int x, int y) 
+	virtual void passive_motion(int x, int y)
 	{
 		if(enabled && RECORD == mode && ! paused)
 			event_list.push_back(new glut_passive_motion_event(x,y));
 	}
-	virtual void reshape(int w, int h) 
+	virtual void reshape(int w, int h)
 	{
 		if(enabled && RECORD == mode && ! paused)
 			event_list.push_back(new glut_reshape_event(w,h));
 	}
-	virtual void special(int  key, int x, int y) 
+	virtual void special(int  key, int x, int y)
 	{
 		if(enabled)
 		{
@@ -234,18 +234,18 @@ namespace glh
 			{ event_list.push_back(new glut_special_event(key,x,y)); }
 		}
 	}
-	virtual void timer(int value) 
+	virtual void timer(int value)
 	{
 		if(enabled && RECORD == mode && ! paused)
 			event_list.push_back(new glut_timer_event(value));
 	}
-	virtual void visibility(int v) 
+	virtual void visibility(int v)
 	{
 		if(enabled && RECORD == mode && ! paused)
 			event_list.push_back(new glut_visibility_event(v));
 	}
 
-    
+
 	// other methods
 
 	bool playing() { return mode == PLAY; }
@@ -272,7 +272,7 @@ namespace glh
 	}
 
 	void erase()
-	{ 
+	{
 		while(event_list.begin() != event_list.end())
 		{
 			glut_event * e = event_list.back();

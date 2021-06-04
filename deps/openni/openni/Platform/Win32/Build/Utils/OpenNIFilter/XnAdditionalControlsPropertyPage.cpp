@@ -36,7 +36,7 @@ struct PowerLineInfo
 
 #define POWER_LINE_COUNT 3
 
-PowerLineInfo g_powerLineInfo[POWER_LINE_COUNT] = 
+PowerLineInfo g_powerLineInfo[POWER_LINE_COUNT] =
 {
 	{ XN_POWER_LINE_FREQUENCY_OFF, L"Off", 0 },
 	{ XN_POWER_LINE_FREQUENCY_50_HZ, L"50", 0 },
@@ -112,7 +112,7 @@ HRESULT XnAdditionalControlsPropertyPage::OnActivate()
 		SendDlgItemMessage(m_Dlg, IDC_SLIDER_GAIN, TBM_SETRANGE, 0,
 			MAKELONG(nMin, nMax));
 
-		SendDlgItemMessage(m_Dlg, IDC_SLIDER_GAIN, TBM_SETTICFREQ, 
+		SendDlgItemMessage(m_Dlg, IDC_SLIDER_GAIN, TBM_SETTICFREQ,
 			nStep, 0);
 
 		EnableWindow(m_hAutoGainCheck, bAutoSupported);
@@ -288,7 +288,7 @@ HRESULT XnAdditionalControlsPropertyPage::OnApplyChanges(void)
 {
 	m_oldValues = m_currentValues;
 	return S_OK;
-} 
+}
 
 HRESULT XnAdditionalControlsPropertyPage::OnDisconnect(void)
 {
@@ -296,7 +296,7 @@ HRESULT XnAdditionalControlsPropertyPage::OnDisconnect(void)
 	{
 		// If the user clicked OK, m_currentValues holds the new values.
 		// Otherwise, if the user clicked Cancel, m_currentValues is the old values.
-		m_pControls->SetPowerLineFrequency(m_currentValues.nPowerLineFrequency);  
+		m_pControls->SetPowerLineFrequency(m_currentValues.nPowerLineFrequency);
 		m_pControls->SetGain(m_currentValues.nGain);
 		m_pControls->SetLowLightCompensation(m_currentValues.bLowLightCompensation);
 		m_pControls->Release();

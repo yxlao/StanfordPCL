@@ -24,7 +24,7 @@ package org.openni;
  * Stores a given log severity level. <BR><BR>
  *
  */
-public class Log 
+public class Log
 {
 	/**
 	 * Enumerates log severity levels. <BR><BR>

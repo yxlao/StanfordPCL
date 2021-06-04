@@ -5,16 +5,16 @@
 		<b>Source files:</b> Click the following link to view the source code file:
 			- Draw.cpp
 
-	This file contains the code for displaying the frames from the OpenNI generator nodes. 
+	This file contains the code for displaying the frames from the OpenNI generator nodes.
 	
-	@section draw_cpp_glb_decls Global Type Declarations for Capture.cpp 
+	@section draw_cpp_glb_decls Global Type Declarations for Capture.cpp
 	
-		There are no OpenNI specific golbal declarations. 
+		There are no OpenNI specific golbal declarations.
 		
 		
 	@section draw_cpp_fns_getpoweroftwo_to_setErrorState Functions GetPowerOfTwo() to setErrorState()
 	
-		There are no OpenNI specific operations in these functions. 
+		There are no OpenNI specific operations in these functions.
 		
 	
 	@section draw_cpp_drawcropstream Function: drawCropStream() - Draws a Cropped Map from the Generator nodes
@@ -55,7 +55,7 @@
 				cropping.nXSize += dividedBy - (cropping.nXSize
 		@endcode	
 		
-		Finally, the function assigns the cropping setting to the Generator node. To do this it calls 
+		Finally, the function assigns the cropping setting to the Generator node. To do this it calls
 		@ref device_cpp_setStreamCropping "<code>setStreamCropping()</code>", which si defined in the <code>Device.cpp</code> file of this sample program.
 		
 		
@@ -103,7 +103,7 @@
 	
 		This function draws the color image map for either the ImageGenerator map or the IRGenerator node.
 		
-		This function gets saved @ref glos_frame_object "frame objects", assigning them to <code>pImageMD</code> and draws them to the graphic display. The frame object is a snapshot of the generated data, saved as a metadata object, at a certain point in time. The @ref xn::OutputMetaData::Data() method gets a pointer to the data frame of the frame object saved in the metadata. 
+		This function gets saved @ref glos_frame_object "frame objects", assigning them to <code>pImageMD</code> and draws them to the graphic display. The frame object is a snapshot of the generated data, saved as a metadata object, at a certain point in time. The @ref xn::OutputMetaData::Data() method gets a pointer to the data frame of the frame object saved in the metadata.
 		@code
 			if (isImageOn())
 			{
@@ -131,7 +131,7 @@
 		@endcode
 		
 		
-		The above loop provides the y indexes to access each pixel in the <code>DepthMap</code>. The @ref xn::DepthMap::YRes "YRes()" method returns the Y dimension -- height -- of the data frame. 
+		The above loop provides the y indexes to access each pixel in the <code>DepthMap</code>. The @ref xn::DepthMap::YRes "YRes()" method returns the Y dimension -- height -- of the data frame.
 		
 		The following code uses the FullXRes() to calculate the scaling factor between the depth map and the GL window. FullXRes() gets the full frame resolution, i.e., the entire field-of-view, ignoring cropping of the FOV in the scene.
 		@code

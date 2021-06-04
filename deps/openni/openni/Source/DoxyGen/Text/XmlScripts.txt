@@ -3,14 +3,14 @@
 
 OpenNI supports using XML as a configuration script. One can use such a script for creating nodes
 and configuring them, and for configuring the context itself (adding license keys, etc.).
-an XML script can be executed by calling @ref xnContextRunXmlScript() (@ref xn::Context::RunXmlScript()) and 
-passing it a string representation of the XML script, or by calling @ref xnContextRunXmlScriptFromFile() 
+an XML script can be executed by calling @ref xnContextRunXmlScript() (@ref xn::Context::RunXmlScript()) and
+passing it a string representation of the XML script, or by calling @ref xnContextRunXmlScriptFromFile()
 (@ref xn::Context::RunXmlScriptFromFile()) and passing it an XML file to load.
 
 @section xmlstruct Structure
 
 The XML must have one (and only) root node named OpenNI. Under this node there can be 3 optional sections:
-@ref xmllics, @ref xmllog and @ref xmlnodes. 
+@ref xmllics, @ref xmllog and @ref xmlnodes.
 
 @section xmllics Licenses
 
@@ -30,7 +30,7 @@ For example:
 This section can configure OpenNI log system. The element name should be "Log". It can contain the following
 optional attributes:
 - writeToConsole - "true" or "false" (default). Determines if log is written to the application console.
-- writeToFile - "true" or "false" (default). Determines if log is written to a file. This file is located under 
+- writeToFile - "true" or "false" (default). Determines if log is written to a file. This file is located under
 		a Log folder that is created under working directory.
 - writeLineInfo - "true" (default) or "false". Determines if every log entry also contains the file name
 		and line info from which it was written.
@@ -61,7 +61,7 @@ and it can have several children performing various tasks:
 
 @subsection xmlglobmirror Global Mirror
 
-The "ProductionNodes" element may contain an element called "GlobalMirror" which sets the global mirror (@ref xnSetGlobalMirror(), 
+The "ProductionNodes" element may contain an element called "GlobalMirror" which sets the global mirror (@ref xnSetGlobalMirror(),
 @ref xn::Context::SetGlobalMirror()), according to the "on" attribute ("true" or "false").
 For example:
 @code
@@ -89,8 +89,8 @@ For example, to open a file and play it as twice as fast:
 @subsection xmlnode Nodes
 
 The "ProductionNodes" element may contain one or more elements named "Node". Each such element asks OpenNI
-to enumerate and create a node (similar to @ref xnCreateAnyProductionTree()). 
-The "Node" element should have a string attribute named "type" which will have the type of the node to enumerate. 
+to enumerate and create a node (similar to @ref xnCreateAnyProductionTree()).
+The "Node" element should have a string attribute named "type" which will have the type of the node to enumerate.
 The type can be one of the following:
 - Device (@ref XN_NODE_TYPE_DEVICE)
 - Depth (@ref XN_NODE_TYPE_DEPTH)
@@ -111,7 +111,7 @@ name of the created node.
 The "ProductionNodes" element may contain an element called "Recorder" telling it to record data from other
 nodes that were created in the xml script. Note that these nodes must be named explicitly.
 
-For example, if two nodes were defined, named Image1 and Depth1, and we'd like to record their data into a 
+For example, if two nodes were defined, named Image1 and Depth1, and we'd like to record their data into a
 file called MyFile.oni:
 
 @code
@@ -249,7 +249,7 @@ will be executed serially. Those commands can be:
 			<td>Depth Generators which supports the UserPosition capability</td>
 			<td>UserPosition</td>
 			<td>
-@verbatim 
+@verbatim
 <UserPosition index="">
 	<Min x="" y="" z="" />
 	<Max x="" y="" z="" />

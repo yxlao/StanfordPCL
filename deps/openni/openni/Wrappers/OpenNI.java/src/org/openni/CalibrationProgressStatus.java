@@ -51,7 +51,7 @@ public enum CalibrationProgressStatus
 	
 	public static CalibrationProgressStatus fromNative(int value)
 	{
-		for (CalibrationProgressStatus type : CalibrationProgressStatus.values()) 
+		for (CalibrationProgressStatus type : CalibrationProgressStatus.values())
 		{
 			if (type.val == value)
 				return type;

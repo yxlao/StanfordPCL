@@ -150,7 +150,7 @@ VOID PSDrv_EvtIoDeviceControl(IN WDFQUEUE Queue, IN WDFREQUEST Request, IN size_
 	PSUSBDRV_DRIVER_VERSION*	 pDriverVersion;
 	PSUSBDRV_INTERFACE_PROPERTY* pInterfaceProperty;
 	unsigned int*				 pnDeviceSpeed;
-	WDFMEMORY					 WdfMem = NULL; 
+	WDFMEMORY					 WdfMem = NULL;
 	PUCHAR                       pControlBuffer;
 	WDFMEMORY					 WdfMemOut = NULL;
 
@@ -304,7 +304,7 @@ VOID PSDrv_EvtIoDeviceControl(IN WDFQUEUE Queue, IN WDFREQUEST Request, IN size_
 		case IOCTL_PSDRV_SET_PIPE_PROPERTY:
 			PSDrv_DbgPrint(3, ("IOControl: SetPipeProperty\n"));
 
-			status = WdfRequestRetrieveInputMemory(Request, &WdfMem); 
+			status = WdfRequestRetrieveInputMemory(Request, &WdfMem);
 			if(!NT_SUCCESS(status))
 			{
 				PSDrv_DbgPrint(1, ("WdfRequestRetrieveInputMemory failed! (Status = %x)\n", status));
@@ -343,7 +343,7 @@ VOID PSDrv_EvtIoDeviceControl(IN WDFQUEUE Queue, IN WDFREQUEST Request, IN size_
 		case IOCTL_PSDRV_SET_INTERFACE:
 			PSDrv_DbgPrint(3, ("IOControl: SetInterface\n"));
 
-			status = WdfRequestRetrieveInputMemory(Request, &WdfMem); 
+			status = WdfRequestRetrieveInputMemory(Request, &WdfMem);
 			if(!NT_SUCCESS(status))
 			{
 				PSDrv_DbgPrint(1, ("WdfRequestRetrieveInputMemory failed! (Status = %x)\n", status));
@@ -541,7 +541,7 @@ VOID PSDrv_EvtIoWrite(IN WDFQUEUE Queue, IN WDFREQUEST Request, IN size_t Length
     fileContext = GetFileContext(WdfRequestGetFileObject(Request));
 
     pipe = fileContext->Pipe;
-    if (pipe == NULL) 
+    if (pipe == NULL)
 	{
    		PSDrv_DbgPrint(1, ("PSDrv_EvtIoWrite: Invalid pipe!\n"));
         WdfRequestCompleteWithInformation(Request, STATUS_INVALID_PARAMETER, 0);
@@ -754,7 +754,7 @@ NTSTATUS ResetDevice(IN WDFDEVICE Device)
     PAGED_CODE();
 
     pDeviceContext = GetDeviceContext(Device);
-    
+
     // A reset-device
     // request will be stuck in the USB until the pending transactions
     // have been canceled. Similarly, if there are pending transfers on the BULK
@@ -763,7 +763,7 @@ NTSTATUS ResetDevice(IN WDFDEVICE Device)
     // (by calling WdfIoTargetStop) before resetting the device, and restart the
     // continuous reader (by calling WdfIoTargetStart) after the request completes.
     StopAllPipes(pDeviceContext);
-    
+
     // It may not be necessary to check whether device is connected before
     // resetting the port.
     status = WdfUsbTargetDeviceIsConnectedSynchronous(pDeviceContext->WdfUsbTargetDevice);
@@ -774,7 +774,7 @@ NTSTATUS ResetDevice(IN WDFDEVICE Device)
     }
 
     StartAllPipes(pDeviceContext);
-    
+
     PSDrv_DbgPrint(3, ("ResetDevice - ends\n"));
 
     return status;

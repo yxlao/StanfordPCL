@@ -22,12 +22,12 @@ package org.openni;
 
 /**
  * Stores the data created when an Inactive Hand Event is generated. <BR><BR>
- * 
- * This data consists of a handpoint ID of the hand that has become inactive, and the 
+ *
+ * This data consists of a handpoint ID of the hand that has become inactive, and the
  * timestamp on the frame where this event was first detected.  This is a read only data type
- * after it is created.  In general, this class will not be instantiated by application code.  
+ * after it is created.  In general, this class will not be instantiated by application code.
  * The various member functions will be used to read the data it is providing.
- * 
+ *
  */
 public class InactiveHandEventArgs extends EventArgs
 {

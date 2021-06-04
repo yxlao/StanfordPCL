@@ -22,14 +22,14 @@ package org.openni;
 
 /**
  * Extends IObservable interface to include state change events. <BR><BR>
- * 
- * This interface is intended to extend the IObservable interface to deal 
- * specifically with state change events.  It is currently a completely 
- * empty interface, so implementing IStateChangedObservable is identical to 
+ *
+ * This interface is intended to extend the IObservable interface to deal
+ * specifically with state change events.  It is currently a completely
+ * empty interface, so implementing IStateChangedObservable is identical to
  * implementing IObservable.  In the future, this may change to handle
  * any interface elements specific to StateChange events.
  *
  */
-public interface IStateChangedObservable extends IObservable<EventArgs> 
+public interface IStateChangedObservable extends IObservable<EventArgs>
 {
 }

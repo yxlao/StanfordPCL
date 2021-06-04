@@ -139,9 +139,9 @@ XN_C_API XnStatus xnProductionNodeDescriptionToString(const XnProductionNodeDesc
 	XN_VALIDATE_INPUT_PTR(csResult);
 
 	XnUInt32 nWritten = 0;
-	nRetVal = xnOSStrFormat(csResult, nSize, &nWritten, "%s: %s/%s/", 
-		xnProductionNodeTypeToString(pDescription->Type), 
-		pDescription->strVendor, 
+	nRetVal = xnOSStrFormat(csResult, nSize, &nWritten, "%s: %s/%s/",
+		xnProductionNodeTypeToString(pDescription->Type),
+		pDescription->strVendor,
 		pDescription->strName);
 	XN_IS_STATUS_OK(nRetVal);
 

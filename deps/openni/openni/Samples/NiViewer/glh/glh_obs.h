@@ -1,5 +1,5 @@
 /*
-    glh - is a platform-indepenedent C++ OpenGL helper library 
+    glh - is a platform-indepenedent C++ OpenGL helper library
 
 
     Copyright (c) 2000 Cass Everitt
@@ -21,7 +21,7 @@
 
      * The names of contributors to this software may not be used
 	   to endorse or promote products derived from this software
-	   without specific prior written permission. 
+	   without specific prior written permission.
 
        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 	   ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -33,8 +33,8 @@
 	   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 	   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
 	   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-	   ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
-	   POSSIBILITY OF SUCH DAMAGE. 
+	   ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+	   POSSIBILITY OF SUCH DAMAGE.
 
 
     Cass Everitt - cass@r3.nu
@@ -67,11 +67,11 @@ namespace glh
 	{
 	public:
         // set managed to true if you want the class to cleanup objects in the destructor
-		display_list(bool managed = false) 
+		display_list(bool managed = false)
 			: valid(false), manageObjects(managed) {}
 		
 		virtual ~display_list()
-		{ 
+		{
             if (manageObjects)
                 del();
         }
@@ -103,11 +103,11 @@ namespace glh
 	{
 	public:
         // set managed to true if you want the class to cleanup objects in the destructor
-		lazy_build_display_list(void (* builder)() = 0, bool managed = false) 
+		lazy_build_display_list(void (* builder)() = 0, bool managed = false)
 			: valid(false), manageObjects(managed), needs_rebuild(true), build_func(builder) {}
 		
 		virtual ~lazy_build_display_list()
-		{ 
+		{
             if (manageObjects)
                 del();
         }
@@ -116,7 +116,7 @@ namespace glh
 		{ build_func = builder; }
 
 		void call_list()
-		{ 
+		{
 			if(! valid) gen();
 			if(needs_rebuild) rebuild_list();
 			glCallList(dlist);
@@ -152,11 +152,11 @@ namespace glh
 	{
 	public:
         // set managed to true if you want the class to cleanup objects in the destructor
-		tex_object(GLenum tgt, bool managed) 
+		tex_object(GLenum tgt, bool managed)
 			: target(tgt), valid(false), manageObjects(managed) {}
 		
 		virtual ~tex_object()
-        { 
+        {
             if (manageObjects)
                 del();
         }
@@ -231,11 +231,11 @@ namespace glh
 	{
 	public:
         // set managed to true if you want the class to cleanup objects in the destructor
-		vertex_program_base(GLenum tgt, bool managed) 
+		vertex_program_base(GLenum tgt, bool managed)
 			: valid(false), manageObjects(managed), target(tgt) {}
 		
 		virtual ~vertex_program_base()
-        { 
+        {
             if (manageObjects)
                 del();
         }
@@ -312,21 +312,21 @@ namespace glh
 	class vertex_program : public vertex_program_base
 	{
 	public:
-		vertex_program(bool managed = false) 
+		vertex_program(bool managed = false)
 			: vertex_program_base(GL_VERTEX_PROGRAM_NV, managed) {}
 	};		
 
 	class vertex_state_program : public vertex_program_base
 	{
 	public:
-		vertex_state_program(bool managed = false) 
+		vertex_state_program(bool managed = false)
 			: vertex_program_base(GL_VERTEX_STATE_PROGRAM_NV, managed) {}
 	};
 
 	class lazy_load_vertex_program : public vertex_program_base
 	{
 		public:
-		lazy_load_vertex_program(void (*vp_loader)() = 0, bool managed = false) 
+		lazy_load_vertex_program(void (*vp_loader)() = 0, bool managed = false)
 			: vertex_program_base(GL_VERTEX_PROGRAM_NV, managed), needs_load(true), loader(vp_loader) {}
 
 		void bind()
@@ -354,11 +354,11 @@ namespace glh
 	{
 	public:
         // set managed to true if you want the class to cleanup objects in the destructor
-		arb_vertex_program_base(GLenum tgt, bool managed) 
+		arb_vertex_program_base(GLenum tgt, bool managed)
 			: valid(false), manageObjects(managed), target(tgt) {}
 		
 		virtual ~arb_vertex_program_base()
-        { 
+        {
             if (manageObjects)
                 del();
         }
@@ -436,14 +436,14 @@ namespace glh
 	class arb_vertex_program : public arb_vertex_program_base
 	{
 	public:
-		arb_vertex_program(bool managed = false) 
+		arb_vertex_program(bool managed = false)
 			: arb_vertex_program_base(GL_VERTEX_PROGRAM_ARB, managed) {}
 	};		
 
 	class lazy_load_arb_vertex_program : public arb_vertex_program_base
 	{
 		public:
-		lazy_load_arb_vertex_program(void (*vp_loader)() = 0, bool managed = false) 
+		lazy_load_arb_vertex_program(void (*vp_loader)() = 0, bool managed = false)
 			: arb_vertex_program_base(GL_VERTEX_PROGRAM_ARB, managed), needs_load(true), loader(vp_loader) {}
 
 		void bind()
@@ -471,11 +471,11 @@ namespace glh
 	{
 	public:
         // set managed to true if you want the class to cleanup objects in the destructor
-		fragment_program(bool managed = false) 
+		fragment_program(bool managed = false)
 			: valid(false), manageObjects(managed) {}
 		
 		virtual ~fragment_program()
-        { 
+        {
             if (manageObjects)
                 del();
         }
@@ -553,11 +553,11 @@ namespace glh
 	{
 	public:
         // set managed to true if you want the class to cleanup objects in the destructor
-		arb_fragment_program(bool managed = false) 
+		arb_fragment_program(bool managed = false)
 			: valid(false), manageObjects(managed) {}
 		
 		virtual ~arb_fragment_program()
-        { 
+        {
             if (manageObjects)
                 del();
         }

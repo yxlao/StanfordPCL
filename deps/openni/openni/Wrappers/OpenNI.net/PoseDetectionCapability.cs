@@ -131,10 +131,10 @@ namespace OpenNI
     /// Utility structure to provide information about the state and status of a pose
     public struct PoseDetectionStateStatus
     {
-        public Int64 m_poseTime; ///< @brief The time stamp in which the user entered into the pose (0 if not in pose). 
+        public Int64 m_poseTime; ///< @brief The time stamp in which the user entered into the pose (0 if not in pose).
 
         /// @brief The status of the user's pose.
-        /// 
+        ///
         /// The progress error for getting into pose (PoseDetectionStatus, the same as received from
         /// the in progress callback. See @ref xnRegisterToPoseDetectionInProgress).
         public PoseDetectionStatus m_eStatus;
@@ -216,7 +216,7 @@ namespace OpenNI
         }
         public void StopPoseDetection(UserID user)
         {
-			int status = SafeNativeMethods.xnStopPoseDetection(this.InternalObject, user); 
+			int status = SafeNativeMethods.xnStopPoseDetection(this.InternalObject, user);
 			WrapperUtils.ThrowOnError(status);
         }
         public void StopSinglePoseDetection(UserID user, string pose)

@@ -25,7 +25,7 @@ CatalogFile=psdrv3.cat
 ; ================= Class section =====================
 
 [ClassInstall32]
-Addreg=PrimeSenseClassReg     
+Addreg=PrimeSenseClassReg
 
 [PrimeSenseClassReg]
 HKR,,,0,%ClassName%

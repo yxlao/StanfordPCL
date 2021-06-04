@@ -25,7 +25,7 @@
 			OutArg<ScriptNode> scriptNodeArg = new OutArg<ScriptNode>();
 		@endcode			
 
-		The following statement declares a @ref xn::Context "Context" object and creates the production graph from an OpenNI XML script file. The context is the workspace where the application builds an OpenNI production graph. 
+		The following statement declares a @ref xn::Context "Context" object and creates the production graph from an OpenNI XML script file. The context is the workspace where the application builds an OpenNI production graph.
 		@code
 			Context context = Context.createFromXmlFile(SAMPLES_XML, scriptNodeArg);
 		@endcode					
@@ -37,7 +37,7 @@
 			context.getErrorStateChangedEvent().addObserver(pThis);
 		@endcode	
 
-		The @ref xn::Context::FindExistingNode() "FindExistingNode()" method in the following code block tries to get a reference to any production nodes in the production graph. This call specifies XN_NODE_TYPE_DEPTH to get a reference to a DepthGenerator node. A DepthGenerator node generates a depth map as an array of pixels, where each pixel is a depth value representing a distance from the sensor in millimeters. A reference to the node is returned in the depth parameter.   
+		The @ref xn::Context::FindExistingNode() "FindExistingNode()" method in the following code block tries to get a reference to any production nodes in the production graph. This call specifies XN_NODE_TYPE_DEPTH to get a reference to a DepthGenerator node. A DepthGenerator node generates a depth map as an array of pixels, where each pixel is a depth value representing a distance from the sensor in millimeters. A reference to the node is returned in the depth parameter.
 		@code
 			DepthGenerator depth;
 			nRetVal = context.FindExistingNode(XN_NODE_TYPE_DEPTH, depth);
@@ -52,7 +52,7 @@
 	
 		The main program loop repeatedly updates the data available in the node for output, and then gets the frame object (via the metadata object). The program then calculates the mid-point of the scene's 2D (two-dimensional) area.
 		
-		@subsection srj_main_upd_data Updating the Data Available for Output 
+		@subsection srj_main_upd_data Updating the Data Available for Output
 			
 			The @ref xn::Context::WaitAnyUpdateAll() "waitAnyUpdateAll()" method in the following statement updates all generator nodes in the context that have new data available, first waiting for any of the nodes to have new data available. The application can then get the data (for example, using a metadata GetData() method). This method has a timeout.
 			@code

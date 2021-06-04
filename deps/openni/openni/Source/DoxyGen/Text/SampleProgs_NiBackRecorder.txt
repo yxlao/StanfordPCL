@@ -5,7 +5,7 @@
 	<b>Source file:</b> Click the following link to view the source code file:
 		- NiBackRecorder\main.cpp
 		
-	The program saves the most recently generated depth and image data. The length of the recorded period is configurable. The save mechanism works by storing frames in memory in a cyclic buffer. On user request the program dumps the buffer to an ONI file. 
+	The program saves the most recently generated depth and image data. The length of the recorded period is configurable. The save mechanism works by storing frames in memory in a cyclic buffer. On user request the program dumps the buffer to an ONI file.
 	
 	The documentation describes the sample program's code from the top of the program file(s) to bottom.
 	
@@ -21,7 +21,7 @@
 			XnMapOutputMode VGAMode = { 640, 480, 30 };
 		@endcode
 
-		The following declaration block declares the <code>RecConfiguration</code> struct to contain the recording configuration. The constructor initializes its values. 
+		The following declaration block declares the <code>RecConfiguration</code> struct to contain the recording configuration. The constructor initializes its values.
 		@code
 			struct RecConfiguration
 			{
@@ -37,36 +37,36 @@
 			</tr>
 			<tr>
 				<td>pDepthMode</td>
-				<td>Represents the user setting of the map output mode of the @ref xn::DepthGenerator "DepthGenerator" node. <br> 
+				<td>Represents the user setting of the map output mode of the @ref xn::DepthGenerator "DepthGenerator" node. <br>
 				Initialized to QVGAMode.</td>
 			</tr>
 			<tr>
 				<td>pImageMode</td>
-				<td>Represents the user setting of the map output mode of the @ref xn::ImageGenerator "ImageGenerator" node. <br> 
+				<td>Represents the user setting of the map output mode of the @ref xn::ImageGenerator "ImageGenerator" node. <br>
 				Initialized to QVGAMode.</td>
 			</tr>			
 			
 			<tr>
 				<td>bRecordDepth</td>
-				<td>Represents the user setting of whether to record the output of the DepthGenerator node. <br> 
+				<td>Represents the user setting of whether to record the output of the DepthGenerator node. <br>
 				Initialized to FALSE.</td>
 			</tr>			
 
 			<tr>
 				<td>bRecordImage</td>
-				<td>Represents the user setting of whether to record the output of the ImageGenerator node. <br> 
+				<td>Represents the user setting of whether to record the output of the ImageGenerator node. <br>
 				Initialized to FALSE.</td>
 			</tr>			
 			
 			<tr>
 				<td>bMirrorIndicated</td>
-				<td>Indicates that the user provided the <code>bMirror</code> setting to enable or disable a node's mirroring (assuming the node supports mirroring). <br> 
+				<td>Indicates that the user provided the <code>bMirror</code> setting to enable or disable a node's mirroring (assuming the node supports mirroring). <br>
 				Initialized to FALSE (i.e., at initialization time the user has not yet supplied a parameter).</td>
 			</tr>						
 			
 			<tr>
 				<td>bMirror</td>
-				<td>Represents the user setting of whether to enable or disable a node's mirroring (assuming the node supports mirroring). <br> 
+				<td>Represents the user setting of whether to enable or disable a node's mirroring (assuming the node supports mirroring). <br>
 				Initialized to TRUE.</td>
 			</tr>			
 
@@ -93,7 +93,7 @@
 
 			<tr>
 				<td>strDirName</td>
-				<td>Represents the user setting of the full path name, including the file name, to where to write the output data file.<br> 
+				<td>Represents the user setting of the full path name, including the file name, to where to write the output data file.<br>
 			</tr>	
 			
 		</table>
@@ -131,7 +131,7 @@
 		
 		The body of the ConfigureGenerators() function is described in the following subsections.
 		
-		@subsection bkrec_cfg_gens_dec Declaration Block 
+		@subsection bkrec_cfg_gens_dec Declaration Block
 		
 			The declaration block at the top of the main program declares an OpenNI status flag for collecting return values from method calls. It initializes it with <code>@ref xn::XN_STATUS_OK</code>, the OpenNI value for valid status. Also declared is an OpenNI @ref xn::EnumerationErrors <code>error</code>list for collecting any errors that may occur.
 			@code	
@@ -170,15 +170,15 @@
 			
 	@section bkrec_class_cyclic_buf Class CyclicBuffer
 	
-		The CyclicBuffer class provides the cyclic buffer for this sample program. The program can write frames to the buffer, and then read frames back from the buffer to dump them to output files. 
+		The CyclicBuffer class provides the cyclic buffer for this sample program. The program can write frames to the buffer, and then read frames back from the buffer to dump them to output files.
 		
 		 <code>m_pFrames </code> is the data structure actually implementing the cyclic buffer.		
-		 
+		
 		 At this point the reader may find it useful to already study @ref bkrec_class_cyc_decl_blk to learn the meaning of data structure and then return here to continue learning the code of the <code>CyclicBuffer</code> class in order.
 			
 		@subsection bkrec_class_cyc_construct Class Constructor
 		
-			This constructor sets up references to the generator nodes that are parsed as parameters to this constructor, as follows. 
+			This constructor sets up references to the generator nodes that are parsed as parameters to this constructor, as follows.
 			@code
 				CyclicBuffer(xn::Context& context, xn::DepthGenerator& depthGenerator, xn::ImageGenerator& imageGenerator,
 					const RecConfiguration& config) :
@@ -204,7 +204,7 @@
 		@subsection bkrec_class_cyc_init_m_pFrames Declaring the <code>m_pFrames</code> Cyclic Buffer	
 			In the above Initialize) method, the macro <code>XN_NEW_ARR()</code> allocates an array of frames
 			
-			where the SingleFrame type is defined as follows. 
+			where the SingleFrame type is defined as follows.
 			@code			
 				struct SingleFrame
 				{
@@ -232,11 +232,11 @@
 				}
 			@endcode
 			
-			The following code block gets the latest available data generated by the @ref xn::DepthGenerator "DepthGenerator" node, saving it to a @ref glos_frame_object "frame object". 
+			The following code block gets the latest available data generated by the @ref xn::DepthGenerator "DepthGenerator" node, saving it to a @ref glos_frame_object "frame object".
 			
 			@ref xn::DepthMetaData "DepthMetaData" provides the @ref glos_frame_object "frame object" for the @ref xn::DepthGenerator "DepthGenerator" node. The @ref glos_frame_object "frame object" provides access to a snapshot of a @ref dict_gen_node "generator node's" data frame and all its associated properties.
 			
-			If requested, this code copies the DepthGenerator frame object to the <code>m_pFrames</code> cyclic buffer. 
+			If requested, this code copies the DepthGenerator frame object to the <code>m_pFrames</code> cyclic buffer.
 			@code
 				if (m_bDepth)
 				{
@@ -246,7 +246,7 @@
 				}
 			@endcode			
 			
-			As for the DepthGenerator above, the following code block gets the latest available data generated by the @ref xn::ImageGenerator  "ImageGenerator" node, saving it to a @ref glos_frame_object "frame object". 
+			As for the DepthGenerator above, the following code block gets the latest available data generated by the @ref xn::ImageGenerator  "ImageGenerator" node, saving it to a @ref glos_frame_object "frame object".
 
 			The rest of the code in this function manages the indexes of the cyclic buffer.
 			
@@ -267,7 +267,7 @@
 			
 			@subsubsection bkrec_class_cyc_dump_decls Declarations
 				
-				The following declares mock nodes: @ref xn::MockDepthGenerator "MockDepthGenerator" for the @ref xn::DepthGenerator "DepthGenerator" node and @ref xn::MockImageGenerator "MockImageGenerator" for the @ref xn::ImageGenerator "ImageGenerator" node. These are to simulate the actual nodes when recording or playing data from a recording. A mock node does not contain any logic for generating data. Instead, it allows an outside component (such as an application or a real node implementation) to feed it data and configuration changes.  
+				The following declares mock nodes: @ref xn::MockDepthGenerator "MockDepthGenerator" for the @ref xn::DepthGenerator "DepthGenerator" node and @ref xn::MockImageGenerator "MockImageGenerator" for the @ref xn::ImageGenerator "ImageGenerator" node. These are to simulate the actual nodes when recording or playing data from a recording. A mock node does not contain any logic for generating data. Instead, it allows an outside component (such as an application or a real node implementation) to feed it data and configuration changes.
 				@code
 					xn::MockDepthGenerator mockDepth;
 					xn::MockImageGenerator mockImage;
@@ -286,7 +286,7 @@
 					rc = m_context.CreateAnyProductionTree(XN_NODE_TYPE_RECORDER, NULL, m_recorder, &errors);
 				@endcode							
 			
-			@subsubsection bkrec_class_cyc_setsup_rec_dest 
+			@subsubsection bkrec_class_cyc_setsup_rec_dest
 			
 				
 				
@@ -319,13 +319,13 @@
 					}
 				@endcode	
 
-			@subsubsection bkrec_class_cyc_write_frames 
+			@subsubsection bkrec_class_cyc_write_frames
 			
 				The following loops record all the frames that are in the cyclic buffer. The @ref xn::Recorder::Record() "Record()"method has to be called to save each frame.
 				
 				This block is executed only if the <code>m_nNextWrite</code> index has wrapped around. In this case, the method must record the remainder of the nodes until the end of the cyclic buffer. Then the method must start again from <code>0</code> until the most recent node that was written.
 				@code
-					if (m_nNextWrite < m_nBufferCount) 
+					if (m_nNextWrite < m_nBufferCount)
 					   for (XnUInt32 i = m_nNextWrite; i < m_nBufferSize; ++i)
 						 ...
 					
@@ -333,7 +333,7 @@
 						...
 				@endcode	
 				
-				In both the above loops the @ref xn::MockDepthGenerator::SetData() "MockDepthGenerator.SetData()" method copies all the frame data from the cyclic buffer  into the two mock nodes. 
+				In both the above loops the @ref xn::MockDepthGenerator::SetData() "MockDepthGenerator.SetData()" method copies all the frame data from the cyclic buffer  into the two mock nodes.
 				@code	
 					mockDepth.SetData(m_pFrames[i].depthFrame);
 					mockImage.SetData(m_pFrames[i].imageFrame);
@@ -353,7 +353,7 @@
 				
 				
 			
-		@subsection bkrec_class_cyc_decl_blk Declaration Block for the CyclicBuffer Class 
+		@subsection bkrec_class_cyc_decl_blk Declaration Block for the CyclicBuffer Class
 		
 			Following is the declaration block for the <code>CyclicBuffer </code>Class.
 			
@@ -377,7 +377,7 @@
 				xn::Recorder m_recorder;
 			@endcode
 			
-		 The <code>RecConfiguration</code> struct's fields and initializations are described in the following table. Only the data items comprising OpenNI elements are listed.  
+		 The <code>RecConfiguration</code> struct's fields and initializations are described in the following table. Only the data items comprising OpenNI elements are listed.
 		 <table>
 			<tr>
 				<th>Item</th>
@@ -389,7 +389,7 @@
 			</tr>
 			<tr>
 				<td><code>m_pFrames</code></td>
-				<td>This is the cyclic buffer data structure itself. 
+				<td>This is the cyclic buffer data structure itself.
 			</tr>			
 			<tr>						
 				<td><code>XnChar m_strDirName[XN_FILE_MAX_PATH]</code></td>
@@ -429,9 +429,9 @@
 		
 		<b>Parse the command line arguments: </b>  Not OpenNI specific.
 		
-		<b>Turn on log: </b> 
+		<b>Turn on log: </b>
 		
-		<b>Initialize OpenNI: </b> 
+		<b>Initialize OpenNI: </b>
 		@code
 			nRetVal = context.Init();
 		@endcode
@@ -454,7 +454,7 @@
 		
 		@subsection bkrec_main main_loop() function\
 		
-			Here is the main loop. 
+			Here is the main loop.
 			@code
 				while (1)
 				{

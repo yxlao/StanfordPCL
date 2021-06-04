@@ -346,7 +346,7 @@ clean-libLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
-libusb-1.0.la: $(libusb_1_0_la_OBJECTS) $(libusb_1_0_la_DEPENDENCIES) 
+libusb-1.0.la: $(libusb_1_0_la_OBJECTS) $(libusb_1_0_la_DEPENDENCIES)
 	$(AM_V_CCLD)$(libusb_1_0_la_LINK) -rpath $(libdir) $(libusb_1_0_la_OBJECTS) $(libusb_1_0_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:

@@ -81,7 +81,7 @@ namespace OpenNI
 
 	public class Context : ObjectWrapper
 	{
-		private Context(IntPtr pContext, bool addRef) : 
+		private Context(IntPtr pContext, bool addRef) :
 			base(pContext)
 		{
 			this.errorStateChangedHandler = this.ErrorStateChangedCallback;
@@ -215,7 +215,7 @@ namespace OpenNI
 		{
             // take the original context pointer (it will soon be erased)
             IntPtr pContext = this.InternalObject;
-            // shutdown (this will destroy the native context, and cause the shutdown event to be raised, 
+            // shutdown (this will destroy the native context, and cause the shutdown event to be raised,
             // and our OnContextShuttingDown callback will be called)
 			SafeNativeMethods.xnShutdown(this.InternalObject);
             // remove it from the static list

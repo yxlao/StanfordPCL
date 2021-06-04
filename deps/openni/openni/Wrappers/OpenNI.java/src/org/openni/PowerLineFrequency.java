@@ -26,7 +26,7 @@ import java.util.NoSuchElementException;
  * Provides string values for various power line (ie electric mains) frequencies. <BR><BR>
  *
  */
-public enum PowerLineFrequency 
+public enum PowerLineFrequency
 {
 	OFF (0),
 	HZ50 (50),
@@ -41,7 +41,7 @@ public enum PowerLineFrequency
 	
 	public static PowerLineFrequency fromNative(int value)
 	{
-		for (PowerLineFrequency type : PowerLineFrequency.values()) 
+		for (PowerLineFrequency type : PowerLineFrequency.values())
 		{
 			if (type.val == value)
 				return type;

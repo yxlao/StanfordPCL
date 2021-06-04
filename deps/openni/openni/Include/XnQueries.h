@@ -71,20 +71,20 @@ XN_C_API XnStatus XN_C_DECL xnNodeQuerySetName(XnNodeQuery* pQuery, const XnChar
  * Sets the minimum required version.
  *
  * @param	pQuery		[in]	Query object.
- * @param	pMinVersion	[in]	Min Version. 
+ * @param	pMinVersion	[in]	Min Version.
  */
 XN_C_API XnStatus XN_C_DECL xnNodeQuerySetMinVersion(XnNodeQuery* pQuery, const XnVersion* pMinVersion);
 
 /**
- * Sets the maximum required version. 
+ * Sets the maximum required version.
  *
  * @param	pQuery		[in]	Query object.
- * @param	pMaxVersion	[in]	Max Version. 
+ * @param	pMaxVersion	[in]	Max Version.
  */
 XN_C_API XnStatus XN_C_DECL xnNodeQuerySetMaxVersion(XnNodeQuery* pQuery, const XnVersion* pMaxVersion);
 
 /**
- * Adds a capability that the node must support. Note that for checking if a capability is supported, 
+ * Adds a capability that the node must support. Note that for checking if a capability is supported,
  * the node must be created (if it's not an existing one). This operation might take a bit longer...
  *
  * @param	pQuery				[in]	Query object.
@@ -93,17 +93,17 @@ XN_C_API XnStatus XN_C_DECL xnNodeQuerySetMaxVersion(XnNodeQuery* pQuery, const 
 XN_C_API XnStatus XN_C_DECL xnNodeQueryAddSupportedCapability(XnNodeQuery* pQuery, const XnChar* strNeededCapability);
 
 /**
- * Adds a MapOutputMode that the node must support. Note that for checking if a capability is supported, 
+ * Adds a MapOutputMode that the node must support. Note that for checking if a capability is supported,
  * the node must be created (if it's not an existing one). This operation might take a bit longer...
  *
  * @param	pQuery			[in]	Query object.
- * @param	pMapOutputMode	[in]	A map output mode. Each field of the mode can be set to (-1), meaning 
- * results will not be filtered by this field. 
+ * @param	pMapOutputMode	[in]	A map output mode. Each field of the mode can be set to (-1), meaning
+ * results will not be filtered by this field.
  */
 XN_C_API XnStatus XN_C_DECL xnNodeQueryAddSupportedMapOutputMode(XnNodeQuery* pQuery, const XnMapOutputMode* pMapOutputMode);
 
 /**
- * Sets the minimum required user positions this node supports. Note that for checking if a capability is supported, 
+ * Sets the minimum required user positions this node supports. Note that for checking if a capability is supported,
  * the node must be created (if it's not an existing one). This operation might take a bit longer...
  *
  * @param	pQuery		[in]	Query object.

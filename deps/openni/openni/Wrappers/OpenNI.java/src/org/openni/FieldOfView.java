@@ -22,14 +22,14 @@ package org.openni;
 
 /**
  * Stores a sensor's Field of View angles in radians. <BR><BR>
- * 
+ *
  * These values are used to properly calculate Real World to Projective coordinate conversions <BR><BR>
- * 
- * Note that this class is intended to store the FOV for a given hardware type.  Setting the FoV 
+ *
+ * Note that this class is intended to store the FOV for a given hardware type.  Setting the FoV
  * via the members of this class does change the actual FoV settings of any associated hardware.
  *
  */
-public class FieldOfView 
+public class FieldOfView
 {
 	/**
 	 * Constructor.  Creates a new FieldOfView object with specified FOV values

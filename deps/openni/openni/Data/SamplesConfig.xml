@@ -1,6 +1,6 @@
 <OpenNI>
 	<Licenses>
-		<!-- Add application-specific licenses here 
+		<!-- Add application-specific licenses here
 		<License vendor="vendor" key="key"/>
 		-->
 	</Licenses>
@@ -14,7 +14,7 @@
 		</Dumps>
 	</Log>
 	<ProductionNodes>
-		<!-- Uncomment following line, in order to run from a recording 
+		<!-- Uncomment following line, in order to run from a recording
 		<Recording file="sampleRec.oni" />
 		-->
 	
@@ -35,11 +35,11 @@
 			</Query>
 			<Configuration>
 				<!-- Uncomment to set requested mode
-				<MapOutputMode xRes="640" yRes="480" FPS="30"/> 
+				<MapOutputMode xRes="640" yRes="480" FPS="30"/>
 				-->
 
 				<!-- Uncomment to override global mirror
-				<Mirror on="false" /> 
+				<Mirror on="false" />
 				-->
 			</Configuration>
 		</Node>

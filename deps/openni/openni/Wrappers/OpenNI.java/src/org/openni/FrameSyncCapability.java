@@ -22,15 +22,15 @@ package org.openni;
 
 /**
  * Enables two sensors producing frame data to synchronize their frames so that they arrive at the same time. <BR><BR>
- * 
- * The purpose of this capability is to synchronize the arrival time of the frames from two different sensors.  This 
- * prevents a situation where two sensors are creating frames at the same rate, but out of phase with each other.  For 
- * example, if a sensor produces depth and image frames at 30fps, the worst case scenario with FrameSync 
+ *
+ * The purpose of this capability is to synchronize the arrival time of the frames from two different sensors.  This
+ * prevents a situation where two sensors are creating frames at the same rate, but out of phase with each other.  For
+ * example, if a sensor produces depth and image frames at 30fps, the worst case scenario with FrameSync
  * disabled is that each corresponding depth and image frames are up to 17ms apart from each other in time.  Enabling FrameSync
  * reduces this maximum to some value (exact max depends on sensor type in question).<BR><BR>
- * 
+ *
  * This capability is normally accessed by using Generator::GetFrameSyncCapability()<BR><BR>
- * 
+ *
  * This class defines the following events:<BR><BR>
  * FrameSyncChanged: Triggered when the frame sync settings for this node change
  *
@@ -47,16 +47,16 @@ public class FrameSyncCapability extends CapabilityBase
 	{
 		super(node);
 		
-		this.frameSyncChanged = new StateChangedObservable() 
+		this.frameSyncChanged = new StateChangedObservable()
 		{
 			@Override
-			protected int registerNative(String cb, OutArg<Long> phCallback) 
+			protected int registerNative(String cb, OutArg<Long> phCallback)
 			{
 				return NativeMethods.xnRegisterToFrameSyncChange(toNative(), this, cb, phCallback);
 			}
 
 			@Override
-			protected void unregisterNative(long hCallback) 
+			protected void unregisterNative(long hCallback)
 			{
 				NativeMethods.xnUnregisterFromFrameSyncChange(toNative(), hCallback);
 			}
@@ -64,7 +64,7 @@ public class FrameSyncCapability extends CapabilityBase
 	}
 	
 	/**
-	 * Tests whether the node associated with this capability can be frame synced with 
+	 * Tests whether the node associated with this capability can be frame synced with
 	 * a given node
 	 * @param other Node to test
 	 * @return TRUE if the two nodes can be synced, FALSE otherwise

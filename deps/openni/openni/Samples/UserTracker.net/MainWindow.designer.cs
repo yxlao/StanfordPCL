@@ -50,18 +50,18 @@ namespace UserTracker.net
 		{
 			this.panelView = new System.Windows.Forms.Panel();
 			this.SuspendLayout();
-			// 
+			//
 			// panelView
-			// 
+			//
 			this.panelView.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.panelView.Location = new System.Drawing.Point(0, 0);
 			this.panelView.Name = "panelView";
 			this.panelView.Size = new System.Drawing.Size(602, 439);
 			this.panelView.TabIndex = 0;
 			this.panelView.Visible = false;
-			// 
+			//
 			// MainWindow
-			// 
+			//
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(602, 439);

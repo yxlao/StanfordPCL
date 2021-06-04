@@ -96,7 +96,7 @@ private:
 * Declares a thread safe queue of type @a Type, named @a ClassName. The class uses @a Translator for translating
 * from @a Type to XnValue. It is declared using the declspec @a decl.
 * It inherits from @a base. Note that @a base must be a derivative of XnQueue.
-*/ 
+*/
 #define XN_DECLARE_THREAD_SAFE_QUEUE_WITH_TRANSLATOR_DECL(decl, Type, ClassName, Translator)	\
 	class decl ClassName : public XnThreadSafeQueue										\
 	{																					\
@@ -134,21 +134,21 @@ private:
 * Declares a thread safe queue of type @a Type, named @a ClassName. The class uses @a Translator for translating
 * from @a Type to XnValue.
 * It inherits from @a base. Note that @a base must be a derivative of XnQueue.
-*/ 
+*/
 #define XN_DECLARE_THREAD_SAFE_QUEUE_WITH_TRANSLATOR(Type, ClassName, Translator)				\
 	XN_DECLARE_THREAD_SAFE_QUEUE_WITH_TRANSLATOR_DECL(, Type, ClassName, Translator)
 
 /**
 * Declares a thread safe queue of type @a Type, named @a ClassName, that uses the default translator.
 * It is declared using the declspec @a decl.
-*/ 
+*/
 #define XN_DECLARE_THREAD_SAFE_QUEUE_DECL(decl, Type, ClassName)											\
 	XN_DECLARE_DEFAULT_VALUE_TRANSLATOR_DECL(decl, Type, XN_DEFAULT_TRANSLATOR_NAME(ClassName))				\
 	XN_DECLARE_THREAD_SAFE_QUEUE_WITH_TRANSLATOR_DECL(decl, Type, ClassName, XN_DEFAULT_TRANSLATOR_NAME(ClassName))
 
 /**
 * Declares a thread safe queue of type @a Type, named @a ClassName, that uses the default translator.
-*/ 
+*/
 #define XN_DECLARE_THREAD_SAFE_QUEUE(Type, ClassName)		\
 	XN_DECLARE_THREAD_SAFE_QUEUE_DECL(, Type, ClassName)
 

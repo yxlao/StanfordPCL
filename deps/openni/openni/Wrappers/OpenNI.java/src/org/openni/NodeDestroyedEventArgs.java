@@ -22,7 +22,7 @@ package org.openni;
 
 /**
  * Stores the data created when a Node Destroyed Event is generated. <BR><BR>
- * 
+ *
  * This data consists of the string name of the node that was destroyed.
  *
  */

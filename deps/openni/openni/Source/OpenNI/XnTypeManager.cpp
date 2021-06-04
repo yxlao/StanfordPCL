@@ -187,7 +187,7 @@ XnStatus TypeManager::AddType(NodeTypeInfo& info)
 
 	// add it to array
 	XN_VALIDATE_NEW(m_pTypesArray[info.type], NodeTypeInfo);
-	*m_pTypesArray[info.type] = info; 
+	*m_pTypesArray[info.type] = info;
 	
 	return (XN_STATUS_OK);
 }

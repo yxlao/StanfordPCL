@@ -52,8 +52,8 @@
 //---------------------------------------------------------------------------
 // Types
 //---------------------------------------------------------------------------
-class XnVideoSource : 
-	public CSource, 
+class XnVideoSource :
+	public CSource,
 	public ISpecifyPropertyPages,
 	public IAMVideoControl,
 	public IAdditionalControls

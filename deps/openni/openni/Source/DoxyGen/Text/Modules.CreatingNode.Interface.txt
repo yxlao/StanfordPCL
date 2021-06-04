@@ -1,15 +1,15 @@
 /**
 @page modules_node_interface Implement the Proper Interface
 
-Note that OpenNI has a different interface for a node implementation 
-(MPI) than the actual API of the node. Although they seem superficially 
-very similar, the MPI and API interfaces are different. 
+Note that OpenNI has a different interface for a node implementation
+(MPI) than the actual API of the node. Although they seem superficially
+very similar, the MPI and API interfaces are different.
 
-The module's MPI interfaces (C++ ones) are defined in file @ref 
-XnModuleCppInterface.h. 
+The module's MPI interfaces (C++ ones) are defined in file @ref
+XnModuleCppInterface.h.
 
-The following table lists current OpenNI node types and their module 
-interface. 
+The following table lists current OpenNI node types and their module
+interface.
 
 <table>
 	<tr>
@@ -82,9 +82,9 @@ interface.
 	</tr>
 </table>
 
-When you want to create a new class, it must inherit virtually from the 
-corresponding interface. For example, if you are developing a hand 
-generator, the class declaration must be as follows: 
+When you want to create a new class, it must inherit virtually from the
+corresponding interface. For example, if you are developing a hand
+generator, the class declaration must be as follows:
 
 @code
 class MyHandGenerator: public virtual xn::ModuleHandsGenerator

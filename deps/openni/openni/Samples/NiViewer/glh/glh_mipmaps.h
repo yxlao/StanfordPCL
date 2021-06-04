@@ -1,5 +1,5 @@
 /*
-    glh - is a platform-indepenedent C++ OpenGL helper library 
+    glh - is a platform-indepenedent C++ OpenGL helper library
 
 
     Copyright (c) 2000 Cass Everitt
@@ -21,7 +21,7 @@
 
      * The names of contributors to this software may not be used
 	   to endorse or promote products derived from this software
-	   without specific prior written permission. 
+	   without specific prior written permission.
 
        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 	   ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -33,8 +33,8 @@
 	   LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 	   CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
 	   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
-	   ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
-	   POSSIBILITY OF SUCH DAMAGE. 
+	   ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+	   POSSIBILITY OF SUCH DAMAGE.
 
 
     Cass Everitt - cass@r3.nu
@@ -46,7 +46,7 @@
    it infers the number of components and how to average them
    from the format.  This helper eliminates that problem by
    factoring out that functionality.
-   
+
    Cass Everitt
    1-9-01
 
@@ -68,7 +68,7 @@
 namespace glh
 {
 	
-	template <class T> 
+	template <class T>
 	class tex_indexer2
 	{
 		public:
@@ -91,7 +91,7 @@ namespace glh
 			gl_type(gltype), tuple_size(tuplesize) {}
 
 		void average( T * out,
-					  const T * a, const T * b, 
+					  const T * a, const T * b,
 					  const T * c, const T * d)
 		{
 			for(int i=0; i < tuple_size; i++)
@@ -109,7 +109,7 @@ namespace glh
 	// fixme: supports non-square textures!
 	template <class F>
 	void build_2D_mipmaps( GLenum target, GLenum internal_format,
-						   GLsizei w, GLsizei h, GLenum format, 
+						   GLsizei w, GLsizei h, GLenum format,
 						   F filter, const void * vdata)
 	{
 

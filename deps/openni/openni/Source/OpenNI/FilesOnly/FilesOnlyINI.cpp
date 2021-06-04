@@ -112,7 +112,7 @@ static XnStatus FindEntry(const XnChar* cpINIFile, const XnChar* cpSection, cons
 			
 			if (*pCurPos == ']') // valid section name
 			{
-				if (bIsInRequestedSection) 
+				if (bIsInRequestedSection)
 				{
 					// we're leaving the requested section, and string wasn't found
 					xnOSFree(csFileData);

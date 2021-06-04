@@ -33,7 +33,7 @@
 
 
 /// @brief User selector which toggles selection based on pose
-/// 
+///
 /// This user selector allows users to be selected when the perform a pose and unselects them when
 /// they perform it again.
 /// @ingroup UserSelectionPoseSelectors
@@ -41,7 +41,7 @@ class PoseToggleUserSelector : public PoseUserSelector
 {
 public:
     /// @brief constructor.
-    /// 
+    ///
     /// @param pUserGenerator A pointer to the user generator node which holds the users.
     /// @param pTrackingInitializer A pointer to the tracking initializer to use to start tracking.
     /// @param poseToTrack The pose to use for selection.
@@ -49,7 +49,7 @@ public:
     /// @param timeBeforeToggle The pose can toggle only if this number of microseconds have passed
     ///                         from the first out of pose for the user after starting tracking.
     PoseToggleUserSelector(xn::UserGenerator *pUserGenerator,
-                           TrackingInitializer *pTrackingInitializer, 
+                           TrackingInitializer *pTrackingInitializer,
                            const char *poseToTrack,
                            XnUInt32 maxUsersToTrack,
                            XnUInt64 timeBeforeToggle);
@@ -58,7 +58,7 @@ public:
     ~PoseToggleUserSelector();
 protected:
     /// @brief Internal method which is called from the callback whenever a Pose is detected.
-    /// 
+    ///
     /// @param nUserId the user who'se pose was detected
     /// @return The success code.
     virtual XnStatus DetectPose(XnUserID nUserId);
@@ -70,7 +70,7 @@ protected:
     virtual XnStatus RemoveUser(XnUserID nUserId);
 
     /// @brief Internal method which is called from the callback whenever a out of Pose is detected.
-    /// 
+    ///
     /// @param nUserId the user who'se out of pose was detected
     /// @return The success code.
     virtual XnStatus DetectOutOfPose(XnUserID nUserId);
@@ -79,14 +79,14 @@ protected:
     typedef XnHashT<XnUserID, XnUInt64> UserOutOfPoseHash;
 
     UserOutOfPoseHash m_usersOutOfPoseTime; ///< @brief holds for each user, the first time they were out of pose AFTER being tracked. 0 means no data.
-    /// @param maxUsersToTrack 
-    /// @param timeBeforeToggle 
+    /// @param maxUsersToTrack
+    /// @param timeBeforeToggle
 
     XnUInt32 m_nMaxUsersToTrack; ///< @brief The maximum allowed users to track
     XnUInt64 m_timeBeforeToggle; ///< @brief The pose can toggle only if this number of microseconds have passed
 
     /// @brief A handle to unregister out of pose detection callbacks
-    XnCallbackHandle m_hOutOfPoseDetectCallback;      
+    XnCallbackHandle m_hOutOfPoseDetectCallback;
 
 private:
     /// @brief Callback for detecting out of pose.

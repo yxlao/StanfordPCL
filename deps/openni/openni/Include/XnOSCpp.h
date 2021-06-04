@@ -86,9 +86,9 @@ public:
 		m_nStatus = xnOSLockMutex(m_hMutex, nMilliseconds);
 	}
 
-	XnStatus GetStatus() const 
-	{ 
-		return m_nStatus; 
+	XnStatus GetStatus() const
+	{
+		return m_nStatus;
 	}
 
 	inline ~XnAutoMutexLocker()
@@ -110,12 +110,12 @@ class XnOSEvent
 public:
 	XnOSEvent() : m_hEvent(NULL) {}
 	
-	~XnOSEvent() 
-	{ 
-		Close(); 
+	~XnOSEvent()
+	{
+		Close();
 	}
 
-	operator XN_EVENT_HANDLE() const 
+	operator XN_EVENT_HANDLE() const
 	{
 		return m_hEvent;
 	}

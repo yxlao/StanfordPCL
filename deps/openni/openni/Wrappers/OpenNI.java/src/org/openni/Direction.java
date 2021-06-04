@@ -24,11 +24,11 @@ import java.util.NoSuchElementException;
 
 /**
  * Provides string names for all six cardinal directions in 3-space. <BR><BR>
- * 
+ *
  * This is useful, for example, when looking at the direction a HandPoint is traveling.
  *
  */
-public enum Direction 
+public enum Direction
 {
 	ILLEGAL(0),
 	LEFT(1),
@@ -47,7 +47,7 @@ public enum Direction
 	
 	public static Direction fromNative(int value)
 	{
-		for (Direction type : Direction.values()) 
+		for (Direction type : Direction.values())
 		{
 			if (type.val == value)
 				return type;

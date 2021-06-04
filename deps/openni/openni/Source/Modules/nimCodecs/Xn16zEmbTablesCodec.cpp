@@ -30,7 +30,7 @@ Xn16zEmbTablesCodec::Xn16zEmbTablesCodec() : m_nMaxValue(0)
 {
 }
 
-XnCodecID Xn16zEmbTablesCodec::GetCodecID() const 
+XnCodecID Xn16zEmbTablesCodec::GetCodecID() const
 {
 	return XN_CODEC_16Z_EMB_TABLES;
 }
@@ -53,14 +53,14 @@ XnStatus Xn16zEmbTablesCodec::Init(const ProductionNode& node)
 	return (XN_STATUS_OK);
 }
 
-XnFloat Xn16zEmbTablesCodec::GetWorseCompressionRatio() const 
-{ 
-	return XN_STREAM_COMPRESSION_DEPTH16Z_WORSE_RATIO; 
+XnFloat Xn16zEmbTablesCodec::GetWorseCompressionRatio() const
+{
+	return XN_STREAM_COMPRESSION_DEPTH16Z_WORSE_RATIO;
 }
 
-XnUInt32 Xn16zEmbTablesCodec::GetOverheadSize() const 
-{ 
-	return m_nMaxValue * sizeof(XnUInt16); 
+XnUInt32 Xn16zEmbTablesCodec::GetOverheadSize() const
+{
+	return m_nMaxValue * sizeof(XnUInt16);
 }
 
 XnStatus Xn16zEmbTablesCodec::CompressImpl(const XnUChar* pData, XnUInt32 nDataSize, XnUChar* pCompressedData, XnUInt32* pnCompressedDataSize) const
@@ -76,12 +76,12 @@ XnStatus Xn16zEmbTablesCodec::DecompressImpl(const XnUChar* pCompressedData, XnU
 /*****************************/
 /* Exported16zEmbTablesCodec */
 /*****************************/
-Exported16zEmbTablesCodec::Exported16zEmbTablesCodec() : ExportedCodec(XN_CODEC_16Z_EMB_TABLES) 
+Exported16zEmbTablesCodec::Exported16zEmbTablesCodec() : ExportedCodec(XN_CODEC_16Z_EMB_TABLES)
 {
 
 }
 
-XnCodec* Exported16zEmbTablesCodec::CreateCodec() 
-{ 
-	return XN_NEW(Xn16zEmbTablesCodec); 
+XnCodec* Exported16zEmbTablesCodec::CreateCodec()
+{
+	return XN_NEW(Xn16zEmbTablesCodec);
 }

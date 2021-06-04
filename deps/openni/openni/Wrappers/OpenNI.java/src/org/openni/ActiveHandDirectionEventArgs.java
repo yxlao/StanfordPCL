@@ -22,13 +22,13 @@ package org.openni;
 
 /**
  * Provides a structure for storing the data in Hand Direction Events. <BR><BR>
- * 
+ *
  * This class allows for the easy storage of the various data values passed
  * along with a Hand Direction events when using the HandGenerator and the NiTE HandPoint APIs.<BR><BR>
- * 
+ *
  * Normally this class would only be created when a HandDirectionEvent is initiated by the system.
  * Users detecting this event would primarily use this API to read the values back out.  <BR><BR>
- * 
+ *
  * More information on the HandPoint APIs can be found in the NiTE Algorithms document,
  * included in PDF format in the documentation directory when installing PrimeSense NiTE
  *
@@ -59,7 +59,7 @@ public class ActiveHandDirectionEventArgs extends EventArgs
 	{
 		return this.id;
 	}
-	/** 
+	/**
 	 * Getter function for the position of the handpoint in space
 	 * @return Coordinates of the handpoint, in real world coordinates
 	 */

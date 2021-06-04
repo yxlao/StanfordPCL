@@ -61,12 +61,12 @@ public class SimpleViewerApplication
             public void windowClosing(WindowEvent e) {System.exit(0);}
         });
         SimpleViewerApplication app = new SimpleViewerApplication(f);
-        
+
         app.viewer = new SimpleViewer();
         f.add("Center", app.viewer);
         f.pack();
         f.setVisible(true);
-        
+
         app.run();
     }
 
@@ -77,5 +77,5 @@ public class SimpleViewerApplication
         }
         frame.dispose();
     }
-    
+
 }

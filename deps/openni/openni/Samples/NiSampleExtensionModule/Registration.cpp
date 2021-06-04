@@ -26,7 +26,7 @@
 class SampleModule : public ExtensionModule
 {
 public:
-	virtual XnStatus RegisterNewTypes() 
+	virtual XnStatus RegisterNewTypes()
 	{
 		XnStatus nRetVal = XN_STATUS_OK;
 		

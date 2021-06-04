@@ -102,7 +102,7 @@ public:
 		return m_pData;
 	}
 
-	/** Reserves space in this array for the specified number of elements. 
+	/** Reserves space in this array for the specified number of elements.
 	    This saves you re-allocations and data copies if you know the size in advance. **/
 	XnStatus Reserve(XnUInt32 nReservedSize)
 	{
@@ -149,7 +149,7 @@ public:
 		return m_nSize;
 	}
 
-	/** Sets the size of this array to the specified number of elements. 
+	/** Sets the size of this array to the specified number of elements.
 	    Note that for primitive types, the data is uninitialized. **/
 	XnStatus SetSize(XnUInt32 nSize)
 	{
@@ -160,7 +160,7 @@ public:
 		return XN_STATUS_OK;
 	}
 
-	/** Sets the size of this array to the specified number of elements, initializing all elements with the 
+	/** Sets the size of this array to the specified number of elements, initializing all elements with the
 	    value specified by fillVal. **/
 	XnStatus SetSize(XnUInt32 nSize, const T& fillVal)
 	{
@@ -171,8 +171,8 @@ public:
 		return XN_STATUS_OK;
 	}
 
-	/** Makes sure the array has at least nSize elements. 
-	    If nSize is less than the current size, there is no effect. 
+	/** Makes sure the array has at least nSize elements.
+	    If nSize is less than the current size, there is no effect.
 		Note that for primitive types, any added elements are uninitialized. **/
 	XnStatus SetMinSize(XnUInt32 nSize)
 	{
@@ -185,8 +185,8 @@ public:
 		return XN_STATUS_OK;
 	}
 
-	/** Makes sure the array has at least nSize elements. 
-	    If nSize is less than the current size, there is no effect. 
+	/** Makes sure the array has at least nSize elements.
+	    If nSize is less than the current size, there is no effect.
 		Any added elements are initialized by the value specified by fillVal. **/
 	XnStatus SetMinSize(XnUInt32 nSize, const T& fillVal)
 	{
@@ -211,8 +211,8 @@ public:
 		return m_nAllocatedSize;
 	}
 
-	/** Sets value at specified index, grows array if needed. 
-	    Note that when dealing with primitive types and adding beyond the current size of the array, 
+	/** Sets value at specified index, grows array if needed.
+	    Note that when dealing with primitive types and adding beyond the current size of the array,
 		any added values that fill the gap are uninitialized**/
 	XnStatus Set(XnUInt32 nIndex, const T& val)
 	{

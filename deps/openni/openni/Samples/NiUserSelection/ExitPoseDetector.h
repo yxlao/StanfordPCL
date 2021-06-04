@@ -34,14 +34,14 @@
 
 
 /// @brief Class to follow exit pose state for each user
-/// 
+///
 /// The goal of this class is to find exit and track exit pose state for each user.
 /// @ingroup UserSelectionSampleFiles
 class ExitPoseDetector
 {
 public:
     /// @brief Constructor
-    /// 
+    ///
     /// @param userGenNode The user generator node to use
     ExitPoseDetector(xn::UserGenerator userGenNode);
 
@@ -52,7 +52,7 @@ public:
     XnBool Valid() { return m_bValid; };
 
     /// @brief gets the timestamp of when a user last entered an exit pose without leaving it
-    /// 
+    ///
     /// @param nUserId The user whose state we are checking. A user of 0 means the highest value of
     ///                all.
     /// @return The latest time when the user entered an exit pose and have not been out
@@ -60,16 +60,16 @@ public:
     XnUInt64 GetExitPoseTimeStamp(XnUserID nUserId);
 
 private:
-    /// @brief Defines the UserExitPoseTimes hash which holds the last time an exit pose was found 
+    /// @brief Defines the UserExitPoseTimes hash which holds the last time an exit pose was found
     /// for each user. A value of 0 means an illegal time (e.g. because out of pose was found).
     typedef XnHashT<XnUserID, XnUInt64> UserExitPoseTimes;
 
     UserExitPoseTimes m_userExitPoseTimes; ///< @brief holds the hash which holds the last time and exit pose was found for each user.
 
     /// @brief A handle to unregister pose detection callbacks
-    XnCallbackHandle m_hPoseDetectCallback;             
+    XnCallbackHandle m_hPoseDetectCallback;
     /// @brief A handle to unregister out of pose detection callbacks
-    XnCallbackHandle m_hPoseOutOfPoseDetectCallback;    
+    XnCallbackHandle m_hPoseOutOfPoseDetectCallback;
 
     XnCallbackHandle m_hUserCallbacks; ///< @brief A handle to be able to unregister the user callbacks
 
@@ -82,9 +82,9 @@ private:
 
     /// @brief Callback for out of pose detection
     static void XN_CALLBACK_TYPE OutOfPoseDetectedCallback(xn::PoseDetectionCapability& capability, const XnChar* strPose, XnUserID nUserId, void* pCookie);
- 
+
     /// @brief New user callback.
-    /// 
+    ///
     /// Called when a new user is found.
     /// @param generator The user generator which called the callback
     /// @param nUserId The newly found user
@@ -92,7 +92,7 @@ private:
     static void XN_CALLBACK_TYPE NewUserCallback(xn::UserGenerator& generator, XnUserID nUserId, void* pCookie);
 
     /// @brief Lost user callback.
-    /// 
+    ///
     /// Called when a user is lost (i.e. no longer counted in the scene. Does not include exiting).
     /// @param generator The user generator which called the callback
     /// @param nUserId The lost user

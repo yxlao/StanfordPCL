@@ -242,7 +242,7 @@ HRESULT  DbgUniqueProcessName(LPCTSTR inName, LPTSTR outName)
 
     DWORD dwProcessId = GetCurrentProcessId();
 
-    if (dotPos < 0) 
+    if (dotPos < 0)
     {
         //no extension in the input, appending process id to the input
         hr = StringCchPrintf(outName, MAX_PATH, TEXT("%s_%d"), inName, dwProcessId);
@@ -250,7 +250,7 @@ HRESULT  DbgUniqueProcessName(LPCTSTR inName, LPTSTR outName)
     else
     {
         TCHAR pathAndBasename[MAX_PATH] = {0};
-        
+
         //there's an extension  - zero-terminate the path and basename first by copying
         hr = StringCchCopyN(pathAndBasename, MAX_PATH, inName, (size_t)dotPos);
 
@@ -337,7 +337,7 @@ void WINAPI DbgInitLogTo (
                                          NULL);
                }
             }
-               
+
             if (INVALID_HANDLE_VALUE != m_hOutput)
             {
               static const TCHAR cszBar[] = TEXT("\r\n\r\n=====DbgInitialize()=====\r\n\r\n");
@@ -1130,7 +1130,7 @@ CDisp::CDisp(LONGLONG ll, int Format)
 
 CDisp::CDisp(REFCLSID clsid)
 {
-#ifdef UNICODE 
+#ifdef UNICODE
     (void)StringFromGUID2(clsid, m_String, NUMELMS(m_String));
 #else
     WCHAR wszTemp[50];

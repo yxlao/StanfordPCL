@@ -34,7 +34,7 @@
  */
 typedef void* XnValue;
 
-/** 
+/**
  * Declares a translator from @a Type to XnValue, with a name @a ClassName. The class is declared
  * with the @a decl declspec.
  */
@@ -108,7 +108,7 @@ typedef void* XnValue;
 		XN_PRAGMA_STOP_DISABLED_WARNING_SECTION							\
 	};
 
-/** 
+/**
  * Declares a translator from @a Type to XnValue, with a name @a ClassName.
  */
 #define XN_DECLARE_DEFAULT_VALUE_TRANSLATOR(Type, ClassName)	\

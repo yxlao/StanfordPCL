@@ -4,7 +4,7 @@
 
 Adding new APIs
 -----------------
-Adding new function to any node/capability is a Sisyphean labor, and steps are 
+Adding new function to any node/capability is a Sisyphean labor, and steps are
 always forgotten, so here's a short list of all neccessary steps.
 First of all, determine if the functions are between OpenNI and the module only,
 are API functions for applications only, or both (where OpenNI is a pass-through
@@ -17,23 +17,23 @@ to the module).
 		- Add function pointers to the struct - one for each new function.
 		  NOTE: changing existing struct should only be made at the end. NEVER ADD ANYTHING
           IN THE MIDDLE OF AN EXISTING STRUCT. This will break backwards-compatibility.
-		- If this is a new capability, add a pointer to this struct in the 
+		- If this is a new capability, add a pointer to this struct in the
 		  corresponding node struct.
 	- XnModuleCppInterface.h
 	    - If this is a new node, or new capability, define a new class.
 		- If this is a new node, make the class inherit virtually from the base node.
 		- Add pure virtual functions to the class - one for each new function.
-		- If this is a new capability, add a GetXXXInterface() function in the 
+		- If this is a new capability, add a GetXXXInterface() function in the
 		  corresponding node struct.
 	- XnModuleCFunctions.h
-		- Implement all the new C functions. Each implementation should convert the 
+		- Implement all the new C functions. Each implementation should convert the
 		  XnModuleNodeHandle to a ModuleProductionNode pointer and then dynamic_cast
-		  it to the needed node type. If the function belongs to a capability, 
+		  it to the needed node type. If the function belongs to a capability,
 		  the corresponding GetXXXInterface() function should be called to access
 		  the capability interface. The call the requested method.
 		  NOTE: no validation of parameters is required. This is OpenNI's responsibility
 		  (we'll get to that).
-		- If this is a new node, or new capability, add a __ModuleGetXXXInterface function 
+		- If this is a new node, or new capability, add a __ModuleGetXXXInterface function
 		  which gets the struct declared in XnModuleInterface.h and fills it up.
 		- If this is a new capability, add a call to the new __ModuleGetXXXInterface function
 		  in the __ModuleGetXXXInterface function of the corresponding node.
@@ -61,7 +61,7 @@ to the module).
 		- If this is a new capability, make the class inherit from Capability.
 		- Add inline functions to the class - one for each new function. Those should
 		  call the C API directly.
-		- If this is a new capability, add a GetXXXCap() method in the 
+		- If this is a new capability, add a GetXXXCap() method in the
 		  corresponding node class.
     - OpenNI.Net
 	    - Add C functions DllImport in OpenNIImporter.cs

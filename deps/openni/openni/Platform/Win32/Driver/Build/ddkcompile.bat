@@ -232,7 +232,7 @@ set BUILD_ALT_DIR=chk_%_ddkspec%_%_BUILDARCH%
 set NTDBGFILES=1
 set NTDEBUG=ntsd
 set NTDEBUGTYPE=both
-set MSC_OPTIMIZATION=/Od /Oi 
+set MSC_OPTIMIZATION=/Od /Oi
 set DDKBUILDENV=chk
 set DEPRECATE_DDK_FUNCTIONS=1
 set BUILD_ALLOW_COMPILER_WARNINGS=1
@@ -376,7 +376,7 @@ goto end
 
 :AlreadyDefinedError
 echo.
-echo ERROR: This window already has the DDK build environment set.  Please open 
+echo ERROR: This window already has the DDK build environment set.  Please open
 echo        a new window if you want to change or reset your build environment.
 echo.
 

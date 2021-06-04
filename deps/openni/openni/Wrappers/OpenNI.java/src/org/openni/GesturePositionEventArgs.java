@@ -22,12 +22,12 @@ package org.openni;
 
 /**
  * Stores the data created when a Gesture Position Event is generated. <BR><BR>
- * 
+ *
  * This data includes a code indicating which predefined focus gesture was detected,
  * and the position in space where this gesture was detected.<BR><BR>
- * 
- * This event type is generated when the system detects that the user has possibly 
- * started performing a recognized gesture.  This does NOT mean that the user has 
+ *
+ * This event type is generated when the system detects that the user has possibly
+ * started performing a recognized gesture.  This does NOT mean that the user has
  * finished performing the gesture.  This is generally useful to provide immediate feedback
  * to the user as he starts performing the gesture.
  *

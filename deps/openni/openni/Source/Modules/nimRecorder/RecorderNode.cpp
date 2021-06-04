@@ -32,7 +32,7 @@ const XnUInt32 RecorderNode::RECORD_MAX_SIZE = 20 * 1024;
 */
 const XnUInt32 RecorderNode::PAYLOAD_DATA_SIZE = (XnUInt32)(1600 * 1200 * 3 * 1.2);
 
-RecorderNode::RecorderNode(xn::Context &context) : 
+RecorderNode::RecorderNode(xn::Context &context) :
 	m_pStreamCookie(NULL),
 	m_pOutputStream(NULL),
 	m_bOpen(FALSE),
@@ -613,7 +613,7 @@ XnStatus RecorderNode::RemoveNode(const XnChar* strNodeName)
 }
 
 
-XnStatus RecorderNode::UpdateNodePropInfo(const XnChar* strNodeName, const XnChar* strPropName, 
+XnStatus RecorderNode::UpdateNodePropInfo(const XnChar* strNodeName, const XnChar* strPropName,
 										  RecordedNodeInfo*& pRecordedNodeInfo, XnUInt64& nUndoPos)
 {
 	XnStatus nRetVal = m_recordedNodesInfo.Get(strNodeName, pRecordedNodeInfo);
@@ -646,7 +646,7 @@ void RecorderNode::RecordedNodeInfo::Reset()
 	nMaxFrameNum = 0;
 	nCurFrameNum = 0;
 	nMinTimeStamp = 0;
-	nMaxTimeStamp = 0; 
+	nMaxTimeStamp = 0;
 	nNodeAddedPos = 0;
 	bGotData = FALSE;
 	compression = XN_CODEC_NULL;

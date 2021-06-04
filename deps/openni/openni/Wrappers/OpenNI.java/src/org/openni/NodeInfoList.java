@@ -51,7 +51,7 @@ public class NodeInfoList extends ObjectWrapper implements Iterable<NodeInfo>
 	}
 	
 	/**
-	 * Adds a node to the NodeInfoList with given description, creationInfo, and neededNodes 
+	 * Adds a node to the NodeInfoList with given description, creationInfo, and neededNodes
 	 * @param description Description of the node added to the list
 	 * @param creationInfo Creation info string for the node added to the list
 	 * @param neededNodes Nodes needed by the node added to the list
@@ -142,7 +142,7 @@ public class NodeInfoList extends ObjectWrapper implements Iterable<NodeInfo>
 	}
 
 	@Override
-	protected void freeObject(long ptr) 
+	protected void freeObject(long ptr)
 	{
 		if (this.own)
 		{
@@ -158,24 +158,24 @@ public class NodeInfoList extends ObjectWrapper implements Iterable<NodeInfo>
 		}
 		
 		@Override
-		public boolean hasNext() 
+		public boolean hasNext()
 		{
 			return NativeMethods.xnNodeInfoListIteratorIsValid(this.it);
 		}
 
 		@Override
-		public NodeInfo next() 
+		public NodeInfo next()
 		{
 			if (!hasNext())
 				throw new NoSuchElementException();
 			
 			NodeInfo next = null;
 			
-			try 
+			try
 			{
 				next = new NodeInfo(NativeMethods.xnNodeInfoListGetCurrent(this.it));
-			} 
-			catch (GeneralException e) 
+			}
+			catch (GeneralException e)
 			{
 				// can't happen
 			}
@@ -185,7 +185,7 @@ public class NodeInfoList extends ObjectWrapper implements Iterable<NodeInfo>
 		}
 
 		@Override
-		public void remove() 
+		public void remove()
 		{
 			throw new UnsupportedOperationException();
 		}

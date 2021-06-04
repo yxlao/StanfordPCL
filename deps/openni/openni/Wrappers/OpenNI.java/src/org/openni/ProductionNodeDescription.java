@@ -24,7 +24,7 @@ package org.openni;
  * Stores various property information about a production node. <BR><BR>
  *
  */
-public class ProductionNodeDescription 
+public class ProductionNodeDescription
 {
 	/**
 	 * Create a new ProductionNodeDescription with specified type, vendor, name and version strings
@@ -81,5 +81,5 @@ public class ProductionNodeDescription
 	private NodeType type;
 	private String vendor;
 	private String name;
-	private Version version; 
+	private Version version;
 }
