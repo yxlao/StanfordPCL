@@ -9,6 +9,14 @@ endif("${CMAKE_BUILD_TYPE}" STREQUAL "")
 project(PCL)
 string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
 
+# Depend on this target to trigger build always.
+# TODO: this can be removed since the main PCL library shall depend on 3rd-party
+# targets directly.
+add_custom_command(
+    OUTPUT always_rebuild
+    COMMAND cmake -E echo
+)
+
 ### ---[ Find universal dependencies
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules/" ${CMAKE_MODULE_PATH})
 

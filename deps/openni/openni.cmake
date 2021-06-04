@@ -21,10 +21,6 @@ ExternalProject_Add(
     INSTALL_COMMAND ""
 )
 add_dependencies(ext_openni always_rebuild)
-add_custom_command(
-    OUTPUT always_rebuild
-    COMMAND cmake -E echo
-)
 
 ExternalProject_Get_Property(ext_openni INSTALL_DIR)
 set(OPENNI_FOUND TRUE)
