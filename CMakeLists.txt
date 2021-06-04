@@ -207,7 +207,7 @@ add_definitions(-DEIGEN_USE_NEW_STDVECTOR
 #   set(FLANN_USE_STATIC ON)
 # endif(NOT PCL_SHARED_LIBS OR WIN32)
 # find_package(FLANN 1.7.0 REQUIRED)
-set(FLANN_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/deps/flann/src/cpp)
+set(FLANN_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/deps/flann/flann/src/cpp)
 include_directories(SYSTEM ${FLANN_INCLUDE_DIRS})
 
 # libusb-1.0
