@@ -252,6 +252,7 @@ if (QT4_FOUND)
   include(${QT_USE_FILE})
 endif (QT4_FOUND)
 # Find VTK
+set(VTI_DIR /home/yixing/repo/StanfordPCL/3rdparty_/vtk/VTK/build)
 find_package(VTK)
 if(VTK_FOUND)
   if (PCL_SHARED_LIBS OR
