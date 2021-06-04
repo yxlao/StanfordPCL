@@ -309,7 +309,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
 include(${PCL_SOURCE_DIR}/cmake/pcl_targets.cmake)
 
 collect_subproject_directory_names(${PCL_SOURCE_DIR} "CMakeLists.txt" PCL_MODULES_NAMES PCL_MODULES_DIRS doc)
-list(REMOVE_ITEM PCL_MODULES_DIRS "test")
+list(REMOVE_ITEM PCL_MODULES_DIRS "deps")
 set(PCL_MODULES_NAMES_UNSORTED ${PCL_MODULES_NAMES})
 message(STATUS "PCL_MODULES_DIRS: ${PCL_MODULES_DIRS}")
 message(STATUS "PCL_MODULES_NAMES_UNSORTED: ${PCL_MODULES_NAMES_UNSORTED}")
