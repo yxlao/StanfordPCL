@@ -24,7 +24,6 @@ ExternalProject_Add(
     COMMAND         mkdir -p <INSTALL_DIR>/usr/lib <INSTALL_DIR>/usr/bin <INSTALL_DIR>/var
     COMMAND         cd Platform/Linux/Redist/OpenNI-Bin-Dev-Linux-x64-v1.5.7.10 && ./install.sh -c <INSTALL_DIR>
 )
-add_dependencies(ext_openni always_rebuild)
 
 ExternalProject_Get_Property(ext_openni INSTALL_DIR)
 set(OPENNI_FOUND TRUE)

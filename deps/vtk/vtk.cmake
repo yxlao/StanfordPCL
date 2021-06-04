@@ -22,7 +22,6 @@ ExternalProject_Add(
         -DCMAKE_CXX_FLAGS=-DGLX_GLXEXT_LEGACY
         -Wno-dev
 )
-add_dependencies(ext_vtk always_rebuild)
 
 ExternalProject_Get_Property(ext_vtk INSTALL_DIR)
 set(VTK_FOUND TRUE)
