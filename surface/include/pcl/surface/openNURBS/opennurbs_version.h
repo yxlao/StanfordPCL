@@ -1,4 +1,4 @@
-﻿/* $NoKeywords: $ */
+/* $NoKeywords: $ */
 /*
 //
 // Copyright (c) 1993-2011 Robert McNeel & Associates. All rights reserved.
