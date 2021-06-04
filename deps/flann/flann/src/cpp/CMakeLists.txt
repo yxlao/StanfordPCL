@@ -18,7 +18,8 @@ endif()
 set_property(TARGET flann_cpp_s PROPERTY COMPILE_DEFINITIONS FLANN_STATIC)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND CMAKE_COMPILER_IS_GNUCC)
-    add_library(flann_cpp SHARED "")
+    # https://stackoverflow.com/a/61658746/1255535
+    add_library(flann_cpp SHARED empty.cpp)
     set_target_properties(flann_cpp PROPERTIES LINKER_LANGUAGE CXX)
     target_link_libraries(flann_cpp -Wl,-whole-archive flann_cpp_s -Wl,-no-whole-archive)
 else()
@@ -29,12 +30,12 @@ set_target_properties(flann_cpp PROPERTIES
    VERSION ${FLANN_VERSION}
    SOVERSION ${FLANN_SOVERSION}
    DEFINE_SYMBOL FLANN_EXPORTS
-) 
+)
 
 
 #debug libraries
 add_library(flann_cpp-gd SHARED ${CPP_SOURCES})
-set_target_properties(flann_cpp-gd PROPERTIES 
+set_target_properties(flann_cpp-gd PROPERTIES
     COMPILE_FLAGS ${CMAKE_CXX_FLAGS_DEBUG}
     DEFINE_SYMBOL FLANN_EXPORTS
 )
@@ -51,7 +52,8 @@ if (BUILD_C_BINDINGS)
     set_property(TARGET flann_s PROPERTY COMPILE_DEFINITIONS FLANN_STATIC)
 
     if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND CMAKE_COMPILER_IS_GNUCC)
-        add_library(flann SHARED "")
+        # https://stackoverflow.com/a/61658746/1255535
+        add_library(flann SHARED empty.cpp)
         set_target_properties(flann PROPERTIES LINKER_LANGUAGE CXX)
         target_link_libraries(flann -Wl,-whole-archive flann_s -Wl,-no-whole-archive)
     else()
@@ -62,7 +64,7 @@ if (BUILD_C_BINDINGS)
        VERSION ${FLANN_VERSION}
        SOVERSION ${FLANN_SOVERSION}
        DEFINE_SYMBOL FLANN_EXPORTS
-    ) 
+    )
 endif()
 
 
