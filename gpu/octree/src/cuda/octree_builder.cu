@@ -46,6 +46,7 @@
 #include <thrust/sequence.h>
 #include <thrust/sort.h>
 #include <thrust/reduce.h>
+#include <thrust/device_ptr.h>
 
 using namespace pcl::gpu;
 using namespace thrust;
@@ -63,21 +64,21 @@ namespace pcl
                 result.x = fmin(e1.x, e2.x);
                 result.y = fmin(e1.y, e2.y);
                 result.z = fmin(e1.z, e2.z);
-                return result;		
-	        }	
+                return result;
+	        }
         };
 
         template<typename PointType>
         struct SelectMaxPoint
         {
 	        __host__ __device__ __forceinline__ PointType operator()(const PointType& e1, const PointType& e2) const
-	        {		
+	        {
                 PointType result;
                 result.x = fmax(e1.x, e2.x);
                 result.y = fmax(e1.y, e2.y);
                 result.z = fmax(e1.z, e2.z);
-                return result;		
-	        }	
+                return result;
+	        }
         };
 
 
@@ -334,7 +335,7 @@ void pcl::device::OctreeImpl::build()
 
     {
         //ScopeTimer timer("reduce-morton-sort-permutations");
-    	
+
         device_ptr<PointType> beg(points.ptr());
         device_ptr<PointType> end = beg + points.size();
 
@@ -351,7 +352,7 @@ void pcl::device::OctreeImpl::build()
             octreeGlobal.minp = make_float3(minp.x, minp.y, minp.z);
             octreeGlobal.maxp = make_float3(maxp.x, maxp.y, maxp.z);
         }
-    		
+
         device_ptr<int> codes_beg(codes.ptr());
         device_ptr<int> codes_end = codes_beg + codes.size();
         {
@@ -364,7 +365,7 @@ void pcl::device::OctreeImpl::build()
         {
             //ScopeTimer timer("sort");
             thrust::sequence(indices_beg, indices_end);
-            thrust::sort_by_key(codes_beg, codes_end, indices_beg );		
+            thrust::sort_by_key(codes_beg, codes_end, indices_beg );
         }
         {
             ////ScopeTimer timer("perm");
