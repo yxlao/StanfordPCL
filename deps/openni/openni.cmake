@@ -3,6 +3,11 @@
 # OPENNI_INCLUDE_DIRS - Directories containing the OPENNI include files.
 # OPENNI_LIBRARIES - Libraries needed to use OPENNI.
 # OPENNI_DEFINITIONS - Compiler flags for OPENNI.
+#
+# -- OPENNI_FOUND: TRUE
+# -- OPENNI_INCLUDE_DIRS: /home/yixing/openni_install/usr/include/ni
+# -- OPENNI_LIBRARIES: /home/yixing/openni_install/usr/lib/libOpenNI.so
+
 
 # include(ExternalProject)
 
