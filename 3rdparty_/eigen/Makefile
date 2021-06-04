@@ -18,7 +18,9 @@ all: eigen
 
 
 eigen:
-		hg clone https://bitbucket.org/eigen/eigen/ -r ${VERSION}
+		git clone https://gitlab.com/libeigen/eigen.git
+		cd eigen
+		git checkout ${VERSION}
 
 clean:
 		rm -rf eigen Eigen* *~

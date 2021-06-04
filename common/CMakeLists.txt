@@ -13,7 +13,7 @@ if(build)
         include/pcl/range_image/range_image.h
         include/pcl/range_image/range_image_planar.h
         )
-  
+
     set(range_image_incs_impl
         include/pcl/range_image/impl/range_image.hpp
         include/pcl/range_image/impl/range_image_planar.hpp
@@ -24,7 +24,7 @@ if(build)
         src/range_image_planar.cpp
         )
 
-    set(srcs 
+    set(srcs
         src/pcl_base.cpp
         src/io.cpp
         src/common.cpp
@@ -40,7 +40,7 @@ if(build)
         ${range_image_srcs}
         )
 
-    set(incs 
+    set(incs
         include/pcl/correspondence.h
         include/pcl/exceptions.h
         include/pcl/pcl_base.h
@@ -68,7 +68,7 @@ if(build)
           include/pcl/TextureMesh.h
           )
 
-        set(sensor_msg_incs 
+        set(sensor_msg_incs
           include/sensor_msgs/PointField.h
           include/sensor_msgs/PointCloud2.h
           include/sensor_msgs/Image.h
@@ -76,8 +76,8 @@ if(build)
 
         set(std_msg_incs include/std_msgs/Header.h)
     endif(NOT USE_ROS)
-    
-    set(common_incs 
+
+    set(common_incs
         include/pcl/common/boost.h
         include/pcl/common/angles.h
         include/pcl/common/bivariate_polynomial.h
@@ -145,17 +145,17 @@ if(build)
         include/pcl/ros/register_point_struct.h
         )
 
-    set(tools_incs 
+    set(tools_incs
         include/pcl/console/parse.h
         include/pcl/console/print.h
         include/pcl/console/time.h
         )
-        
+
     set(kissfft_incs
         include/pcl/common/fft/_kiss_fft_guts.h
         include/pcl/common/fft/kiss_fft.h
         include/pcl/common/fft/kiss_fftr.h)
-        
+
     set(kissfft_srcs
         src/fft/kiss_fft.c
         src/fft/kiss_fftr.c)
