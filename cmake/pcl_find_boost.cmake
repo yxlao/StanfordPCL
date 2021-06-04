@@ -15,7 +15,10 @@ endif(${CMAKE_VERSION} VERSION_LESS 2.8.5)
 set(Boost_NO_BOOST_CMAKE ON)
 
 # Optional boost modules
-find_package(Boost 1.40.0 QUIET COMPONENTS serialization mpi)
+set(BOOST_ROOT ${PROJECT_SOURCE_DIR}/deps/build/install)
+set(BOOSTROOT ${PROJECT_SOURCE_DIR}/deps/build/install)
+set(Boost_NO_SYSTEM_PATHS ON)
+find_package(Boost 1.50.0 QUIET COMPONENTS serialization mpi)
 if(Boost_MPI_FOUND)
   set(BOOST_MPI_FOUND TRUE)
 endif(Boost_MPI_FOUND)
@@ -24,7 +27,7 @@ if(Boost_SERIALIZATION_FOUND)
 endif(Boost_SERIALIZATION_FOUND)
 
 # Required boost modules
-find_package(Boost 1.40.0 REQUIRED COMPONENTS system filesystem thread date_time iostreams)
+find_package(Boost 1.50.0 REQUIRED COMPONENTS system filesystem thread date_time iostreams)
 
 # Starting with Boost 1.50, boost_thread depends on chrono. As this is not
 # taken care of automatically on Windows, we add an explicit dependency as a
