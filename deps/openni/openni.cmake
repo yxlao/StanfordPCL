@@ -13,8 +13,7 @@ include(ExternalProject)
 ExternalProject_Add(
     ext_openni
     PREFIX openni
-    SOURCE_DIR ${PROJECT_SOURCE_DIR}/openni/openni # No need to specify URL
-    DOWNLOAD_COMMAND ""
+    URL ${PROJECT_SOURCE_DIR}/deps/openni/openni
     CONFIGURE_COMMAND ""
     UPDATE_COMMAND ""
     BUILD_COMMAND ""
