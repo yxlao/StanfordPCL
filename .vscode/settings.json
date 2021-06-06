@@ -1,4 +1,8 @@
 {
     "editor.formatOnSaveMode": "modifications",
-    "runOnSave.commands": []
+    "runOnSave.commands": [],
+    "files.associations": {
+        "unordered_map": "cpp",
+        "hash_map": "cpp"
+    }
 }
