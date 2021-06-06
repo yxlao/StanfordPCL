@@ -905,7 +905,7 @@ struct SceneCloudView
 
 		cloud_viewer_.removeAllPointClouds ();
 		if (mesh_ptr_)
-			cloud_viewer_.addPolygonMesh(*mesh_ptr_);	
+			cloud_viewer_.addPolygonMesh(*mesh_ptr_);
 
 		cout << "Done.  Triangles number: " << triangles_device.size() / MarchingCubes::POINTS_PER_TRIANGLE / 1000 << "K" << endl;
 	}
@@ -2215,7 +2215,7 @@ struct KinFuLSApp
 		{
 			//std::cout << "Giving colors1\n";
 			boost::mutex::scoped_try_lock lock(data_ready_mutex_);
-			std::cout << lock << std::endl;
+			// std::cout << lock << std::endl;
 			if (exit_ || !lock)
 				return;
 			//std::cout << "Giving colors2\n";
@@ -2245,7 +2245,7 @@ struct KinFuLSApp
 			//std::cout << "Giving colors4\n";
 			rgb24_.data = &source_image_data_[0];
 			depth_.data = &source_depth_data_[0];
-		}	
+		}
 		data_ready_cond_.notify_one();
 	}
 
@@ -2674,8 +2674,8 @@ void
 		}
 
 		cout << "Saving mesh to " << filename << "... " << flush;
-		//pcl::io::savePLYFile( filename, mesh );		
-		pcl::io::savePLYFileBinary( filename, mesh );		
+		//pcl::io::savePLYFile( filename, mesh );
+		pcl::io::savePLYFileBinary(filename, mesh);
 	}
 	else /* if (format == KinFuLSApp::MESH_VTK) */
 	{
@@ -2719,11 +2719,11 @@ int
 	cout << "    --mask <x1,x2,y1,y2>                : trunc the depth image with a window" << endl;
 	cout << "    --camera <param_file>               : launch parameters from the file" << endl;
 	cout << "    --slac <slac_num>                   : enable slac (0x40 flag in schedule)" << endl;
-	cout << "    --kintinuous                        : turn on kintinuous" << endl;	
+	cout << "    --kintinuous                        : turn on kintinuous" << endl;
 	cout << "    --rgbd_odometry                     : turn on rgbd odometry (overwrite kintinuous)" << endl;
 	cout << "    --bdr_odometry                      : turn on new boundary odometry" << endl;
 	cout << "    --kdtree_odometry                   : turn on kdtree odometry (experimental use)" << endl;
-	cout << "    --bdr_amplifier <amp>               : default : 4" << endl;	
+	cout << "    --bdr_amplifier <amp>               : default : 4" << endl;
 	cout << "    --shift_x <in_meters>               : initial shift along x axis" << endl;
 	cout << "    --shift_y <in_meters>               : initial shift along y axis" << endl;
 	cout << "    --shift_z <in_meters>               : initial shift along z axis" << endl;
