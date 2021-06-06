@@ -144,7 +144,7 @@ pcl::WorldModel<PointT>::getWorldAsCubes (const double size, std::vector<typenam
   world_->is_dense = false;
   std::vector<int> indices;
   pcl::removeNaNFromPointCloud	(	*world_, *world_, indices);
-	
+
   PCL_INFO ("World contains %d points after nan removal.\n", world_->points.size ());
 
 
@@ -265,7 +265,7 @@ pcl::WorldModel<PointT>::getWorldAsCubes (const double size, std::vector<typenam
   world_->is_dense = false;
   std::vector<int> indices;
   pcl::removeNaNFromPointCloud	(	*world_, *world_, indices);
-	
+
   PCL_INFO ("World contains %d points after nan removal.\n", world_->points.size ());
 
 
@@ -358,11 +358,11 @@ pcl::WorldModel<PointT>::getWorldAsCubes (const double size, std::vector<typenam
 			//Get mesh
 			pcl::PointCloud< PointT > * ppbox = &( *box );
 			pcl::PointCloud< pcl::PointXYZI > * pbox = reinterpret_cast < pcl::PointCloud< pcl::PointXYZI > * > ( ppbox );
-			pcl::gpu::StandaloneMarchingCubes<PointT>::MeshPtr tmp = mcubes.getMeshFromTSDFCloud ( * pbox );
-			float cell_size = mcubes.getCellSize();
+      auto tmp = mcubes.getMeshFromTSDFCloud(*pbox);
+      float cell_size = mcubes.getCellSize();
 
-			if(tmp != 0)
-			{
+      if (tmp != 0)
+      {
 				cloud_transform.translation ()[0] = origin.x * cell_size;
 				cloud_transform.translation ()[1] = origin.y * cell_size;
 				cloud_transform.translation ()[2] = origin.z * cell_size;
