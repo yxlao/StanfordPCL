@@ -13,8 +13,7 @@
 
 ## VTK
 
-`v5.6.1`: with modifications
-
+`v5.6.1`: https://github.com/Kitware/VTK/archive/refs/tags/v5.6.1.zip
 
 ## OpenCV
 
