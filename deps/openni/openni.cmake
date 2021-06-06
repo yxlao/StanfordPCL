@@ -13,7 +13,8 @@ include(ExternalProject)
 ExternalProject_Add(
     ext_openni
     PREFIX openni
-    URL ${PROJECT_SOURCE_DIR}/openni/openni
+    GIT_REPOSITORY https://github.com/yxlao/OpenNI.git
+    GIT_TAG ubuntu
     BUILD_IN_SOURCE ON
     CONFIGURE_COMMAND ""
     UPDATE_COMMAND ""
