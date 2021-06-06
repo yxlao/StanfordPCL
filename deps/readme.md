@@ -1,6 +1,6 @@
 ## Eigen
 
-`3.0.0`: https://gitlab.com/libeigen/eigen
+`3.0.0`: https://gitlab.com/libeigen/eigen/-/archive/3.0.4/eigen-3.0.4.zip
 
 ## Flann
 
@@ -13,7 +13,8 @@
 
 ## VTK
 
-`v5.6.1`
+`v5.6.1`: with modifications
+
 
 ## OpenCV
 

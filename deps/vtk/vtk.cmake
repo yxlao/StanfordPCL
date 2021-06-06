@@ -8,7 +8,7 @@ include(ExternalProject)
 ExternalProject_Add(
     ext_vtk
     PREFIX vtk
-    URL ${PROJECT_SOURCE_DIR}/vtk/VTK
+    URL https://github.com/Kitware/VTK/archive/refs/tags/v5.6.1.zip
     PATCH_COMMAND patch Utilities/vtkmetaio/metaUtils.cxx < ${PROJECT_SOURCE_DIR}/vtk/patch_file.diff
     INSTALL_DIR ${DEPS_INSTALL_PREFIX}
     CMAKE_ARGS
