@@ -24,6 +24,8 @@ if (build)
 	include(${PROJECT_SOURCE_DIR}/deps/build/install/share/OpenCV/OpenCVConfig.cmake)
 	include_directories(${OpenCV_INCLUDE_DIRS})
 
+	find_package(SuiteSparse REQUIRED)
+
 	FILE(GLOB incs include/pcl/gpu/kinfu_large_scale/*.h*)
 	FILE(GLOB impl_incs include/pcl/gpu/kinfu_large_scale/impl/*.h*)
 	FILE(GLOB srcs src/*.cpp src/*.h*)
@@ -70,6 +72,7 @@ if (build)
 	PCL_ADD_LIBRARY(${LIB_NAME} ${SUBSYS_NAME} ${srcs} ${incs} ${impl_incs} ${cuda} ${cuda_objs})
 	target_link_libraries(${LIB_NAME} pcl_common pcl_io pcl_gpu_utils pcl_gpu_containers pcl_gpu_octree pcl_octree pcl_filters)
 	target_link_libraries(${LIB_NAME} ${OpenCV_LIBS})
+	target_link_libraries(${LIB_NAME} ${CHOLMOD_LIBRARIES})
 
 	# Supress some Eigen warnings
 	target_compile_options(${LIB_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:-Wno-int-in-bool-context>")
