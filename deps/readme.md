@@ -14,3 +14,7 @@
 ## VTK
 
 `v5.6.1`
+
+## OpenCV
+
+`2.3.1`: https://github.com/opencv/opencv/archive/refs/tags/2.3.1.tar.gz

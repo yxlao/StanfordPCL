@@ -24,3 +24,7 @@ add_dependencies(ext_eigen ext_openni)
 # Boost
 include(${PROJECT_SOURCE_DIR}/boost/boost.cmake)
 add_dependencies(ext_boost ext_openni)
+
+# OpenCV
+include(${PROJECT_SOURCE_DIR}/opencv/opencv.cmake)
+add_dependencies(ext_opencv ext_openni)
