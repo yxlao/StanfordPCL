@@ -71,6 +71,15 @@ if (build)
 	target_link_libraries(${LIB_NAME} pcl_common pcl_io pcl_gpu_utils pcl_gpu_containers pcl_gpu_octree pcl_octree pcl_filters)
 	target_link_libraries(${LIB_NAME} ${OpenCV_LIBS})
 
+	# Supress some Eigen warnings
+	target_compile_options(${LIB_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:-Wno-int-in-bool-context>")
+	target_compile_options(${LIB_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:-Wno-attributes>")
+	target_compile_options(${LIB_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:-Wno-ignored-attributes>")
+	target_compile_options(${LIB_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:-Wno-reorder>")
+	target_compile_options(${LIB_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:-Wno-unused-local-typedefs>")
+	target_compile_options(${LIB_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:-Wno-deprecated-declarations>")
+	target_compile_options(${LIB_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:-Wno-misleading-indentation>")
+
 	set(EXT_DEPS "")
 	#set(EXT_DEPS CUDA)
 	PCL_MAKE_PKGCONFIG(${LIB_NAME} ${SUBSYS_NAME} "${SUBSYS_DESC}" "${SUBSYS_DEPS}" "${EXT_DEPS}" "" "" "")
