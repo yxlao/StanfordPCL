@@ -23,7 +23,6 @@ if (build)
 	# Include config instead of doing find_package(OpenCV).
 	include(${PROJECT_SOURCE_DIR}/deps/build/install/share/OpenCV/OpenCVConfig.cmake)
 	include_directories(${OpenCV_INCLUDE_DIRS})
-	link_libraries(${OpenCV_LIBS})
 
 	FILE(GLOB incs include/pcl/gpu/kinfu_large_scale/*.h*)
 	FILE(GLOB impl_incs include/pcl/gpu/kinfu_large_scale/impl/*.h*)
@@ -70,6 +69,7 @@ if (build)
 
 	PCL_ADD_LIBRARY(${LIB_NAME} ${SUBSYS_NAME} ${srcs} ${incs} ${impl_incs} ${cuda} ${cuda_objs})
 	target_link_libraries(${LIB_NAME} pcl_common pcl_io pcl_gpu_utils pcl_gpu_containers pcl_gpu_octree pcl_octree pcl_filters)
+	target_link_libraries(${LIB_NAME} ${OpenCV_LIBS})
 
 	set(EXT_DEPS "")
 	#set(EXT_DEPS CUDA)
