@@ -32,7 +32,8 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: transformation_estimation_point_to_plane_lls.cpp 7153 2012-09-16 22:24:29Z aichim $
+ * $Id: transformation_estimation_point_to_plane_lls.cpp 7153 2012-09-16
+ * 22:24:29Z aichim $
  *
  */
 

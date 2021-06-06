@@ -41,100 +41,88 @@
 #include <pcl/visualization/interactor.h>
 #include <vtkCommand.h>
 
-namespace pcl
-{
-  namespace visualization
-  {
-    // Standard VTK macro for *New () 
-    vtkStandardNewMacro (PCLVisualizerInteractor);
-    
+namespace pcl {
+namespace visualization {
+// Standard VTK macro for *New ()
+vtkStandardNewMacro(PCLVisualizerInteractor);
+
 /*    void
     PCLVisualizerInteractor::TerminateApp ()
     {
       stopped = true;
     }
-*/    
-    //////////////////////////////////////////////////////////////////////////
-    void 
-    PCLVisualizerInteractor::stopLoop ()
-    {
+*/
+//////////////////////////////////////////////////////////////////////////
+void PCLVisualizerInteractor::stopLoop() {
 #if defined _WIN32 || defined VTK_USE_COCOA || defined VTK_USE_CARBON
-      BreakLoopFlagOn ();
-      // Send a VTK_BreakWin32Loop ClientMessage event to be sure we pop out of the
-      // event loop.  This "wakes up" the event loop.  Otherwise, it might sit idle
-      // waiting for an event before realizing an exit was requested.
+    BreakLoopFlagOn();
+    // Send a VTK_BreakWin32Loop ClientMessage event to be sure we pop out of
+    // the event loop.  This "wakes up" the event loop.  Otherwise, it might sit
+    // idle waiting for an event before realizing an exit was requested.
 #if defined _WIN32
-      SendMessage (this->WindowId, RegisterWindowMessage (TEXT ("VTK_BreakWin32Loop")), 0, 0);
+    SendMessage(this->WindowId,
+                RegisterWindowMessage(TEXT("VTK_BreakWin32Loop")), 0, 0);
 #endif
 #else
-      BreakLoopFlagOn ();
-      XClientMessageEvent client;
-      memset (&client, 0, sizeof (client));
-      client.type = ClientMessage;
-      client.display = DisplayId;
-      client.window = WindowId;
-      client.message_type = XInternAtom (client.display, "spinOnce exit", false);
-      client.format = 32; // indicates size of data chunks: 8, 16 or 32 bits...
-      XSendEvent (client.display, client.window, True, NoEventMask, reinterpret_cast<XEvent *>(&client));
-      XFlush (client.display);
+    BreakLoopFlagOn();
+    XClientMessageEvent client;
+    memset(&client, 0, sizeof(client));
+    client.type = ClientMessage;
+    client.display = DisplayId;
+    client.window = WindowId;
+    client.message_type = XInternAtom(client.display, "spinOnce exit", false);
+    client.format = 32; // indicates size of data chunks: 8, 16 or 32 bits...
+    XSendEvent(client.display, client.window, True, NoEventMask,
+               reinterpret_cast<XEvent *>(&client));
+    XFlush(client.display);
 #endif
-    }
+}
 
 #if defined _WIN32 || defined VTK_USE_COCOA || defined VTK_USE_CARBON
-    //////////////////////////////////////////////////////////////////////////
-    void 
-    PCLVisualizerInteractor::Start ()
-    {
-      // Let the compositing handle the event loop if it wants to.
-      if (this->HasObserver(vtkCommand::StartEvent) && !this->HandleEventLoop)
-      {
-        this->InvokeEvent (vtkCommand::StartEvent, NULL);
+//////////////////////////////////////////////////////////////////////////
+void PCLVisualizerInteractor::Start() {
+    // Let the compositing handle the event loop if it wants to.
+    if (this->HasObserver(vtkCommand::StartEvent) && !this->HandleEventLoop) {
+        this->InvokeEvent(vtkCommand::StartEvent, NULL);
         return;
-      }
+    }
 
-      // No need to do anything if this is a 'mapped' interactor
-      if (!this->Enabled || !this->InstallMessageProc)
+    // No need to do anything if this is a 'mapped' interactor
+    if (!this->Enabled || !this->InstallMessageProc)
         return;
 
-      this->StartedMessageLoop = 1;
+    this->StartedMessageLoop = 1;
 
-      MSG msg;
-      this->BreakLoopFlag=0;
-      
-      while (GetMessage (&msg, NULL, 0, 0) && this->BreakLoopFlag == 0)
-      {
-        TranslateMessage (&msg);
-        DispatchMessage (&msg);
-      }
-    }
+    MSG msg;
+    this->BreakLoopFlag = 0;
 
-    //////////////////////////////////////////////////////////////////////////
-    void 
-    PCLVisualizerInteractor::SetBreakLoopFlag (int f)
-    {
-      if (f)
-        this->BreakLoopFlagOn ();
-      else
-        this->BreakLoopFlagOff ();
+    while (GetMessage(&msg, NULL, 0, 0) && this->BreakLoopFlag == 0) {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
     }
-
-    //////////////////////////////////////////////////////////////////////////
-    void 
-    PCLVisualizerInteractor::BreakLoopFlagOff ()
-    {
-      this->BreakLoopFlag = 0;
-      this->Modified ();
-    }
-
-    //////////////////////////////////////////////////////////////////////////
-    void 
-    PCLVisualizerInteractor::BreakLoopFlagOn ()
-    {
-      this->BreakLoopFlag = 1;
-      this->Modified ();
-    }
-#endif
-  }
 }
+
+//////////////////////////////////////////////////////////////////////////
+void PCLVisualizerInteractor::SetBreakLoopFlag(int f) {
+    if (f)
+        this->BreakLoopFlagOn();
+    else
+        this->BreakLoopFlagOff();
+}
+
+//////////////////////////////////////////////////////////////////////////
+void PCLVisualizerInteractor::BreakLoopFlagOff() {
+    this->BreakLoopFlag = 0;
+    this->Modified();
+}
+
+//////////////////////////////////////////////////////////////////////////
+void PCLVisualizerInteractor::BreakLoopFlagOn() {
+    this->BreakLoopFlag = 1;
+    this->Modified();
+}
+#endif
+} // namespace visualization
+} // namespace pcl
 
 #endif

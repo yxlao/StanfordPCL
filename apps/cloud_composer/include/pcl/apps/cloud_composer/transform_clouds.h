@@ -40,32 +40,32 @@
 
 #include <pcl/apps/cloud_composer/tool_interface/abstract_tool.h>
 
+namespace pcl {
+namespace cloud_composer {
+class TransformClouds : public ModifyItemTool {
+    Q_OBJECT
+  public:
+    TransformClouds(QMap<QString, vtkSmartPointer<vtkMatrix4x4>> transform_map,
+                    QObject *parent = 0);
+    virtual ~TransformClouds();
 
-namespace pcl
-{
-  namespace cloud_composer
-  {
-    class TransformClouds : public ModifyItemTool
-    {
-      Q_OBJECT
-      public:
-        TransformClouds (QMap <QString, vtkSmartPointer<vtkMatrix4x4> > transform_map, QObject* parent = 0);
-        virtual ~TransformClouds ();
-        
-        virtual QList <CloudComposerItem*>
-        performAction (QList <const CloudComposerItem*> input_data, PointTypeFlags::PointType type = PointTypeFlags::NONE);
-        
-        inline virtual QString
-        getToolName () const { return "Transform Clouds Tool";}
-       
-        template <typename PointT> QList <CloudComposerItem*>
-        performTemplatedAction (QList <const CloudComposerItem*> input_data);
-        
-      private:
-        QMap <QString, vtkSmartPointer<vtkMatrix4x4> > transform_map_;
-    };
+    virtual QList<CloudComposerItem *>
+    performAction(QList<const CloudComposerItem *> input_data,
+                  PointTypeFlags::PointType type = PointTypeFlags::NONE);
 
-  }
-}
+    inline virtual QString getToolName() const {
+        return "Transform Clouds Tool";
+    }
+
+    template <typename PointT>
+    QList<CloudComposerItem *>
+    performTemplatedAction(QList<const CloudComposerItem *> input_data);
+
+  private:
+    QMap<QString, vtkSmartPointer<vtkMatrix4x4>> transform_map_;
+};
+
+} // namespace cloud_composer
+} // namespace pcl
 
 #endif

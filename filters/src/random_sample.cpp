@@ -35,111 +35,106 @@
  *
  */
 
+#include <pcl/filters/impl/random_sample.hpp>
+#include <pcl/filters/random_sample.h>
 #include <pcl/impl/instantiate.hpp>
 #include <pcl/point_types.h>
-#include <pcl/filters/random_sample.h>
-#include <pcl/filters/impl/random_sample.hpp>
 
 ///////////////////////////////////////////////////////////////////////////////
-void
-pcl::RandomSample<sensor_msgs::PointCloud2>::applyFilter (PointCloud2 &output)
-{
-  unsigned N = input_->width * input_->height;
-  // If sample size is 0 or if the sample size is greater then input cloud size
-  //   then return entire copy of cloud
-  if (sample_ >= N)
-  {
-    output = *input_;
-  }
-  else
-  {
-    // Resize output cloud to sample size
-    output.data.resize (sample_ * input_->point_step);
+void pcl::RandomSample<sensor_msgs::PointCloud2>::applyFilter(
+    PointCloud2 &output) {
+    unsigned N = input_->width * input_->height;
+    // If sample size is 0 or if the sample size is greater then input cloud
+    // size
+    //   then return entire copy of cloud
+    if (sample_ >= N) {
+        output = *input_;
+    } else {
+        // Resize output cloud to sample size
+        output.data.resize(sample_ * input_->point_step);
 
-    // Copy the common fields
-    output.fields = input_->fields;
-    output.is_bigendian = input_->is_bigendian;
-    output.row_step = input_->row_step;
-    output.point_step = input_->point_step;
-    output.height = 1;
+        // Copy the common fields
+        output.fields = input_->fields;
+        output.is_bigendian = input_->is_bigendian;
+        output.row_step = input_->row_step;
+        output.point_step = input_->point_step;
+        output.height = 1;
 
-    // Set random seed so derived indices are the same each time the filter runs
-    std::srand (seed_);
+        // Set random seed so derived indices are the same each time the filter
+        // runs
+        std::srand(seed_);
 
-    unsigned top = N - sample_;
-    unsigned i = 0;
-    unsigned index = 0;
+        unsigned top = N - sample_;
+        unsigned i = 0;
+        unsigned index = 0;
 
-    // Algorithm A
-    for (size_t n = sample_; n >= 2; n--)
-    {
-      float V = unifRand ();
-      unsigned S = 0;
-      float quot = float (top) / float (N);
-      while (quot > V)
-      {
-        S++;
-        top--;
-        N--;
-        quot = quot * float (top) / float (N);
-      }
-      index += S;
-      memcpy (&output.data[i++ * output.point_step], &input_->data[index++ * output.point_step], output.point_step);
-      N--;
+        // Algorithm A
+        for (size_t n = sample_; n >= 2; n--) {
+            float V = unifRand();
+            unsigned S = 0;
+            float quot = float(top) / float(N);
+            while (quot > V) {
+                S++;
+                top--;
+                N--;
+                quot = quot * float(top) / float(N);
+            }
+            index += S;
+            memcpy(&output.data[i++ * output.point_step],
+                   &input_->data[index++ * output.point_step],
+                   output.point_step);
+            N--;
+        }
+
+        index += N * static_cast<unsigned>(unifRand());
+        memcpy(&output.data[i++ * output.point_step],
+               &input_->data[index++ * output.point_step], output.point_step);
+
+        output.width = sample_;
+        output.row_step = output.point_step * output.width;
     }
-
-    index += N * static_cast<unsigned> (unifRand ());
-    memcpy (&output.data[i++ * output.point_step], &input_->data[index++ * output.point_step], output.point_step);
-
-    output.width = sample_;
-    output.row_step = output.point_step * output.width;
-  }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void
-pcl::RandomSample<sensor_msgs::PointCloud2>::applyFilter (std::vector<int> &indices)
-{
-  unsigned N = input_->width * input_->height;
-  // If sample size is 0 or if the sample size is greater then input cloud size
-  //   then return all indices
-  if (sample_ >= N)
-  {
-    indices = *indices_;
-  }
-  else
-  {
-    // Resize output indices to sample size
-    indices.resize (sample_);
+void pcl::RandomSample<sensor_msgs::PointCloud2>::applyFilter(
+    std::vector<int> &indices) {
+    unsigned N = input_->width * input_->height;
+    // If sample size is 0 or if the sample size is greater then input cloud
+    // size
+    //   then return all indices
+    if (sample_ >= N) {
+        indices = *indices_;
+    } else {
+        // Resize output indices to sample size
+        indices.resize(sample_);
 
-    // Set random seed so derived indices are the same each time the filter runs
-    std::srand (seed_);
+        // Set random seed so derived indices are the same each time the filter
+        // runs
+        std::srand(seed_);
 
-    unsigned top = N - sample_;
-    unsigned i = 0;
-    unsigned index = 0;
+        unsigned top = N - sample_;
+        unsigned i = 0;
+        unsigned index = 0;
 
-    // Algorithm A
-    for (size_t n = sample_; n >= 2; n--)
-    {
-      float V = unifRand ();
-      unsigned S = 0;
-      float quot = float (top) / float (N);
-      while (quot > V)
-      {
-        S++;
-        top--;
-        N--;
-        quot = quot * float (top) / float (N);
-      }
-      index += S;
-      indices[i++] = (*indices_)[index++];
-      N--;
+        // Algorithm A
+        for (size_t n = sample_; n >= 2; n--) {
+            float V = unifRand();
+            unsigned S = 0;
+            float quot = float(top) / float(N);
+            while (quot > V) {
+                S++;
+                top--;
+                N--;
+                quot = quot * float(top) / float(N);
+            }
+            index += S;
+            indices[i++] = (*indices_)[index++];
+            N--;
+        }
+
+        index += N * static_cast<unsigned>(unifRand());
+        indices[i++] = (*indices_)[index++];
     }
-
-    index += N * static_cast<unsigned> (unifRand ());
-    indices[i++] = (*indices_)[index++];
-  }
 }
 
 PCL_INSTANTIATE(RandomSample, PCL_POINT_TYPES)

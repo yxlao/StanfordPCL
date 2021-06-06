@@ -34,48 +34,45 @@
  *  $Id: correspondence.cpp 6715 2012-08-06 18:15:54Z rusu $
  */
 
-#include <pcl/correspondence.h>
 #include <algorithm>
 #include <iterator>
+#include <pcl/correspondence.h>
 
 //////////////////////////////////////////////////////////////////////////////
-void
-pcl::getRejectedQueryIndices (const pcl::Correspondences &correspondences_before,
-                              const pcl::Correspondences &correspondences_after,
-                              std::vector<int>& indices,
-                              bool presorting_required)
-{
-  indices.clear();
+void pcl::getRejectedQueryIndices(
+    const pcl::Correspondences &correspondences_before,
+    const pcl::Correspondences &correspondences_after,
+    std::vector<int> &indices, bool presorting_required) {
+    indices.clear();
 
-  const int nr_correspondences_before = static_cast<int> (correspondences_before.size ());
-  const int nr_correspondences_after = static_cast<int> (correspondences_after.size ());
+    const int nr_correspondences_before =
+        static_cast<int>(correspondences_before.size());
+    const int nr_correspondences_after =
+        static_cast<int>(correspondences_after.size());
 
-  if (nr_correspondences_before == 0)
-    return;
-  else if (nr_correspondences_after == 0)
-  {
-    indices.resize(nr_correspondences_before);
+    if (nr_correspondences_before == 0)
+        return;
+    else if (nr_correspondences_after == 0) {
+        indices.resize(nr_correspondences_before);
+        for (int i = 0; i < nr_correspondences_before; ++i)
+            indices[i] = correspondences_before[i].index_query;
+        return;
+    }
+
+    std::vector<int> indices_before(nr_correspondences_before);
     for (int i = 0; i < nr_correspondences_before; ++i)
-      indices[i] = correspondences_before[i].index_query;
-    return;
-  }
+        indices_before[i] = correspondences_before[i].index_query;
 
-  std::vector<int> indices_before (nr_correspondences_before);
-  for (int i = 0; i < nr_correspondences_before; ++i)
-    indices_before[i] = correspondences_before[i].index_query;
+    std::vector<int> indices_after(nr_correspondences_after);
+    for (int i = 0; i < nr_correspondences_after; ++i)
+        indices_after[i] = correspondences_after[i].index_query;
 
-  std::vector<int> indices_after (nr_correspondences_after);
-  for (int i = 0; i < nr_correspondences_after; ++i)
-    indices_after[i] = correspondences_after[i].index_query;
+    if (presorting_required) {
+        std::sort(indices_before.begin(), indices_before.end());
+        std::sort(indices_after.begin(), indices_after.end());
+    }
 
-  if (presorting_required)
-  {
-    std::sort (indices_before.begin (), indices_before.end ());
-    std::sort (indices_after.begin (), indices_after.end ());
-  }
-
-  set_difference (
-      indices_before.begin (), indices_before.end (),
-      indices_after.begin (),  indices_after.end (),
-      inserter (indices, indices.begin ()));
+    set_difference(indices_before.begin(), indices_before.end(),
+                   indices_after.begin(), indices_after.end(),
+                   inserter(indices, indices.begin()));
 }

@@ -39,105 +39,78 @@
 
 #include <pcl/apps/modeler/qt.h>
 
-namespace pcl
-{
-  namespace modeler
-  {
-    class CloudMeshItem;
-    class RenderWindowItem;
+namespace pcl {
+namespace modeler {
+class CloudMeshItem;
+class RenderWindowItem;
 
-    class SceneTree : public QTreeWidget
-    {
-      Q_OBJECT
+class SceneTree : public QTreeWidget {
+    Q_OBJECT
 
-      public:
-        SceneTree(QWidget * parent = 0);
-        ~SceneTree();
+  public:
+    SceneTree(QWidget *parent = 0);
+    ~SceneTree();
 
-        virtual QSize
-        sizeHint() const;
+    virtual QSize sizeHint() const;
 
-        bool 
-        openPointCloud(const QString& filename);
+    bool openPointCloud(const QString &filename);
 
-        bool 
-        savePointCloud(const QString& filename);
+    bool savePointCloud(const QString &filename);
 
-        void
-        selectRenderWindowItem(RenderWindowItem* render_window_item);
+    void selectRenderWindowItem(RenderWindowItem *render_window_item);
 
-        void
-        addTopLevelItem(RenderWindowItem* render_window_item);
+    void addTopLevelItem(RenderWindowItem *render_window_item);
 
-      public slots:
-        // slots for file menu
-        void 
-        slotOpenPointCloud();
+  public slots:
+    // slots for file menu
+    void slotOpenPointCloud();
 
-        void 
-        slotImportPointCloud();
+    void slotImportPointCloud();
 
-        void
-        slotSavePointCloud();
+    void slotSavePointCloud();
 
-        void
-        slotClosePointCloud();
+    void slotClosePointCloud();
 
-        // slots for edit menu
-        void
-        slotICPRegistration();
-        void
-        slotVoxelGridDownsampleFilter();
-        void
-        slotStatisticalOutlierRemovalFilter();
-        void
-        slotEstimateNormal();
-        void
-        slotPoissonReconstruction();
+    // slots for edit menu
+    void slotICPRegistration();
+    void slotVoxelGridDownsampleFilter();
+    void slotStatisticalOutlierRemovalFilter();
+    void slotEstimateNormal();
+    void slotPoissonReconstruction();
 
-        // slots for view menu
-        void
-        slotCloseRenderWindow();
+    // slots for view menu
+    void slotCloseRenderWindow();
 
-      signals:
-        void
-        fileOpened(const QString& filename);
+  signals:
+    void fileOpened(const QString &filename);
 
-        void
-        itemInsertedOrRemoved();
+    void itemInsertedOrRemoved();
 
-      protected:
-        virtual void
-        dropEvent(QDropEvent * event);
+  protected:
+    virtual void dropEvent(QDropEvent *event);
 
-        virtual bool
-        dropMimeData(QTreeWidgetItem * parent, int index, const QMimeData * data, Qt::DropAction action);
+    virtual bool dropMimeData(QTreeWidgetItem *parent, int index,
+                              const QMimeData *data, Qt::DropAction action);
 
-      private slots:
-        void
-        slotUpdateOnSelectionChange(const QItemSelection& selected, const QItemSelection& deselected);
+  private slots:
+    void slotUpdateOnSelectionChange(const QItemSelection &selected,
+                                     const QItemSelection &deselected);
 
-        void
-        slotUpdateOnInsertOrRemove();
+    void slotUpdateOnInsertOrRemove();
 
-        void
-        slotOnItemDoubleClicked(QTreeWidgetItem * item);
+    void slotOnItemDoubleClicked(QTreeWidgetItem *item);
 
-      private:
-        template <class T> QList<T*>
-        selectedTypeItems() const;
+  private:
+    template <class T> QList<T *> selectedTypeItems() const;
 
-        QList<RenderWindowItem*>
-        selectedRenderWindowItems() const;
+    QList<RenderWindowItem *> selectedRenderWindowItems() const;
 
-        static void
-        closePointCloud(const QList<CloudMeshItem*>& items);
+    static void closePointCloud(const QList<CloudMeshItem *> &items);
 
-        virtual void
-        contextMenuEvent(QContextMenuEvent *event);
-    };
-  }
-}
+    virtual void contextMenuEvent(QContextMenuEvent *event);
+};
+} // namespace modeler
+} // namespace pcl
 
 #include <pcl/apps/modeler/impl/scene_tree.hpp>
 

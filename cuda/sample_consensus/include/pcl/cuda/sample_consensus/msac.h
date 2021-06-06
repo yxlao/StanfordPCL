@@ -41,12 +41,10 @@
 #include <pcl_cuda/sample_consensus/sac.h>
 #include <pcl_cuda/sample_consensus/sac_model.h>
 
-namespace pcl_cuda
-{
+namespace pcl_cuda {
 
-  template <template <typename> class Storage>
-  class MEstimatorSampleConsensus : public SampleConsensus<Storage>
-  {
+template <template <typename> class Storage>
+class MEstimatorSampleConsensus : public SampleConsensus<Storage> {
     using SampleConsensus<Storage>::max_iterations_;
     using SampleConsensus<Storage>::threshold_;
     using SampleConsensus<Storage>::iterations_;
@@ -62,36 +60,33 @@ namespace pcl_cuda
     typedef typename SampleConsensusModel<Storage>::Indices Indices;
     typedef typename SampleConsensusModel<Storage>::Hypotheses Hypotheses;
 
-    public:
-      /** \brief MEstimatorSampleConsensus main constructor
-        * \param model a Sample Consensus model
-        */
-      MEstimatorSampleConsensus (const SampleConsensusModelPtr &model) : 
-        SampleConsensus<Storage> (model)
-      {
+  public:
+    /** \brief MEstimatorSampleConsensus main constructor
+     * \param model a Sample Consensus model
+     */
+    MEstimatorSampleConsensus(const SampleConsensusModelPtr &model)
+        : SampleConsensus<Storage>(model) {
         // Maximum number of trials before we give up.
         max_iterations_ = 10000;
-      }
+    }
 
-      /** \brief RANSAC (RAndom SAmple Consensus) main constructor
-        * \param model a Sample Consensus model
-        * \param threshold distance to model threshold
-        */
-      MEstimatorSampleConsensus (const SampleConsensusModelPtr &model, float threshold) : 
-        SampleConsensus<Storage> (model, threshold)
-      {
+    /** \brief RANSAC (RAndom SAmple Consensus) main constructor
+     * \param model a Sample Consensus model
+     * \param threshold distance to model threshold
+     */
+    MEstimatorSampleConsensus(const SampleConsensusModelPtr &model,
+                              float threshold)
+        : SampleConsensus<Storage>(model, threshold) {
         // Maximum number of trials before we give up.
         max_iterations_ = 10000;
-      }
+    }
 
-      /** \brief Compute the actual model and find the inliers
-        * \param debug_verbosity_level enable/disable on-screen debug
-        * information and set the verbosity level
-        */
-      bool 
-      computeModel (int debug_verbosity_level = 0);
-  };
-}
+    /** \brief Compute the actual model and find the inliers
+     * \param debug_verbosity_level enable/disable on-screen debug
+     * information and set the verbosity level
+     */
+    bool computeModel(int debug_verbosity_level = 0);
+};
+} // namespace pcl_cuda
 
-#endif  //#ifndef PCL_CUDA_SAMPLE_CONSENSUS_MSAC_H_
-
+#endif //#ifndef PCL_CUDA_SAMPLE_CONSENSUS_MSAC_H_

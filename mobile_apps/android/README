@@ -18,7 +18,7 @@ Modifications to PCL
 --------------------
 
 * need to eliminate all VTK references from pcl_surface, pcl_io
-* find a solution for endianness checks in some PCL preprocessor directives in 
+* find a solution for endianness checks in some PCL preprocessor directives in
   common/include/sensor_msgs/PointCloud2.h and io/include/pcl/io/ply.h
 * boost for android does not have the date-time module
 

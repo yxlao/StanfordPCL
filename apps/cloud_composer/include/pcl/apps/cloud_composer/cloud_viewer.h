@@ -38,49 +38,40 @@
 #ifndef CLOUD_VIEWER_H_
 #define CLOUD_VIEWER_H_
 
-#include <pcl/visualization/pcl_visualizer.h>
-#include <pcl/apps/cloud_composer/project_model.h>
 #include <pcl/apps/cloud_composer/cloud_view.h>
+#include <pcl/apps/cloud_composer/project_model.h>
 #include <pcl/apps/cloud_composer/qt.h>
+#include <pcl/visualization/pcl_visualizer.h>
 
-namespace pcl
-{
-  namespace cloud_composer
-  {
-   
-    /** \brief Tabbed widget for containing CloudView widgets
-     * \author Jeremie Papon
-     * \ingroup cloud_composer
-     */
-    class CloudViewer : public QTabWidget
-    {
-        Q_OBJECT
+namespace pcl {
+namespace cloud_composer {
 
-      public:
-        
-        CloudViewer (QWidget* parent = 0);
-        virtual ~CloudViewer();
-        ProjectModel* getModel () const;
+/** \brief Tabbed widget for containing CloudView widgets
+ * \author Jeremie Papon
+ * \ingroup cloud_composer
+ */
+class CloudViewer : public QTabWidget {
+    Q_OBJECT
 
-      public slots:
-        void 
-        addModel (ProjectModel* new_model);
-        
-        void 
-        modelChanged (int index);
-        
-        void
-        addNewProject (ProjectModel* new_model);
-        
-      signals:
-        void
-        newModelSelected (ProjectModel *new_model);
+  public:
+    CloudViewer(QWidget *parent = 0);
+    virtual ~CloudViewer();
+    ProjectModel *getModel() const;
 
-      private:
-        
-        boost::shared_ptr<pcl::visualization::PCLVisualizer> vis_;
-        QMap <ProjectModel*, CloudView*> model_view_map_;
-    };
-  }
-}
+  public slots:
+    void addModel(ProjectModel *new_model);
+
+    void modelChanged(int index);
+
+    void addNewProject(ProjectModel *new_model);
+
+  signals:
+    void newModelSelected(ProjectModel *new_model);
+
+  private:
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> vis_;
+    QMap<ProjectModel *, CloudView *> model_view_map_;
+};
+} // namespace cloud_composer
+} // namespace pcl
 #endif

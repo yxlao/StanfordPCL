@@ -38,34 +38,34 @@
 #define METS_OBSERVER_HH_
 
 #include <set>
-#include <algorithm> 
+#include <algorithm>
 
 namespace mets {
 
   template<typename observed_subject>
   class observer; // forward declaration
-  
+
   template<typename observed_subject>
   class subject; // forward declaration
-  
+
   ///
   /// @brief Functor class to update observers with a for_each,
   ///        only intended for internal use.
   ///
   template<typename observed_subject>
-  class update_observer 
+  class update_observer
   {
   public:
     /// @brief Ctor.
     update_observer(observed_subject* who) : who_m(who) {}
     /// @brief Subscript operator to update an observer.
-    void 
+    void
     operator()(observer<observed_subject>* o) { o->update(who_m); }
   private:
     update_observer();
     observed_subject* who_m;
   };
-  
+
   ///
   /// @brief template class for subjects (cfr. Observer Design Pattern).
   ///
@@ -73,7 +73,7 @@ namespace mets {
   ///
   ///   class my_observed_sbj : public subject<my_observed_sbj>
   ///
-  /// Than you should call notify() manually or automatically 
+  /// Than you should call notify() manually or automatically
   /// from every method that changes the subject status.
   ///
   ///  Only attached observers (cfr. attach() and detach() methods)
@@ -88,7 +88,7 @@ namespace mets {
     /// @brief Attach a new observer to this subject.
     ///
     /// @param o: a new observer for this subject.
-    ///           if the observer was already present 
+    ///           if the observer was already present
     ///           nothing happens.
     virtual void
     attach(observer<observed_subject>& o);
@@ -101,20 +101,20 @@ namespace mets {
     detach(observer<observed_subject>& o);
     /// @brief Notify all attached observers.
     ///
-    /// When this method is called every 
+    /// When this method is called every
     /// observed_subject#update method is called
     /// and "this" subject is passed as a param.
-    /// 
+    ///
     virtual void
     notify();
   protected:
     subject();
     std::set<observer<observed_subject>*> observers_m;
   };
-  
+
   ///
   /// @brief Template base class for the observers of some observed_subject
-  /// 
+  ///
   /// You should declare a new observer type of some my_subject this way:
   ///
   ///   class my_observer : public observer<my_subject>
@@ -123,7 +123,7 @@ namespace mets {
   /// observer is updated.
   ///
   template<typename observed_subject>
-  class observer 
+  class observer
   {
   public:
     virtual
@@ -138,34 +138,34 @@ namespace mets {
   protected:
     observer() {};
   };
-  
+
 
   // Implementation of the template methods in STL
-  
+
   template<typename observed_subject>
-  subject<observed_subject>::subject() 
+  subject<observed_subject>::subject()
     : observers_m() { }
-  
+
   template<typename observed_subject>
-  void 
+  void
   subject<observed_subject>::attach(observer<observed_subject>& o)
   { observers_m.insert(&o); }
-  
+
   template<typename observed_subject>
   void
   subject<observed_subject>::detach(observer<observed_subject>& o)
   { observers_m.erase(&o); }
-  
+
   template<typename observed_subject>
   void
-  subject<observed_subject>::notify() 
+  subject<observed_subject>::notify()
   {
     // upcast the object to the real observer_subject type
     observed_subject* real_subject = static_cast<observed_subject*>(this);
-    std::for_each(observers_m.begin(), observers_m.end(), 
+    std::for_each(observers_m.begin(), observers_m.end(),
 		  update_observer<observed_subject>(real_subject));
   }
-  
+
 }
 
 #endif // METS_OBSERVER_HH_

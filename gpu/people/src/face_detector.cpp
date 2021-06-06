@@ -35,5 +35,3 @@
  */
 
 #include <pcl/gpu/people/face_detector.h>
-
-

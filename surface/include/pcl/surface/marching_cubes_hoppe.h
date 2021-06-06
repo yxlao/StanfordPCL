@@ -39,49 +39,42 @@
 #include <pcl/surface/boost.h>
 #include <pcl/surface/marching_cubes.h>
 
-namespace pcl
-{
-   /** \brief The marching cubes surface reconstruction algorithm, using a signed distance function based on the distance
-     * from tangent planes, proposed by Hoppe et. al. in:
-     * Hoppe H., DeRose T., Duchamp T., MC-Donald J., Stuetzle W., "Surface reconstruction from unorganized points",
-     * SIGGRAPH '92
-     * \author Alexandru E. Ichim
-     * \ingroup surface
-     */
-  template <typename PointNT>
-  class MarchingCubesHoppe : public MarchingCubes<PointNT>
-  {
-    public:
-      using SurfaceReconstruction<PointNT>::input_;
-      using SurfaceReconstruction<PointNT>::tree_;
-      using MarchingCubes<PointNT>::grid_;
-      using MarchingCubes<PointNT>::res_x_;
-      using MarchingCubes<PointNT>::res_y_;
-      using MarchingCubes<PointNT>::res_z_;
-      using MarchingCubes<PointNT>::min_p_;
-      using MarchingCubes<PointNT>::max_p_;
+namespace pcl {
+/** \brief The marching cubes surface reconstruction algorithm, using a signed
+ * distance function based on the distance from tangent planes, proposed by
+ * Hoppe et. al. in: Hoppe H., DeRose T., Duchamp T., MC-Donald J., Stuetzle W.,
+ * "Surface reconstruction from unorganized points", SIGGRAPH '92 \author
+ * Alexandru E. Ichim \ingroup surface
+ */
+template <typename PointNT>
+class MarchingCubesHoppe : public MarchingCubes<PointNT> {
+  public:
+    using SurfaceReconstruction<PointNT>::input_;
+    using SurfaceReconstruction<PointNT>::tree_;
+    using MarchingCubes<PointNT>::grid_;
+    using MarchingCubes<PointNT>::res_x_;
+    using MarchingCubes<PointNT>::res_y_;
+    using MarchingCubes<PointNT>::res_z_;
+    using MarchingCubes<PointNT>::min_p_;
+    using MarchingCubes<PointNT>::max_p_;
 
-      typedef typename pcl::PointCloud<PointNT>::Ptr PointCloudPtr;
+    typedef typename pcl::PointCloud<PointNT>::Ptr PointCloudPtr;
 
-      typedef typename pcl::KdTree<PointNT> KdTree;
-      typedef typename pcl::KdTree<PointNT>::Ptr KdTreePtr;
+    typedef typename pcl::KdTree<PointNT> KdTree;
+    typedef typename pcl::KdTree<PointNT>::Ptr KdTreePtr;
 
+    /** \brief Constructor. */
+    MarchingCubesHoppe();
 
-      /** \brief Constructor. */
-      MarchingCubesHoppe ();
+    /** \brief Destructor. */
+    ~MarchingCubesHoppe();
 
-      /** \brief Destructor. */
-      ~MarchingCubesHoppe ();
+    /** \brief Convert the point cloud into voxel data. */
+    void voxelizeData();
 
-      /** \brief Convert the point cloud into voxel data. */
-      void
-      voxelizeData ();
+  public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+};
+} // namespace pcl
 
-
-    public:
-      EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-  };
-}
-
-#endif  // PCL_SURFACE_MARCHING_CUBES_HOPPE_H_
-
+#endif // PCL_SURFACE_MARCHING_CUBES_HOPPE_H_

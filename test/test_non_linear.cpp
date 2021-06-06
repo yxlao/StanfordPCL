@@ -38,13 +38,13 @@
  */
 
 #include <gtest/gtest.h>
-#include <pcl/point_types.h>
-#include <pcl/point_cloud.h>
-#include <pcl/io/pcd_io.h>
 #include <pcl/ModelCoefficients.h>
 #include <pcl/PointIndices.h>
-#include <pcl/sample_consensus/model_types.h>
+#include <pcl/io/pcd_io.h>
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
 #include <pcl/sample_consensus/method_types.h>
+#include <pcl/sample_consensus/model_types.h>
 #include <pcl/segmentation/sac_segmentation.h>
 
 using namespace pcl;
@@ -53,50 +53,51 @@ using namespace pcl::io;
 PointCloud<PointXYZ>::Ptr cloud_;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-TEST (SACSegmentation, Segmentation)
-{
-  ModelCoefficients::Ptr sphere_coefficients (new ModelCoefficients);
-  PointIndices::Ptr inliers (new PointIndices);
+TEST(SACSegmentation, Segmentation) {
+    ModelCoefficients::Ptr sphere_coefficients(new ModelCoefficients);
+    PointIndices::Ptr inliers(new PointIndices);
 
-  SACSegmentation<PointXYZ> seg;
-  seg.setOptimizeCoefficients (true);
-  seg.setModelType (SACMODEL_SPHERE);
-  seg.setMethodType (SAC_RANSAC);
-  seg.setMaxIterations (10000);
-  seg.setDistanceThreshold (0.01);
-  seg.setRadiusLimits (0.03, 0.07); // true radius is 0.05
-  seg.setInputCloud (cloud_);
-  seg.segment (*inliers, *sphere_coefficients);
+    SACSegmentation<PointXYZ> seg;
+    seg.setOptimizeCoefficients(true);
+    seg.setModelType(SACMODEL_SPHERE);
+    seg.setMethodType(SAC_RANSAC);
+    seg.setMaxIterations(10000);
+    seg.setDistanceThreshold(0.01);
+    seg.setRadiusLimits(0.03, 0.07); // true radius is 0.05
+    seg.setInputCloud(cloud_);
+    seg.segment(*inliers, *sphere_coefficients);
 
-  EXPECT_NEAR (sphere_coefficients->values[0], 0.998776,  1e-2);
-  EXPECT_NEAR (sphere_coefficients->values[1], 0.752023,  1e-2);
-  EXPECT_NEAR (sphere_coefficients->values[2], 1.24558,   1e-2);
-  EXPECT_NEAR (sphere_coefficients->values[3], 0.0536238, 1e-2);
+    EXPECT_NEAR(sphere_coefficients->values[0], 0.998776, 1e-2);
+    EXPECT_NEAR(sphere_coefficients->values[1], 0.752023, 1e-2);
+    EXPECT_NEAR(sphere_coefficients->values[2], 1.24558, 1e-2);
+    EXPECT_NEAR(sphere_coefficients->values[3], 0.0536238, 1e-2);
 
-  EXPECT_NEAR (static_cast<int> (inliers->indices.size ()), 3516, 10);
+    EXPECT_NEAR(static_cast<int>(inliers->indices.size()), 3516, 10);
 }
 
 //* ---[ */
-int
-  main (int argc, char** argv)
-{
-  if (argc < 2)
-  {
-    std::cerr << "No test file given. Please download `noisy_slice_displaced.pcd` and pass its path to the test." << std::endl;
-    return (-1);
-  }
+int main(int argc, char **argv) {
+    if (argc < 2) {
+        std::cerr
+            << "No test file given. Please download "
+               "`noisy_slice_displaced.pcd` and pass its path to the test."
+            << std::endl;
+        return (-1);
+    }
 
-  // Load a standard PCD file from disk
-  PointCloud<PointXYZ> cloud;
-  if (loadPCDFile (argv[1], cloud) < 0)
-  {
-    std::cerr << "Failed to read test file. Please download `noisy_slice_displaced.pcd` and pass its path to the test." << std::endl;
-    return (-1);
-  }
+    // Load a standard PCD file from disk
+    PointCloud<PointXYZ> cloud;
+    if (loadPCDFile(argv[1], cloud) < 0) {
+        std::cerr
+            << "Failed to read test file. Please download "
+               "`noisy_slice_displaced.pcd` and pass its path to the test."
+            << std::endl;
+        return (-1);
+    }
 
-  cloud_   = cloud.makeShared ();
+    cloud_ = cloud.makeShared();
 
-  testing::InitGoogleTest (&argc, argv);
-  return (RUN_ALL_TESTS ());
+    testing::InitGoogleTest(&argc, argv);
+    return (RUN_ALL_TESTS());
 }
 /* ]--- */

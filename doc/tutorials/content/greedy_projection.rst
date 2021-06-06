@@ -122,7 +122,7 @@ The lines above set the input objects and perform the actual triangulation.
 .. literalinclude:: sources/greedy_projection/greedy_projection.cpp
    :language: cpp
    :lines: 56-59
-   
+
 
 for each point, the ID of the containing connected component and its "state"
 (i.e. gp3.FREE, gp3.BOUNDARY or gp3.COMPLETED) can be retrieved.
@@ -135,7 +135,7 @@ Add the following lines to your CMakeLists.txt file:
 .. literalinclude:: sources/greedy_projection/CMakeLists.txt
    :language: cmake
    :linenos:
-   
+
 
 After you have made the executable, you can run it. Simply do::
 

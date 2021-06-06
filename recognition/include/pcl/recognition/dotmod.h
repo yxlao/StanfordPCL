@@ -4,7 +4,7 @@
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
  *
- *  All rights reserved. 
+ *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -38,92 +38,74 @@
 #ifndef PCL_RECOGNITION_DOTMOD
 #define PCL_RECOGNITION_DOTMOD
 
-#include <vector>
 #include <cstddef>
-#include <string.h>
 #include <pcl/pcl_macros.h>
-#include <pcl/recognition/dot_modality.h>
 #include <pcl/recognition/dense_quantized_multi_mod_template.h>
+#include <pcl/recognition/dot_modality.h>
 #include <pcl/recognition/mask_map.h>
 #include <pcl/recognition/region_xy.h>
+#include <string.h>
+#include <vector>
 
-namespace pcl
-{
+namespace pcl {
 
-  struct DOTMODDetection
-  {
+struct DOTMODDetection {
     size_t bin_x;
     size_t bin_y;
     size_t template_id;
     float score;
-  };
+};
 
-  /**
-    * \brief Template matching using the DOTMOD approach.
-    * \author Stefan Holzer, Stefan Hinterstoisser
-    */
-  class PCL_EXPORTS DOTMOD
-  {
-    public:
-      /** \brief Constructor */
-      DOTMOD (size_t template_width,
-              size_t template_height);
+/**
+ * \brief Template matching using the DOTMOD approach.
+ * \author Stefan Holzer, Stefan Hinterstoisser
+ */
+class PCL_EXPORTS DOTMOD {
+  public:
+    /** \brief Constructor */
+    DOTMOD(size_t template_width, size_t template_height);
 
-      /** \brief Destructor */
-      virtual ~DOTMOD ();
+    /** \brief Destructor */
+    virtual ~DOTMOD();
 
-      /** \brief Creates a template from the specified data and adds it to the matching queue. 
-        * \param 
-        * \param 
-        * \param 
-        */
-      size_t 
-      createAndAddTemplate (const std::vector<DOTModality*> & modalities,
-                            const std::vector<MaskMap*> & masks,
-                            size_t template_anker_x,
-                            size_t template_anker_y,
-                            const RegionXY & region);
+    /** \brief Creates a template from the specified data and adds it to the
+     * matching queue. \param \param \param
+     */
+    size_t createAndAddTemplate(const std::vector<DOTModality *> &modalities,
+                                const std::vector<MaskMap *> &masks,
+                                size_t template_anker_x,
+                                size_t template_anker_y,
+                                const RegionXY &region);
 
-      void
-      detectTemplates (const std::vector<DOTModality*> & modalities,
-                       float template_response_threshold,
-                       std::vector<DOTMODDetection> & detections,
-                       const size_t bin_size) const;
+    void detectTemplates(const std::vector<DOTModality *> &modalities,
+                         float template_response_threshold,
+                         std::vector<DOTMODDetection> &detections,
+                         const size_t bin_size) const;
 
-      inline const DenseQuantizedMultiModTemplate &
-      getTemplate (size_t template_id) const
-      { 
+    inline const DenseQuantizedMultiModTemplate &
+    getTemplate(size_t template_id) const {
         return (templates_[template_id]);
-      }
+    }
 
-      inline size_t
-      getNumOfTemplates ()
-      {
-        return (templates_.size ());
-      }
+    inline size_t getNumOfTemplates() { return (templates_.size()); }
 
-      void
-      saveTemplates (const char * file_name) const;
+    void saveTemplates(const char *file_name) const;
 
-      void
-      loadTemplates (const char * file_name);
+    void loadTemplates(const char *file_name);
 
-      void 
-      serialize (std::ostream & stream) const;
+    void serialize(std::ostream &stream) const;
 
-      void 
-      deserialize (std::istream & stream);
+    void deserialize(std::istream &stream);
 
+  private:
+    /** template width */
+    size_t template_width_;
+    /** template height */
+    size_t template_height_;
+    /** template storage */
+    std::vector<DenseQuantizedMultiModTemplate> templates_;
+};
 
-    private:
-      /** template width */
-      size_t template_width_;
-      /** template height */
-      size_t template_height_;
-      /** template storage */
-      std::vector<DenseQuantizedMultiModTemplate> templates_;
-  };
+} // namespace pcl
 
-}
-
-#endif 
+#endif

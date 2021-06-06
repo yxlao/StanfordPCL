@@ -39,7 +39,7 @@ The above code loads the two pcd file into pcl::PointCloud<pcl::PointXYZ> boost 
    :language: cpp
    :lines: 32-39
 
-This section filters the input cloud to improve registration time.  Any filter that downsamples the data uniformly can work for this section.  The target cloud does not need be filtered because voxel grid data structure used by the NDT algorithm does not use individual points, but instead uses the statistical data of the points contained in each of its data structures voxel cells.  
+This section filters the input cloud to improve registration time.  Any filter that downsamples the data uniformly can work for this section.  The target cloud does not need be filtered because voxel grid data structure used by the NDT algorithm does not use individual points, but instead uses the statistical data of the points contained in each of its data structures voxel cells.
 
 .. literalinclude:: sources/normal_distributions_transform/normal_distributions_transform.cpp
    :language: cpp
@@ -52,7 +52,7 @@ Here we create the NDT algorithm with the default values.  The internal data str
    :lines: 44-50
 
 
-Next we need to modify some of the scale dependent parameters.  Because the NDT algorithm uses a voxelized data structure and More-Thuente line search, some parameters need to be scaled to fit the data set.  The above parameters seem to work well on the scale we are working with, size of a room, but they would need to be significantly decreased to handle smaller objects, such as scans of a coffee mug.  
+Next we need to modify some of the scale dependent parameters.  Because the NDT algorithm uses a voxelized data structure and More-Thuente line search, some parameters need to be scaled to fit the data set.  The above parameters seem to work well on the scale we are working with, size of a room, but they would need to be significantly decreased to handle smaller objects, such as scans of a coffee mug.
 
 The Transformation Epsilon parameter defines minimum, allowable,  incremental change of the transformation vector, [x, y, z, roll, pitch, yaw] in meters and radians respectively.  Once the incremental change dips below this threshold, the alignment terminates.  The Step Size parameter defines the maximum step length allowed by the More-Thuente line search.  This line search algorithm determines the best step length below this maximum value, shrinking the step length as you near the optimal solution.  Larger maximum step lengths will be able to clear greater distances in fewer iterations but run the risk of overshooting and ending up in an undesirable local minimum.  Finally, the Resolution parameter defines the voxel resolution of the internal NDT grid structure.  This structure is easily searchable and each voxel contain the statistical data, mean, covariance, etc., associated with the points it contains.  The statistical data is used to model the cloud as a set of multivariate Gaussian distributions and allows us to calculate and optimize the probability of the existence of points at any position within the voxel.  This parameter is the most scale dependent.  It needs to be large enough for each voxel to contain at least  6 points but small enough to uniquely describe the environment.
 

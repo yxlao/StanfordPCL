@@ -26,7 +26,7 @@ laser scanners. Some of these formats include:
 
 * `STL <http://en.wikipedia.org/wiki/STL_(file_format)>`_ - a file format native to the stereolithography CAD software created by 3D Systems
 
-* `OBJ <http://en.wikipedia.org/wiki/Wavefront_.obj_file>`_ - a geometry definition file format first developed by Wavefront Technologies 
+* `OBJ <http://en.wikipedia.org/wiki/Wavefront_.obj_file>`_ - a geometry definition file format first developed by Wavefront Technologies
 
 * `X3D <http://en.wikipedia.org/wiki/X3D>`_ - the ISO standard XML-based file format for representing 3D computer graphics data
 
@@ -35,7 +35,7 @@ laser scanners. Some of these formats include:
 All the above file formats suffer from several shortcomings, as explained in
 the next sections -- which is natural, as they were created for a different
 purpose and at different times, before today's sensing technologies and
-algorithms have been invented. 
+algorithms have been invented.
 
 PCD versions
 ------------
@@ -70,11 +70,11 @@ As of version 0.7, the PCD header contains the following entries:
     FIELDS x y z                                # XYZ data
     FIELDS x y z rgb                            # XYZ + colors
     FIELDS x y z normal_x normal_y normal_z     # XYZ + surface normals
-    FIELDS j1 j2 j3                             # moment invariants 
+    FIELDS j1 j2 j3                             # moment invariants
     ...
 
-* **SIZE** - specifies the size of each dimension in bytes. Examples: 
-  
+* **SIZE** - specifies the size of each dimension in bytes. Examples:
+
   * *unsigned char*/*char* has 1 byte
   * *unsigned short*/*short* has 2 bytes
   * *unsigned int*/*int*/*float* has 4 bytes
@@ -218,7 +218,7 @@ Having PCD as (yet another) file format can be seen as PCL suffering from the `n
   augmented reality, robotics, etc;
 
 * binary `mmap`/`munmap` data types are the fastest possible way of loading and
-  saving data to disk. 
+  saving data to disk.
 
 * storing different data types (all primitives supported: char, short, int,
   float, double) allows the point cloud data to be flexible and efficient with
@@ -232,7 +232,7 @@ Having PCD as (yet another) file format can be seen as PCL suffering from the `n
 An additional advantage is that by controlling the file format, we can best
 adapt it to PCL, and thus obtain the highest performance with respect to PCL
 applications, rather than adapting a different file format to PCL as the native
-type and inducing additional delays through conversion functions. 
+type and inducing additional delays through conversion functions.
 
 
 .. note::

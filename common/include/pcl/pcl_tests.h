@@ -36,40 +36,35 @@
  * $Id: pcl_tests.h 6715 2012-08-06 18:15:54Z rusu $
  */
 
-
 #ifndef PCL_TEST_MACROS
 #define PCL_TEST_MACROS
 
-namespace pcl
-{
-  /** test_macros.h provide helper macros for testing vectors, matrices etc.
-    * We took some liberty with upcasing names to make them look like googletest
-    * macros names so that reader is not confused.
-    *
-    * \author Nizar Sallem 
-    */
-  namespace test
-  {
-    template <typename V1, typename V2>
-    void EXPECT_EQ_VECTORS (const V1& v1, const V2& v2)
-    {
-      SCOPED_TRACE("EXPECT_EQ_VECTORS failed");
-      EXPECT_EQ (v1.size (), v2.size ());
-      size_t length = v1.size ();
-      for (size_t i = 0; i < length; ++i)
-        EXPECT_EQ (v1[i], v2[i]);
-    }
-
-    template <typename V1, typename V2, typename Scalar>
-    void EXPECT_NEAR_VECTORS (const V1& v1, const V2& v2, const Scalar& epsilon)
-    {
-      SCOPED_TRACE("EXPECT_NEAR_VECTORS failed");
-      EXPECT_EQ (v1.size (), v2.size ());
-      size_t length = v1.size ();
-      for (size_t i = 0; i < length; ++i)
-        EXPECT_NEAR (v1[i], v2[i], epsilon);
-    }
-  }
+namespace pcl {
+/** test_macros.h provide helper macros for testing vectors, matrices etc.
+ * We took some liberty with upcasing names to make them look like googletest
+ * macros names so that reader is not confused.
+ *
+ * \author Nizar Sallem
+ */
+namespace test {
+template <typename V1, typename V2>
+void EXPECT_EQ_VECTORS(const V1 &v1, const V2 &v2) {
+    SCOPED_TRACE("EXPECT_EQ_VECTORS failed");
+    EXPECT_EQ(v1.size(), v2.size());
+    size_t length = v1.size();
+    for (size_t i = 0; i < length; ++i)
+        EXPECT_EQ(v1[i], v2[i]);
 }
+
+template <typename V1, typename V2, typename Scalar>
+void EXPECT_NEAR_VECTORS(const V1 &v1, const V2 &v2, const Scalar &epsilon) {
+    SCOPED_TRACE("EXPECT_NEAR_VECTORS failed");
+    EXPECT_EQ(v1.size(), v2.size());
+    size_t length = v1.size();
+    for (size_t i = 0; i < length; ++i)
+        EXPECT_NEAR(v1[i], v2[i], epsilon);
+}
+} // namespace test
+} // namespace pcl
 
 #endif

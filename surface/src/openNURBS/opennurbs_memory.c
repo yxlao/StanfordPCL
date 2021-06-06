@@ -21,7 +21,7 @@
 
 #if defined(ON_DLL_IMPORTS)
 /*
-// If you use OpenNURBS as a windows DLL, then define ON_DLL_IMPORTS 
+// If you use OpenNURBS as a windows DLL, then define ON_DLL_IMPORTS
 // in applications that use OpenNURBS and they will get onmalloc(), etc.,
 // from the DLL.
 //
@@ -80,7 +80,7 @@ void* onrealloc( void* memblock, size_t sz )
   const size_t memblocksz = _msize(memblock);
   if ( sz <= memblocksz ) {
     /* shrink */
-    if ( memblocksz <= 28 || 8*sz >= 7*memblocksz ) 
+    if ( memblocksz <= 28 || 8*sz >= 7*memblocksz )
     {
       /* don't bother reallocating */
       p = memblock;
@@ -88,7 +88,7 @@ void* onrealloc( void* memblock, size_t sz )
     else {
       /* allocate smaller block */
       p = malloc(sz);
-      if ( p ) 
+      if ( p )
       {
         memcpy( p, memblock, sz );
         free(memblock);
@@ -119,7 +119,7 @@ size_t onmsize( const void* memblock )
   0
 #endif
   ;
-  
+
   return sz;
 }
 

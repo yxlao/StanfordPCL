@@ -37,15 +37,18 @@
  *
  */
 
-#include <pcl/point_types.h>
 #include <pcl/impl/instantiate.hpp>
-#include <pcl/sample_consensus/sac_model_normal_sphere.h>
+#include <pcl/point_types.h>
 #include <pcl/sample_consensus/impl/sac_model_normal_sphere.hpp>
 #include <pcl/sample_consensus/impl/sac_model_sphere.hpp>
+#include <pcl/sample_consensus/sac_model_normal_sphere.h>
 
 // Instantiations of specific point types
 #ifdef PCL_ONLY_CORE_POINT_TYPES
-  PCL_INSTANTIATE_PRODUCT(SampleConsensusModelNormalSphere, ((pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA)(pcl::PointXYZRGB))((pcl::Normal)))
+PCL_INSTANTIATE_PRODUCT(SampleConsensusModelNormalSphere,
+                        ((pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA)(
+                            pcl::PointXYZRGB))((pcl::Normal)))
 #else
- PCL_INSTANTIATE_PRODUCT(SampleConsensusModelNormalSphere, (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES))
+PCL_INSTANTIATE_PRODUCT(SampleConsensusModelNormalSphere,
+                        (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES))
 #endif

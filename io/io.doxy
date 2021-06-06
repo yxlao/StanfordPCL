@@ -2,7 +2,7 @@
   \addtogroup io Module io
 
   \section secIoPresentation Overview
-  
+
   The \b pcl_io library contains classes and functions for reading and writing
   point cloud data (PCD) files, as well as capturing point clouds from a
   variety of sensing devices. An introduction to some of these capabilities can

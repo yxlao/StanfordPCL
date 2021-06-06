@@ -42,62 +42,48 @@
 
 #include <pcl/point_cloud.h>
 
-namespace pcl
-{
-  /** \brief Comparator is the base class for comparators that compare two points given some function.
-    * Currently intended for use with OrganizedConnectedComponentSegmentation
-    *
-    * \author Alex Trevor
-    */
-  template <typename PointT>
-  class Comparator
-  {
-    public:
-      typedef pcl::PointCloud<PointT> PointCloud;
-      typedef typename PointCloud::Ptr PointCloudPtr;
-      typedef typename PointCloud::ConstPtr PointCloudConstPtr;
+namespace pcl {
+/** \brief Comparator is the base class for comparators that compare two points
+ * given some function. Currently intended for use with
+ * OrganizedConnectedComponentSegmentation
+ *
+ * \author Alex Trevor
+ */
+template <typename PointT> class Comparator {
+  public:
+    typedef pcl::PointCloud<PointT> PointCloud;
+    typedef typename PointCloud::Ptr PointCloudPtr;
+    typedef typename PointCloud::ConstPtr PointCloudConstPtr;
 
-      typedef boost::shared_ptr<Comparator<PointT> > Ptr;
-      typedef boost::shared_ptr<const Comparator<PointT> > ConstPtr;
+    typedef boost::shared_ptr<Comparator<PointT>> Ptr;
+    typedef boost::shared_ptr<const Comparator<PointT>> ConstPtr;
 
-      /** \brief Empty constructor for comparator. */
-      Comparator () : input_ ()
-      {
-      }
-      
-      /** \brief Empty destructor for comparator. */
-      virtual
-      ~Comparator ()
-      {
-      }
-      
-      /** \brief Set the input cloud for the comparator.
-        * \param[in] cloud the point cloud this comparator will operate on
-        */
-      virtual void 
-      setInputCloud (const PointCloudConstPtr& cloud)
-      {
+    /** \brief Empty constructor for comparator. */
+    Comparator() : input_() {}
+
+    /** \brief Empty destructor for comparator. */
+    virtual ~Comparator() {}
+
+    /** \brief Set the input cloud for the comparator.
+     * \param[in] cloud the point cloud this comparator will operate on
+     */
+    virtual void setInputCloud(const PointCloudConstPtr &cloud) {
         input_ = cloud;
-      }
-      
-      /** \brief Get the input cloud this comparator operates on. */
-      virtual PointCloudConstPtr
-      getInputCloud () const
-      {
-        return (input_);
-      }
+    }
 
-      /** \brief Compares the two points in the input cloud designated by these two indices.
-        * This is pure virtual and must be implemented by subclasses with some comparison function.
-        * \param[in] idx1 the index of the first point.
-        * \param[in] idx2 the index of the second point.
-        */
-      virtual bool
-      compare (int idx1, int idx2) const = 0;
-      
-    protected:
-      PointCloudConstPtr input_;
-  };
-}
+    /** \brief Get the input cloud this comparator operates on. */
+    virtual PointCloudConstPtr getInputCloud() const { return (input_); }
+
+    /** \brief Compares the two points in the input cloud designated by these
+     * two indices. This is pure virtual and must be implemented by subclasses
+     * with some comparison function. \param[in] idx1 the index of the first
+     * point. \param[in] idx2 the index of the second point.
+     */
+    virtual bool compare(int idx1, int idx2) const = 0;
+
+  protected:
+    PointCloudConstPtr input_;
+};
+} // namespace pcl
 
 #endif //#ifndef _PCL_SEGMENTATION_COMPARATOR_H_

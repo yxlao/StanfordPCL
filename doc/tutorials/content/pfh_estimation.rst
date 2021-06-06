@@ -74,7 +74,7 @@ where **d** is the Euclidean distance between the two points
 :math:`d={\|\boldsymbol{p}_t-\boldsymbol{p}_s\|}_2`.  The quadruplet
 :math:`\langle\alpha, \phi, \theta, d\rangle` is computed for each pair of two
 points in k-neighborhood, therefore reducing the 12 values (xyz and normal
-information) of the two points and their normals to 4. 
+information) of the two points and their normals to 4.
 
 To estimate a PFH quadruplet for a pair of points, use:
 
@@ -102,13 +102,13 @@ In some cases, the fourth feature, **d**, does not present an extreme
 significance for 2.5D datasets, usually acquired in robotics, as the distance
 between neighboring points increases from the viewpoint. Therefore, omitting
 **d** for scans where the local point density influences this feature dimension
-has proved to be beneficial. 
+has proved to be beneficial.
 
 .. image:: images/pfh_estimation/example_pfhs.png
    :align: center
 
 .. note::
-  
+
   For more information and mathematical derivations, including an analysis of PFH signatures for different surface geometries please see [RusuDissertation]_.
 
 
@@ -116,7 +116,7 @@ Estimating PFH features
 -----------------------
 
 Point Feature Histograms are implemented in PCL as part of the `pcl_features
-<http://docs.pointclouds.org/trunk/group__features.html>`_ library. 
+<http://docs.pointclouds.org/trunk/group__features.html>`_ library.
 
 The default PFH implementation uses 5 binning subdivisions (e.g., each of the
 four feature values will use this many bins from its value interval), and does
@@ -137,7 +137,7 @@ points in the input dataset.
    {
      pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
      pcl::PointCloud<pcl::Normal>::Ptr normals (new pcl::PointCloud<pcl::Normal> ());
-     
+
      ... read, pass in or create a point cloud with normals ...
      ... (note: you can create a single PointCloud<PointNormal> if you want) ...
 
@@ -147,7 +147,7 @@ points in the input dataset.
      pfh.setInputNormals (normals);
      // alternatively, if cloud is of tpe PointNormal, do pfh.setInputNormals (cloud);
 
-     // Create an empty kdtree representation, and pass it to the PFH estimation object. 
+     // Create an empty kdtree representation, and pass it to the PFH estimation object.
      // Its content will be filled inside the object, based on the given input dataset (as no other search surface is given).
      pcl::KdTreeFLANN<pcl::PointXYZ>::Ptr tree (new pcl::KdTreeFLANN<pcl::PointXYZ> ());
      pfh.setSearchMethod (tree);
@@ -180,10 +180,10 @@ To compute a single PFH representation from a k-neighborhood, use:
 
 .. code-block:: cpp
 
-   computePointPFHSignature (const pcl::PointCloud<PointInT> &cloud, 
+   computePointPFHSignature (const pcl::PointCloud<PointInT> &cloud,
                              const pcl::PointCloud<PointNT> &normals,
-                             const std::vector<int> &indices, 
-                             int nr_split, 
+                             const std::vector<int> &indices,
+                             int nr_split,
                              Eigen::VectorXf &pfh_histogram);
 
 Where *cloud* is the input point cloud that contains the points, *normals* is

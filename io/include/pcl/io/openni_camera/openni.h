@@ -41,12 +41,12 @@
 #define _PCL_OPENNI_OPENNI_H_
 
 #if defined __GNUC__
-#  pragma GCC system_header 
+#pragma GCC system_header
 #endif
 
-#include <XnOS.h>
 #include <XnCppWrapper.h>
+#include <XnOS.h>
 #include <XnVersion.h>
 
 #endif
-#endif    // _PCL_OPENNI_OPENNI_H_
+#endif // _PCL_OPENNI_OPENNI_H_

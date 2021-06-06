@@ -8,7 +8,7 @@
 // THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
 // ALL IMPLIED WARRANTIES OF FITNESS FOR ANY PARTICULAR PURPOSE AND OF
 // MERCHANTABILITY ARE HEREBY DISCLAIMED.
-//				
+//
 // For complete openNURBS copyright information see <http://www.opennurbs.org>.
 //
 ////////////////////////////////////////////////////////////////
@@ -17,13 +17,12 @@
 #if !defined(OPENNURBS_MEMORY_INC_)
 #define OPENNURBS_MEMORY_INC_
 
-#if defined (cplusplus) || defined(_cplusplus) || defined(__cplusplus)
+#if defined(cplusplus) || defined(_cplusplus) || defined(__cplusplus)
 extern "C" {
 #endif
 
 ON_DECL
 size_t ON_MemoryPageSize();
-
 
 ON_DECL
 void ON_MemoryManagerBegin(void);
@@ -35,7 +34,7 @@ void ON_MemoryManagerEnd(void);
 /////////////////////////////////////////////////////////////////////////////
 //
 // ALL memory managment in the openNURBS toolkit is done through calls to
-//    onmalloc(), oncalloc(), onrealloc(), onfree(), 
+//    onmalloc(), oncalloc(), onrealloc(), onfree(),
 //    onmsize(), onmemdup(), onstrdup(), ..., and the
 //    new and delete operators
 // The on*() functions are all declared in opennurbs_memory.h and defined
@@ -54,11 +53,11 @@ void ON_MemoryManagerEnd(void);
 //   If sz is zero, NULL is returned.
 //   If sz is positive and there is not enough memory to satify
 //   the allocation request, the ON_memory_error_handler(0) is called
-//   and NULL is returned.  
+//   and NULL is returned.
 //
 //   If you have implemented multiple memory pools in a custom manager,
 //   the request is sent to the current pool.
-//        
+//
 //
 // void* oncalloc( size_t num, size_t sz );
 //
@@ -69,8 +68,8 @@ void ON_MemoryManagerEnd(void);
 //
 //   If you have implemented multiple memory pools in a custom manager,
 //   the request is sent to the current pool.
-//               
-//               
+//
+//
 // void* onrealloc( void* p, size_t sz );
 //
 //   If p is NULL, then onmalloc(sz) is called.
@@ -102,7 +101,7 @@ void ON_MemoryManagerEnd(void);
 //   If p is NULL, then zero is returned.  Otherwise the
 //   the size in bytes of the memory block allocated by onmalloc(),
 //   oncalloc(), or onrealloc() is returned.
-//               
+//
 //
 // void* onmemdup( const void* src, size_t sz );
 //
@@ -111,45 +110,45 @@ void ON_MemoryManagerEnd(void);
 //   memory, and the pointer to this memory is returned.
 //   If onmalloc() returns NULL, then NULL is returned.
 //   If src is NULL or sz is zero, then NULL is returned.
-//               
+//
 //
 // char* onstrdup( const char* src );
 //
 //   If src is not NULL, then onmemdup( sc, (strlen(src)+1)*sizeof(src[0]) )
 //   is called.  If onmemdup() returns NULL, then NULL is returned.
 //   If src is NULL, then NULL is returned.
-//               
+//
 //
 */
 
 ON_DECL
-void*  onmalloc( size_t );
+void *onmalloc(size_t);
 
 ON_DECL
-void*  oncalloc( size_t, size_t );
+void *oncalloc(size_t, size_t);
 
 ON_DECL
-void   onfree( void* );
+void onfree(void *);
 
 ON_DECL
-void*  onrealloc( void*, size_t );
+void *onrealloc(void *, size_t);
 
 ON_DECL
-size_t onmsize( const void* );
+size_t onmsize(const void *);
 
 ON_DECL
-void*  onmemdup( const void*, size_t );
+void *onmemdup(const void *, size_t);
 
 ON_DECL
-char*  onstrdup( const char* );
+char *onstrdup(const char *);
 
 #if defined(_WCHAR_T_DEFINED)
 ON_DECL
-wchar_t* onwcsdup( const wchar_t* );
+wchar_t *onwcsdup(const wchar_t *);
 #endif
 
 ON_DECL
-unsigned char* onmbsdup( const unsigned char* );
+unsigned char *onmbsdup(const unsigned char *);
 
 /* define to handle _TCHAR* ontcsdup( const _TCHAR* ) */
 #if defined(_UNICODE)
@@ -160,7 +159,7 @@ unsigned char* onmbsdup( const unsigned char* );
 #define ontcsdup onstrdup
 #endif
 
-#if defined (cplusplus) || defined(_cplusplus) || defined(__cplusplus)
+#if defined(cplusplus) || defined(_cplusplus) || defined(__cplusplus)
 }
 #endif
 

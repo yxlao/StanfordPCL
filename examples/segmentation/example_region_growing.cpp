@@ -41,62 +41,68 @@
 // STL
 #include <iostream>
 
-// PCL 
-#include <pcl/filters/filter.h>
+// PCL
 #include <pcl/features/normal_3d.h>
-#include <pcl/point_types.h>
-#include <pcl/point_cloud.h>
+#include <pcl/filters/filter.h>
 #include <pcl/io/pcd_io.h>
-#include <pcl/segmentation/region_growing.h>
 #include <pcl/kdtree/kdtree.h>
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+#include <pcl/segmentation/region_growing.h>
 
-int
-main (int, char** av)
-{
-  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_ptr (new pcl::PointCloud<pcl::PointXYZ>());
-  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_no_nans (new pcl::PointCloud<pcl::PointXYZ>());
-  pcl::PointCloud<pcl::Normal>::Ptr cloud_normals (new pcl::PointCloud<pcl::Normal>());
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_segmented (new pcl::PointCloud<pcl::PointXYZRGB>());
+int main(int, char **av) {
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_ptr(
+        new pcl::PointCloud<pcl::PointXYZ>());
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_no_nans(
+        new pcl::PointCloud<pcl::PointXYZ>());
+    pcl::PointCloud<pcl::Normal>::Ptr cloud_normals(
+        new pcl::PointCloud<pcl::Normal>());
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_segmented(
+        new pcl::PointCloud<pcl::PointXYZRGB>());
 
-  pcl::PCDWriter writer;
-  if (pcl::io::loadPCDFile(av[1], *cloud_ptr)==-1)
-  {
-    std::cout << "Couldn't find the file " << av[1] << std::endl;
-    return -1;
-  }
-  
-  std::cout << "Loaded cloud " << av[1] << " of size " << cloud_ptr->points.size() << std::endl;	
+    pcl::PCDWriter writer;
+    if (pcl::io::loadPCDFile(av[1], *cloud_ptr) == -1) {
+        std::cout << "Couldn't find the file " << av[1] << std::endl;
+        return -1;
+    }
 
-  // Remove the nans
-  cloud_ptr->is_dense = false;
-  cloud_no_nans->is_dense = false;
-  std::vector<int> indices;
-  pcl::removeNaNFromPointCloud (*cloud_ptr, *cloud_no_nans, indices);
-  std::cout << "Removed nans from " << cloud_ptr->points.size () << " to " << cloud_no_nans->points.size () << std::endl;
+    std::cout << "Loaded cloud " << av[1] << " of size "
+              << cloud_ptr->points.size() << std::endl;
 
-  // Estimate the normals
-  pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne;
-  ne.setInputCloud (cloud_no_nans);
-  pcl::search::KdTree<pcl::PointXYZ>::Ptr tree_n (new pcl::search::KdTree<pcl::PointXYZ>());
-  ne.setSearchMethod (tree_n);
-  ne.setRadiusSearch (0.03);
-  ne.compute (*cloud_normals);
-  std::cout << "Normals are computed and size is " << cloud_normals->points.size () << std::endl;
+    // Remove the nans
+    cloud_ptr->is_dense = false;
+    cloud_no_nans->is_dense = false;
+    std::vector<int> indices;
+    pcl::removeNaNFromPointCloud(*cloud_ptr, *cloud_no_nans, indices);
+    std::cout << "Removed nans from " << cloud_ptr->points.size() << " to "
+              << cloud_no_nans->points.size() << std::endl;
 
-  // Region growing
-  pcl::RegionGrowing<pcl::PointXYZ, pcl::Normal> rg;
-  rg.setSmoothModeFlag (false); // Depends on the cloud being processed
-  rg.setInputCloud (cloud_no_nans);
-  rg.setInputNormals (cloud_normals);
+    // Estimate the normals
+    pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne;
+    ne.setInputCloud(cloud_no_nans);
+    pcl::search::KdTree<pcl::PointXYZ>::Ptr tree_n(
+        new pcl::search::KdTree<pcl::PointXYZ>());
+    ne.setSearchMethod(tree_n);
+    ne.setRadiusSearch(0.03);
+    ne.compute(*cloud_normals);
+    std::cout << "Normals are computed and size is "
+              << cloud_normals->points.size() << std::endl;
 
-  std::vector <pcl::PointIndices> clusters;
-  rg.extract (clusters);
+    // Region growing
+    pcl::RegionGrowing<pcl::PointXYZ, pcl::Normal> rg;
+    rg.setSmoothModeFlag(false); // Depends on the cloud being processed
+    rg.setInputCloud(cloud_no_nans);
+    rg.setInputNormals(cloud_normals);
 
-  cloud_segmented = rg.getColoredCloud ();
+    std::vector<pcl::PointIndices> clusters;
+    rg.extract(clusters);
 
-  // Writing the resulting cloud into a pcd file
-  std::cout << "No of segments done is " << clusters.size () << std::endl;
-  writer.write<pcl::PointXYZRGB> ("segment_result.pcd", *cloud_segmented, false);
+    cloud_segmented = rg.getColoredCloud();
 
-  return (0);
+    // Writing the resulting cloud into a pcd file
+    std::cout << "No of segments done is " << clusters.size() << std::endl;
+    writer.write<pcl::PointXYZRGB>("segment_result.pcd", *cloud_segmented,
+                                   false);
+
+    return (0);
 }

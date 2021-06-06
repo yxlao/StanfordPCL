@@ -41,91 +41,80 @@
 #include <pcl/apps/cloud_composer/point_selectors/interactor_style_switch.h>
 #include <pcl/apps/cloud_composer/qt.h>
 
+namespace pcl {
+namespace cloud_composer {
 
+class PCL_EXPORTS SelectedTrackballStyleInteractor
+    : public vtkInteractorStyleTrackballActor {
+  public:
+    static SelectedTrackballStyleInteractor *New();
+    vtkTypeMacro(SelectedTrackballStyleInteractor,
+                 vtkInteractorStyleTrackballActor);
 
+    SelectedTrackballStyleInteractor();
 
-namespace pcl
-{
-  namespace cloud_composer
-  {
-      
-    class PCL_EXPORTS SelectedTrackballStyleInteractor : public vtkInteractorStyleTrackballActor
-    {     
-      public:
-        static SelectedTrackballStyleInteractor* New();
-        vtkTypeMacro(SelectedTrackballStyleInteractor,vtkInteractorStyleTrackballActor);
-        
-        SelectedTrackballStyleInteractor ();
-        
-        virtual ~SelectedTrackballStyleInteractor ();
-               
-        /** \brief Pass a pointer to the actor map
-          * \param[in] actors the actor map that will be used with this style
-          */
-        inline void 
-        setCloudActorMap (const pcl::visualization::CloudActorMapPtr &actors) { actors_ = actors; }
+    virtual ~SelectedTrackballStyleInteractor();
 
-        /** \brief Get the cloud actor map pointer. */
-        inline pcl::visualization::CloudActorMapPtr 
-        getCloudActorMap () const { return (actors_); }
+    /** \brief Pass a pointer to the actor map
+     * \param[in] actors the actor map that will be used with this style
+     */
+    inline void
+    setCloudActorMap(const pcl::visualization::CloudActorMapPtr &actors) {
+        actors_ = actors;
+    }
 
-        /** \brief Pass a set of renderers to the interactor style. 
-          * \param[in] rens the vtkRendererCollection to use
-          */
-        void 
-        setRendererCollection (vtkSmartPointer<vtkRendererCollection> &rens) { renderers_ = rens; }
+    /** \brief Get the cloud actor map pointer. */
+    inline pcl::visualization::CloudActorMapPtr getCloudActorMap() const {
+        return (actors_);
+    }
 
-        /** \brief Function called on left mouse button click, ie, beginning of trackball */
-        virtual void
-        OnLeftButtonDown ();
-        
-        virtual void
-        OnRightButtonDown ();
-        
-        /** \brief Function called on left mouse button release, ie, end of trackball*/
-        virtual void
-        OnLeftButtonUp ();
-        
-        virtual void
-        OnRightButtonUp ();
+    /** \brief Pass a set of renderers to the interactor style.
+     * \param[in] rens the vtkRendererCollection to use
+     */
+    void setRendererCollection(vtkSmartPointer<vtkRendererCollection> &rens) {
+        renderers_ = rens;
+    }
 
-        virtual void 
-        Rotate();
-        virtual void 
-        Spin();
-        virtual void 
-        Pan();
-        virtual void 
-        UniformScale();
-        
-        /** \brief Event emitted once a valid selection has been made */
-        int manipulation_complete_event_;
-        
-        inline void 
-        setProjectModel (ProjectModel* model) { model_ = model; }
-      private:
+    /** \brief Function called on left mouse button click, ie, beginning of
+     * trackball */
+    virtual void OnLeftButtonDown();
 
-        void
-        setSelectedActors ();
-        
-        /** \brief Actor map stored internally. */
-        pcl::visualization::CloudActorMapPtr actors_;
-        
-        /** \brief Collection of vtkRenderers stored internally. */
-        vtkSmartPointer<vtkRendererCollection> renderers_;
-        
-        /** \brief Internal Pointer to Project Model */
-        ProjectModel* model_;
-        
-        QMap <QString, vtkSmartPointer<vtkMatrix4x4> > start_matrix_map_;
-        QMap <QString, vtkLODActor*> selected_actors_map_;
-        
-    };
-    
-  }
-  
-}
+    virtual void OnRightButtonDown();
+
+    /** \brief Function called on left mouse button release, ie, end of
+     * trackball*/
+    virtual void OnLeftButtonUp();
+
+    virtual void OnRightButtonUp();
+
+    virtual void Rotate();
+    virtual void Spin();
+    virtual void Pan();
+    virtual void UniformScale();
+
+    /** \brief Event emitted once a valid selection has been made */
+    int manipulation_complete_event_;
+
+    inline void setProjectModel(ProjectModel *model) { model_ = model; }
+
+  private:
+    void setSelectedActors();
+
+    /** \brief Actor map stored internally. */
+    pcl::visualization::CloudActorMapPtr actors_;
+
+    /** \brief Collection of vtkRenderers stored internally. */
+    vtkSmartPointer<vtkRendererCollection> renderers_;
+
+    /** \brief Internal Pointer to Project Model */
+    ProjectModel *model_;
+
+    QMap<QString, vtkSmartPointer<vtkMatrix4x4>> start_matrix_map_;
+    QMap<QString, vtkLODActor *> selected_actors_map_;
+};
+
+} // namespace cloud_composer
+
+} // namespace pcl
 
 #endif // SELECTED_TRACKBALL_STYLE_INTERACTOR_H_
-        
-        

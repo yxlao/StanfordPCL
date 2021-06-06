@@ -43,73 +43,70 @@
 #include <pcl/pcl_macros.h>
 #include <string>
 
-namespace pcl
-{
-  /** \brief ChannelProperties stores the properties of each channel in a cloud, namely:
-    *
-    *   - \b name : the channel's name (e.g., "xyz", "rgb", "fpfh")
-    *   - \b offset : its offset in the data array
-    *   - \b size : its size in bytes
-    *   - \b count : its number of elements (e.g., 1 for xyz data, 33 for an FPFH signature)
-    *   - \b datatype : its data type. By convention:
-    *
-    *     - INT8    = 1
-    *     - UINT8   = 2
-    *     - INT16   = 3
-    *     - UINT16  = 4
-    *     - INT32   = 5
-    *     - UINT32  = 6
-    *     - FLOAT32 = 7
-    *     - FLOAT64 = 8
-    *
-    * <b>This part of the API is for advanced users only, and constitutes a transition to the 2.0 API!</b>
-    *
-    * \author Radu B. Rusu
-    */
-  class ChannelProperties
-  {
-    public:
+namespace pcl {
+/** \brief ChannelProperties stores the properties of each channel in a cloud,
+ * namely:
+ *
+ *   - \b name : the channel's name (e.g., "xyz", "rgb", "fpfh")
+ *   - \b offset : its offset in the data array
+ *   - \b size : its size in bytes
+ *   - \b count : its number of elements (e.g., 1 for xyz data, 33 for an FPFH
+ * signature)
+ *   - \b datatype : its data type. By convention:
+ *
+ *     - INT8    = 1
+ *     - UINT8   = 2
+ *     - INT16   = 3
+ *     - UINT16  = 4
+ *     - INT32   = 5
+ *     - UINT32  = 6
+ *     - FLOAT32 = 7
+ *     - FLOAT64 = 8
+ *
+ * <b>This part of the API is for advanced users only, and constitutes a
+ * transition to the 2.0 API!</b>
+ *
+ * \author Radu B. Rusu
+ */
+class ChannelProperties {
+  public:
+    /** \brief Default constructor. Sets:
+     *
+     *   - \ref name to ""
+     *   - \ref offset to 0
+     *   - \ref size to 0
+     *   - \ref count to 1
+     *   - \ref datatype to 7 (FLOAT32)
+     */
+    ChannelProperties() : name(""), offset(0), size(0), count(1), datatype(7) {}
 
-      /** \brief Default constructor. Sets:
-        *
-        *   - \ref name to ""
-        *   - \ref offset to 0
-        *   - \ref size to 0
-        *   - \ref count to 1
-        *   - \ref datatype to 7 (FLOAT32)
-        */
-      ChannelProperties () :
-        name (""), offset (0), size (0), count (1), datatype (7)
-      {
-      }
+    /** \brief The name of the channel (e.g., "xyz", "rgb"). */
+    std::string name;
 
-      /** \brief The name of the channel (e.g., "xyz", "rgb"). */
-      std::string name;
+    /** \brief The byte offset where data for the channel starts in the point
+     * cloud. */
+    pcl::uint32_t offset;
 
-      /** \brief The byte offset where data for the channel starts in the point cloud. */
-      pcl::uint32_t offset;
+    /** \brief The size of bytes per each element in the channel. */
+    pcl::uint32_t size;
 
-      /** \brief The size of bytes per each element in the channel. */
-      pcl::uint32_t size;
+    /** \brief The number of elements per channel (e.g., 1 for "xyz", 33 for
+     * "fpfh"). */
+    pcl::uint32_t count;
 
-      /** \brief The number of elements per channel (e.g., 1 for "xyz", 33 for "fpfh"). */
-      pcl::uint32_t count;
+    /** \brief The type of data the channel contains.
+     * By convention:
+     *     - INT8    = 1
+     *     - UINT8   = 2
+     *     - INT16   = 3
+     *     - UINT16  = 4
+     *     - INT32   = 5
+     *     - UINT32  = 6
+     *     - FLOAT32 = 7
+     *     - FLOAT64 = 8
+     */
+    pcl::uint8_t datatype;
+};
+} // namespace pcl
 
-      /** \brief The type of data the channel contains. 
-        * By convention:
-        *     - INT8    = 1
-        *     - UINT8   = 2
-        *     - INT16   = 3
-        *     - UINT16  = 4
-        *     - INT32   = 5
-        *     - UINT32  = 6
-        *     - FLOAT32 = 7
-        *     - FLOAT64 = 8
-        */
-      pcl::uint8_t datatype;
-   };
-}
-
-#endif  // PCL_CHANNEL_PROPERTIES_H_
-
-
+#endif // PCL_CHANNEL_PROPERTIES_H_

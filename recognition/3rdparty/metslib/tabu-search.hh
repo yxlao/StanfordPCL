@@ -44,7 +44,7 @@ namespace mets {
   ///
   /// An aspiration criteria is a criteria used
   /// to override the tabu list. When the aspiration
-  /// criteria is met a move is made even if it's in 
+  /// criteria is met a move is made even if it's in
   /// the tabu-list
   ///
   /// Aspiration critera can be chained so a criteria can decorate
@@ -53,27 +53,27 @@ namespace mets {
   {
   public:
     /// @brief Constructor.
-    /// 
+    ///
     /// @param next Optional next criteria in the chain.
     explicit
     aspiration_criteria_chain(aspiration_criteria_chain *next = 0)
-      : next_m(next) 
+      : next_m(next)
     { }
-    
+
     /// purposely not implemented (see Effective C++)
     aspiration_criteria_chain(const aspiration_criteria_chain& other);
     /// purposely not implemented (see Effective C++)
-    aspiration_criteria_chain& 
+    aspiration_criteria_chain&
     operator=(const aspiration_criteria_chain& other);
 
     /// @brief Virtual destructor.
-    virtual 
-    ~aspiration_criteria_chain() 
-    { } 
+    virtual
+    ~aspiration_criteria_chain()
+    { }
 
     /// @brief A method to reset this aspiration criteria chain to its
     /// original state.
-    virtual void 
+    virtual void
     reset();
 
     /// @brief This is a callback function from the algorithm that
@@ -86,24 +86,24 @@ namespace mets {
     /// @param fs The current working solution (after applying move).
     /// @param mov The accepted move (the move just made).
     /// @return True if the move is to be accepted.
-    virtual void 
+    virtual void
     accept(feasible_solution& fs, move& mov, gol_type evaluation);
-    
+
     /// @brief The function that decides if we shoud accept a tabu move
     ///
     /// @param fs The current working solution (before applying move).
     /// @param mov The move to be made (the move that is being evaluated).
     /// @return True if the move is to be accepted.
-    virtual bool 
+    virtual bool
     operator()(feasible_solution& fs, move& mov, gol_type evaluation) const;
-    
+
   protected:
     aspiration_criteria_chain* next_m;
   };
 
   ///
   /// @brief An abstract tabu list
-  /// 
+  ///
   /// This is chainable so that tabu lists can be decorated with
   /// other tabu lists.
   class tabu_list_chain
@@ -117,25 +117,25 @@ namespace mets {
 
     /// Create an abstract tabu list with a certain tenure
     explicit
-    tabu_list_chain(unsigned int tenure) 
-      : next_m(0), tenure_m(tenure) 
+    tabu_list_chain(unsigned int tenure)
+      : next_m(0), tenure_m(tenure)
     { }
 
     /// @brief Create an abstract tabu list with a certain tenure and
     /// a chained tabu list that decorates this one
-    tabu_list_chain(tabu_list_chain* next, unsigned int tenure) 
-      : next_m(next), tenure_m(tenure) 
+    tabu_list_chain(tabu_list_chain* next, unsigned int tenure)
+      : next_m(next), tenure_m(tenure)
     { }
 
     /// @brief Virtual destructor
-    virtual 
-    ~tabu_list_chain() 
-    { } 
+    virtual
+    ~tabu_list_chain()
+    { }
 
     ///
     /// @brief Make a move tabu when starting from a certain solution.
-    /// 
-    /// Different implementation can remember "tenure" moves, 
+    ///
+    /// Different implementation can remember "tenure" moves,
     /// "tenure" solutions or some other peculiar fact that
     /// will avoid cycling.
     ///
@@ -144,14 +144,14 @@ namespace mets {
     ///
     /// @param sol The current working solution
     /// @param mov The move to make tabu
-    virtual void 
+    virtual void
     tabu(feasible_solution& sol, move& mov) = 0;
 
     /// @brief True if the move is tabu for the given solution.
     ///
-    /// Different implementation can remember "tenure" moves, 
+    /// Different implementation can remember "tenure" moves,
     /// "tenure" solutions or some other peculiar fact that
-    /// will avoid cycling. So it's not defined at this stage 
+    /// will avoid cycling. So it's not defined at this stage
     /// if a move will be tabu or not at a certain state of the
     /// search: this depends on the implementation.
     ///
@@ -160,7 +160,7 @@ namespace mets {
     ///
     /// @param sol The current working solution
     /// @param mov The move to make tabu
-    virtual bool 
+    virtual bool
     is_tabu(feasible_solution& sol, move& mov) const = 0;
 
     ///
@@ -179,21 +179,21 @@ namespace mets {
     /// @param tenure: the new tenure of the list.
     ///
     virtual void
-    tenure(unsigned int tenure) 
+    tenure(unsigned int tenure)
     { tenure_m = tenure; }
 
   protected:
     tabu_list_chain* next_m;
     unsigned int tenure_m;
   };
-  
+
   ///
   /// @brief Tabu Search algorithm.
   ///
   /// This implements decorator pattern. You can build many
   /// different solvers decorating tabu_search class in different
   /// ways.
-  /// 
+  ///
   template<typename move_manager_type>
   class tabu_search : public abstract_search<move_manager_type>
   {
@@ -221,8 +221,8 @@ namespace mets {
     /// Annealing: you can give a termination criteria that termiantes
     /// when temperature reaches 0.
     ///
-    tabu_search(feasible_solution& starting_solution, 
-		solution_recorder& best_recorder, 
+    tabu_search(feasible_solution& starting_solution,
+		solution_recorder& best_recorder,
 		move_manager_type& move_manager_inst,
 		tabu_list_chain& tabus,
 		aspiration_criteria_chain& aspiration,
@@ -231,34 +231,34 @@ namespace mets {
     tabu_search(const search_type&);
     search_type& operator=(const search_type&);
 
-    virtual 
+    virtual
     ~tabu_search() {}
 
     /// @brief This method starts the tabu search process.
-    /// 
+    ///
     /// Remember that this is a minimization process.
     ///
     /// An exception mets::no_moves_error is risen when no move
     /// is possible.
-    void 
-    search() 
+    void
+    search()
       throw(no_moves_error);
-    
+
     enum {
       ASPIRATION_CRITERIA_MET = abstract_search<move_manager_type>::LAST,
       LAST
     };
 
     /// @brief The tabu list used by this tabu search
-    const tabu_list_chain& 
+    const tabu_list_chain&
     get_tabu_list() const { return tabu_list_m; }
-    
+
     /// @brief The aspiration criteria used by this tabu search
-    const aspiration_criteria_chain& 
+    const aspiration_criteria_chain&
     get_aspiration_criteria() const { return aspiration_criteria_m; }
 
     /// @brief The termination criteria used by this tabu search
-    const termination_criteria_chain& 
+    const termination_criteria_chain&
     get_termination_criteria() const { return termination_criteria_m; }
   protected:
     tabu_list_chain& tabu_list_m;
@@ -277,34 +277,34 @@ namespace mets {
   /// The comparison between moves is demanded to the
   /// move implementation.
   ///
-  /// A mets::mana_move is tabu if it's in the tabu list by means 
+  /// A mets::mana_move is tabu if it's in the tabu list by means
   /// of its operator== and hash function.
-  class simple_tabu_list 
+  class simple_tabu_list
     : public tabu_list_chain
   {
   public:
     /// @brief Ctor. Makes a tabu list of the specified tenure.
     ///
     /// @param tenure Tenure (length) of the tabu list
-    simple_tabu_list(unsigned int tenure) 
-      : tabu_list_chain(tenure), 
-	tabu_moves_m(), 
+    simple_tabu_list(unsigned int tenure)
+      : tabu_list_chain(tenure),
+	tabu_moves_m(),
 	tabu_hash_m(tenure) {}
 
     /// @brief Ctor. Makes a tabu list of the specified tenure.
     ///
     /// @param tenure Tenure (length) of the tabu list
     /// @param next Next list to invoke when this returns false
-    simple_tabu_list(tabu_list_chain* next, unsigned int tenure) 
-      : tabu_list_chain(next, tenure), 
-	tabu_moves_m(), 
+    simple_tabu_list(tabu_list_chain* next, unsigned int tenure)
+      : tabu_list_chain(next, tenure),
+	tabu_moves_m(),
 	tabu_hash_m(tenure) {}
 
     /// @brief Destructor
     ~simple_tabu_list();
 
     /// @brief Make move a tabu.
-    /// 
+    ///
     /// This implementation simply remembers "tenure" moves.
     ///
     /// @param sol The current working solution
@@ -330,15 +330,15 @@ namespace mets {
     typedef std::unordered_map<
       mana_move*, // Key type
       int, //insert a move and the number of times it's present in the list
-      mana_move_hash, 
+      mana_move_hash,
       dereferenced_equal_to<mana_move*> > move_map_type;
 #else
     typedef std::tr1::unordered_map<
       mana_move*, // Key type
       int, //insert a move and the number of times it's present in the list
-      mana_move_hash, 
+      mana_move_hash,
       dereferenced_equal_to<mana_move*> > move_map_type;
-#endif    
+#endif
     move_list_type tabu_moves_m;
     move_map_type tabu_hash_m;
   };
@@ -359,34 +359,34 @@ namespace mets {
     explicit
     best_ever_criteria(aspiration_criteria_chain* next,
 		       double min_improvement = 1e-6);
-    
-    void 
+
+    void
     reset();
 
     void
     accept(feasible_solution& fs, move& mov, gol_type evaluation);
 
-    bool 
+    bool
     operator()(feasible_solution& fs, move& mov, gol_type evaluation) const;
 
   protected:
     gol_type best_m;
     gol_type tolerance_m;
   };
-  
+
   /// @}
 }
 
 template<typename move_manager_t>
 mets::tabu_search<move_manager_t>::
-tabu_search (feasible_solution& starting_solution, 
-	     solution_recorder& best_recorder, 
+tabu_search (feasible_solution& starting_solution,
+	     solution_recorder& best_recorder,
 	     move_manager_t& move_manager_inst,
 	     tabu_list_chain& tabus,
 	     aspiration_criteria_chain& aspiration,
 	     termination_criteria_chain& termination)
-  : abstract_search<move_manager_t>(starting_solution, 
-				    best_recorder, 
+  : abstract_search<move_manager_t>(starting_solution,
+				    best_recorder,
 				    move_manager_inst),
     tabu_list_m(tabus),
     aspiration_criteria_m(aspiration),
@@ -405,36 +405,36 @@ void mets::tabu_search<move_manager_t>::search()
       this->notify();
 
       base_t::moves_m.refresh(base_t::working_solution_m);
-      
-      typename move_manager_t::iterator best_movit = base_t::moves_m.end(); 
+
+      typename move_manager_t::iterator best_movit = base_t::moves_m.end();
       gol_type best_move_cost = std::numeric_limits<gol_type>::max();
-      
-      for(typename move_manager_t::iterator movit = base_t::moves_m.begin(); 
+
+      for(typename move_manager_t::iterator movit = base_t::moves_m.begin();
 	  movit != base_t::moves_m.end(); ++movit)
 	{
 	  // evaluate proposed move
 	  gol_type cost = (*movit)->evaluate(base_t::working_solution_m);
-	  
+	
 	  // save tabu status
-	  bool is_tabu = tabu_list_m.is_tabu(base_t::working_solution_m, 
+	  bool is_tabu = tabu_list_m.is_tabu(base_t::working_solution_m,
 						 **movit);
 
 	  // for each non-tabu move record the best one
 	  if(cost < best_move_cost)
 	    {
-	      
+	
 	      bool aspiration_criteria_met = false;
-	      
+	
 	      // not interesting if this is not a tabu move (and if we
 	      // are not improving over other moves)
-	      if(is_tabu) 
+	      if(is_tabu)
 		{
-		  aspiration_criteria_met = 
-		    aspiration_criteria_m(base_t::working_solution_m, 
+		  aspiration_criteria_met =
+		    aspiration_criteria_m(base_t::working_solution_m,
 					  **movit,
 					  cost);
 		}
-	      
+	
 	      if(!is_tabu || aspiration_criteria_met)
 		{
 		  best_move_cost = cost;
@@ -447,7 +447,7 @@ void mets::tabu_search<move_manager_t>::search()
 		}
 	    }
 	} // end for each move
-      
+
       if(best_movit == base_t::moves_m.end())
 	throw no_moves_error();
 
@@ -461,11 +461,11 @@ void mets::tabu_search<move_manager_t>::search()
       // call listeners
       base_t::step_m = base_t::MOVE_MADE;
       this->notify();
-      
-      aspiration_criteria_m.accept(base_t::working_solution_m, 
-				   **best_movit, 
+
+      aspiration_criteria_m.accept(base_t::working_solution_m,
+				   **best_movit,
 				   best_move_cost);
-      
+
       if(base_t::solution_recorder_m.accept(base_t::working_solution_m))
 	{
 	  base_t::step_m = base_t::IMPROVEMENT_MADE;
@@ -475,7 +475,7 @@ void mets::tabu_search<move_manager_t>::search()
       // call listeners
       base_t::step_m = base_t::ITERATION_END;
       this->notify();
-      
+
     } // end while(!termination)
 }
 
@@ -491,15 +491,15 @@ mets::tabu_list_chain::tabu(feasible_solution& sol, /* const */ move& mov)
 inline bool
 mets::tabu_list_chain::is_tabu(feasible_solution& sol, /* const */ move& mov) const
 {
-  if(next_m) 
+  if(next_m)
     return next_m->is_tabu(sol, mov);
-  else 
+  else
     return false;
 }
 
 inline mets::simple_tabu_list::~simple_tabu_list()
-{ 
-  for(move_map_type::iterator m = tabu_hash_m.begin(); 
+{
+  for(move_map_type::iterator m = tabu_hash_m.begin();
       m!=tabu_hash_m.end(); ++m)
     delete m->first;
 }
@@ -507,16 +507,16 @@ inline mets::simple_tabu_list::~simple_tabu_list()
 inline void
 mets::simple_tabu_list::tabu(feasible_solution& sol, /* const */ move& mov)
 {
-  mana_move* mc = 
+  mana_move* mc =
     dynamic_cast<mana_move&>(mov).opposite_of();
 
   // This does nothing if the move was already tabu (can happen when
   // aspiration criteria is met).
-  std::pair<move_map_type::iterator, bool> 
+  std::pair<move_map_type::iterator, bool>
     insert_result = tabu_hash_m.insert(std::make_pair(mc, 1));
 
   // If it was already in the map, increase the counter
-  if(!insert_result.second) 
+  if(!insert_result.second)
     {
       insert_result.first->second++;
       delete mc;
@@ -525,7 +525,7 @@ mets::simple_tabu_list::tabu(feasible_solution& sol, /* const */ move& mov)
   // Always add the move at the end of the list (when aspiration
   // criteria is met a move can be present more than one time in this
   // list: this is correct, so the last made move is always the last
-  // in the queue). 
+  // in the queue).
   tabu_moves_m.push_back(mc);
 
   // Since we use the hash size, the tenure is the number of different
@@ -537,7 +537,7 @@ mets::simple_tabu_list::tabu(feasible_solution& sol, /* const */ move& mov)
       move_map_type::iterator elem = tabu_hash_m.find
 	(dynamic_cast<mana_move*>(tabu_moves_m.front()));
       elem->second--;
-      if(elem->second == 0) 
+      if(elem->second == 0)
 	{
 	  mana_move* tmp = elem->first;
 	  tabu_hash_m.erase(elem);
@@ -553,7 +553,7 @@ mets::simple_tabu_list::is_tabu(feasible_solution& sol, move& mov) const
 {
   // hash set. very fast but requires C++ ISO TR1 extension
   // and an hash function in every move (Omega(1)).
-  bool tabu = (tabu_hash_m.find(&dynamic_cast<mana_move&>(mov)) 
+  bool tabu = (tabu_hash_m.find(&dynamic_cast<mana_move&>(mov))
 	       != tabu_hash_m.end());
 
   if(tabu)
@@ -564,23 +564,23 @@ mets::simple_tabu_list::is_tabu(feasible_solution& sol, move& mov) const
 
 //////////////////////////////////////////////////////////////////////////
 // aspiration_criteria_chain
-inline void 
+inline void
 mets::aspiration_criteria_chain::reset()
 {
   if(next_m)
     return next_m->reset();
 }
 
-inline void 
-mets::aspiration_criteria_chain::accept(feasible_solution& fs, 
+inline void
+mets::aspiration_criteria_chain::accept(feasible_solution& fs,
 					move& mov,
 					gol_type eval)
 {
   if(next_m) next_m->accept(fs, mov, eval);
 }
 
-inline bool 
-mets::aspiration_criteria_chain::operator()(feasible_solution& fs, 
+inline bool
+mets::aspiration_criteria_chain::operator()(feasible_solution& fs,
 					    move& mov,
 					    gol_type eval) const
 {
@@ -592,19 +592,19 @@ mets::aspiration_criteria_chain::operator()(feasible_solution& fs,
 
 //////////////////////////////////////////////////////////////////////////
 // best_ever_criteria
-inline mets::best_ever_criteria::best_ever_criteria(double tolerance) 
+inline mets::best_ever_criteria::best_ever_criteria(double tolerance)
   : aspiration_criteria_chain(),
     best_m(std::numeric_limits<gol_type>::max()),
     tolerance_m(tolerance)
 { }
 
-inline mets::best_ever_criteria::best_ever_criteria(aspiration_criteria_chain* next, double tolerance) 
+inline mets::best_ever_criteria::best_ever_criteria(aspiration_criteria_chain* next, double tolerance)
   : aspiration_criteria_chain(next),
     best_m(std::numeric_limits<gol_type>::max()),
     tolerance_m(tolerance)
 { }
-    
-inline void 
+
+inline void
 mets::best_ever_criteria::reset()
 {
   best_m = std::numeric_limits<mets::gol_type>::max();
@@ -612,24 +612,24 @@ mets::best_ever_criteria::reset()
 }
 
 inline void
-mets::best_ever_criteria::accept(feasible_solution& fs, 
-				 move& mov, 
-				 gol_type eval) 
+mets::best_ever_criteria::accept(feasible_solution& fs,
+				 move& mov,
+				 gol_type eval)
 {
   best_m = std::min(dynamic_cast<const evaluable_solution&>(fs).cost_function(), best_m);
   aspiration_criteria_chain::accept(fs, mov, eval);
-}  
+}
 
-inline bool 
-mets::best_ever_criteria::operator()(feasible_solution& fs, 
-				     move& mov, 
+inline bool
+mets::best_ever_criteria::operator()(feasible_solution& fs,
+				     move& mov,
 				     gol_type eval) const
-{ 
+{
   /// the solution is the solution before applying mov.
   if(eval < best_m - tolerance_m)
     return true;
   else
-    return aspiration_criteria_chain::operator()(fs, mov, eval); 
+    return aspiration_criteria_chain::operator()(fs, mov, eval);
 }
 
 #endif

@@ -36,14 +36,16 @@
  * $Id: gss3d.cpp 6459 2012-07-18 07:50:37Z dpb $
  */
 
-#include <pcl/point_types.h>
-#include <pcl/impl/instantiate.hpp>
 #include <pcl/features/gss3d.h>
 #include <pcl/features/impl/gss3d.hpp>
+#include <pcl/impl/instantiate.hpp>
+#include <pcl/point_types.h>
 
 // Instantiations of specific point types
 #ifdef PCL_ONLY_CORE_POINT_TYPES
-//  PCL_INSTANTIATE_PRODUCT(GSS3DEstimation, ((pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA))((pcl::Normal))((pcl::PointXYZ)))
+//  PCL_INSTANTIATE_PRODUCT(GSS3DEstimation,
+//  ((pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA))((pcl::Normal))((pcl::PointXYZ)))
 #else
-//  PCL_INSTANTIATE_PRODUCT(GSS3DEstimation, (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES)((pcl::PointXYZ)))
+//  PCL_INSTANTIATE_PRODUCT(GSS3DEstimation,
+//  (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES)((pcl::PointXYZ)))
 #endif

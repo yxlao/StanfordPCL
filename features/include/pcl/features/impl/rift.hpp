@@ -43,223 +43,234 @@
 #include <pcl/features/rift.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointInT, typename GradientT, typename PointOutT> void
-pcl::RIFTEstimation<PointInT, GradientT, PointOutT>::computeRIFT (
-      const PointCloudIn &cloud, const PointCloudGradient &gradient, 
-      int p_idx, float radius, const std::vector<int> &indices, 
-      const std::vector<float> &sqr_distances, Eigen::MatrixXf &rift_descriptor)
-{
-  if (indices.empty ())
-  {
-    PCL_ERROR ("[pcl::RIFTEstimation] Null indices points passed!\n");
-    return;
-  }
-
-  // Determine the number of bins to use based on the size of rift_descriptor
-  int nr_distance_bins = static_cast<int> (rift_descriptor.rows ());
-  int nr_gradient_bins = static_cast<int> (rift_descriptor.cols ());
-
-  // Get the center point
-  pcl::Vector3fMapConst p0 = cloud.points[p_idx].getVector3fMap ();
-
-  // Compute the RIFT descriptor
-  rift_descriptor.setZero ();
-  for (size_t idx = 0; idx < indices.size (); ++idx)
-  {
-    // Compute the gradient magnitude and orientation (relative to the center point)
-    pcl::Vector3fMapConst point = cloud.points[indices[idx]].getVector3fMap ();
-    Eigen::Map<const Eigen::Vector3f> gradient_vector (& (gradient.points[indices[idx]].gradient[0]));
-
-    float gradient_magnitude = gradient_vector.norm ();
-    float gradient_angle_from_center = acosf (gradient_vector.dot ((point - p0).normalized ()) / gradient_magnitude);
-    if (!pcl_isfinite (gradient_angle_from_center))
-      gradient_angle_from_center = 0.0;
-
-    // Normalize distance and angle values to: 0.0 <= d,g < nr_distances_bins,nr_gradient_bins
-    const float eps = std::numeric_limits<float>::epsilon ();
-    float d = static_cast<float> (nr_distance_bins) * sqrtf (sqr_distances[idx]) / (radius + eps);
-    float g = static_cast<float> (nr_gradient_bins) * gradient_angle_from_center / (static_cast<float> (M_PI) + eps);
-
-    // Compute the bin indices that need to be updated
-    int d_idx_min = (std::max)(static_cast<int> (ceil (d - 1)), 0);
-    int d_idx_max = (std::min)(static_cast<int> (floor (d + 1)), nr_distance_bins - 1);
-    int g_idx_min = static_cast<int> (ceil (g - 1));
-    int g_idx_max = static_cast<int> (floor (g + 1));
-
-    // Update the appropriate bins of the histogram 
-    for (int g_idx = g_idx_min; g_idx <= g_idx_max; ++g_idx)  
-    {
-      // Because gradient orientation is cyclical, out-of-bounds values must wrap around
-      int g_idx_wrapped = ((g_idx + nr_gradient_bins) % nr_gradient_bins); 
-
-      for (int d_idx = d_idx_min; d_idx <= d_idx_max; ++d_idx)
-      {
-        // To avoid boundary effects, use linear interpolation when updating each bin 
-        float w = (1.0f - fabsf (d - static_cast<float> (d_idx))) * (1.0f - fabsf (g - static_cast<float> (g_idx)));
-
-        rift_descriptor (d_idx, g_idx_wrapped) += w * gradient_magnitude;
-      }
+template <typename PointInT, typename GradientT, typename PointOutT>
+void pcl::RIFTEstimation<PointInT, GradientT, PointOutT>::computeRIFT(
+    const PointCloudIn &cloud, const PointCloudGradient &gradient, int p_idx,
+    float radius, const std::vector<int> &indices,
+    const std::vector<float> &sqr_distances, Eigen::MatrixXf &rift_descriptor) {
+    if (indices.empty()) {
+        PCL_ERROR("[pcl::RIFTEstimation] Null indices points passed!\n");
+        return;
     }
-  }
 
-  // Normalize the RIFT descriptor to unit magnitude
-  rift_descriptor.normalize ();
-}
+    // Determine the number of bins to use based on the size of rift_descriptor
+    int nr_distance_bins = static_cast<int>(rift_descriptor.rows());
+    int nr_gradient_bins = static_cast<int>(rift_descriptor.cols());
 
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointInT, typename GradientT, typename PointOutT> void
-pcl::RIFTEstimation<PointInT, GradientT, PointOutT>::computeFeature (PointCloudOut &output)
-{
-  // Make sure a search radius is set
-  if (search_radius_ == 0.0)
-  {
-    PCL_ERROR ("[pcl::%s::computeFeature] The search radius must be set before computing the feature!\n",
-               getClassName ().c_str ());
-    output.width = output.height = 0;
-    output.points.clear ();
-    return;
-  }
-
-  // Make sure the RIFT descriptor has valid dimensions
-  if (nr_gradient_bins_ <= 0)
-  {
-    PCL_ERROR ("[pcl::%s::computeFeature] The number of gradient bins must be greater than zero!\n",
-               getClassName ().c_str ());
-    output.width = output.height = 0;
-    output.points.clear ();
-    return;
-  }
-  if (nr_distance_bins_ <= 0)
-  {
-    PCL_ERROR ("[pcl::%s::computeFeature] The number of distance bins must be greater than zero!\n",
-               getClassName ().c_str ());
-    output.width = output.height = 0;
-    output.points.clear ();
-    return;
-  }
-
-  // Check for valid input gradient
-  if (!gradient_)
-  {
-    PCL_ERROR ("[pcl::%s::computeFeature] No input gradient was given!\n", getClassName ().c_str ());
-    output.width = output.height = 0;
-    output.points.clear ();
-    return;
-  }
-  if (gradient_->points.size () != surface_->points.size ())
-  {
-    PCL_ERROR ("[pcl::%s::computeFeature] ", getClassName ().c_str ());
-    PCL_ERROR ("The number of points in the input dataset differs from the number of points in the gradient!\n");
-    output.width = output.height = 0;
-    output.points.clear ();
-    return;
-  }
-
-  Eigen::MatrixXf rift_descriptor (nr_distance_bins_, nr_gradient_bins_);
-  std::vector<int> nn_indices;
-  std::vector<float> nn_dist_sqr;
- 
-  // Iterating over the entire index vector
-  for (size_t idx = 0; idx < indices_->size (); ++idx)
-  {
-    // Find neighbors within the search radius
-    tree_->radiusSearch ((*indices_)[idx], search_radius_, nn_indices, nn_dist_sqr);
+    // Get the center point
+    pcl::Vector3fMapConst p0 = cloud.points[p_idx].getVector3fMap();
 
     // Compute the RIFT descriptor
-    computeRIFT (*surface_, *gradient_, (*indices_)[idx], static_cast<float> (search_radius_), nn_indices, nn_dist_sqr, rift_descriptor);
+    rift_descriptor.setZero();
+    for (size_t idx = 0; idx < indices.size(); ++idx) {
+        // Compute the gradient magnitude and orientation (relative to the
+        // center point)
+        pcl::Vector3fMapConst point =
+            cloud.points[indices[idx]].getVector3fMap();
+        Eigen::Map<const Eigen::Vector3f> gradient_vector(
+            &(gradient.points[indices[idx]].gradient[0]));
 
-    // Copy into the resultant cloud
-    int bin = 0;
-    for (int g_bin = 0; g_bin < rift_descriptor.cols (); ++g_bin)
-      for (int d_bin = 0; d_bin < rift_descriptor.rows (); ++d_bin)
-        output.points[idx].histogram[bin++] = rift_descriptor (d_bin, g_bin);
-  }
+        float gradient_magnitude = gradient_vector.norm();
+        float gradient_angle_from_center =
+            acosf(gradient_vector.dot((point - p0).normalized()) /
+                  gradient_magnitude);
+        if (!pcl_isfinite(gradient_angle_from_center))
+            gradient_angle_from_center = 0.0;
+
+        // Normalize distance and angle values to: 0.0 <= d,g <
+        // nr_distances_bins,nr_gradient_bins
+        const float eps = std::numeric_limits<float>::epsilon();
+        float d = static_cast<float>(nr_distance_bins) *
+                  sqrtf(sqr_distances[idx]) / (radius + eps);
+        float g = static_cast<float>(nr_gradient_bins) *
+                  gradient_angle_from_center / (static_cast<float>(M_PI) + eps);
+
+        // Compute the bin indices that need to be updated
+        int d_idx_min = (std::max)(static_cast<int>(ceil(d - 1)), 0);
+        int d_idx_max =
+            (std::min)(static_cast<int>(floor(d + 1)), nr_distance_bins - 1);
+        int g_idx_min = static_cast<int>(ceil(g - 1));
+        int g_idx_max = static_cast<int>(floor(g + 1));
+
+        // Update the appropriate bins of the histogram
+        for (int g_idx = g_idx_min; g_idx <= g_idx_max; ++g_idx) {
+            // Because gradient orientation is cyclical, out-of-bounds values
+            // must wrap around
+            int g_idx_wrapped = ((g_idx + nr_gradient_bins) % nr_gradient_bins);
+
+            for (int d_idx = d_idx_min; d_idx <= d_idx_max; ++d_idx) {
+                // To avoid boundary effects, use linear interpolation when
+                // updating each bin
+                float w = (1.0f - fabsf(d - static_cast<float>(d_idx))) *
+                          (1.0f - fabsf(g - static_cast<float>(g_idx)));
+
+                rift_descriptor(d_idx, g_idx_wrapped) += w * gradient_magnitude;
+            }
+        }
+    }
+
+    // Normalize the RIFT descriptor to unit magnitude
+    rift_descriptor.normalize();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointInT, typename GradientT> void
-pcl::RIFTEstimation<PointInT, GradientT, Eigen::MatrixXf>::computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &output)
-{
-  // These should be moved into initCompute ()
-  {
+template <typename PointInT, typename GradientT, typename PointOutT>
+void pcl::RIFTEstimation<PointInT, GradientT, PointOutT>::computeFeature(
+    PointCloudOut &output) {
     // Make sure a search radius is set
-    if (search_radius_ == 0.0)
-    {
-      PCL_ERROR ("[pcl::%s::computeFeature] The search radius must be set before computing the feature!\n",
-                 getClassName ().c_str ());
-      output.width = output.height = 0;
-      output.points.resize (0, 0);
-      return;
+    if (search_radius_ == 0.0) {
+        PCL_ERROR("[pcl::%s::computeFeature] The search radius must be set "
+                  "before computing the feature!\n",
+                  getClassName().c_str());
+        output.width = output.height = 0;
+        output.points.clear();
+        return;
     }
 
     // Make sure the RIFT descriptor has valid dimensions
-    if (nr_gradient_bins_ <= 0)
-    {
-      PCL_ERROR ("[pcl::%s::computeFeature] The number of gradient bins must be greater than zero!\n",
-                 getClassName ().c_str ());
-      output.width = output.height = 0;
-      output.points.resize (0, 0);
-      return;
+    if (nr_gradient_bins_ <= 0) {
+        PCL_ERROR("[pcl::%s::computeFeature] The number of gradient bins must "
+                  "be greater than zero!\n",
+                  getClassName().c_str());
+        output.width = output.height = 0;
+        output.points.clear();
+        return;
     }
-    if (nr_distance_bins_ <= 0)
-    {
-      PCL_ERROR ("[pcl::%s::computeFeature] The number of distance bins must be greater than zero!\n",
-                 getClassName ().c_str ());
-      output.width = output.height = 0;
-      output.points.resize (0, 0);
-      return;
+    if (nr_distance_bins_ <= 0) {
+        PCL_ERROR("[pcl::%s::computeFeature] The number of distance bins must "
+                  "be greater than zero!\n",
+                  getClassName().c_str());
+        output.width = output.height = 0;
+        output.points.clear();
+        return;
     }
 
     // Check for valid input gradient
-    if (!gradient_)
-    {
-      PCL_ERROR ("[pcl::%s::computeFeature] No input gradient was given!\n", getClassName ().c_str ());
-      output.width = output.height = 0;
-      output.points.resize (0, 0);
-      return;
+    if (!gradient_) {
+        PCL_ERROR("[pcl::%s::computeFeature] No input gradient was given!\n",
+                  getClassName().c_str());
+        output.width = output.height = 0;
+        output.points.clear();
+        return;
     }
-    if (gradient_->points.size () != surface_->points.size ())
-    {
-      PCL_ERROR ("[pcl::%s::computeFeature] ", getClassName ().c_str ());
-      PCL_ERROR ("The number of points in the input dataset differs from the number of points in the gradient!\n");
-      output.width = output.height = 0;
-      output.points.resize (0, 0);
-      return;
-    }
-  }
-  
-  output.points.resize (indices_->size (), nr_gradient_bins_ * nr_distance_bins_);
-  Eigen::MatrixXf rift_descriptor (nr_distance_bins_, nr_gradient_bins_);
-  std::vector<int> nn_indices;
-  std::vector<float> nn_dist_sqr;
- 
-  output.is_dense = true;
-  // Iterating over the entire index vector
-  for (size_t idx = 0; idx < indices_->size (); ++idx)
-  {
-    // Find neighbors within the search radius
-    if (tree_->radiusSearch ((*indices_)[idx], search_radius_, nn_indices, nn_dist_sqr) == 0)
-    {
-      output.points.row (idx).setConstant (std::numeric_limits<float>::quiet_NaN ());
-      output.is_dense = false;
-      continue;
+    if (gradient_->points.size() != surface_->points.size()) {
+        PCL_ERROR("[pcl::%s::computeFeature] ", getClassName().c_str());
+        PCL_ERROR("The number of points in the input dataset differs from the "
+                  "number of points in the gradient!\n");
+        output.width = output.height = 0;
+        output.points.clear();
+        return;
     }
 
-    // Compute the RIFT descriptor
-    this->computeRIFT (*surface_, *gradient_, (*indices_)[idx], static_cast<float> (search_radius_), nn_indices, nn_dist_sqr, 
-                       rift_descriptor);
+    Eigen::MatrixXf rift_descriptor(nr_distance_bins_, nr_gradient_bins_);
+    std::vector<int> nn_indices;
+    std::vector<float> nn_dist_sqr;
 
-    // Copy into the resultant cloud
-    int bin = 0;
-    for (int g_bin = 0; g_bin < rift_descriptor.cols (); ++g_bin)
-      for (int d_bin = 0; d_bin < rift_descriptor.rows (); ++d_bin)
-        output.points (idx, bin++) = rift_descriptor (d_bin, g_bin);
+    // Iterating over the entire index vector
+    for (size_t idx = 0; idx < indices_->size(); ++idx) {
+        // Find neighbors within the search radius
+        tree_->radiusSearch((*indices_)[idx], search_radius_, nn_indices,
+                            nn_dist_sqr);
 
-  }
+        // Compute the RIFT descriptor
+        computeRIFT(*surface_, *gradient_, (*indices_)[idx],
+                    static_cast<float>(search_radius_), nn_indices, nn_dist_sqr,
+                    rift_descriptor);
+
+        // Copy into the resultant cloud
+        int bin = 0;
+        for (int g_bin = 0; g_bin < rift_descriptor.cols(); ++g_bin)
+            for (int d_bin = 0; d_bin < rift_descriptor.rows(); ++d_bin)
+                output.points[idx].histogram[bin++] =
+                    rift_descriptor(d_bin, g_bin);
+    }
 }
 
-#define PCL_INSTANTIATE_RIFTEstimation(T,NT,OutT) template class PCL_EXPORTS pcl::RIFTEstimation<T,NT,OutT>;
+//////////////////////////////////////////////////////////////////////////////////////////////
+template <typename PointInT, typename GradientT>
+void pcl::RIFTEstimation<PointInT, GradientT, Eigen::MatrixXf>::
+    computeFeatureEigen(pcl::PointCloud<Eigen::MatrixXf> &output) {
+    // These should be moved into initCompute ()
+    {
+        // Make sure a search radius is set
+        if (search_radius_ == 0.0) {
+            PCL_ERROR("[pcl::%s::computeFeature] The search radius must be set "
+                      "before computing the feature!\n",
+                      getClassName().c_str());
+            output.width = output.height = 0;
+            output.points.resize(0, 0);
+            return;
+        }
 
-#endif    // PCL_FEATURES_IMPL_RIFT_H_ 
+        // Make sure the RIFT descriptor has valid dimensions
+        if (nr_gradient_bins_ <= 0) {
+            PCL_ERROR("[pcl::%s::computeFeature] The number of gradient bins "
+                      "must be greater than zero!\n",
+                      getClassName().c_str());
+            output.width = output.height = 0;
+            output.points.resize(0, 0);
+            return;
+        }
+        if (nr_distance_bins_ <= 0) {
+            PCL_ERROR("[pcl::%s::computeFeature] The number of distance bins "
+                      "must be greater than zero!\n",
+                      getClassName().c_str());
+            output.width = output.height = 0;
+            output.points.resize(0, 0);
+            return;
+        }
 
+        // Check for valid input gradient
+        if (!gradient_) {
+            PCL_ERROR(
+                "[pcl::%s::computeFeature] No input gradient was given!\n",
+                getClassName().c_str());
+            output.width = output.height = 0;
+            output.points.resize(0, 0);
+            return;
+        }
+        if (gradient_->points.size() != surface_->points.size()) {
+            PCL_ERROR("[pcl::%s::computeFeature] ", getClassName().c_str());
+            PCL_ERROR("The number of points in the input dataset differs from "
+                      "the number of points in the gradient!\n");
+            output.width = output.height = 0;
+            output.points.resize(0, 0);
+            return;
+        }
+    }
+
+    output.points.resize(indices_->size(),
+                         nr_gradient_bins_ * nr_distance_bins_);
+    Eigen::MatrixXf rift_descriptor(nr_distance_bins_, nr_gradient_bins_);
+    std::vector<int> nn_indices;
+    std::vector<float> nn_dist_sqr;
+
+    output.is_dense = true;
+    // Iterating over the entire index vector
+    for (size_t idx = 0; idx < indices_->size(); ++idx) {
+        // Find neighbors within the search radius
+        if (tree_->radiusSearch((*indices_)[idx], search_radius_, nn_indices,
+                                nn_dist_sqr) == 0) {
+            output.points.row(idx).setConstant(
+                std::numeric_limits<float>::quiet_NaN());
+            output.is_dense = false;
+            continue;
+        }
+
+        // Compute the RIFT descriptor
+        this->computeRIFT(*surface_, *gradient_, (*indices_)[idx],
+                          static_cast<float>(search_radius_), nn_indices,
+                          nn_dist_sqr, rift_descriptor);
+
+        // Copy into the resultant cloud
+        int bin = 0;
+        for (int g_bin = 0; g_bin < rift_descriptor.cols(); ++g_bin)
+            for (int d_bin = 0; d_bin < rift_descriptor.rows(); ++d_bin)
+                output.points(idx, bin++) = rift_descriptor(d_bin, g_bin);
+    }
+}
+
+#define PCL_INSTANTIATE_RIFTEstimation(T, NT, OutT)                            \
+    template class PCL_EXPORTS pcl::RIFTEstimation<T, NT, OutT>;
+
+#endif // PCL_FEATURES_IMPL_RIFT_H_

@@ -7,7 +7,7 @@ import Image
 # Color of background pixels
 backgroundpixel = (255, 255, 255)
 # scale the point cloud to fit inside (-1,-1) - (1,1)
-scaling = True 
+scaling = True
 
 im = Image.open (sys.argv[1])
 
@@ -41,7 +41,7 @@ else:
   scale = [float (size_x) / size_y, 1.0]
 
 if scaling:
-  #aspect_ratio = 
+  #aspect_ratio =
   for p in points:
     for d in range(2):
       p[d] = scale[d] * ((float (p[d]) - minimum[d]) / (maximum[d] - minimum[d]) * 2.0 - 1.0)

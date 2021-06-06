@@ -42,57 +42,44 @@
 
 class vtkCubeAxesActor;
 
-namespace pcl
-{
-  namespace modeler
-  {
-    class RenderWindowItem;
+namespace pcl {
+namespace modeler {
+class RenderWindowItem;
 
-    class RenderWindow : public QVTKWidget
-    {
-      public:
-        RenderWindow(RenderWindowItem* render_window_item, QWidget *parent = 0, Qt::WFlags flags = 0);
-        ~RenderWindow();
+class RenderWindow : public QVTKWidget {
+  public:
+    RenderWindow(RenderWindowItem *render_window_item, QWidget *parent = 0,
+                 Qt::WFlags flags = 0);
+    ~RenderWindow();
 
-        virtual QSize
-        sizeHint() const {return QSize(512, 512);}
+    virtual QSize sizeHint() const { return QSize(512, 512); }
 
-        void
-        setActive(bool flag);
+    void setActive(bool flag);
 
-        void
-        setTitle(const QString& title);
+    void setTitle(const QString &title);
 
-        void
-        render();
+    void render();
 
-        void
-        resetCamera();
+    void resetCamera();
 
-        void
-        updateAxes();
+    void updateAxes();
 
-        void
-        getBackground(double& r, double& g, double& b);
+    void getBackground(double &r, double &g, double &b);
 
-        void
-        setBackground(double r, double g, double b);
+    void setBackground(double r, double g, double b);
 
-        void
-        setShowAxes(bool flag);
+    void setShowAxes(bool flag);
 
-      protected:
-        void
-        focusInEvent(QFocusEvent * event);
+  protected:
+    void focusInEvent(QFocusEvent *event);
 
-      private:
-        void
-        initRenderer();
+  private:
+    void initRenderer();
 
-        vtkSmartPointer<vtkCubeAxesActor>   axes_;
-        RenderWindowItem*     render_window_item_;
-    };
-  }
-}
+    vtkSmartPointer<vtkCubeAxesActor> axes_;
+    RenderWindowItem *render_window_item_;
+};
+} // namespace modeler
+} // namespace pcl
 
 #endif // PCL_MODELER_RENDER_WINDOW_H_

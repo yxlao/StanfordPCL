@@ -41,60 +41,56 @@
 #include <pcl/apps/cloud_composer/point_selectors/interactor_style_switch.h>
 #include <pcl/apps/cloud_composer/qt.h>
 
+namespace pcl {
+namespace cloud_composer {
 
+class PCL_EXPORTS RectangularFrustumSelector
+    : public vtkInteractorStyleRubberBandPick {
+  public:
+    static RectangularFrustumSelector *New();
+    vtkTypeMacro(RectangularFrustumSelector, vtkInteractorStyleRubberBandPick);
 
+    RectangularFrustumSelector();
 
-namespace pcl
-{
-  namespace cloud_composer
-  {
-      
-    class PCL_EXPORTS RectangularFrustumSelector : public vtkInteractorStyleRubberBandPick
-    {     
-      public:
-        static RectangularFrustumSelector* New();
-        vtkTypeMacro(RectangularFrustumSelector,vtkInteractorStyleRubberBandPick);
-        
-        RectangularFrustumSelector ();
-        
-        virtual ~RectangularFrustumSelector ();
-               
-        /** \brief Pass a pointer to the actor map
-          * \param[in] actors the actor map that will be used with this style
-          */
-        inline void 
-        setCloudActorMap (const pcl::visualization::CloudActorMapPtr &actors) { actors_ = actors; }
+    virtual ~RectangularFrustumSelector();
 
-        /** \brief Get the cloud actor map pointer. */
-        inline pcl::visualization::CloudActorMapPtr 
-        getCloudActorMap () const { return (actors_); }
+    /** \brief Pass a pointer to the actor map
+     * \param[in] actors the actor map that will be used with this style
+     */
+    inline void
+    setCloudActorMap(const pcl::visualization::CloudActorMapPtr &actors) {
+        actors_ = actors;
+    }
 
-        /** \brief Pass a set of renderers to the interactor style. 
-          * \param[in] rens the vtkRendererCollection to use
-          */
-        void 
-        setRendererCollection (vtkSmartPointer<vtkRendererCollection> &rens) { renderers_ = rens; }
+    /** \brief Get the cloud actor map pointer. */
+    inline pcl::visualization::CloudActorMapPtr getCloudActorMap() const {
+        return (actors_);
+    }
 
-        /** \brief Function called on left mouse button release, ie, end of rectangular drag */
-        virtual void
-        OnLeftButtonUp ();
+    /** \brief Pass a set of renderers to the interactor style.
+     * \param[in] rens the vtkRendererCollection to use
+     */
+    void setRendererCollection(vtkSmartPointer<vtkRendererCollection> &rens) {
+        renderers_ = rens;
+    }
 
-        /** \brief Event emitted once a valid selection has been made */
-        int selection_complete_event_;
-      private:
+    /** \brief Function called on left mouse button release, ie, end of
+     * rectangular drag */
+    virtual void OnLeftButtonUp();
 
-        
-        /** \brief Actor map stored internally. */
-        pcl::visualization::CloudActorMapPtr actors_;
-        
-        /** \brief Collection of vtkRenderers stored internally. */
-        vtkSmartPointer<vtkRendererCollection> renderers_;
-    };
-    
-  }
-  
-}
+    /** \brief Event emitted once a valid selection has been made */
+    int selection_complete_event_;
+
+  private:
+    /** \brief Actor map stored internally. */
+    pcl::visualization::CloudActorMapPtr actors_;
+
+    /** \brief Collection of vtkRenderers stored internally. */
+    vtkSmartPointer<vtkRendererCollection> renderers_;
+};
+
+} // namespace cloud_composer
+
+} // namespace pcl
 
 #endif // RECTANGULAR_FRUSTRUM_SELECTOR_H_
-        
-        

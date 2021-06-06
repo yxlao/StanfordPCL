@@ -44,45 +44,42 @@
 
 #include <pcl/gpu/kinfu_large_scale/kinfu.h>
 
-namespace pcl
-{
-  namespace gpu
-  {
-    class CaptureOpenNI
-    {
-public:
+namespace pcl {
+namespace gpu {
+class CaptureOpenNI {
+  public:
     typedef pcl::gpu::PixelRGB RGB;
 
-    enum { PROP_OPENNI_REGISTRATION_ON  = 104 };
-
+    enum { PROP_OPENNI_REGISTRATION_ON = 104 };
 
     CaptureOpenNI();
     CaptureOpenNI(int device);
-    CaptureOpenNI(const std::string& oni_filename);
+    CaptureOpenNI(const std::string &oni_filename);
 
     void open(int device);
-    void open(const std::string& oni_filename);
+    void open(const std::string &oni_filename);
     void release();
 
     ~CaptureOpenNI();
 
-    bool grab (PtrStepSz<const unsigned short>& depth, PtrStepSz<const RGB>& rgb24);
+    bool grab(PtrStepSz<const unsigned short> &depth,
+              PtrStepSz<const RGB> &rgb24);
 
-    //parameters taken from camera/oni
+    // parameters taken from camera/oni
     float depth_focal_length_VGA;
-    float baseline;         // mm
+    float baseline; // mm
     int shadow_value;
     int no_sample_value;
-    double pixelSize;         //mm
+    double pixelSize; // mm
 
-    unsigned short max_depth;         //mm
+    unsigned short max_depth; // mm
 
-    bool setRegistration (bool value = false);
-private:
+    bool setRegistration(bool value = false);
+
+  private:
     struct Impl;
     boost::shared_ptr<Impl> impl_;
-    void getParams ();
-
-    };
-  }
+    void getParams();
 };
+} // namespace gpu
+}; // namespace pcl

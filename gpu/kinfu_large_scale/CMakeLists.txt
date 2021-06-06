@@ -27,7 +27,7 @@ if (build)
 	#FILE(GLOB tsdf src/cuda/tsdf_volume.cu)
 	#FILE(GLOB est src/cuda/estimate_tranform.cu)
 			
-	source_group("Source Files\\cuda" FILES ${cuda} )    
+	source_group("Source Files\\cuda" FILES ${cuda} )
 	source_group("Source Files" FILES ${srcs} )		
 	
 	set(LIB_NAME pcl_${SUBSYS_NAME})
@@ -46,7 +46,7 @@ if (build)
 	if(TRUE)
 		#list(REMOVE_ITEM cuda ${est})
 		#CUDA_COMPILE(est_objs ${est})		
-				   
+				
 		set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} "--ftz=true;--prec-div=false;--prec-sqrt=false")		
 		CUDA_COMPILE(cuda_objs ${cuda})		
 		
@@ -56,13 +56,13 @@ if (build)
 	else()		
 		list(REMOVE_ITEM cuda ${tsdf})
 		CUDA_COMPILE(cuda_objs ${cuda})		
-		set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}  "--ftz=true;--prec-div=false;--prec-sqrt=false") 
+		set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS}  "--ftz=true;--prec-div=false;--prec-sqrt=false")
 		CUDA_COMPILE(tsdf_obj ${tsdf})
 	
 		LIST(APPEND cuda ${tsdf})
 		LIST(APPEND cuda_objs ${tsdf_obj})
 	endif()
-	 
+	
 	PCL_ADD_LIBRARY(${LIB_NAME} ${SUBSYS_NAME} ${srcs} ${incs} ${impl_incs} ${cuda} ${cuda_objs})
 	target_link_libraries(${LIB_NAME} pcl_common pcl_io pcl_gpu_utils pcl_gpu_containers pcl_gpu_octree pcl_octree pcl_filters)
 			

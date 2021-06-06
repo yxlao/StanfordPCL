@@ -42,11 +42,11 @@
 #define PCL_TEST_COMMON_BOOST_H_
 
 #ifdef __GNUC__
-#pragma GCC system_header 
+#pragma GCC system_header
 #endif
 
 // Marking all Boost headers as system headers to remove warnings
 #include <boost/random.hpp>
 #include <boost/random/variate_generator.hpp>
 
-#endif    // PCL_TEST_COMMON_BOOST_H_
+#endif // PCL_TEST_COMMON_BOOST_H_

@@ -8,7 +8,7 @@ uniform float step_y;
 
 uniform sampler2D ArraySampler;
 
-void main() 
+void main()
 {
   FragColor = texture2D(ArraySampler, TexCoord0.st) +
               texture2D(ArraySampler, TexCoord0.st + vec2(step_x, 0.0)) +

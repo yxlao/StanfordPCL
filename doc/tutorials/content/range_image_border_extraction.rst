@@ -18,7 +18,7 @@ editor, and place the following code inside it:
    :language: cpp
    :linenos:
 
-   
+
 Explanation
 -----------
 
@@ -74,7 +74,7 @@ Add the following lines to your CMakeLists.txt file:
 .. literalinclude:: sources/range_image_border_extraction/CMakeLists.txt
    :language: cmake
    :linenos:
-   
+
 After you have made the executable, you can run it. Simply do::
 
   $ ./range_image_border_extraction -m

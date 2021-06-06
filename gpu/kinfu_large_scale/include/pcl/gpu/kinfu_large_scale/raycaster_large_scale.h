@@ -35,39 +35,37 @@
  *
  */
 
-
 //~ #ifndef PCL_KINFU_TSDF_RAYCASTERLS_H_
 //~ #define PCL_KINFU_TSDF_RAYCASTERLS_H_
 
 //~ #include <pcl/gpu/kinfu_large_scale/raycaster.h>
 //~ #include <pcl/gpu/kinfu_large_scale/tsdf_buffer.h>
 
-
 //~ namespace pcl
 //~ {
-  //~ namespace gpu
-  //~ {
-//~ 
-    //~ /** \brief TODO
-      //~ * \author 
-      //~ */
-    //~ union PCL_EXPORTS RayCasterLS
-    //~ {
-      //~ public:
-//~ 
-      //~ /** \brief Runs raycasting algorithm from given camera pose. It writes results to internal fiels.
-        //~ * \param[in] volume tsdf volume container
-        //~ * \param[in] camera_pose camera pose
-        //~ */ 
-      //~ void 
-      //~ run(const TsdfVolume& volume, const Eigen::Affine3f& camera_pose, pcl::gpu::tsdf_buffer* buffer);
-//~ 
-      //~ /** \brief vertex map of 3D points*/
-      //~ RayCaster raycaster_;
-//~ 
-    //~ };
-//~ 
-  //~ }
+//~ namespace gpu
+//~ {
+//~
+//~ /** \brief TODO
+//~ * \author
+//~ */
+//~ union PCL_EXPORTS RayCasterLS
+//~ {
+//~ public:
+//~
+//~ /** \brief Runs raycasting algorithm from given camera pose. It writes
+//results to internal fiels. ~ * \param[in] volume tsdf volume container ~ *
+//\param[in] camera_pose camera pose ~ */
+//~ void
+//~ run(const TsdfVolume& volume, const Eigen::Affine3f& camera_pose,
+//pcl::gpu::tsdf_buffer* buffer);
+//~
+//~ /** \brief vertex map of 3D points*/
+//~ RayCaster raycaster_;
+//~
+//~ };
+//~
+//~ }
 //~ }
 
 //~ #endif /* PCL_KINFU_TSDF_RAYCASTERLS_H_ */

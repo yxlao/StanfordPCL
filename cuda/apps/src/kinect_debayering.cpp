@@ -38,50 +38,50 @@
 #include <pcl_cuda/io/cloud_to_pcl.h>
 #include <pcl_cuda/io/debayering.h>
 
-#include <pcl/io/kinect_grabber.h>
 #include <boost/shared_ptr.hpp>
 #include <iostream>
 #include <opencv2/opencv.hpp>
+#include <pcl/io/kinect_grabber.h>
 #include <pcl_cuda/time_cpu.h>
 
-class SimpleKinectTool
-{
+class SimpleKinectTool {
   public:
-     //SimpleKinectTool () : viewer ("KinectGrabber"), init_(false) {}
+    // SimpleKinectTool () : viewer ("KinectGrabber"), init_(false) {}
 
-    void cloud_cb_ (const boost::shared_ptr<openni_wrapper::Image>& image)
-    {
-    	thrust::host_vector<pcl_cuda::OpenNIRGB> rgb_image(image->getWidth () * image->getHeight ());
-    	cv::Mat cv_image( image->getHeight (), image->getWidth (), CV_8UC3 );
-    	{
-    	pcl::ScopeTime t ("computeBilinear+memcpy");
-    	debayering.computeBilinear (image, rgb_image);
-    	//debayering.computeEdgeAware (image, rgb_image);
-    	// now fill image and show!
-    	pcl::ScopeTime t2 ("memcpy");
-    	memcpy (cv_image.data, &rgb_image[0], image->getWidth () * image->getHeight () * 3);
-    	}
-    	imshow ("test", cv_image);
+    void cloud_cb_(const boost::shared_ptr<openni_wrapper::Image> &image) {
+        thrust::host_vector<pcl_cuda::OpenNIRGB> rgb_image(image->getWidth() *
+                                                           image->getHeight());
+        cv::Mat cv_image(image->getHeight(), image->getWidth(), CV_8UC3);
+        {
+            pcl::ScopeTime t("computeBilinear+memcpy");
+            debayering.computeBilinear(image, rgb_image);
+            // debayering.computeEdgeAware (image, rgb_image);
+            // now fill image and show!
+            pcl::ScopeTime t2("memcpy");
+            memcpy(cv_image.data, &rgb_image[0],
+                   image->getWidth() * image->getHeight() * 3);
+        }
+        imshow("test", cv_image);
     }
-    
-    void run (const std::string& device_id)
-    {
-	    cv::namedWindow("test", CV_WINDOW_AUTOSIZE);
-      pcl::Grabber* interface = new pcl::OpenNIGrabber(device_id);
 
-      boost::function<void (const boost::shared_ptr<openni_wrapper::Image>& image)> f = boost::bind (&SimpleKinectTool::cloud_cb_, this, _1);
+    void run(const std::string &device_id) {
+        cv::namedWindow("test", CV_WINDOW_AUTOSIZE);
+        pcl::Grabber *interface = new pcl::OpenNIGrabber(device_id);
 
-      boost::signals2::connection c = interface->registerCallback (f);
+        boost::function<void(
+            const boost::shared_ptr<openni_wrapper::Image> &image)>
+            f = boost::bind(&SimpleKinectTool::cloud_cb_, this, _1);
 
-      interface->start ();
-      
-      while (true)
-      {
-        //sleep (1);
-        cv::waitKey(10);
-      }
+        boost::signals2::connection c = interface->registerCallback(f);
 
-      interface->stop ();
+        interface->start();
+
+        while (true) {
+            // sleep (1);
+            cv::waitKey(10);
+        }
+
+        interface->stop();
     }
 
     pcl_cuda::Debayering<pcl_cuda::Host> debayering;
@@ -89,14 +89,12 @@ class SimpleKinectTool
     bool init_;
 };
 
-int main (int argc, char** argv)
-{
-	std::string device_id = "#1";
-	if (argc == 2)
-	{
-		device_id = argv[1];
-	}
-  SimpleKinectTool v;
-  v.run (device_id);
-  return 0;
+int main(int argc, char **argv) {
+    std::string device_id = "#1";
+    if (argc == 2) {
+        device_id = argv[1];
+    }
+    SimpleKinectTool v;
+    v.run(device_id);
+    return 0;
 }

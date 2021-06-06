@@ -35,7 +35,7 @@ Let's have a look at what `cmake` options got enabled::
   $ ccmake ..
 
 You should see something like the following on screen::
-   
+
  BUILD_TESTS                      ON
  BUILD_common                     ON
  BUILD_features                   ON
@@ -51,13 +51,13 @@ You should see something like the following on screen::
  BUILD_segmentation               ON
  BUILD_surface                    ON
  BUILD_visualization              ON
- CMAKE_BUILD_TYPE                 
+ CMAKE_BUILD_TYPE
  CMAKE_INSTALL_PREFIX             /usr/local
  PCL_SHARED_LIBS                  ON
  PCL_VERSION                      1.0.0
  VTK_DIR                          /usr/local/lib/vtk-5.6
 
-   
+
 The explanation
 ---------------
 
@@ -115,7 +115,7 @@ options. For example, you can prevent the building of:
 * a library: setting BUILD_LIBRARY_NAME to OFF
 
 Note that if you disable a XXX library that is required for building
-YYY then XXX will be built but won't appear in the cache. 
+YYY then XXX will be built but won't appear in the cache.
 
 You can also change the build type:
 
@@ -141,7 +141,7 @@ installed in unusal locations and thus cmake hangs with
 `XXX_NOT_FOUND` this can even prevent you from building PCL although
 you have all the dependencies installed. In this section we will
 discuss each dependency entry so that you can configure/build or
-update/build PCL according to your system. 
+update/build PCL according to your system.
 
 General  remarks
 ^^^^^^^^^^^^^^^^
@@ -165,7 +165,7 @@ The available ROOTs you can set are as follow:
 
 To ensure that all the dependencies were correctly found, beside the
 message you get from CMake, you can check or edit each dependency specific
-variables and give it the value that best fits your needs. 
+variables and give it the value that best fits your needs.
 
 UNIX users generally don't have to bother with debug vs release versions
 they are fully complient. You would just loose debug symbols if you use
@@ -183,7 +183,7 @@ then a sample value is given for reference.
 
 * Boost
 
-+----------------------------------+---------------------------------------------------------------+------------------------------------------+ 
++----------------------------------+---------------------------------------------------------------+------------------------------------------+
 | cache variable                   | meaning                                                       | sample value                             |
 +==================================+===============================================================+==========================================+
 | Boost_DATE_TIME_LIBRARY          | full path to boost_date-time.[so,lib,a]                       | /usr/local/lib/libboost_date_time.so     |
@@ -218,14 +218,14 @@ then a sample value is given for reference.
 
 * CMinpack
 
-+------------------------+--------------------------------------------------------+----------------------------------+ 
++------------------------+--------------------------------------------------------+----------------------------------+
 | cache variable         | meaning                                                | sample value                     |
-+========================+========================================================+==================================+ 
++========================+========================================================+==================================+
 | CMINPACK_INCLUDE_DIR   | path to cminpack headers directory                     | /usr/local/include/cminpack-1    |
 +------------------------+--------------------------------------------------------+----------------------------------+
 | CMINPACK_LIBRARY       | full path to cminpack.[so,lib,a] (release version)     | /usr/local/lib/libcminpack.so    |
 +------------------------+--------------------------------------------------------+----------------------------------+
-| CMINPACK_LIBRARY_DEBUG | full path to cminpack.[so,lib,a] (debug version)       | /usr/local/lib/libcminpack-gd.so |    
+| CMINPACK_LIBRARY_DEBUG | full path to cminpack.[so,lib,a] (debug version)       | /usr/local/lib/libcminpack-gd.so |
 +------------------------+--------------------------------------------------------+----------------------------------+
 
 
@@ -246,7 +246,7 @@ then a sample value is given for reference.
 
 +------------------+---------------------------------+---------------------------+
 | cache variable   | meaning                         | sample value              |
-+==================+=================================+===========================+ 
++==================+=================================+===========================+
 | EIGEN_INCLUDE_DIR| path to eigen headers directory | /usr/local/include/eigen3 |
 +------------------+---------------------------------+---------------------------+
 

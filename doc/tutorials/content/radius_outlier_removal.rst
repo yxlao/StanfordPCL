@@ -52,13 +52,13 @@ After you have made the executable, you can run it. Simply do::
 
 You will see something similar to::
 
-  Cloud before filtering: 
+  Cloud before filtering:
        0.352222 -0.151883 -0.106395
 	   -0.397406 -0.473106 0.292602
 	   -0.731898 0.667105 0.441304
 	   -0.734766 0.854581 -0.0361733
 	   -0.4607 -0.277468 -0.916762
-  Cloud after filtering: 
+  Cloud after filtering:
 	   -0.731898 0.667105 0.441304
 	   -0.734766 0.854581 -0.0361733
 

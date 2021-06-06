@@ -35,18 +35,18 @@
  *
  */
 
+#include <message_filters/subscriber.h>
+#include <message_filters/sync_policies/approximate_time.h>
+#include <message_filters/synchronizer.h>
+#include <pcl_cuda/io/disparity_to_cloud.h>
+#include <pcl_cuda/sample_consensus/ransac.h>
+#include <pcl_cuda/sample_consensus/sac_model_plane.h>
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud2.h>
-#include <message_filters/subscriber.h>
-#include <message_filters/synchronizer.h>
-#include <message_filters/sync_policies/approximate_time.h>
-#include <pcl_cuda/io/disparity_to_cloud.h>
-#include <pcl_cuda/sample_consensus/sac_model_plane.h>
-#include <pcl_cuda/sample_consensus/ransac.h>
 
 #include <pcl/point_cloud.h>
-#include <pcl_ros/point_cloud.h>
 #include <pcl/point_types.h>
+#include <pcl_ros/point_cloud.h>
 
 using namespace message_filters;
 using namespace sensor_msgs;
@@ -55,73 +55,74 @@ using namespace pcl_cuda;
 DisparityToCloud d2c;
 ros::Publisher pub;
 
-struct EventHelper
-{
-  void
-  callback (const sensor_msgs::Image::ConstPtr &depth,
-            const sensor_msgs::Image::ConstPtr &rgb,
-            const sensor_msgs::CameraInfo::ConstPtr &info)
-  {
-    //typedef pcl_cuda::SampleConsensusModel<pcl_cuda::Host>::Indices Indices;
+struct EventHelper {
+    void callback(const sensor_msgs::Image::ConstPtr &depth,
+                  const sensor_msgs::Image::ConstPtr &rgb,
+                  const sensor_msgs::CameraInfo::ConstPtr &info) {
+        // typedef pcl_cuda::SampleConsensusModel<pcl_cuda::Host>::Indices
+        // Indices;
 
-    //pcl_cuda::PointCloudAOS<pcl_cuda::Host>::Ptr data (new pcl_cuda::PointCloudAOS<pcl_cuda::Host>);
-    PointCloudAOS<Device>::Ptr data;
-    d2c.callback (depth, rgb, info, data);
+        // pcl_cuda::PointCloudAOS<pcl_cuda::Host>::Ptr data (new
+        // pcl_cuda::PointCloudAOS<pcl_cuda::Host>);
+        PointCloudAOS<Device>::Ptr data;
+        d2c.callback(depth, rgb, info, data);
 
-    SampleConsensusModelPlane<Device>::Ptr sac_model (new SampleConsensusModelPlane<Device> (data));
-//    SampleConsensusModelPlane<Host>::Ptr sac_model (new pcl_cuda::SampleConsensusModelPlane<pcl_cuda::Host> (data));
-    RandomSampleConsensus<Device> sac (sac_model);
-    sac.setDistanceThreshold (0.05);
+        SampleConsensusModelPlane<Device>::Ptr sac_model(
+            new SampleConsensusModelPlane<Device>(data));
+        //    SampleConsensusModelPlane<Host>::Ptr sac_model (new
+        //    pcl_cuda::SampleConsensusModelPlane<pcl_cuda::Host> (data));
+        RandomSampleConsensus<Device> sac(sac_model);
+        sac.setDistanceThreshold(0.05);
 
-    if (!sac.computeModel (2))
-      std::cerr << "Failed to compute model" << std::endl;
+        if (!sac.computeModel(2))
+            std::cerr << "Failed to compute model" << std::endl;
 
-    // Convert data from Thrust/HOST to PCL
-    pcl::PointCloud<pcl::PointXYZRGB> output;
-//    pcl_cuda::toPCL (*data, output);
+        // Convert data from Thrust/HOST to PCL
+        pcl::PointCloud<pcl::PointXYZRGB> output;
+        //    pcl_cuda::toPCL (*data, output);
 
-    output.header.stamp = ros::Time::now ();
-    pub.publish (output);
-  }
+        output.header.stamp = ros::Time::now();
+        pub.publish(output);
+    }
 };
 
-int
-main (int argc, char **argv)
-{
-  ros::init (argc, argv, "disparity_to_cloud");
-  ros::NodeHandle nh;
+int main(int argc, char **argv) {
+    ros::init(argc, argv, "disparity_to_cloud");
+    ros::NodeHandle nh;
 
-  // Prepare output
-  pub = nh.advertise<PointCloud2>("output", 1);
+    // Prepare output
+    pub = nh.advertise<PointCloud2>("output", 1);
 
-  // Subscribe to topics
-  Synchronizer<sync_policies::ApproximateTime<Image, Image, CameraInfo> > sync_rgb (30);
-  Synchronizer<sync_policies::ApproximateTime<Image, CameraInfo> > sync (30);
-  Subscriber<Image> sub_depth, sub_rgb;
-  Subscriber<CameraInfo> sub_info;
-  sub_depth.subscribe (nh, "/camera/depth/image", 30);
-  sub_rgb.subscribe (nh, "/camera/rgb/image_color", 30);
-  sub_info.subscribe (nh, "/camera/rgb/camera_info", 120);
-  //sub_info.subscribe (nh, "/camera/depth/camera_info", 120);
+    // Subscribe to topics
+    Synchronizer<sync_policies::ApproximateTime<Image, Image, CameraInfo>>
+        sync_rgb(30);
+    Synchronizer<sync_policies::ApproximateTime<Image, CameraInfo>> sync(30);
+    Subscriber<Image> sub_depth, sub_rgb;
+    Subscriber<CameraInfo> sub_info;
+    sub_depth.subscribe(nh, "/camera/depth/image", 30);
+    sub_rgb.subscribe(nh, "/camera/rgb/image_color", 30);
+    sub_info.subscribe(nh, "/camera/rgb/camera_info", 120);
+    // sub_info.subscribe (nh, "/camera/depth/camera_info", 120);
 
-  EventHelper h;
+    EventHelper h;
 
-  if (argc > 1 && atoi (argv[1]) == 1)
-  {
-    ROS_INFO ("[disparity_to_cloud] Using RGB to color the points.");
-    sync_rgb.connectInput (sub_depth, sub_rgb, sub_info);
-    //sync_rgb.registerCallback (bind (&pcl_cuda::DisparityToCloud::callback, k, _1, _2, _3));
-    sync_rgb.registerCallback (boost::bind (&EventHelper::callback, &h, _1, _2, _3));
-  }
-  else
-  {
-    sync.connectInput (sub_depth, sub_info);
-    //sync.registerCallback (bind (&pcl_cuda::DisparityToCloud::callback, k, _1, ImageConstPtr (), _2));
-    sync.registerCallback (boost::bind (&EventHelper::callback, &h, _1, ImageConstPtr (), _2));
-  }
+    if (argc > 1 && atoi(argv[1]) == 1) {
+        ROS_INFO("[disparity_to_cloud] Using RGB to color the points.");
+        sync_rgb.connectInput(sub_depth, sub_rgb, sub_info);
+        // sync_rgb.registerCallback (bind
+        // (&pcl_cuda::DisparityToCloud::callback, k, _1, _2, _3));
+        sync_rgb.registerCallback(
+            boost::bind(&EventHelper::callback, &h, _1, _2, _3));
+    } else {
+        sync.connectInput(sub_depth, sub_info);
+        // sync.registerCallback (bind (&pcl_cuda::DisparityToCloud::callback,
+        // k, _1, ImageConstPtr (), _2));
+        sync.registerCallback(
+            boost::bind(&EventHelper::callback, &h, _1, ImageConstPtr(), _2));
+    }
 
-  // Do this indefinitely
-  ros::spin ();
+    // Do this indefinitely
+    ros::spin();
 
-  return (0);
+    return (0);
 }

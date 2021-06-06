@@ -40,18 +40,18 @@
 #ifndef PCL_SURFACE_IMPL_POISSON_H_
 #define PCL_SURFACE_IMPL_POISSON_H_
 
-#include <pcl/surface/poisson.h>
+#include <pcl/Vertices.h>
 #include <pcl/common/common.h>
 #include <pcl/common/vector_average.h>
-#include <pcl/Vertices.h>
+#include <pcl/surface/poisson.h>
 
-#include <pcl/surface/poisson/octree_poisson.h>
-#include <pcl/surface/poisson/sparse_matrix.h>
 #include <pcl/surface/poisson/function_data.h>
-#include <pcl/surface/poisson/ppolynomial.h>
 #include <pcl/surface/poisson/multi_grid_octree_data.h>
+#include <pcl/surface/poisson/octree_poisson.h>
+#include <pcl/surface/poisson/ppolynomial.h>
+#include <pcl/surface/poisson/sparse_matrix.h>
 
-#define MEMORY_ALLOCATOR_BLOCK_SIZE 1<<12
+#define MEMORY_ALLOCATOR_BLOCK_SIZE 1 << 12
 
 #include <stdarg.h>
 #include <string>
@@ -60,253 +60,219 @@ using namespace pcl;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointNT>
-pcl::Poisson<PointNT>::Poisson ()
-: data_ (),
-  no_reset_samples_ (false),
-  no_clip_tree_ (false),
-  confidence_ (false),
-  manifold_ (false),
-  output_polygons_ (false),
-  depth_ (8),
-  solver_divide_ (8),
-  iso_divide_ (8),
-  refine_ (3),
-  kernel_depth_ (8),
-  degree_ (2),
-  samples_per_node_ (1.0),
-  scale_ (1.25)
-{
+pcl::Poisson<PointNT>::Poisson()
+    : data_(), no_reset_samples_(false), no_clip_tree_(false),
+      confidence_(false), manifold_(false), output_polygons_(false), depth_(8),
+      solver_divide_(8), iso_divide_(8), refine_(3), kernel_depth_(8),
+      degree_(2), samples_per_node_(1.0), scale_(1.25) {}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+template <typename PointNT> pcl::Poisson<PointNT>::~Poisson() {}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+template <typename PointNT>
+template <int Degree>
+void pcl::Poisson<PointNT>::execute(poisson::CoredMeshData &mesh,
+                                    poisson::Point3D<float> &center,
+                                    float &scale) {
+    float isoValue = 0.0f;
+    ///////////////////////////////////////
+    // Fix courtesy of David Gallup      //
+    poisson::TreeNodeData::UseIndex = 1; //
+    ///////////////////////////////////////
+    poisson::Octree<Degree> tree;
+    poisson::PPolynomial<Degree> ReconstructionFunction =
+        poisson::PPolynomial<Degree>::GaussianApproximation();
+
+    center.coords[0] = center.coords[1] = center.coords[2] = 0.0f;
+
+    poisson::TreeOctNode::SetAllocator(MEMORY_ALLOCATOR_BLOCK_SIZE);
+
+    kernel_depth_ = depth_ - 2;
+    //  if(KernelDepth.set){kernelDepth=KernelDepth.value;}
+
+    tree.setFunctionData(ReconstructionFunction, depth_, 0,
+                         poisson::Real(1.0f) / poisson::Real(1 << depth_));
+    //  if (kernel_depth_>depth_)
+    //  {
+    //    fprintf(stderr,"KernelDepth can't be greater than Depth: %d <=
+    //    %d\n",kernel_depth_,depth_); return;
+    //  }
+
+    tree.setTree(input_, depth_, kernel_depth_, float(samples_per_node_),
+                 scale_, center, scale, !no_reset_samples_, confidence_);
+
+    printf("scale after settree %f\n", scale);
+
+    if (!no_clip_tree_) {
+        tree.ClipTree();
+    }
+
+    tree.finalize1(refine_);
+
+    tree.maxMemoryUsage = 0;
+    tree.SetLaplacianWeights();
+
+    tree.finalize2(refine_);
+
+    tree.maxMemoryUsage = 0;
+    tree.LaplacianMatrixIteration(solver_divide_);
+
+    tree.maxMemoryUsage = 0;
+    isoValue = tree.GetIsoValue();
+
+    if (iso_divide_)
+        tree.GetMCIsoTriangles(isoValue, iso_divide_, &mesh, 0, 1, manifold_,
+                               output_polygons_);
+    else
+        tree.GetMCIsoTriangles(isoValue, &mesh, 0, 1, manifold_,
+                               output_polygons_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointNT>
-pcl::Poisson<PointNT>::~Poisson ()
-{
+void pcl::Poisson<PointNT>::performReconstruction(PolygonMesh &output) {
+    poisson::CoredVectorMeshData mesh;
+    poisson::Point3D<float> center;
+    float scale = 1.0f;
+
+    switch (degree_) {
+    case 1: {
+        execute<1>(mesh, center, scale);
+        break;
+    }
+    case 2: {
+        execute<2>(mesh, center, scale);
+        break;
+    }
+    case 3: {
+        execute<3>(mesh, center, scale);
+        break;
+    }
+    case 4: {
+        execute<4>(mesh, center, scale);
+        break;
+    }
+    case 5: {
+        execute<5>(mesh, center, scale);
+        break;
+    }
+    default: {
+        PCL_ERROR(stderr, "Degree %d not supported\n", degree_);
+    }
+    }
+
+    /// Write output PolygonMesh
+    // write vertices
+    pcl::PointCloud<pcl::PointXYZ> cloud;
+    cloud.points.resize(
+        int(mesh.outOfCorePointCount() + mesh.inCorePoints.size()));
+    poisson::Point3D<float> p;
+    for (int i = 0; i < int(mesh.inCorePoints.size()); i++) {
+        p = mesh.inCorePoints[i];
+        cloud.points[i].x = p.coords[0] * scale + center.coords[0];
+        cloud.points[i].y = p.coords[1] * scale + center.coords[1];
+        cloud.points[i].z = p.coords[2] * scale + center.coords[2];
+    }
+    for (int i = int(mesh.inCorePoints.size());
+         i < int(mesh.outOfCorePointCount() + mesh.inCorePoints.size()); i++) {
+        mesh.nextOutOfCorePoint(p);
+        cloud.points[i].x = p.coords[0] * scale + center.coords[0];
+        cloud.points[i].y = p.coords[1] * scale + center.coords[1];
+        cloud.points[i].z = p.coords[2] * scale + center.coords[2];
+    }
+    pcl::toROSMsg(cloud, output.cloud);
+    output.polygons.resize(mesh.polygonCount());
+
+    // Write faces
+    std::vector<poisson::CoredVertexIndex> polygon;
+    for (int p_i = 0; p_i < mesh.polygonCount(); p_i++) {
+        pcl::Vertices v;
+        mesh.nextPolygon(polygon);
+        v.vertices.resize(polygon.size());
+
+        for (int i = 0; i < static_cast<int>(polygon.size()); ++i)
+            if (polygon[i].inCore)
+                v.vertices[i] = polygon[i].idx;
+            else
+                v.vertices[i] = polygon[i].idx + int(mesh.inCorePoints.size());
+
+        output.polygons[p_i] = v;
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointNT> template <int Degree> void
-pcl::Poisson<PointNT>::execute (poisson::CoredMeshData &mesh,
-                                poisson::Point3D<float> &center,
-                                float &scale)
-{
-  float isoValue = 0.0f;
-  ///////////////////////////////////////
-  // Fix courtesy of David Gallup      //
-  poisson::TreeNodeData::UseIndex = 1; //
-  ///////////////////////////////////////
-  poisson::Octree<Degree> tree;
-  poisson::PPolynomial<Degree> ReconstructionFunction = poisson::PPolynomial<Degree>::GaussianApproximation ();
+template <typename PointNT>
+void pcl::Poisson<PointNT>::performReconstruction(
+    pcl::PointCloud<PointNT> &points, std::vector<pcl::Vertices> &polygons) {
+    poisson::CoredVectorMeshData mesh;
+    poisson::Point3D<float> center;
+    float scale = 1.0f;
 
-  center.coords[0] = center.coords[1] = center.coords[2] = 0.0f;
+    switch (degree_) {
+    case 1: {
+        execute<1>(mesh, center, scale);
+        break;
+    }
+    case 2: {
+        execute<2>(mesh, center, scale);
+        break;
+    }
+    case 3: {
+        execute<3>(mesh, center, scale);
+        break;
+    }
+    case 4: {
+        execute<4>(mesh, center, scale);
+        break;
+    }
+    case 5: {
+        execute<5>(mesh, center, scale);
+        break;
+    }
+    default: {
+        PCL_ERROR(stderr, "Degree %d not supported\n", degree_);
+    }
+    }
 
-  poisson::TreeOctNode::SetAllocator (MEMORY_ALLOCATOR_BLOCK_SIZE);
+    // Write output PolygonMesh
+    // Write vertices
+    points.points.resize(
+        int(mesh.outOfCorePointCount() + mesh.inCorePoints.size()));
+    poisson::Point3D<float> p;
+    for (int i = 0; i < int(mesh.inCorePoints.size()); i++) {
+        p = mesh.inCorePoints[i];
+        points.points[i].x = p.coords[0] * scale + center.coords[0];
+        points.points[i].y = p.coords[1] * scale + center.coords[1];
+        points.points[i].z = p.coords[2] * scale + center.coords[2];
+    }
+    for (int i = int(mesh.inCorePoints.size());
+         i < int(mesh.outOfCorePointCount() + mesh.inCorePoints.size()); i++) {
+        mesh.nextOutOfCorePoint(p);
+        points.points[i].x = p.coords[0] * scale + center.coords[0];
+        points.points[i].y = p.coords[1] * scale + center.coords[1];
+        points.points[i].z = p.coords[2] * scale + center.coords[2];
+    }
 
-  kernel_depth_ = depth_ - 2;
-//  if(KernelDepth.set){kernelDepth=KernelDepth.value;}
+    polygons.resize(mesh.polygonCount());
 
-  tree.setFunctionData (ReconstructionFunction, depth_, 0, poisson::Real (1.0f) / poisson::Real (1 << depth_));
-//  if (kernel_depth_>depth_)
-//  {
-//    fprintf(stderr,"KernelDepth can't be greater than Depth: %d <= %d\n",kernel_depth_,depth_);
-//    return;
-//  }
+    // write faces
+    std::vector<poisson::CoredVertexIndex> polygon;
+    for (int p_i = 0; p_i < mesh.polygonCount(); p_i++) {
+        pcl::Vertices v;
+        mesh.nextPolygon(polygon);
+        v.vertices.resize(polygon.size());
 
-  tree.setTree (input_, depth_, kernel_depth_, float (samples_per_node_), scale_, center, scale, !no_reset_samples_, confidence_);
+        for (int i = 0; i < static_cast<int>(polygon.size()); ++i)
+            if (polygon[i].inCore)
+                v.vertices[i] = polygon[i].idx;
+            else
+                v.vertices[i] = polygon[i].idx + int(mesh.inCorePoints.size());
 
-  printf ("scale after settree %f\n", scale);
-
-  if(!no_clip_tree_)
-  {
-    tree.ClipTree ();
-  }
-
-  tree.finalize1 (refine_);
-
-  tree.maxMemoryUsage = 0;
-  tree.SetLaplacianWeights ();
-
-  tree.finalize2 (refine_);
-
-  tree.maxMemoryUsage = 0;
-  tree.LaplacianMatrixIteration (solver_divide_);
-
-  tree.maxMemoryUsage = 0;
-  isoValue = tree.GetIsoValue ();
-
-  if (iso_divide_)
-    tree.GetMCIsoTriangles (isoValue, iso_divide_, &mesh, 0, 1, manifold_, output_polygons_);
-  else
-    tree.GetMCIsoTriangles (isoValue, &mesh, 0, 1, manifold_, output_polygons_);
+        polygons[p_i] = v;
+    }
 }
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointNT> void
-pcl::Poisson<PointNT>::performReconstruction (PolygonMesh &output)
-{
-  poisson::CoredVectorMeshData mesh;
-  poisson::Point3D<float> center;
-  float scale = 1.0f;
-
-  switch (degree_)
-  {
-    case 1:
-    {
-      execute<1> (mesh, center, scale);
-      break;
-    }
-    case 2:
-    {
-      execute<2> (mesh, center, scale);
-      break;
-    }
-    case 3:
-    {
-      execute<3> (mesh, center, scale);
-      break;
-    }
-    case 4:
-    {
-      execute<4> (mesh, center, scale);
-      break;
-    }
-    case 5:
-    {
-      execute<5> (mesh, center, scale);
-      break;
-    }
-    default:
-    {
-      PCL_ERROR (stderr, "Degree %d not supported\n", degree_);
-    }
-  }
-
-  /// Write output PolygonMesh
-  // write vertices
-  pcl::PointCloud<pcl::PointXYZ> cloud;
-  cloud.points.resize (int (mesh.outOfCorePointCount () + mesh.inCorePoints.size ()));
-  poisson::Point3D<float> p;
-  for (int i = 0; i < int (mesh.inCorePoints.size ()); i++)
-  {
-    p = mesh.inCorePoints[i];
-    cloud.points[i].x = p.coords[0]*scale+center.coords[0];
-    cloud.points[i].y = p.coords[1]*scale+center.coords[1];
-    cloud.points[i].z = p.coords[2]*scale+center.coords[2];
-  }
-  for (int i = int (mesh.inCorePoints.size ()); i < int (mesh.outOfCorePointCount () + mesh.inCorePoints.size ()); i++)
-  {
-    mesh.nextOutOfCorePoint (p);
-    cloud.points[i].x = p.coords[0]*scale+center.coords[0];
-    cloud.points[i].y = p.coords[1]*scale+center.coords[1];
-    cloud.points[i].z = p.coords[2]*scale+center.coords[2];
-  }
-  pcl::toROSMsg (cloud, output.cloud);
-  output.polygons.resize (mesh.polygonCount ());
-
-  // Write faces
-  std::vector<poisson::CoredVertexIndex> polygon;
-  for (int p_i = 0; p_i < mesh.polygonCount (); p_i++)
-  {
-    pcl::Vertices v;
-    mesh.nextPolygon (polygon);
-    v.vertices.resize (polygon.size ());
-
-    for (int i = 0; i < static_cast<int> (polygon.size ()); ++i)
-      if (polygon[i].inCore )
-        v.vertices[i] = polygon[i].idx;
-      else
-        v.vertices[i] = polygon[i].idx + int (mesh.inCorePoints.size ());
-
-    output.polygons[p_i] = v;
-  }
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointNT> void
-pcl::Poisson<PointNT>::performReconstruction (pcl::PointCloud<PointNT> &points,
-                                              std::vector<pcl::Vertices> &polygons)
-{
-  poisson::CoredVectorMeshData mesh;
-  poisson::Point3D<float> center;
-  float scale = 1.0f;
-
-  switch (degree_)
-  {
-    case 1:
-    {
-      execute<1> (mesh, center, scale);
-      break;
-    }
-    case 2:
-    {
-      execute<2> (mesh, center, scale);
-      break;
-    }
-    case 3:
-    {
-      execute<3> (mesh, center, scale);
-      break;
-    }
-    case 4:
-    {
-      execute<4> (mesh, center, scale);
-      break;
-    }
-    case 5:
-    {
-      execute<5> (mesh, center, scale);
-      break;
-    }
-    default:
-    {
-      PCL_ERROR (stderr, "Degree %d not supported\n", degree_);
-    }
-  }
-
-  // Write output PolygonMesh
-  // Write vertices
-  points.points.resize (int (mesh.outOfCorePointCount () + mesh.inCorePoints.size ()));
-  poisson::Point3D<float> p;
-  for (int i = 0; i < int(mesh.inCorePoints.size ()); i++)
-  {
-    p = mesh.inCorePoints[i];
-    points.points[i].x = p.coords[0]*scale+center.coords[0];
-    points.points[i].y = p.coords[1]*scale+center.coords[1];
-    points.points[i].z = p.coords[2]*scale+center.coords[2];
-  }
-  for (int i = int(mesh.inCorePoints.size()); i < int (mesh.outOfCorePointCount() + mesh.inCorePoints.size ()); i++)
-  {
-    mesh.nextOutOfCorePoint (p);
-    points.points[i].x = p.coords[0]*scale+center.coords[0];
-    points.points[i].y = p.coords[1]*scale+center.coords[1];
-    points.points[i].z = p.coords[2]*scale+center.coords[2];
-  }
-
-
-
-  polygons.resize (mesh.polygonCount ());
-
-  // write faces
-  std::vector<poisson::CoredVertexIndex> polygon;
-  for (int p_i = 0; p_i < mesh.polygonCount (); p_i++)
-  {
-    pcl::Vertices v;
-    mesh.nextPolygon (polygon);
-    v.vertices.resize (polygon.size ());
-
-    for (int i = 0; i < static_cast<int> (polygon.size ()); ++i)
-      if (polygon[i].inCore )
-        v.vertices[i] = polygon[i].idx;
-      else
-        v.vertices[i] = polygon[i].idx + int (mesh.inCorePoints.size ());
-
-    polygons[p_i] = v;
-  }
-}
-
 
 #define PCL_INSTANTIATE_Poisson(T) template class PCL_EXPORTS pcl::Poisson<T>;
 
-#endif    // PCL_SURFACE_IMPL_POISSON_H_
-
+#endif // PCL_SURFACE_IMPL_POISSON_H_

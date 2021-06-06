@@ -41,35 +41,35 @@
 #ifndef PCL_IO_VTK_IO_H_
 #define PCL_IO_VTK_IO_H_
 
+#include <pcl/PolygonMesh.h>
 #include <pcl/pcl_macros.h>
 #include <sensor_msgs/PointCloud2.h>
-#include <pcl/PolygonMesh.h>
 
 // Please do not add any functions tha depend on VTK structures to this file!
 // Use vtk_io_lib.h instead.
 
-namespace pcl
-{
-  namespace io
-  {
-    /** \brief Saves a PolygonMesh in ascii VTK format. 
-      * \param[in] file_name the name of the file to write to disk
-      * \param[in] triangles the polygonal mesh to save
-      * \param[in] precision the output ASCII precision
-      * \ingroup io
-      */
-    PCL_EXPORTS int 
-    saveVTKFile (const std::string &file_name, const pcl::PolygonMesh &triangles, unsigned precision = 5);
+namespace pcl {
+namespace io {
+/** \brief Saves a PolygonMesh in ascii VTK format.
+ * \param[in] file_name the name of the file to write to disk
+ * \param[in] triangles the polygonal mesh to save
+ * \param[in] precision the output ASCII precision
+ * \ingroup io
+ */
+PCL_EXPORTS int saveVTKFile(const std::string &file_name,
+                            const pcl::PolygonMesh &triangles,
+                            unsigned precision = 5);
 
-    /** \brief Saves a PointCloud in ascii VTK format. 
-      * \param[in] file_name the name of the file to write to disk
-      * \param[in] cloud the point cloud to save
-      * \param[in] precision the output ASCII precision
-      * \ingroup io
-      */
-    PCL_EXPORTS int 
-    saveVTKFile (const std::string &file_name, const sensor_msgs::PointCloud2 &cloud, unsigned precision = 5);    
-  }
-}
+/** \brief Saves a PointCloud in ascii VTK format.
+ * \param[in] file_name the name of the file to write to disk
+ * \param[in] cloud the point cloud to save
+ * \param[in] precision the output ASCII precision
+ * \ingroup io
+ */
+PCL_EXPORTS int saveVTKFile(const std::string &file_name,
+                            const sensor_msgs::PointCloud2 &cloud,
+                            unsigned precision = 5);
+} // namespace io
+} // namespace pcl
 
-#endif  //#ifndef PCL_IO_VTK_IO_H_
+#endif //#ifndef PCL_IO_VTK_IO_H_

@@ -44,18 +44,18 @@ namespace mets {
   /// @see mets::simulated_annealing
   ///
   /// An abstract annealing schedule. Implementations
-  /// should decide the new temperature every time the 
+  /// should decide the new temperature every time the
   /// subscript operator is called (every search iteration)
   class abstract_cooling_schedule
   {
   public:
     /// @brief Constructor
-    abstract_cooling_schedule() 
+    abstract_cooling_schedule()
     { }
 
     /// @brief Virtual destructor
     virtual
-    ~abstract_cooling_schedule() 
+    ~abstract_cooling_schedule()
     { }
 
     /// @brief The function that updates the SA temperature.
@@ -110,11 +110,11 @@ namespace mets {
 			double starting_temp,
 			double stop_temp = 1e-7,
 			double K = 1.0);
-    
+
     /// purposely not implemented (see Effective C++)
     simulated_annealing(const simulated_annealing&);
     simulated_annealing& operator=(const simulated_annealing&);
-    
+
     /// @brief This method starts the simulated annealing search
     /// process.
     ///
@@ -127,14 +127,14 @@ namespace mets {
     /// @brief The current annealing temperature.
     ///
     /// @return The current temperature of the algorithm.
-    double 
-    current_temp() const 
+    double
+    current_temp() const
     { return current_temp_m; }
 
     /// @brief The annealing schedule instance.
     ///
     /// @return The cooling schedule used by this search process.
-    const abstract_cooling_schedule& 
+    const abstract_cooling_schedule&
     cooling_schedule() const
     { return cooling_schedule_m; }
 
@@ -156,14 +156,14 @@ namespace mets {
 				 std::tr1::uniform_real<double> > gen;
 #endif
   };
-    
+
   /// @brief Original ECS proposed by Kirkpatrick
   class exponential_cooling
     : public abstract_cooling_schedule
   {
   public:
     exponential_cooling(double alpha = 0.95)
-      : abstract_cooling_schedule(), factor_m(alpha) 
+      : abstract_cooling_schedule(), factor_m(alpha)
     { if(alpha >= 1) throw std::runtime_error("alpha must be < 1"); }
     double
     operator()(double temp, feasible_solution& fs)
@@ -197,7 +197,7 @@ simulated_annealing(evaluable_solution& working,
 		    move_manager_t& moveman,
 		    termination_criteria_chain& tc,
 		    abstract_cooling_schedule& cs,
-		    double starting_temp, 
+		    double starting_temp,
 		    double stop_temp,
 		    double K)
   : abstract_search<move_manager_t>(working, recorder, moveman),
@@ -205,7 +205,7 @@ simulated_annealing(evaluable_solution& working,
     starting_temp_m(starting_temp), stop_temp_m(stop_temp),
     current_temp_m(), K_m(K),
     ureal(0.0,1.0), rng(), gen(rng, ureal)
-{ 
+{
 }
 
 template<typename move_manager_t>
@@ -216,23 +216,23 @@ mets::simulated_annealing<move_manager_t>::search()
   typedef abstract_search<move_manager_t> base_t;
 
   current_temp_m = starting_temp_m;
-  while(!termination_criteria_m(base_t::working_solution_m) 
+  while(!termination_criteria_m(base_t::working_solution_m)
         && current_temp_m > stop_temp_m)
     {
-      gol_type actual_cost = 
+      gol_type actual_cost =
 	static_cast<mets::evaluable_solution&>(base_t::working_solution_m)
 	.cost_function();
-      gol_type best_cost = 
+      gol_type best_cost =
 	static_cast<mets::evaluable_solution&>(base_t::working_solution_m)
 	.cost_function();
 
       base_t::moves_m.refresh(base_t::working_solution_m);
-      for(typename move_manager_t::iterator movit = base_t::moves_m.begin(); 
+      for(typename move_manager_t::iterator movit = base_t::moves_m.begin();
 	  movit != base_t::moves_m.end(); ++movit)
 	{
 	  // apply move and record proposed cost function
 	  gol_type cost = (*movit)->evaluate(base_t::working_solution_m);
-	  
+	
 	  double delta = ((double)(cost-actual_cost));
 	  if(delta < 0 || gen() < exp(-delta/(K_m*current_temp_m)))
 	    {
@@ -250,8 +250,8 @@ mets::simulated_annealing<move_manager_t>::search()
 	      break;
 	    }
 	} // end for each move
-      
-      current_temp_m = 
+
+      current_temp_m =
 	cooling_schedule_m(current_temp_m, base_t::working_solution_m);
     }
 }

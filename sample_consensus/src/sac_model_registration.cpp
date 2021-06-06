@@ -39,13 +39,14 @@
 
 #include <pcl/impl/instantiate.hpp>
 #include <pcl/point_types.h>
-#include <pcl/sample_consensus/sac_model_registration.h>
 #include <pcl/sample_consensus/impl/sac_model_registration.hpp>
+#include <pcl/sample_consensus/sac_model_registration.h>
 
 // Instantiations of specific point types
 #ifdef PCL_ONLY_CORE_POINT_TYPES
-  PCL_INSTANTIATE(SampleConsensusModelRegistration, (pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA)(pcl::PointXYZRGB))
+PCL_INSTANTIATE(
+    SampleConsensusModelRegistration,
+    (pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA)(pcl::PointXYZRGB))
 #else
-  PCL_INSTANTIATE(SampleConsensusModelRegistration, PCL_XYZ_POINT_TYPES)
+PCL_INSTANTIATE(SampleConsensusModelRegistration, PCL_XYZ_POINT_TYPES)
 #endif
-

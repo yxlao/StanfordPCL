@@ -35,29 +35,27 @@
  *
  */
 
-#include <sensor_msgs/PointCloud2.h>
-#include <pcl/impl/instantiate.hpp>
-#include <pcl/point_types.h>
 #include <pcl/filters/filter_indices.h>
 #include <pcl/filters/impl/filter_indices.hpp>
+#include <pcl/impl/instantiate.hpp>
+#include <pcl/point_types.h>
+#include <sensor_msgs/PointCloud2.h>
 
 /** \brief Base method for feature estimation for all points given in
  * <setInputCloud (), setIndices ()> using the surface in setSearchSurface ()
  * and the spatial locator in setSearchMethod ()
  * \param output the resultant filtered point cloud dataset
  */
-void
-pcl::FilterIndices<sensor_msgs::PointCloud2>::filter (std::vector<int> &indices)
-{
-  if (!initCompute ())
-    return;
+void pcl::FilterIndices<sensor_msgs::PointCloud2>::filter(
+    std::vector<int> &indices) {
+    if (!initCompute())
+        return;
 
-  // Apply the actual filter
-  applyFilter (indices);
+    // Apply the actual filter
+    applyFilter(indices);
 
-  deinitCompute ();
+    deinitCompute();
 }
 
 // Instantiations of specific point types
 PCL_INSTANTIATE(removeNanFromPointCloud, PCL_XYZ_POINT_TYPES)
-

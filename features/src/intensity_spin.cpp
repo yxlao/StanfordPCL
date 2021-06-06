@@ -37,16 +37,20 @@
  *
  */
 
-#include <pcl/point_types.h>
-#include <pcl/impl/instantiate.hpp>
-#include <pcl/features/intensity_spin.h>
 #include <pcl/features/impl/intensity_spin.hpp>
+#include <pcl/features/intensity_spin.h>
+#include <pcl/impl/instantiate.hpp>
+#include <pcl/point_types.h>
 
 // Instantiations of specific point types
 #ifdef PCL_ONLY_CORE_POINT_TYPES
-  PCL_INSTANTIATE_PRODUCT(IntensitySpinEstimation, ((pcl::PointXYZI))((pcl::Histogram<20>)))
+PCL_INSTANTIATE_PRODUCT(IntensitySpinEstimation,
+                        ((pcl::PointXYZI))((pcl::Histogram<20>)))
 #else
-  PCL_INSTANTIATE_PRODUCT(IntensitySpinEstimation, ((pcl::PointXYZI)(pcl::PointXYZINormal))((pcl::Histogram<20>)))
-  PCL_INSTANTIATE_PRODUCT(IntensitySpinEstimation, ((pcl::PointXYZI)(pcl::PointXYZINormal))((Eigen::MatrixXf)))
+PCL_INSTANTIATE_PRODUCT(
+    IntensitySpinEstimation,
+    ((pcl::PointXYZI)(pcl::PointXYZINormal))((pcl::Histogram<20>)))
+PCL_INSTANTIATE_PRODUCT(
+    IntensitySpinEstimation,
+    ((pcl::PointXYZI)(pcl::PointXYZINormal))((Eigen::MatrixXf)))
 #endif
-

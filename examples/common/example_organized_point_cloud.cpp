@@ -44,29 +44,30 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 
-int 
-main ()
-{
-  // Setup the cloud
-  typedef pcl::PointXYZ PointType;
-  typedef pcl::PointCloud<PointType> CloudType;
-  CloudType::Ptr cloud (new CloudType);
-  
-  // Make the cloud a 10x10 grid
-  cloud->height = 10;
-  cloud->width = 10;
-  cloud->is_dense = true;
-  cloud->resize(cloud->height * cloud->width);
+int main() {
+    // Setup the cloud
+    typedef pcl::PointXYZ PointType;
+    typedef pcl::PointCloud<PointType> CloudType;
+    CloudType::Ptr cloud(new CloudType);
 
-  // Output the (0,0) point
-  std::cout << (*cloud)(0,0) << std::endl;
+    // Make the cloud a 10x10 grid
+    cloud->height = 10;
+    cloud->width = 10;
+    cloud->is_dense = true;
+    cloud->resize(cloud->height * cloud->width);
 
-  // Set the (0,0) point
-  PointType p; p.x = 1; p.y = 2; p.z = 3;
-  (*cloud)(0,0) = p;
+    // Output the (0,0) point
+    std::cout << (*cloud)(0, 0) << std::endl;
 
-  // Confirm that the point was set
-  std::cout << (*cloud)(0,0) << std::endl;
+    // Set the (0,0) point
+    PointType p;
+    p.x = 1;
+    p.y = 2;
+    p.z = 3;
+    (*cloud)(0, 0) = p;
 
-  return (0);
+    // Confirm that the point was set
+    std::cout << (*cloud)(0, 0) << std::endl;
+
+    return (0);
 }

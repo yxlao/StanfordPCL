@@ -6,7 +6,7 @@ import fnmatch
 import os
 import shutil
 
-if len(sys.argv) != 2: 
+if len(sys.argv) != 2:
   # stop the program and print an error message
   sys.exit("Must provide a cmake binary folder")
 
@@ -19,7 +19,7 @@ matches = []
 for root, dirnames, filenames in os.walk(base_folder):
   for filename in fnmatch.filter(filenames, 'cmake_install.cmake'):
       matches.append(os.path.join(root, filename))
-	  
+	
 for one_match in matches:
 	#print one_match, "\n"
 	shutil.move( one_match, one_match+"~" )

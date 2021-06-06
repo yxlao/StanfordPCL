@@ -43,103 +43,116 @@
 #include <pcl/features/normal_3d_omp.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointInT> void
-pcl::NormalEstimationOMP<PointInT, Eigen::MatrixXf>::computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &output)
-{
-  float vpx, vpy, vpz;
-  getViewPoint (vpx, vpy, vpz);
-  output.is_dense = true;
+template <typename PointInT>
+void pcl::NormalEstimationOMP<PointInT, Eigen::MatrixXf>::computeFeatureEigen(
+    pcl::PointCloud<Eigen::MatrixXf> &output) {
+    float vpx, vpy, vpz;
+    getViewPoint(vpx, vpy, vpz);
+    output.is_dense = true;
 
-  // Resize the output dataset
-  output.points.resize (indices_->size (), 4);
+    // Resize the output dataset
+    output.points.resize(indices_->size(), 4);
 
-  // Allocate enough space to hold the results
-  // \note This resize is irrelevant for a radiusSearch ().
-  std::vector<int> nn_indices (k_);
-  std::vector<float> nn_dists (k_);
+    // Allocate enough space to hold the results
+    // \note This resize is irrelevant for a radiusSearch ().
+    std::vector<int> nn_indices(k_);
+    std::vector<float> nn_dists(k_);
 
 #ifdef _OPENMP
-#pragma omp parallel for shared (output) private (nn_indices, nn_dists) num_threads(threads_)
+#pragma omp parallel for shared(output) private(nn_indices, nn_dists)          \
+    num_threads(threads_)
 #endif
-  // Iterating over the entire index vector
-  for (int idx = 0; idx < static_cast<int> (indices_->size ()); ++idx)
-  {
-    if (!isFinite ((*input_)[(*indices_)[idx]]) ||
-        this->searchForNeighbors ((*indices_)[idx], search_parameter_, nn_indices, nn_dists) == 0)
-    {
-      output.points (idx, 0) = output.points (idx, 1) = output.points (idx, 2) = output.points (idx, 3) = std::numeric_limits<float>::quiet_NaN ();
-      output.is_dense = false;
-      continue;
+    // Iterating over the entire index vector
+    for (int idx = 0; idx < static_cast<int>(indices_->size()); ++idx) {
+        if (!isFinite((*input_)[(*indices_)[idx]]) ||
+            this->searchForNeighbors((*indices_)[idx], search_parameter_,
+                                     nn_indices, nn_dists) == 0) {
+            output.points(idx, 0) = output.points(idx, 1) =
+                output.points(idx, 2) = output.points(idx, 3) =
+                    std::numeric_limits<float>::quiet_NaN();
+            output.is_dense = false;
+            continue;
+        }
+
+        // 16-bytes aligned placeholder for the XYZ centroid of a surface patch
+        Eigen::Vector4f xyz_centroid;
+        // Estimate the XYZ centroid
+        compute3DCentroid(*surface_, nn_indices, xyz_centroid);
+
+        // Placeholder for the 3x3 covariance matrix at each surface patch
+        EIGEN_ALIGN16 Eigen::Matrix3f covariance_matrix;
+        // Compute the 3x3 covariance matrix
+        computeCovarianceMatrix(*surface_, nn_indices, xyz_centroid,
+                                covariance_matrix);
+
+        // Get the plane normal and surface curvature
+        solvePlaneParameters(covariance_matrix, output.points(idx, 0),
+                             output.points(idx, 1), output.points(idx, 2),
+                             output.points(idx, 3));
+
+        flipNormalTowardsViewpoint(input_->points[(*indices_)[idx]], vpx, vpy,
+                                   vpz, output.points(idx, 0),
+                                   output.points(idx, 1),
+                                   output.points(idx, 2));
     }
-
-    // 16-bytes aligned placeholder for the XYZ centroid of a surface patch
-    Eigen::Vector4f xyz_centroid;
-    // Estimate the XYZ centroid
-    compute3DCentroid (*surface_, nn_indices, xyz_centroid);
-
-    // Placeholder for the 3x3 covariance matrix at each surface patch
-    EIGEN_ALIGN16 Eigen::Matrix3f covariance_matrix;
-    // Compute the 3x3 covariance matrix
-    computeCovarianceMatrix (*surface_, nn_indices, xyz_centroid, covariance_matrix);
-
-    // Get the plane normal and surface curvature
-    solvePlaneParameters (covariance_matrix,
-                          output.points (idx, 0), output.points (idx, 1), output.points (idx, 2), output.points (idx, 3));
-
-    flipNormalTowardsViewpoint (input_->points[(*indices_)[idx]], vpx, vpy, vpz,
-                                output.points (idx, 0), output.points (idx, 1), output.points (idx, 2));
-  }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointInT, typename PointOutT> void
-pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature (PointCloudOut &output)
-{
-  float vpx, vpy, vpz;
-  getViewPoint (vpx, vpy, vpz);
+template <typename PointInT, typename PointOutT>
+void pcl::NormalEstimationOMP<PointInT, PointOutT>::computeFeature(
+    PointCloudOut &output) {
+    float vpx, vpy, vpz;
+    getViewPoint(vpx, vpy, vpz);
 
-  output.is_dense = true;
+    output.is_dense = true;
 
-  // Allocate enough space to hold the results
-  // \note This resize is irrelevant for a radiusSearch ().
-  std::vector<int> nn_indices (k_);
-  std::vector<float> nn_dists (k_);
+    // Allocate enough space to hold the results
+    // \note This resize is irrelevant for a radiusSearch ().
+    std::vector<int> nn_indices(k_);
+    std::vector<float> nn_dists(k_);
 
-  // Iterating over the entire index vector
+    // Iterating over the entire index vector
 #ifdef _OPENMP
-#pragma omp parallel for shared (output) private (nn_indices, nn_dists) num_threads(threads_)
+#pragma omp parallel for shared(output) private(nn_indices, nn_dists)          \
+    num_threads(threads_)
 #endif
-  for (int idx = 0; idx < static_cast<int> (indices_->size ()); ++idx)
-  {
-    if (!isFinite ((*input_)[(*indices_)[idx]]) ||
-        this->searchForNeighbors ((*indices_)[idx], search_parameter_, nn_indices, nn_dists) == 0)
-    {
-      output.points[idx].normal[0] = output.points[idx].normal[1] = output.points[idx].normal[2] = output.points[idx].curvature = std::numeric_limits<float>::quiet_NaN ();
-  
-      output.is_dense = false;
-      continue;
+    for (int idx = 0; idx < static_cast<int>(indices_->size()); ++idx) {
+        if (!isFinite((*input_)[(*indices_)[idx]]) ||
+            this->searchForNeighbors((*indices_)[idx], search_parameter_,
+                                     nn_indices, nn_dists) == 0) {
+            output.points[idx].normal[0] = output.points[idx].normal[1] =
+                output.points[idx].normal[2] = output.points[idx].curvature =
+                    std::numeric_limits<float>::quiet_NaN();
+
+            output.is_dense = false;
+            continue;
+        }
+
+        // 16-bytes aligned placeholder for the XYZ centroid of a surface patch
+        Eigen::Vector4f xyz_centroid;
+        // Estimate the XYZ centroid
+        compute3DCentroid(*surface_, nn_indices, xyz_centroid);
+
+        // Placeholder for the 3x3 covariance matrix at each surface patch
+        EIGEN_ALIGN16 Eigen::Matrix3f covariance_matrix;
+        // Compute the 3x3 covariance matrix
+        computeCovarianceMatrix(*surface_, nn_indices, xyz_centroid,
+                                covariance_matrix);
+
+        // Get the plane normal and surface curvature
+        solvePlaneParameters(covariance_matrix, output.points[idx].normal[0],
+                             output.points[idx].normal[1],
+                             output.points[idx].normal[2],
+                             output.points[idx].curvature);
+
+        flipNormalTowardsViewpoint(input_->points[(*indices_)[idx]], vpx, vpy,
+                                   vpz, output.points[idx].normal[0],
+                                   output.points[idx].normal[1],
+                                   output.points[idx].normal[2]);
     }
-
-    // 16-bytes aligned placeholder for the XYZ centroid of a surface patch
-    Eigen::Vector4f xyz_centroid;
-    // Estimate the XYZ centroid
-    compute3DCentroid (*surface_, nn_indices, xyz_centroid);
-
-    // Placeholder for the 3x3 covariance matrix at each surface patch
-    EIGEN_ALIGN16 Eigen::Matrix3f covariance_matrix;
-    // Compute the 3x3 covariance matrix
-    computeCovarianceMatrix (*surface_, nn_indices, xyz_centroid, covariance_matrix);
-
-    // Get the plane normal and surface curvature
-    solvePlaneParameters (covariance_matrix,
-                          output.points[idx].normal[0], output.points[idx].normal[1], output.points[idx].normal[2], output.points[idx].curvature);
-
-    flipNormalTowardsViewpoint (input_->points[(*indices_)[idx]], vpx, vpy, vpz,
-                                output.points[idx].normal[0], output.points[idx].normal[1], output.points[idx].normal[2]);
-  }
 }
 
-#define PCL_INSTANTIATE_NormalEstimationOMP(T,NT) template class PCL_EXPORTS pcl::NormalEstimationOMP<T,NT>;
+#define PCL_INSTANTIATE_NormalEstimationOMP(T, NT)                             \
+    template class PCL_EXPORTS pcl::NormalEstimationOMP<T, NT>;
 
-#endif    // PCL_FEATURES_IMPL_NORMAL_3D_OMP_H_
-
+#endif // PCL_FEATURES_IMPL_NORMAL_3D_OMP_H_

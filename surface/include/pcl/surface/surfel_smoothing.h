@@ -41,71 +41,52 @@
 #include <pcl/pcl_base.h>
 #include <pcl/search/pcl_search.h>
 
-namespace pcl
-{
-  template <typename PointT, typename PointNT>
-  class SurfelSmoothing : public PCLBase<PointT>
-  {
+namespace pcl {
+template <typename PointT, typename PointNT>
+class SurfelSmoothing : public PCLBase<PointT> {
     using PCLBase<PointT>::input_;
     using PCLBase<PointT>::initCompute;
 
-    public:
-      typedef pcl::PointCloud<PointT> PointCloudIn;
-      typedef typename pcl::PointCloud<PointT>::Ptr PointCloudInPtr;
-      typedef pcl::PointCloud<PointNT> NormalCloud;
-      typedef typename pcl::PointCloud<PointNT>::Ptr NormalCloudPtr;
-      typedef pcl::search::Search<PointT> CloudKdTree;
-      typedef typename pcl::search::Search<PointT>::Ptr CloudKdTreePtr;
+  public:
+    typedef pcl::PointCloud<PointT> PointCloudIn;
+    typedef typename pcl::PointCloud<PointT>::Ptr PointCloudInPtr;
+    typedef pcl::PointCloud<PointNT> NormalCloud;
+    typedef typename pcl::PointCloud<PointNT>::Ptr NormalCloudPtr;
+    typedef pcl::search::Search<PointT> CloudKdTree;
+    typedef typename pcl::search::Search<PointT>::Ptr CloudKdTreePtr;
 
-      SurfelSmoothing (float a_scale = 0.01)
-        : PCLBase<PointT> ()
-        , scale_ (a_scale)
-        , scale_squared_ (a_scale * a_scale)
-        , normals_ ()
-        , interm_cloud_ ()
-        , interm_normals_ ()
-        , tree_ ()
-      {
-      }
+    SurfelSmoothing(float a_scale = 0.01)
+        : PCLBase<PointT>(), scale_(a_scale), scale_squared_(a_scale * a_scale),
+          normals_(), interm_cloud_(), interm_normals_(), tree_() {}
 
-      void
-      setInputNormals (NormalCloudPtr &a_normals) { normals_ = a_normals; };
+    void setInputNormals(NormalCloudPtr &a_normals) { normals_ = a_normals; };
 
-      void
-      setSearchMethod (const CloudKdTreePtr &a_tree) { tree_ = a_tree; };
+    void setSearchMethod(const CloudKdTreePtr &a_tree) { tree_ = a_tree; };
 
-      bool
-      initCompute ();
+    bool initCompute();
 
-      float
-      smoothCloudIteration (PointCloudInPtr &output_positions,
-                            NormalCloudPtr &output_normals);
+    float smoothCloudIteration(PointCloudInPtr &output_positions,
+                               NormalCloudPtr &output_normals);
 
-      void
-      computeSmoothedCloud (PointCloudInPtr &output_positions,
-                            NormalCloudPtr &output_normals);
+    void computeSmoothedCloud(PointCloudInPtr &output_positions,
+                              NormalCloudPtr &output_normals);
 
+    void smoothPoint(size_t &point_index, PointT &output_point,
+                     PointNT &output_normal);
 
-      void
-      smoothPoint (size_t &point_index,
-                   PointT &output_point,
-                   PointNT &output_normal);
+    void extractSalientFeaturesBetweenScales(
+        PointCloudInPtr &cloud2, NormalCloudPtr &cloud2_normals,
+        boost::shared_ptr<std::vector<int>> &output_features);
 
-      void
-      extractSalientFeaturesBetweenScales (PointCloudInPtr &cloud2,
-                                           NormalCloudPtr &cloud2_normals,
-                                           boost::shared_ptr<std::vector<int> > &output_features);
+  private:
+    float scale_, scale_squared_;
+    NormalCloudPtr normals_;
 
-    private:
-      float scale_, scale_squared_;
-      NormalCloudPtr normals_;
+    PointCloudInPtr interm_cloud_;
+    NormalCloudPtr interm_normals_;
 
-      PointCloudInPtr interm_cloud_;
-      NormalCloudPtr interm_normals_;
-
-      CloudKdTreePtr tree_;
-
-  };
-}
+    CloudKdTreePtr tree_;
+};
+} // namespace pcl
 
 #endif /* PCL_SURFEL_SMOOTHING_H_ */

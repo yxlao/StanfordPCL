@@ -41,153 +41,147 @@
 #include <pcl/pcl_base.h>
 #include <pcl/sample_consensus/sac_model_plane.h>
 
-namespace pcl
-{
-  /** \brief General purpose method for checking if a 3D point is inside or
-    * outside a given 2D polygon. 
-    * \note this method accepts any general 3D point that is projected onto the
-    * 2D polygon, but performs an internal XY projection of both the polygon and the point. 
-    * \param point a 3D point projected onto the same plane as the polygon
-    * \param polygon a polygon
-    * \ingroup segmentation
-    */
-  template <typename PointT> bool 
-  isPointIn2DPolygon (const PointT &point, const pcl::PointCloud<PointT> &polygon);
+namespace pcl {
+/** \brief General purpose method for checking if a 3D point is inside or
+ * outside a given 2D polygon.
+ * \note this method accepts any general 3D point that is projected onto the
+ * 2D polygon, but performs an internal XY projection of both the polygon and
+ * the point. \param point a 3D point projected onto the same plane as the
+ * polygon \param polygon a polygon \ingroup segmentation
+ */
+template <typename PointT>
+bool isPointIn2DPolygon(const PointT &point,
+                        const pcl::PointCloud<PointT> &polygon);
 
-  /** \brief Check if a 2d point (X and Y coordinates considered only!) is
-    * inside or outside a given polygon. This method assumes that both the point
-    * and the polygon are projected onto the XY plane.
-    *
-    * \note (This is highly optimized code taken from http://www.visibone.com/inpoly/)
-    *       Copyright (c) 1995-1996 Galacticomm, Inc.  Freeware source code.
-    * \param point a 3D point projected onto the same plane as the polygon
-    * \param polygon a polygon
-    * \ingroup segmentation
-    */
-  template <typename PointT> bool 
-  isXYPointIn2DXYPolygon (const PointT &point, const pcl::PointCloud<PointT> &polygon);
+/** \brief Check if a 2d point (X and Y coordinates considered only!) is
+ * inside or outside a given polygon. This method assumes that both the point
+ * and the polygon are projected onto the XY plane.
+ *
+ * \note (This is highly optimized code taken from
+ * http://www.visibone.com/inpoly/) Copyright (c) 1995-1996 Galacticomm, Inc.
+ * Freeware source code. \param point a 3D point projected onto the same plane
+ * as the polygon \param polygon a polygon \ingroup segmentation
+ */
+template <typename PointT>
+bool isXYPointIn2DXYPolygon(const PointT &point,
+                            const pcl::PointCloud<PointT> &polygon);
 
-  ////////////////////////////////////////////////////////////////////////////////////////////
-  /** \brief @b ExtractPolygonalPrismData uses a set of point indices that
-    * represent a planar model, and together with a given height, generates a 3D
-    * polygonal prism. The polygonal prism is then used to segment all points
-    * lying inside it.
-    *
-    * An example of its usage is to extract the data lying within a set of 3D
-    * boundaries (e.g., objects supported by a plane).
-    *
-    * \author Radu Bogdan Rusu
-    * \ingroup segmentation
-    */
-  template <typename PointT>
-  class ExtractPolygonalPrismData : public PCLBase<PointT>
-  {
+////////////////////////////////////////////////////////////////////////////////////////////
+/** \brief @b ExtractPolygonalPrismData uses a set of point indices that
+ * represent a planar model, and together with a given height, generates a 3D
+ * polygonal prism. The polygonal prism is then used to segment all points
+ * lying inside it.
+ *
+ * An example of its usage is to extract the data lying within a set of 3D
+ * boundaries (e.g., objects supported by a plane).
+ *
+ * \author Radu Bogdan Rusu
+ * \ingroup segmentation
+ */
+template <typename PointT>
+class ExtractPolygonalPrismData : public PCLBase<PointT> {
     using PCLBase<PointT>::input_;
     using PCLBase<PointT>::indices_;
     using PCLBase<PointT>::initCompute;
     using PCLBase<PointT>::deinitCompute;
 
-    public:
-      typedef pcl::PointCloud<PointT> PointCloud;
-      typedef typename PointCloud::Ptr PointCloudPtr;
-      typedef typename PointCloud::ConstPtr PointCloudConstPtr;
+  public:
+    typedef pcl::PointCloud<PointT> PointCloud;
+    typedef typename PointCloud::Ptr PointCloudPtr;
+    typedef typename PointCloud::ConstPtr PointCloudConstPtr;
 
-      typedef PointIndices::Ptr PointIndicesPtr;
-      typedef PointIndices::ConstPtr PointIndicesConstPtr;
+    typedef PointIndices::Ptr PointIndicesPtr;
+    typedef PointIndices::ConstPtr PointIndicesConstPtr;
 
-      /** \brief Empty constructor. */
-      ExtractPolygonalPrismData () : planar_hull_ (), min_pts_hull_ (3), 
-                                     height_limit_min_ (0), height_limit_max_ (FLT_MAX),
-                                     vpx_ (0), vpy_ (0), vpz_ (0)
-      {};
+    /** \brief Empty constructor. */
+    ExtractPolygonalPrismData()
+        : planar_hull_(), min_pts_hull_(3), height_limit_min_(0),
+          height_limit_max_(FLT_MAX), vpx_(0), vpy_(0), vpz_(0){};
 
-      /** \brief Provide a pointer to the input planar hull dataset.
-        * \param[in] hull the input planar hull dataset
-        */
-      inline void 
-      setInputPlanarHull (const PointCloudConstPtr &hull) { planar_hull_ = hull; }
+    /** \brief Provide a pointer to the input planar hull dataset.
+     * \param[in] hull the input planar hull dataset
+     */
+    inline void setInputPlanarHull(const PointCloudConstPtr &hull) {
+        planar_hull_ = hull;
+    }
 
-      /** \brief Get a pointer the input planar hull dataset. */
-      inline PointCloudConstPtr 
-      getInputPlanarHull () const { return (planar_hull_); }
+    /** \brief Get a pointer the input planar hull dataset. */
+    inline PointCloudConstPtr getInputPlanarHull() const {
+        return (planar_hull_);
+    }
 
-      /** \brief Set the height limits. All points having distances to the
-        * model outside this interval will be discarded.
-        *
-        * \param[in] height_min the minimum allowed distance to the plane model value
-        * \param[in] height_max the maximum allowed distance to the plane model value
-        */
-      inline void
-      setHeightLimits (double height_min, double height_max)
-      {
+    /** \brief Set the height limits. All points having distances to the
+     * model outside this interval will be discarded.
+     *
+     * \param[in] height_min the minimum allowed distance to the plane model
+     * value \param[in] height_max the maximum allowed distance to the plane
+     * model value
+     */
+    inline void setHeightLimits(double height_min, double height_max) {
         height_limit_min_ = height_min;
         height_limit_max_ = height_max;
-      }
+    }
 
-      /** \brief Get the height limits (min/max) as set by the user. The
-        * default values are -FLT_MAX, FLT_MAX. 
-        * \param[out] height_min the resultant min height limit
-        * \param[out] height_max the resultant max height limit
-        */
-      inline void
-      getHeightLimits (double &height_min, double &height_max) const
-      {
+    /** \brief Get the height limits (min/max) as set by the user. The
+     * default values are -FLT_MAX, FLT_MAX.
+     * \param[out] height_min the resultant min height limit
+     * \param[out] height_max the resultant max height limit
+     */
+    inline void getHeightLimits(double &height_min, double &height_max) const {
         height_min = height_limit_min_;
         height_max = height_limit_max_;
-      }
+    }
 
-      /** \brief Set the viewpoint.
-        * \param[in] vpx the X coordinate of the viewpoint
-        * \param[in] vpy the Y coordinate of the viewpoint
-        * \param[in] vpz the Z coordinate of the viewpoint
-        */
-      inline void
-      setViewPoint (float vpx, float vpy, float vpz)
-      {
+    /** \brief Set the viewpoint.
+     * \param[in] vpx the X coordinate of the viewpoint
+     * \param[in] vpy the Y coordinate of the viewpoint
+     * \param[in] vpz the Z coordinate of the viewpoint
+     */
+    inline void setViewPoint(float vpx, float vpy, float vpz) {
         vpx_ = vpx;
         vpy_ = vpy;
         vpz_ = vpz;
-      }
+    }
 
-      /** \brief Get the viewpoint. */
-      inline void
-      getViewPoint (float &vpx, float &vpy, float &vpz) const
-      {
+    /** \brief Get the viewpoint. */
+    inline void getViewPoint(float &vpx, float &vpy, float &vpz) const {
         vpx = vpx_;
         vpy = vpy_;
         vpz = vpz_;
-      }
+    }
 
-      /** \brief Cluster extraction in a PointCloud given by <setInputCloud (), setIndices ()>
-        * \param[out] output the resultant point indices that support the model found (inliers)
-        */
-      void 
-      segment (PointIndices &output);
+    /** \brief Cluster extraction in a PointCloud given by <setInputCloud (),
+     * setIndices ()> \param[out] output the resultant point indices that
+     * support the model found (inliers)
+     */
+    void segment(PointIndices &output);
 
-    protected:
-      /** \brief A pointer to the input planar hull dataset. */
-      PointCloudConstPtr planar_hull_;
+  protected:
+    /** \brief A pointer to the input planar hull dataset. */
+    PointCloudConstPtr planar_hull_;
 
-      /** \brief The minimum number of points needed on the convex hull. */
-      int min_pts_hull_;
+    /** \brief The minimum number of points needed on the convex hull. */
+    int min_pts_hull_;
 
-      /** \brief The minimum allowed height (distance to the model) a point
-        * will be considered from. 
-        */
-      double height_limit_min_;
+    /** \brief The minimum allowed height (distance to the model) a point
+     * will be considered from.
+     */
+    double height_limit_min_;
 
-      /** \brief The maximum allowed height (distance to the model) a point
-        * will be considered from. 
-        */
-      double height_limit_max_;
+    /** \brief The maximum allowed height (distance to the model) a point
+     * will be considered from.
+     */
+    double height_limit_max_;
 
-      /** \brief Values describing the data acquisition viewpoint. Default: 0,0,0. */
-      float vpx_, vpy_, vpz_;
+    /** \brief Values describing the data acquisition viewpoint. Default: 0,0,0.
+     */
+    float vpx_, vpy_, vpz_;
 
-      /** \brief Class getName method. */
-      virtual std::string 
-      getClassName () const { return ("ExtractPolygonalPrismData"); }
-  };
-}
+    /** \brief Class getName method. */
+    virtual std::string getClassName() const {
+        return ("ExtractPolygonalPrismData");
+    }
+};
+} // namespace pcl
 
-#endif  //#ifndef PCL_EXTRACT_POLYGONAL_PRISM_DATA_H_
+#endif //#ifndef PCL_EXTRACT_POLYGONAL_PRISM_DATA_H_

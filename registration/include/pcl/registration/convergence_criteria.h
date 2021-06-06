@@ -42,46 +42,40 @@
 
 #include <pcl/pcl_macros.h>
 
-namespace pcl
-{
-  namespace registration
-  {
-    /** \brief @b ConvergenceCriteria represents an abstract base class for
-      * different convergence criteria used in registration loops.
-      *
-      * This should be used as part of an Iterative Closest Point (ICP)-like
-      * method, to verify if the algorithm has reached convergence.
-      *
-      * Typical convergence criteria that could inherit from this include:
-      * 
-      *  * a maximum number of iterations has been reached
-      *  * the transformation (R, t) cannot be further updated (the difference between current and previous is smaller than a threshold)
-      *  * the Mean Squared Error (MSE) between the current set of correspondences and the previous one is smaller than some threshold
-      *
-      * \author Radu B. Rusu
-      * \ingroup registration
-      */
-    class PCL_EXPORTS ConvergenceCriteria
-    {
-      public:
-        /** \brief Empty constructor. */
-        ConvergenceCriteria () {}
+namespace pcl {
+namespace registration {
+/** \brief @b ConvergenceCriteria represents an abstract base class for
+ * different convergence criteria used in registration loops.
+ *
+ * This should be used as part of an Iterative Closest Point (ICP)-like
+ * method, to verify if the algorithm has reached convergence.
+ *
+ * Typical convergence criteria that could inherit from this include:
+ *
+ *  * a maximum number of iterations has been reached
+ *  * the transformation (R, t) cannot be further updated (the difference
+ * between current and previous is smaller than a threshold)
+ *  * the Mean Squared Error (MSE) between the current set of correspondences
+ * and the previous one is smaller than some threshold
+ *
+ * \author Radu B. Rusu
+ * \ingroup registration
+ */
+class PCL_EXPORTS ConvergenceCriteria {
+  public:
+    /** \brief Empty constructor. */
+    ConvergenceCriteria() {}
 
-        /** \brief Empty destructor. */
-        virtual ~ConvergenceCriteria () {}
+    /** \brief Empty destructor. */
+    virtual ~ConvergenceCriteria() {}
 
-        /** \brief Check if convergence has been reached. Pure virtual. */
-        virtual bool
-        hasConverged () = 0;
+    /** \brief Check if convergence has been reached. Pure virtual. */
+    virtual bool hasConverged() = 0;
 
-        /** \brief Bool operator. */
-        operator bool ()
-        {
-          return (hasConverged ());
-        }
-     };
-  }
-}
+    /** \brief Bool operator. */
+    operator bool() { return (hasConverged()); }
+};
+} // namespace registration
+} // namespace pcl
 
-#endif    // PCL_REGISTRATION_CONVERGENCE_CRIERIA_H_
-
+#endif // PCL_REGISTRATION_CONVERGENCE_CRIERIA_H_

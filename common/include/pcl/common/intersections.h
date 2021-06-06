@@ -41,52 +41,49 @@
 #include <pcl/common/common.h>
 #include <pcl/common/distances.h>
 
-/** 
-  * \file pcl/common/intersections.h
-  * Define line with line intersection functions
-  * \ingroup common
-  */
+/**
+ * \file pcl/common/intersections.h
+ * Define line with line intersection functions
+ * \ingroup common
+ */
 
 /*@{*/
-namespace pcl
-{
-  /** \brief Get the intersection of a two 3D lines in space as a 3D point
-    * \param line_a the coefficients of the first line (point, direction)
-    * \param line_b the coefficients of the second line (point, direction)
-    * \param point holder for the computed 3D point
-    * \param sqr_eps maximum allowable squared distance to the true solution
-    * \ingroup common
-    */
-  PCL_EXPORTS bool
-  lineWithLineIntersection (const Eigen::VectorXf &line_a, 
-                            const Eigen::VectorXf &line_b, 
-                            Eigen::Vector4f &point, double sqr_eps = 1e-4);
+namespace pcl {
+/** \brief Get the intersection of a two 3D lines in space as a 3D point
+ * \param line_a the coefficients of the first line (point, direction)
+ * \param line_b the coefficients of the second line (point, direction)
+ * \param point holder for the computed 3D point
+ * \param sqr_eps maximum allowable squared distance to the true solution
+ * \ingroup common
+ */
+PCL_EXPORTS bool lineWithLineIntersection(const Eigen::VectorXf &line_a,
+                                          const Eigen::VectorXf &line_b,
+                                          Eigen::Vector4f &point,
+                                          double sqr_eps = 1e-4);
 
-  /** \brief Get the intersection of a two 3D lines in space as a 3D point
-    * \param line_a the coefficients of the first line (point, direction)
-    * \param line_b the coefficients of the second line (point, direction)
-    * \param point holder for the computed 3D point
-    * \param sqr_eps maximum allowable squared distance to the true solution
-    * \ingroup common
-    */
-  PCL_EXPORTS bool
-  lineWithLineIntersection (const pcl::ModelCoefficients &line_a, 
-                            const pcl::ModelCoefficients &line_b, 
-                            Eigen::Vector4f &point, double sqr_eps = 1e-4);
+/** \brief Get the intersection of a two 3D lines in space as a 3D point
+ * \param line_a the coefficients of the first line (point, direction)
+ * \param line_b the coefficients of the second line (point, direction)
+ * \param point holder for the computed 3D point
+ * \param sqr_eps maximum allowable squared distance to the true solution
+ * \ingroup common
+ */
+PCL_EXPORTS bool lineWithLineIntersection(const pcl::ModelCoefficients &line_a,
+                                          const pcl::ModelCoefficients &line_b,
+                                          Eigen::Vector4f &point,
+                                          double sqr_eps = 1e-4);
 
-  /** \brief Determine the line of intersection of two non-parallel planes using lagrange multipliers
-    * \described in: "Intersection of Two Planes, John Krumm, Microsoft Research, Redmond, WA, USA"
-    * \param[in] coefficients of plane A and plane B in the form ax + by + cz + d = 0
-    * \param[out] coefficients of line where line.tail<3>() = direction vector and
-    * line.head<3>() the point on the line clossest to (0, 0, 0)
-    * \return true if succeeded/planes aren't parallel
-    */
-  PCL_EXPORTS bool
-  planeWithPlaneIntersection (const Eigen::Vector4f &plane_a,
-                              const Eigen::Vector4f &fplane_b,
-                              Eigen::VectorXf &line,
-                              double angular_tolerance = 0.1);
-}
+/** \brief Determine the line of intersection of two non-parallel planes using
+ * lagrange multipliers \described in: "Intersection of Two Planes, John Krumm,
+ * Microsoft Research, Redmond, WA, USA" \param[in] coefficients of plane A and
+ * plane B in the form ax + by + cz + d = 0 \param[out] coefficients of line
+ * where line.tail<3>() = direction vector and line.head<3>() the point on the
+ * line clossest to (0, 0, 0) \return true if succeeded/planes aren't parallel
+ */
+PCL_EXPORTS bool planeWithPlaneIntersection(const Eigen::Vector4f &plane_a,
+                                            const Eigen::Vector4f &fplane_b,
+                                            Eigen::VectorXf &line,
+                                            double angular_tolerance = 0.1);
+} // namespace pcl
 /*@}*/
-#endif  //#ifndef PCL_INTERSECTIONS_H_
-
+#endif //#ifndef PCL_INTERSECTIONS_H_

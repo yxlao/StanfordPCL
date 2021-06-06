@@ -9,7 +9,7 @@ PCL_SUBSYS_DEPEND(build ${SUBSYS_NAME} DEPS ${SUBSYS_DEPS})
 PCL_ADD_DOC(${SUBSYS_NAME})
 
 if(build)
-   set(srcs 
+   set(srcs
         src/lmeds.cpp
         src/mlesac.cpp
         src/msac.cpp
@@ -32,8 +32,8 @@ if(build)
         src/sac_model_sphere.cpp
 		src/prosac.cpp
         )
-        
-    set(incs 
+
+    set(incs
         include/pcl/${SUBSYS_NAME}/boost.h
         include/pcl/${SUBSYS_NAME}/eigen.h
         include/pcl/${SUBSYS_NAME}/lmeds.h
@@ -62,8 +62,8 @@ if(build)
         include/pcl/${SUBSYS_NAME}/sac_model_sphere.h
 		include/pcl/${SUBSYS_NAME}/prosac.h
         )
-        
-    set(impl_incs 
+
+    set(impl_incs
         include/pcl/${SUBSYS_NAME}/impl/lmeds.hpp
         include/pcl/${SUBSYS_NAME}/impl/mlesac.hpp
         include/pcl/${SUBSYS_NAME}/impl/msac.hpp

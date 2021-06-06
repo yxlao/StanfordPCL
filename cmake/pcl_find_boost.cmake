@@ -35,7 +35,7 @@ endif(WIN32 AND Boost_VERSION VERSION_GREATER "104900")
 
 if(Boost_FOUND)
   set(BOOST_FOUND TRUE)
-  # Obtain diagnostic information about Boost's automatic linking outputted 
+  # Obtain diagnostic information about Boost's automatic linking outputted
   # during compilation time.
   add_definitions(${Boost_LIB_DIAGNOSTIC_DEFINITIONS})
   include_directories(SYSTEM ${Boost_INCLUDE_DIRS})

@@ -41,115 +41,89 @@
 
 #include "octree_pointcloud.h"
 
-#include "octree_base.h"
 #include "octree2buf_base.h"
+#include "octree_base.h"
 
-namespace pcl
-{
-  namespace octree
-  {
-    /** \brief @b Octree pointcloud density leaf node class
-      * \note This class implements a leaf node that counts the amount of points which fall into its voxel space.
-      * \author Julius Kammerl (julius@kammerl.de)
-      */
-    template<typename DataT>
-    class OctreePointCloudDensityContainer : public OctreeContainerBase<DataT>
-    {
-      public:
-        /** \brief Class initialization. */
-        OctreePointCloudDensityContainer () : pointCounter_ (0)
-        {
-        }
+namespace pcl {
+namespace octree {
+/** \brief @b Octree pointcloud density leaf node class
+ * \note This class implements a leaf node that counts the amount of points
+ * which fall into its voxel space. \author Julius Kammerl (julius@kammerl.de)
+ */
+template <typename DataT>
+class OctreePointCloudDensityContainer : public OctreeContainerBase<DataT> {
+  public:
+    /** \brief Class initialization. */
+    OctreePointCloudDensityContainer() : pointCounter_(0) {}
 
-        /** \brief Empty class deconstructor. */
-        virtual ~OctreePointCloudDensityContainer ()
-        {
-        }
+    /** \brief Empty class deconstructor. */
+    virtual ~OctreePointCloudDensityContainer() {}
 
-        /** \brief deep copy function */
-        virtual OctreePointCloudDensityContainer *
-        deepCopy () const
-        {
-          return (new OctreePointCloudDensityContainer (*this));
-        }
+    /** \brief deep copy function */
+    virtual OctreePointCloudDensityContainer *deepCopy() const {
+        return (new OctreePointCloudDensityContainer(*this));
+    }
 
-        /** \brief Read input data. Only an internal counter is increased.
-          */
-        void
-        setData (const DataT&)
-        {
-          pointCounter_++;
-        }
+    /** \brief Read input data. Only an internal counter is increased.
+     */
+    void setData(const DataT &) { pointCounter_++; }
 
-        /** \brief Return point counter.
-          * \return Amount of points
-          */
-        unsigned int
-        getPointCounter ()
-        {
-          return (pointCounter_);
-        }
+    /** \brief Return point counter.
+     * \return Amount of points
+     */
+    unsigned int getPointCounter() { return (pointCounter_); }
 
-        /** \brief Reset leaf node. */
-        virtual void
-        reset ()
-        {
-          pointCounter_ = 0;
-        }
+    /** \brief Reset leaf node. */
+    virtual void reset() { pointCounter_ = 0; }
 
-      private:
-        unsigned int pointCounter_;
+  private:
+    unsigned int pointCounter_;
+};
 
-    };
+/** \brief @b Octree pointcloud density class
+ * \note This class generate an octrees from a point cloud (zero-copy). Only the
+ * amount of points that fall into the leaf node voxel are stored. \note The
+ * octree pointcloud is initialized with its voxel resolution. Its bounding box
+ * is automatically adjusted or can be predefined. \note \note typename: PointT:
+ * type of point used in pointcloud \ingroup octree \author Julius Kammerl
+ * (julius@kammerl.de)
+ */
+template <typename PointT,
+          typename LeafContainerT = OctreePointCloudDensityContainer<int>,
+          typename BranchContainerT = OctreeContainerEmpty<int>>
+class OctreePointCloudDensity
+    : public OctreePointCloud<PointT, LeafContainerT, BranchContainerT> {
+  public:
+    /** \brief OctreePointCloudDensity class constructor.
+     *  \param resolution_arg:  octree resolution at lowest octree level
+     * */
+    OctreePointCloudDensity(const double resolution_arg)
+        : OctreePointCloud<PointT, LeafContainerT, BranchContainerT>(
+              resolution_arg) {}
 
-    /** \brief @b Octree pointcloud density class
-      * \note This class generate an octrees from a point cloud (zero-copy). Only the amount of points that fall into the leaf node voxel are stored.
-      * \note The octree pointcloud is initialized with its voxel resolution. Its bounding box is automatically adjusted or can be predefined.
-      * \note
-      * \note typename: PointT: type of point used in pointcloud
-      * \ingroup octree
-      * \author Julius Kammerl (julius@kammerl.de)
-      */
-    template<typename PointT, typename LeafContainerT = OctreePointCloudDensityContainer<int> , typename BranchContainerT = OctreeContainerEmpty<int> >
-    class OctreePointCloudDensity : public OctreePointCloud<PointT, LeafContainerT, BranchContainerT>
-    {
-      public:
+    /** \brief Empty class deconstructor. */
+    virtual ~OctreePointCloudDensity() {}
 
-      /** \brief OctreePointCloudDensity class constructor.
-         *  \param resolution_arg:  octree resolution at lowest octree level
-         * */
-        OctreePointCloudDensity (const double resolution_arg) :
-        OctreePointCloud<PointT, LeafContainerT, BranchContainerT> (resolution_arg)
-        {
-        }
+    /** \brief Get the amount of points within a leaf node voxel which is
+     * addressed by a point \param[in] point_arg: a point addressing a voxel
+     * \return amount of points that fall within leaf node voxel
+     */
+    unsigned int getVoxelDensityAtPoint(const PointT &point_arg) const {
+        unsigned int pointCount = 0;
 
-        /** \brief Empty class deconstructor. */
-        virtual
-        ~OctreePointCloudDensity ()
-        {
-        }
+        OctreePointCloudDensityContainer<int> *leaf =
+            this->findLeafAtPoint(point_arg);
 
-        /** \brief Get the amount of points within a leaf node voxel which is addressed by a point
-          * \param[in] point_arg: a point addressing a voxel
-          * \return amount of points that fall within leaf node voxel
-          */
-        unsigned int
-        getVoxelDensityAtPoint (const PointT& point_arg) const
-        {
-          unsigned int pointCount = 0;
+        if (leaf)
+            pointCount = leaf->getPointCounter();
 
-          OctreePointCloudDensityContainer<int>* leaf = this->findLeafAtPoint (point_arg);
+        return (pointCount);
+    }
+};
+} // namespace octree
+} // namespace pcl
 
-          if (leaf)
-            pointCount = leaf->getPointCounter ();
-
-          return (pointCount);
-        }
-    };
-  }
-}
-
-#define PCL_INSTANTIATE_OctreePointCloudDensity(T) template class PCL_EXPORTS pcl::octree::OctreePointCloudDensity<T>;
+#define PCL_INSTANTIATE_OctreePointCloudDensity(T)                             \
+    template class PCL_EXPORTS pcl::octree::OctreePointCloudDensity<T>;
 
 #endif
-

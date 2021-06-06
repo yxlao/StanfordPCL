@@ -42,20 +42,20 @@
 #define PCL_FILTERS_BOOST_H_
 
 #ifdef __GNUC__
-#pragma GCC system_header 
+#pragma GCC system_header
 #endif
 
 // Marking all Boost headers as system headers to remove warnings
+#include <boost/bind.hpp>
+#include <boost/dynamic_bitset.hpp>
+#include <boost/function.hpp>
+#include <boost/fusion/sequence/intrinsic/at_key.hpp>
+#include <boost/make_shared.hpp>
+#include <boost/mpl/size.hpp>
+#include <boost/optional.hpp>
 #include <boost/random.hpp>
 #include <boost/random/normal_distribution.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
-#include <boost/dynamic_bitset.hpp>
-#include <boost/mpl/size.hpp>
 #include <boost/unordered_map.hpp>
-#include <boost/fusion/sequence/intrinsic/at_key.hpp>
-#include <boost/bind.hpp>
-#include <boost/function.hpp>
-#include <boost/optional.hpp>
 
-#endif    // PCL_FILTERS_BOOST_H_
+#endif // PCL_FILTERS_BOOST_H_

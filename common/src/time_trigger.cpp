@@ -35,107 +35,86 @@
  *
  */
 
-#include <pcl/common/time_trigger.h>
-#include <pcl/common/time.h>
 #include <iostream>
+#include <pcl/common/time.h>
+#include <pcl/common/time_trigger.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-pcl::TimeTrigger::TimeTrigger (double interval, const callback_type& callback)
-: callbacks_ ()
-, interval_ (interval)
-, quit_ (false)
-, running_ (false)
-, timer_thread_ ()
-, condition_ ()
-, condition_mutex_ ()
-{
-  timer_thread_ = boost::thread (boost::bind (&TimeTrigger::thread_function, this));
-  registerCallback (callback);
+pcl::TimeTrigger::TimeTrigger(double interval, const callback_type &callback)
+    : callbacks_(), interval_(interval), quit_(false), running_(false),
+      timer_thread_(), condition_(), condition_mutex_() {
+    timer_thread_ =
+        boost::thread(boost::bind(&TimeTrigger::thread_function, this));
+    registerCallback(callback);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-pcl::TimeTrigger::TimeTrigger (double interval)
-: callbacks_ ()
-, interval_ (interval)
-, quit_ (false)
-, running_ (false)
-, timer_thread_ ()
-, condition_ ()
-, condition_mutex_ ()
-{
-  timer_thread_ = boost::thread (boost::bind (&TimeTrigger::thread_function, this));
+pcl::TimeTrigger::TimeTrigger(double interval)
+    : callbacks_(), interval_(interval), quit_(false), running_(false),
+      timer_thread_(), condition_(), condition_mutex_() {
+    timer_thread_ =
+        boost::thread(boost::bind(&TimeTrigger::thread_function, this));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-pcl::TimeTrigger::~TimeTrigger ()
-{
-  boost::unique_lock<boost::mutex> lock (condition_mutex_);
-  quit_ = true;
-  condition_.notify_all ();
-  lock.unlock ();
-  
-  timer_thread_.join ();
+pcl::TimeTrigger::~TimeTrigger() {
+    boost::unique_lock<boost::mutex> lock(condition_mutex_);
+    quit_ = true;
+    condition_.notify_all();
+    lock.unlock();
+
+    timer_thread_.join();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-boost::signals2::connection 
-pcl::TimeTrigger::registerCallback (const callback_type& callback)
-{
-  boost::unique_lock<boost::mutex> lock (condition_mutex_);
-  return (callbacks_.connect (callback));
+boost::signals2::connection
+pcl::TimeTrigger::registerCallback(const callback_type &callback) {
+    boost::unique_lock<boost::mutex> lock(condition_mutex_);
+    return (callbacks_.connect(callback));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
-pcl::TimeTrigger::setInterval (double interval_seconds)
-{
-  boost::unique_lock<boost::mutex> lock (condition_mutex_);
-  interval_ = interval_seconds;
-  // notify, since we could switch from a large interval to a shorter one -> interrupt waiting for timeout!
-  condition_.notify_all ();
+void pcl::TimeTrigger::setInterval(double interval_seconds) {
+    boost::unique_lock<boost::mutex> lock(condition_mutex_);
+    interval_ = interval_seconds;
+    // notify, since we could switch from a large interval to a shorter one ->
+    // interrupt waiting for timeout!
+    condition_.notify_all();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
-pcl::TimeTrigger::start ()
-{
-  boost::unique_lock<boost::mutex> lock (condition_mutex_);
-  if (!running_)
-  {
-    running_ = true;
-    condition_.notify_all ();
-  }
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-void 
-pcl::TimeTrigger::stop ()
-{
-  boost::unique_lock<boost::mutex> lock (condition_mutex_);
-  if (running_)
-  {
-    running_ = false;
-    condition_.notify_all ();
-  }
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-void 
-pcl::TimeTrigger::thread_function ()
-{
-  static double time = 0;
-  while (!quit_)
-  {
-    time = getTime ();
-    boost::unique_lock<boost::mutex> lock (condition_mutex_);
-    if (!running_)
-      condition_.wait (lock); // wait util start is called or destructor is called
-    else
-    {
-      callbacks_();
-      double rest = interval_ + time - getTime ();
-      condition_.timed_wait (lock, boost::posix_time::microseconds (static_cast<int64_t> ((rest * 1000000))));
+void pcl::TimeTrigger::start() {
+    boost::unique_lock<boost::mutex> lock(condition_mutex_);
+    if (!running_) {
+        running_ = true;
+        condition_.notify_all();
     }
-  }
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////
+void pcl::TimeTrigger::stop() {
+    boost::unique_lock<boost::mutex> lock(condition_mutex_);
+    if (running_) {
+        running_ = false;
+        condition_.notify_all();
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+void pcl::TimeTrigger::thread_function() {
+    static double time = 0;
+    while (!quit_) {
+        time = getTime();
+        boost::unique_lock<boost::mutex> lock(condition_mutex_);
+        if (!running_)
+            condition_.wait(
+                lock); // wait util start is called or destructor is called
+        else {
+            callbacks_();
+            double rest = interval_ + time - getTime();
+            condition_.timed_wait(lock,
+                                  boost::posix_time::microseconds(
+                                      static_cast<int64_t>((rest * 1000000))));
+        }
+    }
+}

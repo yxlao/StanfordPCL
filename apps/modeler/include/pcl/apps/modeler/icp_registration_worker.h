@@ -40,46 +40,41 @@
 #include <pcl/apps/modeler/abstract_worker.h>
 #include <pcl/apps/modeler/cloud_mesh.h>
 
-namespace pcl
-{
-  namespace modeler
-  {
-    class IntParameter;
-    class DoubleParameter;
+namespace pcl {
+namespace modeler {
+class IntParameter;
+class DoubleParameter;
 
-    class ICPRegistrationWorker : public AbstractWorker 
-    {
-      public:
-        ICPRegistrationWorker(CloudMesh::PointCloudPtr cloud, const QList<CloudMeshItem*>& cloud_mesh_items, QWidget* parent=0);
-        ~ICPRegistrationWorker(void);
+class ICPRegistrationWorker : public AbstractWorker {
+  public:
+    ICPRegistrationWorker(CloudMesh::PointCloudPtr cloud,
+                          const QList<CloudMeshItem *> &cloud_mesh_items,
+                          QWidget *parent = 0);
+    ~ICPRegistrationWorker(void);
 
-      protected:
-        virtual std::string
-        getName () const {return ("Normal Estimation");}
+  protected:
+    virtual std::string getName() const { return ("Normal Estimation"); }
 
-        virtual void
-        initParameters(CloudMeshItem* cloud_mesh_item);
+    virtual void initParameters(CloudMeshItem *cloud_mesh_item);
 
-        virtual void
-        setupParameters();
+    virtual void setupParameters();
 
-        virtual void
-        processImpl(CloudMeshItem* cloud_mesh_item);
+    virtual void processImpl(CloudMeshItem *cloud_mesh_item);
 
-      private:
-        CloudMesh::PointCloudPtr    cloud_;
+  private:
+    CloudMesh::PointCloudPtr cloud_;
 
-        double x_min_, x_max_;
-        double y_min_, y_max_;
-        double z_min_, z_max_;
+    double x_min_, x_max_;
+    double y_min_, y_max_;
+    double z_min_, z_max_;
 
-        DoubleParameter*  max_correspondence_distance_;
-        IntParameter*     max_iterations_;
-        DoubleParameter*  transformation_epsilon_;
-        DoubleParameter*  euclidean_fitness_epsilon_;
-    };
+    DoubleParameter *max_correspondence_distance_;
+    IntParameter *max_iterations_;
+    DoubleParameter *transformation_epsilon_;
+    DoubleParameter *euclidean_fitness_epsilon_;
+};
 
-  }
-}
+} // namespace modeler
+} // namespace pcl
 
 #endif // PCL_MODELER_ICP_REGISTRATION_WORKER_H_

@@ -37,14 +37,17 @@
  *
  */
 
-#include <pcl/sample_consensus/sac_model_cylinder.h>
-#include <pcl/sample_consensus/impl/sac_model_cylinder.hpp>
-#include <pcl/point_types.h>
 #include <pcl/impl/instantiate.hpp>
+#include <pcl/point_types.h>
+#include <pcl/sample_consensus/impl/sac_model_cylinder.hpp>
+#include <pcl/sample_consensus/sac_model_cylinder.h>
 
 // Instantiations of specific point types
 #ifdef PCL_ONLY_CORE_POINT_TYPES
-  PCL_INSTANTIATE_PRODUCT(SampleConsensusModelCylinder, ((pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA)(pcl::PointXYZRGB))((pcl::Normal)))
+PCL_INSTANTIATE_PRODUCT(SampleConsensusModelCylinder,
+                        ((pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA)(
+                            pcl::PointXYZRGB))((pcl::Normal)))
 #else
- PCL_INSTANTIATE_PRODUCT(SampleConsensusModelCylinder, (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES))
+PCL_INSTANTIATE_PRODUCT(SampleConsensusModelCylinder,
+                        (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES))
 #endif

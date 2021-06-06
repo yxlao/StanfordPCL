@@ -42,4 +42,3 @@
 
 // Instantiations of specific point types
 PCL_INSTANTIATE(Octree, PCL_XYZ_POINT_TYPES)
-

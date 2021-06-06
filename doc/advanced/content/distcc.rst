@@ -31,7 +31,7 @@ In each distributed build environment, there are usually two different roles:
      /etc/init.d/distcc start
 
    Once started, you should notice a few `distcc` processes idle-ing::
-  
+
      $ ps axw | grep distcc
      ...
      30042 ?        SN     0:00 /usr/bin/distccd --pid-file=/var/run/distccd.pid --log-file=/var/log/distccd.log --daemon --allow 127.0.0.1 --allow 10.0.0.0/21 --listen 0.0.0.0 --nice 10 --zeroconf
@@ -89,15 +89,15 @@ In each distributed build environment, there are usually two different roles:
       --   iostreams
       -- checking for module 'eigen3'
       --   found eigen3, version 3.0.0
-      -- Found Eigen: /usr/include/eigen3 
+      -- Found Eigen: /usr/include/eigen3
       -- Eigen found (include: /usr/include/eigen3)
       -- checking for module 'flann'
       --   found flann, version 1.6.8
-      -- Found Flann: /usr/lib64/libflann_cpp_s.a 
+      -- Found Flann: /usr/lib64/libflann_cpp_s.a
       -- FLANN found (include: /usr/include, lib: optimized;/usr/lib64/libflann_cpp_s.a;debug;/usr/lib64/libflann_cpp.so)
       -- checking for module 'cminpack'
       --   found cminpack, version 1.0.90
-      -- Found CMinpack: /usr/lib64/libcminpack.so 
+      -- Found CMinpack: /usr/lib64/libcminpack.so
       -- CMinPack found (include: /usr/include/cminpack-1, libs: optimized;/usr/lib64/libcminpack.so;debug;/usr/lib64/libcminpack.so)
       -- Try OpenMP C flag = [-fopenmp]
       -- Performing Test OpenMP_FLAG_DETECTED
@@ -105,17 +105,17 @@ In each distributed build environment, there are usually two different roles:
       -- Try OpenMP CXX flag = [-fopenmp]
       -- Performing Test OpenMP_FLAG_DETECTED
       -- Performing Test OpenMP_FLAG_DETECTED - Success
-      -- Found OpenMP: -fopenmp 
-      -- Found OpenNI: /usr/lib/libOpenNI.so 
+      -- Found OpenMP: -fopenmp
+      -- Found OpenNI: /usr/lib/libOpenNI.so
       -- OpenNI found (include: /usr/include/openni, lib: /usr/lib/libOpenNI.so)
       -- ROS_ROOT /opt/ros/diamondback/ros
       -- Found ROS; USE_ROS is OFF
-      -- Found GTest: /usr/lib/libgtest.so 
+      -- Found GTest: /usr/lib/libgtest.so
       -- Tests will be built
-      -- Found Qhull: /usr/lib/libqhull.so 
+      -- Found Qhull: /usr/lib/libqhull.so
       -- QHULL found (include: /usr/include/qhull, lib: optimized;/usr/lib/libqhull.so;debug;/usr/lib/libqhull.so)
       -- VTK found (include: /usr/include/vtk-5.4;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/lib/openmpi/include;/usr/lib/openmpi/include/openmpi;/usr/include/tcl8.5;/usr/include/python2.6;/usr/include/tcl8.5;/usr/lib/jvm/default-java/include;/usr/lib/jvm/default-java/include;/usr/lib/jvm/default-java/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include;/usr/include/libxml2;/usr/include;/usr/include/freetype2, lib: /usr/lib/vtk-5.4)
-      -- Found Doxygen: /usr/bin/doxygen 
+      -- Found Doxygen: /usr/bin/doxygen
       -- Found CPack generators: DEB
       -- The following subsystems will be built:
       --   common

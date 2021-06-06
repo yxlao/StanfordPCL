@@ -40,159 +40,160 @@
 #define PCL_GPU_PEOPLE_INTERNAL_H_
 
 #include <pcl/gpu/containers/device_array.h>
-#include <pcl/gpu/utils/safe_call.hpp>
 #include <pcl/gpu/people/label_common.h>
 #include <pcl/gpu/people/tree.h>
+#include <pcl/gpu/utils/safe_call.hpp>
 
 using pcl::gpu::people::NUM_PARTS;
 
-namespace pcl
-{
-  namespace device
-  {
-    typedef DeviceArray2D<float4> Cloud;
-    typedef DeviceArray2D<uchar4> Image;
+namespace pcl {
+namespace device {
+typedef DeviceArray2D<float4> Cloud;
+typedef DeviceArray2D<uchar4> Image;
 
-    typedef DeviceArray2D<unsigned short> Depth;
-    typedef DeviceArray2D<unsigned char>  Labels;      
-    typedef DeviceArray2D<float>          HueImage;
-    typedef DeviceArray2D<unsigned char>  Mask;  
+typedef DeviceArray2D<unsigned short> Depth;
+typedef DeviceArray2D<unsigned char> Labels;
+typedef DeviceArray2D<float> HueImage;
+typedef DeviceArray2D<unsigned char> Mask;
 
-    typedef DeviceArray2D<char4> MultiLabels;
+typedef DeviceArray2D<char4> MultiLabels;
 
-    /** \brief The intrinsic camera calibration **/
-    struct Intr
-    {
-        float fx, fy, cx, cy;
-        Intr () {}
-        Intr (float fx_, float fy_, float cx_, float cy_) : fx(fx_), fy(fy_), cx(cx_), cy(cy_) {}
+/** \brief The intrinsic camera calibration **/
+struct Intr {
+    float fx, fy, cx, cy;
+    Intr() {}
+    Intr(float fx_, float fy_, float cx_, float cy_)
+        : fx(fx_), fy(fy_), cx(cx_), cy(cy_) {}
 
-        void setDefaultPPIfIncorrect(int cols, int rows)
-        {
-          cx = cx > 0 ? cx : cols/2 - 0.5f;
-          cy = cy > 0 ? cy : rows/2 - 0.5f;
-        }
+    void setDefaultPPIfIncorrect(int cols, int rows) {
+        cx = cx > 0 ? cx : cols / 2 - 0.5f;
+        cy = cy > 0 ? cy : rows / 2 - 0.5f;
+    }
+};
+
+void smoothLabelImage(const Labels &src, const Depth &depth, Labels &dst,
+                      int num_parts, int patch_size, int depthThres);
+void colorLMap(const Labels &labels, const DeviceArray<uchar4> &cmap,
+               Image &rgb);
+void mixedColorMap(const Labels &labels, const DeviceArray<uchar4> &map,
+                   const Image &rgba, Image &output);
+
+////////////// connected components ///////////////////
+
+struct ConnectedComponents {
+    static void initEdges(int rows, int cols,
+                          DeviceArray2D<unsigned char> &edges);
+    // static void computeEdges(const Labels& labels, const Cloud& cloud, int
+    // num_parts, float sq_radius, DeviceArray2D<unsigned char>& edges);
+    static void computeEdges(const Labels &labels, const Depth &depth,
+                             int num_parts, float sq_radius,
+                             DeviceArray2D<unsigned char> &edges);
+    static void labelComponents(const DeviceArray2D<unsigned char> &edges,
+                                DeviceArray2D<int> &comps);
+};
+
+void computeCloud(const Depth &depth, const Intr &intr, Cloud &cloud);
+
+void setZero(Mask &mask);
+void prepareForeGroundDepth(const Depth &depth1, Mask &inverse_mask,
+                            Depth &depth2);
+
+float computeHue(int rgba);
+void computeHueWithNans(const Image &image, const Depth &depth, HueImage &hue);
+
+// void shs(const DeviceArray2D<float4> &cloud, float tolerance, const
+// std::vector<int>& indices_in, float delta_hue, Mask& indices_out);
+
+struct Dilatation {
+    typedef DeviceArray<unsigned char> Kernel;
+    enum {
+        KSIZE_X = 5,
+        KSIZE_Y = 5,
+        ANCH_X = KSIZE_X / 2,
+        ANCH_Y = KSIZE_Y / 2,
     };
 
-    void smoothLabelImage(const Labels& src, const Depth& depth, Labels& dst, int num_parts, int  patch_size, int depthThres);
-    void colorLMap(const Labels& labels, const DeviceArray<uchar4>& cmap, Image& rgb);
-    void mixedColorMap(const Labels& labels, const DeviceArray<uchar4>& map, const Image& rgba, Image& output);
+    static void prepareRect5x5Kernel(Kernel &kernel);
+    static void invoke(const Mask &src, const Kernel &kernel, Mask &dst);
+};
 
-    ////////////// connected components ///////////////////        
+/** \brief Struct that holds a single RDF tree in GPU **/
+struct CUDATree {
+    typedef pcl::gpu::people::trees::Node Node;
+    typedef pcl::gpu::people::trees::Label Label;
 
-    struct ConnectedComponents
-    {
-        static void initEdges(int rows, int cols, DeviceArray2D<unsigned char>& edges);
-        //static void computeEdges(const Labels& labels, const Cloud& cloud, int num_parts, float sq_radius, DeviceArray2D<unsigned char>& edges);
-        static void computeEdges(const Labels& labels, const Depth& depth, int num_parts, float sq_radius, DeviceArray2D<unsigned char>& edges);
-        static void labelComponents(const DeviceArray2D<unsigned char>& edges, DeviceArray2D<int>& comps);
-    };
+    int treeHeight;
+    int numNodes;
 
-    void computeCloud(const Depth& depth, const Intr& intr, Cloud& cloud);
+    DeviceArray<Node> nodes_device;
+    DeviceArray<Label> leaves_device;
 
-    void setZero(Mask& mask);
-    void prepareForeGroundDepth(const Depth& depth1, Mask& inverse_mask, Depth& depth2);
+    CUDATree(int treeHeight_, const std::vector<Node> &nodes,
+             const std::vector<Label> &leaves);
+};
 
-    float computeHue(int rgba);
-    void  computeHueWithNans(const Image& image, const Depth& depth, HueImage& hue);
+/** \brief Processor using multiple trees */
+class MultiTreeLiveProc {
+  public:
+    /** \brief Constructor with default values, allocates multilmap device
+     * memory **/
+    MultiTreeLiveProc(int def_rows = 480, int def_cols = 640)
+        : multilmap(def_rows, def_cols) {}
+    /** \brief Empty destructor **/
+    ~MultiTreeLiveProc() {}
 
-    //void shs(const DeviceArray2D<float4> &cloud, float tolerance, const std::vector<int>& indices_in, float delta_hue, Mask& indices_out);
+    void process(const Depth &dmap, Labels &lmap);
 
-    struct Dilatation
-    {
-        typedef DeviceArray<unsigned char> Kernel;
-        enum 
-        { 
-          KSIZE_X = 5,
-          KSIZE_Y = 5,
-          ANCH_X = KSIZE_X/2,
-          ANCH_Y = KSIZE_Y/2,
-        };
+    /** \brief same as process, but runs the trick of declaring as background
+     * any neighbor that is more than FGThresh away.**/
+    void process(const Depth &dmap, Labels &lmap, int FGThresh);
 
-        static void prepareRect5x5Kernel(Kernel& kernel);
-        static void invoke(const Mask& src, const Kernel& kernel, Mask& dst);
-    };
+    /** \brief output a probability map from the RDF.**/
+    void processProb(const Depth &dmap, Labels &lmap, LabelProbability &prob,
+                     int FGThresh);
 
-    /** \brief Struct that holds a single RDF tree in GPU **/
-    struct CUDATree
-    {
-        typedef pcl::gpu::people::trees::Node Node;
-        typedef pcl::gpu::people::trees::Label Label;
+    std::vector<CUDATree> trees;
+    MultiLabels multilmap;
+};
 
-        int treeHeight;
-        int numNodes;
+/** \brief Implementation Class to process probability histograms on GPU **/
+class ProbabilityProc {
+  public:
+    /** \brief Default constructor **/
+    ProbabilityProc() {
+        std::cout << "(I) : ProbabilityProc constructor called" << std::endl;
+    }
 
-        DeviceArray<Node> nodes_device;
-        DeviceArray<Label> leaves_device;
+    /** \brief Default destructor **/
+    ~ProbabilityProc() {}
 
-        CUDATree (int treeHeight_, const std::vector<Node>& nodes, const std::vector<Label>& leaves);
-    };
+    /** \brief This will merge the votes from the different trees into one final
+     * vote, including probabilistic's **/
+    void CUDA_SelectLabel(const Depth &depth, Labels &labels,
+                          LabelProbability &probabilities);
 
-    /** \brief Processor using multiple trees */
-    class MultiTreeLiveProc
-    {
-      public:
-        /** \brief Constructor with default values, allocates multilmap device memory **/
-        MultiTreeLiveProc(int def_rows = 480, int def_cols = 640) : multilmap (def_rows, def_cols) {}
-        /** \brief Empty destructor **/
-        ~MultiTreeLiveProc() {}
+    /** \brief This will combine two probabilities according their weight **/
+    void CUDA_CombineProb(const Depth &depth, LabelProbability &probIn1,
+                          float weight1, LabelProbability &probIn2,
+                          float weight2, LabelProbability &probOut);
 
-        void
-        process (const Depth& dmap, Labels& lmap);
+    /** \brief This will sum a probability multiplied with it's weight **/
+    void CUDA_WeightedSumProb(const Depth &depth, LabelProbability &probIn,
+                              float weight, LabelProbability &probOut);
 
-        /** \brief same as process, but runs the trick of declaring as background any neighbor that is more than FGThresh away.**/
-        void
-        process (const Depth& dmap, Labels& lmap, int FGThresh);
-
-        /** \brief output a probability map from the RDF.**/
-        void
-        processProb (const Depth& dmap, Labels& lmap, LabelProbability& prob, int FGThresh);
-
-        std::vector<CUDATree> trees;
-        MultiLabels multilmap;
-    };
-
-    /** \brief Implementation Class to process probability histograms on GPU **/
-    class ProbabilityProc
-    {
-      public:
-        /** \brief Default constructor **/
-        ProbabilityProc()
-        {
-          std::cout << "(I) : ProbabilityProc constructor called" << std::endl;
-        }
-
-        /** \brief Default destructor **/
-        ~ProbabilityProc() {}
-
-        /** \brief This will merge the votes from the different trees into one final vote, including probabilistic's **/
-        void
-        CUDA_SelectLabel ( const Depth& depth, Labels& labels, LabelProbability& probabilities);
-
-        /** \brief This will combine two probabilities according their weight **/
-        void
-        CUDA_CombineProb ( const Depth& depth, LabelProbability& probIn1, float weight1,
-                           LabelProbability& probIn2, float weight2, LabelProbability& probOut);
-
-        /** \brief This will sum a probability multiplied with it's weight **/
-        void
-        CUDA_WeightedSumProb ( const Depth& depth, LabelProbability& probIn, float weight, LabelProbability& probOut);
-
-        /** \brief This will blur the input labelprobability with the given kernel **/
-        int
-        CUDA_GaussianBlur( const Depth& depth,
-                           LabelProbability& probIn,
-                           DeviceArray<float>& kernel,
-                           LabelProbability& probOut);
-        /** \brief This will blur the input labelprobability with the given kernel, this version avoids extended allocation **/
-        int
-        CUDA_GaussianBlur( const Depth& depth,
-                           LabelProbability& probIn,
-                           DeviceArray<float>& kernel,
-                           LabelProbability& probTemp,
-                           LabelProbability& probOut);
-    };
-  }
-}
+    /** \brief This will blur the input labelprobability with the given kernel
+     * **/
+    int CUDA_GaussianBlur(const Depth &depth, LabelProbability &probIn,
+                          DeviceArray<float> &kernel,
+                          LabelProbability &probOut);
+    /** \brief This will blur the input labelprobability with the given kernel,
+     * this version avoids extended allocation **/
+    int CUDA_GaussianBlur(const Depth &depth, LabelProbability &probIn,
+                          DeviceArray<float> &kernel,
+                          LabelProbability &probTemp,
+                          LabelProbability &probOut);
+};
+} // namespace device
+} // namespace pcl
 
 #endif /* PCL_GPU_PEOPLE_INTERNAL_H_ */

@@ -104,7 +104,7 @@ directories and subdirectories, and loads in all *.PCD* files it finds. In
 ``loadFeatureModels``, we call ``loadHist``, which will attempt to open each
 PCD file found, read its header, and check whether it contains a VFH signature
 or not. Together with the VFH signature we also store the PCD file name into a
-``vfh_model`` pair.  
+``vfh_model`` pair.
 
 Once all VFH features have been loaded, we convert them to FLANN format, using:
 
@@ -179,7 +179,7 @@ In lines:
    :language: cpp
    :lines: 162-163
 
-   
+
 we load the training data from disk, together with the list of file names that
 we previously stored in ``build_tree.cpp``. Then, we read the kd-tree and rebuild the index:
 
@@ -187,7 +187,7 @@ we previously stored in ``build_tree.cpp``. Then, we read the kd-tree and rebuil
    :language: cpp
    :lines: 176-177
 
-   
+
 Here we need to make sure that we use the **exact** distance metric
 (``ChiSquareDistance`` in this case), as the one that we used while creating
 the tree. The most important part of the code comes here:
@@ -235,7 +235,7 @@ For visualization purposes, we demean the point cloud by computing its centroid 
    :language: cpp
    :lines: 238-243
 
-   
+
 Finally we check if the distance obtained by ``nearestKSearch`` is larger than the user given threshold, and if it is, we display a red line over the cloud that is being rendered in the viewport:
 
 .. literalinclude:: sources/vfh_recognition/nearest_neighbors.cpp
@@ -254,8 +254,8 @@ Create a new ``CMakeLists.txt`` file, and put the following content into it
 
 .. note::
 	
-	If you are running this tutorial on Windows, you have to install (`HDF5 1.8.7 Shared Library <http://www.hdfgroup.org/ftp/HDF5/hdf5-1.8.7/bin/windows/>`_). If CMake is not able to find HDF5, 
-	you can manually supply the include directory in HDF5_INCLUDE_DIR variable and the full path of **hdf5dll.lib** in HDF5_hdf5_LIBRARY variable. 
+	If you are running this tutorial on Windows, you have to install (`HDF5 1.8.7 Shared Library <http://www.hdfgroup.org/ftp/HDF5/hdf5-1.8.7/bin/windows/>`_). If CMake is not able to find HDF5,
+	you can manually supply the include directory in HDF5_INCLUDE_DIR variable and the full path of **hdf5dll.lib** in HDF5_hdf5_LIBRARY variable.
 	Make sure that the needed dlls are in the same folder as the executables.
 
 The above assumes that your two source files (``build_tree.cpp`` and ``nearest_neighbors.cpp``) are stored into the *src/* subdirectory.

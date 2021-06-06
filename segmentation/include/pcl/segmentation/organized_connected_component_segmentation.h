@@ -40,112 +40,98 @@
 #ifndef PCL_SEGMENTATION_ORGANIZED_CONNECTED_COMPONENT_SEGMENTATION_H_
 #define PCL_SEGMENTATION_ORGANIZED_CONNECTED_COMPONENT_SEGMENTATION_H_
 
-#include <pcl/pcl_base.h>
 #include <pcl/PointIndices.h>
+#include <pcl/pcl_base.h>
 #include <pcl/segmentation/comparator.h>
 
-namespace pcl
-{
-  /** \brief OrganizedConnectedComponentSegmentation allows connected
-    * components to be found within organized point cloud data, given a
-    * comparison function.  Given an input cloud and a comparator, it will
-    * output a PointCloud of labels, giving each connected component a unique
-    * id, along with a vector of PointIndices corresponding to each component.
-    * See OrganizedMultiPlaneSegmentation for an example application.
-    *
-    * \author Alex Trevor, Suat Gedikli
-    */
-  template <typename PointT, typename PointLT>
-  class OrganizedConnectedComponentSegmentation : public PCLBase<PointT>
-  {
+namespace pcl {
+/** \brief OrganizedConnectedComponentSegmentation allows connected
+ * components to be found within organized point cloud data, given a
+ * comparison function.  Given an input cloud and a comparator, it will
+ * output a PointCloud of labels, giving each connected component a unique
+ * id, along with a vector of PointIndices corresponding to each component.
+ * See OrganizedMultiPlaneSegmentation for an example application.
+ *
+ * \author Alex Trevor, Suat Gedikli
+ */
+template <typename PointT, typename PointLT>
+class OrganizedConnectedComponentSegmentation : public PCLBase<PointT> {
     using PCLBase<PointT>::input_;
     using PCLBase<PointT>::indices_;
     using PCLBase<PointT>::initCompute;
     using PCLBase<PointT>::deinitCompute;
 
-    public:
-      typedef typename pcl::PointCloud<PointT> PointCloud;
-      typedef typename PointCloud::Ptr PointCloudPtr;
-      typedef typename PointCloud::ConstPtr PointCloudConstPtr;
-      
-      typedef typename pcl::PointCloud<PointLT> PointCloudL;
-      typedef typename PointCloudL::Ptr PointCloudLPtr;
-      typedef typename PointCloudL::ConstPtr PointCloudLConstPtr;
+  public:
+    typedef typename pcl::PointCloud<PointT> PointCloud;
+    typedef typename PointCloud::Ptr PointCloudPtr;
+    typedef typename PointCloud::ConstPtr PointCloudConstPtr;
 
-      typedef typename pcl::Comparator<PointT> Comparator;
-      typedef typename Comparator::Ptr ComparatorPtr;
-      typedef typename Comparator::ConstPtr ComparatorConstPtr;
-      
-      /** \brief Constructor for OrganizedConnectedComponentSegmentation
-        * \param[in] compare A pointer to the comparator to be used for segmentation.  Must be an instance of pcl::Comparator.
-        */
-      OrganizedConnectedComponentSegmentation (const ComparatorConstPtr& compare)
-        : compare_ (compare)
-      {
-      }
+    typedef typename pcl::PointCloud<PointLT> PointCloudL;
+    typedef typename PointCloudL::Ptr PointCloudLPtr;
+    typedef typename PointCloudL::ConstPtr PointCloudLConstPtr;
 
-      /** \brief Destructor for OrganizedConnectedComponentSegmentation. */
-      virtual
-      ~OrganizedConnectedComponentSegmentation ()
-      {
-      }
+    typedef typename pcl::Comparator<PointT> Comparator;
+    typedef typename Comparator::Ptr ComparatorPtr;
+    typedef typename Comparator::ConstPtr ComparatorConstPtr;
 
-      /** \brief Provide a pointer to the comparator to be used for segmentation.
-        * \param[in] compare the comparator
-        */
-      void
-      setComparator (const ComparatorConstPtr& compare)
-      {
+    /** \brief Constructor for OrganizedConnectedComponentSegmentation
+     * \param[in] compare A pointer to the comparator to be used for
+     * segmentation.  Must be an instance of pcl::Comparator.
+     */
+    OrganizedConnectedComponentSegmentation(const ComparatorConstPtr &compare)
+        : compare_(compare) {}
+
+    /** \brief Destructor for OrganizedConnectedComponentSegmentation. */
+    virtual ~OrganizedConnectedComponentSegmentation() {}
+
+    /** \brief Provide a pointer to the comparator to be used for segmentation.
+     * \param[in] compare the comparator
+     */
+    void setComparator(const ComparatorConstPtr &compare) {
         compare_ = compare;
-      }
-      
-      /** \brief Get the comparator.*/
-      ComparatorConstPtr
-      getComparator () const { return (compare_); }
+    }
 
-      /** \brief Perform the connected component segmentation.
-        * \param[out] labels a PointCloud of labels: each connected component will have a unique id.
-        * \param[out] label_indices a vector of PointIndices corresponding to each label / component id.
-        */
-      void
-      segment (pcl::PointCloud<PointLT>& labels, std::vector<pcl::PointIndices>& label_indices) const;
-      
-      /** \brief Find the boundary points / contour of a connected component
-        * \param[in] start_idx the first (lowest) index of the connected component for which a boundary shoudl be returned
-        * \param[in] labels the Label cloud produced by segmentation
-        * \param[out] boundary_indices the indices of the boundary points for the label corresponding to start_idx
-        */
-      static void
-      findLabeledRegionBoundary (int start_idx, PointCloudLPtr labels, pcl::PointIndices& boundary_indices);      
-      
+    /** \brief Get the comparator.*/
+    ComparatorConstPtr getComparator() const { return (compare_); }
 
-    protected:
-      ComparatorConstPtr compare_;
-      
-      inline unsigned
-      findRoot (const std::vector<unsigned>& runs, unsigned index) const
-      {
+    /** \brief Perform the connected component segmentation.
+     * \param[out] labels a PointCloud of labels: each connected component will
+     * have a unique id. \param[out] label_indices a vector of PointIndices
+     * corresponding to each label / component id.
+     */
+    void segment(pcl::PointCloud<PointLT> &labels,
+                 std::vector<pcl::PointIndices> &label_indices) const;
+
+    /** \brief Find the boundary points / contour of a connected component
+     * \param[in] start_idx the first (lowest) index of the connected component
+     * for which a boundary shoudl be returned \param[in] labels the Label cloud
+     * produced by segmentation \param[out] boundary_indices the indices of the
+     * boundary points for the label corresponding to start_idx
+     */
+    static void findLabeledRegionBoundary(int start_idx, PointCloudLPtr labels,
+                                          pcl::PointIndices &boundary_indices);
+
+  protected:
+    ComparatorConstPtr compare_;
+
+    inline unsigned findRoot(const std::vector<unsigned> &runs,
+                             unsigned index) const {
         register unsigned idx = index;
         while (runs[idx] != idx)
-          idx = runs[idx];
+            idx = runs[idx];
 
         return (idx);
-      }
+    }
 
-    private:
-      struct Neighbor
-      {
-        Neighbor (int dx, int dy, int didx)
-        : d_x (dx)
-        , d_y (dy)
-        , d_index (didx)
-        {}
-        
+  private:
+    struct Neighbor {
+        Neighbor(int dx, int dy, int didx) : d_x(dx), d_y(dy), d_index(didx) {}
+
         int d_x;
         int d_y;
         int d_index; // = dy * width + dx: pre-calculated
-      };
-  };
-}
+    };
+};
+} // namespace pcl
 
 #endif //#ifndef PCL_ORGANIZED_CONNECTED_COMPONENT_SEGMENTATION_H_

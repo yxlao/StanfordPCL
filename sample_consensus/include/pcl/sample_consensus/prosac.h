@@ -41,18 +41,17 @@
 #include <pcl/sample_consensus/sac.h>
 #include <pcl/sample_consensus/sac_model.h>
 
-namespace pcl
-{
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /** \brief @b RandomSampleConsensus represents an implementation of the RANSAC (RAndom SAmple Consensus) algorithm, as
-    * described in: "Matching with PROSAC – Progressive Sample Consensus", Chum, O. and Matas, J.G., CVPR, I: 220-226
-    * 2005.
-    * \author Vincent Rabaud
-    * \ingroup sample_consensus
-    */
-  template<typename PointT>
-  class ProgressiveSampleConsensus : public SampleConsensus<PointT>
-  {
+namespace pcl {
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/** \brief @b RandomSampleConsensus represents an implementation of the RANSAC
+ * (RAndom SAmple Consensus) algorithm, as described in: "Matching with PROSAC –
+ * Progressive Sample Consensus", Chum, O. and Matas, J.G., CVPR, I: 220-226
+ * 2005.
+ * \author Vincent Rabaud
+ * \ingroup sample_consensus
+ */
+template <typename PointT>
+class ProgressiveSampleConsensus : public SampleConsensus<PointT> {
     using SampleConsensus<PointT>::max_iterations_;
     using SampleConsensus<PointT>::threshold_;
     using SampleConsensus<PointT>::iterations_;
@@ -64,34 +63,33 @@ namespace pcl
 
     typedef typename SampleConsensusModel<PointT>::Ptr SampleConsensusModelPtr;
 
-    public:
-      /** \brief PROSAC (Progressive SAmple Consensus) main constructor
-        * \param model a Sample Consensus model
-        */
-      ProgressiveSampleConsensus (const SampleConsensusModelPtr &model) :
-        SampleConsensus<PointT> (model)
-      {
+  public:
+    /** \brief PROSAC (Progressive SAmple Consensus) main constructor
+     * \param model a Sample Consensus model
+     */
+    ProgressiveSampleConsensus(const SampleConsensusModelPtr &model)
+        : SampleConsensus<PointT>(model) {
         // Maximum number of trials before we give up.
         max_iterations_ = 10000;
-      }
+    }
 
-      /** \brief PROSAC (Progressive SAmple Consensus) main constructor
-        * \param model a Sample Consensus model
-        * \param threshold distance to model threshold
-       */
-      ProgressiveSampleConsensus (const SampleConsensusModelPtr &model, double threshold) :
-        SampleConsensus<PointT> (model, threshold)
-      {
+    /** \brief PROSAC (Progressive SAmple Consensus) main constructor
+     * \param model a Sample Consensus model
+     * \param threshold distance to model threshold
+     */
+    ProgressiveSampleConsensus(const SampleConsensusModelPtr &model,
+                               double threshold)
+        : SampleConsensus<PointT>(model, threshold) {
         // Maximum number of trials before we give up.
         max_iterations_ = 10000;
-      }
+    }
 
-      /** \brief Compute the actual model and find the inliers
-        * \param debug_verbosity_level enable/disable on-screen debug information and set the verbosity level
-        */
-      bool 
-      computeModel (int debug_verbosity_level = 0);
-  };
-}
+    /** \brief Compute the actual model and find the inliers
+     * \param debug_verbosity_level enable/disable on-screen debug information
+     * and set the verbosity level
+     */
+    bool computeModel(int debug_verbosity_level = 0);
+};
+} // namespace pcl
 
-#endif  //#ifndef PCL_SAMPLE_CONSENSUS_PROSAC_H_
+#endif //#ifndef PCL_SAMPLE_CONSENSUS_PROSAC_H_

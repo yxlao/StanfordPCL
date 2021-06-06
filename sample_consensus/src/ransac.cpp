@@ -39,12 +39,13 @@
 
 #include <pcl/impl/instantiate.hpp>
 #include <pcl/point_types.h>
-#include <pcl/sample_consensus/ransac.h>
 #include <pcl/sample_consensus/impl/ransac.hpp>
+#include <pcl/sample_consensus/ransac.h>
 
 // Instantiations of specific point types
 #ifdef PCL_ONLY_CORE_POINT_TYPES
-  PCL_INSTANTIATE(RandomSampleConsensus, (pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA)(pcl::PointXYZRGB))
+PCL_INSTANTIATE(RandomSampleConsensus, (pcl::PointXYZ)(pcl::PointXYZI)(
+                                           pcl::PointXYZRGBA)(pcl::PointXYZRGB))
 #else
- PCL_INSTANTIATE(RandomSampleConsensus, PCL_XYZ_POINT_TYPES)
+PCL_INSTANTIATE(RandomSampleConsensus, PCL_XYZ_POINT_TYPES)
 #endif

@@ -99,7 +99,7 @@ vtkSmartPointer<vtkPolyData> vtkPCLConversions::PolyDataFromPointCloud(pcl::Poin
   if (cloud->is_dense)
   {
     for (vtkIdType i = 0; i < nr_points; ++i) {
-      float point[3] = {cloud->points[i].x, cloud->points[i].y, cloud->points[i].z}; 
+      float point[3] = {cloud->points[i].x, cloud->points[i].y, cloud->points[i].z};
       points->SetPoint(i, point);
     }
   }
@@ -109,12 +109,12 @@ vtkSmartPointer<vtkPolyData> vtkPCLConversions::PolyDataFromPointCloud(pcl::Poin
     for (vtkIdType i = 0; i < nr_points; ++i)
     {
       // Check if the point is invalid
-      if (!pcl_isfinite (cloud->points[i].x) || 
-          !pcl_isfinite (cloud->points[i].y) || 
+      if (!pcl_isfinite (cloud->points[i].x) ||
+          !pcl_isfinite (cloud->points[i].y) ||
           !pcl_isfinite (cloud->points[i].z))
         continue;
 
-      float point[3] = {cloud->points[i].x, cloud->points[i].y, cloud->points[i].z}; 
+      float point[3] = {cloud->points[i].x, cloud->points[i].y, cloud->points[i].z};
       points->SetPoint(j, point);
       j++;
     }
@@ -147,7 +147,7 @@ vtkSmartPointer<vtkPolyData> vtkPCLConversions::PolyDataFromPointCloud(pcl::Poin
   {
     for (vtkIdType i = 0; i < nr_points; ++i) {
       float point[3] = {cloud->points[i].x, cloud->points[i].y, cloud->points[i].z};
-      unsigned char color[3] = {cloud->points[i].r, cloud->points[i].g, cloud->points[i].b}; 
+      unsigned char color[3] = {cloud->points[i].r, cloud->points[i].g, cloud->points[i].b};
       points->SetPoint(i, point);
       rgbArray->SetTupleValue(i, color);
     }
@@ -158,8 +158,8 @@ vtkSmartPointer<vtkPolyData> vtkPCLConversions::PolyDataFromPointCloud(pcl::Poin
     for (vtkIdType i = 0; i < nr_points; ++i)
     {
       // Check if the point is invalid
-      if (!pcl_isfinite (cloud->points[i].x) || 
-          !pcl_isfinite (cloud->points[i].y) || 
+      if (!pcl_isfinite (cloud->points[i].x) ||
+          !pcl_isfinite (cloud->points[i].y) ||
           !pcl_isfinite (cloud->points[i].z))
         continue;
 
@@ -200,7 +200,7 @@ vtkSmartPointer<vtkPolyData> vtkPCLConversions::PolyDataFromPointCloud(pcl::Poin
   {
     for (vtkIdType i = 0; i < nr_points; ++i) {
       float point[3] = {cloud->points[i].x, cloud->points[i].y, cloud->points[i].z};
-      unsigned char color[3] = {cloud->points[i].r, cloud->points[i].g, cloud->points[i].b}; 
+      unsigned char color[3] = {cloud->points[i].r, cloud->points[i].g, cloud->points[i].b};
       points->SetPoint(i, point);
       rgbArray->SetTupleValue(i, color);
     }
@@ -211,8 +211,8 @@ vtkSmartPointer<vtkPolyData> vtkPCLConversions::PolyDataFromPointCloud(pcl::Poin
     for (vtkIdType i = 0; i < nr_points; ++i)
     {
       // Check if the point is invalid
-      if (!pcl_isfinite (cloud->points[i].x) || 
-          !pcl_isfinite (cloud->points[i].y) || 
+      if (!pcl_isfinite (cloud->points[i].x) ||
+          !pcl_isfinite (cloud->points[i].y) ||
           !pcl_isfinite (cloud->points[i].z))
         continue;
 
@@ -377,7 +377,7 @@ vtkSmartPointer<vtkIntArray> vtkPCLConversions::NewLabelsArray(pcl::IndicesConst
   if (indices)
     {
     LabelIndices(*indices, labels, 1);
-    }  
+    }
   return labels;
 }
 
@@ -388,7 +388,7 @@ vtkSmartPointer<vtkIntArray> vtkPCLConversions::NewLabelsArray(pcl::PointIndices
   if (indices)
     {
     LabelIndices(indices->indices, labels, 1);
-    }  
+    }
   return labels;
 }
 

@@ -39,39 +39,34 @@
 
 #include <pcl/apps/modeler/abstract_worker.h>
 
-namespace pcl
-{
-  namespace modeler
-  {
-    class IntParameter;
-    class DoubleParameter;
+namespace pcl {
+namespace modeler {
+class IntParameter;
+class DoubleParameter;
 
-    class StatisticalOutlierRemovalWorker : public AbstractWorker 
-    {
-      public:
-        StatisticalOutlierRemovalWorker(const QList<CloudMeshItem*>& cloud_mesh_items, QWidget* parent=0);
-        ~StatisticalOutlierRemovalWorker(void);
+class StatisticalOutlierRemovalWorker : public AbstractWorker {
+  public:
+    StatisticalOutlierRemovalWorker(
+        const QList<CloudMeshItem *> &cloud_mesh_items, QWidget *parent = 0);
+    ~StatisticalOutlierRemovalWorker(void);
 
-      protected:
-        virtual std::string
-        getName () const {return ("Statistical Outlier Removal");}
+  protected:
+    virtual std::string getName() const {
+        return ("Statistical Outlier Removal");
+    }
 
-        virtual void
-        initParameters(CloudMeshItem* cloud_mesh_item);
+    virtual void initParameters(CloudMeshItem *cloud_mesh_item);
 
-        virtual void
-        setupParameters();
+    virtual void setupParameters();
 
-        virtual void
-        processImpl(CloudMeshItem* cloud_mesh_item);
+    virtual void processImpl(CloudMeshItem *cloud_mesh_item);
 
-      private:
-        IntParameter* mean_k_;
-        DoubleParameter* stddev_mul_thresh_;
+  private:
+    IntParameter *mean_k_;
+    DoubleParameter *stddev_mul_thresh_;
+};
 
-    };
-
-  }
-}
+} // namespace modeler
+} // namespace pcl
 
 #endif // PCL_MODELER_STATISTICAL_OUTLIER_REMOVAL_WORKER_H_

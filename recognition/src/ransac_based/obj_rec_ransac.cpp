@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2012, Willow Garage, Inc.
- *  
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -39,18 +39,18 @@
 
 #include <pcl/recognition/ransac_based/obj_rec_ransac.h>
 
-pcl::recognition::ObjRecRANSAC::ObjRecRANSAC (double pair_width, double /*voxel_size*/, double /*fraction_of_pairs_in_hash_table*/)
-: pair_width_(pair_width), model_library_(pair_width)
-{
-}
+pcl::recognition::ObjRecRANSAC::ObjRecRANSAC(
+    double pair_width, double /*voxel_size*/,
+    double /*fraction_of_pairs_in_hash_table*/)
+    : pair_width_(pair_width), model_library_(pair_width) {}
 
 //===========================================================================================================================================================================================
 
-void
-pcl::recognition::ObjRecRANSAC::recognize (const pcl::PointCloud<Eigen::Vector3d>& /*scene*/, const pcl::PointCloud<Eigen::Vector3d>& /*normals*/, std::list<ObjRecRANSAC::Output>& /*recognized_objects*/)
-{
-  // to be implemented
+void pcl::recognition::ObjRecRANSAC::recognize(
+    const pcl::PointCloud<Eigen::Vector3d> & /*scene*/,
+    const pcl::PointCloud<Eigen::Vector3d> & /*normals*/,
+    std::list<ObjRecRANSAC::Output> & /*recognized_objects*/) {
+    // to be implemented
 }
 
 //===========================================================================================================================================================================================
-

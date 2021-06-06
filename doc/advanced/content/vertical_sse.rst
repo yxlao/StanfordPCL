@@ -364,12 +364,12 @@ Dense
 ::
 
     Horizontal (AOS)
-      Scalar:   0.621674 seconds 
-      SSE2:     0.756300 seconds 
-      SSE4.1:   0.532441 seconds 
-      SSE4.1u4: 0.476841 seconds 
+      Scalar:   0.621674 seconds
+      SSE2:     0.756300 seconds
+      SSE4.1:   0.532441 seconds
+      SSE4.1u4: 0.476841 seconds
     Vertical (SOA)
-      Scalar:   0.519625 seconds 
+      Scalar:   0.519625 seconds
       SSE2:     0.215499 seconds
 
 The vertical SSE2 code is the clear winner, more than twice as fast as
@@ -411,13 +411,13 @@ Dense
 ::
 
     Horizontal (AOS)
-      Scalar:  0.628597 seconds 
-      SSE2:    0.326645 seconds 
-      SSE2u2:  0.247539 seconds 
-      SSE2u4:  0.236474 seconds 
+      Scalar:  0.628597 seconds
+      SSE2:    0.326645 seconds
+      SSE2u2:  0.247539 seconds
+      SSE2u4:  0.236474 seconds
     Vertical (SOA)
-      Scalar:  0.711040 seconds 
-      SSE2:    0.149806 seconds 
+      Scalar:  0.711040 seconds
+      SSE2:    0.149806 seconds
 
 Indexed
 """""""
@@ -425,11 +425,11 @@ Indexed
 ::
 
     Horizontal (AOS)
-      Scalar:  0.256237 seconds 
-      SSE2:    0.195724 seconds 
+      Scalar:  0.256237 seconds
+      SSE2:    0.195724 seconds
     Vertical (SOA)
-      Scalar:  0.194030 seconds 
-      SSE2:    0.166639 seconds 
+      Scalar:  0.194030 seconds
+      SSE2:    0.166639 seconds
 
 Vertical SSE for organized point clouds
 =======================================

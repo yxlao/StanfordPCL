@@ -36,7 +36,7 @@
  */
 
 #ifdef WIN32
-# define WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
 #endif
 
 #include <pcl/pcl_exports.h>
@@ -44,140 +44,147 @@
 #include "pcl/cuda/sample_consensus/sac_model.h"
 #include "pcl/cuda/time_gpu.h"
 
-#include <thrust/replace.h>
 #include <thrust/copy.h>
-#include <thrust/sequence.h>
 #include <thrust/gather.h>
+#include <thrust/replace.h>
+#include <thrust/sequence.h>
 
+namespace pcl {
+namespace cuda {
 
-namespace pcl
-{
-  namespace cuda 
-  {
-
-    template <template <typename> class Storage>
-    __inline__ __host__
-    void create_scatter_stencil (int new_w, int new_h, int skip, int width, int height, typename Storage<int>::type &stencil)
-    { 
-      for (unsigned int i = 0; i < new_w * new_h; ++i)
-      { 
+template <template <typename> class Storage>
+__inline__ __host__ void
+create_scatter_stencil(int new_w, int new_h, int skip, int width, int height,
+                       typename Storage<int>::type &stencil) {
+    for (unsigned int i = 0; i < new_w * new_h; ++i) {
         int xIdx = i % new_w;
-        int yIdx = i / new_w; 
-        stencil [i] = (xIdx * skip) + width * (yIdx * skip);
-      }
+        int yIdx = i / new_w;
+        stencil[i] = (xIdx * skip) + width * (yIdx * skip);
     }
+}
 
-    template <template <typename> class Storage> void
-    SampleConsensusModel<Storage>::setInputCloud (const PointCloudConstPtr &cloud)
-    {
-      //input_.reset (new PointCloud);
-      //int skip = 2;
-      //int new_w = cloud->width/skip;
-      //int new_h = cloud->height/skip;
+template <template <typename> class Storage>
+void SampleConsensusModel<Storage>::setInputCloud(
+    const PointCloudConstPtr &cloud) {
+    // input_.reset (new PointCloud);
+    // int skip = 2;
+    // int new_w = cloud->width/skip;
+    // int new_h = cloud->height/skip;
 
-      //input_->width    = new_w;
-      //input_->height   = new_h;
-      //input_->is_dense = cloud->is_dense;
-      //
-      //typename Storage<int>::type stencil (new_w * new_h);
-      //create_scatter_stencil<Storage> (new_w, new_h, skip, cloud->width, cloud->height, stencil);
-      //
-      //input_->points.resize (stencil.size ());
-      //thrust::gather (stencil.begin (), stencil.end (), cloud->points.begin (), input_->points.begin ());
-      // TODO pcl_cuda::ScopeTime t ("setInputCloud"); 
-      input_ = cloud;
-
-      //// first, we create an inlier stencil that has -1 set for all nan points
-      if (!indices_stencil_)
-        indices_stencil_.reset (new Indices);
-
-      indices_stencil_->resize (input_->points.size());
-      thrust::sequence (indices_stencil_->begin (), indices_stencil_->end ());
-
-      thrust::replace_if (indices_stencil_->begin (), indices_stencil_->end (),
-          input_->points.begin (), isNaNPoint (),
-          -1);
-
-      // copy all non-(-1) values from indices_stencil_ to indices_
-      if (!indices_)
-        indices_.reset (new Indices);
-
-      indices_->resize (input_->points.size());
-      typename Indices::iterator it;
-      it = thrust::copy_if (indices_stencil_->begin (), indices_stencil_->end (), indices_->begin (), isInlier ());
-      indices_->erase (it, indices_->end ());
-
-      std::cerr << "setInputCloud :" << indices_->size () << " valid points ( " << indices_->size () / (float) input_->points.size () << " %)" << std::endl;
-
-    }
-
-
-    // ------ got moved to inline function def in sac_model.h
-    //template <template <typename> class Storage> typename SampleConsensusModel<Storage>::IndicesPtr 
-    //SampleConsensusModel<Storage>::getIndices () const
-    //{
-    //  if (nr_indices_in_stencil_ != indices_->size())
-    //  {
-    //    typename Indices::iterator last = thrust::remove_copy (indices_stencil_->begin (), indices_stencil_->end (), indices_->begin (), -1);
-    //    indices_->resize (last - indices_->begin ());
-    //  }
+    // input_->width    = new_w;
+    // input_->height   = new_h;
+    // input_->is_dense = cloud->is_dense;
     //
-    //  return (indices_);
-    //}
+    // typename Storage<int>::type stencil (new_w * new_h);
+    // create_scatter_stencil<Storage> (new_w, new_h, skip, cloud->width,
+    // cloud->height, stencil);
+    //
+    // input_->points.resize (stencil.size ());
+    // thrust::gather (stencil.begin (), stencil.end (), cloud->points.begin (),
+    // input_->points.begin ());
+    // TODO pcl_cuda::ScopeTime t ("setInputCloud");
+    input_ = cloud;
 
-    template <template <typename> class Storage> int
-    SampleConsensusModel<Storage>::deleteIndices (const IndicesPtr &indices_stencil )
-    {
-      //assert (indices_->size() ==  indices_stencil->size());
-      //thrust::transform (thrust::make_zip_iterator (thrust::make_tuple (indices_stencil_->begin(), indices_stencil->begin ())),
-      //                   thrust::make_zip_iterator (thrust::make_tuple (indices_stencil_->begin(), indices_stencil->begin ())) + indices_stencil_->size(),
-      //                   indices_stencil_->begin (),
-      //                   DeleteIndices ());
-      //typename Indices::iterator last = thrust::remove_copy (indices_stencil_->begin (), indices_stencil_->end (), indices_->begin (), -1);
-      //indices_->resize (last - indices_->begin());
-      //return (int)indices_->size();
+    //// first, we create an inlier stencil that has -1 set for all nan points
+    if (!indices_stencil_)
+        indices_stencil_.reset(new Indices);
 
-      assert (indices_stencil_->size() ==  indices_stencil->size());
-      thrust::transform (thrust::make_zip_iterator (thrust::make_tuple (indices_stencil_->begin(), indices_stencil->begin ())),
-                         thrust::make_zip_iterator (thrust::make_tuple (indices_stencil_->begin(), indices_stencil->begin ())) + indices_stencil_->size(),
-                         indices_stencil_->begin (),
-                         DeleteIndices ());
-      int pts_deleted = (int) thrust::count (indices_stencil_->begin (), indices_stencil_->end (), -1);
+    indices_stencil_->resize(input_->points.size());
+    thrust::sequence(indices_stencil_->begin(), indices_stencil_->end());
 
-      return (int) indices_stencil_->size ()- pts_deleted;
-    }
+    thrust::replace_if(indices_stencil_->begin(), indices_stencil_->end(),
+                       input_->points.begin(), isNaNPoint(), -1);
 
-    template <template <typename> class Storage> int
-      SampleConsensusModel<Storage>::deleteIndices (const Hypotheses &h, int idx, IndicesPtr &inliers, const IndicesPtr &inliers_delete)
-    {
-      if (inliers->size() !=  inliers_delete->size())
-        std::cerr << "assert (inliers->size() ==  inliers_delete->size()); ---> " << inliers->size () << " != " << inliers_delete->size () << std::endl;
-      //assert (inliers->size() ==  inliers_delete->size());
-      thrust::transform (thrust::make_zip_iterator (thrust::make_tuple (inliers->begin(), inliers_delete->begin ())),
-                         thrust::make_zip_iterator (thrust::make_tuple (inliers->begin(), inliers_delete->begin ())) + inliers_delete->size(),
-                         inliers->begin (),
-                         DeleteIndices ());
-      int i = (int) thrust::count (inliers->begin (), inliers->end (), -1);
-      return (int)inliers->size() - i;
-    }
+    // copy all non-(-1) values from indices_stencil_ to indices_
+    if (!indices_)
+        indices_.reset(new Indices);
 
+    indices_->resize(input_->points.size());
+    typename Indices::iterator it;
+    it = thrust::copy_if(indices_stencil_->begin(), indices_stencil_->end(),
+                         indices_->begin(), isInlier());
+    indices_->erase(it, indices_->end());
 
-    //////////////////////////////////////////////////////////////////////////
-    // set all points which are inliers in the current model to -1,
-    // points which are outliers (-1) to the current model are copied
-    template <typename Tuple> int
-    DeleteIndices::operator () (const Tuple &t)
-    {
-      if (thrust::get<1>(t) == -1)
+    std::cerr << "setInputCloud :" << indices_->size() << " valid points ( "
+              << indices_->size() / (float)input_->points.size() << " %)"
+              << std::endl;
+}
+
+// ------ got moved to inline function def in sac_model.h
+// template <template <typename> class Storage> typename
+// SampleConsensusModel<Storage>::IndicesPtr
+// SampleConsensusModel<Storage>::getIndices () const
+//{
+//  if (nr_indices_in_stencil_ != indices_->size())
+//  {
+//    typename Indices::iterator last = thrust::remove_copy
+//    (indices_stencil_->begin (), indices_stencil_->end (), indices_->begin (),
+//    -1); indices_->resize (last - indices_->begin ());
+//  }
+//
+//  return (indices_);
+//}
+
+template <template <typename> class Storage>
+int SampleConsensusModel<Storage>::deleteIndices(
+    const IndicesPtr &indices_stencil) {
+    // assert (indices_->size() ==  indices_stencil->size());
+    // thrust::transform (thrust::make_zip_iterator (thrust::make_tuple
+    // (indices_stencil_->begin(), indices_stencil->begin ())),
+    //                   thrust::make_zip_iterator (thrust::make_tuple
+    //                   (indices_stencil_->begin(), indices_stencil->begin ()))
+    //                   + indices_stencil_->size(), indices_stencil_->begin (),
+    //                   DeleteIndices ());
+    // typename Indices::iterator last = thrust::remove_copy
+    // (indices_stencil_->begin (), indices_stencil_->end (), indices_->begin (),
+    // -1); indices_->resize (last - indices_->begin()); return
+    // (int)indices_->size();
+
+    assert(indices_stencil_->size() == indices_stencil->size());
+    thrust::transform(
+        thrust::make_zip_iterator(thrust::make_tuple(indices_stencil_->begin(),
+                                                     indices_stencil->begin())),
+        thrust::make_zip_iterator(thrust::make_tuple(
+            indices_stencil_->begin(), indices_stencil->begin())) +
+            indices_stencil_->size(),
+        indices_stencil_->begin(), DeleteIndices());
+    int pts_deleted = (int)thrust::count(indices_stencil_->begin(),
+                                         indices_stencil_->end(), -1);
+
+    return (int)indices_stencil_->size() - pts_deleted;
+}
+
+template <template <typename> class Storage>
+int SampleConsensusModel<Storage>::deleteIndices(
+    const Hypotheses &h, int idx, IndicesPtr &inliers,
+    const IndicesPtr &inliers_delete) {
+    if (inliers->size() != inliers_delete->size())
+        std::cerr
+            << "assert (inliers->size() ==  inliers_delete->size()); ---> "
+            << inliers->size() << " != " << inliers_delete->size() << std::endl;
+    // assert (inliers->size() ==  inliers_delete->size());
+    thrust::transform(thrust::make_zip_iterator(thrust::make_tuple(
+                          inliers->begin(), inliers_delete->begin())),
+                      thrust::make_zip_iterator(thrust::make_tuple(
+                          inliers->begin(), inliers_delete->begin())) +
+                          inliers_delete->size(),
+                      inliers->begin(), DeleteIndices());
+    int i = (int)thrust::count(inliers->begin(), inliers->end(), -1);
+    return (int)inliers->size() - i;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// set all points which are inliers in the current model to -1,
+// points which are outliers (-1) to the current model are copied
+template <typename Tuple> int DeleteIndices::operator()(const Tuple &t) {
+    if (thrust::get<1>(t) == -1)
         return thrust::get<0>(t);
-      else
+    else
         return -1;
-    }
+}
 
+template class PCL_EXPORTS SampleConsensusModel<Device>;
+template class PCL_EXPORTS SampleConsensusModel<Host>;
 
-    template class PCL_EXPORTS SampleConsensusModel<Device>;
-    template class PCL_EXPORTS SampleConsensusModel<Host>;
-
-  } // namespace
-} // namespace
-
+} // namespace cuda
+} // namespace pcl

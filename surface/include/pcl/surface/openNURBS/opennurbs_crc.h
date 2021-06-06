@@ -8,7 +8,7 @@
 // THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
 // ALL IMPLIED WARRANTIES OF FITNESS FOR ANY PARTICULAR PURPOSE AND OF
 // MERCHANTABILITY ARE HEREBY DISCLAIMED.
-//				
+//
 // For complete openNURBS copyright information see <http://www.opennurbs.org>.
 //
 ////////////////////////////////////////////////////////////////
@@ -26,12 +26,13 @@ Description:
 Parameters:
   current_remainder - [in]
   sizeof_buffer - [in]  number of bytes in buffer
-  buffer - [in] 
+  buffer - [in]
 
 Example:
   16 bit CRC calculations are typically done something like this:
 
-          const ON__UINT16 crc_seed = 0; // or 1, or your favorite starting value
+          const ON__UINT16 crc_seed = 0; // or 1, or your favorite starting
+value
 
           // Compute CRC on "good" data
           unsigned ON__UINT16 first_crc = crc_seed;
@@ -42,8 +43,8 @@ Example:
           first_crc = ON_CRC16( first_crc, 2, two_zero_bytes );
 
           // make sure 16 bit CRC calculation is valid
-          ON__UINT16 check_crc_calculation = ON_CRC16( first_crc, 2, &first_crc );
-          if ( check_crc_calculation != 0 ) 
+          ON__UINT16 check_crc_calculation = ON_CRC16( first_crc, 2, &first_crc
+); if ( check_crc_calculation != 0 )
           {
              printf("ON_CRC16() calculated a bogus 16 bit CRC\n");
           }
@@ -56,17 +57,14 @@ Example:
           second_crc = ON_CRC16( second_crc, size1, buffer1 );
           ...
           second_crc = ON_CRC16( second_crc, sizeN, bufferN );
-          if ( 0 != ON_CRC16( second_crc, 2, &first_crc ) ) 
+          if ( 0 != ON_CRC16( second_crc, 2, &first_crc ) )
           {
             printf( "The value of at least one byte has changed.\n" );
           }
 */
 ON_DECL
-ON__UINT16 ON_CRC16(
-         ON__UINT16 current_remainder,
-         size_t sizeof_buffer,
-         const void* buffer
-         );
+ON__UINT16 ON_CRC16(ON__UINT16 current_remainder, size_t sizeof_buffer,
+                    const void *buffer);
 
 /*
 Description:
@@ -75,20 +73,21 @@ Description:
   ON_CRC32() is a slightly altered version of zlib 1.3.3's crc32()
   and the zlib "legal stuff" is reproduced below.
 
-  ON_CRC32() and zlib's crc32() compute the same values.  ON_CRC32() 
-  was renamed so it wouldn't clash with the other crc32()'s that are 
+  ON_CRC32() and zlib's crc32() compute the same values.  ON_CRC32()
+  was renamed so it wouldn't clash with the other crc32()'s that are
   out there and the argument order was switched to match that used by
   the legacy ON_CRC16().
 
 Parameters:
   current_remainder - [in]
   sizeof_buffer - [in]  number of bytes in buffer
-  buffer - [in] 
+  buffer - [in]
 
 Example:
   32 bit CRC calculations are typically done something like this:
 
-          const ON__UINT32 crc_seed = 0; // or 1, or your favorite starting value
+          const ON__UINT32 crc_seed = 0; // or 1, or your favorite starting
+value
 
           //Compute CRC on "good" data
           ON__UINT32 first_crc = crc_seed;
@@ -104,17 +103,14 @@ Example:
           second_crc = ON_CRC32( second_crc, size1, buffer1 );
           ...
           second_crc = ON_CRC32( second_crc, sizeN, bufferN );
-          if ( second_crc != first_crc ) 
+          if ( second_crc != first_crc )
           {
             printf( "The value of at least one byte has changed.\n" );
           }
 */
 ON_DECL
-ON__UINT32 ON_CRC32(
-         ON__UINT32 current_remainder,
-         size_t sizeof_buffer,
-         const void* buffer
-         );
+ON__UINT32 ON_CRC32(ON__UINT32 current_remainder, size_t sizeof_buffer,
+                    const void *buffer);
 
 /*
 zlib.h -- interface of the 'zlib' general purpose compression library

@@ -7,21 +7,20 @@
 #include <pcl/visualization/pcl_visualizer.h>
 
 /* A simple class for capturing data from an OpenNI camera */
-class OpenNICapture
-{
+class OpenNICapture {
   public:
-    OpenNICapture (const std::string& device_id = "");
-    ~OpenNICapture ();
-    
-    void setTriggerMode (bool use_trigger);
-    const PointCloudPtr snap ();
-    const PointCloudPtr snapAndSave (const std::string & filename);
+    OpenNICapture(const std::string &device_id = "");
+    ~OpenNICapture();
+
+    void setTriggerMode(bool use_trigger);
+    const PointCloudPtr snap();
+    const PointCloudPtr snapAndSave(const std::string &filename);
 
   protected:
-    void onNewFrame (const PointCloudConstPtr &cloud);
-    void onKeyboardEvent (const pcl::visualization::KeyboardEvent & event);
+    void onNewFrame(const PointCloudConstPtr &cloud);
+    void onKeyboardEvent(const pcl::visualization::KeyboardEvent &event);
 
-    void waitForTrigger ();
+    void waitForTrigger();
 
     pcl::OpenNIGrabber grabber_;
     boost::shared_ptr<pcl::visualization::PCLVisualizer> preview_;

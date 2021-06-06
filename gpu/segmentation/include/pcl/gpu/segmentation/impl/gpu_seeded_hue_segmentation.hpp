@@ -42,124 +42,114 @@
 #include <pcl/gpu/segmentation/gpu_seeded_hue_segmentation.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void
-seededHueSegmentation (const boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB> >  &host_cloud_,
-                       const pcl::gpu::Octree::Ptr                                  &tree,
-                       float                                                        tolerance,
-                       PointIndices                                                 &indices_in,
-                       PointIndices                                                 &indices_out,
-                       float                                                        delta_hue)
-{
+void seededHueSegmentation(
+    const boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>> &host_cloud_,
+    const pcl::gpu::Octree::Ptr &tree, float tolerance,
+    PointIndices &indices_in, PointIndices &indices_out, float delta_hue) {
 
-  // Create a bool vector of processed point indices, and initialize it to false
-  // cloud is a DeviceArray<PointType>
-  std::vector<bool> processed (host_cloud_->points.size (), false);
+    // Create a bool vector of processed point indices, and initialize it to
+    // false cloud is a DeviceArray<PointType>
+    std::vector<bool> processed(host_cloud_->points.size(), false);
 
-  int max_answers = host_cloud_->points.size();
+    int max_answers = host_cloud_->points.size();
 
-  // Process all points in the indices vector
-  for (size_t k = 0; k < indices_in.indices.size (); ++k)
-  {
-    int i = indices_in.indices[k];
-    // if we already processed this point continue with the next one
-    if (processed[i])
-      continue;
-    // now we will process this point
-    processed[i] = true;
-
-    PointXYZRGB  p;
-    p = host_cloud_->points[i];
-    PointXYZHSV h;
-    PointXYZRGBtoXYZHSV(p, h);
-
-    // Create the query queue on the device, point based not indices
-    pcl::gpu::Octree::Queries queries_device;
-    // Create the query queue on the host
-    pcl::PointCloud<pcl::PointXYZ>::VectorType queries_host;
-    // Push the starting point in the vector
-    queries_host.push_back (host_cloud_->points[i]);
-
-    unsigned int found_points = queries_host.size ();
-    unsigned int previous_found_points = 0;
-
-    pcl::gpu::NeighborIndices result_device;
-
-    // Host buffer for results
-    std::vector<int> sizes, data;
-
-    // once the area stop growing, stop also iterating.
-    while (previous_found_points < found_points)
-    {
-      // Move queries to GPU
-      queries_device.upload(queries_host);
-      // Execute search
-      tree->radiusSearch(queries_device, tolerance, max_answers, result_device);
-
-      // Store the previously found number of points
-      previous_found_points = found_points;
-
-      // Clear the Host vectors
-      sizes.clear (); data.clear ();
-
-      // Copy results from GPU to Host
-      result_device.sizes.download (sizes);
-      result_device.data.download (data);
-
-      for(size_t qp = 0; qp < sizes.size (); qp++)
-      {
-        for(int qp_r = 0; qp_r < sizes[qp]; qp_r++)
-        {
-          if(processed[data[qp_r + qp * max_answers]])
+    // Process all points in the indices vector
+    for (size_t k = 0; k < indices_in.indices.size(); ++k) {
+        int i = indices_in.indices[k];
+        // if we already processed this point continue with the next one
+        if (processed[i])
             continue;
+        // now we will process this point
+        processed[i] = true;
 
-          PointXYZRGB  p_l;
-          p_l = host_cloud_->points[data[qp_r + qp * max_answers]];
-          PointXYZHSV h_l;
-          PointXYZRGBtoXYZHSV(p_l, h_l);
+        PointXYZRGB p;
+        p = host_cloud_->points[i];
+        PointXYZHSV h;
+        PointXYZRGBtoXYZHSV(p, h);
 
-          if (fabs(h_l.h - h.h) < delta_hue)
-          {
-            processed[data[qp_r + qp * max_answers]] = true;
-            queries_host.push_back (host_cloud_->points[data[qp_r + qp * max_answers]]);
-            found_points++;
-          }
+        // Create the query queue on the device, point based not indices
+        pcl::gpu::Octree::Queries queries_device;
+        // Create the query queue on the host
+        pcl::PointCloud<pcl::PointXYZ>::VectorType queries_host;
+        // Push the starting point in the vector
+        queries_host.push_back(host_cloud_->points[i]);
+
+        unsigned int found_points = queries_host.size();
+        unsigned int previous_found_points = 0;
+
+        pcl::gpu::NeighborIndices result_device;
+
+        // Host buffer for results
+        std::vector<int> sizes, data;
+
+        // once the area stop growing, stop also iterating.
+        while (previous_found_points < found_points) {
+            // Move queries to GPU
+            queries_device.upload(queries_host);
+            // Execute search
+            tree->radiusSearch(queries_device, tolerance, max_answers,
+                               result_device);
+
+            // Store the previously found number of points
+            previous_found_points = found_points;
+
+            // Clear the Host vectors
+            sizes.clear();
+            data.clear();
+
+            // Copy results from GPU to Host
+            result_device.sizes.download(sizes);
+            result_device.data.download(data);
+
+            for (size_t qp = 0; qp < sizes.size(); qp++) {
+                for (int qp_r = 0; qp_r < sizes[qp]; qp_r++) {
+                    if (processed[data[qp_r + qp * max_answers]])
+                        continue;
+
+                    PointXYZRGB p_l;
+                    p_l = host_cloud_->points[data[qp_r + qp * max_answers]];
+                    PointXYZHSV h_l;
+                    PointXYZRGBtoXYZHSV(p_l, h_l);
+
+                    if (fabs(h_l.h - h.h) < delta_hue) {
+                        processed[data[qp_r + qp * max_answers]] = true;
+                        queries_host.push_back(
+                            host_cloud_->points[data[qp_r + qp * max_answers]]);
+                        found_points++;
+                    }
+                }
+            }
         }
-      }
+        for (size_t qp = 0; qp < sizes.size(); qp++) {
+            for (int qp_r = 0; qp_r < sizes[qp]; qp_r++) {
+                indices_out.indices.push_back(data[qp_r + qp * max_answers]);
+            }
+        }
     }
-    for(size_t qp = 0; qp < sizes.size (); qp++)
-    {
-      for(int qp_r = 0; qp_r < sizes[qp]; qp_r++)
+    // @todo: do we need to sort here and remove double points?
+}
+
+void pcl::gpu::SeededHueSegmentation::segment(PointIndices &indices_in,
+                                              PointIndices &indices_out) {
+    // Initialize the GPU search tree
+    if (!tree_) {
+        tree_.reset(new pcl::gpu::Octree());
+        ///@todo what do we do if input isn't a PointXYZ cloud?
+        tree_->setCloud(input_);
+    }
+    if (!tree_->isBuild()) {
+        tree_->build();
+    }
+    /*
+      if(tree_->cloud_.size() != host_cloud.points.size ())
       {
-        indices_out.indices.push_back(data[qp_r + qp * max_answers]);
+        PCL_ERROR("[pcl::gpu::SeededHueSegmentation] size of host cloud and
+      device cloud don't match!\n"); return;
       }
-    }
-  }
-  // @todo: do we need to sort here and remove double points?
+    */
+    // Extract the actual clusters
+    seededHueSegmentation(host_cloud_, tree_, cluster_tolerance_, indices_in,
+                          indices_out, delta_hue_);
 }
 
-void 
-pcl::gpu::SeededHueSegmentation::segment (PointIndices &indices_in, PointIndices &indices_out)
-{
-  // Initialize the GPU search tree
-  if (!tree_)
-  {
-    tree_.reset (new pcl::gpu::Octree());
-    ///@todo what do we do if input isn't a PointXYZ cloud?
-    tree_->setCloud(input_);
-  }
-  if (!tree_->isBuild())
-  {
-    tree_->build();
-  }
-/*
-  if(tree_->cloud_.size() != host_cloud.points.size ())
-  {
-    PCL_ERROR("[pcl::gpu::SeededHueSegmentation] size of host cloud and device cloud don't match!\n");
-    return;
-  }
-*/
-  // Extract the actual clusters
-  seededHueSegmentation (host_cloud_, tree_, cluster_tolerance_, indices_in, indices_out, delta_hue_);
-}
-
-#endif //PCL_GPU_SEGMENTATION_IMPL_SEEDED_HUE_SEGMENTATION_H_
+#endif // PCL_GPU_SEGMENTATION_IMPL_SEEDED_HUE_SEGMENTATION_H_

@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
- * 
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -40,149 +40,150 @@
 #ifndef PCL_SAMPLE_CONSENSUS_MODEL_STICK_H_
 #define PCL_SAMPLE_CONSENSUS_MODEL_STICK_H_
 
-#include <pcl/sample_consensus/sac_model.h>
-#include <pcl/sample_consensus/model_types.h>
 #include <pcl/common/eigen.h>
+#include <pcl/sample_consensus/model_types.h>
+#include <pcl/sample_consensus/sac_model.h>
 
-namespace pcl
-{
-  /** \brief SampleConsensusModelStick defines a model for 3D stick segmentation. 
-    * A stick is a line with an user given minimum/maximum width.
-    * The model coefficients are defined as:
-    *   - \b point_on_line.x  : the X coordinate of a point on the line
-    *   - \b point_on_line.y  : the Y coordinate of a point on the line
-    *   - \b point_on_line.z  : the Z coordinate of a point on the line
-    *   - \b line_direction.x : the X coordinate of a line's direction
-    *   - \b line_direction.y : the Y coordinate of a line's direction
-    *   - \b line_direction.z : the Z coordinate of a line's direction
-    *   - \b line_width       : the width of the line
-    * \author Radu B. Rusu
-    * \ingroup sample_consensus
-    */
-  template <typename PointT>
-  class SampleConsensusModelStick : public SampleConsensusModel<PointT>
-  {
+namespace pcl {
+/** \brief SampleConsensusModelStick defines a model for 3D stick segmentation.
+ * A stick is a line with an user given minimum/maximum width.
+ * The model coefficients are defined as:
+ *   - \b point_on_line.x  : the X coordinate of a point on the line
+ *   - \b point_on_line.y  : the Y coordinate of a point on the line
+ *   - \b point_on_line.z  : the Z coordinate of a point on the line
+ *   - \b line_direction.x : the X coordinate of a line's direction
+ *   - \b line_direction.y : the Y coordinate of a line's direction
+ *   - \b line_direction.z : the Z coordinate of a line's direction
+ *   - \b line_width       : the width of the line
+ * \author Radu B. Rusu
+ * \ingroup sample_consensus
+ */
+template <typename PointT>
+class SampleConsensusModelStick : public SampleConsensusModel<PointT> {
     using SampleConsensusModel<PointT>::input_;
     using SampleConsensusModel<PointT>::indices_;
     using SampleConsensusModel<PointT>::radius_min_;
     using SampleConsensusModel<PointT>::radius_max_;
 
-    public:
-      typedef typename SampleConsensusModel<PointT>::PointCloud PointCloud;
-      typedef typename SampleConsensusModel<PointT>::PointCloudPtr PointCloudPtr;
-      typedef typename SampleConsensusModel<PointT>::PointCloudConstPtr PointCloudConstPtr;
+  public:
+    typedef typename SampleConsensusModel<PointT>::PointCloud PointCloud;
+    typedef typename SampleConsensusModel<PointT>::PointCloudPtr PointCloudPtr;
+    typedef typename SampleConsensusModel<PointT>::PointCloudConstPtr
+        PointCloudConstPtr;
 
-      typedef boost::shared_ptr<SampleConsensusModelStick> Ptr;
+    typedef boost::shared_ptr<SampleConsensusModelStick> Ptr;
 
-      /** \brief Constructor for base SampleConsensusModelStick.
-        * \param[in] cloud the input point cloud dataset
-        */
-      SampleConsensusModelStick (const PointCloudConstPtr &cloud) : SampleConsensusModel<PointT> (cloud) {};
+    /** \brief Constructor for base SampleConsensusModelStick.
+     * \param[in] cloud the input point cloud dataset
+     */
+    SampleConsensusModelStick(const PointCloudConstPtr &cloud)
+        : SampleConsensusModel<PointT>(cloud){};
 
-      /** \brief Constructor for base SampleConsensusModelStick.
-        * \param[in] cloud the input point cloud dataset
-        * \param[in] indices a vector of point indices to be used from \a cloud
-        */
-      SampleConsensusModelStick (const PointCloudConstPtr &cloud, const std::vector<int> &indices) : SampleConsensusModel<PointT> (cloud, indices) {};
+    /** \brief Constructor for base SampleConsensusModelStick.
+     * \param[in] cloud the input point cloud dataset
+     * \param[in] indices a vector of point indices to be used from \a cloud
+     */
+    SampleConsensusModelStick(const PointCloudConstPtr &cloud,
+                              const std::vector<int> &indices)
+        : SampleConsensusModel<PointT>(cloud, indices){};
 
-      /** \brief Check whether the given index samples can form a valid stick model, compute the model coefficients from
-        * these samples and store them internally in model_coefficients_. The stick coefficients are represented by a
-        * point and a line direction
-        * \param[in] samples the point indices found as possible good candidates for creating a valid model
-        * \param[out] model_coefficients the resultant model coefficients
-        */
-      bool 
-      computeModelCoefficients (const std::vector<int> &samples, 
-                                Eigen::VectorXf &model_coefficients);
+    /** \brief Check whether the given index samples can form a valid stick
+     * model, compute the model coefficients from these samples and store them
+     * internally in model_coefficients_. The stick coefficients are represented
+     * by a point and a line direction \param[in] samples the point indices
+     * found as possible good candidates for creating a valid model \param[out]
+     * model_coefficients the resultant model coefficients
+     */
+    bool computeModelCoefficients(const std::vector<int> &samples,
+                                  Eigen::VectorXf &model_coefficients);
 
-      /** \brief Compute all squared distances from the cloud data to a given stick model.
-        * \param[in] model_coefficients the coefficients of a stick model that we need to compute distances to
-        * \param[out] distances the resultant estimated squared distances
-        */
-      void 
-      getDistancesToModel (const Eigen::VectorXf &model_coefficients, 
-                           std::vector<double> &distances);
+    /** \brief Compute all squared distances from the cloud data to a given
+     * stick model. \param[in] model_coefficients the coefficients of a stick
+     * model that we need to compute distances to \param[out] distances the
+     * resultant estimated squared distances
+     */
+    void getDistancesToModel(const Eigen::VectorXf &model_coefficients,
+                             std::vector<double> &distances);
 
-      /** \brief Select all the points which respect the given model coefficients as inliers.
-        * \param[in] model_coefficients the coefficients of a stick model that we need to compute distances to
-        * \param[in] threshold a maximum admissible distance threshold for determining the inliers from the outliers
-        * \param[out] inliers the resultant model inliers
-        */
-      void 
-      selectWithinDistance (const Eigen::VectorXf &model_coefficients, 
-                            const double threshold, 
-                            std::vector<int> &inliers);
+    /** \brief Select all the points which respect the given model coefficients
+     * as inliers. \param[in] model_coefficients the coefficients of a stick
+     * model that we need to compute distances to \param[in] threshold a maximum
+     * admissible distance threshold for determining the inliers from the
+     * outliers \param[out] inliers the resultant model inliers
+     */
+    void selectWithinDistance(const Eigen::VectorXf &model_coefficients,
+                              const double threshold,
+                              std::vector<int> &inliers);
 
-      /** \brief Count all the points which respect the given model coefficients as inliers. 
-        * 
-        * \param[in] model_coefficients the coefficients of a model that we need to compute distances to
-        * \param[in] threshold maximum admissible distance threshold for determining the inliers from the outliers
-        * \return the resultant number of inliers
-        */
-      virtual int
-      countWithinDistance (const Eigen::VectorXf &model_coefficients, 
-                           const double threshold);
+    /** \brief Count all the points which respect the given model coefficients
+     * as inliers.
+     *
+     * \param[in] model_coefficients the coefficients of a model that we need to
+     * compute distances to \param[in] threshold maximum admissible distance
+     * threshold for determining the inliers from the outliers \return the
+     * resultant number of inliers
+     */
+    virtual int countWithinDistance(const Eigen::VectorXf &model_coefficients,
+                                    const double threshold);
 
-      /** \brief Recompute the stick coefficients using the given inlier set and return them to the user.
-        * @note: these are the coefficients of the stick model after refinement (eg. after SVD)
-        * \param[in] inliers the data inliers found as supporting the model
-        * \param[in] model_coefficients the initial guess for the model coefficients
-        * \param[out] optimized_coefficients the resultant recomputed coefficients after optimization
-        */
-      void 
-      optimizeModelCoefficients (const std::vector<int> &inliers, 
-                                 const Eigen::VectorXf &model_coefficients, 
-                                 Eigen::VectorXf &optimized_coefficients);
+    /** \brief Recompute the stick coefficients using the given inlier set and
+     * return them to the user.
+     * @note: these are the coefficients of the stick model after refinement
+     * (eg. after SVD) \param[in] inliers the data inliers found as supporting
+     * the model \param[in] model_coefficients the initial guess for the model
+     * coefficients \param[out] optimized_coefficients the resultant recomputed
+     * coefficients after optimization
+     */
+    void optimizeModelCoefficients(const std::vector<int> &inliers,
+                                   const Eigen::VectorXf &model_coefficients,
+                                   Eigen::VectorXf &optimized_coefficients);
 
-      /** \brief Create a new point cloud with inliers projected onto the stick model.
-        * \param[in] inliers the data inliers that we want to project on the stick model
-        * \param[in] model_coefficients the *normalized* coefficients of a stick model
-        * \param[out] projected_points the resultant projected points
-        * \param[in] copy_data_fields set to true if we need to copy the other data fields
-        */
-      void 
-      projectPoints (const std::vector<int> &inliers, 
-                     const Eigen::VectorXf &model_coefficients, 
-                     PointCloud &projected_points, 
-                     bool copy_data_fields = true);
+    /** \brief Create a new point cloud with inliers projected onto the stick
+     * model. \param[in] inliers the data inliers that we want to project on the
+     * stick model \param[in] model_coefficients the *normalized* coefficients
+     * of a stick model \param[out] projected_points the resultant projected
+     * points \param[in] copy_data_fields set to true if we need to copy the
+     * other data fields
+     */
+    void projectPoints(const std::vector<int> &inliers,
+                       const Eigen::VectorXf &model_coefficients,
+                       PointCloud &projected_points,
+                       bool copy_data_fields = true);
 
-      /** \brief Verify whether a subset of indices verifies the given stick model coefficients.
-        * \param[in] indices the data indices that need to be tested against the plane model
-        * \param[in] model_coefficients the plane model coefficients
-        * \param[in] threshold a maximum admissible distance threshold for determining the inliers from the outliers
-        */
-      bool 
-      doSamplesVerifyModel (const std::set<int> &indices, 
-                            const Eigen::VectorXf &model_coefficients, 
-                            const double threshold);
+    /** \brief Verify whether a subset of indices verifies the given stick model
+     * coefficients. \param[in] indices the data indices that need to be tested
+     * against the plane model \param[in] model_coefficients the plane model
+     * coefficients \param[in] threshold a maximum admissible distance threshold
+     * for determining the inliers from the outliers
+     */
+    bool doSamplesVerifyModel(const std::set<int> &indices,
+                              const Eigen::VectorXf &model_coefficients,
+                              const double threshold);
 
-      /** \brief Return an unique id for this model (SACMODEL_STACK). */
-      inline pcl::SacModel 
-      getModelType () const { return (SACMODEL_STICK); }
+    /** \brief Return an unique id for this model (SACMODEL_STACK). */
+    inline pcl::SacModel getModelType() const { return (SACMODEL_STICK); }
 
-    protected:
-      /** \brief Check whether a model is valid given the user constraints.
-        * \param[in] model_coefficients the set of model coefficients
-        */
-      inline bool 
-      isModelValid (const Eigen::VectorXf &model_coefficients)
-      {
-        if (model_coefficients.size () != 7)
-        {
-          PCL_ERROR ("[pcl::SampleConsensusModelStick::selectWithinDistance] Invalid number of model coefficients given (%zu)!\n", model_coefficients.size ());
-          return (false);
+  protected:
+    /** \brief Check whether a model is valid given the user constraints.
+     * \param[in] model_coefficients the set of model coefficients
+     */
+    inline bool isModelValid(const Eigen::VectorXf &model_coefficients) {
+        if (model_coefficients.size() != 7) {
+            PCL_ERROR("[pcl::SampleConsensusModelStick::selectWithinDistance] "
+                      "Invalid number of model coefficients given (%zu)!\n",
+                      model_coefficients.size());
+            return (false);
         }
 
         return (true);
-      }
+    }
 
-      /** \brief Check if a sample of indices results in a good sample of points
-        * indices.
-        * \param[in] samples the resultant index samples
-        */
-      bool
-      isSampleGood (const std::vector<int> &samples) const;
-  };
-}
+    /** \brief Check if a sample of indices results in a good sample of points
+     * indices.
+     * \param[in] samples the resultant index samples
+     */
+    bool isSampleGood(const std::vector<int> &samples) const;
+};
+} // namespace pcl
 
-#endif  //#ifndef PCL_SAMPLE_CONSENSUS_MODEL_STICK_H_
+#endif //#ifndef PCL_SAMPLE_CONSENSUS_MODEL_STICK_H_

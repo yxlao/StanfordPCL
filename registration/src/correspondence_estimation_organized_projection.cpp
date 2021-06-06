@@ -33,7 +33,8 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: correspondence_estimation_organized_projection.cpp 7164 2012-09-17 17:20:47Z svn $
+ * $Id: correspondence_estimation_organized_projection.cpp 7164 2012-09-17
+ * 17:20:47Z svn $
  *
  */
 

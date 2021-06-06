@@ -39,42 +39,36 @@
 
 #include <pcl/apps/modeler/abstract_worker.h>
 
-namespace pcl
-{
-  namespace modeler
-  {
-    class IntParameter;
-    class DoubleParameter;
+namespace pcl {
+namespace modeler {
+class IntParameter;
+class DoubleParameter;
 
-    class PoissonReconstructionWorker : public AbstractWorker 
-    {
-      public:
-        PoissonReconstructionWorker(const QList<CloudMeshItem*>& cloud_mesh_items, QWidget* parent=0);
-        ~PoissonReconstructionWorker(void);
+class PoissonReconstructionWorker : public AbstractWorker {
+  public:
+    PoissonReconstructionWorker(const QList<CloudMeshItem *> &cloud_mesh_items,
+                                QWidget *parent = 0);
+    ~PoissonReconstructionWorker(void);
 
-      protected:
-        virtual std::string
-        getName () const {return ("Poisson Reconstruction");}
+  protected:
+    virtual std::string getName() const { return ("Poisson Reconstruction"); }
 
-        virtual void
-        initParameters (CloudMeshItem*) {}
+    virtual void initParameters(CloudMeshItem *) {}
 
-        virtual void
-        setupParameters();
+    virtual void setupParameters();
 
-        virtual void
-        processImpl(CloudMeshItem* cloud_mesh_item);
+    virtual void processImpl(CloudMeshItem *cloud_mesh_item);
 
-      private:
-        IntParameter*     depth_;
-        IntParameter*     solver_divide_;
-        IntParameter*     iso_divide_;
-        IntParameter*     degree_;
-        DoubleParameter*  scale_;
-        DoubleParameter*  samples_per_node_;
-    };
+  private:
+    IntParameter *depth_;
+    IntParameter *solver_divide_;
+    IntParameter *iso_divide_;
+    IntParameter *degree_;
+    DoubleParameter *scale_;
+    DoubleParameter *samples_per_node_;
+};
 
-  }
-}
+} // namespace modeler
+} // namespace pcl
 
 #endif // PCL_MODELER_POISSON_WORKER_H_

@@ -4,8 +4,8 @@ Benchmarking Feature Descriptor Algorithms
 ------------------------------------------
 
 In this tutorial, we will go over how to use the FeatureEvaluationFramework class to benchmark various feature descriptor algorithms.
-The benchmarking framework allows the testing of different kinds of feature descriptor algorithms, over a choice of independent variables, 
-ranging from input clouds, algorithm parameters, downsampling leaf size, and search threshold.  
+The benchmarking framework allows the testing of different kinds of feature descriptor algorithms, over a choice of independent variables,
+ranging from input clouds, algorithm parameters, downsampling leaf size, and search threshold.
 
 To ensure extensibility of the framework, the functionality is divided into multiple classes as follows:
 
@@ -17,16 +17,16 @@ Using The FeatureCorrespondenceTest Class
 
 The FeatureCorrespondenceTest class performs a single "feature correspondence test" as follows:
 
-   - The FeatureCorrespondenceTest class takes two input clouds (source and target). 
-   - It will compute feature descriptors in each cloud using the specified algorithm and parameters. 
-   - Each feature in the source cloud will be matched to its corresponding feature in the target cloud based on a nearest neighbor search in the n-D feature space. 
-   - For each point, the system will compare the 3D position of the estimated corresponding target point to the previously established ground truth position. 
-   - If the two points are close together (as determined by a user specified threshold), then the correspondence is marked as a success. Otherwise, it is marked a failure. 
+   - The FeatureCorrespondenceTest class takes two input clouds (source and target).
+   - It will compute feature descriptors in each cloud using the specified algorithm and parameters.
+   - Each feature in the source cloud will be matched to its corresponding feature in the target cloud based on a nearest neighbor search in the n-D feature space.
+   - For each point, the system will compare the 3D position of the estimated corresponding target point to the previously established ground truth position.
+   - If the two points are close together (as determined by a user specified threshold), then the correspondence is marked as a success. Otherwise, it is marked a failure.
    - The total number of successes and failures will be calculated and stored for further analysis.
 
 The functions which perform common tasks are provided in the FeatureCorrespondenceTest class. Functions specific to the Feature Descriptor algorithm
 (i.e. the actual computation of features) must be defined in a separate child class derived from FeatureCorrespondenceTest. For example, FPFHTest
-is a child of FeatureCorrespondenceTest, and it implements functions for calculation of FPFH features on the input clouds (computeFeatures()) 
+is a child of FeatureCorrespondenceTest, and it implements functions for calculation of FPFH features on the input clouds (computeFeatures())
 and for calculating correspondences between the clouds, in the n-D feature space (computeCorrespondences()).
 
 As a result, we get a consistent interface to the FeatureCorrespondenceTest class which can be manipulated through the FeatureEvaluationFramework,
@@ -35,7 +35,7 @@ while at the same time providing means to add new feature algorithms to the test
 Using The FeatureEvaluationFramework Class
 ------------------------------------------
 
-The FeatureEvaluationFramework class encapsulates the actual benchmarking functionality. It has one template parameter, which should match the point_type 
+The FeatureEvaluationFramework class encapsulates the actual benchmarking functionality. It has one template parameter, which should match the point_type
 of the point clouds to be given as input to the framework.
 
 To initialize the FeatureEvaluationFramework object, the following set of functions should be called:
@@ -55,14 +55,14 @@ After this, we are ready to perform the test. There are two possibilities:
    - Single Test : Perform a single feature extraction and store the output statistics by calling runSingleTest().
    - Multiple Tests : Perform multiple tests with varying a single independent variable, and store the set of outputs in CSV format (in the logfile).
       The supported function calls are:
-       
+
          - runMultipleFeatures() - Perform test with multiple feature descriptor algorithms
          - runMultipleClouds() - Run same feature evaluation on a (large) set of input clouds
          - runMultipleParameters() - Perform the feature evaluation with varying parameter values
          - runMultipleLeafSizes() - Vary the Voxelgrid leaf size for downsampling the input cloud before performing each evaluation
-          
+
       The values for the independent variable are taken as input from a text file, which should be provided as an argument to this function.
-      For example, runMultipleLeafSizes(std::string filename) will read values for the Voxelgrid leaf size from each line of "filename", and perform 
+      For example, runMultipleLeafSizes(std::string filename) will read values for the Voxelgrid leaf size from each line of "filename", and perform
       a feature extraction for each leaf size, storing the set of results in the output logfile.
 
 Supported Datasets And Groundtruth Format
@@ -71,12 +71,12 @@ Supported Datasets And Groundtruth Format
 The input clouds (source and target) are read from .pcd files. The point type of the clouds should match the template parameter used in FeatureEvaluationFramework,
 i.e. to use PointXYZRGB clouds, create an object of type FeatureEvaluationFramework<PointXYZRGB> to perform the evaluation.
 
-The ground truth is a (Vector3f, Quaternionf) pair corresponding to the rigid transformation mapping the source and target clouds. 
-Currently, the ground truth matrix is read from a file containing 7 values on one line, 
+The ground truth is a (Vector3f, Quaternionf) pair corresponding to the rigid transformation mapping the source and target clouds.
+Currently, the ground truth matrix is read from a file containing 7 values on one line,
 where first three values are taken as a Vector3f and next four are taken as a Quaternionf.
 
 The `conference room dataset <http://people.willowgarage.com/mdixon/benchmarks/conference_room.tar.bz2>`_ contains 350 point clouds (cloud_###.pcd) and corresponding 7-D pose of the camera (pose_###.txt).
-We will be using clouds from this dataset to perform the benchmarking, however the framework can easily incorporate other datasets in the future. 
+We will be using clouds from this dataset to perform the benchmarking, however the framework can easily incorporate other datasets in the future.
 
 Sample Evaluation: FPFHTest
 ---------------------------
@@ -122,9 +122,9 @@ As each feature extraction test progresses, you should see output similar to thi
    Feature Name:  FPFHTest
    Input Dataset: cloud_000.pcd
    Parameters:    searchradius=0.05
-   Leaf size:     0.01 0.01 0.01 
+   Leaf size:     0.01 0.01 0.01
    ---------------------------------
-   
+
    Computing features
    FPFHTest: computing normals
    FPFHTest: computing source features
@@ -167,7 +167,7 @@ Opening the output logfile "fpfh-radius-variation.txt" you should see something 
    0.7,19754
    0.8,20160
    0.9,21155
-   
+
    searchradius=0.07,3.45,4.25,8.26
    0.1,76
    0.2,16883
@@ -178,7 +178,7 @@ Opening the output logfile "fpfh-radius-variation.txt" you should see something 
    0.7,20829
    0.8,21148
    0.9,21661
-   
+
    searchradius=0.1,6.42,8.03,15.36
    0.1,85
    0.2,18572
@@ -189,7 +189,7 @@ Opening the output logfile "fpfh-radius-variation.txt" you should see something 
    0.7,21181
    0.8,21442
    0.9,21809
-   
+
    searchradius=0.15,12.78,17.08,31.57
    0.1,69
    0.2,20264
@@ -219,17 +219,17 @@ Adding new feature algorithms to the testing framework is very straightforward: 
 class, and implement the following member functions:
 
    - setParameters (ParameterList params)
-      Here ParameterList is a map<string, string> which contains (key,value) pairs of the different parameters passed to the algorithm. 
+      Here ParameterList is a map<string, string> which contains (key,value) pairs of the different parameters passed to the algorithm.
       This function should parse the provided ParameterList and store the relevant parameter values, to be used in feature computation.
    - computeFeatures (double& time_source, double& time_target)
-      This function should perform the actual computation of source and target features, and the implementation details will vary according to the 
+      This function should perform the actual computation of source and target features, and the implementation details will vary according to the
       algorithm in question. The arguments time_source, and time_target should be filled with the time taken for source and target feature computation
       respectively.
    - computeFeatures ()
       Same as above, except runtime statistics are not to be measured.
    - computeCorrespondences ()
-      For each source point, compute its nearest neighbour from the target cloud, in the n-D feature space, and store the correspondences in 
+      For each source point, compute its nearest neighbour from the target cloud, in the n-D feature space, and store the correspondences in
       MapSourceToTargetIndices.
-      
+
 Please look at the FPFHTest implementation for reference (in /trunk/features/include/pcl/features/feature_evaluation)
 

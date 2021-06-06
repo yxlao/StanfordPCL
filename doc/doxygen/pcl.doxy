@@ -22,7 +22,7 @@ PCL is cross-platform, and has been successfully compiled and deployed on
 Linux, MacOS, Windows, and Android. To simplify development, PCL is split into
 a series of smaller code libraries, that can be compiled separately. This
 modularity is important for distributing PCL on platforms with reduced
-computational or size constraints. 
+computational or size constraints.
 
 Please visit http://www.pointclouds.org for more information.
 

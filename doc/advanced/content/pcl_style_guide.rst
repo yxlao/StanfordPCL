@@ -60,12 +60,12 @@ its comment, e.g:
  .. code-block:: cpp
 
   // the license
-  
+
   #ifndef PCL_MODULE_NAME_IMPL_FILE_NAME_HPP_
   #define PCL_MODULE_NAME_IMPL_FILE_NAME_HPP_
-  
+
   // the code
-  
+
   #endif // PCL_MODULE_NAME_IMPL_FILE_NAME_HPP_
 
 1.5. Namespaces
@@ -107,7 +107,7 @@ Correct usage:
 
  .. code-block:: cpp
 
-  int 
+  int
   applyExample (int example_arg);
 
 1.8. Variables
@@ -168,7 +168,7 @@ Return statements should have their values in parentheses, e.g.:
 
 The standard indentation for each block in PCL is **2 spaces**. Under no
 circumstances, tabs or other spacing measures should be used. PCL uses a
-variant of the GNU style formatting. 
+variant of the GNU style formatting.
 
 2.1. Namespaces
 ^^^^^^^^^^^^^^^
@@ -284,7 +284,7 @@ function/method, e.g.:
 
 .. code-block:: cpp
 
-   int 
+   int
    exampleMethod (int example_arg);
 
 If multiple namespaces are declared within header files, always use **2
@@ -333,7 +333,7 @@ You can use the following `PCL C/C++ style file
 <http://dev.pointclouds.org/attachments/download/748/pcl-c-style.el>`_,
 download it to some known location and then:
 
-* open .emacs 
+* open .emacs
 * add the following before any C/C++ custom hooks
 
 .. code-block:: lisp

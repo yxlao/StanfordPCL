@@ -35,103 +35,94 @@
  */
 
 #include <iostream>
-using std::cout;
 using std::cerr;
+using std::cout;
 
-#include <pcl/features/narf_descriptor.h>
 #include <pcl/features/narf.h>
+#include <pcl/features/narf_descriptor.h>
 #include <pcl/range_image/range_image.h>
 
-namespace pcl 
-{
+namespace pcl {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-NarfDescriptor::NarfDescriptor (const RangeImage* range_image, const std::vector<int>* indices) : 
-  BaseClass (), range_image_ (), parameters_ ()
-{
-  setRangeImage (range_image, indices);
+NarfDescriptor::NarfDescriptor(const RangeImage *range_image,
+                               const std::vector<int> *indices)
+    : BaseClass(), range_image_(), parameters_() {
+    setRangeImage(range_image, indices);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-NarfDescriptor::~NarfDescriptor ()
-{
-}
+NarfDescriptor::~NarfDescriptor() {}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
-NarfDescriptor::setRangeImage (const RangeImage* range_image, const std::vector<int>* indices)
-{
-  range_image_ = range_image;
-  if (indices != NULL)
-  {
-    IndicesPtr indicesptr (new std::vector<int> (*indices));
-    setIndices (indicesptr);
-  }
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
-NarfDescriptor::computeFeature(NarfDescriptor::PointCloudOut& output)
-{
-  //std::cout << __PRETTY_FUNCTION__ << " called.\n";
-  
-  output.points.clear();
-  
-  if (range_image_==NULL)
-  {
-    std::cerr << __PRETTY_FUNCTION__
-              << ": RangeImage is not set. Sorry, the NARF descriptor calculation works on range images, not on normal point clouds."
-              << " Use setRangeImage(...).\n\n";
-    output.width = output.height = 0;
-    output.points.clear ();
-    return;
-  }
-  if (parameters_.support_size <= 0.0f)
-  {
-    std::cerr << __PRETTY_FUNCTION__
-              << ": support size is not set. Use getParameters().support_size = ...\n\n";
-    output.width = output.height = 0;
-    output.points.clear ();
-    return;
-  }
-  std::vector<Narf*> feature_list;
-  if (indices_)
-  {
-    for (size_t indices_idx=0; indices_idx<indices_->size(); ++indices_idx)
-    {
-      int point_index = (*indices_)[indices_idx];
-      int y=point_index/range_image_->width, x=point_index - y*range_image_->width;
-      Narf::extractFromRangeImageAndAddToList(*range_image_, static_cast<float> (x), static_cast<float> (y), 36, parameters_.support_size,
-                                              parameters_.rotation_invariant, feature_list);
+void NarfDescriptor::setRangeImage(const RangeImage *range_image,
+                                   const std::vector<int> *indices) {
+    range_image_ = range_image;
+    if (indices != NULL) {
+        IndicesPtr indicesptr(new std::vector<int>(*indices));
+        setIndices(indicesptr);
     }
-  }
-  else
-  {
-    for (unsigned int y=0; y<range_image_->height; ++y)
-    {
-      for (unsigned int x=0; x<range_image_->width; ++x)
-      {
-        Narf::extractFromRangeImageAndAddToList(*range_image_, static_cast<float> (x), static_cast<float> (y), 36, parameters_.support_size,
-                                                parameters_.rotation_invariant, feature_list);
-      }
-    }
-  }
-  
-  // Copy to NARF36 struct
-  output.points.resize(feature_list.size());
-  for (unsigned int i=0; i<feature_list.size(); ++i)
-  {
-    feature_list[i]->copyToNarf36(output.points[i]);
-  }
-  
-  // Cleanup
-  for (size_t i=0; i<feature_list.size(); ++i)
-    delete feature_list[i];
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
-NarfDescriptor::compute(NarfDescriptor::PointCloudOut& output)
-{
-  computeFeature(output);
+void NarfDescriptor::computeFeature(NarfDescriptor::PointCloudOut &output) {
+    // std::cout << __PRETTY_FUNCTION__ << " called.\n";
+
+    output.points.clear();
+
+    if (range_image_ == NULL) {
+        std::cerr
+            << __PRETTY_FUNCTION__
+            << ": RangeImage is not set. Sorry, the NARF descriptor "
+               "calculation works on range images, not on normal point clouds."
+            << " Use setRangeImage(...).\n\n";
+        output.width = output.height = 0;
+        output.points.clear();
+        return;
+    }
+    if (parameters_.support_size <= 0.0f) {
+        std::cerr << __PRETTY_FUNCTION__
+                  << ": support size is not set. Use "
+                     "getParameters().support_size = ...\n\n";
+        output.width = output.height = 0;
+        output.points.clear();
+        return;
+    }
+    std::vector<Narf *> feature_list;
+    if (indices_) {
+        for (size_t indices_idx = 0; indices_idx < indices_->size();
+             ++indices_idx) {
+            int point_index = (*indices_)[indices_idx];
+            int y = point_index / range_image_->width,
+                x = point_index - y * range_image_->width;
+            Narf::extractFromRangeImageAndAddToList(
+                *range_image_, static_cast<float>(x), static_cast<float>(y), 36,
+                parameters_.support_size, parameters_.rotation_invariant,
+                feature_list);
+        }
+    } else {
+        for (unsigned int y = 0; y < range_image_->height; ++y) {
+            for (unsigned int x = 0; x < range_image_->width; ++x) {
+                Narf::extractFromRangeImageAndAddToList(
+                    *range_image_, static_cast<float>(x), static_cast<float>(y),
+                    36, parameters_.support_size,
+                    parameters_.rotation_invariant, feature_list);
+            }
+        }
+    }
+
+    // Copy to NARF36 struct
+    output.points.resize(feature_list.size());
+    for (unsigned int i = 0; i < feature_list.size(); ++i) {
+        feature_list[i]->copyToNarf36(output.points[i]);
+    }
+
+    // Cleanup
+    for (size_t i = 0; i < feature_list.size(); ++i)
+        delete feature_list[i];
 }
-}  // namespace end
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void NarfDescriptor::compute(NarfDescriptor::PointCloudOut &output) {
+    computeFeature(output);
+}
+} // namespace pcl

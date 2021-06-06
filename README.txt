@@ -1,8 +1,17 @@
+## Formatting
+
+```bash
+find . -type f -exec dos2unix {} \;
+find . -not \( -name .svn -prune -o -name .git -prune \) -type f -print0 | xargs -0 perl -pi -e 's/ +$//'
+echo "BasedOnStyle: LLVM\nIndentWidth: 4" > .clang-format
+find . -iname *.h -o -iname *.cpp -o -iname *.cc -o -iname *.cu -o -iname *.hpp -o -iname *.cuh | xargs clang-format-10 -i
+```
+
 ===============================================================================
 =                          Qianyi Zhou's PCL Fork                             =
 ===============================================================================
 
-I have been receiving requests for the source code of 
+I have been receiving requests for the source code of
 pcl_kinfu_largeScale_release.exe, which is a critical module in the robust
 scene reconstruction system we have developed.
 

@@ -42,49 +42,37 @@
 #include <pcl/common/boost.h>
 #include <pcl/console/print.h>
 
-namespace pcl
-{
-  namespace console
-  {
-    class TicToc
-    {
-      public:
+namespace pcl {
+namespace console {
+class TicToc {
+  public:
+    TicToc() : tictic(), toctoc() {}
 
-        TicToc () : tictic (), toctoc () {}
+    void tic() { tictic = boost::posix_time::microsec_clock::local_time(); };
 
-        void 
-        tic ()
-        {
-          tictic = boost::posix_time::microsec_clock::local_time ();
-        };
-
-        inline double 
-        toc ()
-        {
-          toctoc = boost::posix_time::microsec_clock::local_time ();
-          return (static_cast<double> ((toctoc - tictic).total_milliseconds ()));
-        };
-        
-        inline void 
-        toc_print ()
-        {
-          double milliseconds = toc ();
-          //int minutes = (int) floor ( seconds / 60.0 );
-          //seconds -= minutes * 60.0;
-          //if (minutes != 0)
-          //{
-          //  print_value ("%i", minutes);
-          //  print_info (" minutes, ");
-          //}
-          print_value ("%g", milliseconds);
-          print_info (" ms\n");
-        };
-      
-      private:
-        boost::posix_time::ptime tictic;
-        boost::posix_time::ptime toctoc;
+    inline double toc() {
+        toctoc = boost::posix_time::microsec_clock::local_time();
+        return (static_cast<double>((toctoc - tictic).total_milliseconds()));
     };
-  } 
-}
+
+    inline void toc_print() {
+        double milliseconds = toc();
+        // int minutes = (int) floor ( seconds / 60.0 );
+        // seconds -= minutes * 60.0;
+        // if (minutes != 0)
+        //{
+        //  print_value ("%i", minutes);
+        //  print_info (" minutes, ");
+        //}
+        print_value("%g", milliseconds);
+        print_info(" ms\n");
+    };
+
+  private:
+    boost::posix_time::ptime tictic;
+    boost::posix_time::ptime toctoc;
+};
+} // namespace console
+} // namespace pcl
 
 #endif

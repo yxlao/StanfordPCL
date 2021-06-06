@@ -44,45 +44,48 @@
 #include <pcl/registration/icp.h>
 #include <pcl/registration/transformation_estimation_lm.h>
 
-namespace pcl
-{
-  /** \brief @b IterativeClosestPointNonLinear is an ICP variant that uses Levenberg-Marquardt optimization 
-    * backend. The resultant transformation is optimized as a quaternion.
-    *
-    * The algorithm has several termination criteria:
-    *
-    * <ol>
-    * <li>Number of iterations has reached the maximum user imposed number of iterations 
-    *     (via \ref setMaximumIterations)</li>
-    * <li>The epsilon (difference) between the previous transformation and the current estimated transformation is 
-    *     smaller than an user imposed value (via \ref setTransformationEpsilon)</li>
-    * <li>The sum of Euclidean squared errors is smaller than a user defined threshold 
-    *     (via \ref setEuclideanFitnessEpsilon)</li>
-    * </ol>
-    *
-    * \author Radu Bogdan Rusu, Michael Dixon
-    * \ingroup registration
-    */
-  template <typename PointSource, typename PointTarget>
-  class IterativeClosestPointNonLinear : public IterativeClosestPoint<PointSource, PointTarget>
-  {
+namespace pcl {
+/** \brief @b IterativeClosestPointNonLinear is an ICP variant that uses
+ * Levenberg-Marquardt optimization backend. The resultant transformation is
+ * optimized as a quaternion.
+ *
+ * The algorithm has several termination criteria:
+ *
+ * <ol>
+ * <li>Number of iterations has reached the maximum user imposed number of
+ * iterations (via \ref setMaximumIterations)</li> <li>The epsilon (difference)
+ * between the previous transformation and the current estimated transformation
+ * is smaller than an user imposed value (via \ref
+ * setTransformationEpsilon)</li> <li>The sum of Euclidean squared errors is
+ * smaller than a user defined threshold (via \ref
+ * setEuclideanFitnessEpsilon)</li>
+ * </ol>
+ *
+ * \author Radu Bogdan Rusu, Michael Dixon
+ * \ingroup registration
+ */
+template <typename PointSource, typename PointTarget>
+class IterativeClosestPointNonLinear
+    : public IterativeClosestPoint<PointSource, PointTarget> {
     using Registration<PointSource, PointTarget>::min_number_correspondences_;
     using Registration<PointSource, PointTarget>::reg_name_;
     using Registration<PointSource, PointTarget>::transformation_estimation_;
-    using IterativeClosestPoint<PointSource, PointTarget>::computeTransformation;
+    using IterativeClosestPoint<PointSource,
+                                PointTarget>::computeTransformation;
 
-    public:
-      /** \brief Empty constructor. */
-      IterativeClosestPointNonLinear ()
-      {
+  public:
+    /** \brief Empty constructor. */
+    IterativeClosestPointNonLinear() {
         min_number_correspondences_ = 4;
         reg_name_ = "IterativeClosestPointNonLinear";
 
-        transformation_estimation_.reset (new pcl::registration::TransformationEstimationLM<PointSource, PointTarget>);
-      }
-  };
-}
+        transformation_estimation_.reset(
+            new pcl::registration::TransformationEstimationLM<PointSource,
+                                                              PointTarget>);
+    }
+};
+} // namespace pcl
 
 #include <pcl/registration/impl/icp_nl.hpp>
 
-#endif  //#ifndef PCL_ICP_NL_H_
+#endif //#ifndef PCL_ICP_NL_H_

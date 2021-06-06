@@ -42,26 +42,26 @@
 #define PCL_COMMON_BOOST_H_
 
 #ifdef __GNUC__
-#pragma GCC system_header 
+#pragma GCC system_header
 #endif
 
 // Marking all Boost headers as system headers to remove warnings
-#include <boost/fusion/sequence/intrinsic/at_key.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
-#include <boost/mpl/size.hpp>
+#include <boost/algorithm/string.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/function.hpp>
-#include <boost/timer.hpp>
-#include <boost/thread.hpp>
-#include <boost/thread/condition.hpp>
+#include <boost/fusion/sequence/intrinsic/at_key.hpp>
+#include <boost/make_shared.hpp>
+#include <boost/mpl/size.hpp>
+#include <boost/random/mersenne_twister.hpp>
+#include <boost/random/normal_distribution.hpp>
+#include <boost/random/uniform_int.hpp>
+#include <boost/random/uniform_real.hpp>
+#include <boost/random/variate_generator.hpp>
+#include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 #include <boost/signals2/slot.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/random/mersenne_twister.hpp>
-#include <boost/random/uniform_real.hpp>
-#include <boost/random/uniform_int.hpp>
-#include <boost/random/normal_distribution.hpp>
-#include <boost/random/variate_generator.hpp>
+#include <boost/thread.hpp>
+#include <boost/thread/condition.hpp>
+#include <boost/timer.hpp>
 
-#endif    // PCL_COMMON_BOOST_H_
+#endif // PCL_COMMON_BOOST_H_

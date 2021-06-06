@@ -42,27 +42,22 @@
 #include <pcl/pcl_macros.h>
 #include <pcl/visualization/vtk.h>
 
-namespace pcl
-{
-  namespace visualization
-  {
-    /** \brief pclImageCanvasSource2D represents our own custom version of vtkImageCanvasSource2D, used by 
-      * the ImageViewer class.
-      */
-    class PCL_EXPORTS PCLImageCanvasSource2D : public vtkImageCanvasSource2D
-    {
-      public:
-        static PCLImageCanvasSource2D *New ();
+namespace pcl {
+namespace visualization {
+/** \brief pclImageCanvasSource2D represents our own custom version of
+ * vtkImageCanvasSource2D, used by the ImageViewer class.
+ */
+class PCL_EXPORTS PCLImageCanvasSource2D : public vtkImageCanvasSource2D {
+  public:
+    static PCLImageCanvasSource2D *New();
 
-      inline void 
-      DrawImage (vtkImageData* image)
-      {
-        this->ImageData->DeepCopy (image);
+    inline void DrawImage(vtkImageData *image) {
+        this->ImageData->DeepCopy(image);
         this->Modified();
         return;
-      }
-    };
-  }
-}
+    }
+};
+} // namespace visualization
+} // namespace pcl
 
-#endif      // PCL_VTK_IMAGE_CANVAS_SOURCE_2D_H_
+#endif // PCL_VTK_IMAGE_CANVAS_SOURCE_2D_H_

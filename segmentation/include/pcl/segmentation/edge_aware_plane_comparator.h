@@ -43,98 +43,87 @@
 #include <pcl/segmentation/boost.h>
 #include <pcl/segmentation/plane_coefficient_comparator.h>
 
-namespace pcl
-{
-  /** \brief EdgeAwarePlaneComparator is a Comparator that operates on plane coefficients, 
-    * for use in planar segmentation.
-    * In conjunction with OrganizedConnectedComponentSegmentation, this allows planes to be segmented from organized data.
-    *
-    * \author Stefan Holzer, Alex Trevor
-    */
-  template<typename PointT, typename PointNT>
-  class EdgeAwarePlaneComparator: public PlaneCoefficientComparator<PointT, PointNT>
-  {
-    public:
-      typedef typename Comparator<PointT>::PointCloud PointCloud;
-      typedef typename Comparator<PointT>::PointCloudConstPtr PointCloudConstPtr;
-      
-      typedef typename pcl::PointCloud<PointNT> PointCloudN;
-      typedef typename PointCloudN::Ptr PointCloudNPtr;
-      typedef typename PointCloudN::ConstPtr PointCloudNConstPtr;
-      
-      typedef boost::shared_ptr<EdgeAwarePlaneComparator<PointT, PointNT> > Ptr;
-      typedef boost::shared_ptr<const EdgeAwarePlaneComparator<PointT, PointNT> > ConstPtr;
+namespace pcl {
+/** \brief EdgeAwarePlaneComparator is a Comparator that operates on plane
+ * coefficients, for use in planar segmentation. In conjunction with
+ * OrganizedConnectedComponentSegmentation, this allows planes to be segmented
+ * from organized data.
+ *
+ * \author Stefan Holzer, Alex Trevor
+ */
+template <typename PointT, typename PointNT>
+class EdgeAwarePlaneComparator
+    : public PlaneCoefficientComparator<PointT, PointNT> {
+  public:
+    typedef typename Comparator<PointT>::PointCloud PointCloud;
+    typedef typename Comparator<PointT>::PointCloudConstPtr PointCloudConstPtr;
 
-      using pcl::PlaneCoefficientComparator<PointT, PointNT>::input_;
-      using pcl::PlaneCoefficientComparator<PointT, PointNT>::normals_;
-      using pcl::PlaneCoefficientComparator<PointT, PointNT>::plane_coeff_d_;
-      using pcl::PlaneCoefficientComparator<PointT, PointNT>::angular_threshold_;
-      using pcl::PlaneCoefficientComparator<PointT, PointNT>::distance_threshold_;
+    typedef typename pcl::PointCloud<PointNT> PointCloudN;
+    typedef typename PointCloudN::Ptr PointCloudNPtr;
+    typedef typename PointCloudN::ConstPtr PointCloudNConstPtr;
 
-      /** \brief Empty constructor for PlaneCoefficientComparator. */
-      EdgeAwarePlaneComparator ()
-      {
-      }
+    typedef boost::shared_ptr<EdgeAwarePlaneComparator<PointT, PointNT>> Ptr;
+    typedef boost::shared_ptr<const EdgeAwarePlaneComparator<PointT, PointNT>>
+        ConstPtr;
 
-      /** \brief Empty constructor for PlaneCoefficientComparator. 
-        * \param[in] distance_map the distance map to use
-        */
-      EdgeAwarePlaneComparator (const float *distance_map) : 
-        distance_map_ (distance_map)
-      {
-      }
+    using pcl::PlaneCoefficientComparator<PointT, PointNT>::input_;
+    using pcl::PlaneCoefficientComparator<PointT, PointNT>::normals_;
+    using pcl::PlaneCoefficientComparator<PointT, PointNT>::plane_coeff_d_;
+    using pcl::PlaneCoefficientComparator<PointT, PointNT>::angular_threshold_;
+    using pcl::PlaneCoefficientComparator<PointT, PointNT>::distance_threshold_;
 
-      /** \brief Destructor for PlaneCoefficientComparator. */
-      virtual
-      ~EdgeAwarePlaneComparator ()
-      {
-      }
+    /** \brief Empty constructor for PlaneCoefficientComparator. */
+    EdgeAwarePlaneComparator() {}
 
-      /** \brief Set a distance map to use. For an example of a valid distance map see 
-        * \ref OrganizedIntegralImageNormalEstimation
-        * \param[in] distance_map the distance map to use
-        */
-      inline void
-      setDistanceMap (const float *distance_map)
-      {
+    /** \brief Empty constructor for PlaneCoefficientComparator.
+     * \param[in] distance_map the distance map to use
+     */
+    EdgeAwarePlaneComparator(const float *distance_map)
+        : distance_map_(distance_map) {}
+
+    /** \brief Destructor for PlaneCoefficientComparator. */
+    virtual ~EdgeAwarePlaneComparator() {}
+
+    /** \brief Set a distance map to use. For an example of a valid distance map
+     * see \ref OrganizedIntegralImageNormalEstimation \param[in] distance_map
+     * the distance map to use
+     */
+    inline void setDistanceMap(const float *distance_map) {
         distance_map_ = distance_map;
-      }
+    }
 
-      /** \brief Return the distance map used. */
-      const float*
-      getDistanceMap () const
-      {
-        return (distance_map_);
-      }
-      
-    protected:
-      /** \brief Compare two neighboring points, by using normal information, curvature, and euclidean distance information.
-        * \param[in] idx1 The index of the first point.
-        * \param[in] idx2 The index of the second point.
-        */
-      bool
-      compare (int idx1, int idx2) const
-      {
+    /** \brief Return the distance map used. */
+    const float *getDistanceMap() const { return (distance_map_); }
+
+  protected:
+    /** \brief Compare two neighboring points, by using normal information,
+     * curvature, and euclidean distance information. \param[in] idx1 The index
+     * of the first point. \param[in] idx2 The index of the second point.
+     */
+    bool compare(int idx1, int idx2) const {
         float dx = input_->points[idx1].x - input_->points[idx2].x;
         float dy = input_->points[idx1].y - input_->points[idx2].y;
         float dz = input_->points[idx1].z - input_->points[idx2].z;
-        float dist = sqrtf (dx*dx + dy*dy + dz*dz);
+        float dist = sqrtf(dx * dx + dy * dy + dz * dz);
 
-        bool normal_ok = (normals_->points[idx1].getNormalVector3fMap ().dot (normals_->points[idx2].getNormalVector3fMap () ) > angular_threshold_ );
+        bool normal_ok = (normals_->points[idx1].getNormalVector3fMap().dot(
+                              normals_->points[idx2].getNormalVector3fMap()) >
+                          angular_threshold_);
         bool dist_ok = (dist < distance_threshold_);
 
         bool curvature_ok = normals_->points[idx1].curvature < 0.04;
-        bool plane_d_ok = fabs ((*plane_coeff_d_)[idx1] - (*plane_coeff_d_)[idx2]) < 0.04;
-        
-        if (distance_map_[idx1] < 5)    // 5 pixels
-          curvature_ok = false;
-        
-        return (dist_ok && normal_ok && curvature_ok && plane_d_ok);
-      }
+        bool plane_d_ok =
+            fabs((*plane_coeff_d_)[idx1] - (*plane_coeff_d_)[idx2]) < 0.04;
 
-    protected:
-      const float* distance_map_;
-  };
-}
+        if (distance_map_[idx1] < 5) // 5 pixels
+            curvature_ok = false;
+
+        return (dist_ok && normal_ok && curvature_ok && plane_d_ok);
+    }
+
+  protected:
+    const float *distance_map_;
+};
+} // namespace pcl
 
 #endif // PCL_SEGMENTATION_PLANE_COEFFICIENT_COMPARATOR_H_

@@ -63,7 +63,7 @@ include(${PCL_SOURCE_DIR}/cmake/pcl_options.cmake)
 if(CMAKE_COMPILER_IS_GNUCXX)
   SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unknown-pragmas -Wconversion -Wold-style-cast -fno-strict-aliasing -Wno-format-extra-args -Wno-sign-compare -Wno-invalid-offsetof")
 
-  # Enable -Wabi for GCC > 4.3, and -Wno-deprecated for GCC < 4.3 
+  # Enable -Wabi for GCC > 4.3, and -Wno-deprecated for GCC < 4.3
   # to disable a lot of warnings which are not fixable
   execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
   if (GCC_VERSION VERSION_GREATER 4.3)
@@ -94,7 +94,7 @@ if(MSVC)
   SET(CMAKE_SHARED_LINKER_FLAGS_RELEASE "${CMAKE_SHARED_LINKER_FLAGS_RELEASE} /LTCG")
   SET(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} /LTCG")
   # /MANIFEST:NO") # please, don't disable manifest generation, otherwise crash at start for vs2008
-  
+
   if(MSVC90 OR MSVC10 AND NOT ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} LESS 2.8 AND NOT ${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION} LESS 8.6)
     include(ProcessorCount)
     ProcessorCount(N)
@@ -246,7 +246,7 @@ endif (QT4_FOUND)
 # Find VTK
 find_package(VTK)
 if(VTK_FOUND)
-  if (PCL_SHARED_LIBS OR 
+  if (PCL_SHARED_LIBS OR
       (NOT (PCL_SHARED_LIBS) AND NOT (VTK_BUILD_SHARED_LIBS)))
     set(VTK_FOUND TRUE)
     find_package (QVTK)
@@ -294,7 +294,7 @@ set(PCL_MODULES_NAMES_UNSORTED ${PCL_MODULES_NAMES})
 topological_sort(PCL_MODULES_NAMES PCL_ _DEPENDS)
 sort_relative(PCL_MODULES_NAMES_UNSORTED PCL_MODULES_NAMES PCL_MODULES_DIRS)
 foreach(subdir ${PCL_MODULES_DIRS})
-  add_subdirectory(${PCL_SOURCE_DIR}/${subdir})  
+  add_subdirectory(${PCL_SOURCE_DIR}/${subdir})
 endforeach(subdir)
 
 ### ---[ Documentation

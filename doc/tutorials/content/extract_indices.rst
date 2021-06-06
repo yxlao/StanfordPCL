@@ -3,7 +3,7 @@
 Extracting indices from a PointCloud
 ------------------------------------
 
-In this tutorial we will learn how to use an :pcl:`ExtractIndices <pcl::ExtractIndices>` filter to extract a subset of 
+In this tutorial we will learn how to use an :pcl:`ExtractIndices <pcl::ExtractIndices>` filter to extract a subset of
 points from a point cloud based on the indices output by a segmentation algorithm. In order to not complicate the
 tutorial, the segmentation algorithm is not explained here. Please check
 the :ref:`planar_segmentation` tutorial for more information.
@@ -52,7 +52,7 @@ information.
    :language: cpp
    :lines: 38-48
 
-   
+
 The line
 
 .. literalinclude:: sources/extract_indices/extract_indices.cpp
@@ -81,7 +81,7 @@ Add the following lines to your CMakeLists.txt file:
 
 .. literalinclude:: sources/extract_indices/CMakeLists.txt
    :language: cmake
-   :linenos: 
+   :linenos:
 
 After you have made the executable, you can run it. Simply do::
 

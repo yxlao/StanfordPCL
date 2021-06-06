@@ -41,10 +41,10 @@
 #define PCL_VISUALIZATION_EIGEN_H_
 
 #if defined __GNUC__
-#  pragma GCC system_header 
+#pragma GCC system_header
 #endif
 
-#include <Eigen/Geometry>
 #include <Eigen/Dense>
+#include <Eigen/Geometry>
 
-#endif    // PCL_VISUALIZATION_EIGEN_H_
+#endif // PCL_VISUALIZATION_EIGEN_H_

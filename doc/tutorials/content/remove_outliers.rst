@@ -52,7 +52,7 @@ Here is where things are a little bit different depending on which filter class 
    :language: cpp
    :lines: 38-50
 
-After creating and filling our input cloud, we create the condition which a given point must satisfy for it to remain in our PointCloud.  To do this we must add two comparisons to the conditon.  We are going to use greater than 0.0, and less than 0.8.  This condition is then used to build the filter. 
+After creating and filling our input cloud, we create the condition which a given point must satisfy for it to remain in our PointCloud.  To do this we must add two comparisons to the conditon.  We are going to use greater than 0.0, and less than 0.8.  This condition is then used to build the filter.
 
 For the *RadiusOutlierRemoval*, the user must specify '-r' as the command line argument so that this code is executed:
 
@@ -78,7 +78,7 @@ Add the following lines to your CMakeLists.txt file:
 .. literalinclude:: sources/remove_outliers/CMakeLists.txt
    :language: cmake
    :linenos:
-   
+
 After you have made the executable, you can run it.  If you would like to use ConditionalRemoval then simply do::
 
   $ ./remove_outliers -c
@@ -89,13 +89,13 @@ Otherwise, if you would like to use RadiusOutlierRemoval, simply do::
 
 You will see something similar to (depending on which filter you are using)::
 
-	Cloud before filtering: 
+	Cloud before filtering:
 	    0.352222 -0.151883 -0.106395
 	    -0.397406 -0.473106 0.292602
 	    -0.731898 0.667105 0.441304
 	    -0.734766 0.854581 -0.0361733
 	    -0.4607 -0.277468 -0.916762
-	Cloud after filtering: 
+	Cloud after filtering:
 	    -0.397406 -0.473106 0.292602
 	    -0.731898 0.667105 0.441304
 

@@ -10,12 +10,12 @@ and for drawing basic 2D shapes on screen, the library offers:
 
  * methods for rendering and setting visual properties (colors, point sizes,
    opacity, etc) for any n-D point cloud datasets in pcl::PointCloud<T> format;
-   
+
   .. image:: images/visualization/bunny.jpg
 
  * methods for drawing basic 3D shapes on screen (e.g., cylinders, spheres,
    lines, polygons, etc) either from sets of points or from parametric
-   equations; 
+   equations;
 
   .. image:: images/visualization/shapes.jpg
 
@@ -56,7 +56,7 @@ use a snippet like the following one:
 
     #include <pcl_visualization/cloud_viewer.h>
     //...
-    void 
+    void
     foo ()
     {
       pcl::PointCloud<pcl::PointXYZRGB> cloud;
@@ -78,7 +78,7 @@ A quick way for visualizing PCD (Point Cloud Data) files is by using
     where options are:
                        -bc r,g,b                = background color
                        -fc r,g,b                = foreground color
-                       -ps X                    = point size (1..64) 
+                       -ps X                    = point size (1..64)
                        -opaque X                = rendered point cloud opacity (0..1)
                        -ax n                    = enable on-screen display of XYZ axes and scale them to n
                        -ax_pos X,Y,Z            = if axes are enabled, set their X,Y,Z position in space (default 0,0,0)
@@ -141,8 +141,8 @@ following information on the console::
 Pressing ``l`` will show the current list of available geometry/color handlers
 for the datasets that we loaded. In this example::
 
-  List of available geometry handlers for actor partial_cup_model.pcd-0: xyz(1) normal_xyz(2) 
-  List of available color handlers for actor partial_cup_model.pcd-0: [random](1) x(2) y(3) z(4) normal_x(5) normal_y(6) normal_z(7) curvature(8) boundary(9) k(10) principal_curvature_x(11) principal_curvature_y(12) principal_curvature_z(13) pc1(14) pc2(15) 
+  List of available geometry handlers for actor partial_cup_model.pcd-0: xyz(1) normal_xyz(2)
+  List of available color handlers for actor partial_cup_model.pcd-0: [random](1) x(2) y(3) z(4) normal_x(5) normal_y(6) normal_z(7) curvature(8) boundary(9) k(10) principal_curvature_x(11) principal_curvature_y(12) principal_curvature_z(13) pc1(14) pc2(15)
 
 Switching to a ``normal_xyz`` geometric handler using ``ALT+1`` and then
 pressing ``8`` to switch to a curvature color handler, should result in the
@@ -174,7 +174,7 @@ The above will load the ``partial_cup_model.pcd`` file and render its every
 The above assumes that the ``bun000.pcd`` and ``bun045.pcd`` datasets have been
 downloaded and are available. The results shown in the following picture were
 obtained after pressing ``u`` and ``g`` to enable the lookup table and on-grid
-display.  
+display.
 
 .. image:: images/visualization/ex5.jpg
 

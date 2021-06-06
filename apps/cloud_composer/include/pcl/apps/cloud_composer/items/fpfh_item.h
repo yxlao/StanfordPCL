@@ -38,52 +38,42 @@
 #ifndef FPFH_ITEM_H_
 #define FPFH_ITEM_H_
 
-#include <pcl/point_types.h>
 #include <pcl/features/fpfh.h>
+#include <pcl/point_types.h>
 
 #include <pcl/apps/cloud_composer/items/cloud_composer_item.h>
 #include <pcl/visualization/pcl_plotter.h>
 
+namespace pcl {
+namespace cloud_composer {
 
-namespace pcl
-{
-  namespace cloud_composer
-  {
-    
-    class FPFHItem : public CloudComposerItem
-    {
-      public:
+class FPFHItem : public CloudComposerItem {
+  public:
+    FPFHItem(QString name, pcl::PointCloud<pcl::FPFHSignature33>::Ptr fpfh_ptr,
+             double radius);
+    FPFHItem(const FPFHItem &to_copy);
+    virtual ~FPFHItem();
 
-        FPFHItem (QString name, 
-                     pcl::PointCloud<pcl::FPFHSignature33>::Ptr fpfh_ptr,
-                     double radius);
-        FPFHItem (const FPFHItem& to_copy);
-        virtual ~FPFHItem ();
-        
-        inline virtual int 
-        type () const { return FPFH_ITEM; }
+    inline virtual int type() const { return FPFH_ITEM; }
 
-        virtual FPFHItem*
-        clone () const;
-        
-        /** \brief Inspector additional tabs paint function - get the histogram plot widget*/
-        virtual QMap <QString, QWidget*>
-        getInspectorTabs ();
-        
-      private:
-        pcl::PointCloud<pcl::FPFHSignature33>::Ptr fpfh_ptr_;
-        double radius_;
-        boost::shared_ptr<pcl::visualization::PCLPlotter> plot_;
-        QVTKWidget *qvtk_;
-        QWidget *hist_page_;
-    };
-    
-    
-    
-  }
-}
+    virtual FPFHItem *clone() const;
 
-Q_DECLARE_METATYPE (pcl::PointCloud<pcl::FPFHSignature33>::Ptr);
-Q_DECLARE_METATYPE (pcl::PointCloud<pcl::FPFHSignature33>::ConstPtr);
+    /** \brief Inspector additional tabs paint function - get the histogram plot
+     * widget*/
+    virtual QMap<QString, QWidget *> getInspectorTabs();
 
-#endif //NORMALS_ITEM_H_
+  private:
+    pcl::PointCloud<pcl::FPFHSignature33>::Ptr fpfh_ptr_;
+    double radius_;
+    boost::shared_ptr<pcl::visualization::PCLPlotter> plot_;
+    QVTKWidget *qvtk_;
+    QWidget *hist_page_;
+};
+
+} // namespace cloud_composer
+} // namespace pcl
+
+Q_DECLARE_METATYPE(pcl::PointCloud<pcl::FPFHSignature33>::Ptr);
+Q_DECLARE_METATYPE(pcl::PointCloud<pcl::FPFHSignature33>::ConstPtr);
+
+#endif // NORMALS_ITEM_H_

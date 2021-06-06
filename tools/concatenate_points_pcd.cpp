@@ -39,7 +39,8 @@
 
 \author Radu Bogdan Rusu
 
-@b pcd_concatenate_points exemplifies how to concatenate the points of two PointClouds having the same fields.
+@b pcd_concatenate_points exemplifies how to concatenate the points of two
+PointClouds having the same fields.
 
 **/
 
@@ -48,66 +49,62 @@
 #include <pcl/point_types.h>
 
 ////////////////////////////////////////////////////////////////////////////////
-/** \brief Parse command line arguments for file names. 
-  * Returns: a vector with file names indices.
-  * \param argc 
-  * \param argv
-  * \param extension
-  */
-std::vector<int>
-  parseFileExtensionArgument (int argc, char** argv, std::string extension)
-{
-  std::vector<int> indices;
-  for (int i = 1; i < argc; ++i)
-  {
-    std::string fname = std::string (argv[i]);
-    
-    // Needs to be at least 4: .ext
-    if (fname.size () <= 4)
-      continue;
-    
-    // For being case insensitive
-    std::transform (fname.begin (), fname.end (), fname.begin (), tolower);
-    std::transform (extension.begin (), extension.end (), extension.begin (), tolower);
-    
-    // Check if found
-    std::string::size_type it;
-    if ((it = fname.find (extension)) != std::string::npos)
-    {
-      // Additional check: we want to be able to differentiate between .p and .png
-      if ((extension.size () - (fname.size () - it)) == 0)
-        indices.push_back (i);
+/** \brief Parse command line arguments for file names.
+ * Returns: a vector with file names indices.
+ * \param argc
+ * \param argv
+ * \param extension
+ */
+std::vector<int> parseFileExtensionArgument(int argc, char **argv,
+                                            std::string extension) {
+    std::vector<int> indices;
+    for (int i = 1; i < argc; ++i) {
+        std::string fname = std::string(argv[i]);
+
+        // Needs to be at least 4: .ext
+        if (fname.size() <= 4)
+            continue;
+
+        // For being case insensitive
+        std::transform(fname.begin(), fname.end(), fname.begin(), tolower);
+        std::transform(extension.begin(), extension.end(), extension.begin(),
+                       tolower);
+
+        // Check if found
+        std::string::size_type it;
+        if ((it = fname.find(extension)) != std::string::npos) {
+            // Additional check: we want to be able to differentiate between .p
+            // and .png
+            if ((extension.size() - (fname.size() - it)) == 0)
+                indices.push_back(i);
+        }
     }
-  }
-  return (indices);
+    return (indices);
 }
 
-
 /* ---[ */
-int
-  main (int argc, char** argv)
-{
-  if (argc < 2)
-  {
-    std::cerr << "Syntax is: " << argv[0] << " <filename 1..N.pcd>" << std::endl;
-    std::cerr << "Result will be saved to output.pcd" << std::endl;
-    return (-1);
-  }
+int main(int argc, char **argv) {
+    if (argc < 2) {
+        std::cerr << "Syntax is: " << argv[0] << " <filename 1..N.pcd>"
+                  << std::endl;
+        std::cerr << "Result will be saved to output.pcd" << std::endl;
+        return (-1);
+    }
 
-  std::vector<int> file_indices = parseFileExtensionArgument (argc, argv, ".pcd");
+    std::vector<int> file_indices =
+        parseFileExtensionArgument(argc, argv, ".pcd");
 
-  pcl::PointCloud<pcl::PointXYZ> cloud_all;
-  for (size_t i = 0; i < file_indices.size (); ++i)
-  {
-    // Load the Point Cloud
-    pcl::PointCloud<pcl::PointXYZ> cloud;
-    pcl::io::loadPCDFile (argv[file_indices[i]], cloud);
-    cloud_all += cloud;
-  }
+    pcl::PointCloud<pcl::PointXYZ> cloud_all;
+    for (size_t i = 0; i < file_indices.size(); ++i) {
+        // Load the Point Cloud
+        pcl::PointCloud<pcl::PointXYZ> cloud;
+        pcl::io::loadPCDFile(argv[file_indices[i]], cloud);
+        cloud_all += cloud;
+    }
 
-  pcl::PCDWriter writer;
-  writer.writeBinaryCompressed ("output.pcd", cloud_all);
-  
-  return (0);
+    pcl::PCDWriter writer;
+    writer.writeBinaryCompressed("output.pcd", cloud_all);
+
+    return (0);
 }
 /* ]--- */

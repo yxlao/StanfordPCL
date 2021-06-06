@@ -35,15 +35,19 @@
  *  $Id: normal_based_signature.cpp 6459 2012-07-18 07:50:37Z dpb $
  */
 
-#include <pcl/features/normal_based_signature.h>
 #include <pcl/features/impl/normal_based_signature.hpp>
+#include <pcl/features/normal_based_signature.h>
 
-#include <pcl/point_types.h>
 #include <pcl/impl/instantiate.hpp>
+#include <pcl/point_types.h>
 
 // Instantiations of specific point types
 #ifdef PCL_ONLY_CORE_POINT_TYPES
-  PCL_INSTANTIATE_PRODUCT(NormalBasedSignatureEstimation, ((pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA))((pcl::Normal))((pcl::NormalBasedSignature12)))
+PCL_INSTANTIATE_PRODUCT(NormalBasedSignatureEstimation,
+                        ((pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA))(
+                            (pcl::Normal))((pcl::NormalBasedSignature12)))
 #else
-  PCL_INSTANTIATE_PRODUCT(NormalBasedSignatureEstimation, (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES)((pcl::NormalBasedSignature12)))
+PCL_INSTANTIATE_PRODUCT(NormalBasedSignatureEstimation,
+                        (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES)(
+                            (pcl::NormalBasedSignature12)))
 #endif

@@ -33,7 +33,7 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id$ 
+ * $Id$
  * Authors: Anatoly Baksheev
  */
 
@@ -45,87 +45,84 @@
 #include <string>
 #include <vector>
 
-namespace pcl
-{
-  namespace io
-  {
-    /** \brief Saves 8-bit encoded image to PNG file.
-      * \param[in] file_name the name of the file to write to disk
-      * \param[in] mono_image image grayscale data
-      * \param[in] width image width
-      * \param[in] height image height
-      * \param[in] channels number of channels
-      * \ingroup io
-      */
-    PCL_EXPORTS void
-    saveCharPNGFile (const std::string& file_name, const unsigned char *mono_image, int width, int height, int channels);
+namespace pcl {
+namespace io {
+/** \brief Saves 8-bit encoded image to PNG file.
+ * \param[in] file_name the name of the file to write to disk
+ * \param[in] mono_image image grayscale data
+ * \param[in] width image width
+ * \param[in] height image height
+ * \param[in] channels number of channels
+ * \ingroup io
+ */
+PCL_EXPORTS void saveCharPNGFile(const std::string &file_name,
+                                 const unsigned char *mono_image, int width,
+                                 int height, int channels);
 
-    /** \brief Saves 16-bit encoded image to PNG file.
-      * \param[in] file_name the name of the file to write to disk
-      * \param[in] short_image image short data
-      * \param[in] width image width
-      * \param[in] height image height
-      * \param[in] channels number of channels
-      * \ingroup io
-      */
-    PCL_EXPORTS void
-    saveShortPNGFile (const std::string& file_name, const unsigned short *short_image, int width, int height, int channels);
+/** \brief Saves 16-bit encoded image to PNG file.
+ * \param[in] file_name the name of the file to write to disk
+ * \param[in] short_image image short data
+ * \param[in] width image width
+ * \param[in] height image height
+ * \param[in] channels number of channels
+ * \ingroup io
+ */
+PCL_EXPORTS void saveShortPNGFile(const std::string &file_name,
+                                  const unsigned short *short_image, int width,
+                                  int height, int channels);
 
-    /** \brief Saves 8-bit encoded RGB image to PNG file.
-      * \param[in] file_name the name of the file to write to disk
-      * \param[in] rgb_image image rgb data
-      * \param[in] width image width
-      * \param[in] height image height
-      * \ingroup io
-      */
-    PCL_EXPORTS void 
-    saveRgbPNGFile (const std::string& file_name, const unsigned char *rgb_image, int width, int height)
-    {
-      saveCharPNGFile(file_name, rgb_image, width, height, 3);
-    }
-
-    /** \brief Saves 8-bit grayscale cloud as image to PNG file.
-      * \param[in] file_name the name of the file to write to disk
-      * \param[in] cloud point cloud to save
-      * \ingroup io
-      */
-    void
-    savePNGFile (const std::string& file_name, const pcl::PointCloud<unsigned char>& cloud)
-    {
-      saveCharPNGFile(file_name, &cloud.points[0], cloud.width, cloud.height, 1);
-    }
-
-    /** \brief Saves 16-bit grayscale cloud as image to PNG file.
-      * \param[in] file_name the name of the file to write to disk
-      * \param[in] cloud point cloud to save
-      * \ingroup io
-      */
-
-    void
-    savePNGFile (const std::string& file_name, const pcl::PointCloud<unsigned short>& cloud)
-    {
-      saveShortPNGFile(file_name, &cloud.points[0], cloud.width, cloud.height, 1);
-    }
-
-    /** \brief Saves RGB fields of cloud as image to PNG file. 
-      * \param[in] file_name the name of the file to write to disk
-      * \param[in] cloud point cloud to save
-      * \ingroup io
-      */
-    template <typename T> void
-    savePNGFile (const std::string& file_name, const pcl::PointCloud<T>& cloud)
-    {
-      std::vector<unsigned char> data(cloud.width * cloud.height * 3);
-
-      for (size_t i = 0; i < cloud.points.size (); ++i)
-      {
-        data[i*3 + 0] = cloud.points[i].r;
-        data[i*3 + 1] = cloud.points[i].g;
-        data[i*3 + 2] = cloud.points[i].b;        
-      }
-      saveRgbPNGFile(file_name, &data[0], cloud.width, cloud.height);
-    }        
-  }
+/** \brief Saves 8-bit encoded RGB image to PNG file.
+ * \param[in] file_name the name of the file to write to disk
+ * \param[in] rgb_image image rgb data
+ * \param[in] width image width
+ * \param[in] height image height
+ * \ingroup io
+ */
+PCL_EXPORTS void saveRgbPNGFile(const std::string &file_name,
+                                const unsigned char *rgb_image, int width,
+                                int height) {
+    saveCharPNGFile(file_name, rgb_image, width, height, 3);
 }
 
-#endif  //#ifndef PCL_IO_PNG_IO_H_
+/** \brief Saves 8-bit grayscale cloud as image to PNG file.
+ * \param[in] file_name the name of the file to write to disk
+ * \param[in] cloud point cloud to save
+ * \ingroup io
+ */
+void savePNGFile(const std::string &file_name,
+                 const pcl::PointCloud<unsigned char> &cloud) {
+    saveCharPNGFile(file_name, &cloud.points[0], cloud.width, cloud.height, 1);
+}
+
+/** \brief Saves 16-bit grayscale cloud as image to PNG file.
+ * \param[in] file_name the name of the file to write to disk
+ * \param[in] cloud point cloud to save
+ * \ingroup io
+ */
+
+void savePNGFile(const std::string &file_name,
+                 const pcl::PointCloud<unsigned short> &cloud) {
+    saveShortPNGFile(file_name, &cloud.points[0], cloud.width, cloud.height, 1);
+}
+
+/** \brief Saves RGB fields of cloud as image to PNG file.
+ * \param[in] file_name the name of the file to write to disk
+ * \param[in] cloud point cloud to save
+ * \ingroup io
+ */
+template <typename T>
+void savePNGFile(const std::string &file_name,
+                 const pcl::PointCloud<T> &cloud) {
+    std::vector<unsigned char> data(cloud.width * cloud.height * 3);
+
+    for (size_t i = 0; i < cloud.points.size(); ++i) {
+        data[i * 3 + 0] = cloud.points[i].r;
+        data[i * 3 + 1] = cloud.points[i].g;
+        data[i * 3 + 2] = cloud.points[i].b;
+    }
+    saveRgbPNGFile(file_name, &data[0], cloud.width, cloud.height);
+}
+} // namespace io
+} // namespace pcl
+
+#endif //#ifndef PCL_IO_PNG_IO_H_

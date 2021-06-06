@@ -4,7 +4,7 @@
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
  *
- *  All rights reserved. 
+ *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -42,16 +42,15 @@
 
 #include <pcl/recognition/region_xy.h>
 
-namespace pcl
-{
+namespace pcl {
 
-  /** \brief Feature that defines a position and quantized value in a specific modality. 
-    * \author Stefan Holzer
-    */
-  struct QuantizedMultiModFeature
-  {
+/** \brief Feature that defines a position and quantized value in a specific
+ * modality. \author Stefan Holzer
+ */
+struct QuantizedMultiModFeature {
     /** \brief Constructor. */
-    QuantizedMultiModFeature () : x (0), y (0), modality_index (0), quantized_value (0) {}
+    QuantizedMultiModFeature()
+        : x(0), y(0), modality_index(0), quantized_value(0) {}
 
     /** \brief x-position. */
     int x;
@@ -62,54 +61,47 @@ namespace pcl
     /** \brief the quantized value attached to the feature. */
     unsigned char quantized_value;
 
-    /** \brief Compares whether two features are the same. 
-      * \param[in] base the feature to compare to.
-      */
-    bool
-    compareForEquality (const QuantizedMultiModFeature & base)
-    {
-      if (base.x != x)
-        return false;
-      if (base.y != y)
-        return false;
-      if (base.modality_index != modality_index)
-        return false;
-      if (base.quantized_value != quantized_value)
-        return false;
+    /** \brief Compares whether two features are the same.
+     * \param[in] base the feature to compare to.
+     */
+    bool compareForEquality(const QuantizedMultiModFeature &base) {
+        if (base.x != x)
+            return false;
+        if (base.y != y)
+            return false;
+        if (base.modality_index != modality_index)
+            return false;
+        if (base.quantized_value != quantized_value)
+            return false;
 
-      return true;
+        return true;
     }
 
     /** \brief Serializes the object to the specified stream.
-      * \param[out] stream the stream the object will be serialized to. */
-    void 
-    serialize (std::ostream & stream) const
-    {
-      write (stream, x);
-      write (stream, y);
-      write (stream, modality_index);
-      write (stream, quantized_value);
+     * \param[out] stream the stream the object will be serialized to. */
+    void serialize(std::ostream &stream) const {
+        write(stream, x);
+        write(stream, y);
+        write(stream, modality_index);
+        write(stream, quantized_value);
     }
 
     /** \brief Deserializes the object from the specified stream.
-      * \param[in] stream the stream the object will be deserialized from. */
-    void 
-    deserialize (std::istream & stream)
-    {
-      read (stream, x);
-      read (stream, y);
-      read (stream, modality_index);
-      read (stream, quantized_value);
+     * \param[in] stream the stream the object will be deserialized from. */
+    void deserialize(std::istream &stream) {
+        read(stream, x);
+        read(stream, y);
+        read(stream, modality_index);
+        read(stream, quantized_value);
     }
-  };
+};
 
-  /** \brief A multi-modality template constructed from a set of quantized multi-modality features.
-    * \author Stefan Holzer 
-    */
-  struct SparseQuantizedMultiModTemplate
-  {
+/** \brief A multi-modality template constructed from a set of quantized
+ * multi-modality features. \author Stefan Holzer
+ */
+struct SparseQuantizedMultiModTemplate {
     /** \brief Constructor. */
-    SparseQuantizedMultiModTemplate () : features (), region () {}
+    SparseQuantizedMultiModTemplate() : features(), region() {}
 
     /** \brief The storage for the multi-modality features. */
     std::vector<QuantizedMultiModFeature> features;
@@ -118,39 +110,35 @@ namespace pcl
     RegionXY region;
 
     /** \brief Serializes the object to the specified stream.
-      * \param[out] stream the stream the object will be serialized to. */
-    void 
-    serialize (std::ostream & stream) const
-    {
-      const int num_of_features = static_cast<int> (features.size ());
-      write (stream, num_of_features);
-      for (int feature_index = 0; feature_index < num_of_features; ++feature_index)
-      {
-        features[feature_index].serialize (stream);
-      }
+     * \param[out] stream the stream the object will be serialized to. */
+    void serialize(std::ostream &stream) const {
+        const int num_of_features = static_cast<int>(features.size());
+        write(stream, num_of_features);
+        for (int feature_index = 0; feature_index < num_of_features;
+             ++feature_index) {
+            features[feature_index].serialize(stream);
+        }
 
-      region.serialize (stream);
+        region.serialize(stream);
     }
 
     /** \brief Deserializes the object from the specified stream.
-      * \param[in] stream the stream the object will be deserialized from. */
-    void 
-    deserialize (std::istream & stream)
-    {
-      features.clear ();
+     * \param[in] stream the stream the object will be deserialized from. */
+    void deserialize(std::istream &stream) {
+        features.clear();
 
-      int num_of_features;
-      read (stream, num_of_features);
-      features.resize (num_of_features);
-      for (int feature_index = 0; feature_index < num_of_features; ++feature_index)
-      {
-        features[feature_index].deserialize (stream);
-      }
+        int num_of_features;
+        read(stream, num_of_features);
+        features.resize(num_of_features);
+        for (int feature_index = 0; feature_index < num_of_features;
+             ++feature_index) {
+            features[feature_index].deserialize(stream);
+        }
 
-      region.deserialize (stream);
+        region.deserialize(stream);
     }
-  };
+};
 
-}
+} // namespace pcl
 
-#endif 
+#endif

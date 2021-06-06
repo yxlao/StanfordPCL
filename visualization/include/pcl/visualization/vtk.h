@@ -41,145 +41,143 @@
 #define PCL_PCL_VISUALIZER_VTK_H_
 
 #if defined __GNUC__
-#pragma GCC system_header 
+#pragma GCC system_header
 #ifdef __DEPRECATED
 #undef __DEPRECATED
 #define __DEPRECATED_DISABLED__
 #endif
 #endif
 
+#include <vtkActor.h>
 #include <vtkAppendPolyData.h>
 #include <vtkAssemblyPath.h>
+#include <vtkAxes.h>
 #include <vtkAxesActor.h>
-#include <vtkActor.h>
 #include <vtkBoxRepresentation.h>
 #include <vtkBoxWidget.h>
 #include <vtkBoxWidget2.h>
-#include <vtkCellData.h>
-#include <vtkMath.h>
-#include <vtkLoopSubdivisionFilter.h>
-#include <vtkLineSource.h>
-#include <vtkLegendScaleActor.h>
-#include <vtkLightKit.h>
-#include <vtkPlatonicSolidSource.h>
-#include <vtkPropPicker.h>
-#include <vtkGeneralTransform.h>
-#include <vtkSmartPointer.h>
-#include <vtkDataSet.h>
-#include <vtkDataSetSurfaceFilter.h>
-#include <vtkExecutive.h>
-#include <vtkPolygon.h>
-#include <vtkPointPicker.h>
-#include <vtkUnstructuredGrid.h>
-#include <vtkConeSource.h>
-#include <vtkDiskSource.h>
-#include <vtkPlaneSource.h>
-#include <vtkSphereSource.h>
-#include <vtkIdentityTransform.h>
-#include <vtkTransform.h>
-#include <vtkTransformPolyDataFilter.h>
-#include <vtkTubeFilter.h>
-#include <vtkCubeSource.h>
-#include <vtkAxes.h>
-#include <vtkFloatArray.h>
-#include <vtkPointData.h>
-#include <vtkPolyData.h>
-#include <vtkPolyDataReader.h>
-#include <vtkPolyDataMapper.h>
-#include <vtkDataSetMapper.h>
-#include <vtkCellArray.h>
-#include <vtkCommand.h>
-#include <vtkCellLocator.h>
-#include <vtkPLYReader.h>
-#include <vtkTransformFilter.h>
-#include <vtkPolyLine.h>
-#include <vtkVectorText.h>
-#include <vtkFollower.h>
 #include <vtkCallbackCommand.h>
-#include <vtkInteractorStyle.h>
-#include <vtkInformationVector.h>
-#include <vtkDataArray.h>
-#include <vtkUnsignedCharArray.h>
-#include <vtkPoints.h>
-#include <vtkRendererCollection.h>
-#include <vtkPNGWriter.h>
-#include <vtkWindowToImageFilter.h>
-#include <vtkInteractorStyleTrackballCamera.h>
-#include <vtkProperty.h>
 #include <vtkCamera.h>
-#include <vtkObjectFactory.h>
-#include <vtkScalarBarActor.h>
-#include <vtkScalarsToColors.h>
+#include <vtkCellArray.h>
+#include <vtkCellData.h>
+#include <vtkCellLocator.h>
 #include <vtkClipPolyData.h>
-#include <vtkPlanes.h>
+#include <vtkCommand.h>
+#include <vtkConeSource.h>
+#include <vtkCubeSource.h>
+#include <vtkDataArray.h>
+#include <vtkDataSet.h>
+#include <vtkDataSetMapper.h>
+#include <vtkDataSetSurfaceFilter.h>
+#include <vtkDiskSource.h>
+#include <vtkExecutive.h>
+#include <vtkFloatArray.h>
+#include <vtkFollower.h>
+#include <vtkGeneralTransform.h>
+#include <vtkIdentityTransform.h>
 #include <vtkImageImport.h>
 #include <vtkImageViewer.h>
+#include <vtkInformationVector.h>
+#include <vtkInteractorStyle.h>
 #include <vtkInteractorStyleImage.h>
+#include <vtkInteractorStyleTrackballCamera.h>
+#include <vtkLegendScaleActor.h>
+#include <vtkLightKit.h>
+#include <vtkLineSource.h>
+#include <vtkLoopSubdivisionFilter.h>
+#include <vtkMath.h>
+#include <vtkObjectFactory.h>
+#include <vtkPLYReader.h>
+#include <vtkPNGWriter.h>
+#include <vtkPlaneSource.h>
+#include <vtkPlanes.h>
+#include <vtkPlatonicSolidSource.h>
+#include <vtkPointData.h>
+#include <vtkPointPicker.h>
+#include <vtkPoints.h>
+#include <vtkPolyData.h>
+#include <vtkPolyDataMapper.h>
+#include <vtkPolyDataReader.h>
+#include <vtkPolyLine.h>
+#include <vtkPolygon.h>
+#include <vtkPropPicker.h>
+#include <vtkProperty.h>
+#include <vtkRendererCollection.h>
+#include <vtkScalarBarActor.h>
+#include <vtkScalarsToColors.h>
+#include <vtkSmartPointer.h>
+#include <vtkSphereSource.h>
+#include <vtkTransform.h>
+#include <vtkTransformFilter.h>
+#include <vtkTransformPolyDataFilter.h>
+#include <vtkTubeFilter.h>
+#include <vtkUnsignedCharArray.h>
+#include <vtkUnstructuredGrid.h>
+#include <vtkVectorText.h>
+#include <vtkWindowToImageFilter.h>
 #if ((VTK_MAJOR_VERSION == 5) && (VTK_MINOR_VERSION >= 10))
-#include <vtkImageSlice.h>
 #include <vtkImageProperty.h>
+#include <vtkImageSlice.h>
 #include <vtkImageSliceMapper.h>
 #endif
-#include <vtkImageFlip.h>
-#include <vtkTIFFWriter.h>
 #include <vtkBMPWriter.h>
-#include <vtkJPEGWriter.h>
-#include <vtkImageViewer2.h>
-#include <vtkRenderWindow.h>
-#include <vtkXYPlotActor.h>
-#include <vtkTextProperty.h>
-#include <vtkProperty2D.h>
-#include <vtkFieldData.h>
-#include <vtkDoubleArray.h>
-#include <vtkLODActor.h>
-#include <vtkPolyDataWriter.h>
-#include <vtkTextActor.h>
 #include <vtkCleanPolyData.h>
-#include <vtkRenderer.h>
+#include <vtkDoubleArray.h>
+#include <vtkFieldData.h>
+#include <vtkImageBlend.h>
+#include <vtkImageCanvasSource2D.h>
+#include <vtkImageChangeInformation.h>
+#include <vtkImageFlip.h>
+#include <vtkImageReslice.h>
+#include <vtkImageStencilData.h>
+#include <vtkImageViewer2.h>
+#include <vtkJPEGWriter.h>
+#include <vtkLODActor.h>
 #include <vtkObject.h>
 #include <vtkOrientationMarkerWidget.h>
-#include <vtkImageReslice.h>
-#include <vtkImageChangeInformation.h>
-#include <vtkImageCanvasSource2D.h>
-#include <vtkImageBlend.h>
-#include <vtkImageStencilData.h>
+#include <vtkPolyDataWriter.h>
+#include <vtkProperty2D.h>
+#include <vtkRenderWindow.h>
+#include <vtkRenderer.h>
+#include <vtkTIFFWriter.h>
+#include <vtkTextActor.h>
+#include <vtkTextProperty.h>
+#include <vtkXYPlotActor.h>
 #if ((VTK_MAJOR_VERSION == 5) && (VTK_MINOR_VERSION <= 4))
-#  include <pcl/visualization/interactor.h>
+#include <pcl/visualization/interactor.h>
 #else
-#  include <vtkRenderWindowInteractor.h>
-#  include <vtkChartXY.h>
-#  include <vtkPlot.h>
-#  include <vtkTable.h>
-#  include <vtkContextView.h>
-#  include <vtkContextScene.h>
-#  include <vtkColorSeries.h>
-#  include <vtkAxis.h>
+#include <vtkAxis.h>
+#include <vtkChartXY.h>
+#include <vtkColorSeries.h>
+#include <vtkContextScene.h>
+#include <vtkContextView.h>
+#include <vtkPlot.h>
+#include <vtkRenderWindowInteractor.h>
+#include <vtkTable.h>
 #endif
 #include <vtkSelection.h>
 
-#if VTK_MAJOR_VERSION==6 || (VTK_MAJOR_VERSION==5 && VTK_MINOR_VERSION>4)
+#if VTK_MAJOR_VERSION == 6 || (VTK_MAJOR_VERSION == 5 && VTK_MINOR_VERSION > 4)
 #include <vtkHardwareSelector.h>
-#else 
+#else
 #include <vtkVisibleCellSelector.h>
 #endif
 
 #include <vtkTriangle.h>
 #include <vtkWorldPointPicker.h>
 
-#include <vtkInteractorStyleRubberBandPick.h>
-#include <vtkInteractorStyleTrackballActor.h>
 #include <vtkAreaPicker.h>
 #include <vtkExtractGeometry.h>
 #include <vtkExtractPolyDataGeometry.h>
-#include <vtkVertexGlyphFilter.h>
 #include <vtkIdFilter.h>
 #include <vtkIdTypeArray.h>
-
+#include <vtkInteractorStyleRubberBandPick.h>
+#include <vtkInteractorStyleTrackballActor.h>
+#include <vtkVertexGlyphFilter.h>
 
 #if defined __GNUC__ && defined __DEPRECATED_DISABLED__
 #define __DEPRECATED
 #undef __DEPRECATED_DISABLED__
 #endif
 
-#endif    // PCL_PCL_VISUALIZER_VTK_H_
-
+#endif // PCL_PCL_VISUALIZER_VTK_H_

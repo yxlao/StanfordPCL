@@ -1,7 +1,7 @@
 /**
   \addtogroup search Module search
 
-  \section secSearchPresentation Overview 
+  \section secSearchPresentation Overview
 
   The <b>pcl_search</b> library provides methods for searching for nearest neighbors using different data structures, including:
   <ul>
