@@ -29,6 +29,6 @@ add_dependencies(ext_boost ext_openni)
 include(${PROJECT_SOURCE_DIR}/opencv/opencv.cmake)
 add_dependencies(ext_opencv ext_openni)
 
-# SuitSparse
+# Suitesparse
 include(${PROJECT_SOURCE_DIR}/suitesparse/suitesparse.cmake)
 # add_dependencies(ext_opencv ext_openni)
