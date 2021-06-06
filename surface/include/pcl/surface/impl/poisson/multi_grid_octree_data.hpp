@@ -3117,19 +3117,19 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<int Degree> int
-    Octree<Degree>::AddTriangles (CoredMeshData* mesh, std::vector<CoredPointIndex> edges[3], std::vector<Point3D<float> >* interiorPositions, const int& offSet)
-    {
-      std::vector<CoredPointIndex> e;
-      for (int i = 0; i < 3; i++)
-      {
-        for (size_t j = 0; j < edges[i].size (); j++)
-        {
-          e.push_back (edges[i][j]);
-        }
-      }
-      return AddTriangles (mesh, e, interiorPositions, offSet);
-    }
+    // template<int Degree> int
+    // Octree<Degree>::AddTriangles (CoredMeshData* mesh, std::vector<CoredPointIndex> edges[3], std::vector<Point3D<float> >* interiorPositions, const int& offSet)
+    // {
+    //   std::vector<CoredPointIndex> e;
+    //   for (int i = 0; i < 3; i++)
+    //   {
+    //     for (size_t j = 0; j < edges[i].size (); j++)
+    //     {
+    //       e.push_back (edges[i][j]);
+    //     }
+    //   }
+    //   return AddTriangles (mesh, e, interiorPositions, offSet);
+    // }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     template<int Degree> int
