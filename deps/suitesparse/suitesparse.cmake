@@ -5,9 +5,10 @@ ExternalProject_Add(
     PREFIX suitesparse
     URL https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/refs/tags/v5.10.1.tar.gz
     INSTALL_DIR ${DEPS_INSTALL_PREFIX}
-    CONFIGURE_COMMAND ""
     UPDATE_COMMAND ""
+    CONFIGURE_COMMAND ""
     BUILD_COMMAND make  # make -j is not helpful here
+    INSTALL_COMMAND make install INSTALL=<INSTALL_DIR>
     BUILD_IN_SOURCE ON
-    make install INSTALL=<INSTALL_DIR>
+
 )
