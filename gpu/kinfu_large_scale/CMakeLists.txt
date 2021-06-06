@@ -20,6 +20,11 @@ PCL_SET_SUBSYS_INCLUDE_DIR(${SUBSYS_NAME} ${SUBSYS_PATH})
 mark_as_advanced("BUILD_${SUBSYS_NAME}")
 
 if (build)
+	# Include config instead of doing find_package(OpenCV).
+	include(${PROJECT_SOURCE_DIR}/deps/build/install/share/OpenCV/OpenCVConfig.cmake)
+	include_directories(${OpenCV_INCLUDE_DIRS})
+	link_libraries(${OpenCV_LIBS})
+
 	FILE(GLOB incs include/pcl/gpu/kinfu_large_scale/*.h*)
 	FILE(GLOB impl_incs include/pcl/gpu/kinfu_large_scale/impl/*.h*)
 	FILE(GLOB srcs src/*.cpp src/*.h*)
