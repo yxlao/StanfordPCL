@@ -39,6 +39,7 @@
 
 #include "cuda.h"
 #include <stdio.h>
+#include <array>
 
 #define HAVE_CUDA
 //#include <pcl_config.h>
@@ -110,19 +111,17 @@ namespace
     inline int convertSMVer2Cores(int major, int minor)
     {
         // Defines for GPU Architecture types (using the SM version to determine the # of cores per SM
-        typedef struct {
-            int SM; // 0xMm (hexidecimal notation), M = SM Major version, and m = SM minor version
-            int Cores;
-        } SMtoCores;
-
-		SMtoCores gpuArchCoresPerSM[] =  { { 0x10,  8 }, { 0x11,  8 }, { 0x12,  8 }, { 0x13,  8 }, { 0x20, 32 }, { 0x21, 48 }, {0x30, 192}, {0x35, 192}, {0x50, 128}, {0x52, 128}, { -1, -1 }  };
-
-        int index = 0;
-        while (gpuArchCoresPerSM[index].SM != -1)
+        struct SMtoCores
         {
-            if (gpuArchCoresPerSM[index].SM == ((major << 4) + minor) )
-                return gpuArchCoresPerSM[index].Cores;
-            index++;
+            int SM; // 0xMm (hexadecimal notation), M = SM Major version, and m = SM minor version
+            int Cores;
+        };
+
+        std::array<SMtoCores, 15> gpuArchCoresPerSM = {{{0x30, 192}, {0x32, 192}, {0x35, 192}, {0x37, 192}, {0x50, 128}, {0x52, 128}, {0x53, 128}, {0x60, 64}, {0x61, 128}, {0x62, 128}, {0x70, 64}, {0x72, 64}, {0x75, 64}, {0x80, 64}, {0x86, 128}}};
+        for (const auto &sm2cores : gpuArchCoresPerSM)
+        {
+            if (sm2cores.SM == ((major << 4) + minor))
+                return sm2cores.Cores;
         }
         printf("\nCan't determine number of cores. Unknown SM version %d.%d!\n", major, minor);
         return 0;
