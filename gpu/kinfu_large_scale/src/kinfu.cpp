@@ -1228,7 +1228,7 @@ cv::Mat pcl::gpu::KinfuTracker::bdrodometry_interpmax( cv::Mat depth )
 				}
 			} else {
 				if ( result.at< float >( i, j ) > 0.0f ) {
-					float x = __fmax(result.at<float>(i, j), result.at<float>(i, marker));
+					float x = std::max(result.at<float>(i, j), result.at<float>(i, marker));
 					for ( int k = marker + 1; k < j; k++ ) {
 						result.at< float >( i, k ) = x;
 					}
