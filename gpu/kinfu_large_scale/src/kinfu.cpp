@@ -1302,7 +1302,7 @@ bool
 		std::sprintf( filename, "image/bf/%06d.png", global_time_ + 1 );
 		cv::Mat m( 480, 640, CV_16UC1, (void *)&data[0] );
 		//cv::imwrite( filename, m );
-		
+
 		m.convertTo( md, CV_32FC1, 1.0 / 1000.0, 0.0 );
 		md_mask = bdrodometry_getOcclusionBoundary( md );
 
@@ -1506,7 +1506,7 @@ bool
 						pt.normal_x = nn( 0 );
 						pt.normal_y = nn( 1 );
 						pt.normal_z = nn( 2 );
-						
+
 						if ( !pcl_isnan( pt.normal_x ) && !pcl_isnan( pt.normal_y ) && !pcl_isnan( pt.normal_z ) ) {
 							vmappcdraw->points.push_back( pt );
 						}
@@ -2683,13 +2683,13 @@ void pcl::gpu::KinfuTracker::OptimizeSLAC()
 						b = diff.dot( npi );
 						score += b * b;
 
-						//if ( score > 1 || _isnan( score ) ) {
+						//if ( score > 1 || __isnan( score ) ) {
 						//	if ( fragments[ i ]->IsValidPoint( ii ) && fragments[ j ]->IsValidPoint( jj ) ) {
 						//		cout << npj << endl;
 						//		cout << fragments[ j ]->points_[ jj ].n_[ 0 ] << endl;
 						//		cout << fragments[ j ]->points_[ jj ].n_[ 1 ] << endl;
 						//		cout << fragments[ j ]->points_[ jj ].n_[ 2 ] << endl;
-						//		cout << _isnan( fragments[ j ]->points_[ jj ].n_[ 0 ] ) << endl;
+						//		cout << __isnan( fragments[ j ]->points_[ jj ].n_[ 0 ] ) << endl;
 
 						//	}
 						//	cout << l << endl;
