@@ -3,7 +3,7 @@ include(ExternalProject)
 ExternalProject_Add(
     ext_eigen
     PREFIX eigen
-    URL ${PROJECT_SOURCE_DIR}/eigen/eigen
+    URL https://gitlab.com/libeigen/eigen/-/archive/3.0.4/eigen-3.0.4.zip
     INSTALL_DIR ${DEPS_INSTALL_PREFIX}
     CMAKE_ARGS
         -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
