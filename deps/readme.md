@@ -18,3 +18,7 @@
 ## OpenCV
 
 `2.3.1`: https://github.com/opencv/opencv/archive/refs/tags/2.3.1.tar.gz
+
+## SuiteSparse
+
+`5.10.1`: https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/refs/tags/v5.10.1.tar.gz
