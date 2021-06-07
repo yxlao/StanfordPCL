@@ -43,6 +43,7 @@
 #include <istream>
 #include <limits>
 #include <ostream>
+#include <stdint.h>
 
 namespace pcl {
 namespace io {
