@@ -20,4 +20,5 @@ ExternalProject_Add(
         -DBUILD_TESTING=OFF
         -DCMAKE_C_FLAGS=-DGLX_GLXEXT_LEGACY
         -DCMAKE_CXX_FLAGS=-DGLX_GLXEXT_LEGACY
+        -Wno-dev
 )
