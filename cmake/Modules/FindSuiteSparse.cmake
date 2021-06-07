@@ -1,6 +1,7 @@
 
 FIND_PATH(CHOLMOD_INCLUDE_DIR NAMES cholmod.h amd.h camd.h
     PATHS
+    ${PCL_DEPS_INSTALL_PREFIX}/include
     /usr/include/suitesparse
     /usr/include/ufsparse
     /opt/local/include/ufsparse
@@ -10,6 +11,7 @@ FIND_PATH(CHOLMOD_INCLUDE_DIR NAMES cholmod.h amd.h camd.h
 
 FIND_LIBRARY(CHOLMOD_LIBRARY NAMES cholmod
      PATHS
+     ${PCL_DEPS_INSTALL_PREFIX}/lib
      /usr/lib
      /usr/local/lib
      /opt/local/lib
@@ -18,6 +20,7 @@ FIND_LIBRARY(CHOLMOD_LIBRARY NAMES cholmod
 
 FIND_LIBRARY(AMD_LIBRARY NAMES SHARED NAMES amd
   PATHS
+  ${PCL_DEPS_INSTALL_PREFIX}/lib
   /usr/lib
   /usr/local/lib
   /opt/local/lib
@@ -26,6 +29,7 @@ FIND_LIBRARY(AMD_LIBRARY NAMES SHARED NAMES amd
 
 FIND_LIBRARY(CAMD_LIBRARY NAMES camd
   PATHS
+  ${PCL_DEPS_INSTALL_PREFIX}/lib
   /usr/lib
   /usr/local/lib
   /opt/local/lib
@@ -39,6 +43,7 @@ IF(CYGWIN)
   FIND_PACKAGE(PkgConfig)
   FIND_LIBRARY(COLAMD_LIBRARY NAMES colamd
     PATHS
+    ${PCL_DEPS_INSTALL_PREFIX}/lib
     /usr/lib
     /usr/local/lib
     /opt/local/lib
@@ -56,6 +61,7 @@ ELSEIF(APPLE)
 
   FIND_LIBRARY(COLAMD_LIBRARY NAMES colamd
     PATHS
+    ${PCL_DEPS_INSTALL_PREFIX}/lib
     /usr/lib
     /usr/local/lib
     /opt/local/lib
@@ -64,6 +70,7 @@ ELSEIF(APPLE)
 
   FIND_LIBRARY(CCOLAMD_LIBRARY NAMES ccolamd
     PATHS
+    ${PCL_DEPS_INSTALL_PREFIX}/lib
     /usr/lib
     /usr/local/lib
     /opt/local/lib
@@ -72,6 +79,7 @@ ELSEIF(APPLE)
 
   FIND_LIBRARY(METIS_LIBRARY NAMES metis
     PATHS
+    ${PCL_DEPS_INSTALL_PREFIX}/lib
     /usr/lib
     /usr/local/lib
     /opt/local/lib
@@ -94,6 +102,7 @@ ENDIF(CHOLMOD_INCLUDE_DIR AND CHOLMOD_LIBRARIES)
 # Look for csparse; note the difference in the directory specifications!
 FIND_PATH(CSPARSE_INCLUDE_DIR NAMES cs.h
   PATHS
+  ${PCL_DEPS_INSTALL_PREFIX}/include
   /usr/include/suitesparse
   /usr/include
   /opt/local/include
@@ -107,6 +116,7 @@ FIND_PATH(CSPARSE_INCLUDE_DIR NAMES cs.h
 
 FIND_LIBRARY(CSPARSE_LIBRARY NAMES cxsparse
   PATHS
+  ${PCL_DEPS_INSTALL_PREFIX}/lib
   /usr/lib
   /usr/local/lib
   /opt/local/lib
