@@ -29,11 +29,16 @@
 - `v5.6.1`: https://github.com/Kitware/VTK/archive/refs/tags/v5.6.1.zip
 - modified
   - added `#include <cstddef>` patch
+  - requires gcc 4.8
+
+### Boost
+- `1.50.0`: download the zip file from official website, the tar file does not
+  contain build scripts
+- requires `toolset=gcc-4.8`
 
 ### OpenCV
 
 - `2.3.1`: https://github.com/opencv/opencv/archive/refs/tags/2.3.1.tar.gz
-- requires `toolset=gcc-4.8`
 
 ### SuiteSparse
 

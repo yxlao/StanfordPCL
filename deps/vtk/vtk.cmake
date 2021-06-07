@@ -16,9 +16,8 @@ ExternalProject_Add(
         -DCMAKE_C_COMPILER=gcc-4.8
         -DCMAKE_CXX_COMPILER=g++-4.8
         -DCMAKE_BUILD_TYPE="Release"
-        -DBUILD_SHARED_LIBS=ON
+        -DBUILD_SHARED_LIBS=OFF
         -DBUILD_TESTING=OFF
         -DCMAKE_C_FLAGS=-DGLX_GLXEXT_LEGACY
         -DCMAKE_CXX_FLAGS=-DGLX_GLXEXT_LEGACY
-        -Wno-dev
 )
