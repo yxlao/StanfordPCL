@@ -58,4 +58,4 @@
 //#include <boost/uuid/uuid.hpp>
 //#include <boost/uuid/uuid_generators.hpp>
 
-#endif    // PCL_TOOLS_BOOST_H_
+#endif // PCL_TOOLS_BOOST_H_

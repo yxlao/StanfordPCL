@@ -44,67 +44,59 @@
 #include <thrust/sort.h>
 #include <thrust/unique.h>
 
-namespace pcl
-{
-    namespace device
-    {
-        __device__ int total_after_repack;
+namespace pcl {
+namespace device {
+__device__ int total_after_repack;
 
-        struct IndsRepack
-        {
-            enum
-            {
-                CTA_SIZE = 256,
-                WARPS = CTA_SIZE/Warp::WARP_SIZE
-            };
+struct IndsRepack {
+    enum { CTA_SIZE = 256, WARPS = CTA_SIZE / Warp::WARP_SIZE };
 
-            const int *offsets;
-            PtrStep<int> nindices;
-            const int *sizes;
-            int work_size;
+    const int *offsets;
+    PtrStep<int> nindices;
+    const int *sizes;
+    int work_size;
 
-            mutable int *output;
+    mutable int *output;
 
-            __device__ void operator()() const
-            {
-                int idx = WARPS * blockIdx.x + Warp::id();
+    __device__ void operator()() const {
+        int idx = WARPS * blockIdx.x + Warp::id();
 
-                if (idx >= work_size)
-                    return;
+        if (idx >= work_size)
+            return;
 
-                int size = sizes[idx];
-                const int *ninds_beg = nindices.ptr(idx);
-                const int *ninds_end = ninds_beg + size;
-                const int before = offsets[idx];
+        int size = sizes[idx];
+        const int *ninds_beg = nindices.ptr(idx);
+        const int *ninds_end = ninds_beg + size;
+        const int before = offsets[idx];
 
-                Warp::copy(ninds_beg, ninds_end, output + before);
+        Warp::copy(ninds_beg, ninds_end, output + before);
 
-                if (idx == work_size - 1 && Warp::laneId() == 0)
-                    total_after_repack = before + size;
-            }
-        };
-
-        __global__ void IndsRepackKernel(const IndsRepack irpk) { irpk(); }
-
-        __global__ void createLookupKernel(const int* inds, int total, int* output)
-        {
-            int idx = threadIdx.x + blockIdx.x * blockDim.x;
-
-            if (idx < total)
-                output[inds[idx]] = idx;
-        }
+        if (idx == work_size - 1 && Warp::laneId() == 0)
+            total_after_repack = before + size;
     }
+};
 
+__global__ void IndsRepackKernel(const IndsRepack irpk) { irpk(); }
+
+__global__ void createLookupKernel(const int *inds, int total, int *output) {
+    int idx = threadIdx.x + blockIdx.x * blockDim.x;
+
+    if (idx < total)
+        output[inds[idx]] = idx;
 }
+} // namespace device
 
+} // namespace pcl
 
-int pcl::device::computeUniqueIndices(size_t surface_size, const NeighborIndices& neighbours, DeviceArray<int>& unique_indices, DeviceArray<int>& lookup)
-{
+int pcl::device::computeUniqueIndices(size_t surface_size,
+                                      const NeighborIndices &neighbours,
+                                      DeviceArray<int> &unique_indices,
+                                      DeviceArray<int> &lookup) {
     unique_indices.create(neighbours.data.size());
     lookup.create(surface_size);
 
     thrust::device_vector<int> scan(neighbours.sizes.size());
-    thrust::device_ptr<int> beg((int*)neighbours.sizes.ptr());
+    thrust::device_ptr<int> beg((int *)neighbours.sizes.ptr());
     thrust::device_ptr<int> end = beg + neighbours.sizes.size();
     thrust::exclusive_scan(beg, end, scan.begin());
 
@@ -119,11 +111,12 @@ int pcl::device::computeUniqueIndices(size_t surface_size, const NeighborIndices
     int grid = divUp((int)neighbours.sizes.size(), IndsRepack::WARPS);
 
     IndsRepackKernel<<<grid, block>>>(irpk);
-    cudaSafeCall( cudaGetLastError() );
+    cudaSafeCall(cudaGetLastError());
     cudaSafeCall(cudaDeviceSynchronize());
 
     int total;
-    cudaSafeCall( cudaMemcpyFromSymbol(&total, total_after_repack, sizeof(total)) );
+    cudaSafeCall(
+        cudaMemcpyFromSymbol(&total, total_after_repack, sizeof(total)));
     cudaSafeCall(cudaDeviceSynchronize());
 
     thrust::device_ptr<int> begu(unique_indices.ptr());
@@ -136,8 +129,9 @@ int pcl::device::computeUniqueIndices(size_t surface_size, const NeighborIndices
     thrust::device_ptr<int> endl = begl + lookup.size();
     thrust::fill(begl, endl, 0);
 
-    createLookupKernel<<<divUp((int)unique_indices.size(), 256), 256>>>(unique_indices, total, lookup);
-    cudaSafeCall( cudaGetLastError() );
+    createLookupKernel<<<divUp((int)unique_indices.size(), 256), 256>>>(
+        unique_indices, total, lookup);
+    cudaSafeCall(cudaGetLastError());
     cudaSafeCall(cudaDeviceSynchronize());
 
     return total;

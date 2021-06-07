@@ -40,42 +40,37 @@
 #include <pcl/visualization/vtk.h>
 #include <map>
 
-namespace pcl
-{
-  namespace visualization
-  {
-    class RenWinInteract
-    {
-      public:
+namespace pcl {
+namespace visualization {
+class RenWinInteract {
+  public:
+    RenWinInteract()
+        : xy_plot_(vtkSmartPointer<vtkXYPlotActor>::New()),
+          ren_(vtkSmartPointer<vtkRenderer>::New()),
+          win_(vtkSmartPointer<vtkRenderWindow>::New()), interactor_(),
+          style_() {}
 
-        RenWinInteract () : xy_plot_ (vtkSmartPointer<vtkXYPlotActor>::New ()),
-                            ren_ (vtkSmartPointer<vtkRenderer>::New ()),
-                            win_ (vtkSmartPointer<vtkRenderWindow>::New ()),
-                            interactor_ (),
-                            style_ ()
-        {}
+    /** \brief The XY plot actor holding the actual data. */
+    vtkSmartPointer<vtkXYPlotActor> xy_plot_;
 
-        /** \brief The XY plot actor holding the actual data. */
-        vtkSmartPointer<vtkXYPlotActor> xy_plot_;
+    /** \brief The renderer used. */
+    vtkSmartPointer<vtkRenderer> ren_;
 
-        /** \brief The renderer used. */
-        vtkSmartPointer<vtkRenderer> ren_;
+    /** \brief The render window. */
+    vtkSmartPointer<vtkRenderWindow> win_;
 
-        /** \brief The render window. */
-        vtkSmartPointer<vtkRenderWindow> win_;
-
-        /** \brief The render window interactor. */
+    /** \brief The render window interactor. */
 
 #if ((VTK_MAJOR_VERSION == 5) && (VTK_MINOR_VERSION <= 4))
-        vtkSmartPointer<PCLVisualizerInteractor> interactor_;
+    vtkSmartPointer<PCLVisualizerInteractor> interactor_;
 #else
-        vtkSmartPointer<vtkRenderWindowInteractor> interactor_;
+    vtkSmartPointer<vtkRenderWindowInteractor> interactor_;
 #endif
-        /** \brief The render window interactor style. */
-        vtkSmartPointer<vtkInteractorStyleTrackballCamera> style_;
-    };
-    typedef std::map<std::string, RenWinInteract> RenWinInteractMap;
-  }
-}
+    /** \brief The render window interactor style. */
+    vtkSmartPointer<vtkInteractorStyleTrackballCamera> style_;
+};
+typedef std::map<std::string, RenWinInteract> RenWinInteractMap;
+} // namespace visualization
+} // namespace pcl
 
 #endif

@@ -39,7 +39,7 @@
 #define _PCL_IO_BOOST_H_
 
 #if defined __GNUC__
-#  pragma GCC system_header
+#pragma GCC system_header
 #endif
 
 #include <boost/numeric/conversion/cast.hpp>
@@ -51,8 +51,8 @@
 #include <boost/bind.hpp>
 
 #ifndef PCL_CUDA_IO
-        #include <boost/signals2.hpp>
-        #include <boost/signals2/slot.hpp>
+#include <boost/signals2.hpp>
+#include <boost/signals2/slot.hpp>
 #endif
 
 #include <boost/cstdint.hpp>
@@ -76,5 +76,4 @@
 #include <boost/interprocess/permissions.hpp>
 #endif
 
-#endif    // _PCL_IO_BOOST_H_
-
+#endif // _PCL_IO_BOOST_H_

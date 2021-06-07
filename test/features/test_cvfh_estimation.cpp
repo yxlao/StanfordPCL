@@ -60,108 +60,106 @@ KdTreePtr tree_milk;
 float leaf_size_ = 0.005f;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-TEST (PCL, CVFHEstimation)
-{
-  // Estimate normals first
-  NormalEstimation<PointXYZ, Normal> n;
-  PointCloud<Normal>::Ptr normals (new PointCloud<Normal> ());
-  // set parameters
-  n.setInputCloud (cloud.makeShared ());
-  boost::shared_ptr<vector<int> > indicesptr (new vector<int> (indices));
-  n.setIndices (indicesptr);
-  n.setSearchMethod (tree);
-  n.setKSearch (10); // Use 10 nearest neighbors to estimate the normals
-  // estimate
-  n.compute (*normals);
-  CVFHEstimation<PointXYZ, Normal, VFHSignature308> cvfh;
-  cvfh.setInputNormals (normals);
+TEST(PCL, CVFHEstimation) {
+    // Estimate normals first
+    NormalEstimation<PointXYZ, Normal> n;
+    PointCloud<Normal>::Ptr normals(new PointCloud<Normal>());
+    // set parameters
+    n.setInputCloud(cloud.makeShared());
+    boost::shared_ptr<vector<int>> indicesptr(new vector<int>(indices));
+    n.setIndices(indicesptr);
+    n.setSearchMethod(tree);
+    n.setKSearch(10); // Use 10 nearest neighbors to estimate the normals
+    // estimate
+    n.compute(*normals);
+    CVFHEstimation<PointXYZ, Normal, VFHSignature308> cvfh;
+    cvfh.setInputNormals(normals);
 
-  // Object
-  PointCloud<VFHSignature308>::Ptr vfhs (new PointCloud<VFHSignature308> ());
+    // Object
+    PointCloud<VFHSignature308>::Ptr vfhs(new PointCloud<VFHSignature308>());
 
-  // set parameters
-  cvfh.setInputCloud (cloud.makeShared ());
-  cvfh.setIndices (indicesptr);
-  cvfh.setSearchMethod (tree);
+    // set parameters
+    cvfh.setInputCloud(cloud.makeShared());
+    cvfh.setIndices(indicesptr);
+    cvfh.setSearchMethod(tree);
 
-  // estimate
-  cvfh.compute (*vfhs);
-  EXPECT_EQ (static_cast<int>(vfhs->points.size ()), 1);
+    // estimate
+    cvfh.compute(*vfhs);
+    EXPECT_EQ(static_cast<int>(vfhs->points.size()), 1);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-TEST (PCL, CVFHEstimationMilk)
-{
+TEST(PCL, CVFHEstimationMilk) {
 
-  // Estimate normals first
-  NormalEstimation<PointXYZ, Normal> n;
-  PointCloud<Normal>::Ptr normals (new PointCloud<Normal> ());
-  n.setInputCloud (cloud_milk);
-  n.setSearchMethod (tree);
-  n.setRadiusSearch (leaf_size_ * 4); //2cm to estimate normals
-  n.compute (*normals);
+    // Estimate normals first
+    NormalEstimation<PointXYZ, Normal> n;
+    PointCloud<Normal>::Ptr normals(new PointCloud<Normal>());
+    n.setInputCloud(cloud_milk);
+    n.setSearchMethod(tree);
+    n.setRadiusSearch(leaf_size_ * 4); // 2cm to estimate normals
+    n.compute(*normals);
 
-  CVFHEstimation<PointXYZ, Normal, VFHSignature308> cvfh;
-  cvfh.setInputCloud (cloud_milk);
-  cvfh.setInputNormals (normals);
-  cvfh.setSearchMethod (tree_milk);
-  cvfh.setClusterTolerance (leaf_size_ * 3);
-  cvfh.setEPSAngleThreshold (0.13f);
-  cvfh.setCurvatureThreshold (0.025f);
-  cvfh.setNormalizeBins (false);
-  cvfh.setRadiusNormals (leaf_size_ * 4);
+    CVFHEstimation<PointXYZ, Normal, VFHSignature308> cvfh;
+    cvfh.setInputCloud(cloud_milk);
+    cvfh.setInputNormals(normals);
+    cvfh.setSearchMethod(tree_milk);
+    cvfh.setClusterTolerance(leaf_size_ * 3);
+    cvfh.setEPSAngleThreshold(0.13f);
+    cvfh.setCurvatureThreshold(0.025f);
+    cvfh.setNormalizeBins(false);
+    cvfh.setRadiusNormals(leaf_size_ * 4);
 
-  // Object
-  PointCloud<VFHSignature308>::Ptr vfhs (new PointCloud<VFHSignature308> ());
+    // Object
+    PointCloud<VFHSignature308>::Ptr vfhs(new PointCloud<VFHSignature308>());
 
-  // estimate
-  cvfh.compute (*vfhs);
-  EXPECT_EQ (static_cast<int>(vfhs->points.size ()), 2);
+    // estimate
+    cvfh.compute(*vfhs);
+    EXPECT_EQ(static_cast<int>(vfhs->points.size()), 2);
 }
 
 /* ---[ */
-int
-main (int argc, char** argv)
-{
-  if (argc < 3)
-  {
-    std::cerr << "No test file given. Please download `bun0.pcd` and `milk.pcd` pass its path to the test." << std::endl;
-    return (-1);
-  }
+int main(int argc, char **argv) {
+    if (argc < 3) {
+        std::cerr << "No test file given. Please download `bun0.pcd` and "
+                     "`milk.pcd` pass its path to the test."
+                  << std::endl;
+        return (-1);
+    }
 
-  if (loadPCDFile<PointXYZ> (argv[1], cloud) < 0)
-  {
-    std::cerr << "Failed to read test file. Please download `bun0.pcd` and pass its path to the test." << std::endl;
-    return (-1);
-  }
+    if (loadPCDFile<PointXYZ>(argv[1], cloud) < 0) {
+        std::cerr << "Failed to read test file. Please download `bun0.pcd` and "
+                     "pass its path to the test."
+                  << std::endl;
+        return (-1);
+    }
 
-  CloudPtr milk_loaded(new PointCloud<PointXYZ>());
-  if (loadPCDFile<PointXYZ> (argv[2], *milk_loaded) < 0)
-  {
-    std::cerr << "Failed to read test file. Please download `milk.pcd` and pass its path to the test." << std::endl;
-    return (-1);
-  }
+    CloudPtr milk_loaded(new PointCloud<PointXYZ>());
+    if (loadPCDFile<PointXYZ>(argv[2], *milk_loaded) < 0) {
+        std::cerr << "Failed to read test file. Please download `milk.pcd` and "
+                     "pass its path to the test."
+                  << std::endl;
+        return (-1);
+    }
 
-  indices.resize (cloud.points.size ());
-  for (size_t i = 0; i < indices.size (); ++i)
-  {
-    indices[i] = static_cast<int>(i);
-  }
+    indices.resize(cloud.points.size());
+    for (size_t i = 0; i < indices.size(); ++i) {
+        indices[i] = static_cast<int>(i);
+    }
 
-  tree.reset (new search::KdTree<PointXYZ> (false));
-  tree->setInputCloud (cloud.makeShared ());
+    tree.reset(new search::KdTree<PointXYZ>(false));
+    tree->setInputCloud(cloud.makeShared());
 
-  cloud_milk.reset(new PointCloud<PointXYZ>());
-  CloudPtr grid;
-  pcl::VoxelGrid < pcl::PointXYZ > grid_;
-  grid_.setInputCloud (milk_loaded);
-  grid_.setLeafSize (leaf_size_, leaf_size_, leaf_size_);
-  grid_.filter (*cloud_milk);
+    cloud_milk.reset(new PointCloud<PointXYZ>());
+    CloudPtr grid;
+    pcl::VoxelGrid<pcl::PointXYZ> grid_;
+    grid_.setInputCloud(milk_loaded);
+    grid_.setLeafSize(leaf_size_, leaf_size_, leaf_size_);
+    grid_.filter(*cloud_milk);
 
-  tree_milk.reset (new search::KdTree<PointXYZ> (false));
-  tree_milk->setInputCloud (cloud_milk);
+    tree_milk.reset(new search::KdTree<PointXYZ>(false));
+    tree_milk->setInputCloud(cloud_milk);
 
-  testing::InitGoogleTest (&argc, argv);
-  return (RUN_ALL_TESTS ());
+    testing::InitGoogleTest(&argc, argv);
+    return (RUN_ALL_TESTS());
 }
 /* ]--- */

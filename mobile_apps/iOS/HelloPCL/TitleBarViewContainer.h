@@ -21,19 +21,16 @@
 #import <UIKit/UIKit.h>
 
 @interface TitleBarViewContainer : UIViewController {
-
 }
 
-@property (nonatomic, retain) IBOutlet UIView *containerView;
-@property (nonatomic, retain) IBOutlet UIViewController *previousViewController;
-@property (nonatomic, retain) IBOutlet UINavigationItem *titleItem;
+@property(nonatomic, retain) IBOutlet UIView *containerView;
+@property(nonatomic, retain) IBOutlet UIViewController *previousViewController;
+@property(nonatomic, retain) IBOutlet UINavigationItem *titleItem;
 
+- (IBAction)dismissModalView:(id)sender;
 
--(IBAction)dismissModalView:(id)sender;
+- (void)addViewToContainer:(UIView *)view;
 
--(void)addViewToContainer:(UIView*)view;
-
--(void)setTitle:(NSString *)title;
-
+- (void)setTitle:(NSString *)title;
 
 @end

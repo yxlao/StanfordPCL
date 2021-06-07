@@ -39,7 +39,6 @@
 #ifndef PCL_OCTREE_H
 #define PCL_OCTREE_H
 
-
 #include <pcl/octree/octree_base.h>
 #include <pcl/octree/octree2buf_base.h>
 #include <pcl/octree/octree_iterator.h>

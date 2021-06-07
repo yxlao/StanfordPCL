@@ -41,11 +41,11 @@
 #define PCL_SAMPLE_CONSENSUS_BOOST_H_
 
 #if defined __GNUC__
-#  pragma GCC system_header
+#pragma GCC system_header
 #endif
 
 #include <boost/random.hpp>
 #include <boost/unordered_map.hpp>
 #include <boost/math/distributions/binomial.hpp>
 
-#endif    // PCL_SAMPLE_CONSENSUS_BOOST_H_
+#endif // PCL_SAMPLE_CONSENSUS_BOOST_H_

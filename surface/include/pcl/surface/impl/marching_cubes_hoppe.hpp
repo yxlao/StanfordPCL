@@ -44,47 +44,42 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointNT>
-pcl::MarchingCubesHoppe<PointNT>::MarchingCubesHoppe ()
-  : MarchingCubes<PointNT> ()
-{
-}
+pcl::MarchingCubesHoppe<PointNT>::MarchingCubesHoppe()
+    : MarchingCubes<PointNT>() {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointNT>
-pcl::MarchingCubesHoppe<PointNT>::~MarchingCubesHoppe ()
-{
-}
-
+pcl::MarchingCubesHoppe<PointNT>::~MarchingCubesHoppe() {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointNT> void
-pcl::MarchingCubesHoppe<PointNT>::voxelizeData ()
-{
-  for (int x = 0; x < res_x_; ++x)
-    for (int y = 0; y < res_y_; ++y)
-      for (int z = 0; z < res_z_; ++z)
-      {
-        std::vector<int> nn_indices;
-        std::vector<float> nn_sqr_dists;
+template <typename PointNT>
+void pcl::MarchingCubesHoppe<PointNT>::voxelizeData() {
+    for (int x = 0; x < res_x_; ++x)
+        for (int y = 0; y < res_y_; ++y)
+            for (int z = 0; z < res_z_; ++z) {
+                std::vector<int> nn_indices;
+                std::vector<float> nn_sqr_dists;
 
-        Eigen::Vector3f point;
-        point[0] = min_p_[0] + (max_p_[0] - min_p_[0]) * float (x) / float (res_x_);
-        point[1] = min_p_[1] + (max_p_[1] - min_p_[1]) * float (y) / float (res_y_);
-        point[2] = min_p_[2] + (max_p_[2] - min_p_[2]) * float (z) / float (res_z_);
+                Eigen::Vector3f point;
+                point[0] = min_p_[0] +
+                           (max_p_[0] - min_p_[0]) * float(x) / float(res_x_);
+                point[1] = min_p_[1] +
+                           (max_p_[1] - min_p_[1]) * float(y) / float(res_y_);
+                point[2] = min_p_[2] +
+                           (max_p_[2] - min_p_[2]) * float(z) / float(res_z_);
 
-        PointNT p;
-        p.getVector3fMap () = point;
+                PointNT p;
+                p.getVector3fMap() = point;
 
-        tree_->nearestKSearch (p, 1, nn_indices, nn_sqr_dists);
+                tree_->nearestKSearch(p, 1, nn_indices, nn_sqr_dists);
 
-        grid_[x * res_y_*res_z_ + y * res_z_ + z] = input_->points[nn_indices[0]].getNormalVector3fMap ().dot (
-            point - input_->points[nn_indices[0]].getVector3fMap ());
-      }
+                grid_[x * res_y_ * res_z_ + y * res_z_ + z] =
+                    input_->points[nn_indices[0]].getNormalVector3fMap().dot(
+                        point - input_->points[nn_indices[0]].getVector3fMap());
+            }
 }
 
+#define PCL_INSTANTIATE_MarchingCubesHoppe(T)                                  \
+    template class PCL_EXPORTS pcl::MarchingCubesHoppe<T>;
 
-
-#define PCL_INSTANTIATE_MarchingCubesHoppe(T) template class PCL_EXPORTS pcl::MarchingCubesHoppe<T>;
-
-#endif    // PCL_SURFACE_IMPL_MARCHING_CUBES_HOPPE_H_
-
+#endif // PCL_SURFACE_IMPL_MARCHING_CUBES_HOPPE_H_

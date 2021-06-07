@@ -29,55 +29,56 @@
 @class ES2Renderer;
 struct vesKiwiPCLApp;
 
-// This class wraps the CAEAGLLayer from CoreAnimation into a convenient UIView subclass.
-// The view content is basically an EAGL surface you render your OpenGL scene into.
-// Note that setting the view non-opaque will only work if the EAGL surface has an alpha channel.
-@interface EAGLView : UIView
-{
-@public
+// This class wraps the CAEAGLLayer from CoreAnimation into a convenient UIView
+// subclass. The view content is basically an EAGL surface you render your
+// OpenGL scene into. Note that setting the view non-opaque will only work if
+// the EAGL surface has an alpha channel.
+@interface EAGLView : UIView {
+  @public
 
-  int builtinDatasetIndex;
+    int builtinDatasetIndex;
 
-@private
-  EAGLContext *context;
-  // The pixel dimensions of the CAEAGLLayer
-  GLint backingWidth;
-  GLint backingHeight;
+  @private
+    EAGLContext *context;
+    // The pixel dimensions of the CAEAGLLayer
+    GLint backingWidth;
+    GLint backingHeight;
 
-  /* OpenGL names for the renderbuffer, framebuffers used to render to this view */
-  GLuint viewRenderbuffer;
-  GLuint depthRenderbuffer;
-  GLuint viewFramebuffer;
+    /* OpenGL names for the renderbuffer, framebuffers used to render to this
+     * view */
+    GLuint viewRenderbuffer;
+    GLuint depthRenderbuffer;
+    GLuint viewFramebuffer;
 
-  // animation loop
-  BOOL shouldRender;
-  CADisplayLink* displayLink;
-  NSMutableArray* recentRenderFPS;
-  NSRecursiveLock* renderDataMutex;
+    // animation loop
+    BOOL shouldRender;
+    CADisplayLink *displayLink;
+    NSMutableArray *recentRenderFPS;
+    NSRecursiveLock *renderDataMutex;
 
-  ES2Renderer* renderer;
-  NSString *filePath;
+    ES2Renderer *renderer;
+    NSString *filePath;
 }
 
-@property (nonatomic, retain) EAGLContext *context;
+@property(nonatomic, retain) EAGLContext *context;
 
 // animation loop
 - (void)drawView:(id)sender;
 - (void)scheduleRender;
 - (void)forceRender;
-- (void)updateRefreshRate:(float) lastRenderFPS;
+- (void)updateRefreshRate:(float)lastRenderFPS;
 - (int)currentRefreshRate;
 
--(struct vesKiwiPCLApp*) getApp;
+- (struct vesKiwiPCLApp *)getApp;
 
 - (void)resetView;
 
 // resource protection
--(void)disableRendering;
--(void)enableRendering;
+- (void)disableRendering;
+- (void)enableRendering;
 
 // Touch handling
-- (void) createGestureRecognizers;
+- (void)createGestureRecognizers;
 - (IBAction)handleSingleFingerPanGesture:(UIPanGestureRecognizer *)sender;
 - (IBAction)handleDoubleFingerPanGesture:(UIPanGestureRecognizer *)sender;
 - (IBAction)handlePinchGesture:(UIPinchGestureRecognizer *)sender;

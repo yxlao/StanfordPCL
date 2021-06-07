@@ -39,43 +39,36 @@
 
 #include <pcl/apps/modeler/abstract_worker.h>
 
-namespace pcl
-{
-  namespace modeler
-  {
-    class DoubleParameter;
+namespace pcl {
+namespace modeler {
+class DoubleParameter;
 
-    class VoxelGridDownampleWorker : public AbstractWorker
-    {
-      public:
-        VoxelGridDownampleWorker(const QList<CloudMeshItem*>& cloud_mesh_items, QWidget* parent=0);
-        ~VoxelGridDownampleWorker(void);
+class VoxelGridDownampleWorker : public AbstractWorker {
+  public:
+    VoxelGridDownampleWorker(const QList<CloudMeshItem *> &cloud_mesh_items,
+                             QWidget *parent = 0);
+    ~VoxelGridDownampleWorker(void);
 
-      protected:
-        virtual std::string
-        getName () const {return ("Down Sample");}
+  protected:
+    virtual std::string getName() const { return ("Down Sample"); }
 
-        virtual void
-        initParameters(CloudMeshItem* cloud_mesh_item);
+    virtual void initParameters(CloudMeshItem *cloud_mesh_item);
 
-        virtual void
-        setupParameters();
+    virtual void setupParameters();
 
-        virtual void
-        processImpl(CloudMeshItem* cloud_mesh_item);
+    virtual void processImpl(CloudMeshItem *cloud_mesh_item);
 
-      private:
-        double x_min_, x_max_;
-        double y_min_, y_max_;
-        double z_min_, z_max_;
+  private:
+    double x_min_, x_max_;
+    double y_min_, y_max_;
+    double z_min_, z_max_;
 
-        DoubleParameter* leaf_size_x_;
-        DoubleParameter* leaf_size_y_;
-        DoubleParameter* leaf_size_z_;
+    DoubleParameter *leaf_size_x_;
+    DoubleParameter *leaf_size_y_;
+    DoubleParameter *leaf_size_z_;
+};
 
-    };
-
-  }
-}
+} // namespace modeler
+} // namespace pcl
 
 #endif // PCL_MODELER_DOWNSAMPLE_WORKER_H_

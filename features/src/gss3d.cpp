@@ -43,7 +43,9 @@
 
 // Instantiations of specific point types
 #ifdef PCL_ONLY_CORE_POINT_TYPES
-//  PCL_INSTANTIATE_PRODUCT(GSS3DEstimation, ((pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA))((pcl::Normal))((pcl::PointXYZ)))
+//  PCL_INSTANTIATE_PRODUCT(GSS3DEstimation,
+//  ((pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA))((pcl::Normal))((pcl::PointXYZ)))
 #else
-//  PCL_INSTANTIATE_PRODUCT(GSS3DEstimation, (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES)((pcl::PointXYZ)))
+//  PCL_INSTANTIATE_PRODUCT(GSS3DEstimation,
+//  (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES)((pcl::PointXYZ)))
 #endif

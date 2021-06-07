@@ -46,93 +46,89 @@
 // PCL (Urban Robotics)
 #include <pcl/outofcore/octree_ram_container.h>
 
-namespace pcl
-{
-  namespace outofcore
-  {
+namespace pcl {
+namespace outofcore {
 
-    template<typename PointT>
-    boost::mutex OutofcoreOctreeRamContainer<PointT>::rng_mutex_;
+template <typename PointT>
+boost::mutex OutofcoreOctreeRamContainer<PointT>::rng_mutex_;
 
-    template<typename PointT>
-    boost::mt19937 OutofcoreOctreeRamContainer<PointT>::rand_gen_ (static_cast<unsigned int>(std::time( NULL)));
+template <typename PointT>
+boost::mt19937 OutofcoreOctreeRamContainer<PointT>::rand_gen_(
+    static_cast<unsigned int>(std::time(NULL)));
 
-    template<typename PointT> void
-    OutofcoreOctreeRamContainer<PointT>::convertToXYZ (const boost::filesystem::path& path)
-    {
-      if (!container_.empty ())
-      {
-        FILE* fxyz = fopen (path.string ().c_str (), "w");
+template <typename PointT>
+void OutofcoreOctreeRamContainer<PointT>::convertToXYZ(
+    const boost::filesystem::path &path) {
+    if (!container_.empty()) {
+        FILE *fxyz = fopen(path.string().c_str(), "w");
 
-        boost::uint64_t num = size ();
-        for (boost::uint64_t i = 0; i < num; i++)
-        {
-          const PointT& p = container_[i];
+        boost::uint64_t num = size();
+        for (boost::uint64_t i = 0; i < num; i++) {
+            const PointT &p = container_[i];
 
-          std::stringstream ss;
-          ss << std::fixed;
-          ss.precision (16);
-          ss << p.x << "\t" << p.y << "\t" << p.z << "\n";
+            std::stringstream ss;
+            ss << std::fixed;
+            ss.precision(16);
+            ss << p.x << "\t" << p.y << "\t" << p.z << "\n";
 
-          fwrite (ss.str ().c_str (), 1, ss.str ().size (), fxyz);
+            fwrite(ss.str().c_str(), 1, ss.str().size(), fxyz);
         }
 
-        assert ( fclose (fxyz) == 0 );
-      }
+        assert(fclose(fxyz) == 0);
     }
+}
 ////////////////////////////////////////////////////////////////////////////////
-    template<typename PointT> void
-    OutofcoreOctreeRamContainer<PointT>::insertRange (const PointT* start, const boost::uint64_t count)
-    {
-      container_.insert (container_.end (), start, start + count);
-    }
+template <typename PointT>
+void OutofcoreOctreeRamContainer<PointT>::insertRange(
+    const PointT *start, const boost::uint64_t count) {
+    container_.insert(container_.end(), start, start + count);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
-    template<typename PointT> void
-    OutofcoreOctreeRamContainer<PointT>::insertRange (const PointT* const * start, const boost::uint64_t count)
-    {
-      AlignedPointTVector temp;
-      temp.resize (count);
-      for (boost::uint64_t i = 0; i < count; i++)
-      {
+template <typename PointT>
+void OutofcoreOctreeRamContainer<PointT>::insertRange(
+    const PointT *const *start, const boost::uint64_t count) {
+    AlignedPointTVector temp;
+    temp.resize(count);
+    for (boost::uint64_t i = 0; i < count; i++) {
         temp[i] = *start[i];
-      }
-      container_.insert (container_.end (), temp.begin (), temp.end ());
     }
+    container_.insert(container_.end(), temp.begin(), temp.end());
+}
 ////////////////////////////////////////////////////////////////////////////////
 
-    template<typename PointT> void
-    OutofcoreOctreeRamContainer<PointT>::readRange (const boost::uint64_t start, const boost::uint64_t count,
-                                             AlignedPointTVector& v)
-    {
-      v.resize (count);
-      memcpy (v.data (), container_.data () + start, count * sizeof(PointT));
-    }
+template <typename PointT>
+void OutofcoreOctreeRamContainer<PointT>::readRange(const boost::uint64_t start,
+                                                    const boost::uint64_t count,
+                                                    AlignedPointTVector &v) {
+    v.resize(count);
+    memcpy(v.data(), container_.data() + start, count * sizeof(PointT));
+}
 ////////////////////////////////////////////////////////////////////////////////
 
-    template<typename PointT> void
-    OutofcoreOctreeRamContainer<PointT>::readRangeSubSample (const boost::uint64_t start,
-                                                      const boost::uint64_t count,
-                                                      const double percent,
-                                                      AlignedPointTVector& v)
-    {
-      /** \todo change the subsampling technique to use built in PCL sampling */
-      boost::uint64_t samplesize = static_cast<boost::uint64_t> (percent * static_cast<double> (count));
+template <typename PointT>
+void OutofcoreOctreeRamContainer<PointT>::readRangeSubSample(
+    const boost::uint64_t start, const boost::uint64_t count,
+    const double percent, AlignedPointTVector &v) {
+    /** \todo change the subsampling technique to use built in PCL sampling */
+    boost::uint64_t samplesize =
+        static_cast<boost::uint64_t>(percent * static_cast<double>(count));
 
-      boost::mutex::scoped_lock lock (rng_mutex_);
+    boost::mutex::scoped_lock lock(rng_mutex_);
 
-      boost::uniform_int < boost::uint64_t > buffdist (start, start + count);
-      boost::variate_generator<boost::mt19937&, boost::uniform_int<boost::uint64_t> > buffdie (rand_gen_, buffdist);
+    boost::uniform_int<boost::uint64_t> buffdist(start, start + count);
+    boost::variate_generator<boost::mt19937 &,
+                             boost::uniform_int<boost::uint64_t>>
+        buffdie(rand_gen_, buffdist);
 
-      for (boost::uint64_t i = 0; i < samplesize; i++)
-      {
-        boost::uint64_t buffstart = buffdie ();
-        v.push_back (container_[buffstart]);
-      }
+    for (boost::uint64_t i = 0; i < samplesize; i++) {
+        boost::uint64_t buffstart = buffdie();
+        v.push_back(container_[buffstart]);
     }
+}
 ////////////////////////////////////////////////////////////////////////////////
 
-  }//namespace outofcore
-}//namespace pcl
+} // namespace outofcore
+} // namespace pcl
 
-#endif //PCL_OUTOFCORE_RAM_CONTAINER_IMPL_H_
+#endif // PCL_OUTOFCORE_RAM_CONTAINER_IMPL_H_

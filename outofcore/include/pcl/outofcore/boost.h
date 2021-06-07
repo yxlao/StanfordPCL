@@ -40,7 +40,7 @@
 #define PCL_OUTOFCORE_BOOST_H_
 
 #if defined __GNUC__
-#  pragma GCC system_header
+#pragma GCC system_header
 #endif
 
 #include <boost/filesystem.hpp>
@@ -55,4 +55,4 @@
 #include <boost/foreach.hpp>
 #include <boost/lexical_cast.hpp>
 
-#endif //PCL_OUTOFCORE_BOOST_H_
+#endif // PCL_OUTOFCORE_BOOST_H_

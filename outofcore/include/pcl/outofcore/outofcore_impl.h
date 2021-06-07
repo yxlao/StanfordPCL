@@ -48,4 +48,4 @@
 #include <pcl/outofcore/impl/octree_disk_container.hpp>
 #include <pcl/outofcore/impl/octree_ram_container.hpp>
 
-#endif //OUTOFCORE_IMPL_H_
+#endif // OUTOFCORE_IMPL_H_

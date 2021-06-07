@@ -43,12 +43,10 @@
 #include <istream>
 #include <ostream>
 
-namespace pcl
-{
+namespace pcl {
 
-  /** \brief Example index for a set of 2D data blocks. */
-  struct MultipleData2DExampleIndex
-  {
+/** \brief Example index for a set of 2D data blocks. */
+struct MultipleData2DExampleIndex {
     /** \brief The data set index. */
     int data_set_id;
 
@@ -56,8 +54,8 @@ namespace pcl
     int x;
     /** \brief The y-coordinate. */
     int y;
-  };
+};
 
-}
+} // namespace pcl
 
 #endif

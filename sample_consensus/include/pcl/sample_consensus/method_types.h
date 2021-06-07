@@ -38,15 +38,14 @@
 #ifndef PCL_SAMPLE_CONSENSUS_METHOD_TYPES_H_
 #define PCL_SAMPLE_CONSENSUS_METHOD_TYPES_H_
 
-namespace pcl
-{
-  const static int SAC_RANSAC  = 0;
-  const static int SAC_LMEDS   = 1;
-  const static int SAC_MSAC    = 2;
-  const static int SAC_RRANSAC = 3;
-  const static int SAC_RMSAC   = 4;
-  const static int SAC_MLESAC  = 5;
-  const static int SAC_PROSAC  = 6;
-}
+namespace pcl {
+const static int SAC_RANSAC = 0;
+const static int SAC_LMEDS = 1;
+const static int SAC_MSAC = 2;
+const static int SAC_RRANSAC = 3;
+const static int SAC_RMSAC = 4;
+const static int SAC_MLESAC = 5;
+const static int SAC_PROSAC = 6;
+} // namespace pcl
 
-#endif  //#ifndef PCL_SAMPLE_CONSENSUS_METHOD_TYPES_H_
+#endif //#ifndef PCL_SAMPLE_CONSENSUS_METHOD_TYPES_H_

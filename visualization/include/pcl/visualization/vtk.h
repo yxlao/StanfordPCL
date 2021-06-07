@@ -144,20 +144,20 @@
 #include <vtkImageBlend.h>
 #include <vtkImageStencilData.h>
 #if ((VTK_MAJOR_VERSION == 5) && (VTK_MINOR_VERSION <= 4))
-#  include <pcl/visualization/interactor.h>
+#include <pcl/visualization/interactor.h>
 #else
-#  include <vtkRenderWindowInteractor.h>
-#  include <vtkChartXY.h>
-#  include <vtkPlot.h>
-#  include <vtkTable.h>
-#  include <vtkContextView.h>
-#  include <vtkContextScene.h>
-#  include <vtkColorSeries.h>
-#  include <vtkAxis.h>
+#include <vtkRenderWindowInteractor.h>
+#include <vtkChartXY.h>
+#include <vtkPlot.h>
+#include <vtkTable.h>
+#include <vtkContextView.h>
+#include <vtkContextScene.h>
+#include <vtkColorSeries.h>
+#include <vtkAxis.h>
 #endif
 #include <vtkSelection.h>
 
-#if VTK_MAJOR_VERSION==6 || (VTK_MAJOR_VERSION==5 && VTK_MINOR_VERSION>4)
+#if VTK_MAJOR_VERSION == 6 || (VTK_MAJOR_VERSION == 5 && VTK_MINOR_VERSION > 4)
 #include <vtkHardwareSelector.h>
 #else
 #include <vtkVisibleCellSelector.h>
@@ -175,11 +175,9 @@
 #include <vtkIdFilter.h>
 #include <vtkIdTypeArray.h>
 
-
 #if defined __GNUC__ && defined __DEPRECATED_DISABLED__
 #define __DEPRECATED
 #undef __DEPRECATED_DISABLED__
 #endif
 
-#endif    // PCL_PCL_VISUALIZER_VTK_H_
-
+#endif // PCL_PCL_VISUALIZER_VTK_H_

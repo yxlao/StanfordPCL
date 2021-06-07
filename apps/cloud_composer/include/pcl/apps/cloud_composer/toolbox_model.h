@@ -40,86 +40,76 @@
 
 #include <pcl/apps/cloud_composer/qt.h>
 
-enum TOOLBOX_ROLES
-{
-  FACTORY = Qt::UserRole,
-  PARAMETER_MODEL,
-  ALLOWED_INPUT_ITEM_TYPES,
-  REQUIRED_INPUT_CHILDREN_TYPES
+enum TOOLBOX_ROLES {
+    FACTORY = Qt::UserRole,
+    PARAMETER_MODEL,
+    ALLOWED_INPUT_ITEM_TYPES,
+    REQUIRED_INPUT_CHILDREN_TYPES
 };
 
 class QTreeView;
-namespace pcl
-{
-  namespace cloud_composer
-  {
+namespace pcl {
+namespace cloud_composer {
 
-    class CloudCommand;
-    class AbstractTool;
-    class ToolFactory;
-    class ProjectModel;
+class CloudCommand;
+class AbstractTool;
+class ToolFactory;
+class ProjectModel;
 
-    class ToolBoxModel : public QStandardItemModel
-    {
-      Q_OBJECT
+class ToolBoxModel : public QStandardItemModel {
+    Q_OBJECT
 
-    public:
-      ToolBoxModel (QTreeView* tool_view = 0, QTreeView* parameter_view = 0, QObject *parent = 0);
-      ToolBoxModel (const ToolBoxModel& to_copy);
-      virtual ~ToolBoxModel ();
+  public:
+    ToolBoxModel(QTreeView *tool_view = 0, QTreeView *parameter_view = 0,
+                 QObject *parent = 0);
+    ToolBoxModel(const ToolBoxModel &to_copy);
+    virtual ~ToolBoxModel();
 
-      void
-      addTool (ToolFactory* tool_factory);
+    void addTool(ToolFactory *tool_factory);
 
-      void
-      setSelectionModel (QItemSelectionModel* selection_model);
+    void setSelectionModel(QItemSelectionModel *selection_model);
 
-      /** \brief Enables/Disables Tools based on currently selected items from model */
-      void
-      updateEnabledTools (const QItemSelection current_selection);
+    /** \brief Enables/Disables Tools based on currently selected items from
+     * model */
+    void updateEnabledTools(const QItemSelection current_selection);
 
-      void
-      enableAllTools ();
+    void enableAllTools();
 
-    public slots:
-      void
-      activeProjectChanged (ProjectModel* new_model, ProjectModel* previous_model);
+  public slots:
+    void activeProjectChanged(ProjectModel *new_model,
+                              ProjectModel *previous_model);
 
-      void
-      selectedToolChanged (const QModelIndex & current, const QModelIndex & previous);
+    void selectedToolChanged(const QModelIndex &current,
+                             const QModelIndex &previous);
 
-      void
-      toolAction ();
+    void toolAction();
 
-      /** \brief This slot is called when the selection in cloud browser changes. Updates enabling of tools */
-      void
-      selectedItemChanged ( const QItemSelection & selected, const QItemSelection & deselected );
+    /** \brief This slot is called when the selection in cloud browser changes.
+     * Updates enabling of tools */
+    void selectedItemChanged(const QItemSelection &selected,
+                             const QItemSelection &deselected);
 
-      /** \brief This slot is called whenever the current project model emits layoutChanged, and calls updateEnabledTools */
-      void
-      modelChanged ();
-    signals:
-      void
-      enqueueToolAction (AbstractTool* tool);
+    /** \brief This slot is called whenever the current project model emits
+     * layoutChanged, and calls updateEnabledTools */
+    void modelChanged();
+  signals:
+    void enqueueToolAction(AbstractTool *tool);
 
-    private:
-      QStandardItem*
-      addToolGroup (QString tool_group_name);
+  private:
+    QStandardItem *addToolGroup(QString tool_group_name);
 
-      QTreeView* tool_view_;
-      QTreeView* parameter_view_;
-      QItemSelectionModel* selection_model_;
-      QSet <QStandardItem*> tool_items;
+    QTreeView *tool_view_;
+    QTreeView *parameter_view_;
+    QItemSelectionModel *selection_model_;
+    QSet<QStandardItem *> tool_items;
 
-      ProjectModel* project_model_;
+    ProjectModel *project_model_;
+};
+} // namespace cloud_composer
+} // namespace pcl
 
-    };
-  }
-}
+Q_DECLARE_METATYPE(pcl::cloud_composer::ToolBoxModel);
+Q_DECLARE_METATYPE(pcl::cloud_composer::ToolFactory *);
+Q_DECLARE_METATYPE(QStandardItemModel *);
 
-Q_DECLARE_METATYPE (pcl::cloud_composer::ToolBoxModel);
-Q_DECLARE_METATYPE (pcl::cloud_composer::ToolFactory*);
-Q_DECLARE_METATYPE (QStandardItemModel*);
-
-#endif //TOOLBOX_MODEL_H_
-
+#endif // TOOLBOX_MODEL_H_

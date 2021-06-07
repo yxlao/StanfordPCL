@@ -40,148 +40,127 @@
 #include <pcl/filters/filter_indices.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-pcl::modeler::NormalsActorItem::NormalsActorItem(QTreeWidgetItem* parent,
-                                               const boost::shared_ptr<CloudMesh>& cloud_mesh,
-                                               const vtkSmartPointer<vtkRenderWindow>& render_window)
-  :ChannelActorItem(parent, cloud_mesh, render_window, vtkSmartPointer<vtkLODActor>::New(), "Normals"),
-  level_(10), scale_(0.1)
-{
-}
+pcl::modeler::NormalsActorItem::NormalsActorItem(
+    QTreeWidgetItem *parent, const boost::shared_ptr<CloudMesh> &cloud_mesh,
+    const vtkSmartPointer<vtkRenderWindow> &render_window)
+    : ChannelActorItem(parent, cloud_mesh, render_window,
+                       vtkSmartPointer<vtkLODActor>::New(), "Normals"),
+      level_(10), scale_(0.1) {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-pcl::modeler::NormalsActorItem::~NormalsActorItem ()
-{
-
-}
+pcl::modeler::NormalsActorItem::~NormalsActorItem() {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::modeler::NormalsActorItem::createNormalLines()
-{
-  vtkPoints* points = poly_data_->GetPoints();
-  vtkCellArray* lines = poly_data_->GetLines();
-  lines->Reset();
+void pcl::modeler::NormalsActorItem::createNormalLines() {
+    vtkPoints *points = poly_data_->GetPoints();
+    vtkCellArray *lines = poly_data_->GetLines();
+    lines->Reset();
 
-  CloudMesh::PointCloudConstPtr cloud = cloud_mesh_->getCloud();
-  if (cloud->empty())
+    CloudMesh::PointCloudConstPtr cloud = cloud_mesh_->getCloud();
+    if (cloud->empty())
+        return;
+
+    if (points->GetData() == NULL)
+        points->SetData(vtkSmartPointer<vtkFloatArray>::New());
+
+    vtkFloatArray *data = dynamic_cast<vtkFloatArray *>(points->GetData());
+    data->SetNumberOfComponents(3);
+
+    if (cloud->is_dense) {
+        vtkIdType nr_normals =
+            static_cast<vtkIdType>((cloud->points.size() - 1) / level_ + 1);
+        data->SetNumberOfValues(2 * 3 * nr_normals);
+        for (vtkIdType i = 0, j = 0; j < nr_normals;
+             j++, i = static_cast<vtkIdType>(j * level_)) {
+            const CloudMesh::PointT &p = cloud->points[i];
+            data->SetValue(2 * j * 3 + 0, p.x);
+            data->SetValue(2 * j * 3 + 1, p.y);
+            data->SetValue(2 * j * 3 + 2, p.z);
+            data->SetValue(2 * j * 3 + 3, float(p.x + p.normal_x * scale_));
+            data->SetValue(2 * j * 3 + 4, float(p.y + p.normal_y * scale_));
+            data->SetValue(2 * j * 3 + 5, float(p.z + p.normal_z * scale_));
+
+            lines->InsertNextCell(2);
+            lines->InsertCellPoint(2 * j);
+            lines->InsertCellPoint(2 * j + 1);
+        }
+    } else {
+        pcl::IndicesPtr indices(new std::vector<int>());
+        pcl::removeNaNFromPointCloud(*cloud, *indices);
+
+        vtkIdType nr_normals =
+            static_cast<vtkIdType>((indices->size() - 1) / level_ + 1);
+        data->SetNumberOfValues(2 * 3 * nr_normals);
+        for (vtkIdType i = 0, j = 0; j < nr_normals;
+             j++, i = static_cast<vtkIdType>(j * level_)) {
+            const CloudMesh::PointT &p = cloud->points[(*indices)[i]];
+            data->SetValue(2 * j * 3 + 0, p.x);
+            data->SetValue(2 * j * 3 + 1, p.y);
+            data->SetValue(2 * j * 3 + 2, p.z);
+            data->SetValue(2 * j * 3 + 3, float(p.x + p.normal_x * scale_));
+            data->SetValue(2 * j * 3 + 4, float(p.y + p.normal_y * scale_));
+            data->SetValue(2 * j * 3 + 5, float(p.z + p.normal_z * scale_));
+
+            lines->InsertNextCell(2);
+            lines->InsertCellPoint(2 * j);
+            lines->InsertCellPoint(2 * j + 1);
+        }
+    }
+
     return;
-
-  if (points->GetData() == NULL)
-    points->SetData(vtkSmartPointer<vtkFloatArray>::New ());
-
-  vtkFloatArray* data = dynamic_cast<vtkFloatArray*>(points->GetData());
-  data->SetNumberOfComponents (3);
-
-  if (cloud->is_dense)
-  {
-    vtkIdType nr_normals = static_cast<vtkIdType> ((cloud->points.size () - 1) / level_ + 1);
-    data->SetNumberOfValues(2*3*nr_normals);
-    for (vtkIdType i = 0, j = 0; j < nr_normals; j++, i = static_cast<vtkIdType> (j * level_))
-    {
-      const CloudMesh::PointT& p = cloud->points[i];
-      data->SetValue(2*j*3 + 0, p.x);
-      data->SetValue(2*j*3 + 1, p.y);
-      data->SetValue(2*j*3 + 2, p.z);
-      data->SetValue(2*j*3 + 3, float (p.x + p.normal_x*scale_));
-      data->SetValue(2*j*3 + 4, float (p.y + p.normal_y*scale_));
-      data->SetValue(2*j*3 + 5, float (p.z + p.normal_z*scale_));
-
-      lines->InsertNextCell(2);
-      lines->InsertCellPoint(2*j);
-      lines->InsertCellPoint(2*j + 1);
-    }
-  }
-  else
-  {
-    pcl::IndicesPtr indices(new std::vector<int>());
-    pcl::removeNaNFromPointCloud(*cloud, *indices);
-
-    vtkIdType nr_normals = static_cast<vtkIdType> ((indices->size () - 1) / level_ + 1);
-    data->SetNumberOfValues(2*3*nr_normals);
-    for (vtkIdType i = 0, j = 0; j < nr_normals; j++, i = static_cast<vtkIdType> (j * level_))
-    {
-      const CloudMesh::PointT& p= cloud->points[(*indices)[i]];
-      data->SetValue (2*j*3 + 0, p.x);
-      data->SetValue (2*j*3 + 1, p.y);
-      data->SetValue (2*j*3 + 2, p.z);
-      data->SetValue (2*j*3 + 3, float (p.x + p.normal_x*scale_));
-      data->SetValue (2*j*3 + 4, float (p.y + p.normal_y*scale_));
-      data->SetValue (2*j*3 + 5, float (p.z + p.normal_z*scale_));
-
-      lines->InsertNextCell(2);
-      lines->InsertCellPoint(2*j);
-      lines->InsertCellPoint(2*j + 1);
-    }
-  }
-
-  return;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::modeler::NormalsActorItem::initImpl()
-{
-  vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
-  points->SetDataTypeToFloat ();
-  vtkSmartPointer<vtkCellArray> lines = vtkSmartPointer<vtkCellArray>::New();
+void pcl::modeler::NormalsActorItem::initImpl() {
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
+    points->SetDataTypeToFloat();
+    vtkSmartPointer<vtkCellArray> lines = vtkSmartPointer<vtkCellArray>::New();
 
-  poly_data_->SetPoints(points);
-  poly_data_->SetLines(lines);
+    poly_data_->SetPoints(points);
+    poly_data_->SetLines(lines);
 
-  createNormalLines();
+    createNormalLines();
 
-  vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
-  mapper->SetInput(poly_data_);
+    vtkSmartPointer<vtkDataSetMapper> mapper =
+        vtkSmartPointer<vtkDataSetMapper>::New();
+    mapper->SetInput(poly_data_);
 
-  vtkSmartPointer<vtkDataArray> scalars;
-  cloud_mesh_->getColorScalarsFromField(scalars, color_scheme_);
-  poly_data_->GetPointData ()->SetScalars (scalars);
-  double minmax[2];
-  scalars->GetRange(minmax);
-  mapper->SetScalarRange(minmax);
+    vtkSmartPointer<vtkDataArray> scalars;
+    cloud_mesh_->getColorScalarsFromField(scalars, color_scheme_);
+    poly_data_->GetPointData()->SetScalars(scalars);
+    double minmax[2];
+    scalars->GetRange(minmax);
+    mapper->SetScalarRange(minmax);
 
-  mapper->SetColorModeToMapScalars();
-  mapper->SetScalarModeToUsePointData();
+    mapper->SetColorModeToMapScalars();
+    mapper->SetScalarModeToUsePointData();
 
-  vtkSmartPointer<vtkLODActor> actor = vtkSmartPointer<vtkLODActor>(dynamic_cast<vtkLODActor*>(actor_.GetPointer()));
-  actor->SetMapper(mapper);
+    vtkSmartPointer<vtkLODActor> actor = vtkSmartPointer<vtkLODActor>(
+        dynamic_cast<vtkLODActor *>(actor_.GetPointer()));
+    actor->SetMapper(mapper);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::modeler::NormalsActorItem::updateImpl()
-{
-  createNormalLines();
+void pcl::modeler::NormalsActorItem::updateImpl() {
+    createNormalLines();
 
-  vtkSmartPointer<vtkDataArray> scalars;
-  cloud_mesh_->getColorScalarsFromField(scalars, color_scheme_);
-  poly_data_->GetPointData ()->SetScalars (scalars);
-  double minmax[2];
-  scalars->GetRange(minmax);
-  actor_->GetMapper()->SetScalarRange(minmax);
+    vtkSmartPointer<vtkDataArray> scalars;
+    cloud_mesh_->getColorScalarsFromField(scalars, color_scheme_);
+    poly_data_->GetPointData()->SetScalars(scalars);
+    double minmax[2];
+    scalars->GetRange(minmax);
+    actor_->GetMapper()->SetScalarRange(minmax);
 
-  poly_data_->Update();
+    poly_data_->Update();
 
-  return;
+    return;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::modeler::NormalsActorItem::prepareContextMenu(QMenu* ) const
-{
-
-}
+void pcl::modeler::NormalsActorItem::prepareContextMenu(QMenu *) const {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::modeler::NormalsActorItem::prepareProperties(ParameterDialog* )
-{
-
-}
+void pcl::modeler::NormalsActorItem::prepareProperties(ParameterDialog *) {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::modeler::NormalsActorItem::setProperties()
-{
-
-}
+void pcl::modeler::NormalsActorItem::setProperties() {}

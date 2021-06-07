@@ -35,7 +35,6 @@
  *
  */
 
-
 #ifndef PCL_GPU_SURFACE_CONVEX_HULL_HPP_
 #define PCL_GPU_SURFACE_CONVEX_HULL_HPP_
 
@@ -43,36 +42,27 @@
 #include <pcl/point_types.h>
 #include <pcl/gpu/containers/device_array.h>
 
-namespace pcl
-{
-  namespace gpu
-  {
-	class PCL_EXPORTS PseudoConvexHull3D
-	{
-	public:
+namespace pcl {
+namespace gpu {
+class PCL_EXPORTS PseudoConvexHull3D {
+  public:
+    typedef pcl::PointXYZ PointType;
+    typedef pcl::gpu::DeviceArray<PointType> Cloud;
 
-	  typedef pcl::PointXYZ PointType;
-	  typedef pcl::gpu::DeviceArray<PointType> Cloud;
+    PseudoConvexHull3D(size_t buffer_size);
+    ~PseudoConvexHull3D();
 
+    void reconstruct(const Cloud &points, Cloud &output);
 
-	  PseudoConvexHull3D(size_t buffer_size);
-      ~PseudoConvexHull3D();
-	
-	  void
-      reconstruct (const Cloud &points, Cloud &output);
+    void reduce(const Cloud &points, Cloud &output);
 
-      void
-      reduce(const Cloud &points, Cloud &output);
+  private:
+    struct Impl;
+    boost::shared_ptr<Impl> impl_;
 
-	private:
-
-      struct Impl;
-      boost::shared_ptr<Impl> impl_;
-
-      void
-      reconstruct (const Cloud &points, DeviceArray2D<int>& vertexes);
-	};
-  }
-}
+    void reconstruct(const Cloud &points, DeviceArray2D<int> &vertexes);
+};
+} // namespace gpu
+} // namespace pcl
 
 #endif /* PCL_GPU_SURFACE_CONVEX_HULL_HPP_*/

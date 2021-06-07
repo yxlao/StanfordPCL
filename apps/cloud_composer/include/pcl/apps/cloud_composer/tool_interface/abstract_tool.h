@@ -43,147 +43,122 @@
 #include <pcl/apps/cloud_composer/items/cloud_item.h>
 #include <pcl/apps/cloud_composer/properties_model.h>
 
-namespace pcl
-{
-  namespace cloud_composer
-  {
+namespace pcl {
+namespace cloud_composer {
 
+class AbstractTool : public QObject {
+    Q_OBJECT
+  public:
+    AbstractTool(PropertiesModel *parameter_model, QObject *parent);
 
-    class AbstractTool : public QObject
-    {
-      Q_OBJECT
-      public:
+    virtual ~AbstractTool() { qDebug() << "Tool Destructed"; }
 
-        AbstractTool (PropertiesModel* parameter_model, QObject* parent);
+    /**  \brief Function called which does work in plugin
+     *  \param data input_data from the model - const for good reason
+     *  Returned list will become the output, replacing input_data in the model
+     * - you must deep copy the input_data, since undo works by switching back
+     * and forth
+     */
+    virtual QList<CloudComposerItem *>
+    performAction(QList<const CloudComposerItem *> input_data,
+                  PointTypeFlags::PointType type = PointTypeFlags::NONE) = 0;
 
-        virtual ~AbstractTool () { qDebug() << "Tool Destructed"; }
+    virtual CloudCommand *
+    createCommand(QList<const CloudComposerItem *> input_data) = 0;
 
-        /**  \brief Function called which does work in plugin
-         *  \param data input_data from the model - const for good reason
-         *  Returned list will become the output, replacing input_data in the model - you must deep copy
-         *  the input_data, since undo works by switching back and forth
-         */
-        virtual QList <CloudComposerItem*>
-        performAction (QList <const CloudComposerItem*> input_data, PointTypeFlags::PointType type = PointTypeFlags::NONE) = 0;
+    QString getActionText() const { return action_text_; }
 
-        virtual CloudCommand*
-        createCommand (QList <const CloudComposerItem*> input_data) = 0;
+    void setActionText(const QString text) { action_text_ = text; }
 
-        QString
-        getActionText () const {return action_text_;}
+    virtual QString getToolName() const = 0;
 
-        void
-        setActionText (const QString text) { action_text_ = text; }
+  protected:
+    PropertiesModel *parameter_model_;
 
-        virtual QString
-        getToolName () const = 0;
+  private:
+    QString action_text_;
+};
 
-      protected:
+class ModifyItemTool : public AbstractTool {
+    Q_OBJECT
+  public:
+    ModifyItemTool(PropertiesModel *parameter_model, QObject *parent)
+        : AbstractTool(parameter_model, parent) {}
 
-        PropertiesModel* parameter_model_;
+    virtual ~ModifyItemTool() {}
 
-      private:
-        QString action_text_;
+    virtual QList<CloudComposerItem *>
+    performAction(QList<const CloudComposerItem *> input_data,
+                  PointTypeFlags::PointType type = PointTypeFlags::NONE) = 0;
 
-    };
+    inline virtual CloudCommand *
+    createCommand(QList<const CloudComposerItem *> input_data) {
+        return new ModifyItemCommand(input_data);
+    }
 
-    class ModifyItemTool : public AbstractTool
-    {
-      Q_OBJECT
-      public:
-        ModifyItemTool (PropertiesModel* parameter_model, QObject* parent)
-                      : AbstractTool (parameter_model, parent)
-                      {}
+    inline virtual QString getToolName() const { return "ModifyItemTool"; }
+};
 
-        virtual ~ModifyItemTool () { }
+class NewItemTool : public AbstractTool {
+    Q_OBJECT
+  public:
+    NewItemTool(PropertiesModel *parameter_model, QObject *parent)
+        : AbstractTool(parameter_model, parent) {}
 
-        virtual QList <CloudComposerItem*>
-        performAction (QList <const CloudComposerItem*> input_data, PointTypeFlags::PointType type = PointTypeFlags::NONE) = 0;
+    virtual ~NewItemTool() {}
 
-        inline virtual CloudCommand*
-        createCommand (QList <const CloudComposerItem*> input_data)
-        {
-          return new ModifyItemCommand (input_data);
-        }
+    virtual QList<CloudComposerItem *>
+    performAction(QList<const CloudComposerItem *> input_data,
+                  PointTypeFlags::PointType type = PointTypeFlags::NONE) = 0;
 
-        inline virtual QString
-        getToolName () const { return "ModifyItemTool";}
+    inline virtual CloudCommand *
+    createCommand(QList<const CloudComposerItem *> input_data) {
+        return new NewItemCloudCommand(input_data);
+    }
 
-    };
+    inline virtual QString getToolName() const { return "NewItemTool"; }
+};
 
-    class NewItemTool : public AbstractTool
-    {
-      Q_OBJECT
-      public:
-        NewItemTool (PropertiesModel* parameter_model, QObject* parent)
-                      : AbstractTool (parameter_model, parent)
-                      {}
+class SplitItemTool : public AbstractTool {
+    Q_OBJECT
+  public:
+    SplitItemTool(PropertiesModel *parameter_model, QObject *parent)
+        : AbstractTool(parameter_model, parent) {}
 
-        virtual ~NewItemTool () { }
+    virtual ~SplitItemTool() {}
 
-        virtual QList <CloudComposerItem*>
-        performAction (QList <const CloudComposerItem*> input_data, PointTypeFlags::PointType type = PointTypeFlags::NONE) = 0;
+    virtual QList<CloudComposerItem *>
+    performAction(QList<const CloudComposerItem *> input_data,
+                  PointTypeFlags::PointType type = PointTypeFlags::NONE) = 0;
 
-        inline virtual CloudCommand*
-        createCommand (QList <const CloudComposerItem*> input_data)
-        {
-          return new NewItemCloudCommand (input_data);
-        }
+    inline virtual CloudCommand *
+    createCommand(QList<const CloudComposerItem *> input_data) {
+        return new SplitCloudCommand(input_data);
+    }
 
-        inline virtual QString
-        getToolName () const { return "NewItemTool";}
+    inline virtual QString getToolName() const { return "SplitItemTool"; }
+};
 
-    };
+class MergeCloudTool : public AbstractTool {
+    Q_OBJECT
+  public:
+    MergeCloudTool(PropertiesModel *parameter_model, QObject *parent)
+        : AbstractTool(parameter_model, parent) {}
 
-    class SplitItemTool : public AbstractTool
-    {
-      Q_OBJECT
-      public:
-        SplitItemTool (PropertiesModel* parameter_model, QObject* parent)
-                      : AbstractTool (parameter_model, parent)
-                      {}
+    virtual ~MergeCloudTool() {}
 
-        virtual ~SplitItemTool () { }
+    virtual QList<CloudComposerItem *>
+    performAction(QList<const CloudComposerItem *> input_data,
+                  PointTypeFlags::PointType type = PointTypeFlags::NONE) = 0;
 
-        virtual QList <CloudComposerItem*>
-        performAction (QList <const CloudComposerItem*> input_data, PointTypeFlags::PointType type = PointTypeFlags::NONE) = 0;
+    inline virtual CloudCommand *
+    createCommand(QList<const CloudComposerItem *> input_data) {
+        return new MergeCloudCommand(input_data);
+    }
 
-        inline virtual CloudCommand*
-        createCommand (QList <const CloudComposerItem*> input_data)
-        {
-          return new SplitCloudCommand (input_data);
-        }
+    inline virtual QString getToolName() const { return "MergeCloudTool"; }
+};
+} // namespace cloud_composer
+} // namespace pcl
 
-        inline virtual QString
-        getToolName () const { return "SplitItemTool";}
-
-    };
-
-    class MergeCloudTool : public AbstractTool
-    {
-      Q_OBJECT
-      public:
-        MergeCloudTool (PropertiesModel* parameter_model, QObject* parent)
-                      : AbstractTool (parameter_model, parent)
-                      {}
-
-        virtual ~MergeCloudTool () { }
-
-        virtual QList <CloudComposerItem*>
-        performAction (QList <const CloudComposerItem*> input_data, PointTypeFlags::PointType type = PointTypeFlags::NONE) = 0;
-
-        inline virtual CloudCommand*
-        createCommand (QList <const CloudComposerItem*> input_data)
-        {
-          return new MergeCloudCommand (input_data);
-        }
-
-        inline virtual QString
-        getToolName () const { return "MergeCloudTool";}
-
-    };
-  }
-}
-
-
-#endif //ABSTRACT_TOOL_H_
+#endif // ABSTRACT_TOOL_H_

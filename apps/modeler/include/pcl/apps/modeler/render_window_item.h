@@ -1,4 +1,4 @@
- /*
+/*
  * Software License Agreement (BSD License)
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
@@ -41,58 +41,42 @@
 #include <pcl/apps/modeler/abstract_item.h>
 #include <pcl/apps/modeler/cloud_mesh.h>
 
+namespace pcl {
+namespace modeler {
+class RenderWindow;
+class CloudMeshItem;
+class ColorParameter;
+class BoolParameter;
 
-namespace pcl
-{
-  namespace modeler
-  {
-    class RenderWindow;
-    class CloudMeshItem;
-    class ColorParameter;
-    class BoolParameter;
+class RenderWindowItem : public QTreeWidgetItem, public AbstractItem {
+  public:
+    RenderWindowItem(QTreeWidget *parent);
+    ~RenderWindowItem();
 
-    class RenderWindowItem : public QTreeWidgetItem, public AbstractItem
-    {
-      public:
-        RenderWindowItem(QTreeWidget * parent);
-        ~RenderWindowItem();
+    inline RenderWindow *getRenderWindow() { return render_window_; }
+    inline const RenderWindow *getRenderWindow() const {
+        return render_window_;
+    }
 
-        inline RenderWindow*
-        getRenderWindow()
-        {
-          return render_window_;
-        }
-        inline const RenderWindow*
-        getRenderWindow() const
-        {
-          return render_window_;
-        }
+    bool openPointCloud(const QString &filename);
 
-        bool
-        openPointCloud(const QString& filename);
+    CloudMeshItem *addPointCloud(CloudMesh::PointCloudPtr cloud);
 
-        CloudMeshItem*
-        addPointCloud(CloudMesh::PointCloudPtr cloud);
+    virtual std::string getItemName() const { return "Render Window Item"; }
 
-        virtual std::string
-        getItemName() const {return "Render Window Item";}
+  protected:
+    virtual void prepareContextMenu(QMenu *menu) const;
 
-      protected:
-        virtual void
-        prepareContextMenu(QMenu* menu) const;
+    virtual void prepareProperties(ParameterDialog *parameter_dialog);
 
-        virtual void
-        prepareProperties(ParameterDialog* parameter_dialog);
+    virtual void setProperties();
 
-        virtual void
-        setProperties();
-
-      private:
-        RenderWindow*     render_window_;
-        ColorParameter*   background_color_;
-        BoolParameter*    show_axes_;
-    };
-  }
-}
+  private:
+    RenderWindow *render_window_;
+    ColorParameter *background_color_;
+    BoolParameter *show_axes_;
+};
+} // namespace modeler
+} // namespace pcl
 
 #endif // PCL_MODELER_RENDER_WINDOW_ITEM_H_

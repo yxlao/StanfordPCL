@@ -40,40 +40,31 @@
 #ifndef PCL_CRF_NORMAL_SEGMENTATION_H_
 #define PCL_CRF_NORMAL_SEGMENTATION_H_
 
-namespace pcl
-{
-  /** \brief
-    *
-    */
-  template <typename PointT>
-  class PCL_EXPORTS CrfNormalSegmentation
-  {
-    public:
+namespace pcl {
+/** \brief
+ *
+ */
+template <typename PointT> class PCL_EXPORTS CrfNormalSegmentation {
+  public:
+    /** \brief Constructor that sets default values for member variables. */
+    CrfNormalSegmentation();
 
-      /** \brief Constructor that sets default values for member variables. */
-      CrfNormalSegmentation ();
+    /** \brief Destructor that frees memory. */
+    ~CrfNormalSegmentation();
 
-      /** \brief Destructor that frees memory. */
-      ~CrfNormalSegmentation ();
+    /** \brief This method sets the input cloud.
+     * \param[in] input_cloud input point cloud
+     */
+    void setCloud(typename pcl::PointCloud<PointT>::Ptr input_cloud);
 
-      /** \brief This method sets the input cloud.
-        * \param[in] input_cloud input point cloud
-        */
-      void
-      setCloud (typename pcl::PointCloud<PointT>::Ptr input_cloud);
+    /** \brief This method simply launches the segmentation algorithm */
+    void segmentPoints();
 
-      /** \brief This method simply launches the segmentation algorithm */
-      void
-      segmentPoints ();
-
-    protected:
-
-    protected:
-
-
-    public:
-      EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-  };
-}
+  protected:
+  protected:
+  public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+};
+} // namespace pcl
 
 #endif

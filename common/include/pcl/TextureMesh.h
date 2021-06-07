@@ -47,19 +47,18 @@
 #include <sensor_msgs/PointCloud2.h>
 #include <pcl/Vertices.h>
 
-namespace pcl
-{
-  /** \author Khai Tran */
-  struct TexMaterial
-  {
-    TexMaterial () : tex_name (), tex_file (), tex_Ka (), tex_Kd (), tex_Ks (), tex_d (), tex_Ns (), tex_illum () {}
+namespace pcl {
+/** \author Khai Tran */
+struct TexMaterial {
+    TexMaterial()
+        : tex_name(), tex_file(), tex_Ka(), tex_Kd(), tex_Ks(), tex_d(),
+          tex_Ns(), tex_illum() {}
 
-    struct RGB
-    {
-      float r;
-      float g;
-      float b;
-    }; //RGB
+    struct RGB {
+        float r;
+        float g;
+        float b;
+    }; // RGB
 
     /** \brief Texture name. */
     std::string tex_name;
@@ -68,49 +67,52 @@ namespace pcl
     std::string tex_file;
 
     /** \brief Defines the ambient color of the material to be (r,g,b). */
-    RGB         tex_Ka;
+    RGB tex_Ka;
 
     /** \brief Defines the diffuse color of the material to be (r,g,b). */
-    RGB         tex_Kd;
+    RGB tex_Kd;
 
-    /** \brief Defines the specular color of the material to be (r,g,b). This color shows up in highlights. */
-    RGB         tex_Ks;
+    /** \brief Defines the specular color of the material to be (r,g,b). This
+     * color shows up in highlights. */
+    RGB tex_Ks;
 
     /** \brief Defines the transparency of the material to be alpha. */
-    float       tex_d;
+    float tex_d;
 
     /** \brief Defines the shininess of the material to be s. */
-    float       tex_Ns;
+    float tex_Ns;
 
     /** \brief Denotes the illumination model used by the material.
-      *
-      * illum = 1 indicates a flat material with no specular highlights, so the value of Ks is not used.
-      * illum = 2 denotes the presence of specular highlights, and so a specification for Ks is required.
-      */
-    int         tex_illum;
-  }; // TexMaterial
+     *
+     * illum = 1 indicates a flat material with no specular highlights, so the
+     * value of Ks is not used. illum = 2 denotes the presence of specular
+     * highlights, and so a specification for Ks is required.
+     */
+    int tex_illum;
+}; // TexMaterial
 
-  /** \author Khai Tran */
-  struct TextureMesh
-  {
-    TextureMesh () :
-      header (), cloud (), tex_polygons (), tex_coordinates (), tex_materials () {}
+/** \author Khai Tran */
+struct TextureMesh {
+    TextureMesh()
+        : header(), cloud(), tex_polygons(), tex_coordinates(),
+          tex_materials() {}
 
-    std_msgs::Header          header;
-    sensor_msgs::PointCloud2  cloud;
+    std_msgs::Header header;
+    sensor_msgs::PointCloud2 cloud;
 
-    std::vector<std::vector<pcl::Vertices> >    tex_polygons;     // polygon which is mapped with specific texture defined in TexMaterial
-    std::vector<std::vector<Eigen::Vector2f> >  tex_coordinates;  // UV coordinates
-    std::vector<pcl::TexMaterial>               tex_materials;    // define texture material
+    std::vector<std::vector<pcl::Vertices>>
+        tex_polygons; // polygon which is mapped with specific texture defined
+                      // in TexMaterial
+    std::vector<std::vector<Eigen::Vector2f>> tex_coordinates; // UV coordinates
+    std::vector<pcl::TexMaterial> tex_materials; // define texture material
 
-    public:
-      typedef boost::shared_ptr<pcl::TextureMesh> Ptr;
-      typedef boost::shared_ptr<pcl::TextureMesh const> ConstPtr;
-   }; // struct TextureMesh
+  public:
+    typedef boost::shared_ptr<pcl::TextureMesh> Ptr;
+    typedef boost::shared_ptr<pcl::TextureMesh const> ConstPtr;
+}; // struct TextureMesh
 
-   typedef boost::shared_ptr<pcl::TextureMesh> TextureMeshPtr;
-   typedef boost::shared_ptr<pcl::TextureMesh const> TextureMeshConstPtr;
+typedef boost::shared_ptr<pcl::TextureMesh> TextureMeshPtr;
+typedef boost::shared_ptr<pcl::TextureMesh const> TextureMeshConstPtr;
 } // namespace pcl
 
 #endif /* PCL_TEXTUREMESH_H_ */
-

@@ -41,70 +41,55 @@
 #include <pcl/apps/cloud_composer/tool_interface/abstract_tool.h>
 #include <pcl/apps/cloud_composer/tool_interface/tool_factory.h>
 
+namespace pcl {
+namespace cloud_composer {
+class EuclideanClusteringTool : public SplitItemTool {
+    Q_OBJECT
+  public:
+    EuclideanClusteringTool(PropertiesModel *parameter_model, QObject *parent);
+    virtual ~EuclideanClusteringTool();
 
-namespace pcl
-{
-  namespace cloud_composer
-  {
-    class EuclideanClusteringTool : public SplitItemTool
-    {
-      Q_OBJECT
-      public:
-        EuclideanClusteringTool (PropertiesModel* parameter_model, QObject* parent);
-        virtual ~EuclideanClusteringTool ();
+    virtual QList<CloudComposerItem *>
+    performAction(QList<const CloudComposerItem *> input_data,
+                  PointTypeFlags::PointType type = PointTypeFlags::NONE);
 
-        virtual QList <CloudComposerItem*>
-        performAction (QList <const CloudComposerItem*> input_data, PointTypeFlags::PointType type = PointTypeFlags::NONE);
+    inline virtual QString getToolName() const {
+        return "Euclidean Clustering Tool";
+    }
+};
 
-        inline virtual QString
-        getToolName () const { return "Euclidean Clustering Tool";}
-    };
+class EuclideanClusteringToolFactory : public QObject, public ToolFactory {
+    Q_OBJECT
+    Q_INTERFACES(pcl::cloud_composer::ToolFactory)
+  public:
+    SplitItemTool *createTool(PropertiesModel *parameter_model,
+                              QObject *parent = 0) {
+        return new EuclideanClusteringTool(parameter_model, parent);
+    }
 
+    PropertiesModel *createToolParameterModel(QObject *parent);
 
-    class EuclideanClusteringToolFactory : public QObject, public ToolFactory
-    {
-      Q_OBJECT
-      Q_INTERFACES (pcl::cloud_composer::ToolFactory)
-      public:
-        SplitItemTool*
-        createTool (PropertiesModel* parameter_model, QObject* parent = 0)
-        {
-            return new EuclideanClusteringTool(parameter_model, parent);
-        }
+    inline virtual QString getPluginName() const {
+        return "Euclidean Clustering";
+    }
 
-        PropertiesModel*
-        createToolParameterModel (QObject* parent);
+    inline virtual QString getToolGroupName() const { return "Segmentation"; }
 
-        inline virtual QString
-        getPluginName () const { return "Euclidean Clustering";}
+    inline virtual QString getIconName() const {
+        return ":/euclidean_clustering.png";
+    }
 
-        inline virtual QString
-        getToolGroupName () const { return "Segmentation";}
+    inline virtual CloudComposerItem::ItemType getInputItemType() const {
+        return CloudComposerItem::CLOUD_ITEM;
+    }
 
-        inline virtual QString
-        getIconName () const { return ":/euclidean_clustering.png"; }
+    inline virtual QList<CloudComposerItem::ItemType>
+    getRequiredInputChildrenTypes() const {
+        return QList<CloudComposerItem::ItemType>();
+    }
+};
 
-        inline virtual CloudComposerItem::ItemType
-        getInputItemType () const
-        {
-          return CloudComposerItem::CLOUD_ITEM;
-        }
+} // namespace cloud_composer
+} // namespace pcl
 
-        inline virtual QList <CloudComposerItem::ItemType>
-        getRequiredInputChildrenTypes () const
-        {
-          return QList <CloudComposerItem::ItemType> ();
-        }
-    };
-
-
-
-  }
-}
-
-
-
-
-
-
-#endif //EUCLIDEAN_CLUSTERING_H_
+#endif // EUCLIDEAN_CLUSTERING_H_

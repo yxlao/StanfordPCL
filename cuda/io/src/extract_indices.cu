@@ -43,190 +43,199 @@
 #include <pcl/cuda/thrust.h>
 using namespace boost;
 
-namespace pcl
-{
-namespace cuda
-{
+namespace pcl {
+namespace cuda {
 template <template <typename> class Storage, class T>
-void extractMask (const typename PointCloudAOS<Storage>::Ptr &input,
-                        T* mask,
-                        typename PointCloudAOS<Storage>::Ptr &output)
-{
-  if (!output)
-    output.reset (new PointCloudAOS<Storage>);
+void extractMask(const typename PointCloudAOS<Storage>::Ptr &input, T *mask,
+                 typename PointCloudAOS<Storage>::Ptr &output) {
+    if (!output)
+        output.reset(new PointCloudAOS<Storage>);
 
-  output->points.resize (input->points.size ());
+    output->points.resize(input->points.size());
 
-  typename Storage<T>::type mask_device (input->points.size());
-  thrust::copy (mask, (T*)(&mask[input->points.size()]), mask_device.begin ());
+    typename Storage<T>::type mask_device(input->points.size());
+    thrust::copy(mask, (T *)(&mask[input->points.size()]), mask_device.begin());
 
-  typename PointCloudAOS<Storage>::iterator it = thrust::copy_if (input->points.begin (), input->points.end (), mask_device.begin (), output->points.begin (), isNotZero<T> ());
-  output->points.resize (it - output->points.begin ());
+    typename PointCloudAOS<Storage>::iterator it = thrust::copy_if(
+        input->points.begin(), input->points.end(), mask_device.begin(),
+        output->points.begin(), isNotZero<T>());
+    output->points.resize(it - output->points.begin());
 
-  output->width = output->points.size();
-  output->height = 1;
-  output->is_dense = false;
+    output->width = output->points.size();
+    output->height = 1;
+    output->is_dense = false;
 }
 
 template <template <typename> class Storage, class DataT, class MaskT>
-void extractMask (const shared_ptr<typename Storage<DataT>::type> &input,
-                        MaskT* mask,
-                        shared_ptr<typename Storage<DataT>::type> &output)
-{
-  if (!output)
-    output.reset (new typename Storage<DataT>::type);
-  output->resize (input->size ());
+void extractMask(const shared_ptr<typename Storage<DataT>::type> &input,
+                 MaskT *mask,
+                 shared_ptr<typename Storage<DataT>::type> &output) {
+    if (!output)
+        output.reset(new typename Storage<DataT>::type);
+    output->resize(input->size());
 
-  typename Storage<MaskT>::type mask_device (input->size());
-  thrust::copy (mask, (MaskT*)(&mask[input->size()]), mask_device.begin ());
+    typename Storage<MaskT>::type mask_device(input->size());
+    thrust::copy(mask, (MaskT *)(&mask[input->size()]), mask_device.begin());
 
-  typename Storage<DataT>::type::iterator it =
-    thrust::copy_if (input->begin (), input->end (), mask_device.begin (), output->begin (), isNotZero<MaskT> ());
-  output->resize (it - output->begin ());
-}
-
-
-template <template <typename> class Storage>
-void extractIndices (const typename PointCloudAOS<Storage>::Ptr &input,
-                               typename Storage<int>::type& indices,
-                               typename PointCloudAOS<Storage>::Ptr &output)
-{
-  if (!output)
-    output.reset (new PointCloudAOS<Storage>);
-
-  output->points.resize (input->points.size ());
-
-  typename PointCloudAOS<Storage>::iterator it = thrust::copy_if (input->points.begin (), input->points.end (), indices.begin (), output->points.begin (), isInlier ());
-  output->points.resize (it - output->points.begin ());
-
-  output->width = output->points.size();
-  output->height = 1;
-  output->is_dense = false;
+    typename Storage<DataT>::type::iterator it =
+        thrust::copy_if(input->begin(), input->end(), mask_device.begin(),
+                        output->begin(), isNotZero<MaskT>());
+    output->resize(it - output->begin());
 }
 
 template <template <typename> class Storage>
-void removeIndices  (const typename PointCloudAOS<Storage>::Ptr &input,
-                               typename Storage<int>::type& indices,
-                               typename PointCloudAOS<Storage>::Ptr &output)
-{
-  if (!output)
-    output.reset (new PointCloudAOS<Storage>);
+void extractIndices(const typename PointCloudAOS<Storage>::Ptr &input,
+                    typename Storage<int>::type &indices,
+                    typename PointCloudAOS<Storage>::Ptr &output) {
+    if (!output)
+        output.reset(new PointCloudAOS<Storage>);
 
-  output->points.resize (input->points.size ());
+    output->points.resize(input->points.size());
 
-  typename PointCloudAOS<Storage>::iterator it = thrust::copy_if (input->points.begin (), input->points.end (), indices.begin (), output->points.begin (), isNotInlier ());
-  output->points.resize (it - output->points.begin ());
+    typename PointCloudAOS<Storage>::iterator it =
+        thrust::copy_if(input->points.begin(), input->points.end(),
+                        indices.begin(), output->points.begin(), isInlier());
+    output->points.resize(it - output->points.begin());
 
-  output->width = output->points.size();
-  output->height = 1;
-  output->is_dense = false;
+    output->width = output->points.size();
+    output->height = 1;
+    output->is_dense = false;
 }
 
 template <template <typename> class Storage>
-void extractIndices (const typename PointCloudAOS<Storage>::Ptr &input,
-               typename Storage<int>::type& indices,
-               typename PointCloudAOS<Storage>::Ptr &output, const OpenNIRGB& color)
-{
-  extractIndices<Storage> (input, indices, output);
-  thrust::for_each ( output->points.begin(), output->points.end(), SetColor (color) );
+void removeIndices(const typename PointCloudAOS<Storage>::Ptr &input,
+                   typename Storage<int>::type &indices,
+                   typename PointCloudAOS<Storage>::Ptr &output) {
+    if (!output)
+        output.reset(new PointCloudAOS<Storage>);
+
+    output->points.resize(input->points.size());
+
+    typename PointCloudAOS<Storage>::iterator it =
+        thrust::copy_if(input->points.begin(), input->points.end(),
+                        indices.begin(), output->points.begin(), isNotInlier());
+    output->points.resize(it - output->points.begin());
+
+    output->width = output->points.size();
+    output->height = 1;
+    output->is_dense = false;
 }
 
 template <template <typename> class Storage>
-void removeIndices  (const typename PointCloudAOS<Storage>::Ptr &input,
-               typename Storage<int>::type& indices,
-               typename PointCloudAOS<Storage>::Ptr &output, const OpenNIRGB& color)
-{
-  removeIndices<Storage> (input, indices, output);
-  thrust::for_each ( output->points.begin(), output->points.end(), SetColor (color) );
+void extractIndices(const typename PointCloudAOS<Storage>::Ptr &input,
+                    typename Storage<int>::type &indices,
+                    typename PointCloudAOS<Storage>::Ptr &output,
+                    const OpenNIRGB &color) {
+    extractIndices<Storage>(input, indices, output);
+    thrust::for_each(output->points.begin(), output->points.end(),
+                     SetColor(color));
 }
 
 template <template <typename> class Storage>
-void colorIndices  (typename PointCloudAOS<Storage>::Ptr &input,
-               shared_ptr<typename Storage<int>::type> indices,
-               const OpenNIRGB& color)
-{
-  thrust::transform_if (input->points.begin (), input->points.end (), indices->begin (), input->points.begin (), ChangeColor (color), isInlier());
+void removeIndices(const typename PointCloudAOS<Storage>::Ptr &input,
+                   typename Storage<int>::type &indices,
+                   typename PointCloudAOS<Storage>::Ptr &output,
+                   const OpenNIRGB &color) {
+    removeIndices<Storage>(input, indices, output);
+    thrust::for_each(output->points.begin(), output->points.end(),
+                     SetColor(color));
 }
 
-struct ColorCloudFromImage
-{
-  ColorCloudFromImage (char4* colors) : colors_(colors)
-  {}
-  char4 * colors_;
+template <template <typename> class Storage>
+void colorIndices(typename PointCloudAOS<Storage>::Ptr &input,
+                  shared_ptr<typename Storage<int>::type> indices,
+                  const OpenNIRGB &color) {
+    thrust::transform_if(input->points.begin(), input->points.end(),
+                         indices->begin(), input->points.begin(),
+                         ChangeColor(color), isInlier());
+}
 
-  template <typename Tuple>
-  inline __host__ __device__
-  PointXYZRGB operator () (const Tuple &t)
-  {
-    PointXYZRGB &pt = thrust::get<0>(t);
-    char4 rgb = colors_[thrust::get<1>(t)];
-    pt.rgb = ((unsigned char)rgb.x << 16) + ((unsigned char)rgb.y << 8) + (unsigned char)rgb.z;
-    return pt;
-  }
+struct ColorCloudFromImage {
+    ColorCloudFromImage(char4 *colors) : colors_(colors) {}
+    char4 *colors_;
+
+    template <typename Tuple>
+    inline __host__ __device__ PointXYZRGB operator()(const Tuple &t) {
+        PointXYZRGB &pt = thrust::get<0>(t);
+        char4 rgb = colors_[thrust::get<1>(t)];
+        pt.rgb = ((unsigned char)rgb.x << 16) + ((unsigned char)rgb.y << 8) +
+                 (unsigned char)rgb.z;
+        return pt;
+    }
 };
 
-
 template <template <typename> class Storage>
-void colorCloud  (typename PointCloudAOS<Storage>::Ptr &input,
-                  typename Storage<char4>::type &colors)
-{
-  thrust::transform (thrust::make_zip_iterator(thrust::make_tuple (input->points.begin(), thrust::counting_iterator<int>(0))),
-                     thrust::make_zip_iterator(thrust::make_tuple (input->points.begin(), thrust::counting_iterator<int>(0))) + input->width * input->height,
-                     input->points.begin (), ColorCloudFromImage (thrust::raw_pointer_cast(&colors[0])));
+void colorCloud(typename PointCloudAOS<Storage>::Ptr &input,
+                typename Storage<char4>::type &colors) {
+    thrust::transform(
+        thrust::make_zip_iterator(thrust::make_tuple(
+            input->points.begin(), thrust::counting_iterator<int>(0))),
+        thrust::make_zip_iterator(thrust::make_tuple(
+            input->points.begin(), thrust::counting_iterator<int>(0))) +
+            input->width * input->height,
+        input->points.begin(),
+        ColorCloudFromImage(thrust::raw_pointer_cast(&colors[0])));
 }
 
+template PCL_EXPORTS void
+extractIndices<Host>(const PointCloudAOS<Host>::Ptr &input,
+                     Host<int>::type &indices,
+                     PointCloudAOS<Host>::Ptr &output);
+template PCL_EXPORTS void
+extractIndices<Device>(const PointCloudAOS<Device>::Ptr &input,
+                       Device<int>::type &indices,
+                       PointCloudAOS<Device>::Ptr &output);
 
+template PCL_EXPORTS void
+removeIndices<Host>(const PointCloudAOS<Host>::Ptr &input,
+                    Host<int>::type &indices, PointCloudAOS<Host>::Ptr &output);
+template PCL_EXPORTS void
+removeIndices<Device>(const PointCloudAOS<Device>::Ptr &input,
+                      Device<int>::type &indices,
+                      PointCloudAOS<Device>::Ptr &output);
 
-template PCL_EXPORTS void extractIndices<Host>(const PointCloudAOS<Host>::Ptr &input,
-                                                       Host<int>::type& indices,
-                                                       PointCloudAOS<Host>::Ptr &output);
-template PCL_EXPORTS void extractIndices<Device> (const PointCloudAOS<Device>::Ptr &input,
-                                                          Device<int>::type& indices,
-                                                          PointCloudAOS<Device>::Ptr &output);
+template PCL_EXPORTS void
+extractIndices<Host>(const PointCloudAOS<Host>::Ptr &input,
+                     Host<int>::type &indices, PointCloudAOS<Host>::Ptr &output,
+                     const OpenNIRGB &color);
+template PCL_EXPORTS void extractIndices<Device>(
+    const PointCloudAOS<Device>::Ptr &input, Device<int>::type &indices,
+    PointCloudAOS<Device>::Ptr &output, const OpenNIRGB &color);
 
-template PCL_EXPORTS void removeIndices<Host>(const PointCloudAOS<Host>::Ptr &input,
-                                                       Host<int>::type& indices,
-                                                       PointCloudAOS<Host>::Ptr &output);
-template PCL_EXPORTS void removeIndices<Device> (const PointCloudAOS<Device>::Ptr &input,
-                                                          Device<int>::type& indices,
-                                                          PointCloudAOS<Device>::Ptr &output);
+template PCL_EXPORTS void
+removeIndices<Host>(const PointCloudAOS<Host>::Ptr &input,
+                    Host<int>::type &indices, PointCloudAOS<Host>::Ptr &output,
+                    const OpenNIRGB &color);
+template PCL_EXPORTS void removeIndices<Device>(
+    const PointCloudAOS<Device>::Ptr &input, Device<int>::type &indices,
+    PointCloudAOS<Device>::Ptr &output, const OpenNIRGB &color);
 
-template PCL_EXPORTS void extractIndices<Host>(const PointCloudAOS<Host>::Ptr &input,
-                                                       Host<int>::type& indices,
-                                                       PointCloudAOS<Host>::Ptr &output, const OpenNIRGB& color);
-template PCL_EXPORTS void extractIndices<Device> (const PointCloudAOS<Device>::Ptr &input,
-                                                          Device<int>::type& indices,
-                                                          PointCloudAOS<Device>::Ptr &output, const OpenNIRGB& color);
+template PCL_EXPORTS void
+colorIndices<Host>(PointCloudAOS<Host>::Ptr &input,
+                   shared_ptr<Host<int>::type> indices, const OpenNIRGB &color);
+template PCL_EXPORTS void
+colorIndices<Device>(PointCloudAOS<Device>::Ptr &input,
+                     shared_ptr<Device<int>::type> indices,
+                     const OpenNIRGB &color);
+template PCL_EXPORTS void colorCloud<Host>(PointCloudAOS<Host>::Ptr &input,
+                                           Host<char4>::type &colors);
+template PCL_EXPORTS void colorCloud<Device>(PointCloudAOS<Device>::Ptr &input,
+                                             Device<char4>::type &colors);
 
-template PCL_EXPORTS void removeIndices<Host>(const PointCloudAOS<Host>::Ptr &input,
-                                                       Host<int>::type& indices,
-                                                       PointCloudAOS<Host>::Ptr &output, const OpenNIRGB& color);
-template PCL_EXPORTS void removeIndices<Device> (const PointCloudAOS<Device>::Ptr &input,
-                                                          Device<int>::type& indices,
-                                                          PointCloudAOS<Device>::Ptr &output, const OpenNIRGB& color);
+template PCL_EXPORTS void
+extractMask<Device, unsigned char>(const PointCloudAOS<Device>::Ptr &input,
+                                   unsigned char *mask,
+                                   PointCloudAOS<Device>::Ptr &output);
+template PCL_EXPORTS void
+extractMask<Host, unsigned char>(const PointCloudAOS<Host>::Ptr &input,
+                                 unsigned char *mask,
+                                 PointCloudAOS<Host>::Ptr &output);
+template PCL_EXPORTS void extractMask<Device, float4, unsigned char>(
+    const shared_ptr<Device<float4>::type> &input, unsigned char *mask,
+    shared_ptr<Device<float4>::type> &output);
+template PCL_EXPORTS void extractMask<Host, float4, unsigned char>(
+    const shared_ptr<Host<float4>::type> &input, unsigned char *mask,
+    shared_ptr<Host<float4>::type> &output);
 
-template PCL_EXPORTS void colorIndices<Host> (PointCloudAOS<Host>::Ptr &input,
-                                                       shared_ptr<Host<int>::type> indices,
-                                                       const OpenNIRGB& color);
-template PCL_EXPORTS void colorIndices<Device> (PointCloudAOS<Device>::Ptr &input,
-                                                          shared_ptr<Device<int>::type> indices,
-                                                          const OpenNIRGB& color);
-template PCL_EXPORTS void colorCloud<Host>  (PointCloudAOS<Host>::Ptr &input, Host<char4>::type &colors);
-template PCL_EXPORTS void colorCloud<Device>(PointCloudAOS<Device>::Ptr &input, Device<char4>::type &colors);
-
-template PCL_EXPORTS
-void extractMask<Device,unsigned char> (const PointCloudAOS<Device>::Ptr &input, unsigned char* mask, PointCloudAOS<Device>::Ptr &output);
-template PCL_EXPORTS
-void extractMask<Host,unsigned char> (const PointCloudAOS<Host>::Ptr &input, unsigned char* mask, PointCloudAOS<Host>::Ptr &output);
-template PCL_EXPORTS
-void extractMask<Device,float4,unsigned char> (const shared_ptr<Device<float4>::type> &input,
-                        unsigned char* mask,
-                        shared_ptr<Device<float4>::type> &output);
-template PCL_EXPORTS
-void extractMask<Host,float4,unsigned char> (const shared_ptr<Host<float4>::type> &input,
-                        unsigned char* mask,
-                        shared_ptr<Host<float4>::type> &output);
-
-} // namespace
-} // namespace
-
+} // namespace cuda
+} // namespace pcl

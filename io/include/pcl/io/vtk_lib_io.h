@@ -71,164 +71,152 @@
 #include <vtkPNGReader.h>
 #include <vtkImageData.h>
 
-namespace pcl
-{
-  namespace io
-  {
-    /** \brief Convert vtkPolyData object to a PCL PolygonMesh
-      * \param[in] poly_data Pointer (vtkSmartPointer) to a vtkPolyData object
-      * \param[out] mesh PCL Polygon Mesh to fill
-      * \return Number of points in the point cloud of mesh.
-      */
-    PCL_EXPORTS int
-    vtk2mesh (const vtkSmartPointer<vtkPolyData>& poly_data,
-              pcl::PolygonMesh& mesh);
+namespace pcl {
+namespace io {
+/** \brief Convert vtkPolyData object to a PCL PolygonMesh
+ * \param[in] poly_data Pointer (vtkSmartPointer) to a vtkPolyData object
+ * \param[out] mesh PCL Polygon Mesh to fill
+ * \return Number of points in the point cloud of mesh.
+ */
+PCL_EXPORTS int vtk2mesh(const vtkSmartPointer<vtkPolyData> &poly_data,
+                         pcl::PolygonMesh &mesh);
 
-    /** \brief Convert a PCL PolygonMesh to a vtkPolyData object
-      * \param[in] mesh Reference to PCL Polygon Mesh
-      * \param[out] poly_data Pointer (vtkSmartPointer) to a vtkPolyData object
-      * \return Number of points in the point cloud of mesh.
-      */
-    PCL_EXPORTS int
-    mesh2vtk (const pcl::PolygonMesh& mesh,
-              vtkSmartPointer<vtkPolyData>& poly_data);
+/** \brief Convert a PCL PolygonMesh to a vtkPolyData object
+ * \param[in] mesh Reference to PCL Polygon Mesh
+ * \param[out] poly_data Pointer (vtkSmartPointer) to a vtkPolyData object
+ * \return Number of points in the point cloud of mesh.
+ */
+PCL_EXPORTS int mesh2vtk(const pcl::PolygonMesh &mesh,
+                         vtkSmartPointer<vtkPolyData> &poly_data);
 
-    /** \brief Load a \ref PolygonMesh object given an input file name, based on the file extension
-      * \param[in] file_name the name of the file containing the polygon data
-      * \param[out] mesh the object that we want to load the data in
-      * \ingroup io
-      */
-    PCL_EXPORTS int
-    loadPolygonFile (const std::string &file_name,
-                     pcl::PolygonMesh& mesh);
+/** \brief Load a \ref PolygonMesh object given an input file name, based on the
+ * file extension \param[in] file_name the name of the file containing the
+ * polygon data \param[out] mesh the object that we want to load the data in
+ * \ingroup io
+ */
+PCL_EXPORTS int loadPolygonFile(const std::string &file_name,
+                                pcl::PolygonMesh &mesh);
 
-    /** \brief Save a \ref PolygonMesh object given an input file name, based on the file extension
-      * \param[in] file_name the name of the file to save the data to
-      * \param[in] mesh the object that contains the data
-      * \ingroup io
-      */
-    PCL_EXPORTS int
-    savePolygonFile (const std::string &file_name,
-                     const pcl::PolygonMesh& mesh);
+/** \brief Save a \ref PolygonMesh object given an input file name, based on the
+ * file extension \param[in] file_name the name of the file to save the data to
+ * \param[in] mesh the object that contains the data
+ * \ingroup io
+ */
+PCL_EXPORTS int savePolygonFile(const std::string &file_name,
+                                const pcl::PolygonMesh &mesh);
 
-    /** \brief Load a VTK file into a \ref PolygonMesh object
-      * \param[in] file_name the name of the file that contains the data
-      * \param[out] mesh the object that we want to load the data in
-      * \ingroup io
-      */
-    PCL_EXPORTS int
-    loadPolygonFileVTK (const std::string &file_name,
-                        pcl::PolygonMesh& mesh);
+/** \brief Load a VTK file into a \ref PolygonMesh object
+ * \param[in] file_name the name of the file that contains the data
+ * \param[out] mesh the object that we want to load the data in
+ * \ingroup io
+ */
+PCL_EXPORTS int loadPolygonFileVTK(const std::string &file_name,
+                                   pcl::PolygonMesh &mesh);
 
-    /** \brief Load a PLY file into a \ref PolygonMesh object
-      * \param[in] file_name the name of the file that contains the data
-      * \param[out] mesh the object that we want to load the data in
-      * \ingroup io
-      */
-    PCL_EXPORTS int
-    loadPolygonFilePLY (const std::string &file_name,
-                        pcl::PolygonMesh& mesh);
+/** \brief Load a PLY file into a \ref PolygonMesh object
+ * \param[in] file_name the name of the file that contains the data
+ * \param[out] mesh the object that we want to load the data in
+ * \ingroup io
+ */
+PCL_EXPORTS int loadPolygonFilePLY(const std::string &file_name,
+                                   pcl::PolygonMesh &mesh);
 
-    /** \brief Load an OBJ file into a \ref PolygonMesh object
-      * \param[in] file_name the name of the file that contains the data
-      * \param[out] mesh the object that we want to load the data in
-      * \ingroup io
-      */
-    PCL_EXPORTS int
-    loadPolygonFileOBJ (const std::string &file_name,
-                        pcl::PolygonMesh& mesh);
+/** \brief Load an OBJ file into a \ref PolygonMesh object
+ * \param[in] file_name the name of the file that contains the data
+ * \param[out] mesh the object that we want to load the data in
+ * \ingroup io
+ */
+PCL_EXPORTS int loadPolygonFileOBJ(const std::string &file_name,
+                                   pcl::PolygonMesh &mesh);
 
-    /** \brief Load an STL file into a \ref PolygonMesh object
-      * \param[in] file_name the name of the file that contains the data
-      * \param[out] mesh the object that we want to load the data in
-      * \ingroup io
-      */
-    PCL_EXPORTS int
-    loadPolygonFileSTL (const std::string &file_name,
-                        pcl::PolygonMesh& mesh);
+/** \brief Load an STL file into a \ref PolygonMesh object
+ * \param[in] file_name the name of the file that contains the data
+ * \param[out] mesh the object that we want to load the data in
+ * \ingroup io
+ */
+PCL_EXPORTS int loadPolygonFileSTL(const std::string &file_name,
+                                   pcl::PolygonMesh &mesh);
 
-    /** \brief Save a \ref PolygonMesh object into a VTK file
-      * \param[in] file_name the name of the file to save the data to
-      * \param[in] mesh the object that contains the data
-      * \ingroup io
-      */
-    PCL_EXPORTS int
-    savePolygonFileVTK (const std::string &file_name,
-                        const pcl::PolygonMesh& mesh);
+/** \brief Save a \ref PolygonMesh object into a VTK file
+ * \param[in] file_name the name of the file to save the data to
+ * \param[in] mesh the object that contains the data
+ * \ingroup io
+ */
+PCL_EXPORTS int savePolygonFileVTK(const std::string &file_name,
+                                   const pcl::PolygonMesh &mesh);
 
-    /** \brief Save a \ref PolygonMesh object into a PLY file
-      * \param[in] file_name the name of the file to save the data to
-      * \param[in] mesh the object that contains the data
-      * \ingroup io
-      */
-    PCL_EXPORTS int
-    savePolygonFilePLY (const std::string &file_name,
-                        const pcl::PolygonMesh& mesh);
+/** \brief Save a \ref PolygonMesh object into a PLY file
+ * \param[in] file_name the name of the file to save the data to
+ * \param[in] mesh the object that contains the data
+ * \ingroup io
+ */
+PCL_EXPORTS int savePolygonFilePLY(const std::string &file_name,
+                                   const pcl::PolygonMesh &mesh);
 
-    /** \brief Save a \ref PolygonMesh object into an STL file
-      * \param[in] file_name the name of the file to save the data to
-      * \param[in] mesh the object that contains the data
-      * \ingroup io
-      */
-    PCL_EXPORTS int
-    savePolygonFileSTL (const std::string &file_name,
-                        const pcl::PolygonMesh& mesh);
+/** \brief Save a \ref PolygonMesh object into an STL file
+ * \param[in] file_name the name of the file to save the data to
+ * \param[in] mesh the object that contains the data
+ * \ingroup io
+ */
+PCL_EXPORTS int savePolygonFileSTL(const std::string &file_name,
+                                   const pcl::PolygonMesh &mesh);
 
-    /** \brief Write a \ref RangeImagePlanar object to a PNG file
-      * \param[in] file_name the name of the file to save the data to
-      * \param[in] range_image the object that contains the data
-      * \ingroup io
-      */
-    PCL_EXPORTS void
-    saveRangeImagePlanarFilePNG (const std::string &file_name,
-                                 const pcl::RangeImagePlanar& range_image);
+/** \brief Write a \ref RangeImagePlanar object to a PNG file
+ * \param[in] file_name the name of the file to save the data to
+ * \param[in] range_image the object that contains the data
+ * \ingroup io
+ */
+PCL_EXPORTS void
+saveRangeImagePlanarFilePNG(const std::string &file_name,
+                            const pcl::RangeImagePlanar &range_image);
 
-    /** \brief Convert a pcl::PointCloud object to a VTK PolyData one.
-      * \param[in] cloud the input pcl::PointCloud object
-      * \param[out] polydata the resultant VTK PolyData object
-      * \ingroup io
-      */
-    template <typename PointT> void
-    pointCloudTovtkPolyData (const pcl::PointCloud<PointT>& cloud,
-                             vtkPolyData* const polydata);
+/** \brief Convert a pcl::PointCloud object to a VTK PolyData one.
+ * \param[in] cloud the input pcl::PointCloud object
+ * \param[out] polydata the resultant VTK PolyData object
+ * \ingroup io
+ */
+template <typename PointT>
+void pointCloudTovtkPolyData(const pcl::PointCloud<PointT> &cloud,
+                             vtkPolyData *const polydata);
 
-    /** \brief Convert a PointCloud2 object to a VTK PolyData object.
-      * \param[in] cloud the input PointCloud2Ptr object
-      * \param[out] poly_data the resultant VTK PolyData object
-      * \ingroup io
-      */
-    PCL_EXPORTS void
-    pointCloudTovtkPolyData(const sensor_msgs::PointCloud2Ptr& cloud, vtkSmartPointer<vtkPolyData>& poly_data);
+/** \brief Convert a PointCloud2 object to a VTK PolyData object.
+ * \param[in] cloud the input PointCloud2Ptr object
+ * \param[out] poly_data the resultant VTK PolyData object
+ * \ingroup io
+ */
+PCL_EXPORTS void
+pointCloudTovtkPolyData(const sensor_msgs::PointCloud2Ptr &cloud,
+                        vtkSmartPointer<vtkPolyData> &poly_data);
 
-    /** \brief Convert a pcl::PointCloud object to a VTK StructuredGrid one.
-      * \param[in] cloud the input pcl::PointCloud object
-      * \param[out] structured_grid the resultant VTK StructuredGrid object
-      * \ingroup io
-      */
-    template <typename PointT> void
-    pointCloudTovtkStructuredGrid (const pcl::PointCloud<PointT>& cloud,
-                                   vtkStructuredGrid* const structured_grid);
+/** \brief Convert a pcl::PointCloud object to a VTK StructuredGrid one.
+ * \param[in] cloud the input pcl::PointCloud object
+ * \param[out] structured_grid the resultant VTK StructuredGrid object
+ * \ingroup io
+ */
+template <typename PointT>
+void pointCloudTovtkStructuredGrid(const pcl::PointCloud<PointT> &cloud,
+                                   vtkStructuredGrid *const structured_grid);
 
-    /** \brief Convert a VTK PolyData object to a pcl::PointCloud one.
-      * \param[in] polydata the input VTK PolyData object
-      * \param[out] cloud the resultant pcl::PointCloud object
-      * \ingroup io
-      */
-    template <typename PointT> void
-    vtkPolyDataToPointCloud (vtkPolyData* const polydata,
-                             pcl::PointCloud<PointT>& cloud);
+/** \brief Convert a VTK PolyData object to a pcl::PointCloud one.
+ * \param[in] polydata the input VTK PolyData object
+ * \param[out] cloud the resultant pcl::PointCloud object
+ * \ingroup io
+ */
+template <typename PointT>
+void vtkPolyDataToPointCloud(vtkPolyData *const polydata,
+                             pcl::PointCloud<PointT> &cloud);
 
-    /** \brief Convert a VTK StructuredGrid object to a pcl::PointCloud one.
-      * \param[in] structured_grid the input VTK StructuredGrid object
-      * \param[out] cloud the resultant pcl::PointCloud object
-      * \ingroup io
-      */
-    template <typename PointT> void
-    vtkStructuredGridToPointCloud (vtkStructuredGrid* const structured_grid,
-                                   pcl::PointCloud<PointT>& cloud);
+/** \brief Convert a VTK StructuredGrid object to a pcl::PointCloud one.
+ * \param[in] structured_grid the input VTK StructuredGrid object
+ * \param[out] cloud the resultant pcl::PointCloud object
+ * \ingroup io
+ */
+template <typename PointT>
+void vtkStructuredGridToPointCloud(vtkStructuredGrid *const structured_grid,
+                                   pcl::PointCloud<PointT> &cloud);
 
-  }
-}
+} // namespace io
+} // namespace pcl
 
 #include <pcl/io/impl/vtk_lib_io.hpp>
 

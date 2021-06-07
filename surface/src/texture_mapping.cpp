@@ -41,6 +41,5 @@
 #include "pcl/surface/texture_mapping.h"
 #include "pcl/surface/impl/texture_mapping.hpp"
 
-
 // Instantiations of specific point types
 PCL_INSTANTIATE(TextureMapping, (pcl::PointXYZ))

@@ -46,18 +46,16 @@
  * and the spatial locator in setSearchMethod ()
  * \param output the resultant filtered point cloud dataset
  */
-void
-pcl::FilterIndices<sensor_msgs::PointCloud2>::filter (std::vector<int> &indices)
-{
-  if (!initCompute ())
-    return;
+void pcl::FilterIndices<sensor_msgs::PointCloud2>::filter(
+    std::vector<int> &indices) {
+    if (!initCompute())
+        return;
 
-  // Apply the actual filter
-  applyFilter (indices);
+    // Apply the actual filter
+    applyFilter(indices);
 
-  deinitCompute ();
+    deinitCompute();
 }
 
 // Instantiations of specific point types
 PCL_INSTANTIATE(removeNanFromPointCloud, PCL_XYZ_POINT_TYPES)
-

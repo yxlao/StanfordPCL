@@ -41,70 +41,51 @@
 #include <pcl/apps/cloud_composer/tool_interface/abstract_tool.h>
 #include <pcl/apps/cloud_composer/tool_interface/tool_factory.h>
 
+namespace pcl {
+namespace cloud_composer {
+class NormalEstimationTool : public NewItemTool {
+    Q_OBJECT
+  public:
+    NormalEstimationTool(PropertiesModel *parameter_model, QObject *parent);
+    virtual ~NormalEstimationTool();
 
-namespace pcl
-{
-  namespace cloud_composer
-  {
-    class NormalEstimationTool : public NewItemTool
-    {
-      Q_OBJECT
-      public:
-        NormalEstimationTool (PropertiesModel* parameter_model, QObject* parent);
-        virtual ~NormalEstimationTool ();
+    virtual QList<CloudComposerItem *>
+    performAction(QList<const CloudComposerItem *> input_data,
+                  PointTypeFlags::PointType type = PointTypeFlags::NONE);
 
-       virtual QList <CloudComposerItem*>
-        performAction (QList <const CloudComposerItem*> input_data, PointTypeFlags::PointType type = PointTypeFlags::NONE);
+    inline virtual QString getToolName() const {
+        return "Normal Estimation Tool";
+    }
+};
 
-        inline virtual QString
-        getToolName () const { return "Normal Estimation Tool";}
-    };
+class NormalEstimationToolFactory : public QObject, public ToolFactory {
+    Q_OBJECT
+    Q_INTERFACES(pcl::cloud_composer::ToolFactory)
+  public:
+    NewItemTool *createTool(PropertiesModel *parameter_model,
+                            QObject *parent = 0) {
+        return new NormalEstimationTool(parameter_model, parent);
+    }
 
+    PropertiesModel *createToolParameterModel(QObject *parent);
 
-    class NormalEstimationToolFactory : public QObject, public ToolFactory
-    {
-      Q_OBJECT
-      Q_INTERFACES (pcl::cloud_composer::ToolFactory)
-      public:
-        NewItemTool*
-        createTool (PropertiesModel* parameter_model, QObject* parent = 0)
-        {
-            return new NormalEstimationTool(parameter_model, parent);
-        }
+    inline virtual QString getPluginName() const { return "Normal Estimation"; }
 
-        PropertiesModel*
-        createToolParameterModel (QObject* parent);
+    virtual QString getToolGroupName() const { return "Feature Estimation"; }
 
-        inline virtual QString
-        getPluginName () const { return "Normal Estimation";}
+    virtual QString getIconName() const { return ":/normal_estimation.png"; }
 
-        virtual QString
-        getToolGroupName () const { return "Feature Estimation";}
+    inline virtual CloudComposerItem::ItemType getInputItemType() const {
+        return CloudComposerItem::CLOUD_ITEM;
+    }
 
-        virtual QString
-        getIconName () const { return ":/normal_estimation.png"; }
+    inline virtual QList<CloudComposerItem::ItemType>
+    getRequiredInputChildrenTypes() const {
+        return QList<CloudComposerItem::ItemType>();
+    }
+};
 
-        inline virtual CloudComposerItem::ItemType
-        getInputItemType () const
-        {
-          return CloudComposerItem::CLOUD_ITEM;
-        }
+} // namespace cloud_composer
+} // namespace pcl
 
-        inline virtual QList <CloudComposerItem::ItemType>
-        getRequiredInputChildrenTypes () const
-        {
-          return QList <CloudComposerItem::ItemType> ();
-        }
-    };
-
-
-
-  }
-}
-
-
-
-
-
-
-#endif //NORMAL_ESTIMATION_H_
+#endif // NORMAL_ESTIMATION_H_

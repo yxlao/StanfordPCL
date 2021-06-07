@@ -39,10 +39,10 @@
 #include <iostream>
 #include <numeric>
 
-#pragma warning (disable: 4521)
+#pragma warning(disable : 4521)
 #include <pcl/point_cloud.h>
 #include <pcl/octree/octree.h>
-#pragma warning (default: 4521)
+#pragma warning(default : 4521)
 
 #include <pcl/gpu/octree/octree.hpp>
 #include <pcl/gpu/containers/device_array.h>
@@ -52,25 +52,23 @@
 using namespace std;
 using namespace pcl::gpu;
 
-
-//TEST (PCL_GPU, DISABLED_bruteForceRadiusSeachGPU)
-TEST (PCL_GPU, bruteForceRadiusSeachGPU)
-{
+// TEST (PCL_GPU, DISABLED_bruteForceRadiusSeachGPU)
+TEST(PCL_GPU, bruteForceRadiusSeachGPU) {
     DataGenerator data;
     data.data_size = 871000;
     data.tests_num = 100;
     data.cube_size = 1024.f;
-    data.max_radius    = data.cube_size/15.f;
-    data.shared_radius = data.cube_size/20.f;
+    data.max_radius = data.cube_size / 15.f;
+    data.shared_radius = data.cube_size / 20.f;
     data.printParams();
 
-    //generate
+    // generate
     data();
 
     // brute force radius search
     data.bruteForceSearch();
 
-    //prepare gpu cloud
+    // prepare gpu cloud
     pcl::gpu::Octree::PointCloud cloud_device;
     cloud_device.upload(data.points);
 
@@ -78,18 +76,21 @@ TEST (PCL_GPU, bruteForceRadiusSeachGPU)
 
     vector<int> results_host;
     vector<size_t> sizes;
-    for(size_t i = 0; i < data.tests_num; ++i)
-    {
-        pcl::gpu::bruteForceRadiusSearchGPU(cloud_device, data.queries[i], data.radiuses[i], results_device, buffer);
+    for (size_t i = 0; i < data.tests_num; ++i) {
+        pcl::gpu::bruteForceRadiusSearchGPU(cloud_device, data.queries[i],
+                                            data.radiuses[i], results_device,
+                                            buffer);
 
         results_device.download(results_host);
         std::sort(results_host.begin(), results_host.end());
 
-        ASSERT_EQ ( (results_host == data.bfresutls[i]), true );
+        ASSERT_EQ((results_host == data.bfresutls[i]), true);
         sizes.push_back(results_device.size());
     }
 
-    float avg_size = std::accumulate(sizes.begin(), sizes.end(), (size_t)0) * (1.f/sizes.size());;
+    float avg_size = std::accumulate(sizes.begin(), sizes.end(), (size_t)0) *
+                     (1.f / sizes.size());
+    ;
 
     cout << "avg_result_size = " << avg_size << endl;
     ASSERT_GT(avg_size, 5);

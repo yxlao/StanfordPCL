@@ -39,13 +39,12 @@
 
 extern int qInitResources_resources();
 
-int main( int argc, char** argv )
-{
-  QApplication app( argc, argv );
+int main(int argc, char **argv) {
+    QApplication app(argc, argv);
 
-  qInitResources_resources();
+    qInitResources_resources();
 
-  pcl::modeler::MainWindow::getInstance().show();
+    pcl::modeler::MainWindow::getInstance().show();
 
-  return app.exec();
+    return app.exec();
 }

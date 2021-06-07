@@ -46,53 +46,53 @@
 
 #include "octree_nodes.h"
 
-namespace pcl
-{
-  namespace octree
-  {
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /** \brief @b Octree pointcloud single point class
-     *  \note This pointcloud octree class generate an octrees from a point cloud (zero-copy). Every leaf node contains a single point index from the dataset given by \a setInputCloud.
-     *  \note The octree pointcloud is initialized with its voxel resolution. Its bounding box is automatically adjusted or can be predefined.
-     *  \note
-     *  \note typename: PointT: type of point used in pointcloud
-     *  \ingroup octree
-     *  \author Julius Kammerl (julius@kammerl.de)
-     */
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<typename PointT, typename LeafContainerT = OctreeContainerDataT<int>,
-        typename BranchContainerT = OctreeContainerEmpty<int>,
-        typename OctreeT = OctreeBase<int, LeafContainerT, BranchContainerT> >
+namespace pcl {
+namespace octree {
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/** \brief @b Octree pointcloud single point class
+ *  \note This pointcloud octree class generate an octrees from a point cloud
+ * (zero-copy). Every leaf node contains a single point index from the dataset
+ * given by \a setInputCloud. \note The octree pointcloud is initialized with
+ * its voxel resolution. Its bounding box is automatically adjusted or can be
+ * predefined. \note \note typename: PointT: type of point used in pointcloud
+ *  \ingroup octree
+ *  \author Julius Kammerl (julius@kammerl.de)
+ */
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+template <typename PointT, typename LeafContainerT = OctreeContainerDataT<int>,
+          typename BranchContainerT = OctreeContainerEmpty<int>,
+          typename OctreeT = OctreeBase<int, LeafContainerT, BranchContainerT>>
 
-    class OctreePointCloudSinglePoint : public OctreePointCloud<PointT, LeafContainerT,
-        BranchContainerT, OctreeT>
-    {
+class OctreePointCloudSinglePoint
+    : public OctreePointCloud<PointT, LeafContainerT, BranchContainerT,
+                              OctreeT> {
 
-      public:
-        // public typedefs for single/double buffering
-        typedef OctreePointCloudSinglePoint<PointT, LeafContainerT, BranchContainerT,
-            OctreeBase<int, LeafContainerT, BranchContainerT> > SingleBuffer;
-        typedef OctreePointCloudSinglePoint<PointT, LeafContainerT, BranchContainerT,
-            Octree2BufBase<int, LeafContainerT, BranchContainerT> > DoubleBuffer;
+  public:
+    // public typedefs for single/double buffering
+    typedef OctreePointCloudSinglePoint<
+        PointT, LeafContainerT, BranchContainerT,
+        OctreeBase<int, LeafContainerT, BranchContainerT>>
+        SingleBuffer;
+    typedef OctreePointCloudSinglePoint<
+        PointT, LeafContainerT, BranchContainerT,
+        Octree2BufBase<int, LeafContainerT, BranchContainerT>>
+        DoubleBuffer;
 
-        /** \brief Constructor.
-         *  \param resolution_arg: octree resolution at lowest octree level
-         * */
-        OctreePointCloudSinglePoint (const double resolution_arg) :
-            OctreePointCloud<PointT, LeafContainerT, BranchContainerT, OctreeT> (resolution_arg)
-        {
-        }
+    /** \brief Constructor.
+     *  \param resolution_arg: octree resolution at lowest octree level
+     * */
+    OctreePointCloudSinglePoint(const double resolution_arg)
+        : OctreePointCloud<PointT, LeafContainerT, BranchContainerT, OctreeT>(
+              resolution_arg) {}
 
-        /** \brief Empty class constructor. */
-        virtual ~OctreePointCloudSinglePoint ()
-        {
-        }
+    /** \brief Empty class constructor. */
+    virtual ~OctreePointCloudSinglePoint() {}
+};
 
-    };
+} // namespace octree
+} // namespace pcl
 
-  }
-}
-
-#define PCL_INSTANTIATE_OctreePointCloudSinglePoint(T) template class PCL_EXPORTS pcl::octree::OctreePointCloudSinglePoint<T>;
+#define PCL_INSTANTIATE_OctreePointCloudSinglePoint(T)                         \
+    template class PCL_EXPORTS pcl::octree::OctreePointCloudSinglePoint<T>;
 
 #endif

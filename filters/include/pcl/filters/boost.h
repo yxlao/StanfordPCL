@@ -58,4 +58,4 @@
 #include <boost/function.hpp>
 #include <boost/optional.hpp>
 
-#endif    // PCL_FILTERS_BOOST_H_
+#endif // PCL_FILTERS_BOOST_H_

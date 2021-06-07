@@ -40,105 +40,92 @@
 #include <pcl/pcl_base.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::PCLBase<sensor_msgs::PointCloud2>::setInputCloud (const PointCloud2ConstPtr &cloud)
-{
-  input_ = cloud;
+void pcl::PCLBase<sensor_msgs::PointCloud2>::setInputCloud(
+    const PointCloud2ConstPtr &cloud) {
+    input_ = cloud;
 
-  for (int d = 0; d < static_cast<int>(cloud->fields.size ()); ++d)
-  {
-    if (cloud->fields[d].name == x_field_name_)
-      x_idx_ = d;
-    if (cloud->fields[d].name == y_field_name_)
-      y_idx_ = d;
-    if (cloud->fields[d].name == z_field_name_)
-      z_idx_ = d;
-  }
-
-  // Obtain the size of all fields. Restrict to sizeof FLOAT32 for now
-  field_sizes_.resize (input_->fields.size ());
-  for (size_t d = 0; d < input_->fields.size (); ++d)
-  {
-    int fsize;
-    switch (input_->fields[d].datatype)
-    {
-      case sensor_msgs::PointField::INT8:
-      case sensor_msgs::PointField::UINT8:
-      {
-        fsize = 1;
-        break;
-      }
-
-      case sensor_msgs::PointField::INT16:
-      case sensor_msgs::PointField::UINT16:
-      {
-        fsize = 2;
-        break;
-      }
-
-      case sensor_msgs::PointField::INT32:
-      case sensor_msgs::PointField::UINT32:
-      case sensor_msgs::PointField::FLOAT32:
-      {
-        fsize = 4;
-        break;
-      }
-
-      case sensor_msgs::PointField::FLOAT64:
-      {
-        fsize = 8;
-        break;
-      }
-
-      default:
-      {
-        PCL_ERROR ("[PCLBase::setInputCloud] Invalid field type (%d)!\n", input_->fields[d].datatype);
-        fsize = 0;
-        break;
-      }
+    for (int d = 0; d < static_cast<int>(cloud->fields.size()); ++d) {
+        if (cloud->fields[d].name == x_field_name_)
+            x_idx_ = d;
+        if (cloud->fields[d].name == y_field_name_)
+            y_idx_ = d;
+        if (cloud->fields[d].name == z_field_name_)
+            z_idx_ = d;
     }
-    field_sizes_[d] = (std::min) (fsize, static_cast<int>(sizeof (float)));
-  }
+
+    // Obtain the size of all fields. Restrict to sizeof FLOAT32 for now
+    field_sizes_.resize(input_->fields.size());
+    for (size_t d = 0; d < input_->fields.size(); ++d) {
+        int fsize;
+        switch (input_->fields[d].datatype) {
+        case sensor_msgs::PointField::INT8:
+        case sensor_msgs::PointField::UINT8: {
+            fsize = 1;
+            break;
+        }
+
+        case sensor_msgs::PointField::INT16:
+        case sensor_msgs::PointField::UINT16: {
+            fsize = 2;
+            break;
+        }
+
+        case sensor_msgs::PointField::INT32:
+        case sensor_msgs::PointField::UINT32:
+        case sensor_msgs::PointField::FLOAT32: {
+            fsize = 4;
+            break;
+        }
+
+        case sensor_msgs::PointField::FLOAT64: {
+            fsize = 8;
+            break;
+        }
+
+        default: {
+            PCL_ERROR("[PCLBase::setInputCloud] Invalid field type (%d)!\n",
+                      input_->fields[d].datatype);
+            fsize = 0;
+            break;
+        }
+        }
+        field_sizes_[d] = (std::min)(fsize, static_cast<int>(sizeof(float)));
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-bool
-pcl::PCLBase<sensor_msgs::PointCloud2>::deinitCompute ()
-{
-  return (true);
-}
+bool pcl::PCLBase<sensor_msgs::PointCloud2>::deinitCompute() { return (true); }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-bool
-pcl::PCLBase<sensor_msgs::PointCloud2>::initCompute ()
-{
-  // Check if input was set
-  if (!input_)
-    return (false);
+bool pcl::PCLBase<sensor_msgs::PointCloud2>::initCompute() {
+    // Check if input was set
+    if (!input_)
+        return (false);
 
-  // If no point indices have been given, construct a set of indices for the entire input point cloud
-  if (!indices_)
-  {
-    fake_indices_ = true;
-    indices_.reset (new std::vector<int>);
-    try
-    {
-      indices_->resize (input_->width * input_->height);
+    // If no point indices have been given, construct a set of indices for the
+    // entire input point cloud
+    if (!indices_) {
+        fake_indices_ = true;
+        indices_.reset(new std::vector<int>);
+        try {
+            indices_->resize(input_->width * input_->height);
+        } catch (std::bad_alloc) {
+            PCL_ERROR("[initCompute] Failed to allocate %zu indices.\n",
+                      (input_->width * input_->height));
+        }
+        for (size_t i = 0; i < indices_->size(); ++i) {
+            (*indices_)[i] = static_cast<int>(i);
+        }
     }
-    catch (std::bad_alloc)
-    {
-      PCL_ERROR ("[initCompute] Failed to allocate %zu indices.\n", (input_->width * input_->height));
+    // If we have a set of fake indices, but they do not match the number of
+    // points in the cloud, update them
+    if (fake_indices_ && indices_->size() != (input_->width * input_->height)) {
+        size_t indices_size = indices_->size();
+        indices_->resize(input_->width * input_->height);
+        for (size_t i = indices_size; i < indices_->size(); ++i) {
+            (*indices_)[i] = static_cast<int>(i);
+        }
     }
-    for (size_t i = 0; i < indices_->size (); ++i) { (*indices_)[i] = static_cast<int>(i); }
-  }
-  // If we have a set of fake indices, but they do not match the number of points in the cloud, update them
-  if (fake_indices_ && indices_->size () != (input_->width * input_->height))
-  {
-    size_t indices_size = indices_->size ();
-    indices_->resize (input_->width * input_->height);
-    for (size_t i = indices_size; i < indices_->size (); ++i) { (*indices_)[i] = static_cast<int>(i); }
-  }
 
-  return (true);
+    return (true);
 }
-

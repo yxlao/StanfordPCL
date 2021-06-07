@@ -45,7 +45,10 @@
 // Instantiations of specific point types
 #ifdef PCL_ONLY_CORE_POINT_TYPES
 #else
-  PCL_INSTANTIATE_PRODUCT(RIFTEstimation, ((pcl::PointXYZI)(pcl::PointXYZINormal))((pcl::IntensityGradient))((pcl::Histogram<32>)))
-  PCL_INSTANTIATE_PRODUCT(RIFTEstimation, ((pcl::PointXYZI)(pcl::PointXYZINormal))((pcl::IntensityGradient))((Eigen::MatrixXf)))
+PCL_INSTANTIATE_PRODUCT(RIFTEstimation,
+                        ((pcl::PointXYZI)(pcl::PointXYZINormal))(
+                            (pcl::IntensityGradient))((pcl::Histogram<32>)))
+PCL_INSTANTIATE_PRODUCT(RIFTEstimation,
+                        ((pcl::PointXYZI)(pcl::PointXYZINormal))(
+                            (pcl::IntensityGradient))((Eigen::MatrixXf)))
 #endif
-

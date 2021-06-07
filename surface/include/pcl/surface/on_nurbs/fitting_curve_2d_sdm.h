@@ -14,9 +14,9 @@
  *     copyright notice, this list of conditions and the following
  *     disclaimer in the documentation and/or other materials provided
  *     with the distribution.
- *   * Neither the name of Thomas Mörwald or Jonathan Balzer nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   * Neither the name of Thomas Mörwald or Jonathan Balzer nor the names of
+ * its contributors may be used to endorse or promote products derived from this
+ * software without specific prior written permission.
  *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -43,67 +43,68 @@
 #include <pcl/surface/on_nurbs/nurbs_solve.h>
 #include <pcl/surface/on_nurbs/fitting_curve_2d_pdm.h>
 
-namespace pcl
-{
-  namespace on_nurbs
-  {
+namespace pcl {
+namespace on_nurbs {
 
-    /** \brief Fitting a 2D B-Spline curve to 2D point-clouds using squared-distance-minimization
-     *  and optionally asymmetric-distance-minimization
-     *  Based on paper: TODO
-     * \author Thomas Mörwald
-     * \ingroup surface     */
-    class FittingCurve2dSDM : public FittingCurve2d
-    {
-    public:
-      /** \brief Constructor initializing B-Spline curve using initNurbsCurve2D(...).
-       * \param[in] order the polynomial order of the B-Spline curve.
-       * \param[in] data pointer to the 2D point-cloud data to be fit.        */
-      FittingCurve2dSDM (int order, NurbsDataCurve2d *data);
+/** \brief Fitting a 2D B-Spline curve to 2D point-clouds using
+ * squared-distance-minimization and optionally asymmetric-distance-minimization
+ *  Based on paper: TODO
+ * \author Thomas Mörwald
+ * \ingroup surface     */
+class FittingCurve2dSDM : public FittingCurve2d {
+  public:
+    /** \brief Constructor initializing B-Spline curve using
+     * initNurbsCurve2D(...). \param[in] order the polynomial order of the
+     * B-Spline curve.
+     * \param[in] data pointer to the 2D point-cloud data to be fit.        */
+    FittingCurve2dSDM(int order, NurbsDataCurve2d *data);
 
-      /** \brief Constructor initializing with the B-Spline curve given in argument 2.
-       * \param[in] data pointer to the 2D point-cloud data to be fit.
-       * \param[in] nc B-Spline curve used for fitting.        */
-      FittingCurve2dSDM (NurbsDataCurve2d *data, const ON_NurbsCurve &nc);
+    /** \brief Constructor initializing with the B-Spline curve given in
+     * argument 2. \param[in] data pointer to the 2D point-cloud data to be fit.
+     * \param[in] nc B-Spline curve used for fitting.        */
+    FittingCurve2dSDM(NurbsDataCurve2d *data, const ON_NurbsCurve &nc);
 
-      /** \brief Assemble the system of equations for fitting
-       * - for large point-clouds this is time consuming.
-       * - should be done once before refinement to initialize the starting points for point inversion. */
-      virtual void
-      assemble (const Parameter &parameter);
+    /** \brief Assemble the system of equations for fitting
+     * - for large point-clouds this is time consuming.
+     * - should be done once before refinement to initialize the starting points
+     * for point inversion. */
+    virtual void assemble(const Parameter &parameter);
 
-      /** \brief Solve system of equations using Eigen or UmfPack (can be defined in on_nurbs.cmake),
-       *  and updates B-Spline curve if a solution can be obtained. */
-      virtual double
-      solve (double damp = 1.0);
+    /** \brief Solve system of equations using Eigen or UmfPack (can be defined
+     * in on_nurbs.cmake), and updates B-Spline curve if a solution can be
+     * obtained. */
+    virtual double solve(double damp = 1.0);
 
-      /** \brief Update curve according to the current system of equations.
-       *  \param[in] damp damping factor from one iteration to the other. */
-      virtual double
-      updateCurve (double damp);
+    /** \brief Update curve according to the current system of equations.
+     *  \param[in] damp damping factor from one iteration to the other. */
+    virtual double updateCurve(double damp);
 
-    protected:
+  protected:
+    /** \brief Add minimization constraint: point-to-surface distance
+     * (squared-distance-minimization). */
+    virtual void addPointConstraint(const double &param,
+                                    const Eigen::Vector2d &point,
+                                    const Eigen::Vector2d &normal,
+                                    const Eigen::Vector2d &tangent, double rho,
+                                    double d, double weight, unsigned &row);
 
-      /** \brief Add minimization constraint: point-to-surface distance (squared-distance-minimization). */
-      virtual void
-      addPointConstraint (const double &param, const Eigen::Vector2d &point, const Eigen::Vector2d &normal,
-                          const Eigen::Vector2d &tangent, double rho, double d, double weight, unsigned &row);
+    /** \brief Add minimization constraint: smoothness by control point
+     * regularisation. */
+    virtual void addCageRegularisation(double weight, unsigned &row,
+                                       const std::vector<double> &elements,
+                                       double wConcav = 0.0);
 
-      /** \brief Add minimization constraint: smoothness by control point regularisation. */
-      virtual void
-      addCageRegularisation (double weight, unsigned &row, const std::vector<double> &elements, double wConcav = 0.0);
+    /** \brief Assemble point-to-surface constraints. */
+    virtual void assembleInterior(double wInt, double sigma2, unsigned &row);
 
-      /** \brief Assemble point-to-surface constraints. */
-      virtual void
-      assembleInterior (double wInt, double sigma2, unsigned &row);
-
-      /** \brief Assemble closest points constraints. At each midpoint of the curve elements the closest data points
-       * are computed and point-to-surface constraints are added. */
-      virtual void
-      assembleClosestPoints (const std::vector<double> &elements, double weight, double sigma2, unsigned &row);
-
-    };
-  }
-}
+    /** \brief Assemble closest points constraints. At each midpoint of the
+     * curve elements the closest data points
+     * are computed and point-to-surface constraints are added. */
+    virtual void assembleClosestPoints(const std::vector<double> &elements,
+                                       double weight, double sigma2,
+                                       unsigned &row);
+};
+} // namespace on_nurbs
+} // namespace pcl
 
 #endif

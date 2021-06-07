@@ -40,6 +40,5 @@
 #include <pcl/point_types.h>
 #include <pcl/impl/instantiate.hpp>
 
-
 // Instantiations of specific point types
 PCL_INSTANTIATE_PRODUCT(UniformSampling, (PCL_XYZ_POINT_TYPES))

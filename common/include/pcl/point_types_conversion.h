@@ -39,165 +39,142 @@
 #ifndef PCL_TYPE_CONVERSIONS_H
 #define PCL_TYPE_CONVERSIONS_H
 
-namespace pcl
-{
-  // r,g,b, i values are from 0 to 1
-  // h = [0,360]
-  // s, v values are from 0 to 1
-  // if s = 0 > h = -1 (undefined)
+namespace pcl {
+// r,g,b, i values are from 0 to 1
+// h = [0,360]
+// s, v values are from 0 to 1
+// if s = 0 > h = -1 (undefined)
 
-  /** \brief Convert a XYZRGB point type to a XYZI
-    * \param[in] in the input XYZRGB point
-    * \param[out] out the output XYZI point
-    */
-  inline void
-  PointXYZRGBtoXYZI (PointXYZRGB&  in,
-                     PointXYZI&    out)
-  {
-    out.x = in.x; out.y = in.y; out.z = in.z;
+/** \brief Convert a XYZRGB point type to a XYZI
+ * \param[in] in the input XYZRGB point
+ * \param[out] out the output XYZI point
+ */
+inline void PointXYZRGBtoXYZI(PointXYZRGB &in, PointXYZI &out) {
+    out.x = in.x;
+    out.y = in.y;
+    out.z = in.z;
     out.intensity = 0.299f * in.r + 0.587f * in.g + 0.114f * in.b;
-  }
+}
 
-
-  /** \brief Convert a XYZRGB point type to a XYZHSV
-    * \param[in] in the input XYZRGB point
-    * \param[out] out the output XYZHSV point
-    */
-  inline void
-  PointXYZRGBtoXYZHSV (PointXYZRGB& in,
-                       PointXYZHSV& out)
-  {
+/** \brief Convert a XYZRGB point type to a XYZHSV
+ * \param[in] in the input XYZRGB point
+ * \param[out] out the output XYZHSV point
+ */
+inline void PointXYZRGBtoXYZHSV(PointXYZRGB &in, PointXYZHSV &out) {
     float min;
 
-    out.x = in.x; out.y = in.y; out.z = in.z;
+    out.x = in.x;
+    out.y = in.y;
+    out.z = in.z;
 
-    out.v = std::max (in.r, std::max (in.g, in.b));
-    min = std::min (in.r, std::min (in.g, in.b));
+    out.v = std::max(in.r, std::max(in.g, in.b));
+    min = std::min(in.r, std::min(in.g, in.b));
 
     if (out.v != 0)
-      out.s = (out.v - min) / out.v;
-    else
-    {
-      out.s = 0;
-      out.h = -1;
-      return;
+        out.s = (out.v - min) / out.v;
+    else {
+        out.s = 0;
+        out.h = -1;
+        return;
     }
 
     if (in.r == out.v)
-      out.h = static_cast<float> (in.g - in.b) / (out.v - min);
+        out.h = static_cast<float>(in.g - in.b) / (out.v - min);
     else if (in.g == out.v)
-      out.h = static_cast<float> (2.0f + float (in.b - in.r) / float (out.v - min));
+        out.h =
+            static_cast<float>(2.0f + float(in.b - in.r) / float(out.v - min));
     else
-      out.h = static_cast<float> (4.0f + float (in.r - in.g) / float (out.v - min));
+        out.h =
+            static_cast<float>(4.0f + float(in.r - in.g) / float(out.v - min));
     out.h *= 60;
     if (out.h < 0)
-      out.h += 360;
-  }
+        out.h += 360;
+}
 
-
-  /** \brief Convert a XYZHSV point type to a XYZRGB
-    * \param[in] in the input XYZHSV point
-    * \param[out] out the output XYZRGB point
-    */
-  inline void
-  PointXYZHSVtoXYZRGB (PointXYZHSV&  in,
-                       PointXYZRGB&  out)
-  {
-    if (in.s == 0)
-    {
-      out.r = out.g = out.b = static_cast<uint8_t> (in.v);
-      return;
+/** \brief Convert a XYZHSV point type to a XYZRGB
+ * \param[in] in the input XYZHSV point
+ * \param[out] out the output XYZRGB point
+ */
+inline void PointXYZHSVtoXYZRGB(PointXYZHSV &in, PointXYZRGB &out) {
+    if (in.s == 0) {
+        out.r = out.g = out.b = static_cast<uint8_t>(in.v);
+        return;
     }
     float a = in.h / 60;
-    int   i = static_cast<int> (floorf (a));
-    float f = a - static_cast<float> (i);
+    int i = static_cast<int>(floorf(a));
+    float f = a - static_cast<float>(i);
     float p = in.v * (1 - in.s);
     float q = in.v * (1 - in.s * f);
     float t = in.v * (1 - in.s * (1 - f));
 
-    switch (i)
-    {
-      case 0:
-      {
-        out.r = static_cast<uint8_t> (255 * in.v);
-        out.g = static_cast<uint8_t> (255 * t);
-        out.b = static_cast<uint8_t> (255 * p);
+    switch (i) {
+    case 0: {
+        out.r = static_cast<uint8_t>(255 * in.v);
+        out.g = static_cast<uint8_t>(255 * t);
+        out.b = static_cast<uint8_t>(255 * p);
         break;
-      }
-      case 1:
-      {
-        out.r = static_cast<uint8_t> (255 * q);
-        out.g = static_cast<uint8_t> (255 * in.v);
-        out.b = static_cast<uint8_t> (255 * p);
-        break;
-      }
-      case 2:
-      {
-        out.r = static_cast<uint8_t> (255 * p);
-        out.g = static_cast<uint8_t> (255 * in.v);
-        out.b = static_cast<uint8_t> (255 * t);
-        break;
-      }
-      case 3:
-      {
-        out.r = static_cast<uint8_t> (255 * p);
-        out.g = static_cast<uint8_t> (255 * q);
-        out.b = static_cast<uint8_t> (255 * in.v);
-        break;
-      }
-      case 4:
-      {
-        out.r = static_cast<uint8_t> (255 * t);
-        out.g = static_cast<uint8_t> (255 * p);
-        out.b = static_cast<uint8_t> (255 * in.v);
-        break;
-      }
-      default:
-      {
-        out.r = static_cast<uint8_t> (255 * in.v);
-        out.g = static_cast<uint8_t> (255 * p);
-        out.b = static_cast<uint8_t> (255 * q);
-        break;
-      }
     }
-  }
-
-
-  /** \brief Convert a XYZRGB point cloud to a XYZHSV
-    * \param[in] in the input XYZRGB point cloud
-    * \param[out] out the output XYZHSV point cloud
-    */
-  inline void
-  PointCloudXYZRGBtoXYZHSV (PointCloud<PointXYZRGB>& in,
-                            PointCloud<PointXYZHSV>& out)
-  {
-    out.width   = in.width;
-    out.height  = in.height;
-    for (size_t i = 0; i < in.points.size (); i++)
-    {
-      PointXYZHSV p;
-      PointXYZRGBtoXYZHSV (in.points[i], p);
-      out.points.push_back (p);
+    case 1: {
+        out.r = static_cast<uint8_t>(255 * q);
+        out.g = static_cast<uint8_t>(255 * in.v);
+        out.b = static_cast<uint8_t>(255 * p);
+        break;
     }
-  }
-  /** \brief Convert a XYZRGB point cloud to a XYZI
-    * \param[in] in the input XYZRGB point cloud
-    * \param[out] out the output XYZI point cloud
-    */
-  inline void
-  PointCloudXYZRGBtoXYZI (PointCloud<PointXYZRGB>& in,
-                          PointCloud<PointXYZI>& out)
-  {
-    out.width   = in.width;
-    out.height  = in.height;
-    for (size_t i = 0; i < in.points.size (); i++)
-    {
-      PointXYZI p;
-      PointXYZRGBtoXYZI (in.points[i], p);
-      out.points.push_back (p);
+    case 2: {
+        out.r = static_cast<uint8_t>(255 * p);
+        out.g = static_cast<uint8_t>(255 * in.v);
+        out.b = static_cast<uint8_t>(255 * t);
+        break;
     }
-  }
+    case 3: {
+        out.r = static_cast<uint8_t>(255 * p);
+        out.g = static_cast<uint8_t>(255 * q);
+        out.b = static_cast<uint8_t>(255 * in.v);
+        break;
+    }
+    case 4: {
+        out.r = static_cast<uint8_t>(255 * t);
+        out.g = static_cast<uint8_t>(255 * p);
+        out.b = static_cast<uint8_t>(255 * in.v);
+        break;
+    }
+    default: {
+        out.r = static_cast<uint8_t>(255 * in.v);
+        out.g = static_cast<uint8_t>(255 * p);
+        out.b = static_cast<uint8_t>(255 * q);
+        break;
+    }
+    }
 }
 
-#endif //#ifndef PCL_TYPE_CONVERSIONS_H
+/** \brief Convert a XYZRGB point cloud to a XYZHSV
+ * \param[in] in the input XYZRGB point cloud
+ * \param[out] out the output XYZHSV point cloud
+ */
+inline void PointCloudXYZRGBtoXYZHSV(PointCloud<PointXYZRGB> &in,
+                                     PointCloud<PointXYZHSV> &out) {
+    out.width = in.width;
+    out.height = in.height;
+    for (size_t i = 0; i < in.points.size(); i++) {
+        PointXYZHSV p;
+        PointXYZRGBtoXYZHSV(in.points[i], p);
+        out.points.push_back(p);
+    }
+}
+/** \brief Convert a XYZRGB point cloud to a XYZI
+ * \param[in] in the input XYZRGB point cloud
+ * \param[out] out the output XYZI point cloud
+ */
+inline void PointCloudXYZRGBtoXYZI(PointCloud<PointXYZRGB> &in,
+                                   PointCloud<PointXYZI> &out) {
+    out.width = in.width;
+    out.height = in.height;
+    for (size_t i = 0; i < in.points.size(); i++) {
+        PointXYZI p;
+        PointXYZRGBtoXYZI(in.points[i], p);
+        out.points.push_back(p);
+    }
+}
+} // namespace pcl
 
+#endif //#ifndef PCL_TYPE_CONVERSIONS_H

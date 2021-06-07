@@ -39,33 +39,29 @@
 #define OBJ_IO_H_
 #include <pcl/pcl_macros.h>
 #include <pcl/TextureMesh.h>
-namespace pcl
-{
-  namespace io
-  {
-    /** \brief Saves a TextureMesh in ascii OBJ format.
-      * \param[in] file_name the name of the file to write to disk
-      * \param[in] tex_mesh the texture mesh to save
-      * \param[in] precision the output ASCII precision
-      * \ingroup io
-      */
-    PCL_EXPORTS int
-    saveOBJFile (const std::string &file_name,
-                 const pcl::TextureMesh &tex_mesh,
-                 unsigned precision = 5);
+namespace pcl {
+namespace io {
+/** \brief Saves a TextureMesh in ascii OBJ format.
+ * \param[in] file_name the name of the file to write to disk
+ * \param[in] tex_mesh the texture mesh to save
+ * \param[in] precision the output ASCII precision
+ * \ingroup io
+ */
+PCL_EXPORTS int saveOBJFile(const std::string &file_name,
+                            const pcl::TextureMesh &tex_mesh,
+                            unsigned precision = 5);
 
-    /** \brief Saves a PolygonMesh in ascii PLY format.
-      * \param[in] file_name the name of the file to write to disk
-      * \param[in] mesh the polygonal mesh to save
-      * \param[in] precision the output ASCII precision default 5
-      * \ingroup io
-      */
-    PCL_EXPORTS int
-    saveOBJFile (const std::string &file_name,
-                 const pcl::PolygonMesh &mesh,
-                 unsigned precision = 5);
+/** \brief Saves a PolygonMesh in ascii PLY format.
+ * \param[in] file_name the name of the file to write to disk
+ * \param[in] mesh the polygonal mesh to save
+ * \param[in] precision the output ASCII precision default 5
+ * \ingroup io
+ */
+PCL_EXPORTS int saveOBJFile(const std::string &file_name,
+                            const pcl::PolygonMesh &mesh,
+                            unsigned precision = 5);
 
-  }
-}
+} // namespace io
+} // namespace pcl
 
 #endif /* OBJ_IO_H_ */

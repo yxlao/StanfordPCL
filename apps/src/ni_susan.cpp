@@ -57,130 +57,121 @@ typedef PointXYZRGBA PointT;
 typedef PointXYZRGBL KeyPointT;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class SUSANDemo
-{
+class SUSANDemo {
   public:
     typedef PointCloud<PointT> Cloud;
     typedef Cloud::Ptr CloudPtr;
     typedef Cloud::ConstPtr CloudConstPtr;
 
-    SUSANDemo (Grabber& grabber)
-      : cloud_viewer_ ("SUSAN 2D Keypoints -- PointCloud")
-      , grabber_ (grabber)
-      , image_viewer_ ("SUSAN 2D Keypoints -- Image")
-    {
+    SUSANDemo(Grabber &grabber)
+        : cloud_viewer_("SUSAN 2D Keypoints -- PointCloud"), grabber_(grabber),
+          image_viewer_("SUSAN 2D Keypoints -- Image") {}
+
+    /////////////////////////////////////////////////////////////////////////
+    void cloud_callback(const CloudConstPtr &cloud) {
+        FPS_CALC("cloud callback");
+        boost::mutex::scoped_lock lock(cloud_mutex_);
+        cloud_ = cloud;
+
+        // Compute SUSAN keypoints
+        SUSAN<PointT, KeyPointT> susan;
+        susan.setInputCloud(cloud);
+        susan.setNumberOfThreads(6);
+        susan.setNonMaxSupression(true);
+        keypoints_.reset(new PointCloud<KeyPointT>);
+        susan.compute(*keypoints_);
     }
 
     /////////////////////////////////////////////////////////////////////////
-    void
-    cloud_callback (const CloudConstPtr& cloud)
-    {
-      FPS_CALC ("cloud callback");
-      boost::mutex::scoped_lock lock (cloud_mutex_);
-      cloud_ = cloud;
-
-      // Compute SUSAN keypoints
-      SUSAN<PointT, KeyPointT> susan;
-      susan.setInputCloud (cloud);
-      susan.setNumberOfThreads (6);
-      susan.setNonMaxSupression (true);
-      keypoints_.reset (new PointCloud<KeyPointT>);
-      susan.compute (*keypoints_);
+    void init() {
+        boost::function<void(const CloudConstPtr &)> cloud_cb =
+            boost::bind(&SUSANDemo::cloud_callback, this, _1);
+        cloud_connection = grabber_.registerCallback(cloud_cb);
     }
 
     /////////////////////////////////////////////////////////////////////////
-    void
-    init ()
-    {
-      boost::function<void (const CloudConstPtr&) > cloud_cb = boost::bind (&SUSANDemo::cloud_callback, this, _1);
-      cloud_connection = grabber_.registerCallback (cloud_cb);
+    string getStrBool(bool state) {
+        stringstream ss;
+        ss << state;
+        return (ss.str());
     }
 
     /////////////////////////////////////////////////////////////////////////
-    string
-    getStrBool (bool state)
-    {
-      stringstream ss;
-      ss << state;
-      return (ss.str ());
-    }
+    void run() {
+        grabber_.start();
 
-    /////////////////////////////////////////////////////////////////////////
-    void
-    run ()
-    {
-      grabber_.start ();
+        bool image_init = false, cloud_init = false;
+        bool keypts = true;
 
-      bool image_init = false, cloud_init = false;
-      bool keypts = true;
+        while (!cloud_viewer_.wasStopped() && !image_viewer_.wasStopped()) {
+            PointCloud<KeyPointT>::Ptr keypoints;
+            CloudConstPtr cloud;
 
-      while (!cloud_viewer_.wasStopped () && !image_viewer_.wasStopped ())
-      {
-        PointCloud<KeyPointT>::Ptr keypoints;
-        CloudConstPtr cloud;
+            if (cloud_mutex_.try_lock()) {
+                cloud_.swap(cloud);
+                keypoints_.swap(keypoints);
 
-        if (cloud_mutex_.try_lock ())
-        {
-          cloud_.swap (cloud);
-          keypoints_.swap (keypoints);
-
-          cloud_mutex_.unlock ();
-        }
-
-        if (cloud)
-        {
-          if (!cloud_init)
-          {
-            cloud_viewer_.setPosition (0, 0);
-            cloud_viewer_.setSize (cloud->width, cloud->height);
-            cloud_init = !cloud_init;
-          }
-
-          if (!cloud_viewer_.updatePointCloud (cloud, "OpenNICloud"))
-          {
-            cloud_viewer_.addPointCloud (cloud, "OpenNICloud");
-            cloud_viewer_.resetCameraViewpoint ("OpenNICloud");
-          }
-
-          if (!image_init)
-          {
-            image_viewer_.setPosition (cloud->width, 0);
-            image_viewer_.setSize (cloud->width, cloud->height);
-            image_init = !image_init;
-          }
-
-          image_viewer_.addRGBImage<PointT> (cloud);
-
-          if (keypoints && !keypoints->empty ())
-          {
-            image_viewer_.removeLayer (getStrBool (keypts));
-            for (size_t i = 0; i < keypoints->size (); ++i)
-            {
-              int u = int (keypoints->points[i].label % cloud->width);
-              int v = cloud->height - int (keypoints->points[i].label / cloud->width);
-              image_viewer_.markPoint (u, v, visualization::red_color, visualization::blue_color, 10, getStrBool (!keypts));
+                cloud_mutex_.unlock();
             }
-            keypts = !keypts;
 
-            visualization::PointCloudColorHandlerCustom<KeyPointT> blue (keypoints, 0, 0, 255);
-            if (!cloud_viewer_.updatePointCloud (keypoints, blue, "keypoints"))
-              cloud_viewer_.addPointCloud (keypoints, blue, "keypoints");
-            cloud_viewer_.setPointCloudRenderingProperties (visualization::PCL_VISUALIZER_POINT_SIZE, 20, "keypoints");
-            cloud_viewer_.setPointCloudRenderingProperties (visualization::PCL_VISUALIZER_OPACITY, 0.5, "keypoints");
-          }
+            if (cloud) {
+                if (!cloud_init) {
+                    cloud_viewer_.setPosition(0, 0);
+                    cloud_viewer_.setSize(cloud->width, cloud->height);
+                    cloud_init = !cloud_init;
+                }
+
+                if (!cloud_viewer_.updatePointCloud(cloud, "OpenNICloud")) {
+                    cloud_viewer_.addPointCloud(cloud, "OpenNICloud");
+                    cloud_viewer_.resetCameraViewpoint("OpenNICloud");
+                }
+
+                if (!image_init) {
+                    image_viewer_.setPosition(cloud->width, 0);
+                    image_viewer_.setSize(cloud->width, cloud->height);
+                    image_init = !image_init;
+                }
+
+                image_viewer_.addRGBImage<PointT>(cloud);
+
+                if (keypoints && !keypoints->empty()) {
+                    image_viewer_.removeLayer(getStrBool(keypts));
+                    for (size_t i = 0; i < keypoints->size(); ++i) {
+                        int u = int(keypoints->points[i].label % cloud->width);
+                        int v = cloud->height -
+                                int(keypoints->points[i].label / cloud->width);
+                        image_viewer_.markPoint(u, v, visualization::red_color,
+                                                visualization::blue_color, 10,
+                                                getStrBool(!keypts));
+                    }
+                    keypts = !keypts;
+
+                    visualization::PointCloudColorHandlerCustom<KeyPointT> blue(
+                        keypoints, 0, 0, 255);
+                    if (!cloud_viewer_.updatePointCloud(keypoints, blue,
+                                                        "keypoints"))
+                        cloud_viewer_.addPointCloud(keypoints, blue,
+                                                    "keypoints");
+                    cloud_viewer_.setPointCloudRenderingProperties(
+                        visualization::PCL_VISUALIZER_POINT_SIZE, 20,
+                        "keypoints");
+                    cloud_viewer_.setPointCloudRenderingProperties(
+                        visualization::PCL_VISUALIZER_OPACITY, 0.5,
+                        "keypoints");
+                }
+            }
+
+            cloud_viewer_.spinOnce();
+            image_viewer_.spinOnce();
+            boost::this_thread::sleep(boost::posix_time::microseconds(100));
         }
 
-        cloud_viewer_.spinOnce ();
-        image_viewer_.spinOnce ();
-        boost::this_thread::sleep (boost::posix_time::microseconds (100));
-      }
-
-      grabber_.stop ();
-      cloud_connection.disconnect ();
+        grabber_.stop();
+        cloud_connection.disconnect();
     }
 
     visualization::PCLVisualizer cloud_viewer_;
-    Grabber& grabber_;
+    Grabber &grabber_;
     boost::mutex cloud_mutex_;
     CloudConstPtr cloud_;
 
@@ -193,16 +184,14 @@ class SUSANDemo
 };
 
 /* ---[ */
-int
-main (int, char**)
-{
-  string device_id ("#1");
-  OpenNIGrabber grabber (device_id);
-  SUSANDemo openni_viewer (grabber);
+int main(int, char **) {
+    string device_id("#1");
+    OpenNIGrabber grabber(device_id);
+    SUSANDemo openni_viewer(grabber);
 
-  openni_viewer.init ();
-  openni_viewer.run ();
+    openni_viewer.init();
+    openni_viewer.run();
 
-  return (0);
+    return (0);
 }
 /* ]--- */

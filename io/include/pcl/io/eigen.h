@@ -39,10 +39,9 @@
 #define _PCL_IO_EIGEN_H_
 
 #if defined __GNUC__
-#  pragma GCC system_header
+#pragma GCC system_header
 #endif
 
 #include <Eigen/Core>
 
-#endif    // _PCL_IO_EIGEN_H_
-
+#endif // _PCL_IO_EIGEN_H_

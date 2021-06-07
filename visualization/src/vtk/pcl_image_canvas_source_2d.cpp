@@ -39,11 +39,9 @@
 
 #include <pcl/visualization/vtk/pcl_image_canvas_source_2d.h>
 
-namespace pcl
-{
-  namespace visualization
-  {
-    // Standard VTK macro for *New ()
-    vtkStandardNewMacro (PCLImageCanvasSource2D)
-  }
-}
+namespace pcl {
+namespace visualization {
+// Standard VTK macro for *New ()
+vtkStandardNewMacro(PCLImageCanvasSource2D)
+} // namespace visualization
+} // namespace pcl

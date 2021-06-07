@@ -44,8 +44,11 @@
 
 // Instantiations of specific point types
 #ifdef PCL_ONLY_CORE_POINT_TYPES
-  PCL_INSTANTIATE_PRODUCT(CVFHEstimation, ((pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA))((pcl::Normal))((pcl::VFHSignature308)))
+PCL_INSTANTIATE_PRODUCT(CVFHEstimation,
+                        ((pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA))(
+                            (pcl::Normal))((pcl::VFHSignature308)))
 #else
-  PCL_INSTANTIATE_PRODUCT(CVFHEstimation, (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES)((pcl::VFHSignature308)))
+PCL_INSTANTIATE_PRODUCT(
+    CVFHEstimation,
+    (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES)((pcl::VFHSignature308)))
 #endif
-

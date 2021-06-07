@@ -45,266 +45,224 @@
 #include <fstream>
 #include <sstream>
 
-namespace pcl
-{
-  namespace outofcore
-  {
+namespace pcl {
+namespace outofcore {
 
-    OutofcoreOctreeNodeMetadata::OutofcoreOctreeNodeMetadata ()
-      : min_bb_ (),
-        max_bb_ (),
-        binary_point_filename_ (),
-        midpoint_xyz_ (),
-        directory_ (),
-        metadata_filename_ ()
-    {
-    }
+OutofcoreOctreeNodeMetadata::OutofcoreOctreeNodeMetadata()
+    : min_bb_(), max_bb_(), binary_point_filename_(), midpoint_xyz_(),
+      directory_(), metadata_filename_() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    OutofcoreOctreeNodeMetadata::~OutofcoreOctreeNodeMetadata ()
-    {
-    }
+OutofcoreOctreeNodeMetadata::~OutofcoreOctreeNodeMetadata() {}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    Eigen::Vector3d
-    OutofcoreOctreeNodeMetadata::getBoundingBoxMin () const
-    {
-      return (min_bb_);
-    }
+Eigen::Vector3d OutofcoreOctreeNodeMetadata::getBoundingBoxMin() const {
+    return (min_bb_);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    void
-    OutofcoreOctreeNodeMetadata::setBoundingBoxMin (const Eigen::Vector3d min_bb)
-    {
-      min_bb_ = min_bb;
-      this->updateVoxelCenter ();
-    }
+void OutofcoreOctreeNodeMetadata::setBoundingBoxMin(
+    const Eigen::Vector3d min_bb) {
+    min_bb_ = min_bb;
+    this->updateVoxelCenter();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    Eigen::Vector3d
-    OutofcoreOctreeNodeMetadata::getBoundingBoxMax () const
-    {
-      return (max_bb_);
-    }
+Eigen::Vector3d OutofcoreOctreeNodeMetadata::getBoundingBoxMax() const {
+    return (max_bb_);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    void
-    OutofcoreOctreeNodeMetadata::setBoundingBoxMax (const Eigen::Vector3d max_bb)
-    {
-      max_bb_ = max_bb;
-      this->updateVoxelCenter ();
-    }
+void OutofcoreOctreeNodeMetadata::setBoundingBoxMax(
+    const Eigen::Vector3d max_bb) {
+    max_bb_ = max_bb;
+    this->updateVoxelCenter();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    void
-    OutofcoreOctreeNodeMetadata::getBoundingBox (Eigen::Vector3d &min_bb, Eigen::Vector3d &max_bb) const
-    {
-      min_bb = min_bb_;
-      max_bb = max_bb_;
-    }
+void OutofcoreOctreeNodeMetadata::getBoundingBox(
+    Eigen::Vector3d &min_bb, Eigen::Vector3d &max_bb) const {
+    min_bb = min_bb_;
+    max_bb = max_bb_;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    void
-    OutofcoreOctreeNodeMetadata::setBoundingBox (const Eigen::Vector3d min_bb, const Eigen::Vector3d max_bb)
-    {
-      min_bb_ = min_bb;
-      max_bb_ = max_bb;
-      this->updateVoxelCenter ();
-    }
+void OutofcoreOctreeNodeMetadata::setBoundingBox(const Eigen::Vector3d min_bb,
+                                                 const Eigen::Vector3d max_bb) {
+    min_bb_ = min_bb;
+    max_bb_ = max_bb;
+    this->updateVoxelCenter();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    boost::filesystem::path
-    OutofcoreOctreeNodeMetadata::getDirectoryPathname () const
-    {
-      return (directory_);
-    }
+boost::filesystem::path
+OutofcoreOctreeNodeMetadata::getDirectoryPathname() const {
+    return (directory_);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
-    void
-    OutofcoreOctreeNodeMetadata::setDirectoryPathname (const boost::filesystem::path directory_pathname)
-    {
-      directory_ = directory_pathname;
-    }
+void OutofcoreOctreeNodeMetadata::setDirectoryPathname(
+    const boost::filesystem::path directory_pathname) {
+    directory_ = directory_pathname;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    boost::filesystem::path
-    OutofcoreOctreeNodeMetadata::getPCDFilename () const
-    {
-      return (binary_point_filename_);
-    }
+boost::filesystem::path OutofcoreOctreeNodeMetadata::getPCDFilename() const {
+    return (binary_point_filename_);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    void
-    OutofcoreOctreeNodeMetadata::setPCDFilename (const boost::filesystem::path point_filename)
-    {
-      binary_point_filename_ = point_filename;
-    }
-
+void OutofcoreOctreeNodeMetadata::setPCDFilename(
+    const boost::filesystem::path point_filename) {
+    binary_point_filename_ = point_filename;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    int
-    OutofcoreOctreeNodeMetadata::getOutofcoreVersion () const
-    {
-      return (outofcore_version_);
-    }
+int OutofcoreOctreeNodeMetadata::getOutofcoreVersion() const {
+    return (outofcore_version_);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    void
-    OutofcoreOctreeNodeMetadata::setOutofcoreVersion (const int version)
-    {
-      outofcore_version_ = version;
-    }
+void OutofcoreOctreeNodeMetadata::setOutofcoreVersion(const int version) {
+    outofcore_version_ = version;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    boost::filesystem::path
-    OutofcoreOctreeNodeMetadata::getMetadataFilename () const
-    {
-      return (metadata_filename_);
-    }
+boost::filesystem::path
+OutofcoreOctreeNodeMetadata::getMetadataFilename() const {
+    return (metadata_filename_);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    void
-    OutofcoreOctreeNodeMetadata::setMetadataFilename (const boost::filesystem::path path_to_metadata)
-    {
-      directory_ = path_to_metadata.parent_path ();
-      metadata_filename_ = path_to_metadata;
-    }
+void OutofcoreOctreeNodeMetadata::setMetadataFilename(
+    const boost::filesystem::path path_to_metadata) {
+    directory_ = path_to_metadata.parent_path();
+    metadata_filename_ = path_to_metadata;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    Eigen::Vector3d
-    OutofcoreOctreeNodeMetadata::getVoxelCenter () const
-    {
-      return (midpoint_xyz_);
-    }
+Eigen::Vector3d OutofcoreOctreeNodeMetadata::getVoxelCenter() const {
+    return (midpoint_xyz_);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    void
-    OutofcoreOctreeNodeMetadata::serializeMetadataToDisk ()
-    {
-      boost::shared_ptr<cJSON> idx (cJSON_CreateObject (), cJSON_Delete);
+void OutofcoreOctreeNodeMetadata::serializeMetadataToDisk() {
+    boost::shared_ptr<cJSON> idx(cJSON_CreateObject(), cJSON_Delete);
 
-      cJSON* cjson_outofcore_version = cJSON_CreateNumber (outofcore_version_);
+    cJSON *cjson_outofcore_version = cJSON_CreateNumber(outofcore_version_);
 
-      double min_array[3];
-      double max_array[3];
+    double min_array[3];
+    double max_array[3];
 
-      for(int i=0; i<3; i++)
-      {
+    for (int i = 0; i < 3; i++) {
         min_array[i] = min_bb_[i];
         max_array[i] = max_bb_[i];
-      }
-
-      cJSON* cjson_bb_min = cJSON_CreateDoubleArray (min_array, 3);
-      cJSON* cjson_bb_max = cJSON_CreateDoubleArray (max_array, 3);
-
-      std::string binary_point_filename_string = binary_point_filename_.filename ().generic_string ();
-      cJSON* cjson_bin_point_filename = cJSON_CreateString (binary_point_filename_string.c_str ());
-
-      cJSON_AddItemToObject (idx.get (), "version", cjson_outofcore_version);
-      cJSON_AddItemToObject (idx.get (), "bb_min", cjson_bb_min);
-      cJSON_AddItemToObject (idx.get (), "bb_max", cjson_bb_max);
-      cJSON_AddItemToObject (idx.get (), "bin", cjson_bin_point_filename);
-
-      char* idx_txt = cJSON_Print (idx.get ());
-
-      std::ofstream f (metadata_filename_.c_str (), std::ios::out | std::ios::trunc);
-      f << idx_txt;
-      f.close ();
-
-      free (idx_txt);
     }
+
+    cJSON *cjson_bb_min = cJSON_CreateDoubleArray(min_array, 3);
+    cJSON *cjson_bb_max = cJSON_CreateDoubleArray(max_array, 3);
+
+    std::string binary_point_filename_string =
+        binary_point_filename_.filename().generic_string();
+    cJSON *cjson_bin_point_filename =
+        cJSON_CreateString(binary_point_filename_string.c_str());
+
+    cJSON_AddItemToObject(idx.get(), "version", cjson_outofcore_version);
+    cJSON_AddItemToObject(idx.get(), "bb_min", cjson_bb_min);
+    cJSON_AddItemToObject(idx.get(), "bb_max", cjson_bb_max);
+    cJSON_AddItemToObject(idx.get(), "bin", cjson_bin_point_filename);
+
+    char *idx_txt = cJSON_Print(idx.get());
+
+    std::ofstream f(metadata_filename_.c_str(),
+                    std::ios::out | std::ios::trunc);
+    f << idx_txt;
+    f.close();
+
+    free(idx_txt);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    int
-    OutofcoreOctreeNodeMetadata::loadMetadataFromDisk ()
-    {
-      if(directory_ != metadata_filename_.parent_path ())
-      {
-        PCL_ERROR ("directory_ is not set correctly\n");
-      }
+int OutofcoreOctreeNodeMetadata::loadMetadataFromDisk() {
+    if (directory_ != metadata_filename_.parent_path()) {
+        PCL_ERROR("directory_ is not set correctly\n");
+    }
 
-      //if the file to load doesn't exist, return failure
-      if (!boost::filesystem::exists (metadata_filename_))
-      {
-        PCL_ERROR ("[pcl::outofcore::OutofcoreOctreeNodeMetadata] Can not find index metadata at %s.\n", metadata_filename_.c_str ());
+    // if the file to load doesn't exist, return failure
+    if (!boost::filesystem::exists(metadata_filename_)) {
+        PCL_ERROR("[pcl::outofcore::OutofcoreOctreeNodeMetadata] Can not find "
+                  "index metadata at %s.\n",
+                  metadata_filename_.c_str());
         return (0);
-      }
-      else if(boost::filesystem::is_directory (metadata_filename_))
-      {
-        PCL_ERROR ("[pcl::outofcore::OutofcoreOctreeNodeMetadata] Got a directory, but no oct_idx metadata?\n");
+    } else if (boost::filesystem::is_directory(metadata_filename_)) {
+        PCL_ERROR("[pcl::outofcore::OutofcoreOctreeNodeMetadata] Got a "
+                  "directory, but no oct_idx metadata?\n");
         return (0);
-      }
-
-      //load CJSON
-      std::vector<char> idx_input;
-      boost::uintmax_t len = boost::filesystem::file_size (metadata_filename_);
-      idx_input.resize (len + 1);
-
-      std::ifstream f (metadata_filename_.c_str (), std::ios::in);
-      f.read (&(idx_input.front ()), len);
-      idx_input.back () = '\0';
-
-      //Parse
-      boost::shared_ptr<cJSON> idx (cJSON_Parse (&(idx_input.front ())), cJSON_Delete);
-
-      cJSON* cjson_outofcore_version = cJSON_GetObjectItem (idx.get (), "version");
-      cJSON* cjson_bb_min = cJSON_GetObjectItem (idx.get (), "bb_min");
-      cJSON* cjson_bb_max = cJSON_GetObjectItem (idx.get (), "bb_max");
-      cJSON* cjson_bin_point_filename = cJSON_GetObjectItem (idx.get (), "bin");
-
-      for (int i = 0; i < 3; i++)
-      {
-        min_bb_[i] = cJSON_GetArrayItem (cjson_bb_min, i)->valuedouble;
-        max_bb_[i] = cJSON_GetArrayItem (cjson_bb_max, i)->valuedouble;
-      }
-      outofcore_version_ = cjson_outofcore_version->valueint;
-
-      binary_point_filename_= directory_ / cjson_bin_point_filename->valuestring;
-      midpoint_xyz_ = (max_bb_+min_bb_)/static_cast<double>(2.0);
-
-      //return success
-      return (1);
     }
+
+    // load CJSON
+    std::vector<char> idx_input;
+    boost::uintmax_t len = boost::filesystem::file_size(metadata_filename_);
+    idx_input.resize(len + 1);
+
+    std::ifstream f(metadata_filename_.c_str(), std::ios::in);
+    f.read(&(idx_input.front()), len);
+    idx_input.back() = '\0';
+
+    // Parse
+    boost::shared_ptr<cJSON> idx(cJSON_Parse(&(idx_input.front())),
+                                 cJSON_Delete);
+
+    cJSON *cjson_outofcore_version = cJSON_GetObjectItem(idx.get(), "version");
+    cJSON *cjson_bb_min = cJSON_GetObjectItem(idx.get(), "bb_min");
+    cJSON *cjson_bb_max = cJSON_GetObjectItem(idx.get(), "bb_max");
+    cJSON *cjson_bin_point_filename = cJSON_GetObjectItem(idx.get(), "bin");
+
+    for (int i = 0; i < 3; i++) {
+        min_bb_[i] = cJSON_GetArrayItem(cjson_bb_min, i)->valuedouble;
+        max_bb_[i] = cJSON_GetArrayItem(cjson_bb_max, i)->valuedouble;
+    }
+    outofcore_version_ = cjson_outofcore_version->valueint;
+
+    binary_point_filename_ = directory_ / cjson_bin_point_filename->valuestring;
+    midpoint_xyz_ = (max_bb_ + min_bb_) / static_cast<double>(2.0);
+
+    // return success
+    return (1);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    int
-    OutofcoreOctreeNodeMetadata::loadMetadataFromDisk (const boost::filesystem::path path_to_metadata)
-    {
-      this->setMetadataFilename (path_to_metadata);
-      this->setDirectoryPathname (path_to_metadata.parent_path ());
-      return (this->loadMetadataFromDisk ());
-    }
+int OutofcoreOctreeNodeMetadata::loadMetadataFromDisk(
+    const boost::filesystem::path path_to_metadata) {
+    this->setMetadataFilename(path_to_metadata);
+    this->setDirectoryPathname(path_to_metadata.parent_path());
+    return (this->loadMetadataFromDisk());
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
-    void
-    OutofcoreOctreeNodeMetadata::updateVoxelCenter ()
-    {
-      midpoint_xyz_ = (this->max_bb_ + this->min_bb_)/static_cast<double>(2.0);
-    }
+void OutofcoreOctreeNodeMetadata::updateVoxelCenter() {
+    midpoint_xyz_ = (this->max_bb_ + this->min_bb_) / static_cast<double>(2.0);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
-  }//namespace outofcore
-}//namespace pcl
-
-
-
-
+} // namespace outofcore
+} // namespace pcl

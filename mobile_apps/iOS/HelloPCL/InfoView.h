@@ -21,18 +21,17 @@
 #import <UIKit/UIKit.h>
 
 @interface InfoView : UIView {
-  UILabel *modelInfoLabel;
+    UILabel *modelInfoLabel;
 }
 
-@property (nonatomic, retain) IBOutlet UILabel *modelInfoLabel;
-@property (nonatomic, retain) IBOutlet UIView *contentView;
+@property(nonatomic, retain) IBOutlet UILabel *modelInfoLabel;
+@property(nonatomic, retain) IBOutlet UIView *contentView;
 
+- (void)updateModelInfoLabelWithNumFacets:(int)numFacets
+                             withNumLines:(int)numLines
+                          withNumVertices:(int)numVertices
+                   withCurrentRefreshRate:(int)refreshRate;
 
--(void)updateModelInfoLabelWithNumFacets:(int)numFacets
-                            withNumLines:(int)numLines
-                         withNumVertices:(int)numVertices
-                  withCurrentRefreshRate:(int)refreshRate;
-
--(IBAction)kitwareDotCom:(UIButton*)sender;
+- (IBAction)kitwareDotCom:(UIButton *)sender;
 
 @end

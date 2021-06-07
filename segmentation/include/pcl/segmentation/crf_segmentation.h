@@ -49,166 +49,145 @@
 
 //#include <pcl/ml/densecrfORI.h>
 
-namespace pcl
-{
-  /** \brief
-    *
+namespace pcl {
+/** \brief
+ *
+ */
+template <typename PointT> class PCL_EXPORTS CrfSegmentation {
+  public:
+    // typedef boost::shared_ptr<std::vector<int> > pcl::IndicesPtr;
+
+    /** \brief Constructor that sets default values for member variables. */
+    CrfSegmentation();
+
+    /** \brief This destructor destroys the cloud...
+     *
+     */
+    ~CrfSegmentation();
+
+    /** \brief This method sets the input cloud.
+     * \param[in] input_cloud input point cloud
+     */
+    void setInputCloud(typename pcl::PointCloud<PointT>::Ptr input_cloud);
+
+    void setAnnotatedCloud(
+        typename pcl::PointCloud<pcl::PointXYZRGBL>::Ptr anno_cloud);
+
+    void setNormalCloud(
+        typename pcl::PointCloud<pcl::PointNormal>::Ptr normal_cloud);
+
+    /** \brief Set the leaf size for the voxel grid.
+     * \param[in] leaf size x-axis
+     * \param[in] leaf size y-axis
+     * \param[in] leaf size z-axis
+     */
+    void setVoxelGridLeafSize(const float x, const float y, const float z);
+
+    void setNumberOfIterations(unsigned int n_iterations = 10) {
+        n_iterations_ = n_iterations;
+    };
+
+    /** \brief This method simply launches the segmentation algorithm */
+    void segmentPoints(pcl::PointCloud<pcl::PointXYZRGBL> &output);
+
+    /** \brief Create a voxel grid to discretize the scene */
+    void createVoxelGrid();
+
+    /** \brief Get the data from the voxel grid and convert it into a vector */
+    void createDataVectorFromVoxelGrid();
+
+    void createUnaryPotentials(std::vector<float> &unary,
+                               std::vector<int> &colors, unsigned int n_labels);
+
+    /** \brief Set the smoothness kernel parameters.
+     * \param[in] standard deviation x
+     * \param[in] standard deviation y
+     * \param[in] standard deviation z
+     * \param[in] weight
+     */
+    void setSmoothnessKernelParameters(const float sx, const float sy,
+                                       const float sz, const float w);
+
+    /** \brief Set the appearanche kernel parameters.
+     * \param[in] standard deviation x
+     * \param[in] standard deviation y
+     * \param[in] standard deviation z
+     * \param[in] standard deviation red
+     * \param[in] standard deviation green
+     * \param[in] standard deviation blue
+     * \param[in] weight
+     */
+    void setAppearanceKernelParameters(float sx, float sy, float sz, float sr,
+                                       float sg, float sb, float w);
+
+    void setSurfaceKernelParameters(float sx, float sy, float sz, float snx,
+                                    float sny, float snz, float w);
+
+  protected:
+    /** \brief Voxel grid to discretize the scene */
+    typename pcl::VoxelGrid<PointT> voxel_grid_;
+
+    /** \brief input cloud that will be segmented. */
+    typename pcl::PointCloud<PointT>::Ptr input_cloud_;
+    typename pcl::PointCloud<pcl::PointXYZRGBL>::Ptr anno_cloud_;
+    typename pcl::PointCloud<pcl::PointNormal>::Ptr normal_cloud_;
+
+    /** \brief voxel grid filtered cloud. */
+    typename pcl::PointCloud<PointT>::Ptr filtered_cloud_;
+    typename pcl::PointCloud<pcl::PointXYZRGBL>::Ptr filtered_anno_;
+    typename pcl::PointCloud<pcl::PointNormal>::Ptr filtered_normal_;
+
+    /** \brief indices of the filtered cloud. */
+    // typename pcl::VoxelGrid::IndicesPtr cloud_indices_;
+
+    /** \brief Voxel grid leaf size */
+    Eigen::Vector4f voxel_grid_leaf_size_;
+
+    /** \brief Voxel grid dimensions */
+    Eigen::Vector3i dim_;
+
+    /** \brief voxel grid data points
+        packing order [x0y0z0,
+       x1y0z0,x2y0z0,...,x0y1z0,x1y1z0,...,x0y0z1,x1y0z1,...]
     */
-  template <typename PointT>
-  class PCL_EXPORTS CrfSegmentation
-  {
-    public:
+    std::vector<Eigen::Vector3i> data_;
 
-    //typedef boost::shared_ptr<std::vector<int> > pcl::IndicesPtr;
+    std::vector<Eigen::Vector3i> color_;
 
+    std::vector<Eigen::Vector3f> normal_;
 
-      /** \brief Constructor that sets default values for member variables. */
-      CrfSegmentation ();
+    /** \brief smoothness kernel parameters
+     * [0] = standard deviation x
+     * [1] = standard deviation y
+     * [2] = standard deviation z
+     * [3] = weight
+     */
+    float smoothness_kernel_param_[4];
 
-      /** \brief This destructor destroys the cloud...
-        *
-        */
-      ~CrfSegmentation ();
+    /** \brief appearance kernel parameters
+     * [0] = standard deviation x
+     * [1] = standard deviation y
+     * [2] = standard deviation z
+     * [3] = standard deviation red
+     * [4] = standard deviation green
+     * [5] = standard deviation blue
+     * [6] = weight
+     */
+    float appearance_kernel_param_[7];
 
-      /** \brief This method sets the input cloud.
-        * \param[in] input_cloud input point cloud
-        */
-      void
-      setInputCloud (typename pcl::PointCloud<PointT>::Ptr input_cloud);
+    float surface_kernel_param_[7];
 
-      void
-      setAnnotatedCloud (typename pcl::PointCloud<pcl::PointXYZRGBL>::Ptr anno_cloud);
+    unsigned int n_iterations_;
 
-      void
-      setNormalCloud (typename pcl::PointCloud<pcl::PointNormal>::Ptr normal_cloud);
+    /** \brief Contains normals of the points that will be segmented. */
+    // typename pcl::PointCloud<pcl::Normal>::Ptr normals_;
 
+    /** \brief Stores the cloud that will be segmented. */
+    // typename pcl::PointCloud<PointT>::Ptr cloud_for_segmentation_;
 
-      /** \brief Set the leaf size for the voxel grid.
-        * \param[in] leaf size x-axis
-        * \param[in] leaf size y-axis
-        * \param[in] leaf size z-axis
-        */
-      void
-      setVoxelGridLeafSize (const float x, const float y, const float z);
-
-      void
-      setNumberOfIterations (unsigned int n_iterations = 10) {n_iterations_ = n_iterations;};
-
-      /** \brief This method simply launches the segmentation algorithm */
-      void
-      segmentPoints (pcl::PointCloud<pcl::PointXYZRGBL> &output);
-
-      /** \brief Create a voxel grid to discretize the scene */
-      void
-      createVoxelGrid ();
-
-      /** \brief Get the data from the voxel grid and convert it into a vector */
-      void
-      createDataVectorFromVoxelGrid ();
-
-
-      void
-      createUnaryPotentials (std::vector<float> &unary,
-                             std::vector<int> &colors,
-                             unsigned int n_labels);
-
-
-      /** \brief Set the smoothness kernel parameters.
-       * \param[in] standard deviation x
-       * \param[in] standard deviation y
-       * \param[in] standard deviation z
-       * \param[in] weight
-        */
-      void
-      setSmoothnessKernelParameters (const float sx, const float sy, const float sz, const float w);
-
-      /** \brief Set the appearanche kernel parameters.
-       * \param[in] standard deviation x
-       * \param[in] standard deviation y
-       * \param[in] standard deviation z
-       * \param[in] standard deviation red
-       * \param[in] standard deviation green
-       * \param[in] standard deviation blue
-       * \param[in] weight
-        */
-      void
-      setAppearanceKernelParameters (float sx, float sy, float sz,
-                                     float sr, float sg, float sb,
-                                     float w);
-
-
-      void
-      setSurfaceKernelParameters (float sx, float sy, float sz,
-                                  float snx, float sny, float snz,
-                                  float w);
-
-
-    protected:
-      /** \brief Voxel grid to discretize the scene */
-      typename pcl::VoxelGrid<PointT> voxel_grid_;
-
-      /** \brief input cloud that will be segmented. */
-      typename pcl::PointCloud<PointT>::Ptr input_cloud_;
-      typename pcl::PointCloud<pcl::PointXYZRGBL>::Ptr anno_cloud_;
-      typename pcl::PointCloud<pcl::PointNormal>::Ptr normal_cloud_;
-
-      /** \brief voxel grid filtered cloud. */
-      typename pcl::PointCloud<PointT>::Ptr filtered_cloud_;
-      typename pcl::PointCloud<pcl::PointXYZRGBL>::Ptr filtered_anno_;
-      typename pcl::PointCloud<pcl::PointNormal>::Ptr filtered_normal_;
-
-      /** \brief indices of the filtered cloud. */
-      //typename pcl::VoxelGrid::IndicesPtr cloud_indices_;
-
-      /** \brief Voxel grid leaf size */
-      Eigen::Vector4f voxel_grid_leaf_size_;
-
-      /** \brief Voxel grid dimensions */
-      Eigen::Vector3i dim_;
-
-      /** \brief voxel grid data points
-          packing order [x0y0z0, x1y0z0,x2y0z0,...,x0y1z0,x1y1z0,...,x0y0z1,x1y0z1,...]
-      */
-      std::vector<Eigen::Vector3i> data_;
-
-      std::vector<Eigen::Vector3i> color_;
-
-      std::vector<Eigen::Vector3f> normal_;
-
-      /** \brief smoothness kernel parameters
-       * [0] = standard deviation x
-       * [1] = standard deviation y
-       * [2] = standard deviation z
-       * [3] = weight
-       */
-      float smoothness_kernel_param_[4];
-
-      /** \brief appearance kernel parameters
-       * [0] = standard deviation x
-       * [1] = standard deviation y
-       * [2] = standard deviation z
-       * [3] = standard deviation red
-       * [4] = standard deviation green
-       * [5] = standard deviation blue
-       * [6] = weight
-       */
-      float appearance_kernel_param_[7];
-
-      float surface_kernel_param_[7];
-
-
-      unsigned int n_iterations_;
-
-
-      /** \brief Contains normals of the points that will be segmented. */
-      //typename pcl::PointCloud<pcl::Normal>::Ptr normals_;
-
-      /** \brief Stores the cloud that will be segmented. */
-      //typename pcl::PointCloud<PointT>::Ptr cloud_for_segmentation_;
-
-    public:
-      EIGEN_MAKE_ALIGNED_OPERATOR_NEW
- };
-}
+  public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+};
+} // namespace pcl
 
 #endif

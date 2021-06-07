@@ -43,112 +43,94 @@
 #include <pcl/apps/cloud_composer/point_selectors/interactor_style_switch.h>
 #include <vtkEventQtSlotConnect.h>
 
-namespace pcl
-{
-  namespace cloud_composer
-  {
-    class ProjectModel;
-    /** \brief View class for displaying ProjectModel data using PCLVisualizer
-     * \author Jeremie Papon
-     * \ingroup cloud_composer
+namespace pcl {
+namespace cloud_composer {
+class ProjectModel;
+/** \brief View class for displaying ProjectModel data using PCLVisualizer
+ * \author Jeremie Papon
+ * \ingroup cloud_composer
+ */
+class CloudView : public QWidget {
+    Q_OBJECT
+
+  public:
+    CloudView(QWidget *parent = 0);
+    CloudView(const CloudView &to_copy);
+    CloudView(ProjectModel *model, QWidget *parent = 0);
+    virtual ~CloudView();
+
+    void setModel(ProjectModel *new_model);
+    ProjectModel *getModel() const { return model_; }
+
+    QVTKWidget *getQVTK() const { return qvtk_; }
+
+    boost::shared_ptr<pcl::visualization::PCLVisualizer>
+    getPCLVisualizer() const {
+        return vis_;
+    }
+
+    void setAxisVisibility(bool visible);
+
+    void setInteractorStyle(interactor_styles::INTERACTOR_STYLES style);
+  public slots:
+    void refresh();
+
+    /** \brief Slot called when the item selected in cloud browser changes */
+    void selectedItemChanged(const QItemSelection &selected,
+                             const QItemSelection &deselected);
+
+    /** \brief Slot called when the data in model changes */
+    void dataChanged(const QModelIndex &topLeft,
+                     const QModelIndex &bottomRight);
+
+  protected slots:
+    /** \brief Slot called when an item in the model changes
+     * \param topLeft
+     * \param bottomRight
      */
-    class CloudView : public QWidget
-    {
-      Q_OBJECT
+    void itemChanged(QStandardItem *item);
 
-    public:
-      CloudView (QWidget* parent = 0);
-      CloudView (const CloudView& to_copy);
-      CloudView (ProjectModel* model, QWidget* parent = 0);
-      virtual ~CloudView ();
+    /** \brief Slot called when rows inserted to model
+     * \param start Start of new rows (inclusive)
+     * \param end End of new rows (inclusive)
+     */
+    void rowsInserted(const QModelIndex &parent, int start, int end);
 
-      void
-      setModel (ProjectModel* new_model);
-      ProjectModel*
-      getModel () const { return model_; }
+    void rowsAboutToBeRemoved(const QModelIndex &parent, int start, int end);
 
-      QVTKWidget*
-      getQVTK() const {return qvtk_; }
+    void selectionCompleted(vtkObject *caller, unsigned long event_id,
+                            void *client_data, void *call_data);
 
-      boost::shared_ptr<pcl::visualization::PCLVisualizer>
-      getPCLVisualizer () const { return vis_; }
+    void manipulationCompleted(vtkObject *caller, unsigned long event_id,
+                               void *client_data, void *call_data);
 
-      void
-      setAxisVisibility (bool visible);
+  protected:
+    void paintEvent(QPaintEvent *event);
+    void resizeEvent(QResizeEvent *event);
+    //   void scrollContentsBy (int dx, int dy);
 
-      void
-      setInteractorStyle (interactor_styles::INTERACTOR_STYLES style);
-    public slots:
-      void
-      refresh ();
+  private:
+    void connectSignalsAndSlots();
 
-      /** \brief Slot called when the item selected in cloud browser changes */
-      void
-      selectedItemChanged (const QItemSelection & selected, const QItemSelection & deselected);
+    /** \brief Internal function for setting up the style_switch_ */
+    void initializeInteractorSwitch();
 
-      /** \brief Slot called when the data in model changes */
-      void
-      dataChanged ( const QModelIndex & topLeft, const QModelIndex & bottomRight );
+    void addOrientationMarkerWidgetAxes();
+    void removeOrientationMarkerWidgetAxes();
 
-    protected slots:
-      /** \brief Slot called when an item in the model changes
-       * \param topLeft
-       * \param bottomRight
-       */
-      void
-      itemChanged (QStandardItem* item);
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> vis_;
+    ProjectModel *model_;
+    QVTKWidget *qvtk_;
+    vtkSmartPointer<InteractorStyleSwitch> style_switch_;
 
-      /** \brief Slot called when rows inserted to model
-       * \param start Start of new rows (inclusive)
-       * \param end End of new rows (inclusive)
-       */
-      void
-      rowsInserted (const QModelIndex& parent, int start, int end);
+    vtkSmartPointer<vtkOrientationMarkerWidget> axes_widget_;
+    vtkSmartPointer<vtkAxesActor> axes_;
 
-      void
-      rowsAboutToBeRemoved (const QModelIndex& parent, int start, int end);
+    /** \brief Manages VTK events by connecting them to QT slots */
+    vtkSmartPointer<vtkEventQtSlotConnect> connections_;
+};
+} // namespace cloud_composer
+} // namespace pcl
 
-      void
-      selectionCompleted (vtkObject* caller, unsigned long event_id, void* client_data, void* call_data);
-
-      void
-      manipulationCompleted (vtkObject* caller, unsigned long event_id, void* client_data, void* call_data);
-
-    protected:
-      void
-      paintEvent (QPaintEvent* event);
-      void
-      resizeEvent (QResizeEvent* event);
-      //   void scrollContentsBy (int dx, int dy);
-
-
-
-    private:
-      void
-      connectSignalsAndSlots ();
-
-      /** \brief Internal function for setting up the style_switch_ */
-      void
-      initializeInteractorSwitch ();
-
-      void
-      addOrientationMarkerWidgetAxes ();
-      void
-      removeOrientationMarkerWidgetAxes ();
-
-      boost::shared_ptr<pcl::visualization::PCLVisualizer> vis_;
-      ProjectModel* model_;
-      QVTKWidget* qvtk_;
-      vtkSmartPointer<InteractorStyleSwitch> style_switch_;
-
-      vtkSmartPointer<vtkOrientationMarkerWidget> axes_widget_;
-      vtkSmartPointer<vtkAxesActor> axes_;
-
-      /** \brief Manages VTK events by connecting them to QT slots */
-      vtkSmartPointer<vtkEventQtSlotConnect> connections_;
-    };
-  }
-}
-
-Q_DECLARE_METATYPE (pcl::cloud_composer::CloudView);
+Q_DECLARE_METATYPE(pcl::cloud_composer::CloudView);
 #endif

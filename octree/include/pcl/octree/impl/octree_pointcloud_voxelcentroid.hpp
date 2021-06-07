@@ -43,94 +43,98 @@
 #include <pcl/octree/octree_pointcloud_voxelcentroid.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template<typename PointT, typename LeafContainerT, typename BranchContainerT> bool
-pcl::octree::OctreePointCloudVoxelCentroid<PointT, LeafContainerT, BranchContainerT>::getVoxelCentroidAtPoint (
-    const PointT& point_arg, PointT& voxel_centroid_arg) const
-{
-  OctreeKey key;
-  LeafNode* leaf = 0;
+template <typename PointT, typename LeafContainerT, typename BranchContainerT>
+bool pcl::octree::OctreePointCloudVoxelCentroid<PointT, LeafContainerT,
+                                                BranchContainerT>::
+    getVoxelCentroidAtPoint(const PointT &point_arg,
+                            PointT &voxel_centroid_arg) const {
+    OctreeKey key;
+    LeafNode *leaf = 0;
 
-  // generate key
-  genOctreeKeyforPoint (point_arg, key);
+    // generate key
+    genOctreeKeyforPoint(point_arg, key);
 
-  leaf = this->findLeaf (key);
+    leaf = this->findLeaf(key);
 
-  if (leaf)
-  {
-    LeafContainerT* container = leaf;
-    container->getCentroid (voxel_centroid_arg);
-  }
-
-  return (leaf != 0);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template<typename PointT, typename LeafContainerT, typename BranchContainerT> size_t
-pcl::octree::OctreePointCloudVoxelCentroid<PointT, LeafContainerT, BranchContainerT>::getVoxelCentroids (
-    typename OctreePointCloud<PointT, LeafContainerT, BranchContainerT>::AlignedPointTVector &voxel_centroid_list_arg) const
-{
-  OctreeKey new_key;
-
-  // reset output vector
-  voxel_centroid_list_arg.clear ();
-  voxel_centroid_list_arg.reserve (this->leafCount_);
-
-  getVoxelCentroidsRecursive (this->rootNode_, new_key, voxel_centroid_list_arg );
-
-  // return size of centroid vector
-  return (voxel_centroid_list_arg.size ());
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template<typename PointT, typename LeafContainerT, typename BranchContainerT> void
-pcl::octree::OctreePointCloudVoxelCentroid<PointT, LeafContainerT, BranchContainerT>::getVoxelCentroidsRecursive (
-    const BranchNode* branch_arg, OctreeKey& key_arg,
-    typename OctreePointCloud<PointT, LeafContainerT, BranchContainerT>::AlignedPointTVector &voxel_centroid_list_arg) const
-{
-  // child iterator
-  unsigned char child_idx;
-
-  // iterate over all children
-  for (child_idx = 0; child_idx < 8; child_idx++)
-  {
-    // if child exist
-    if (branch_arg->hasChild (child_idx))
-    {
-      // add current branch voxel to key
-      key_arg.pushBranch (child_idx);
-
-      const OctreeNode *childNode = branch_arg->getChildPtr (child_idx);
-
-      switch (childNode->getNodeType ())
-      {
-        case BRANCH_NODE:
-        {
-          // recursively proceed with indexed child branch
-          getVoxelCentroidsRecursive (static_cast<const BranchNode*> (childNode), key_arg, voxel_centroid_list_arg);
-          break;
-        }
-        case LEAF_NODE:
-        {
-          const LeafContainerT* container = static_cast<const LeafNode*> (childNode);
-
-          PointT new_centroid;
-          container->getCentroid (new_centroid);
-
-          voxel_centroid_list_arg.push_back (new_centroid);
-          break;
-        }
-        default:
-          break;
-       }
-
-      // pop current branch voxel from key
-      key_arg.popBranch ();
+    if (leaf) {
+        LeafContainerT *container = leaf;
+        container->getCentroid(voxel_centroid_arg);
     }
-  }
+
+    return (leaf != 0);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+template <typename PointT, typename LeafContainerT, typename BranchContainerT>
+size_t pcl::octree::OctreePointCloudVoxelCentroid<PointT, LeafContainerT,
+                                                  BranchContainerT>::
+    getVoxelCentroids(
+        typename OctreePointCloud<PointT, LeafContainerT,
+                                  BranchContainerT>::AlignedPointTVector
+            &voxel_centroid_list_arg) const {
+    OctreeKey new_key;
 
-#define PCL_INSTANTIATE_OctreePointCloudVoxelCentroid(T) template class PCL_EXPORTS pcl::octree::OctreePointCloudVoxelCentroid<T>;
+    // reset output vector
+    voxel_centroid_list_arg.clear();
+    voxel_centroid_list_arg.reserve(this->leafCount_);
+
+    getVoxelCentroidsRecursive(this->rootNode_, new_key,
+                               voxel_centroid_list_arg);
+
+    // return size of centroid vector
+    return (voxel_centroid_list_arg.size());
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+template <typename PointT, typename LeafContainerT, typename BranchContainerT>
+void pcl::octree::OctreePointCloudVoxelCentroid<PointT, LeafContainerT,
+                                                BranchContainerT>::
+    getVoxelCentroidsRecursive(
+        const BranchNode *branch_arg, OctreeKey &key_arg,
+        typename OctreePointCloud<PointT, LeafContainerT,
+                                  BranchContainerT>::AlignedPointTVector
+            &voxel_centroid_list_arg) const {
+    // child iterator
+    unsigned char child_idx;
+
+    // iterate over all children
+    for (child_idx = 0; child_idx < 8; child_idx++) {
+        // if child exist
+        if (branch_arg->hasChild(child_idx)) {
+            // add current branch voxel to key
+            key_arg.pushBranch(child_idx);
+
+            const OctreeNode *childNode = branch_arg->getChildPtr(child_idx);
+
+            switch (childNode->getNodeType()) {
+            case BRANCH_NODE: {
+                // recursively proceed with indexed child branch
+                getVoxelCentroidsRecursive(
+                    static_cast<const BranchNode *>(childNode), key_arg,
+                    voxel_centroid_list_arg);
+                break;
+            }
+            case LEAF_NODE: {
+                const LeafContainerT *container =
+                    static_cast<const LeafNode *>(childNode);
+
+                PointT new_centroid;
+                container->getCentroid(new_centroid);
+
+                voxel_centroid_list_arg.push_back(new_centroid);
+                break;
+            }
+            default:
+                break;
+            }
+
+            // pop current branch voxel from key
+            key_arg.popBranch();
+        }
+    }
+}
+
+#define PCL_INSTANTIATE_OctreePointCloudVoxelCentroid(T)                       \
+    template class PCL_EXPORTS pcl::octree::OctreePointCloudVoxelCentroid<T>;
 
 #endif
-

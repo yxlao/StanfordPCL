@@ -23,14 +23,12 @@
 @class UIPopoverController;
 
 @interface GLViewController : UIViewController {
-
 }
 
-@property (nonatomic, retain) IBOutlet UIButton *infoButton;
-@property (nonatomic, retain) IBOutlet UIButton *loadButton;
+@property(nonatomic, retain) IBOutlet UIButton *infoButton;
+@property(nonatomic, retain) IBOutlet UIButton *loadButton;
 
-
-@property (nonatomic, retain) UIPopoverController *infoPopover;
-@property (nonatomic, retain) UIPopoverController *loadPopover;
+@property(nonatomic, retain) UIPopoverController *infoPopover;
+@property(nonatomic, retain) UIPopoverController *loadPopover;
 
 @end

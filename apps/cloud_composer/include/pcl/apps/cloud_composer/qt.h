@@ -66,5 +66,4 @@
 #include <QMessageBox>
 #include <QPair>
 
-
 #endif // CLOUD_COMPOSER_QT_H_

@@ -8,7 +8,7 @@
 // THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
 // ALL IMPLIED WARRANTIES OF FITNESS FOR ANY PARTICULAR PURPOSE AND OF
 // MERCHANTABILITY ARE HEREBY DISCLAIMED.
-//				
+//
 // For complete openNURBS copyright information see <http://www.opennurbs.org>.
 //
 ////////////////////////////////////////////////////////////////
@@ -17,13 +17,12 @@
 #if !defined(OPENNURBS_MEMORY_INC_)
 #define OPENNURBS_MEMORY_INC_
 
-#if defined (cplusplus) || defined(_cplusplus) || defined(__cplusplus)
+#if defined(cplusplus) || defined(_cplusplus) || defined(__cplusplus)
 extern "C" {
 #endif
 
 ON_DECL
 size_t ON_MemoryPageSize();
-
 
 ON_DECL
 void ON_MemoryManagerBegin(void);
@@ -123,33 +122,33 @@ void ON_MemoryManagerEnd(void);
 */
 
 ON_DECL
-void*  onmalloc( size_t );
+void *onmalloc(size_t);
 
 ON_DECL
-void*  oncalloc( size_t, size_t );
+void *oncalloc(size_t, size_t);
 
 ON_DECL
-void   onfree( void* );
+void onfree(void *);
 
 ON_DECL
-void*  onrealloc( void*, size_t );
+void *onrealloc(void *, size_t);
 
 ON_DECL
-size_t onmsize( const void* );
+size_t onmsize(const void *);
 
 ON_DECL
-void*  onmemdup( const void*, size_t );
+void *onmemdup(const void *, size_t);
 
 ON_DECL
-char*  onstrdup( const char* );
+char *onstrdup(const char *);
 
 #if defined(_WCHAR_T_DEFINED)
 ON_DECL
-wchar_t* onwcsdup( const wchar_t* );
+wchar_t *onwcsdup(const wchar_t *);
 #endif
 
 ON_DECL
-unsigned char* onmbsdup( const unsigned char* );
+unsigned char *onmbsdup(const unsigned char *);
 
 /* define to handle _TCHAR* ontcsdup( const _TCHAR* ) */
 #if defined(_UNICODE)
@@ -160,7 +159,7 @@ unsigned char* onmbsdup( const unsigned char* );
 #define ontcsdup onstrdup
 #endif
 
-#if defined (cplusplus) || defined(_cplusplus) || defined(__cplusplus)
+#if defined(cplusplus) || defined(_cplusplus) || defined(__cplusplus)
 }
 #endif
 

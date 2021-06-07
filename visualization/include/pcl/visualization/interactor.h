@@ -42,66 +42,63 @@
 #include <vtkConfigure.h>
 #include <vtkObjectFactory.h>
 #ifdef _WIN32
-#  include <vtkWin32RenderWindowInteractor.h>
+#include <vtkWin32RenderWindowInteractor.h>
 #else
 #include <vtkConfigure.h>
 #if defined VTK_USE_CARBON
-#  include <vtkCarbonRenderWindowInteractor.h>
+#include <vtkCarbonRenderWindowInteractor.h>
 #elif defined VTK_USE_COCOA
-#  include <vtkCocoaRenderWindowInteractor.h>
+#include <vtkCocoaRenderWindowInteractor.h>
 #else
 // Stupid X.h defines Complex, Bool, Success globally (!)
-#  include <vtkXRenderWindowInteractor.h>
-#  undef Complex
-#  undef Bool
-#  undef Success
-#  undef Status
+#include <vtkXRenderWindowInteractor.h>
+#undef Complex
+#undef Bool
+#undef Success
+#undef Status
 #endif
 #endif
 
-namespace pcl
-{
-  namespace visualization
-  {
-    /** \brief The PCLVisualizer interactor */
+namespace pcl {
+namespace visualization {
+/** \brief The PCLVisualizer interactor */
 #ifdef _WIN32
-    class PCL_EXPORTS PCLVisualizerInteractor : public vtkWin32RenderWindowInteractor
+class PCL_EXPORTS PCLVisualizerInteractor
+    : public vtkWin32RenderWindowInteractor
 #elif defined VTK_USE_CARBON
-    class PCLVisualizerInteractor : public vtkCarbonRenderWindowInteractor
+class PCLVisualizerInteractor : public vtkCarbonRenderWindowInteractor
 #elif defined VTK_USE_COCOA
-    class PCLVisualizerInteractor : public vtkCocoaRenderWindowInteractor
+class PCLVisualizerInteractor : public vtkCocoaRenderWindowInteractor
 #else
-    class PCLVisualizerInteractor : public vtkXRenderWindowInteractor
+class PCLVisualizerInteractor : public vtkXRenderWindowInteractor
 #endif
-    {
-      public:
-        static PCLVisualizerInteractor *New ();
+{
+  public:
+    static PCLVisualizerInteractor *New();
 
-//        void TerminateApp (void); // do nothing -> disable exit(0) on keys 'q', 'Q' or Esc
-        void stopLoop ();
+    //        void TerminateApp (void); // do nothing -> disable exit(0) on keys
+    //        'q', 'Q' or Esc
+    void stopLoop();
 
-        bool stopped;
-        int timer_id_;
+    bool stopped;
+    int timer_id_;
 
 #ifdef _WIN32
-        int BreakLoopFlag;                // if true quit the GetMessage loop
+    int BreakLoopFlag; // if true quit the GetMessage loop
 
-        virtual void
-        Start ();                         // Redefine the vtkWin32RenderWindowInteractor::Start method...
+    virtual void
+    Start(); // Redefine the vtkWin32RenderWindowInteractor::Start method...
 
-        vtkGetMacro (BreakLoopFlag, int);
+    vtkGetMacro(BreakLoopFlag, int);
 
-        void
-        SetBreakLoopFlag (int);           // Change the value of BreakLoopFlag
+    void SetBreakLoopFlag(int); // Change the value of BreakLoopFlag
 
-        void
-        BreakLoopFlagOff ();              // set BreakLoopFlag to 0
+    void BreakLoopFlagOff(); // set BreakLoopFlag to 0
 
-        void
-        BreakLoopFlagOn ();               // set BreakLoopFlag to 1 (quit)
+    void BreakLoopFlagOn(); // set BreakLoopFlag to 1 (quit)
 #endif
-    };
-  }
-}
+};
+} // namespace visualization
+} // namespace pcl
 
 #endif

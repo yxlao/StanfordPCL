@@ -40,38 +40,38 @@
 
 #include <pcl/pcl_exports.h>
 
-namespace pcl
-{
-  namespace cuda
-  {
-  
-    template <template <typename> class Storage, template <typename> class OtherStorage>
-    typename PointCloudAOS<OtherStorage>::Ptr toStorage (const PointCloudAOS<Storage> &input)
-    {
-      typename PointCloudAOS<OtherStorage>::Ptr out (new PointCloudAOS<OtherStorage>);
-      *out << input;
-      return out;
-    }
-    
-    template <template <typename> class Storage>
-    void
-    toHost (const PointCloudAOS<Storage> &input, PointCloudAOS<Host> &output)
-    {
-      output << input;
-    }
-    
-    template <template <typename> class Storage>
-    void                                                                                  
-    toDevice (const PointCloudAOS<Storage> &input, PointCloudAOS<Device> &output)
-    {
-      output << input;
-    }
+namespace pcl {
+namespace cuda {
 
-    template PCL_EXPORTS PointCloudAOS<Device>::Ptr toStorage <Host, Device> (const PointCloudAOS<Host> &input);
-    template PCL_EXPORTS PointCloudAOS<Device>::Ptr toStorage <Device, Device> (const PointCloudAOS<Device> &input);
-    template PCL_EXPORTS PointCloudAOS<Host>::Ptr toStorage <Host, Host> (const PointCloudAOS<Host> &input);
-    template PCL_EXPORTS PointCloudAOS<Host>::Ptr toStorage <Device, Host> (const PointCloudAOS<Device> &input);
+template <template <typename> class Storage,
+          template <typename> class OtherStorage>
+typename PointCloudAOS<OtherStorage>::Ptr
+toStorage(const PointCloudAOS<Storage> &input) {
+    typename PointCloudAOS<OtherStorage>::Ptr out(
+        new PointCloudAOS<OtherStorage>);
+    *out << input;
+    return out;
+}
 
-  } // namespace
-} // namespace
+template <template <typename> class Storage>
+void toHost(const PointCloudAOS<Storage> &input, PointCloudAOS<Host> &output) {
+    output << input;
+}
 
+template <template <typename> class Storage>
+void toDevice(const PointCloudAOS<Storage> &input,
+              PointCloudAOS<Device> &output) {
+    output << input;
+}
+
+template PCL_EXPORTS PointCloudAOS<Device>::Ptr
+toStorage<Host, Device>(const PointCloudAOS<Host> &input);
+template PCL_EXPORTS PointCloudAOS<Device>::Ptr
+toStorage<Device, Device>(const PointCloudAOS<Device> &input);
+template PCL_EXPORTS PointCloudAOS<Host>::Ptr
+toStorage<Host, Host>(const PointCloudAOS<Host> &input);
+template PCL_EXPORTS PointCloudAOS<Host>::Ptr
+toStorage<Device, Host>(const PointCloudAOS<Device> &input);
+
+} // namespace cuda
+} // namespace pcl

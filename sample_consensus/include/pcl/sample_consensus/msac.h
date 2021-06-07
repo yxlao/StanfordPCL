@@ -42,18 +42,17 @@
 #include <pcl/sample_consensus/sac.h>
 #include <pcl/sample_consensus/sac_model.h>
 
-namespace pcl
-{
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /** \brief @b MEstimatorSampleConsensus represents an implementation of the MSAC (M-estimator SAmple Consensus)
-    * algorithm, as described in: "MLESAC: A new robust estimator with application to estimating image geometry", P.H.S.
-    * Torr and A. Zisserman, Computer Vision and Image Understanding, vol 78, 2000.
-    * \author Radu Bogdan Rusu
-    * \ingroup sample_consensus
-    */
-  template <typename PointT>
-  class MEstimatorSampleConsensus : public SampleConsensus<PointT>
-  {
+namespace pcl {
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/** \brief @b MEstimatorSampleConsensus represents an implementation of the MSAC
+ * (M-estimator SAmple Consensus) algorithm, as described in: "MLESAC: A new
+ * robust estimator with application to estimating image geometry", P.H.S. Torr
+ * and A. Zisserman, Computer Vision and Image Understanding, vol 78, 2000.
+ * \author Radu Bogdan Rusu
+ * \ingroup sample_consensus
+ */
+template <typename PointT>
+class MEstimatorSampleConsensus : public SampleConsensus<PointT> {
     using SampleConsensus<PointT>::max_iterations_;
     using SampleConsensus<PointT>::threshold_;
     using SampleConsensus<PointT>::iterations_;
@@ -65,31 +64,33 @@ namespace pcl
 
     typedef typename SampleConsensusModel<PointT>::Ptr SampleConsensusModelPtr;
 
-    public:
-      /** \brief MSAC (M-estimator SAmple Consensus) main constructor
-        * \param model a Sample Consensus model
-        */
-      MEstimatorSampleConsensus (const SampleConsensusModelPtr &model) : SampleConsensus<PointT> (model)
-      {
+  public:
+    /** \brief MSAC (M-estimator SAmple Consensus) main constructor
+     * \param model a Sample Consensus model
+     */
+    MEstimatorSampleConsensus(const SampleConsensusModelPtr &model)
+        : SampleConsensus<PointT>(model) {
         // Maximum number of trials before we give up.
         max_iterations_ = 10000;
-      }
+    }
 
-      /** \brief MSAC (M-estimator SAmple Consensus) main constructor
-        * \param model a Sample Consensus model
-        * \param threshold distance to model threshold
-        */
-      MEstimatorSampleConsensus (const SampleConsensusModelPtr &model, double threshold) : SampleConsensus<PointT> (model, threshold)
-      {
+    /** \brief MSAC (M-estimator SAmple Consensus) main constructor
+     * \param model a Sample Consensus model
+     * \param threshold distance to model threshold
+     */
+    MEstimatorSampleConsensus(const SampleConsensusModelPtr &model,
+                              double threshold)
+        : SampleConsensus<PointT>(model, threshold) {
         // Maximum number of trials before we give up.
         max_iterations_ = 10000;
-      }
+    }
 
-      /** \brief Compute the actual model and find the inliers
-        * \param debug_verbosity_level enable/disable on-screen debug information and set the verbosity level
-        */
-      bool computeModel (int debug_verbosity_level = 0);
-  };
-}
+    /** \brief Compute the actual model and find the inliers
+     * \param debug_verbosity_level enable/disable on-screen debug information
+     * and set the verbosity level
+     */
+    bool computeModel(int debug_verbosity_level = 0);
+};
+} // namespace pcl
 
-#endif  //#ifndef PCL_SAMPLE_CONSENSUS_MSAC_H_
+#endif //#ifndef PCL_SAMPLE_CONSENSUS_MSAC_H_

@@ -43,4 +43,4 @@
 #include <pcl/common/file_io.h>
 #include <pcl/common/eigen.h>
 
-#endif  //#ifndef PCL_COMMON_HEADERS_
+#endif //#ifndef PCL_COMMON_HEADERS_

@@ -43,44 +43,41 @@
 #include <pcl/pcl_base.h>
 #include <pcl/filters/filter.h>
 #include <pcl/point_types.h>
-namespace pcl
-{
-  namespace pcl_2d
-  {
-    /**
-     * This typedef is used to represent a point cloud containing edge information
-     */
-    struct PointXYZIEdge
-    {
-      PCL_ADD_POINT4D;                    // preferred way of adding a XYZ+padding
-      float magnitude;
-      float direction;
-      float magnitude_x;
-      float magnitude_y;
-      EIGEN_MAKE_ALIGNED_OPERATOR_NEW     // make sure our new allocators are aligned
-    } EIGEN_ALIGN16;                    // enforce SSE padding for correct memory alignment
+namespace pcl {
+namespace pcl_2d {
+/**
+ * This typedef is used to represent a point cloud containing edge information
+ */
+struct PointXYZIEdge {
+    PCL_ADD_POINT4D; // preferred way of adding a XYZ+padding
+    float magnitude;
+    float direction;
+    float magnitude_x;
+    float magnitude_y;
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW // make sure our new allocators are aligned
+} EIGEN_ALIGN16; // enforce SSE padding for correct memory alignment
 
-    template<typename PointT>
-    class convolution : public Filter<PointT>
-    {
+template <typename PointT> class convolution : public Filter<PointT> {
 
     using Filter<PointT>::input_;
 
-public:
+  public:
     /**
-     * Extra pixels are added to the input image so that convolution can be performed over the entire image.
+     * Extra pixels are added to the input image so that convolution can be
+     * performed over the entire image.
      *
-     * (kernel_height/2) rows are added before the first row and after the last row
-     * (kernel_width/2) columns are added before the first column and after the last column
-     * border options define what values are set for these extra rows and columns
+     * (kernel_height/2) rows are added before the first row and after the last
+     * row (kernel_width/2) columns are added before the first column and after
+     * the last column border options define what values are set for these extra
+     * rows and columns
      *
      * Assume that the three rows of right edge of the image looks like this:
      *    .. 3 2 1
      *    .. 6 5 4
      *    .. 9 8 7
      *
-     * BOUNDARY_OPTION_CLAMP : the extra pixels are set to the pixel value of the boundary pixel
-     *    This option makes it seem as if it were:
+     * BOUNDARY_OPTION_CLAMP : the extra pixels are set to the pixel value of
+     * the boundary pixel This option makes it seem as if it were:
      *    .. 3 2 1| 1 1 1 ..
      *    .. 6 5 4| 4 4 4 ..
      *    .. 9 8 7| 7 7 7 ..
@@ -97,27 +94,21 @@ public:
      *    .. 6 5 4| 0 0 0 ..
      *    .. 9 8 7| 0 0 0 ..
      *
-     * Note that the input image is not actually extended in size. Instead, based on these options,
-     * the convolution is performed differently at the border pixels.
+     * Note that the input image is not actually extended in size. Instead,
+     * based on these options, the convolution is performed differently at the
+     * border pixels.
      */
-    enum BOUNDARY_OPTIONS_ENUM
-    {
-      BOUNDARY_OPTION_CLAMP,
-      BOUNDARY_OPTION_MIRROR,
-      BOUNDARY_OPTION_ZERO_PADDING
+    enum BOUNDARY_OPTIONS_ENUM {
+        BOUNDARY_OPTION_CLAMP,
+        BOUNDARY_OPTION_MIRROR,
+        BOUNDARY_OPTION_ZERO_PADDING
     };
 
-    enum IMAGE_CHANNEL
-    {
-      IMAGE_CHANNEL_RGB,
-      IMAGE_CHANNEL_INTENSITY
-    };
+    enum IMAGE_CHANNEL { IMAGE_CHANNEL_RGB, IMAGE_CHANNEL_INTENSITY };
 
-
-    convolution ()
-    {
-      image_channel_ = IMAGE_CHANNEL_INTENSITY;
-      boundary_options_ = BOUNDARY_OPTION_CLAMP;
+    convolution() {
+        image_channel_ = IMAGE_CHANNEL_INTENSITY;
+        boundary_options_ = BOUNDARY_OPTION_CLAMP;
     }
 
     /**
@@ -126,7 +117,7 @@ public:
      * Performs 2D convolution of the input point cloud with the kernel.
      * Uses clamp as the default boundary option.
      */
-    void convolve (pcl::PointCloud<PointT> &output);
+    void convolve(pcl::PointCloud<PointT> &output);
 
     /**
      *
@@ -134,7 +125,7 @@ public:
      *
      * This is an over-ride function for the pcl::Filter interface
      */
-    void applyFilter (pcl::PointCloud<PointT> &output);
+    void applyFilter(pcl::PointCloud<PointT> &output);
 
     /**
      *
@@ -142,13 +133,14 @@ public:
      *
      * Sets the kernel to be used for convolution
      */
-    void setKernel (pcl::PointCloud<PointT> &kernel);
+    void setKernel(pcl::PointCloud<PointT> &kernel);
 
     /**
      *
-     * @param boundary_options enum indicating the boundary options to be used for convolution
+     * @param boundary_options enum indicating the boundary options to be used
+     * for convolution
      */
-    void setBoundaryOptions (BOUNDARY_OPTIONS_ENUM boundary_options);
+    void setBoundaryOptions(BOUNDARY_OPTIONS_ENUM boundary_options);
 
     /**
      *
@@ -156,24 +148,19 @@ public:
      */
     void setImageChannel(IMAGE_CHANNEL image_channel);
 
-private:
+  private:
     BOUNDARY_OPTIONS_ENUM boundary_options_;
     pcl::PointCloud<PointT> kernel_;
     IMAGE_CHANNEL image_channel_;
+};
 
-    };
-
-
-  }
-}
+} // namespace pcl_2d
+} // namespace pcl
 #include <pcl/2d/impl/convolution.hpp>
-POINT_CLOUD_REGISTER_POINT_STRUCT (pcl::pcl_2d::PointXYZIEdge,
-    (float, x, x)
-    (float, y, y)
-    (float, z, z)
-    (float, magnitude, magnitude)
-    (float, direction, direction)
-    (float, magnitude_x, magnitude_x)
-    (float, magnitude_y, magnitude_y)
-)
+POINT_CLOUD_REGISTER_POINT_STRUCT(
+    pcl::pcl_2d::PointXYZIEdge,
+    (float, x, x)(float, y, y)(float, z, z)(float, magnitude, magnitude)(
+        float, direction, direction)(float, magnitude_x,
+                                     magnitude_x)(float, magnitude_y,
+                                                  magnitude_y))
 #endif // PCL_2D_CONVOLUTION_2D_H

@@ -41,7 +41,7 @@
 #define PCL_VISUALIZATION_BOOST_H_
 
 #if defined __GNUC__
-#  pragma GCC system_header
+#pragma GCC system_header
 #endif
 
 #include <boost/function.hpp>
@@ -60,4 +60,4 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/filesystem.hpp>
 
-#endif    // PCL_VISUALIZATION_BOOST_H_
+#endif // PCL_VISUALIZATION_BOOST_H_

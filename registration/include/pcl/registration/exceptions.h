@@ -36,34 +36,31 @@
  */
 #include <pcl/exceptions.h>
 
-namespace pcl
-{
-  /** \class SolverDidntConvergeException
-    * \brief An exception that is thrown when the non linear solver didn't converge
-    */
-  class PCL_EXPORTS SolverDidntConvergeException : public PCLException
-  {
-    public:
+namespace pcl {
+/** \class SolverDidntConvergeException
+ * \brief An exception that is thrown when the non linear solver didn't converge
+ */
+class PCL_EXPORTS SolverDidntConvergeException : public PCLException {
+  public:
+    SolverDidntConvergeException(const std::string &error_description,
+                                 const std::string &file_name = "",
+                                 const std::string &function_name = "",
+                                 unsigned line_number = 0) throw()
+        : pcl::PCLException(error_description, file_name, function_name,
+                            line_number) {}
+};
 
-    SolverDidntConvergeException (const std::string& error_description,
-                                  const std::string& file_name = "",
-                                  const std::string& function_name = "" ,
-                                  unsigned line_number = 0) throw ()
-      : pcl::PCLException (error_description, file_name, function_name, line_number) { }
-  } ;
-
- /** \class NotEnoughPointsException
-    * \brief An exception that is thrown when the number of correspondants is not equal
-    * to the minimum required
-    */
-  class PCL_EXPORTS NotEnoughPointsException : public PCLException
-  {
-    public:
-
-    NotEnoughPointsException (const std::string& error_description,
-                              const std::string& file_name = "",
-                              const std::string& function_name = "" ,
-                              unsigned line_number = 0) throw ()
-      : pcl::PCLException (error_description, file_name, function_name, line_number) { }
-  } ;
-}
+/** \class NotEnoughPointsException
+ * \brief An exception that is thrown when the number of correspondants is not
+ * equal to the minimum required
+ */
+class PCL_EXPORTS NotEnoughPointsException : public PCLException {
+  public:
+    NotEnoughPointsException(const std::string &error_description,
+                             const std::string &file_name = "",
+                             const std::string &function_name = "",
+                             unsigned line_number = 0) throw()
+        : pcl::PCLException(error_description, file_name, function_name,
+                            line_number) {}
+};
+} // namespace pcl
