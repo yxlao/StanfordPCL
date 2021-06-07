@@ -8,6 +8,12 @@
 
 ## Dependencies
 
+### Boost
+
+- `1.50.0`: download the zip file from official website, the tar file does not
+  contain build scripts
+- requires `toolset=gcc-4.8`
+
 ### Eigen
 
 - `3.0.0`: https://gitlab.com/libeigen/eigen/-/archive/3.0.4/eigen-3.0.4.zip
@@ -18,11 +24,19 @@
 - modified
   - fix cmake target with no source file to support newer cmake
 
+### OpenCV
+
+- `2.3.1`: https://github.com/opencv/opencv/archive/refs/tags/2.3.1.tar.gz
+
 ### OpenNI
 
 - `1.5.7.10`: https://github.com/OpenNI/OpenNI/releases/tag/Stable-1.5.7.10
 - modified
   - fix `equivalent -> is_equivalent` to support newer compiler
+
+### SuiteSparse
+
+- `5.10.1`: https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/refs/tags/v5.10.1.tar.gz
 
 ### VTK
 
@@ -30,16 +44,3 @@
 - modified
   - added `#include <cstddef>` patch
   - requires gcc 4.8
-
-### Boost
-- `1.50.0`: download the zip file from official website, the tar file does not
-  contain build scripts
-- requires `toolset=gcc-4.8`
-
-### OpenCV
-
-- `2.3.1`: https://github.com/opencv/opencv/archive/refs/tags/2.3.1.tar.gz
-
-### SuiteSparse
-
-- `5.10.1`: https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/refs/tags/v5.10.1.tar.gz
