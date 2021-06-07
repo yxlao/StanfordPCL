@@ -10,5 +10,4 @@ ExternalProject_Add(
     BUILD_COMMAND make  # make -j is not helpful here
     INSTALL_COMMAND make install INSTALL=<INSTALL_DIR>
     BUILD_IN_SOURCE ON
-
 )
