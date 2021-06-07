@@ -18,7 +18,7 @@ ExternalProject_Add(
     BUILD_IN_SOURCE ON
     CONFIGURE_COMMAND ""
     UPDATE_COMMAND ""
-    INSTALL_DIR ${DEPS_INSTALL_PREFIX}
+    INSTALL_DIR ${PCL_DEPS_INSTALL_PREFIX}
     BUILD_COMMAND   cd Platform/Linux/Build && make -j6
     COMMAND         cd Platform/Linux/CreateRedist && ./RedistMaker
     INSTALL_COMMAND echo "OpenNI will be installed to" <INSTALL_DIR>

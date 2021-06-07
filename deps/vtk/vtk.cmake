@@ -10,7 +10,7 @@ ExternalProject_Add(
     PREFIX vtk
     URL https://github.com/Kitware/VTK/archive/refs/tags/v5.6.1.zip
     PATCH_COMMAND patch Utilities/vtkmetaio/metaUtils.cxx < ${PROJECT_SOURCE_DIR}/vtk/patch_file.diff
-    INSTALL_DIR ${DEPS_INSTALL_PREFIX}
+    INSTALL_DIR ${PCL_DEPS_INSTALL_PREFIX}
     CMAKE_ARGS
         -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
         -DCMAKE_C_COMPILER=gcc-4.8
