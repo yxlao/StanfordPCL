@@ -25,6 +25,10 @@ add_dependencies(ext_eigen ext_openni)
 include(${PROJECT_SOURCE_DIR}/opencv/opencv.cmake)
 add_dependencies(ext_opencv ext_openni)
 
+# Qhull
+include(${PROJECT_SOURCE_DIR}/qhull/qhull.cmake)
+add_dependencies(ext_qhull ext_openni)
+
 # Suitesparse
 include(${PROJECT_SOURCE_DIR}/suitesparse/suitesparse.cmake)
 add_dependencies(ext_suitesparse ext_openni)
