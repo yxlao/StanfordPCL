@@ -49,40 +49,40 @@ namespace pcl {
 namespace io {
 namespace ply {
 /** \file io_operators.h
- * defines output operators for int8 and uint8
+ * defines output operators for int8_t and uint8_t
  * \author Ares Lagae as part of libply, Nizar Sallem
  * \ingroup io
  */
 namespace io_operators {
 
-inline std::istream &operator>>(std::istream &istream, int8 &value) {
-    int16 tmp;
+inline std::istream &operator>>(std::istream &istream, int8_t &value) {
+    int16_t tmp;
     if (istream >> tmp) {
-        if (tmp <= std::numeric_limits<int8>::max())
-            value = static_cast<int8>(tmp);
+        if (tmp <= std::numeric_limits<int8_t>::max())
+            value = static_cast<int8_t>(tmp);
         else
             istream.setstate(std::ios_base::failbit);
     }
     return (istream);
 }
 
-inline std::istream &operator>>(std::istream &istream, uint8 &value) {
-    uint16 tmp;
+inline std::istream &operator>>(std::istream &istream, uint8_t &value) {
+    uint16_t tmp;
     if (istream >> tmp) {
-        if (tmp <= std::numeric_limits<uint8>::max())
-            value = static_cast<uint8>(tmp);
+        if (tmp <= std::numeric_limits<uint8_t>::max())
+            value = static_cast<uint8_t>(tmp);
         else
             istream.setstate(std::ios_base::failbit);
     }
     return (istream);
 }
 
-inline std::ostream &operator<<(std::ostream &ostream, int8 value) {
-    return (ostream << static_cast<int16>(value));
+inline std::ostream &operator<<(std::ostream &ostream, int8_t value) {
+    return (ostream << static_cast<int16_t>(value));
 }
 
-inline std::ostream &operator<<(std::ostream &ostream, uint8 value) {
-    return (ostream << static_cast<uint16>(value));
+inline std::ostream &operator<<(std::ostream &ostream, uint8_t value) {
+    return (ostream << static_cast<uint16_t>(value));
 }
 
 } // namespace io_operators
