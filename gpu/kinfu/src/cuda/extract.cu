@@ -84,7 +84,8 @@ struct FullScan6 {
 #endif
 
 #if __CUDA_ARCH__ >= 120
-        if (__all(x >= VOLUME_X) || __all(y >= VOLUME_Y))
+        if (__all_sync(0xffffffff, x >= VOLUME_X) ||
+            __all_sync(0xffffffff, y >= VOLUME_Y))
             return;
 #else
         if (Emulation::All(x >= VOLUME_X, cta_buffer) ||
@@ -174,9 +175,10 @@ struct FullScan6 {
 
 #if __CUDA_ARCH__ >= 200
             /// not we fulfilled points array at current iteration
-            int total_warp = __popc(__ballot(local_count > 0)) +
-                             __popc(__ballot(local_count > 1)) +
-                             __popc(__ballot(local_count > 2));
+            int total_warp =
+                __popc(__ballot_sync(0xffffffff, local_count > 0)) +
+                __popc(__ballot_sync(0xffffffff, local_count > 1)) +
+                __popc(__ballot_sync(0xffffffff, local_count > 2));
 #else
             int tid = Block::flattenedThreadId();
             cta_buffer[tid] = local_count;

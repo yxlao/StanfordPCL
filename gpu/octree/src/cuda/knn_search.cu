@@ -103,7 +103,7 @@ struct Warp_knnSearch {
         } else
             query_index = -1;
 
-        while (__any(active)) {
+        while (__any_sync(0xffffffff, active)) {
             int leaf = -1;
 
             if (active)
@@ -155,7 +155,7 @@ struct Warp_knnSearch {
     };
 
     __device__ __forceinline__ void processLeaf(int node_idx) {
-        int mask = __ballot(node_idx != -1);
+        int mask = __ballot_sync(0xffffffff, node_idx != -1);
 
         unsigned int laneId = Warp::laneId();
         unsigned int warpId = Warp::id();
@@ -291,7 +291,7 @@ __global__ void KernelKNN(const Batch batch) {
 
     bool active = query_index < batch.queries_num;
 
-    if (__all(active == false))
+    if (__all_sync(0xffffffff, active == false))
         return;
 
     Warp_knnSearch search(batch, query_index);
