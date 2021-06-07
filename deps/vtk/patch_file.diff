@@ -1,0 +1,10 @@
+--- Utilities/vtkmetaio/metaUtils.cxx	2021-06-04 00:36:52.573650285 -0700
++++ Utilities/vtkmetaio/metaUtils_v2.cxx	2021-06-04 00:39:48.527663402 -0700
+@@ -37,6 +37,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <string>
++#include <cstddef>
+ 
+ #if defined (__BORLANDC__) && (__BORLANDC__ >= 0x0580)
+ #include <mem.h>

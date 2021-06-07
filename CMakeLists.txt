@@ -9,6 +9,18 @@ endif("${CMAKE_BUILD_TYPE}" STREQUAL "")
 project(PCL)
 string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
 
+# CCache for CXX and CUDA
+find_program(CCACHE "ccache")
+if (CCACHE)
+    message(STATUS "ccache found at ${CCACHE}")
+    set(CMAKE_C_COMPILER_LAUNCHER ${CCACHE})
+    set(CMAKE_CXX_COMPILER_LAUNCHER ${CCACHE})
+    set(CMAKE_CUDA_COMPILER_LAUNCHER ${CCACHE})
+endif()
+
+# Global deps installation directory
+set(PCL_DEPS_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/deps/build/install)
+
 ### ---[ Find universal dependencies
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules/" ${CMAKE_MODULE_PATH})
 
@@ -61,7 +73,36 @@ include(${PCL_SOURCE_DIR}/cmake/pcl_options.cmake)
 
 # ---[ Unix/Darwin/Windows specific flags
 if(CMAKE_COMPILER_IS_GNUCXX)
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-unknown-pragmas -Wconversion -Wold-style-cast -fno-strict-aliasing -Wno-format-extra-args -Wno-sign-compare -Wno-invalid-offsetof")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-attributes")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-conversion")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-dangling-else")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-expansion-to-defined")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-float-conversion")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-format-extra-args")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-format")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-ignored-attributes")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-implicit-fallthrough")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-int-in-bool-context")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-invalid-offsetof")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-logical-not-parentheses")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-misleading-indentation")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-narrowing")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-old-style-cast")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-reorder")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-sign-compare")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-strict-aliasing")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-pragmas")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-function")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-local-typedefs")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-parameter")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-result")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-variable")
+  add_definitions(-D__GLIBC_HAVE_LONG_LONG)
+  add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
+  add_definitions(-DBOOST_NO_CXX11_VARIADIC_TEMPLATES)
 
   # Enable -Wabi for GCC > 4.3, and -Wno-deprecated for GCC < 4.3
   # to disable a lot of warnings which are not fixable
@@ -73,7 +114,6 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     message("-- GCC < 4.3 found, enabling -Wno-deprecated")
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated")
   endif ()
-
 
   if(NOT ANDROID)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
@@ -194,19 +234,35 @@ if(OPENMP_FOUND)
 else(OPENMP_FOUND)
   message (STATUS "Not found OpenMP")
 endif()
+
+################################################################################
 # Boost (required)
+set(BOOST_ROOT ${PCL_DEPS_INSTALL_PREFIX})
+set(BOOSTROOT ${PCL_DEPS_INSTALL_PREFIX})
+set(Boost_NO_SYSTEM_PATHS ON)
 include(${PCL_SOURCE_DIR}/cmake/pcl_find_boost.cmake)
+link_libraries(${Boost_LIBRARIES})
+
 # Eigen (required)
+set(EIGEN_INCLUDE_DIR ${PCL_DEPS_INSTALL_PREFIX}/include/eigen3)
 find_package(Eigen REQUIRED)
 include_directories(SYSTEM ${EIGEN_INCLUDE_DIRS})
 add_definitions(-DEIGEN_USE_NEW_STDVECTOR
                 -DEIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET)
+
 # FLANN (required)
 if(NOT PCL_SHARED_LIBS OR WIN32)
   set(FLANN_USE_STATIC ON)
 endif(NOT PCL_SHARED_LIBS OR WIN32)
+set(FLANN_ROOT ${PCL_DEPS_INSTALL_PREFIX})
 find_package(FLANN 1.7.0 REQUIRED)
 include_directories(SYSTEM ${FLANN_INCLUDE_DIRS})
+
+# SuiteSparse
+find_package(SuiteSparse REQUIRED)
+if (NOT CSPARSE_FOUND)
+  message(FATAL_ERROR "CSPARSE_FOUND: ${CSPARSE_FOUND}")
+endif()
 
 # libusb-1.0
 find_package(libusb-1.0)
@@ -215,11 +271,13 @@ if(LIBUSB_1_FOUND)
 endif(LIBUSB_1_FOUND)
 
 # OpenNI
+set(OPENNI_ROOT ${PCL_DEPS_INSTALL_PREFIX})
 find_package(OpenNI)
 if (OPENNI_FOUND)
   set(HAVE_OPENNI ON)
   include_directories(SYSTEM ${OPENNI_INCLUDE_DIRS})
 endif()
+
 # LibPNG
 find_package(PNG)
 if (PNG_FOUND)
@@ -228,6 +286,7 @@ if (PNG_FOUND)
 endif(PNG_FOUND)
 
 # Qhull
+set(QHULL_ROOT ${PCL_DEPS_INSTALL_PREFIX})
 if(NOT PCL_SHARED_LIBS OR WIN32)
   set(QHULL_USE_STATIC ON)
 endif(NOT PCL_SHARED_LIBS OR WIN32)
@@ -238,13 +297,15 @@ include(${PCL_SOURCE_DIR}/cmake/pcl_find_cuda.cmake)
 
 # Find ROS
 include(${PCL_SOURCE_DIR}/cmake/pcl_find_ros.cmake)
+
 # Find QT4
 find_package(Qt4)
 if (QT4_FOUND)
   include(${QT_USE_FILE})
 endif (QT4_FOUND)
+
 # Find VTK
-find_package(VTK)
+find_package(VTK PATHS ${PCL_DEPS_INSTALL_PREFIX})
 if(VTK_FOUND)
   if (PCL_SHARED_LIBS OR
       (NOT (PCL_SHARED_LIBS) AND NOT (VTK_BUILD_SHARED_LIBS)))
@@ -260,6 +321,7 @@ if(VTK_FOUND)
     message ("Warning: VTK disabled!")
   endif ()
 endif(VTK_FOUND)
+
 # Find MPI
 if (WITH_MPI) # this script searches for MPI 10 sec under windows, annoying especially if you do this often
   find_package(MPI)
@@ -267,11 +329,13 @@ if (WITH_MPI) # this script searches for MPI 10 sec under windows, annoying espe
     include_directories(SYSTEM ${MPI_INCLUDE_PATH})
   endif(MPI_CXX_FOUND)
 endif()
-#Find Doxygen and html help compiler if any
+
+# Find Doxygen and html help compiler if any
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
   find_package(HTMLHelp)
 endif(DOXYGEN_FOUND)
+################################################################################
 
 ### ---[ Create the config.h file
 set(pcl_config_h_in "${CMAKE_CURRENT_SOURCE_DIR}/pcl_config.h.in")
@@ -290,6 +354,7 @@ include(${PCL_SOURCE_DIR}/cmake/pcl_tests.cmake)
 include(${PCL_SOURCE_DIR}/cmake/pcl_targets.cmake)
 
 collect_subproject_directory_names(${PCL_SOURCE_DIR} "CMakeLists.txt" PCL_MODULES_NAMES PCL_MODULES_DIRS doc)
+list(REMOVE_ITEM PCL_MODULES_DIRS "deps") # Since we introduced the deps folder
 set(PCL_MODULES_NAMES_UNSORTED ${PCL_MODULES_NAMES})
 topological_sort(PCL_MODULES_NAMES PCL_ _DEPENDS)
 sort_relative(PCL_MODULES_NAMES_UNSORTED PCL_MODULES_NAMES PCL_MODULES_DIRS)
