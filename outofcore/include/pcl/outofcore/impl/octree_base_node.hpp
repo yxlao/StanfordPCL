@@ -567,7 +567,7 @@ namespace pcl
           if ( indices[i].empty () )
             continue;
 
-          if ( children_[i] == false )
+          if (children_[i] == nullptr)
           {
             createChild (i);
           }
@@ -820,7 +820,7 @@ namespace pcl
         if(indices[i].empty ())
           continue;
 
-        if( children_[i] == false )
+        if (children_[i] == nullptr)
           createChild (i);
 
         //copy correct indices into a temporary cloud
