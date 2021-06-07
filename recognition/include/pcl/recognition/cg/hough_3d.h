@@ -488,7 +488,7 @@ class Hough3DGrouping
     void clusterCorrespondences(std::vector<Correspondences> &model_instances);
 
     ///** \brief Finds the transformation matrix between the input and the scene
-    ///cloud for a set of correspondences using a RANSAC algorithm.
+    /// cloud for a set of correspondences using a RANSAC algorithm.
     //  *
     //  * \param[in] the scene cloud in which the PointSceneT has been converted
     //  to PointModelT.

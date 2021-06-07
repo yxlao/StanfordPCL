@@ -704,10 +704,10 @@ struct ON_3DM_CHUNK {
 
 struct ON_3DM_BIG_CHUNK {
     ON__UINT64
-        m_big_offset; // In read or write_using_fseek mode, this is the
-                      // file position of first byte after chunk's length.
-                      // In write_using_buffer mode, this of the m_buffer[]
-                      // position of first byte after chunk's length.
+    m_big_offset; // In read or write_using_fseek mode, this is the
+                  // file position of first byte after chunk's length.
+                  // In write_using_buffer mode, this of the m_buffer[]
+                  // position of first byte after chunk's length.
 
     ON__UINT64 Length() const; // 0 for short chunks
 

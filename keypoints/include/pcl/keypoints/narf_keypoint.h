@@ -87,15 +87,16 @@ class PCL_EXPORTS NarfKeypoint : public Keypoint<PointWithRange, int> {
                                                    * distance is
                                                    *  min_distance_between_interest_points*support_size)
                                                    */
-        float optimal_distance_to_high_surface_change; /**< The distance we want
-                                                        * keep between keypoints
-                                                        * and areas of high
-                                                        * surface change (this
-                                                        * is a factor for
-                                                        * support_size, i.e.,
-                                                        * the distance is
-                                                        *  optimal_distance_to_high_surface_change*support_size)
-                                                        */
+        float
+            optimal_distance_to_high_surface_change; /**< The distance we want
+                                                      * keep between keypoints
+                                                      * and areas of high
+                                                      * surface change (this
+                                                      * is a factor for
+                                                      * support_size, i.e.,
+                                                      * the distance is
+                                                      *  optimal_distance_to_high_surface_change*support_size)
+                                                      */
         float min_interest_value; //!< The minimum value to consider a point as
                                   //!< an interest point
         float min_surface_change_score; //!< The minimum value  of the surface

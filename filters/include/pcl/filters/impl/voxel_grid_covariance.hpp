@@ -234,8 +234,8 @@ void pcl::VoxelGridCovariance<PointT>::applyFilter(PointCloud &output) {
                 ijk0 * divb_mul_[0] + ijk1 * divb_mul_[1] + ijk2 * divb_mul_[2];
 
             // int idx = (((input_->points[cp].getArray4fMap () *
-            // inverse_leaf_size_).template cast<int> ()).matrix () - min_b_).dot
-            // (divb_mul_);
+            // inverse_leaf_size_).template cast<int> ()).matrix () -
+            // min_b_).dot (divb_mul_);
             Leaf &leaf = leaves_[idx];
             if (leaf.nr_points == 0) {
                 leaf.centroid.resize(centroid_size);

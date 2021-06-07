@@ -265,7 +265,7 @@ void pcl::LINEMOD::matchTemplates(
                                 data_m128i + mem_index)); // SSE2
                         //__m128i aligned_data_m128i = _mm_lddqu_si128
                         //(reinterpret_cast<const __m128i*> (data_m128i +
-                        //mem_index)); // SSE3
+                        // mem_index)); // SSE3
                         tmp_score_sums_m128i[mem_index] =
                             _mm_add_epi8(tmp_score_sums_m128i[mem_index],
                                          aligned_data_m128i);
@@ -654,7 +654,7 @@ void pcl::LINEMOD::detectTemplates(
                                 data_m128i + mem_index)); // SSE2
                         //__m128i aligned_data_m128i = _mm_lddqu_si128
                         //(reinterpret_cast<const __m128i*> (data_m128i +
-                        //mem_index)); // SSE3
+                        // mem_index)); // SSE3
                         tmp_score_sums_m128i[mem_index] =
                             _mm_add_epi8(tmp_score_sums_m128i[mem_index],
                                          aligned_data_m128i);
@@ -1268,7 +1268,7 @@ void pcl::LINEMOD::detectTemplatesSemiScaleInvariant(
                                     data_m128i + mem_index)); // SSE2
                             //__m128i aligned_data_m128i = _mm_lddqu_si128
                             //(reinterpret_cast<const __m128i*> (data_m128i +
-                            //mem_index)); // SSE3
+                            // mem_index)); // SSE3
                             tmp_score_sums_m128i[mem_index] =
                                 _mm_add_epi8(tmp_score_sums_m128i[mem_index],
                                              aligned_data_m128i);

@@ -132,7 +132,7 @@ class ON_CLASS ON_CurveOnSurface : public ON_Curve {
                      // specified points
         const ON_Plane * = NULL, // if not NULL, test is performed in this plane
         ON_Arc * = NULL,         // if not NULL and true is returned, then arc
-                         // parameters are filled in
+                                 // parameters are filled in
         double = ON_ZERO_TOLERANCE // tolerance to use when checking
     ) const;
 

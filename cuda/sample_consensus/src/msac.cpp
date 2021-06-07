@@ -181,9 +181,9 @@ bool pcl_cuda::MultiRandomSampleConsensus<Storage>::computeModel(
                 }
 
                 // fprintf (stderr,
-                // "[pcl_cuda::MultiRandomSampleConsensus::computeModel] Trial %d
-                // out of %f: %d inliers (best is: %d so far).\n", cur_iteration,
-                // k, n_inliers_count, n_best_inliers_count);
+                // "[pcl_cuda::MultiRandomSampleConsensus::computeModel] Trial
+                // %d out of %f: %d inliers (best is: %d so far).\n",
+                // cur_iteration, k, n_inliers_count, n_best_inliers_count);
                 // check if we found a valid model
 
                 {
@@ -247,7 +247,8 @@ bool pcl_cuda::MultiRandomSampleConsensus<Storage>::computeModel(
                         // float4 model_coeff =
                         // h[extracted_model/iterations_per_batch_][extracted_model%iterations_per_batch_];
                         // std::cerr << "MODEL COEFFICIENTS: " << model_coeff.x
-                        // << " " << model_coeff.y << " " << model_coeff.z << " "
+                        // << " " << model_coeff.y << " " << model_coeff.z << "
+                        // "
                         // << model_coeff.w << std::endl;
 
                         // so we only get it once:

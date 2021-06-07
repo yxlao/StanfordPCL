@@ -116,10 +116,10 @@ float RangeImageBorderExtractor::getNeighborDistanceChangeScore(
 // if (distance_to_plane_squared <= normal_distance_to_plane_squared)
 // return 0.0f;
 // float ret = 1.0f -
-// (normal_distance_to_plane_squared/distance_to_plane_squared); if (shadow_side)
-// ret = -ret;
+// (normal_distance_to_plane_squared/distance_to_plane_squared); if
+// (shadow_side) ret = -ret;
 ////cout <<
-///PVARC(normal_distance_to_plane_squared)<<PVAR(distance_to_plane_squared)<<"
+/// PVARC(normal_distance_to_plane_squared)<<PVAR(distance_to_plane_squared)<<"
 ///=> "<<ret<<"\n";
 // return ret;
 //}

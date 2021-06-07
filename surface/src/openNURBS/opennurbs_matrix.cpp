@@ -172,10 +172,10 @@ bool ON_Matrix::Create( // E.g., Create(1,5,1,7) creates a 5x7 sized matrix that
                         // with "top" row = m[1][1],...,m[1][7] and "bottom" row
                         // = m[5][1],...,m[5][7].  The result of Create(0,m,0,n)
                         // is identical to the result of Create(m+1,n+1).
-    int ri0, // first valid row index
-    int ri1, // last valid row index
-    int ci0, // first valid column index
-    int ci1  // last valid column index
+    int ri0,            // first valid row index
+    int ri1,            // last valid row index
+    int ci0,            // first valid column index
+    int ci1             // last valid column index
 ) {
     bool b = false;
     if (ri1 > ri0 && ci1 > ci0) {

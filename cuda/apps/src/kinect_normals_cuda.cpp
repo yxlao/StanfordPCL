@@ -195,8 +195,8 @@ class NormalEstimation {
             ScopeTimeCPU time("Normal Estimation");
             normals = computeFastPointNormals<Storage>(data);
             // normals = computePointNormals<Storage, typename
-            // PointIterator<Storage,PointXYZRGB>::type > (data->points.begin (),
-            // data->points.end (), focallength, data, 0.05, 30);
+            // PointIterator<Storage,PointXYZRGB>::type > (data->points.begin
+            // (), data->points.end (), focallength, data, 0.05, 30);
         }
 
         boost::mutex::scoped_lock l(m_mutex);

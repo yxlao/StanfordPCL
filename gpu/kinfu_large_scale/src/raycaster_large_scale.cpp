@@ -48,10 +48,10 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //~ void
 //~ pcl::gpu::RayCaster::run(const TsdfVolume& volume, const Affine3f&
-//camera_pose, pcl::gpu::tsdf_buffer* buffer) ~ { ~ camera_pose_.linear() =
-//camera_pose.linear(); ~ camera_pose_.translation() =
-//camera_pose.translation(); ~ volume_size_ = volume.getSize(); ~ device::Intr
-//intr (fx_, fy_, cx_, cy_);
+// camera_pose, pcl::gpu::tsdf_buffer* buffer) ~ { ~ camera_pose_.linear() =
+// camera_pose.linear(); ~ camera_pose_.translation() =
+// camera_pose.translation(); ~ volume_size_ = volume.getSize(); ~ device::Intr
+// intr (fx_, fy_, cx_, cy_);
 //~
 //~ vertex_map_.create(rows * 3, cols);
 //~ normal_map_.create(rows * 3, cols);
@@ -72,5 +72,5 @@
 //~
 //~ float tranc_dist = volume.getTsdfTruncDist();
 //~ device::raycast (intr, device_R, device_t, tranc_dist, device_cast<const
-//float3>(volume_size_), volume.data(), buffer, vertex_map_, normal_map_);
+// float3>(volume_size_), volume.data(), buffer, vertex_map_, normal_map_);
 //~ }

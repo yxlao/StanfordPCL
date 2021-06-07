@@ -4473,7 +4473,7 @@ static ON_MeshParameters QualityRenderMeshParameters() {
     mp.m_texture_range = 2; // Don't change this without speaking to Dale Lear
 
     //// 16 July, 2002 - copied V2 hard coded "smooth and slower" render mesh
-    ///settings
+    /// settings
     ////
     //// Settings used in V2, V3 and early V4 beta
     // mp.m_refine_angle       = 15.0*ON_PI/180.0;
@@ -8893,8 +8893,8 @@ bool ON_ClosestPointToTriangleFast(const ON_3dPoint &R, const ON_3dPoint &S,
 // of the closest points For quads, conceptually, they are divided into 2
 // triangles.  The closest point must be in one of the triangles, so the
 // barycentric coordinates will be fro that triangle with 0 for the remaining
-// vertex.  In either case, the closest point will be the sum (j=0 to j<count[i])
-// of P[i][j]*bc[i][j]
+// vertex.  In either case, the closest point will be the sum (j=0 to
+// j<count[i]) of P[i][j]*bc[i][j]
 
 static bool ClosestPointBetweenTriQuad(int count[2], const ON_3dPoint *P[2],
                                        double *bc[2])

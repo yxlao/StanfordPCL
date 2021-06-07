@@ -174,7 +174,7 @@ class ON_CLASS ON_Texture : public ON_Object {
         decal_texture = 2,    // decal
         blend_texture = 3,    // blend texture with others in the material
                               // To "add" a texture, set m_blend_amount = +1
-                           // To "subtract" a texture, set m_blend_amount = -1
+        // To "subtract" a texture, set m_blend_amount = -1
 
         force_32bit_texture_mode = 0xFFFFFFFF
     };

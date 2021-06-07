@@ -171,7 +171,7 @@ void ON_TextLog::AppendText(const char *s) {
             fputs(s, m_pFile);
         } else {
             //#if (defined(OutputDebugString) || defined(ON_OS_WINDOWS)) &&
-            //defined(ON_DEBUG)
+            // defined(ON_DEBUG)
             //      OutputDebugStringA(s);
             //#else
             printf("%s", s);

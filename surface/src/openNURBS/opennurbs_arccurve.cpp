@@ -869,9 +869,8 @@ bool ON_Arc::GetNurbFormParameterFromRadian(double RadianParameter,
 
     // Debug ONLY Code  - check the result
     //		double aa = a[0]*(1-tbez)*(1-tbez)  + 2*a[1]*tbez*(1-tbez) +
-    //a[2]*tbez*tbez; 		double tantheta= tan(RadianParameter); 		ON_3dPoint bezp;
-    //		bez.Evaluate(tbez, 0, 3, bezp);
-    //		double yx = bezp.y/bezp.x;
+    // a[2]*tbez*tbez; 		double tantheta= tan(RadianParameter); 		ON_3dPoint
+    // bezp; 		bez.Evaluate(tbez, 0, 3, bezp); 		double yx = bezp.y/bezp.x;
 
     *NurbParameter = BezDomain.ParameterAt(tbez);
     return true;

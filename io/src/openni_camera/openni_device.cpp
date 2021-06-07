@@ -382,7 +382,8 @@ void openni_wrapper::OpenNIDevice::Init() {
             depth_generator_.GetIntProperty("NoSampleValue", no_sample_value_);
         if (status != XN_STATUS_OK)
             // THROW_OPENNI_EXCEPTION ("reading the value for pixels with no
-            // depth estimation failed. Reason: %s", xnGetStatusString (status));
+            // depth estimation failed. Reason: %s", xnGetStatusString
+            // (status));
             no_sample_value_ = 0;
 
         // baseline from cm -> meters

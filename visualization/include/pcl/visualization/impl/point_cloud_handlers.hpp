@@ -275,7 +275,7 @@ void pcl::visualization::PointCloudColorHandlerHSVField<PointT>::getColor(
             int idx = j * 3;
 
             ///@todo do this with the point_types_conversion in common, first
-            ///template it!
+            /// template it!
 
             // Fill color data with HSV here:
             if (cloud_->points[cp].s == 0) {

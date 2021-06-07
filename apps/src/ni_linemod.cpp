@@ -182,7 +182,8 @@ class NILinemod {
     /////////////////////////////////////////////////////////////////////////
     void mouse_callback(const visualization::MouseEvent &, void *) {
         // if (mouse_event.getType() ==
-        // visualization::MouseEvent::MouseButtonPress && mouse_event.getButton()
+        // visualization::MouseEvent::MouseButtonPress &&
+        // mouse_event.getButton()
         // == visualization::MouseEvent::LeftButton)
         //{
         //  cout << "left button pressed @ " << mouse_event.getX () << " , " <<

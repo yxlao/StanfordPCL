@@ -193,7 +193,7 @@ struct FEllipticArc2D : public Figure2D {
 };
 
 ////////////////////////////////////The Main Painter Class begins
-///here//////////////////////////////////////
+/// here//////////////////////////////////////
 /** \brief PCL Painter2D main class. Class for drawing 2D figures
  * \author Kripasindhu Sarkar
  * \ingroup visualization

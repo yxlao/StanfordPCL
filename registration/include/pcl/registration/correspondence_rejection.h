@@ -236,8 +236,8 @@ class DataContainer : public DataContainerInterface {
     inline double
     getCorrespondenceScoreFromNormals(const pcl::Correspondence &corr) {
         // assert ( (input_normals_->points.size () != 0) &&
-        // (target_normals_->points.size () != 0) && "Normals are not set for the
-        // input and target point clouds");
+        // (target_normals_->points.size () != 0) && "Normals are not set for
+        // the input and target point clouds");
         assert(input_normals_ && target_normals_ &&
                "Normals are not set for the input and target point clouds");
         const NormalT &src = input_normals_->points[corr.index_query];

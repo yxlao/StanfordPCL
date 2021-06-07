@@ -317,8 +317,8 @@ class SLACPointCloud {
         for (int i = 0; i < (int)points_.size(); i++) {
             SLACPoint &point = points_[i];
             // cout << point.p_[ 0 ] << endl << point.p_[ 1 ] << endl <<
-            // point.p_[ 2 ] << endl << point.p_[ 3 ] << endl << point.p_[ 4 ] <<
-            // endl << point.p_[ 5 ] << endl;
+            // point.p_[ 2 ] << endl << point.p_[ 3 ] << endl << point.p_[ 4 ]
+            // << endl << point.p_[ 5 ] << endl;
             p = inc_pose *
                 Eigen::Vector4f(point.p_[0], point.p_[1], point.p_[2], 1);
             n = inc_pose *
@@ -330,8 +330,8 @@ class SLACPointCloud {
             point.n_[1] = n(1);
             point.n_[2] = n(2);
             // cout << point.p_[ 0 ] << endl << point.p_[ 1 ] << endl <<
-            // point.p_[ 2 ] << endl << point.p_[ 3 ] << endl << point.p_[ 4 ] <<
-            // endl << point.p_[ 5 ] << endl; cout << endl;
+            // point.p_[ 2 ] << endl << point.p_[ 3 ] << endl << point.p_[ 4 ]
+            // << endl << point.p_[ 5 ] << endl; cout << endl;
         }
     }
 

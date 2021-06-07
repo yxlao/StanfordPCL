@@ -531,9 +531,10 @@ ON_BOOL32 ON_PolyCurve::ChangeClosedCurveSeam(double t) {
                     double segt = Segdom.ParameterAt(nt);
                     rc = scrv->Split(segt, sleft, sright);
 
-                    //				Greg Arden 6 May 2003. Fixes TRR#10332.  If split
-                    //fails we break the 				curve between segments and adjust the
-                    //parameterization
+                    //				Greg Arden 6 May 2003. Fixes TRR#10332.  If
+                    //split
+                    // fails we break the 				curve between segments and adjust
+                    // the parameterization
                     if (!rc) {
                         if (nt > .5) {
                             segment_index++;

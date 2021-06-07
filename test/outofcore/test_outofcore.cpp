@@ -468,7 +468,7 @@ TEST_F(OutofcoreTest, Outofcore_ConstructorSafety) {
     int depth = 2;
 
     //(Case 3) Constructor Safety. These should throw OCT_CHILD_EXISTS
-    //exceptions and write an error message of conflicting file path
+    // exceptions and write an error message of conflicting file path
     ASSERT_TRUE(boost::filesystem::exists(filename_otreeA))
         << "No tree detected on disk. This test will fail. Perhaps this test "
            "was run out of order.\n";

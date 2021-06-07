@@ -388,7 +388,7 @@ bool pcl::Hough3DGrouping<PointModelT, PointSceneT, PointModelRfT,
     transformations = found_transformations_;
 
     ////temp copy of scene cloud with the type cast to ModelT in order to use
-    ///Ransac
+    /// Ransac
     // PointCloudPtr temp_scene_cloud_ptr (new PointCloud);
     // pcl::copyPointCloud<PointSceneT, PointModelT> (*scene_,
     // *temp_scene_cloud_ptr);

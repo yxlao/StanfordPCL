@@ -301,15 +301,15 @@ bool ON_EvaluateNurbsDeBoor( // for expert users only - no support available
     double, // mult_k - used when side is +2 or -2.  See above for usage.
     double  // t
             //    If side < 0, then the cv's for the portion of the NURB span to
-           //    the LEFT of t are computed.  If side > 0, then the cv's for the
-           //    portion the span to the RIGHT of t are computed.  The following
-           //    table summarizes the restrictions on t:
-           //
-           //     value of side         condition t must satisfy
-           //        -2                    mult_k < t and mult_k <
-           //        knots[order-1] -1                    knots[order-2] < t +1
-           //        t < knots[order-1] +2                    t < mult_k and
-           //        knots[order-2] < mult_k
+    //    the LEFT of t are computed.  If side > 0, then the cv's for the
+    //    portion the span to the RIGHT of t are computed.  The following
+    //    table summarizes the restrictions on t:
+    //
+    //     value of side         condition t must satisfy
+    //        -2                    mult_k < t and mult_k <
+    //        knots[order-1] -1                    knots[order-2] < t +1
+    //        t < knots[order-1] +2                    t < mult_k and
+    //        knots[order-2] < mult_k
 );
 
 ON_DECL

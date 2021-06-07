@@ -870,7 +870,7 @@ bool ON_InstanceDefinition::HasLinkedIdefLayerSettings() const {
 //////    corresponding layers in the current context.
 //////*/
 //////void GetLinkedIdefLayerSettings( class ON_ObjectArray<ON_Layer>&
-///layer_settings ) const;
+/// layer_settings ) const;
 //////
 ///////*
 //////Description:
@@ -884,14 +884,14 @@ bool ON_InstanceDefinition::HasLinkedIdefLayerSettings() const {
 //////    you are managing.
 //////*/
 //////void GetLinkedIdefLayerReferenceSettings( class ON_SimpleArray<const
-///ON_Layer*>& layer_settings ) const;
+/// ON_Layer*>& layer_settings ) const;
 //////
 //////
 //////void ON_InstanceDefinition::GetLinkedIdefLayerReferenceSettings( class
-///ON_SimpleArray<const ON_Layer*>& layer_settings ) const
+/// ON_SimpleArray<const ON_Layer*>& layer_settings ) const
 //////{
 //////  const ON__IDefLayerSettingsUserData* ud =
-///ON__IDefLayerSettingsUserData::LayerSettings(*this,false);
+/// ON__IDefLayerSettingsUserData::LayerSettings(*this,false);
 //////  const int count = 0 != ud ? ud->m_layers.Count() : 0;
 //////  if ( count > 0 )
 //////  {
@@ -909,7 +909,7 @@ bool ON_InstanceDefinition::HasLinkedIdefLayerSettings() const {
 //////}
 //////
 //////void ON_InstanceDefinition::GetLinkedIdefLayerSettings( class
-///ON_ObjectArray<ON_Layer>& layer_settings ) const
+/// ON_ObjectArray<ON_Layer>& layer_settings ) const
 //////{
 //////  layer_settings.SetCount(0);
 //////
@@ -918,7 +918,7 @@ bool ON_InstanceDefinition::HasLinkedIdefLayerSettings() const {
 //////  GetLinkedIdefLayerReferenceSettings(layers);
 //////
 //////  // Update those settings with any modifications made in the idef's
-///current context.
+/// current context.
 //////  layer_settings.Reserve(layers.Count());
 //////  unsigned int settings;
 //////  for ( int i = 0; i < layers.Count(); i++ )

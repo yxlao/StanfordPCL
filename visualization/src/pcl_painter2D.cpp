@@ -155,7 +155,7 @@ void pcl::visualization::PCLPainter2D::addArc(float x, float y, float r,
 }
 
 ///////////////////////////////////////Pen and Brush
-///functions////////////////////////////////////////////////////////
+/// functions////////////////////////////////////////////////////////
 void pcl::visualization::PCLPainter2D::setPenColor(unsigned char r,
                                                    unsigned char g,
                                                    unsigned char b,
@@ -208,7 +208,7 @@ vtkBrush *pcl::visualization::PCLPainter2D::getBrush() {
     return current_brush_;
 }
 //////////////////////////////////////////End of Pen and Brush
-///functions//////////////////////////////////////////////
+/// functions//////////////////////////////////////////////
 
 void pcl::visualization::PCLPainter2D::translatePen(double x, double y) {
     current_transform_->Translate(x, y);

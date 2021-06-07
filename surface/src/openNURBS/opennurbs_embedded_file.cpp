@@ -237,8 +237,9 @@ bool ON_Buffer::Compact() {
                 (struct ON_BUFFER_SEGMENT *)onrealloc(
                     m_last_segment,
                     sizeof(*m_last_segment) +
-                        ((size_t)sizeof_segment_buffer)); // sizeof_segment_buffer
-                                                          // always < 0xFFFFFFFF
+                        ((size_t)
+                             sizeof_segment_buffer)); // sizeof_segment_buffer
+                                                      // always < 0xFFFFFFFF
             if (0 != new_last_segment) {
                 if (new_last_segment != m_last_segment || 0 != last_buffer) {
                     new_last_segment->m_segment_buffer =

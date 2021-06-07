@@ -273,8 +273,8 @@ __global__ void smemTilesKernel(const PtrStepSz<unsigned char> edges,
 
                 // if there is a neigboring element with a smaller label, update
                 // the equivalence tree of the processed element (the tree is
-                //always flattened in this stage so there is no need to use
-                //findRoot to find the root)
+                // always flattened in this stage so there is no need to use
+                // findRoot to find the root)
                 if (new_label < old_label) {
                     changed = 1;
                     atomicMin(&labels_arr[0][0] + old_label, new_label);

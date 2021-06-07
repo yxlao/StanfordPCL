@@ -346,7 +346,7 @@ inline int pcl::BRISK2DEstimation<PointInT, PointOutT, KeypointT, IntensityT>::
 
         // next the edges:
         //+int* ptr_integral;// = static_cast<int*> (integral.data) + x_left +
-        //integralcols * y_top + 1;
+        // integralcols * y_top + 1;
         const int *ptr_integral = static_cast<const int *>(&integral_image[0]) +
                                   x_left + integralcols * y_top + 1;
 

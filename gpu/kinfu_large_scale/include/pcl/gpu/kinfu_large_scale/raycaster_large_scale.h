@@ -54,11 +54,11 @@
 //~ public:
 //~
 //~ /** \brief Runs raycasting algorithm from given camera pose. It writes
-//results to internal fiels. ~ * \param[in] volume tsdf volume container ~ *
+// results to internal fiels. ~ * \param[in] volume tsdf volume container ~ *
 //\param[in] camera_pose camera pose ~ */
 //~ void
 //~ run(const TsdfVolume& volume, const Eigen::Affine3f& camera_pose,
-//pcl::gpu::tsdf_buffer* buffer);
+// pcl::gpu::tsdf_buffer* buffer);
 //~
 //~ /** \brief vertex map of 3D points*/
 //~ RayCaster raycaster_;

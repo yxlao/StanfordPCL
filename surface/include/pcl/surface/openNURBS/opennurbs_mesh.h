@@ -33,10 +33,9 @@ class ON_CLASS ON_MeshParameters {
         // All of these enum values must be in the range 0-255 because
         // unsigned chars are use for storage in some locations.
         unset_mesh_style = 0,
-        render_mesh_fast = 1, // Use ON_MeshParameters::FastRenderMesh
-        render_mesh_quality =
-            2, // Use ON_MeshParameters::QualityRenderMesh
-               // 3 - 8 reserved for future predefined render mesh styles
+        render_mesh_fast = 1,    // Use ON_MeshParameters::FastRenderMesh
+        render_mesh_quality = 2, // Use ON_MeshParameters::QualityRenderMesh
+        // 3 - 8 reserved for future predefined render mesh styles
         render_mesh_custom =
             9, // Use ON_3dmSettings::m_CustomRenderMeshSettings
         render_mesh_per_object = 10 // Use ON_Object::GetMeshParameters().
@@ -196,7 +195,7 @@ class ON_CLASS ON_MeshParameters {
                                   //         when used as per object custom
                                   //         render mesh settings.
                                   //  true - ignore these settings.
-    unsigned char m_mesher; // 0 = slow mesher, 1 = fast mesher
+    unsigned char m_mesher;       // 0 = slow mesher, 1 = fast mesher
 
     int m_texture_range; // 1: normalized
                          //
@@ -1263,9 +1262,11 @@ class ON_CLASS ON_Mesh : public ON_Geometry {
 
     /////////
     // Description:
-    //		Reverse one coordinate direction of the texture coordinates, within
-    //texture domain m_tex_domain 	Parameters: 		dir  -[in]	-   dir=0  first
-    //texture coordinate is reversed 									  dir=1 second texture coordinate is reversed
+    //		Reverse one coordinate direction of the texture coordinates,
+    //within
+    // texture domain m_tex_domain 	Parameters: 		dir  -[in]	-   dir=0
+    // first texture coordinate is reversed
+    // dir=1 second texture coordinate is reversed
     //  Returns
     //			true  -  success
     bool ReverseTextureCoordinates(int dir);

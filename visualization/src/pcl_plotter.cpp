@@ -59,7 +59,7 @@ pcl::visualization::PCLPlotter::PCLPlotter(char const *name) {
     view_->GetRenderWindow()->SetWindowName(name);
 
     //###WARNING: hardcoding logic ;) :-/.. please see plot() and spin*()
-    //functions for the logic
+    // functions for the logic
     exit_loop_timer_->interactor = view_->GetInteractor();
     exit_callback_->plotter = this;
 
@@ -246,7 +246,7 @@ void pcl::visualization::PCLPlotter::addHistogramData(
 }
 
 ////////////////////////////////HistVizualizer
-///Functions//////////////////////////////////////
+/// Functions//////////////////////////////////////
 bool pcl::visualization::PCLPlotter::addFeatureHistogram(
     const sensor_msgs::PointCloud2 &cloud, const std::string &field_name,
     const std::string &id, int win_width, int win_height) {
@@ -470,7 +470,7 @@ void pcl::visualization::PCLPlotter::startInteractor() {
 }
 
 ///////////////////////IMPORTANT PRIVATE
-///FUNCTIONS///////////////////////////////
+/// FUNCTIONS///////////////////////////////
 void pcl::visualization::PCLPlotter::computeHistogram(
     std::vector<double> const &data, int const nbins,
     std::vector<std::pair<double, double>> &histogram) {

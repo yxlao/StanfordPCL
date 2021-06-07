@@ -128,12 +128,12 @@ void pcl::DOTMOD::detectTemplates(const std::vector<DOTModality *> &modalities,
     // std::cerr << "---------------------------------------------------" <<
     // std::endl; std::cerr << "width:                       " << width <<
     // std::endl; std::cerr << "height:                      " << height <<
-    // std::endl; std::cerr << "nr_templates:                " << nr_templates <<
-    // std::endl; std::cerr << "nr_template_horizontal_bins: " <<
+    // std::endl; std::cerr << "nr_templates:                " << nr_templates
+    // << std::endl; std::cerr << "nr_template_horizontal_bins: " <<
     // nr_template_horizontal_bins << std::endl; std::cerr <<
-    // "nr_template_vertical_bins:   " << nr_template_vertical_bins << std::endl;
-    // std::cerr << "template_width_:             " << template_width_ <<
-    // std::endl; std::cerr << "template_height_:            " <<
+    // "nr_template_vertical_bins:   " << nr_template_vertical_bins <<
+    // std::endl; std::cerr << "template_width_:             " <<
+    // template_width_ << std::endl; std::cerr << "template_height_: " <<
     // template_height_ << std::endl;
 
     // std::cerr << "2" << std::endl;

@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
     plotter->clearPlots();
 
     //...................plotting implicit functions and custom
-    //callbacks....................
+    // callbacks....................
 
     // make a fixed axis
     plotter->setYRange(-10, 10);

@@ -590,8 +590,8 @@ void simulate_callback(const pcl::visualization::KeyboardEvent &event,
         Eigen::Matrix3f m;
         m = pose.rotation();
         // All axies use right hand rule. x=red axis, y=green axis, z=blue axis
-        // z direction is point into the screen. z \ \ \ -----------> x | | | | |
-        // | y
+        // z direction is point into the screen. z \ \ \ -----------> x | | | |
+        // | | y
 
         cout << pose(0, 0) << " " << pose(0, 1) << " " << pose(0, 2) << " "
              << pose(0, 3) << " x0\n";

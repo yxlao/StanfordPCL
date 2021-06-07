@@ -97,7 +97,7 @@ void pcl::gpu::extractEuclideanClusters(
             // if the number of queries is not high enough implement search on
             // Host here
             if (queries_host.size() <= 10) ///@todo: adjust this to a variable
-                                           ///number settable with method
+                                           /// number settable with method
             {
                 std::cout << " CPU: ";
                 for (size_t p = 0; p < queries_host.size(); p++) {

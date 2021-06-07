@@ -2511,8 +2511,8 @@ bool ON_BezierSurface::Split(
         rightcrv.m_cv = 0;
 
         if (rc) {
-            // Greg Arden,	12 May 2003 Fixes TRR 10627.  This block of code was
-            // wrong.
+            // Greg Arden,	12 May 2003 Fixes TRR 10627.  This block of code
+            // was wrong.
             right_bez.m_dim = left_bez.m_dim = m_dim;
             right_bez.m_is_rat = left_bez.m_is_rat = m_is_rat;
             right_bez.m_order[0] = left_bez.m_order[0] = m_order[0];

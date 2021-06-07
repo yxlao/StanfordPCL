@@ -41,8 +41,8 @@ inline double SQR(double x) { return x * x; }
 
 template <int Dim>
 struct BallPointStuff // this class provides functions to be both an intersector
-                      // and a minimizer, both for a ball and a point and for two
-                      // trees
+                      // and a minimizer, both for a ball and a point and for
+                      // two trees
 {
     typedef double Scalar;
     typedef Matrix<double, Dim, 1> VectorType;

@@ -95,9 +95,9 @@ void ON_GL(const ON_NurbsCurve &, //
            GLenum = 0, // type of curve (if 0, type is automatically set)
            int = 1,    // bPermitKnotScaling - If true, curve knots may
                        // be rescaled to avoid knot vectors GL cannot handle.
-           double * = NULL, // knot_scale[2] - If not NULL and
-                            // bPermitKnotScaling, the scaling applied to the
-                            // knot vector is returned here.
+           double * = NULL,   // knot_scale[2] - If not NULL and
+                              // bPermitKnotScaling, the scaling applied to the
+                              // knot vector is returned here.
            double[][4] = NULL // optional transformation applied to curve
 );
 
@@ -134,9 +134,9 @@ void ON_GL(const ON_NurbsSurface &, //
            double * = NULL, // knot_scale0[2] - If not NULL and
                             // bPermitKnotScaling, the scaleing applied to the
                             // first parameter is returned here.
-           double * = NULL // knot_scale0[2] - If not NULL and
-                           // bPermitKnotScaling, the scaleing applied to the
-                           // second parameter is returned here.
+           double * = NULL  // knot_scale0[2] - If not NULL and
+                            // bPermitKnotScaling, the scaleing applied to the
+                            // second parameter is returned here.
 );
 
 // Use ON_GL( const ON_BrepFace&, nobj ) to render

@@ -147,7 +147,8 @@ void pcl::SampleConsensusModelStick<PointT>::selectWithinDistance(
                              model_coefficients[5], 0);
     Eigen::Vector4f line_dir = line_pt2 - line_pt1;
     // Eigen::Vector4f line_dir (model_coefficients[3], model_coefficients[4],
-    // model_coefficients[5], 0); Eigen::Vector4f line_dir (model_coefficients[3]
+    // model_coefficients[5], 0); Eigen::Vector4f line_dir
+    // (model_coefficients[3]
     // - model_coefficients[0], model_coefficients[4] - model_coefficients[1],
     // model_coefficients[5] - model_coefficients[2], 0);
     line_dir.normalize();

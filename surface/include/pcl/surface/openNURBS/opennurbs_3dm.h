@@ -99,8 +99,9 @@
 #define TCODE_MATERIAL_TABLE (TCODE_TABLE | 0x0010) /* rendering materials */
 #define TCODE_LAYER_TABLE (TCODE_TABLE | 0x0011)    /* layers */
 #define TCODE_LIGHT_TABLE (TCODE_TABLE | 0x0012)    /* rendering lights */
-#define TCODE_OBJECT_TABLE (TCODE_TABLE | 0x0013)   /* geometry and annotation \
-                                                     */
+#define TCODE_OBJECT_TABLE                                                     \
+    (TCODE_TABLE | 0x0013) /* geometry and annotation                          \
+                            */
 #define TCODE_PROPERTIES_TABLE                                                 \
     (TCODE_TABLE | 0x0014) /* model properties:                                \
                            //   revision history                               \

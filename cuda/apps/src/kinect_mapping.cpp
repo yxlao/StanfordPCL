@@ -278,8 +278,8 @@ class MultiRansac {
 
                     // boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB> >
                     // dummy_cloud (new pcl::PointCloud<pcl::PointXYZRGB>); for
-                    // (unsigned int i = planes.size (); i < nr_planes_last_time;
-                    // i++)
+                    // (unsigned int i = planes.size (); i <
+                    // nr_planes_last_time; i++)
                     //{
                     //  std::stringstream ss;
                     //  ss << "logo" << i;

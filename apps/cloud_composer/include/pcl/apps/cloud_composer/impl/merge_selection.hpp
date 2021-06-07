@@ -100,9 +100,9 @@ pcl::cloud_composer::MergeSelection::performTemplatedAction(
             // Eigen::Quaternionf source_orientation =  input_cloud_item->data
             // (ItemDataRole::ORIENTATION).value<Eigen::Quaternionf> ();
             // sensor_msgs::PointCloud2::Ptr cloud_blob = boost::make_shared
-            // <sensor_msgs::PointCloud2> ();; toROSMsg (*original_minus_indices,
-            // *cloud_blob); CloudItem* new_cloud_item = new CloudItem
-            // (input_cloud_item->text () , cloud_blob
+            // <sensor_msgs::PointCloud2> ();; toROSMsg
+            // (*original_minus_indices, *cloud_blob); CloudItem* new_cloud_item
+            // = new CloudItem (input_cloud_item->text () , cloud_blob
             //      , source_origin
             //      , source_orientation);
 

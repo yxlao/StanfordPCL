@@ -730,7 +730,7 @@ void FittingSurface::addInteriorRegularisation(int order, int resU, int resV,
             params(1) = m_minV + v * dV + 0.5 * dV;
 
             //			printf("%f %f, %f %f\n", m_minU, dU, params(0),
-            //params(1));
+            // params(1));
 
             int E = ON_NurbsSpanIndex(m_nurbs.m_order[0], m_nurbs.m_cv_count[0],
                                       m_nurbs.m_knot[0], params(0), 0, 0);

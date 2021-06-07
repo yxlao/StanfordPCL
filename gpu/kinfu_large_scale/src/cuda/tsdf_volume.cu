@@ -219,7 +219,8 @@ struct Tsdf {
                     float yl = (coo.y - intr.cy) / intr.fy;
                     float lambda_inv = rsqrtf(xl * xl + yl * yl + 1);
 
-                    float sdf = 1000 * norm(tcurr - v_g) * lambda_inv - Dp; // mm
+                    float sdf =
+                        1000 * norm(tcurr - v_g) * lambda_inv - Dp; // mm
 
                     sdf *= (-1);
 
