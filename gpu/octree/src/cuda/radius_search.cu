@@ -143,7 +143,7 @@ template <typename BatchType> struct Warp_radiusSearch {
         } else
             query_index = -1;
 
-        while (__any(active)) {
+        while (__any_sync(0xffffffff, active)) {
             int leaf = -1;
 
             if (active)
@@ -238,7 +238,7 @@ template <typename BatchType> struct Warp_radiusSearch {
                        active_found_count;
             int length_left = batch.max_results - active_found_count;
 
-            int test = __any(active_lane == laneId &&
+            int test = __any_sync(0xffffffff, active_lane == laneId &&
                              (leaf & KernelPolicy::CHECK_FLAG));
 
             if (test) {
@@ -317,7 +317,7 @@ template <typename BatchType> struct Warp_radiusSearch {
             total_new += new_nodes;
             out += new_nodes;
 
-            if (__all_sync(0xffffffff, idx >= length) || __any(out_of_bounds) ||
+            if (__all_sync(0xffffffff, idx >= length) || __any_sync(0xffffffff, out_of_bounds) ||
                 total_new == length_left)
                 break;
         }

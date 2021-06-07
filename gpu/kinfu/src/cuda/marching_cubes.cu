@@ -146,7 +146,7 @@ struct OccupiedVoxels : public CubeIndexEstimator {
 #endif
 
 #if __CUDA_ARCH__ >= 120
-        if (__all(x >= VOLUME_X) || __all(y >= VOLUME_Y))
+        if (__all_sync(0xffffffff, x >= VOLUME_X) || __all_sync(0xffffffff, y >= VOLUME_Y))
             return;
 #else
         if (Emulation::All(x >= VOLUME_X, cta_buffer) ||
@@ -173,7 +173,7 @@ struct OccupiedVoxels : public CubeIndexEstimator {
                                : tex1Dfetch(numVertsTex, cubeindex);
             }
 #if __CUDA_ARCH__ >= 200
-            int total = __popc(__ballot(numVerts > 0));
+            int total = __popc(__ballot_sync(0xffffffff, numVerts > 0));
 #else
             int total = __popc(Emulation::Ballot(numVerts > 0, cta_buffer));
 #endif
@@ -187,7 +187,7 @@ struct OccupiedVoxels : public CubeIndexEstimator {
             int old_global_voxels_count = warps_buffer[warp_id];
 
 #if __CUDA_ARCH__ >= 200
-            int offs = Warp::binaryExclScan(__ballot(numVerts > 0));
+            int offs = Warp::binaryExclScan(__ballot_sync(0xffffffff, numVerts > 0));
 #else
             int offs = Warp::binaryExclScan(
                 Emulation::Ballot(numVerts > 0, cta_buffer));
