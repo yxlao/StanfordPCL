@@ -149,7 +149,10 @@ namespace pcl
           * neighbors.
           */
         inline void
-        getKSearch () const { return (k_); }
+        getKSearch() const
+        {
+          // return (k_);
+        }
 
         /** \brief Return true if the source normals are needed for correspondence estimation. */
         inline bool
