@@ -467,7 +467,7 @@ namespace pcl
 		{
 			int idx = threadIdx.x + blockIdx.x * blockDim.x;
 
-			if (__all(idx >= facet_count))
+			if (__all_sync(0xffffffff, idx >= facet_count))
 				return;
 
 			int empty = 0;

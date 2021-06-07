@@ -329,7 +329,7 @@ namespace pcl
                     total_new += new_nodes;
                     out += new_nodes;
 
-                    if (__all(idx >= length) || __any(out_of_bounds) || total_new == length_left)
+                    if (__all_sync(0xffffffff, idx >= length) || __any(out_of_bounds) || total_new == length_left)
                         break;
                 }
                 return min(total_new, length_left);
@@ -343,7 +343,7 @@ namespace pcl
 
             bool active = query_index < batch.queries.size;
 
-            if (__all(active == false))
+            if (__all_sync(0xffffffff, active == false))
                 return;
 
             Warp_radiusSearch<BatchType> search(batch, query_index);

@@ -617,7 +617,7 @@ namespace pcl
       {
 #if __CUDA_ARCH__ >= 200
 	    (void)cta_buffer;
-		return __all(predicate);
+      return __all_sync(0xffffffff, predicate);
 #else
         int tid = Block::flattenedThreadId();
         cta_buffer[tid] = predicate ? 1 : 0;

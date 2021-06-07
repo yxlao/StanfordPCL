@@ -275,7 +275,7 @@ namespace pcl { namespace device { namespace appnearest_search
 
 		bool active = query_index < batch.queries_num;
 
-		if (__all(active == false))
+		if (__all_sync(0xffffffff, active == false))
 			return;
 
 		Warp_appNearestSearch search(batch, query_index);

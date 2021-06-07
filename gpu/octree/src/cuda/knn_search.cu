@@ -310,7 +310,7 @@ namespace pcl { namespace device { namespace knn_search
 
         bool active = query_index < batch.queries_num;
 
-        if (__all(active == false))
+        if (__all_sync(0xffffffff, active == false))
             return;
 
         Warp_knnSearch search(batch, query_index);
