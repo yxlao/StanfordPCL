@@ -142,7 +142,7 @@ struct OccupiedVoxels : public CubeIndexEstimator {
         int x = threadIdx.x + blockIdx.x * CTA_SIZE_X;
         int y = threadIdx.y + blockIdx.y * CTA_SIZE_Y;
 
-        if (__all(x >= VOLUME_X) || __all(y >= VOLUME_Y))
+        if (__all_sync(0xffffffff, x >= VOLUME_X) || __all_sync(0xffffffff, y >= VOLUME_Y))
             return;
 
         int ftid = Block::flattenedThreadId();
@@ -164,7 +164,7 @@ struct OccupiedVoxels : public CubeIndexEstimator {
                                : tex1Dfetch(numVertsTex, cubeindex);
             }
 
-            int total = __popc(__ballot(numVerts > 0));
+            int total = __popc(__ballot_sync(0xffffffff, numVerts > 0));
             if (total == 0)
                 continue;
 
@@ -174,7 +174,7 @@ struct OccupiedVoxels : public CubeIndexEstimator {
             }
             int old_global_voxels_count = warps_buffer[warp_id];
 
-            int offs = Warp::binaryExclScan(__ballot(numVerts > 0));
+            int offs = Warp::binaryExclScan(__ballot_sync(0xffffffff, numVerts > 0));
 
             if (old_global_voxels_count + offs < max_size && numVerts > 0) {
                 voxels_indeces[old_global_voxels_count + offs] =

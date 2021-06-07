@@ -227,7 +227,7 @@ struct Fpfh : public KernelBase {
         int *sinds = sindices + Warp::WARP_SIZE * warp_idx;
         int size = sizes[idx];
 
-        for (int i = lane; __any(i < size); i += Warp::STRIDE) {
+        for (int i = lane; __any_sync(0xffffffff, i < size); i += Warp::STRIDE) {
             if (i < size)
                 sinds[lane] = ginds[i];
 

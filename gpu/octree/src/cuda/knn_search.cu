@@ -103,7 +103,7 @@ struct Warp_knnSearch {
         } else
             query_index = -1;
 
-        while (__any(active)) {
+        while (__any_sync(0xffffffff, active)) {
             int leaf = -1;
 
             if (active)
