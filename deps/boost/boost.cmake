@@ -10,6 +10,5 @@ ExternalProject_Add(
     BUILD_IN_SOURCE ON
     UPDATE_COMMAND ""
     CONFIGURE_COMMAND ./bootstrap.sh -prefix=<INSTALL_DIR>
-    BUILD_COMMAND     ./b2 toolset=gcc-4.8 -j ${NPROC}
-    INSTALL_COMMAND   ./b2 toolset=gcc-4.8 install -j ${NPROC}
+    INSTALL_COMMAND   ./b2 toolset=gcc-4.8 cxxflags=-fPIC link=static install -j ${NPROC}
 )
