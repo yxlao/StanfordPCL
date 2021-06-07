@@ -444,7 +444,7 @@ struct Compaction {
     __device__ __forceinline__ void operator()() const {
         int idx = threadIdx.x + blockIdx.x * blockDim.x;
 
-        if (__all(idx >= facet_count))
+        if (__all_sync(0xffffffff, idx >= facet_count))
             return;
 
         int empty = 0;
@@ -464,9 +464,9 @@ struct Compaction {
                 empty = 1;
         }
 
-        int total = __popc(__ballot(empty));
+        int total = __popc(__ballot_sync(0xffffffff, empty));
         if (total > 0) {
-            int offset = Warp::binaryExclScan(__ballot(empty));
+            int offset = Warp::binaryExclScan(__ballot_sync(0xffffffff, empty));
 
             volatile __shared__ int wapr_buffer[WARPS];
 

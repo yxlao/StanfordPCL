@@ -31,7 +31,7 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: host_device.cu 4203 2012-02-02 09:53:55Z nerei $
+ * $Id$
  *
  */
 

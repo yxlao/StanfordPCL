@@ -143,7 +143,7 @@ template <typename BatchType> struct Warp_radiusSearch {
         } else
             query_index = -1;
 
-        while (__any(active)) {
+        while (__any_sync(0xffffffff, active)) {
             int leaf = -1;
 
             if (active)
@@ -200,7 +200,7 @@ template <typename BatchType> struct Warp_radiusSearch {
     };
 
     __device__ __forceinline__ void processLeaf(int leaf) {
-        int mask = __ballot(leaf != -1);
+        int mask = __ballot_sync(0xffffffff, leaf != -1);
 
         while (mask) {
             unsigned int laneId = Warp::laneId();
@@ -238,7 +238,7 @@ template <typename BatchType> struct Warp_radiusSearch {
                        active_found_count;
             int length_left = batch.max_results - active_found_count;
 
-            int test = __any(active_lane == laneId &&
+            int test = __any_sync(0xffffffff, active_lane == laneId &&
                              (leaf & KernelPolicy::CHECK_FLAG));
 
             if (test) {
@@ -317,7 +317,7 @@ template <typename BatchType> struct Warp_radiusSearch {
             total_new += new_nodes;
             out += new_nodes;
 
-            if (__all(idx >= length) || __any(out_of_bounds) ||
+            if (__all_sync(0xffffffff, idx >= length) || __any_sync(0xffffffff, out_of_bounds) ||
                 total_new == length_left)
                 break;
         }
@@ -330,7 +330,7 @@ template <typename BatchType> __global__ void KernelRS(const BatchType batch) {
 
     bool active = query_index < batch.queries.size;
 
-    if (__all(active == false))
+    if (__all_sync(0xffffffff, active == false))
         return;
 
     Warp_radiusSearch<BatchType> search(batch, query_index);

@@ -31,12 +31,11 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: normal_3d.h 6459 2012-07-18 07:50:37Z dpb $
+ * $Id$
  *
  */
 
-#ifndef PCL_CUDA_NORMAL_3D_H_
-#define PCL_CUDA_NORMAL_3D_H_
+#pragma once
 
 #include <pcl/pcl_macros.h>
 
@@ -49,43 +48,40 @@ namespace cuda {
 // with a bias!! contact Nico for details :P
 template <typename InputIteratorT, typename OutputIteratorT,
           template <typename> class Storage>
-void computePointNormals(
-    InputIteratorT begin, InputIteratorT end, OutputIteratorT output,
-    float focallength,
-    const boost::shared_ptr<const PointCloudAOS<Storage>> &input, float radius,
-    int desired_number_neighbors);
+void computePointNormals(InputIteratorT begin, InputIteratorT end,
+                         OutputIteratorT output, float focallength,
+                         const typename PointCloudAOS<Storage>::ConstPtr &input,
+                         float radius, int desired_number_neighbors);
 
 template <template <typename> class Storage, typename InputIteratorT>
-boost::shared_ptr<typename Storage<float4>::type> computePointNormals(
-    InputIteratorT begin, InputIteratorT end, float focallength,
-    const boost::shared_ptr<const PointCloudAOS<Storage>> &input, float radius,
-    int desired_number_neighbors);
+shared_ptr<typename Storage<float4>::type>
+computePointNormals(InputIteratorT begin, InputIteratorT end, float focallength,
+                    const typename PointCloudAOS<Storage>::ConstPtr &input,
+                    float radius, int desired_number_neighbors);
 
 // fast normal computations
 template <typename OutputIteratorT, template <typename> class Storage>
 void computeFastPointNormals(
     OutputIteratorT output,
-    const boost::shared_ptr<const PointCloudAOS<Storage>> &input);
+    const typename PointCloudAOS<Storage>::ConstPtr &input);
 
 template <template <typename> class Storage>
-boost::shared_ptr<typename Storage<float4>::type> computeFastPointNormals(
-    const boost::shared_ptr<const PointCloudAOS<Storage>> &input);
+shared_ptr<typename Storage<float4>::type>
+computeFastPointNormals(const typename PointCloudAOS<Storage>::ConstPtr &input);
 
 // Weird normal estimation (normal deviations - more of an art project..)
 template <typename InputIteratorT, typename OutputIteratorT,
           template <typename> class Storage>
 void computeWeirdPointNormals(
     InputIteratorT begin, InputIteratorT end, OutputIteratorT output,
-    float focallength,
-    const boost::shared_ptr<const PointCloudAOS<Storage>> &input, float radius,
-    int desired_number_neighbors);
+    float focallength, const typename PointCloudAOS<Storage>::ConstPtr &input,
+    float radius, int desired_number_neighbors);
 
 template <template <typename> class Storage, typename InputIteratorT>
-boost::shared_ptr<typename Storage<float4>::type> computeWeirdPointNormals(
-    InputIteratorT begin, InputIteratorT end, float focallength,
-    const boost::shared_ptr<const PointCloudAOS<Storage>> &input, float radius,
-    int desired_number_neighbors);
+shared_ptr<typename Storage<float4>::type>
+computeWeirdPointNormals(InputIteratorT begin, InputIteratorT end,
+                         float focallength,
+                         const typename PointCloudAOS<Storage>::ConstPtr &input,
+                         float radius, int desired_number_neighbors);
 } // namespace cuda
 } // namespace pcl
-
-#endif

@@ -31,7 +31,7 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: extract_indices.cu 5291 2012-03-25 17:31:04Z rusu $
+ * $Id$
  *
  */
 
@@ -41,10 +41,10 @@
 //#include <pcl/cuda/io/extract_indices.h>
 #include <pcl/cuda/io/predicate.h>
 #include <pcl/cuda/thrust.h>
+using namespace boost;
 
 namespace pcl {
 namespace cuda {
-
 template <template <typename> class Storage, class T>
 void extractMask(const typename PointCloudAOS<Storage>::Ptr &input, T *mask,
                  typename PointCloudAOS<Storage>::Ptr &output) {
@@ -61,15 +61,15 @@ void extractMask(const typename PointCloudAOS<Storage>::Ptr &input, T *mask,
         output->points.begin(), isNotZero<T>());
     output->points.resize(it - output->points.begin());
 
-    output->width = (unsigned int)output->points.size();
+    output->width = output->points.size();
     output->height = 1;
     output->is_dense = false;
 }
 
 template <template <typename> class Storage, class DataT, class MaskT>
-void extractMask(const boost::shared_ptr<typename Storage<DataT>::type> &input,
+void extractMask(const shared_ptr<typename Storage<DataT>::type> &input,
                  MaskT *mask,
-                 boost::shared_ptr<typename Storage<DataT>::type> &output) {
+                 shared_ptr<typename Storage<DataT>::type> &output) {
     if (!output)
         output.reset(new typename Storage<DataT>::type);
     output->resize(input->size());
@@ -97,7 +97,7 @@ void extractIndices(const typename PointCloudAOS<Storage>::Ptr &input,
                         indices.begin(), output->points.begin(), isInlier());
     output->points.resize(it - output->points.begin());
 
-    output->width = (unsigned int)output->points.size();
+    output->width = output->points.size();
     output->height = 1;
     output->is_dense = false;
 }
@@ -116,7 +116,7 @@ void removeIndices(const typename PointCloudAOS<Storage>::Ptr &input,
                         indices.begin(), output->points.begin(), isNotInlier());
     output->points.resize(it - output->points.begin());
 
-    output->width = (unsigned int)output->points.size();
+    output->width = output->points.size();
     output->height = 1;
     output->is_dense = false;
 }
@@ -143,7 +143,7 @@ void removeIndices(const typename PointCloudAOS<Storage>::Ptr &input,
 
 template <template <typename> class Storage>
 void colorIndices(typename PointCloudAOS<Storage>::Ptr &input,
-                  boost::shared_ptr<typename Storage<int>::type> indices,
+                  shared_ptr<typename Storage<int>::type> indices,
                   const OpenNIRGB &color) {
     thrust::transform_if(input->points.begin(), input->points.end(),
                          indices->begin(), input->points.begin(),
@@ -155,7 +155,7 @@ struct ColorCloudFromImage {
     char4 *colors_;
 
     template <typename Tuple>
-    inline __host__ __device__ PointXYZRGB operator()(Tuple &t) {
+    inline __host__ __device__ PointXYZRGB operator()(const Tuple &t) {
         PointXYZRGB &pt = thrust::get<0>(t);
         char4 rgb = colors_[thrust::get<1>(t)];
         pt.rgb = ((unsigned char)rgb.x << 16) + ((unsigned char)rgb.y << 8) +
@@ -212,11 +212,10 @@ template PCL_EXPORTS void removeIndices<Device>(
 
 template PCL_EXPORTS void
 colorIndices<Host>(PointCloudAOS<Host>::Ptr &input,
-                   boost::shared_ptr<Host<int>::type> indices,
-                   const OpenNIRGB &color);
+                   shared_ptr<Host<int>::type> indices, const OpenNIRGB &color);
 template PCL_EXPORTS void
 colorIndices<Device>(PointCloudAOS<Device>::Ptr &input,
-                     boost::shared_ptr<Device<int>::type> indices,
+                     shared_ptr<Device<int>::type> indices,
                      const OpenNIRGB &color);
 template PCL_EXPORTS void colorCloud<Host>(PointCloudAOS<Host>::Ptr &input,
                                            Host<char4>::type &colors);
@@ -232,11 +231,11 @@ extractMask<Host, unsigned char>(const PointCloudAOS<Host>::Ptr &input,
                                  unsigned char *mask,
                                  PointCloudAOS<Host>::Ptr &output);
 template PCL_EXPORTS void extractMask<Device, float4, unsigned char>(
-    const boost::shared_ptr<Device<float4>::type> &input, unsigned char *mask,
-    boost::shared_ptr<Device<float4>::type> &output);
+    const shared_ptr<Device<float4>::type> &input, unsigned char *mask,
+    shared_ptr<Device<float4>::type> &output);
 template PCL_EXPORTS void extractMask<Host, float4, unsigned char>(
-    const boost::shared_ptr<Host<float4>::type> &input, unsigned char *mask,
-    boost::shared_ptr<Host<float4>::type> &output);
+    const shared_ptr<Host<float4>::type> &input, unsigned char *mask,
+    shared_ptr<Host<float4>::type> &output);
 
 } // namespace cuda
 } // namespace pcl

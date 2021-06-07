@@ -165,14 +165,14 @@ class PCL_EXPORTS ply_parser {
     };
 
     template <typename ScalarType>
-    friend typename scalar_property_definition_callback_type<ScalarType>::type &
+    static typename scalar_property_definition_callback_type<ScalarType>::type &
     at(scalar_property_definition_callbacks_type
            &scalar_property_definition_callbacks) {
         return (scalar_property_definition_callbacks.get<ScalarType>());
     }
 
     template <typename ScalarType>
-    friend const typename scalar_property_definition_callback_type<
+    static const typename scalar_property_definition_callback_type<
         ScalarType>::type &
     at(const scalar_property_definition_callbacks_type
            &scalar_property_definition_callbacks) {
@@ -275,7 +275,7 @@ class PCL_EXPORTS ply_parser {
     };
 
     template <typename SizeType, typename ScalarType>
-    friend typename list_property_definition_callback_type<SizeType,
+    static typename list_property_definition_callback_type<SizeType,
                                                            ScalarType>::type &
     at(list_property_definition_callbacks_type
            &list_property_definition_callbacks) {
@@ -283,7 +283,7 @@ class PCL_EXPORTS ply_parser {
     }
 
     template <typename SizeType, typename ScalarType>
-    friend const typename list_property_definition_callback_type<
+    static const typename list_property_definition_callback_type<
         SizeType, ScalarType>::type &
     at(const list_property_definition_callbacks_type
            &list_property_definition_callbacks) {
