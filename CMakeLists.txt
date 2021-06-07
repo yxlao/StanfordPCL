@@ -102,6 +102,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-variable")
   add_definitions(-D__GLIBC_HAVE_LONG_LONG)
   add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
+  add_definitions(-DBOOST_NO_CXX11_VARIADIC_TEMPLATES)
 
   # Enable -Wabi for GCC > 4.3, and -Wno-deprecated for GCC < 4.3
   # to disable a lot of warnings which are not fixable
