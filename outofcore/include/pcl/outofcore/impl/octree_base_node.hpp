@@ -560,7 +560,7 @@ boost::uint64_t OutofcoreOctreeBaseNode<ContainerT, PointT>::addPointCloud(
             if (indices[i].empty())
                 continue;
 
-            if (children_[i] == false) {
+            if (children_[i] == nullptr) {
                 createChild(i);
             }
 
@@ -822,7 +822,7 @@ OutofcoreOctreeBaseNode<ContainerT, PointT>::addPointCloud_and_genLOD(
         if (indices[i].empty())
             continue;
 
-        if (children_[i] == false)
+        if (children_[i] == nullptr)
             createChild(i);
 
         // copy correct indices into a temporary cloud

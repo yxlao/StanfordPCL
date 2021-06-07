@@ -27,7 +27,6 @@ if(OPENNI_FOUND)
 	## KINECT FUSION
 	set(the_target pcl_kinfu_largeScale)
 	set(srcs kinfuLS_app.cpp capture.cpp evaluation.cpp)
-
 	source_group("Source Files" FILES ${srcs} )
 
 #	PCL_ADD_EXECUTABLE(${the_target} ${SUBSYS_NAME} ${srcs} ${hdrs})

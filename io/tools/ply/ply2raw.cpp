@@ -293,7 +293,7 @@ bool ply_to_raw_converter::convert(std::istream &,
 
     pcl::io::ply::ply_parser::scalar_property_definition_callbacks_type
         scalar_property_definition_callbacks;
-    pcl::io::ply::at<pcl::io::ply::float32>(
+    pcl::io::ply::ply_parser::at<pcl::io::ply::float32>(
         scalar_property_definition_callbacks) =
         boost::bind(&ply_to_raw_converter::scalar_property_definition_callback<
                         pcl::io::ply::float32>,
@@ -303,7 +303,7 @@ bool ply_to_raw_converter::convert(std::istream &,
 
     pcl::io::ply::ply_parser::list_property_definition_callbacks_type
         list_property_definition_callbacks;
-    pcl::io::ply::at<pcl::io::ply::uint8, pcl::io::ply::int32>(
+    pcl::io::ply::ply_parser::at<pcl::io::ply::uint8, pcl::io::ply::int32>(
         list_property_definition_callbacks) =
         boost::bind(&ply_to_raw_converter::list_property_definition_callback<
                         pcl::io::ply::uint8, pcl::io::ply::int32>,

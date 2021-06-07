@@ -45,6 +45,7 @@
 #include <pcl/segmentation/region_growing_rgb.h>
 
 #include <queue>
+#include <utility>
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT, typename NormalT>
@@ -318,8 +319,7 @@ void pcl::RegionGrowingRGB<PointT, NormalT>::findRegionsKNN(
     std::priority_queue<std::pair<float, int>> segment_neighbours;
     for (int i_seg = 0; i_seg < number_of_segments_; i_seg++) {
         if (distances[i_seg] < max_dist) {
-            segment_neighbours.push(
-                std::make_pair<float, int>(distances[i_seg], i_seg));
+            segment_neighbours.push(std::make_pair(distances[i_seg], i_seg));
             if (int(segment_neighbours.size()) > nghbr_number)
                 segment_neighbours.pop();
         }

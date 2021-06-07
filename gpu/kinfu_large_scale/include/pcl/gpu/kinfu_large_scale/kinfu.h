@@ -267,9 +267,9 @@ class SLACPointCloud {
 
   public:
     bool IsValidPoint(int i) {
-        if (_isnan(points_[i].p_[0]) || _isnan(points_[i].p_[1]) ||
-            _isnan(points_[i].p_[2]) || _isnan(points_[i].n_[0]) ||
-            _isnan(points_[i].n_[1]) || _isnan(points_[i].n_[2]))
+        if (__isnan(points_[i].p_[0]) || __isnan(points_[i].p_[1]) ||
+            __isnan(points_[i].p_[2]) || __isnan(points_[i].n_[0]) ||
+            __isnan(points_[i].n_[1]) || __isnan(points_[i].n_[2]))
             return false;
         else
             return true;

@@ -40,6 +40,7 @@
 #include <map>
 #include <pcl/common/io.h>
 #include <pcl/io/boost.h>
+#include <pcl/io/ply/ply_parser.h>
 #include <pcl/io/ply_io.h>
 #include <pcl/point_types.h>
 #include <sstream>
@@ -394,22 +395,22 @@ bool pcl::PLYReader::parse(const std::string &istream_filename) {
 
     pcl::io::ply::ply_parser::scalar_property_definition_callbacks_type
         scalar_property_definition_callbacks;
-    pcl::io::ply::at<pcl::io::ply::float32>(
+    pcl::io::ply::ply_parser::at<pcl::io::ply::float32>(
         scalar_property_definition_callbacks) =
         boost::bind(&pcl::PLYReader::scalarPropertyDefinitionCallback<
                         pcl::io::ply::float32>,
                     this, _1, _2);
-    pcl::io::ply::at<pcl::io::ply::uint8>(
+    pcl::io::ply::ply_parser::at<pcl::io::ply::uint8>(
         scalar_property_definition_callbacks) =
         boost::bind(&pcl::PLYReader::scalarPropertyDefinitionCallback<
                         pcl::io::ply::uint8>,
                     this, _1, _2);
-    pcl::io::ply::at<pcl::io::ply::int32>(
+    pcl::io::ply::ply_parser::at<pcl::io::ply::int32>(
         scalar_property_definition_callbacks) =
         boost::bind(&pcl::PLYReader::scalarPropertyDefinitionCallback<
                         pcl::io::ply::int32>,
                     this, _1, _2);
-    pcl::io::ply::at<pcl::io::ply::uint32>(
+    pcl::io::ply::ply_parser::at<pcl::io::ply::uint32>(
         scalar_property_definition_callbacks) =
         boost::bind(&pcl::PLYReader::scalarPropertyDefinitionCallback<
                         pcl::io::ply::uint32>,
@@ -419,7 +420,7 @@ bool pcl::PLYReader::parse(const std::string &istream_filename) {
 
     pcl::io::ply::ply_parser::list_property_definition_callbacks_type
         list_property_definition_callbacks;
-    pcl::io::ply::at<pcl::io::ply::uint8, pcl::io::ply::int32>(
+    pcl::io::ply::ply_parser::at<pcl::io::ply::uint8, pcl::io::ply::int32>(
         list_property_definition_callbacks) =
         boost::bind(&pcl::PLYReader::listPropertyDefinitionCallback<
                         pcl::io::ply::uint8, pcl::io::ply::int32>,

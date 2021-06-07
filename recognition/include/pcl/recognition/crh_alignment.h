@@ -225,7 +225,7 @@ template <typename PointT, int nbins_> class PCL_EXPORTS CRHAlignment {
 
         std::vector<std::pair<float, int>> scored_peaks(nr_bins_after_padding);
         for (int i = 0; i < nr_bins_after_padding; i++)
-            scored_peaks[i] = std::make_pair<float, int>(invAB[i].r, i);
+            scored_peaks[i] = std::make_pair(float(invAB[i].r), i);
 
         std::sort(scored_peaks.begin(), scored_peaks.end(), peaks_ordering());
 
