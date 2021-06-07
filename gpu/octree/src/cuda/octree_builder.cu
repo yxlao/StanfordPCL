@@ -43,6 +43,7 @@
 #include "utils/morton.hpp"
 #include "utils/scan_block.hpp"
 
+#include <thrust/device_ptr.h>
 #include <thrust/reduce.h>
 #include <thrust/sequence.h>
 #include <thrust/sort.h>

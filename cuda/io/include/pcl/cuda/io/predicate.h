@@ -31,12 +31,11 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: predicate.h 6459 2012-07-18 07:50:37Z dpb $
+ * $Id$
  *
  */
 
-#ifndef PCL_CUDA_PREDICATE_H_
-#define PCL_CUDA_PREDICATE_H_
+#pragma once
 
 //#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 //#undef __MMX__
@@ -82,5 +81,3 @@ struct ChangeColor {
 
 } // namespace cuda
 } // namespace pcl
-
-#endif //#ifndef PCL_CUDA_PREDICATE_H_
