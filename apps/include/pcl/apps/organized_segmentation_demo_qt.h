@@ -47,4 +47,4 @@
 #include <QMutex>
 #include <QTimer>
 
-#endif  // PCL_ORGANIZED_SEGMENTATION_DEMO_QT_H_
+#endif // PCL_ORGANIZED_SEGMENTATION_DEMO_QT_H_

@@ -38,55 +38,55 @@
 #ifndef PCL_FEATURES_QUANTIZABLE_MODALITY
 #define PCL_FEATURES_QUANTIZABLE_MODALITY
 
-#include <vector>
 #include <pcl/pcl_macros.h>
 #include <pcl/recognition/mask_map.h>
 #include <pcl/recognition/quantized_map.h>
 #include <pcl/recognition/region_xy.h>
 #include <pcl/recognition/sparse_quantized_multi_mod_template.h>
+#include <vector>
 
-namespace pcl
-{
-  /** \brief Interface for a quantizable modality.
-    * \author Stefan Holzer
-    */
-  class PCL_EXPORTS QuantizableModality
-  {
-    public:
-      /** \brief Constructor. */
-      QuantizableModality ();
-      /** \brief Destructor. */
-      virtual ~QuantizableModality ();
+namespace pcl {
+/** \brief Interface for a quantizable modality.
+ * \author Stefan Holzer
+ */
+class PCL_EXPORTS QuantizableModality {
+  public:
+    /** \brief Constructor. */
+    QuantizableModality();
+    /** \brief Destructor. */
+    virtual ~QuantizableModality();
 
-      /** \brief Returns a reference to the internally computed quantized map. */
-      virtual QuantizedMap &
-      getQuantizedMap () = 0;
+    /** \brief Returns a reference to the internally computed quantized map. */
+    virtual QuantizedMap &getQuantizedMap() = 0;
 
-      /** \brief Returns a reference to the internally computed spreaded quantized map. */
-      virtual QuantizedMap &
-      getSpreadedQuantizedMap () = 0;
+    /** \brief Returns a reference to the internally computed spreaded quantized
+     * map. */
+    virtual QuantizedMap &getSpreadedQuantizedMap() = 0;
 
-      /** \brief Extracts features from this modality within the specified mask.
-        * \param[in] mask defines the areas where features are searched in.
-        * \param[in] nr_features defines the number of features to be extracted
-        *            (might be less if not sufficient information is present in the modality).
-        * \param[in] modality_index the index which is stored in the extracted features.
-        * \param[out] features the destination for the extracted features.
-        */
-      virtual void
-      extractFeatures (const MaskMap & mask, size_t nr_features, size_t modality_index,
-                       std::vector<QuantizedMultiModFeature> & features) const = 0;
+    /** \brief Extracts features from this modality within the specified mask.
+     * \param[in] mask defines the areas where features are searched in.
+     * \param[in] nr_features defines the number of features to be extracted
+     *            (might be less if not sufficient information is present in the
+     * modality). \param[in] modality_index the index which is stored in the
+     * extracted features. \param[out] features the destination for the
+     * extracted features.
+     */
+    virtual void
+    extractFeatures(const MaskMap &mask, size_t nr_features,
+                    size_t modality_index,
+                    std::vector<QuantizedMultiModFeature> &features) const = 0;
 
-      /** \brief Extracts all possible features from the modality within the specified mask.
-        * \param[in] mask defines the areas where features are searched in.
-        * \param[in] nr_features IGNORED (TODO: remove this parameter).
-        * \param[in] modality_index the index which is stored in the extracted features.
-        * \param[out] features the destination for the extracted features.
-        */
-      virtual void
-      extractAllFeatures (const MaskMap & mask, size_t nr_features, size_t modality_index,
-                       std::vector<QuantizedMultiModFeature> & features) const = 0;
-  };
-}
+    /** \brief Extracts all possible features from the modality within the
+     * specified mask. \param[in] mask defines the areas where features are
+     * searched in. \param[in] nr_features IGNORED (TODO: remove this
+     * parameter). \param[in] modality_index the index which is stored in the
+     * extracted features. \param[out] features the destination for the
+     * extracted features.
+     */
+    virtual void extractAllFeatures(
+        const MaskMap &mask, size_t nr_features, size_t modality_index,
+        std::vector<QuantizedMultiModFeature> &features) const = 0;
+};
+} // namespace pcl
 
 #endif

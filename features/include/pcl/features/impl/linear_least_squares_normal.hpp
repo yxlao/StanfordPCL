@@ -37,231 +37,235 @@
 #define PCL_FEATURES_LINEAR_LEAST_SQUARES_NORMAL_HPP_
 #define EIGEN_II_METHOD 1
 
-#include <pcl/features/linear_least_squares_normal.h>
 #include <pcl/common/time.h>
+#include <pcl/features/linear_least_squares_normal.h>
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointInT, typename PointOutT>
-pcl::LinearLeastSquaresNormalEstimation<PointInT, PointOutT>::~LinearLeastSquaresNormalEstimation ()
-{
-}
+pcl::LinearLeastSquaresNormalEstimation<
+    PointInT, PointOutT>::~LinearLeastSquaresNormalEstimation() {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointInT, typename PointOutT> void
-pcl::LinearLeastSquaresNormalEstimation<PointInT, PointOutT>::computePointNormal (
-    const int pos_x, const int pos_y, PointOutT &normal)
-{
-  const float bad_point = std::numeric_limits<float>::quiet_NaN ();
+template <typename PointInT, typename PointOutT>
+void pcl::LinearLeastSquaresNormalEstimation<
+    PointInT, PointOutT>::computePointNormal(const int pos_x, const int pos_y,
+                                             PointOutT &normal) {
+    const float bad_point = std::numeric_limits<float>::quiet_NaN();
 
-  const int width = input_->width;
-  const int height = input_->height;
+    const int width = input_->width;
+    const int height = input_->height;
 
-  const int x = pos_x;
-  const int y = pos_y;
+    const int x = pos_x;
+    const int y = pos_y;
 
-  const int index = y * width + x;
+    const int index = y * width + x;
 
-  const float px = input_->points[index].x;
-  const float py = input_->points[index].y;
-  const float pz = input_->points[index].z;
+    const float px = input_->points[index].x;
+    const float py = input_->points[index].y;
+    const float pz = input_->points[index].z;
 
-  if (pcl_isnan (px))
-  {
-    normal.normal_x = bad_point;
-    normal.normal_y = bad_point;
-    normal.normal_z = bad_point;
-    normal.curvature = bad_point;
+    if (pcl_isnan(px)) {
+        normal.normal_x = bad_point;
+        normal.normal_y = bad_point;
+        normal.normal_z = bad_point;
+        normal.curvature = bad_point;
+
+        return;
+    }
+
+    float smoothingSize = normal_smoothing_size_;
+    if (use_depth_dependent_smoothing_)
+        smoothingSize = smoothingSize * (pz + 0.5f);
+
+    const int smoothingSizeInt = static_cast<int>(smoothingSize);
+
+    float matA0 = 0.0f;
+    float matA1 = 0.0f;
+    float matA3 = 0.0f;
+
+    float vecb0 = 0.0f;
+    float vecb1 = 0.0f;
+
+    for (int v = y - smoothingSizeInt; v <= y + smoothingSizeInt;
+         v += smoothingSizeInt) {
+        for (int u = x - smoothingSizeInt; u <= x + smoothingSizeInt;
+             u += smoothingSizeInt) {
+            if (u < 0 || u >= width || v < 0 || v >= height)
+                continue;
+
+            const int index2 = v * width + u;
+
+            const float qx = input_->points[index2].x;
+            const float qy = input_->points[index2].y;
+            const float qz = input_->points[index2].z;
+
+            if (pcl_isnan(qx))
+                continue;
+
+            const float delta = qz - pz;
+            const float i = qx - px;
+            const float j = qy - py;
+
+            float depthChangeThreshold =
+                pz * pz * 0.05f * max_depth_change_factor_;
+            if (use_depth_dependent_smoothing_)
+                depthChangeThreshold *= pz;
+
+            const float f = fabs(delta) > depthChangeThreshold ? 0 : 1;
+
+            matA0 += f * i * i;
+            matA1 += f * i * j;
+            matA3 += f * j * j;
+            vecb0 += f * i * delta;
+            vecb1 += f * j * delta;
+        }
+    }
+
+    const float det = matA0 * matA3 - matA1 * matA1;
+    const float ddx = matA3 * vecb0 - matA1 * vecb1;
+    const float ddy = -matA1 * vecb0 + matA0 * vecb1;
+
+    const float nx = ddx;
+    const float ny = ddy;
+    const float nz = -det * pz;
+
+    const float length = nx * nx + ny * ny + nz * nz;
+
+    if (length <= 0.01f) {
+        normal.normal_x = bad_point;
+        normal.normal_y = bad_point;
+        normal.normal_z = bad_point;
+        normal.curvature = bad_point;
+    } else {
+        const float normInv = 1.0f / sqrtf(length);
+
+        normal.normal_x = -nx * normInv;
+        normal.normal_y = -ny * normInv;
+        normal.normal_z = -nz * normInv;
+        normal.curvature = bad_point;
+    }
 
     return;
-  }
-
-  float smoothingSize = normal_smoothing_size_;
-  if (use_depth_dependent_smoothing_) smoothingSize = smoothingSize*(pz+0.5f);
-
-  const int smoothingSizeInt = static_cast<int> (smoothingSize);
-
-  float matA0 = 0.0f;
-  float matA1 = 0.0f;
-  float matA3 = 0.0f;
-
-  float vecb0 = 0.0f;
-  float vecb1 = 0.0f;
-
-  for (int v = y - smoothingSizeInt; v <= y + smoothingSizeInt; v += smoothingSizeInt)
-  {
-    for (int u = x - smoothingSizeInt; u <= x + smoothingSizeInt; u += smoothingSizeInt)
-    {
-      if (u < 0 || u >= width || v < 0 || v >= height) continue;
-
-      const int index2 = v * width + u;
-
-      const float qx = input_->points[index2].x;
-      const float qy = input_->points[index2].y;
-      const float qz = input_->points[index2].z;
-
-      if (pcl_isnan (qx)) continue;
-
-      const float delta = qz - pz;
-      const float i = qx - px;
-      const float j = qy - py;
-
-      float depthChangeThreshold = pz*pz * 0.05f * max_depth_change_factor_;
-      if (use_depth_dependent_smoothing_) depthChangeThreshold *= pz;
-
-      const float f = fabs (delta) > depthChangeThreshold ? 0 : 1;
-
-      matA0 += f * i * i;
-      matA1 += f * i * j;
-      matA3 += f * j * j;
-      vecb0 += f * i * delta;
-      vecb1 += f * j * delta;
-    }
-  }
-
-  const float det = matA0 * matA3 - matA1 * matA1;
-  const float ddx = matA3 * vecb0 - matA1 * vecb1;
-  const float ddy = -matA1 * vecb0 + matA0 * vecb1;
-
-  const float nx = ddx;
-  const float ny = ddy;
-  const float nz = -det * pz;
-
-  const float length = nx * nx + ny * ny + nz * nz;
-
-  if (length <= 0.01f)
-  {
-    normal.normal_x = bad_point;
-    normal.normal_y = bad_point;
-    normal.normal_z = bad_point;
-    normal.curvature = bad_point;
-  }
-  else
-  {
-    const float normInv = 1.0f / sqrtf (length);
-
-    normal.normal_x = -nx * normInv;
-    normal.normal_y = -ny * normInv;
-    normal.normal_z = -nz * normInv;
-    normal.curvature = bad_point;
-  }
-
-  return;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointInT, typename PointOutT> void
-pcl::LinearLeastSquaresNormalEstimation<PointInT, PointOutT>::computeFeature (PointCloudOut &output)
-{
-  const float bad_point = std::numeric_limits<float>::quiet_NaN ();
+template <typename PointInT, typename PointOutT>
+void pcl::LinearLeastSquaresNormalEstimation<
+    PointInT, PointOutT>::computeFeature(PointCloudOut &output) {
+    const float bad_point = std::numeric_limits<float>::quiet_NaN();
 
-  const int width = input_->width;
-  const int height = input_->height;
+    const int width = input_->width;
+    const int height = input_->height;
 
-  // we compute the normals as follows:
-  // ----------------------------------
-  //
-  // for the depth-gradient you can make the following first-order Taylor approximation:
-  //   D(x + dx) - D(x) = dx^T \Delta D + h.o.t.
-  //
-  // build linear system by stacking up equation for 8 neighbor points:
-  //   Y = X \Delta D
-  //
-  // => \Delta D = (X^T X)^{-1} X^T Y
-  // => \Delta D = (A)^{-1} b
+    // we compute the normals as follows:
+    // ----------------------------------
+    //
+    // for the depth-gradient you can make the following first-order Taylor
+    // approximation:
+    //   D(x + dx) - D(x) = dx^T \Delta D + h.o.t.
+    //
+    // build linear system by stacking up equation for 8 neighbor points:
+    //   Y = X \Delta D
+    //
+    // => \Delta D = (X^T X)^{-1} X^T Y
+    // => \Delta D = (A)^{-1} b
 
-  //const float smoothingSize = 30.0f;
-  for (int y = 0; y < height; ++y)
-  {
-    for (int x = 0; x < width; ++x)
-    {
-      const int index = y * width + x;
+    // const float smoothingSize = 30.0f;
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            const int index = y * width + x;
 
-      const float px = input_->points[index].x;
-      const float py = input_->points[index].y;
-      const float pz = input_->points[index].z;
+            const float px = input_->points[index].x;
+            const float py = input_->points[index].y;
+            const float pz = input_->points[index].z;
 
-      if (pcl_isnan(px)) continue;
+            if (pcl_isnan(px))
+                continue;
 
-      //float depthDependentSmoothingSize = smoothingSize + pz / 10.0f;
+            // float depthDependentSmoothingSize = smoothingSize + pz / 10.0f;
 
-      float smoothingSize = normal_smoothing_size_;
-      //if (use_depth_dependent_smoothing_) smoothingSize *= pz;
-      //if (use_depth_dependent_smoothing_) smoothingSize += pz*5;
-      //if (smoothingSize < 1.0f) smoothingSize += 1.0f;
+            float smoothingSize = normal_smoothing_size_;
+            // if (use_depth_dependent_smoothing_) smoothingSize *= pz;
+            // if (use_depth_dependent_smoothing_) smoothingSize += pz*5;
+            // if (smoothingSize < 1.0f) smoothingSize += 1.0f;
 
-      const int smoothingSizeInt = static_cast<int>(smoothingSize);
+            const int smoothingSizeInt = static_cast<int>(smoothingSize);
 
-      float matA0 = 0.0f;
-      float matA1 = 0.0f;
-      float matA3 = 0.0f;
+            float matA0 = 0.0f;
+            float matA1 = 0.0f;
+            float matA3 = 0.0f;
 
-      float vecb0 = 0.0f;
-      float vecb1 = 0.0f;
+            float vecb0 = 0.0f;
+            float vecb1 = 0.0f;
 
-      for (int v = y - smoothingSizeInt; v <= y + smoothingSizeInt; v += smoothingSizeInt)
-      {
-        for (int u = x - smoothingSizeInt; u <= x + smoothingSizeInt; u += smoothingSizeInt)
-        {
-          if (u < 0 || u >= width || v < 0 || v >= height) continue;
+            for (int v = y - smoothingSizeInt; v <= y + smoothingSizeInt;
+                 v += smoothingSizeInt) {
+                for (int u = x - smoothingSizeInt; u <= x + smoothingSizeInt;
+                     u += smoothingSizeInt) {
+                    if (u < 0 || u >= width || v < 0 || v >= height)
+                        continue;
 
-          const int index2 = v * width + u;
+                    const int index2 = v * width + u;
 
-          const float qx = input_->points[index2].x;
-          const float qy = input_->points[index2].y;
-          const float qz = input_->points[index2].z;
+                    const float qx = input_->points[index2].x;
+                    const float qy = input_->points[index2].y;
+                    const float qz = input_->points[index2].z;
 
-          if (pcl_isnan(qx)) continue;
+                    if (pcl_isnan(qx))
+                        continue;
 
-          const float delta = qz - pz;
-          const float i = qx - px;
-          const float j = qy - py;
+                    const float delta = qz - pz;
+                    const float i = qx - px;
+                    const float j = qy - py;
 
-          const float depthDependendDepthChange = (max_depth_change_factor_ * (fabsf (pz) + 1.0f) * 2.0f);
-          const float f = fabs(delta) > depthDependendDepthChange ? 0 : 1;
+                    const float depthDependendDepthChange =
+                        (max_depth_change_factor_ * (fabsf(pz) + 1.0f) * 2.0f);
+                    const float f =
+                        fabs(delta) > depthDependendDepthChange ? 0 : 1;
 
-          //float f = fabs(delta) > (pz * 0.05f - 0.3f) ? 0 : 1;
-          //const float f = fabs(delta) > (pz*pz * 0.05f * max_depth_change_factor_) ? 0 : 1;
-          //float f = Math.Abs(delta) > (depth * Math.Log(depth + 1.0) * 0.02f - 0.2f) ? 0 : 1;
+                    // float f = fabs(delta) > (pz * 0.05f - 0.3f) ? 0 : 1;
+                    // const float f = fabs(delta) > (pz*pz * 0.05f *
+                    // max_depth_change_factor_) ? 0 : 1; float f =
+                    // Math.Abs(delta) > (depth * Math.Log(depth + 1.0) * 0.02f -
+                    // 0.2f) ? 0 : 1;
 
-          matA0 += f * i * i;
-          matA1 += f * i * j;
-          matA3 += f * j * j;
-          vecb0 += f * i * delta;
-          vecb1 += f * j * delta;
+                    matA0 += f * i * i;
+                    matA1 += f * i * j;
+                    matA3 += f * j * j;
+                    vecb0 += f * i * delta;
+                    vecb1 += f * j * delta;
+                }
+            }
+
+            const float det = matA0 * matA3 - matA1 * matA1;
+            const float ddx = matA3 * vecb0 - matA1 * vecb1;
+            const float ddy = -matA1 * vecb0 + matA0 * vecb1;
+
+            const float nx = ddx;
+            const float ny = ddy;
+            const float nz = -det * pz;
+
+            const float length = nx * nx + ny * ny + nz * nz;
+
+            if (length <= 0.0f) {
+                output.points[index].normal_x = bad_point;
+                output.points[index].normal_y = bad_point;
+                output.points[index].normal_z = bad_point;
+                output.points[index].curvature = bad_point;
+            } else {
+                const float normInv = 1.0f / sqrtf(length);
+
+                output.points[index].normal_x = nx * normInv;
+                output.points[index].normal_y = ny * normInv;
+                output.points[index].normal_z = nz * normInv;
+                output.points[index].curvature = bad_point;
+            }
         }
-      }
-
-      const float det = matA0 * matA3 - matA1 * matA1;
-      const float ddx = matA3 * vecb0 - matA1 * vecb1;
-      const float ddy = -matA1 * vecb0 + matA0 * vecb1;
-
-      const float nx = ddx;
-      const float ny = ddy;
-      const float nz = -det * pz;
-
-      const float length = nx * nx + ny * ny + nz * nz;
-
-      if (length <= 0.0f)
-      {
-        output.points[index].normal_x = bad_point;
-        output.points[index].normal_y = bad_point;
-        output.points[index].normal_z = bad_point;
-        output.points[index].curvature = bad_point;
-      }
-      else
-      {
-        const float normInv = 1.0f / sqrtf (length);
-
-        output.points[index].normal_x = nx * normInv;
-        output.points[index].normal_y = ny * normInv;
-        output.points[index].normal_z = nz * normInv;
-        output.points[index].curvature = bad_point;
-      }
     }
-  }
 }
 
-#define PCL_INSTANTIATE_LinearLeastSquaresNormalEstimation(T,NT) template class PCL_EXPORTS pcl::LinearLeastSquaresNormalEstimation<T,NT>;
-//#define LinearLeastSquaresNormalEstimation(T,NT) template class PCL_EXPORTS pcl::LinearLeastSquaresNormalEstimation<T,NT>;
+#define PCL_INSTANTIATE_LinearLeastSquaresNormalEstimation(T, NT)              \
+    template class PCL_EXPORTS pcl::LinearLeastSquaresNormalEstimation<T, NT>;
+//#define LinearLeastSquaresNormalEstimation(T,NT) template class PCL_EXPORTS
+//pcl::LinearLeastSquaresNormalEstimation<T,NT>;
 
 #endif
-

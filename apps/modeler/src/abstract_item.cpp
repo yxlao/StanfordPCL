@@ -36,50 +36,38 @@
 
 #include <pcl/apps/modeler/abstract_item.h>
 
-#include <pcl/apps/modeler/qt.h>
 #include <pcl/apps/modeler/main_window.h>
 #include <pcl/apps/modeler/parameter_dialog.h>
-
+#include <pcl/apps/modeler/qt.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-pcl::modeler::AbstractItem::AbstractItem(void)
-{
+pcl::modeler::AbstractItem::AbstractItem(void) {}
 
+//////////////////////////////////////////////////////////////////////////////////////////////
+pcl::modeler::AbstractItem::~AbstractItem(void) {}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+void pcl::modeler::AbstractItem::showContextMenu(const QPoint *position) {
+    QMenu menu(&MainWindow::getInstance());
+    prepareContextMenu(&menu);
+    menu.exec(*position);
+
+    return;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-pcl::modeler::AbstractItem::~AbstractItem(void)
-{
-
+Ui::MainWindow *pcl::modeler::AbstractItem::ui() const {
+    return MainWindow::getInstance().ui_;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::modeler::AbstractItem::showContextMenu(const QPoint* position)
-{
-  QMenu menu(&MainWindow::getInstance());
-  prepareContextMenu(&menu);
-  menu.exec(*position);
+void pcl::modeler::AbstractItem::showPropertyEditor() {
+    ParameterDialog *parameter_dialog = new ParameterDialog(
+        getItemName() + " Properties", &MainWindow::getInstance());
+    prepareProperties(parameter_dialog);
 
-  return;
-}
+    if (parameter_dialog->exec() == QDialog::Accepted)
+        setProperties();
 
-//////////////////////////////////////////////////////////////////////////////////////////////
-Ui::MainWindow*
-pcl::modeler::AbstractItem::ui() const
-{
-  return MainWindow::getInstance().ui_;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::modeler::AbstractItem::showPropertyEditor()
-{
-  ParameterDialog* parameter_dialog = new ParameterDialog(getItemName() + " Properties", &MainWindow::getInstance());
-  prepareProperties(parameter_dialog);
-
-  if (parameter_dialog->exec() == QDialog::Accepted)
-    setProperties();
-
-  parameter_dialog->deleteLater();
+    parameter_dialog->deleteLater();
 }

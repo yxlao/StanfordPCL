@@ -39,57 +39,46 @@
 
 #include <pcl/apps/modeler/qt.h>
 
-namespace pcl
-{
-  namespace modeler
-  {
-    class CloudMeshItem;
-    class ParameterDialog;
+namespace pcl {
+namespace modeler {
+class CloudMeshItem;
+class ParameterDialog;
 
-    class AbstractWorker : public QObject
-    {
-      Q_OBJECT
+class AbstractWorker : public QObject {
+    Q_OBJECT
 
-      public:
-        AbstractWorker(const QList<CloudMeshItem*>& cloud_mesh_items, QWidget* parent=0);
-        ~AbstractWorker(void);
+  public:
+    AbstractWorker(const QList<CloudMeshItem *> &cloud_mesh_items,
+                   QWidget *parent = 0);
+    ~AbstractWorker(void);
 
-        int
-        exec();
+    int exec();
 
-      public slots:
-        void
-        process();
+  public slots:
+    void process();
 
-      signals:
-        void
-        dataUpdated(CloudMeshItem* cloud_mesh_item);
+  signals:
+    void dataUpdated(CloudMeshItem *cloud_mesh_item);
 
-        void
-        finished();
+    void finished();
 
-      protected:
-        void
-        emitDataUpdated(CloudMeshItem* cloud_mesh_item);
+  protected:
+    void emitDataUpdated(CloudMeshItem *cloud_mesh_item);
 
-        virtual std::string
-        getName () const {return ("");}
+    virtual std::string getName() const { return (""); }
 
-        virtual void
-        initParameters(CloudMeshItem* cloud_mesh_item) = 0;
+    virtual void initParameters(CloudMeshItem *cloud_mesh_item) = 0;
 
-        virtual void
-        setupParameters() = 0;
+    virtual void setupParameters() = 0;
 
-        virtual void
-        processImpl(CloudMeshItem* cloud_mesh_item) = 0;
+    virtual void processImpl(CloudMeshItem *cloud_mesh_item) = 0;
 
-      protected:
-        QList<CloudMeshItem*>       cloud_mesh_items_;
-        ParameterDialog*            parameter_dialog_;
-    };
+  protected:
+    QList<CloudMeshItem *> cloud_mesh_items_;
+    ParameterDialog *parameter_dialog_;
+};
 
-  }
-}
+} // namespace modeler
+} // namespace pcl
 
 #endif // PCL_MODELER_ABSTRACT_WORKER_H_

@@ -35,12 +35,12 @@
  *
  */
 
-#include <sensor_msgs/PointCloud2.h>
+#include <pcl/console/parse.h>
+#include <pcl/console/print.h>
+#include <pcl/console/time.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/keypoints/uniform_sampling.h>
-#include <pcl/console/print.h>
-#include <pcl/console/parse.h>
-#include <pcl/console/time.h>
+#include <sensor_msgs/PointCloud2.h>
 
 using namespace std;
 using namespace pcl;
@@ -49,111 +49,119 @@ using namespace pcl::console;
 
 double default_radius = 0.01;
 
-Eigen::Vector4f    translation;
+Eigen::Vector4f translation;
 Eigen::Quaternionf orientation;
 
-void
-printHelp (int, char **argv)
-{
-  print_error ("Syntax is: %s input.pcd output.pcd <options>\n", argv[0]);
-  print_info ("  where options are:\n");
-  print_info ("                     -radius X = use a leaf size of X,X,X to uniformly select 1 point per leaf (default: ");
-  print_value ("%f", default_radius); print_info (")\n");
+void printHelp(int, char **argv) {
+    print_error("Syntax is: %s input.pcd output.pcd <options>\n", argv[0]);
+    print_info("  where options are:\n");
+    print_info("                     -radius X = use a leaf size of X,X,X to "
+               "uniformly select 1 point per leaf (default: ");
+    print_value("%f", default_radius);
+    print_info(")\n");
 }
 
-bool
-loadCloud (const string &filename, sensor_msgs::PointCloud2 &cloud)
-{
-  TicToc tt;
-  print_highlight ("Loading "); print_value ("%s ", filename.c_str ());
+bool loadCloud(const string &filename, sensor_msgs::PointCloud2 &cloud) {
+    TicToc tt;
+    print_highlight("Loading ");
+    print_value("%s ", filename.c_str());
 
-  tt.tic ();
-  if (loadPCDFile (filename, cloud, translation, orientation) < 0)
-    return (false);
-  print_info ("[done, "); print_value ("%g", tt.toc ()); print_info (" ms : "); print_value ("%d", cloud.width * cloud.height); print_info (" points]\n");
-  print_info ("Available dimensions: "); print_value ("%s\n", getFieldsList (cloud).c_str ());
+    tt.tic();
+    if (loadPCDFile(filename, cloud, translation, orientation) < 0)
+        return (false);
+    print_info("[done, ");
+    print_value("%g", tt.toc());
+    print_info(" ms : ");
+    print_value("%d", cloud.width * cloud.height);
+    print_info(" points]\n");
+    print_info("Available dimensions: ");
+    print_value("%s\n", getFieldsList(cloud).c_str());
 
-  return (true);
+    return (true);
 }
 
-void
-compute (const sensor_msgs::PointCloud2::ConstPtr &input, sensor_msgs::PointCloud2 &output,
-         double radius)
-{
-  // Convert data to PointCloud<T>
-  PointCloud<PointXYZ>::Ptr xyz (new PointCloud<PointXYZ>);
-  fromROSMsg (*input, *xyz);
+void compute(const sensor_msgs::PointCloud2::ConstPtr &input,
+             sensor_msgs::PointCloud2 &output, double radius) {
+    // Convert data to PointCloud<T>
+    PointCloud<PointXYZ>::Ptr xyz(new PointCloud<PointXYZ>);
+    fromROSMsg(*input, *xyz);
 
-  // Estimate
-  TicToc tt;
-  tt.tic ();
+    // Estimate
+    TicToc tt;
+    tt.tic();
 
-  print_highlight (stderr, "Computing ");
+    print_highlight(stderr, "Computing ");
 
-  UniformSampling<PointXYZ> us;
-  us.setInputCloud (xyz);
-  us.setRadiusSearch (radius);
-  PointCloud<int> subsampled_indices;
-  us.compute (subsampled_indices);
-  std::sort (subsampled_indices.points.begin (), subsampled_indices.points.end ());
+    UniformSampling<PointXYZ> us;
+    us.setInputCloud(xyz);
+    us.setRadiusSearch(radius);
+    PointCloud<int> subsampled_indices;
+    us.compute(subsampled_indices);
+    std::sort(subsampled_indices.points.begin(),
+              subsampled_indices.points.end());
 
-  print_info ("[done, "); print_value ("%g", tt.toc ()); print_info (" ms : "); print_value ("%d", subsampled_indices.width * subsampled_indices.height); print_info (" points]\n");
+    print_info("[done, ");
+    print_value("%g", tt.toc());
+    print_info(" ms : ");
+    print_value("%d", subsampled_indices.width * subsampled_indices.height);
+    print_info(" points]\n");
 
-  // Convert data back
-  copyPointCloud (*input, subsampled_indices.points, output);
+    // Convert data back
+    copyPointCloud(*input, subsampled_indices.points, output);
 }
 
-void
-saveCloud (const string &filename, const sensor_msgs::PointCloud2 &output)
-{
-  TicToc tt;
-  tt.tic ();
+void saveCloud(const string &filename, const sensor_msgs::PointCloud2 &output) {
+    TicToc tt;
+    tt.tic();
 
-  print_highlight ("Saving "); print_value ("%s ", filename.c_str ());
+    print_highlight("Saving ");
+    print_value("%s ", filename.c_str());
 
-  PCDWriter w;
-  w.writeBinaryCompressed (filename, output, translation, orientation);
+    PCDWriter w;
+    w.writeBinaryCompressed(filename, output, translation, orientation);
 
-  print_info ("[done, "); print_value ("%g", tt.toc ()); print_info (" ms : "); print_value ("%d", output.width * output.height); print_info (" points]\n");
+    print_info("[done, ");
+    print_value("%g", tt.toc());
+    print_info(" ms : ");
+    print_value("%d", output.width * output.height);
+    print_info(" points]\n");
 }
 
 /* ---[ */
-int
-main (int argc, char** argv)
-{
-  print_info ("Uniform subsampling using UniformSampling. For more information, use: %s -h\n", argv[0]);
+int main(int argc, char **argv) {
+    print_info("Uniform subsampling using UniformSampling. For more "
+               "information, use: %s -h\n",
+               argv[0]);
 
-  if (argc < 3)
-  {
-    printHelp (argc, argv);
-    return (-1);
-  }
+    if (argc < 3) {
+        printHelp(argc, argv);
+        return (-1);
+    }
 
-  // Parse the command line arguments for .pcd files
-  vector<int> p_file_indices;
-  p_file_indices = parse_file_extension_argument (argc, argv, ".pcd");
-  if (p_file_indices.size () != 2)
-  {
-    print_error ("Need one input PCD file and one output PCD file to continue.\n");
-    return (-1);
-  }
+    // Parse the command line arguments for .pcd files
+    vector<int> p_file_indices;
+    p_file_indices = parse_file_extension_argument(argc, argv, ".pcd");
+    if (p_file_indices.size() != 2) {
+        print_error(
+            "Need one input PCD file and one output PCD file to continue.\n");
+        return (-1);
+    }
 
-  // Command line parsing
-  double radius = default_radius;
-  parse_argument (argc, argv, "-radius", radius);
-  print_info ("Extracting uniform points with a leaf size of: ");
-  print_value ("%f\n", radius);
+    // Command line parsing
+    double radius = default_radius;
+    parse_argument(argc, argv, "-radius", radius);
+    print_info("Extracting uniform points with a leaf size of: ");
+    print_value("%f\n", radius);
 
-  // Load the first file
-  sensor_msgs::PointCloud2::Ptr cloud (new sensor_msgs::PointCloud2);
-  if (!loadCloud (argv[p_file_indices[0]], *cloud))
-    return (-1);
+    // Load the first file
+    sensor_msgs::PointCloud2::Ptr cloud(new sensor_msgs::PointCloud2);
+    if (!loadCloud(argv[p_file_indices[0]], *cloud))
+        return (-1);
 
-  // Perform the keypoint estimation
-  sensor_msgs::PointCloud2 output;
-  compute (cloud, output, radius);
+    // Perform the keypoint estimation
+    sensor_msgs::PointCloud2 output;
+    compute(cloud, output, radius);
 
-  // Save into the second file
-  saveCloud (argv[p_file_indices[1]], output);
+    // Save into the second file
+    saveCloud(argv[p_file_indices[1]], output);
 }
-

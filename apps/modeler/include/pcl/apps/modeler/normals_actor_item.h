@@ -41,45 +41,35 @@
 
 class vtkIdTypeArray;
 
-namespace pcl
-{
-  namespace modeler
-  {
-    class NormalsActorItem : public ChannelActorItem
-    {
-      public:
-        NormalsActorItem(QTreeWidgetItem* parent,
-                        const boost::shared_ptr<CloudMesh>& cloud_mesh,
-                        const vtkSmartPointer<vtkRenderWindow>& render_window);
-        ~NormalsActorItem ();
+namespace pcl {
+namespace modeler {
+class NormalsActorItem : public ChannelActorItem {
+  public:
+    NormalsActorItem(QTreeWidgetItem *parent,
+                     const boost::shared_ptr<CloudMesh> &cloud_mesh,
+                     const vtkSmartPointer<vtkRenderWindow> &render_window);
+    ~NormalsActorItem();
 
-        virtual std::string
-        getItemName() const {return "Points Actor Item";}
+    virtual std::string getItemName() const { return "Points Actor Item"; }
 
-      protected:
-        void
-        createNormalLines();
+  protected:
+    void createNormalLines();
 
-        virtual void
-        initImpl();
+    virtual void initImpl();
 
-        virtual void
-        updateImpl();
+    virtual void updateImpl();
 
-        virtual void
-        prepareContextMenu(QMenu* menu) const;
+    virtual void prepareContextMenu(QMenu *menu) const;
 
-        virtual void
-        prepareProperties(ParameterDialog* parameter_dialog);
+    virtual void prepareProperties(ParameterDialog *parameter_dialog);
 
-        virtual void
-        setProperties();
+    virtual void setProperties();
 
-      private:
-        double    level_;
-        double    scale_;
-    };
-  }
-}
+  private:
+    double level_;
+    double scale_;
+};
+} // namespace modeler
+} // namespace pcl
 
 #endif // PCL_MODELER_NORMALS_ACTOR_ITEM_H_

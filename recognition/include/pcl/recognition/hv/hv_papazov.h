@@ -37,23 +37,21 @@
 #ifndef PCL_RECOGNITION_HV_PAPAZOV_H_
 #define PCL_RECOGNITION_HV_PAPAZOV_H_
 
-#include <pcl/recognition/boost.h>
-#include <pcl/pcl_macros.h>
-#include <pcl/common/common.h>
-#include <pcl/recognition/hv/hypotheses_verification.h>
 #include <boost/graph/adjacency_list.hpp>
+#include <pcl/common/common.h>
+#include <pcl/pcl_macros.h>
+#include <pcl/recognition/boost.h>
+#include <pcl/recognition/hv/hypotheses_verification.h>
 
-namespace pcl
-{
+namespace pcl {
 
-  /** \brief A hypothesis verification method proposed in
-    * "An Efficient RANSAC for 3D Object Recognition in Noisy and Occluded Scenes", C. Papazov and D. Burschka, ACCV 2010
-    * \author Aitor Aldoma, Federico Tombari
-    */
+/** \brief A hypothesis verification method proposed in
+ * "An Efficient RANSAC for 3D Object Recognition in Noisy and Occluded Scenes",
+ * C. Papazov and D. Burschka, ACCV 2010 \author Aitor Aldoma, Federico Tombari
+ */
 
-  template<typename ModelT, typename SceneT>
-  class PCL_EXPORTS PapazovHV : public HypothesisVerification<ModelT, SceneT>
-  {
+template <typename ModelT, typename SceneT>
+class PCL_EXPORTS PapazovHV : public HypothesisVerification<ModelT, SceneT> {
     using HypothesisVerification<ModelT, SceneT>::mask_;
     using HypothesisVerification<ModelT, SceneT>::scene_cloud_downsampled_;
     using HypothesisVerification<ModelT, SceneT>::scene_downsampled_tree_;
@@ -66,54 +64,53 @@ namespace pcl
     float penalty_threshold_;
     float support_threshold_;
 
-    class RecognitionModel
-    {
+    class RecognitionModel {
       public:
-        std::vector<int> explained_; //indices vector referencing explained_by_RM_
+        std::vector<int>
+            explained_; // indices vector referencing explained_by_RM_
         typename pcl::PointCloud<ModelT>::Ptr cloud_;
         typename pcl::PointCloud<ModelT>::Ptr complete_cloud_;
         int bad_information_;
         int id_;
     };
 
-    std::vector<int> explained_by_RM_; //represents the points of scene_cloud_ that are explained by the recognition models
-    std::vector< boost::shared_ptr<RecognitionModel> > recognition_models_;
-    std::vector< std::vector <boost::shared_ptr<RecognitionModel> > > points_explained_by_rm_; //if inner size > 1, conflict
-    std::map<int, boost::shared_ptr<RecognitionModel> > graph_id_model_map_;
+    std::vector<int>
+        explained_by_RM_; // represents the points of scene_cloud_ that are
+                          // explained by the recognition models
+    std::vector<boost::shared_ptr<RecognitionModel>> recognition_models_;
+    std::vector<std::vector<boost::shared_ptr<RecognitionModel>>>
+        points_explained_by_rm_; // if inner size > 1, conflict
+    std::map<int, boost::shared_ptr<RecognitionModel>> graph_id_model_map_;
 
-    typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS, boost::shared_ptr<RecognitionModel> > Graph;
+    typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS,
+                                  boost::shared_ptr<RecognitionModel>>
+        Graph;
     Graph conflict_graph_;
 
-    //builds the conflict_graph
+    // builds the conflict_graph
     void buildConflictGraph();
-    //non-maxima suppresion on the conflict graph
+    // non-maxima suppresion on the conflict graph
     void nonMaximaSuppresion();
-    //create recognition models
+    // create recognition models
     void initialize();
 
-    public:
-      PapazovHV() : HypothesisVerification<ModelT,SceneT>() {
+  public:
+    PapazovHV() : HypothesisVerification<ModelT, SceneT>() {
         support_threshold_ = 0.1f;
         penalty_threshold_ = 0.1f;
         conflict_threshold_size_ = 0.02f;
-      }
+    }
 
-      void setConflictThreshold(float t) {
-        conflict_threshold_size_ = t;
-      }
+    void setConflictThreshold(float t) { conflict_threshold_size_ = t; }
 
-      void setSupportThreshold(float t) {
-        support_threshold_ = t;
-      }
+    void setSupportThreshold(float t) { support_threshold_ = t; }
 
-      void setPenaltyThreshold(float t) {
-        penalty_threshold_ = t;
-      }
+    void setPenaltyThreshold(float t) { penalty_threshold_ = t; }
 
-      //build conflict graph
-      //non-maxima supression
-      void verify();
-  };
-}
+    // build conflict graph
+    // non-maxima supression
+    void verify();
+};
+} // namespace pcl
 
 #endif /* PCL_RECOGNITION_HV_PAPAZOV_H_ */

@@ -38,44 +38,38 @@
 #ifndef MANIPULATION_EVENT_H_
 #define MANIPULATION_EVENT_H_
 
-#include <pcl/visualization/vtk.h>
 #include <pcl/apps/cloud_composer/items/cloud_item.h>
 #include <pcl/apps/cloud_composer/qt.h>
+#include <pcl/visualization/vtk.h>
 
-namespace pcl
-{
-  namespace cloud_composer
-  {
+namespace pcl {
+namespace cloud_composer {
 
+class PCL_EXPORTS ManipulationEvent {
 
-    class PCL_EXPORTS ManipulationEvent
-    {
+  public:
+    ManipulationEvent() {}
 
-      public:
-        ManipulationEvent ()
-        {}
+    ~ManipulationEvent();
 
-        ~ManipulationEvent ();
+    void addManipulation(QString id, vtkSmartPointer<vtkMatrix4x4> start,
+                         vtkSmartPointer<vtkMatrix4x4> end);
 
-        void
-        addManipulation (QString id, vtkSmartPointer<vtkMatrix4x4> start, vtkSmartPointer<vtkMatrix4x4> end);
+    inline QMap<QString, vtkSmartPointer<vtkMatrix4x4>> getStartMap() const {
+        return id_start_map_;
+    }
 
-        inline QMap <QString, vtkSmartPointer<vtkMatrix4x4> >
-        getStartMap () const { return id_start_map_;}
+    inline QMap<QString, vtkSmartPointer<vtkMatrix4x4>> getEndMap() const {
+        return id_end_map_;
+    }
 
-        inline QMap <QString, vtkSmartPointer<vtkMatrix4x4> >
-        getEndMap () const { return id_end_map_;}
+  private:
+    QMap<QString, vtkSmartPointer<vtkMatrix4x4>> id_start_map_;
+    QMap<QString, vtkSmartPointer<vtkMatrix4x4>> id_end_map_;
+};
 
+} // namespace cloud_composer
 
-      private:
-        QMap <QString, vtkSmartPointer<vtkMatrix4x4> > id_start_map_;
-        QMap <QString, vtkSmartPointer<vtkMatrix4x4> > id_end_map_;
-
-    };
-
-  }
-
-}
+} // namespace pcl
 
 #endif // MANIPULATION_EVENT_H_
-

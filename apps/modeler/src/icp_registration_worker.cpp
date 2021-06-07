@@ -34,119 +34,126 @@
  *
  */
 
-#include <pcl/apps/modeler/icp_registration_worker.h>
-#include <pcl/apps/modeler/parameter_dialog.h>
-#include <pcl/apps/modeler/parameter.h>
 #include <pcl/apps/modeler/cloud_mesh.h>
 #include <pcl/apps/modeler/cloud_mesh_item.h>
+#include <pcl/apps/modeler/icp_registration_worker.h>
+#include <pcl/apps/modeler/parameter.h>
+#include <pcl/apps/modeler/parameter_dialog.h>
 #include <pcl/registration/icp.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-pcl::modeler::ICPRegistrationWorker::ICPRegistrationWorker(CloudMesh::PointCloudPtr cloud, const QList<CloudMeshItem*>& cloud_mesh_items, QWidget* parent)
-  : AbstractWorker(cloud_mesh_items, parent),
-  cloud_(cloud),
-  x_min_(std::numeric_limits<double>::max()), x_max_(std::numeric_limits<double>::min()),
-  y_min_(std::numeric_limits<double>::max()), y_max_(std::numeric_limits<double>::min()),
-  z_min_(std::numeric_limits<double>::max()), z_max_(std::numeric_limits<double>::min()),
-  max_correspondence_distance_(NULL),
-  max_iterations_(NULL),
-  transformation_epsilon_(NULL),
-  euclidean_fitness_epsilon_(NULL)
-{
-
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-pcl::modeler::ICPRegistrationWorker::~ICPRegistrationWorker(void)
-{
-}
+pcl::modeler::ICPRegistrationWorker::ICPRegistrationWorker(
+    CloudMesh::PointCloudPtr cloud,
+    const QList<CloudMeshItem *> &cloud_mesh_items, QWidget *parent)
+    : AbstractWorker(cloud_mesh_items, parent), cloud_(cloud),
+      x_min_(std::numeric_limits<double>::max()),
+      x_max_(std::numeric_limits<double>::min()),
+      y_min_(std::numeric_limits<double>::max()),
+      y_max_(std::numeric_limits<double>::min()),
+      z_min_(std::numeric_limits<double>::max()),
+      z_max_(std::numeric_limits<double>::min()),
+      max_correspondence_distance_(NULL), max_iterations_(NULL),
+      transformation_epsilon_(NULL), euclidean_fitness_epsilon_(NULL) {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::modeler::ICPRegistrationWorker::initParameters(CloudMeshItem* cloud_mesh_item)
-{
-  cloud_->clear();
-
-  Eigen::Vector4f min_pt, max_pt;
-  pcl::getMinMax3D(*(cloud_mesh_item->getCloudMesh()->getCloud()), min_pt, max_pt);
-
-  x_min_ = std::min(double(min_pt.x()), x_min_);
-  x_max_ = std::max(double(max_pt.x()), x_max_);
-
-  y_min_ = std::min(double(min_pt.y()), y_min_);
-  y_max_ = std::max(double(max_pt.y()), y_max_);
-
-  z_min_ = std::min(double(min_pt.z()), z_min_);
-  z_max_ = std::max(double(max_pt.z()), z_max_);
-
-  return;
-}
+pcl::modeler::ICPRegistrationWorker::~ICPRegistrationWorker(void) {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::modeler::ICPRegistrationWorker::setupParameters()
-{
-  double x_range = x_max_ - x_min_;
-  double y_range = y_max_ - y_min_;
-  double z_range = z_max_ - z_min_;
+void pcl::modeler::ICPRegistrationWorker::initParameters(
+    CloudMeshItem *cloud_mesh_item) {
+    cloud_->clear();
 
-  double range_max = std::max(x_range, std::max(y_range, z_range));
-  double max_correspondence_distance = range_max/2;
-  double step = range_max/1000;
+    Eigen::Vector4f min_pt, max_pt;
+    pcl::getMinMax3D(*(cloud_mesh_item->getCloudMesh()->getCloud()), min_pt,
+                     max_pt);
 
-  max_correspondence_distance_ = new DoubleParameter("Max Correspondence Distance",
-    "If the distance is larger than this threshold, the points will be ignored in the alignment process.", max_correspondence_distance, 0, x_max_-x_min_, step);
+    x_min_ = std::min(double(min_pt.x()), x_min_);
+    x_max_ = std::max(double(max_pt.x()), x_max_);
 
-  max_iterations_ = new IntParameter("Max Iterations",
-    "Set the maximum number of iterations the internal optimization should run for.", 10, 0, 256);
+    y_min_ = std::min(double(min_pt.y()), y_min_);
+    y_max_ = std::max(double(max_pt.y()), y_max_);
 
-  double transformation_epsilon = range_max/2;
-  transformation_epsilon_ = new DoubleParameter("Transformation Epsilon",
-    "Maximum allowable difference between two consecutive transformations.", 0.0, 0, transformation_epsilon, step);
+    z_min_ = std::min(double(min_pt.z()), z_min_);
+    z_max_ = std::max(double(max_pt.z()), z_max_);
 
-  double euclidean_fitness_epsilon = range_max/2;
-  euclidean_fitness_epsilon_ = new DoubleParameter("Euclidean Fitness Epsilon",
-    "Maximum allowed Euclidean error between two consecutive steps in the ICP loop.", 0.0, 0, euclidean_fitness_epsilon, step);
-
-  parameter_dialog_->addParameter(max_correspondence_distance_);
-  parameter_dialog_->addParameter(max_iterations_);
-  parameter_dialog_->addParameter(transformation_epsilon_);
-  parameter_dialog_->addParameter(euclidean_fitness_epsilon_);
-
-  return;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::modeler::ICPRegistrationWorker::processImpl(CloudMeshItem* cloud_mesh_item)
-{
-  if (cloud_->empty())
-  {
-    *cloud_ = *(cloud_mesh_item->getCloudMesh()->getCloud());
     return;
-  }
+}
 
-  pcl::IterativeClosestPoint<CloudMesh::PointT, CloudMesh::PointT> icp;
+//////////////////////////////////////////////////////////////////////////////////////////////
+void pcl::modeler::ICPRegistrationWorker::setupParameters() {
+    double x_range = x_max_ - x_min_;
+    double y_range = y_max_ - y_min_;
+    double z_range = z_max_ - z_min_;
 
-  // Set the max correspondence distance to 5cm (e.g., correspondences with higher distances will be ignored)
-  icp.setMaxCorrespondenceDistance (*max_correspondence_distance_);
-  // Set the maximum number of iterations (criterion 1)
-  icp.setMaximumIterations (*max_iterations_);
-  // Set the transformation epsilon (criterion 2)
-  icp.setTransformationEpsilon (*transformation_epsilon_);
-  // Set the euclidean distance difference epsilon (criterion 3)
-  icp.setEuclideanFitnessEpsilon (*euclidean_fitness_epsilon_);
+    double range_max = std::max(x_range, std::max(y_range, z_range));
+    double max_correspondence_distance = range_max / 2;
+    double step = range_max / 1000;
 
-  icp.setInputCloud(cloud_mesh_item->getCloudMesh()->getCloud());
-  icp.setInputTarget(cloud_);
-  pcl::PointCloud<CloudMesh::PointT> result;
-  icp.align(result);
+    max_correspondence_distance_ = new DoubleParameter(
+        "Max Correspondence Distance",
+        "If the distance is larger than this threshold, the points will be "
+        "ignored in the alignment process.",
+        max_correspondence_distance, 0, x_max_ - x_min_, step);
 
-  result.sensor_origin_ = cloud_mesh_item->getCloudMesh()->getCloud()->sensor_origin_;
-  result.sensor_orientation_ = cloud_mesh_item->getCloudMesh()->getCloud()->sensor_orientation_;
+    max_iterations_ =
+        new IntParameter("Max Iterations",
+                         "Set the maximum number of iterations the internal "
+                         "optimization should run for.",
+                         10, 0, 256);
 
-  *(cloud_mesh_item->getCloudMesh()->getCloud()) = result;
-  *cloud_ += result;
+    double transformation_epsilon = range_max / 2;
+    transformation_epsilon_ = new DoubleParameter(
+        "Transformation Epsilon",
+        "Maximum allowable difference between two consecutive transformations.",
+        0.0, 0, transformation_epsilon, step);
 
-  return;
+    double euclidean_fitness_epsilon = range_max / 2;
+    euclidean_fitness_epsilon_ =
+        new DoubleParameter("Euclidean Fitness Epsilon",
+                            "Maximum allowed Euclidean error between two "
+                            "consecutive steps in the ICP loop.",
+                            0.0, 0, euclidean_fitness_epsilon, step);
+
+    parameter_dialog_->addParameter(max_correspondence_distance_);
+    parameter_dialog_->addParameter(max_iterations_);
+    parameter_dialog_->addParameter(transformation_epsilon_);
+    parameter_dialog_->addParameter(euclidean_fitness_epsilon_);
+
+    return;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+void pcl::modeler::ICPRegistrationWorker::processImpl(
+    CloudMeshItem *cloud_mesh_item) {
+    if (cloud_->empty()) {
+        *cloud_ = *(cloud_mesh_item->getCloudMesh()->getCloud());
+        return;
+    }
+
+    pcl::IterativeClosestPoint<CloudMesh::PointT, CloudMesh::PointT> icp;
+
+    // Set the max correspondence distance to 5cm (e.g., correspondences with
+    // higher distances will be ignored)
+    icp.setMaxCorrespondenceDistance(*max_correspondence_distance_);
+    // Set the maximum number of iterations (criterion 1)
+    icp.setMaximumIterations(*max_iterations_);
+    // Set the transformation epsilon (criterion 2)
+    icp.setTransformationEpsilon(*transformation_epsilon_);
+    // Set the euclidean distance difference epsilon (criterion 3)
+    icp.setEuclideanFitnessEpsilon(*euclidean_fitness_epsilon_);
+
+    icp.setInputCloud(cloud_mesh_item->getCloudMesh()->getCloud());
+    icp.setInputTarget(cloud_);
+    pcl::PointCloud<CloudMesh::PointT> result;
+    icp.align(result);
+
+    result.sensor_origin_ =
+        cloud_mesh_item->getCloudMesh()->getCloud()->sensor_origin_;
+    result.sensor_orientation_ =
+        cloud_mesh_item->getCloudMesh()->getCloud()->sensor_orientation_;
+
+    *(cloud_mesh_item->getCloudMesh()->getCloud()) = result;
+    *cloud_ += result;
+
+    return;
 }

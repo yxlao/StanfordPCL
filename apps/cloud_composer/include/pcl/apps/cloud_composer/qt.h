@@ -43,28 +43,27 @@
 #pragma GCC system_header
 #endif
 
-#include <QObject>
-#include <QDebug>
-#include <QQueue>
-#include <QMainWindow>
-#include <QMetaType>
-#include <QDir>
-#include <Qt>
 #include <QAbstractItemView>
-#include <QVTKWidget.h>
-#include <QTabWidget>
-#include <QUndoCommand>
-#include <QTreeView>
-#include <QStandardItemModel>
-#include <QItemSelectionModel>
-#include <QModelIndex>
-#include <QVariant>
-#include <QUndoStack>
-#include <QtGui>
+#include <QDebug>
+#include <QDir>
 #include <QFileInfo>
-#include <QThread>
+#include <QItemSelectionModel>
+#include <QMainWindow>
 #include <QMessageBox>
+#include <QMetaType>
+#include <QModelIndex>
+#include <QObject>
 #include <QPair>
-
+#include <QQueue>
+#include <QStandardItemModel>
+#include <QTabWidget>
+#include <QThread>
+#include <QTreeView>
+#include <QUndoCommand>
+#include <QUndoStack>
+#include <QVTKWidget.h>
+#include <QVariant>
+#include <Qt>
+#include <QtGui>
 
 #endif // CLOUD_COMPOSER_QT_H_

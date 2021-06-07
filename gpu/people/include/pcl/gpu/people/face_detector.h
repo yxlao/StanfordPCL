@@ -38,37 +38,32 @@
 #define PCL_GPU_PEOPLE_FACE_DETECTOR_H_
 
 #include <pcl/pcl_exports.h>
-#include <pcl/point_types.h>
 #include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
 
 #include <boost/shared_ptr.hpp>
 #include <string>
 #include <vector>
 
-namespace pcl
-{
-  namespace gpu
-  {
-    namespace people
-    {
-      class PCL_EXPORTS FaceDetector
-      {
-        public:
-          typedef boost::shared_ptr<FaceDetector> Ptr;
+namespace pcl {
+namespace gpu {
+namespace people {
+class PCL_EXPORTS FaceDetector {
+  public:
+    typedef boost::shared_ptr<FaceDetector> Ptr;
 
-          //typedef DeviceArray2D<unsigned char> Labels;
-          //typedef DeviceArray2D<unsigned short> Depth;
-          //typedef DeviceArray2D<pcl::RGB> Image;
+    // typedef DeviceArray2D<unsigned char> Labels;
+    // typedef DeviceArray2D<unsigned short> Depth;
+    // typedef DeviceArray2D<pcl::RGB> Image;
 
-          /** \brief This is the constructor **/
-          FaceDetector();
+    /** \brief This is the constructor **/
+    FaceDetector();
 
-        private:
-          void allocate_buffers(int rows = 480, int cols = 640);
-      };
-    }
-  }
-}
-
+  private:
+    void allocate_buffers(int rows = 480, int cols = 640);
+};
+} // namespace people
+} // namespace gpu
+} // namespace pcl
 
 #endif /* PCL_GPU_PEOPLE_FACE_DETECTOR_H_ */

@@ -47,34 +47,29 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT>
-pcl::CrfNormalSegmentation<PointT>::CrfNormalSegmentation ()
-{
+pcl::CrfNormalSegmentation<PointT>::CrfNormalSegmentation() {}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+template <typename PointT>
+pcl::CrfNormalSegmentation<PointT>::~CrfNormalSegmentation() {}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+template <typename PointT>
+void pcl::CrfNormalSegmentation<PointT>::setCloud(
+    typename pcl::PointCloud<PointT>::Ptr) {
+    /*
+      if (cloud_for_segmentation_ != 0)
+        cloud_for_segmentation_.reset ();
+
+      cloud_for_segmentation_ = input_cloud;
+    */
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT>
-pcl::CrfNormalSegmentation<PointT>::~CrfNormalSegmentation ()
-{
-}
+void pcl::CrfNormalSegmentation<PointT>::segmentPoints() {}
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointT> void
-pcl::CrfNormalSegmentation<PointT>::setCloud (typename pcl::PointCloud<PointT>::Ptr )
-{
-/*
-  if (cloud_for_segmentation_ != 0)
-    cloud_for_segmentation_.reset ();
+#define PCL_INSTANTIATE_CrfNormalSegmentation(T)                               \
+    template class pcl::CrfNormalSegmentation<T>;
 
-  cloud_for_segmentation_ = input_cloud;
-*/
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointT> void
-pcl::CrfNormalSegmentation<PointT>::segmentPoints ()
-{
-}
-
-#define PCL_INSTANTIATE_CrfNormalSegmentation(T) template class pcl::CrfNormalSegmentation<T>;
-
-#endif    // PCL_CRF_NORMAL_SEGMENTATION_HPP_
+#endif // PCL_CRF_NORMAL_SEGMENTATION_HPP_

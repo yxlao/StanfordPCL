@@ -1,17 +1,14 @@
 #ifndef PCL_SENSOR_MSGS_MESSAGE_POINTFIELD_H
 #define PCL_SENSOR_MSGS_MESSAGE_POINTFIELD_H
+#include <boost/shared_ptr.hpp>
+#include <ostream>
+#include <pcl/pcl_macros.h>
 #include <string>
 #include <vector>
-#include <ostream>
-#include <boost/shared_ptr.hpp>
-#include <pcl/pcl_macros.h>
 
-namespace sensor_msgs
-{
-  struct PointField
-  {
-    PointField () : name (), offset (0), datatype (0), count (0)
-    {}
+namespace sensor_msgs {
+struct PointField {
+    PointField() : name(), offset(0), datatype(0), count(0) {}
 
     std::string name;
 
@@ -29,15 +26,15 @@ namespace sensor_msgs
     enum { FLOAT64 = 8 };
 
   public:
-    typedef boost::shared_ptr< ::sensor_msgs::PointField> Ptr;
-    typedef boost::shared_ptr< ::sensor_msgs::PointField const> ConstPtr;
-  }; // struct PointField
+    typedef boost::shared_ptr<::sensor_msgs::PointField> Ptr;
+    typedef boost::shared_ptr<::sensor_msgs::PointField const> ConstPtr;
+}; // struct PointField
 
-  typedef boost::shared_ptr< ::sensor_msgs::PointField> PointFieldPtr;
-  typedef boost::shared_ptr< ::sensor_msgs::PointField const> PointFieldConstPtr;
+typedef boost::shared_ptr<::sensor_msgs::PointField> PointFieldPtr;
+typedef boost::shared_ptr<::sensor_msgs::PointField const> PointFieldConstPtr;
 
-  inline std::ostream& operator<<(std::ostream& s, const  ::sensor_msgs::PointField & v)
-  {
+inline std::ostream &operator<<(std::ostream &s,
+                                const ::sensor_msgs::PointField &v) {
     s << "name: ";
     s << "  " << v.name << std::endl;
     s << "offset: ";
@@ -47,8 +44,7 @@ namespace sensor_msgs
     s << "count: ";
     s << "  " << v.count << std::endl;
     return (s);
-  }
+}
 } // namespace sensor_msgs
 
 #endif // PCL_SENSOR_MSGS_MESSAGE_POINTFIELD_H
-

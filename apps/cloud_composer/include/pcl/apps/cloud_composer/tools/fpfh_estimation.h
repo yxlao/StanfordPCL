@@ -41,73 +41,53 @@
 #include <pcl/apps/cloud_composer/tool_interface/abstract_tool.h>
 #include <pcl/apps/cloud_composer/tool_interface/tool_factory.h>
 
+namespace pcl {
+namespace cloud_composer {
 
+class FPFHEstimationTool : public NewItemTool {
+    Q_OBJECT
+  public:
+    FPFHEstimationTool(PropertiesModel *parameter_model, QObject *parent);
+    virtual ~FPFHEstimationTool();
 
-namespace pcl
-{
-  namespace cloud_composer
-  {
+    virtual QList<CloudComposerItem *>
+    performAction(QList<const CloudComposerItem *> input_data,
+                  PointTypeFlags::PointType type = PointTypeFlags::NONE);
 
-    class FPFHEstimationTool : public NewItemTool
-    {
-      Q_OBJECT
-      public:
-        FPFHEstimationTool (PropertiesModel* parameter_model, QObject* parent);
-        virtual ~FPFHEstimationTool ();
+    inline virtual QString getToolName() const {
+        return "FPFH Estimation Tool";
+    }
+};
 
-        virtual QList <CloudComposerItem*>
-        performAction (QList <const CloudComposerItem*> input_data, PointTypeFlags::PointType type = PointTypeFlags::NONE);
+class FPFHEstimationToolFactory : public QObject, public ToolFactory {
+    Q_OBJECT
+    Q_INTERFACES(pcl::cloud_composer::ToolFactory)
+  public:
+    NewItemTool *createTool(PropertiesModel *parameter_model,
+                            QObject *parent = 0) {
+        return new FPFHEstimationTool(parameter_model, parent);
+    }
 
-        inline virtual QString
-        getToolName () const { return "FPFH Estimation Tool";}
-    };
+    PropertiesModel *createToolParameterModel(QObject *parent);
 
+    inline virtual QString getPluginName() const { return "FPFH Estimation"; }
 
-    class FPFHEstimationToolFactory : public QObject, public ToolFactory
-    {
-      Q_OBJECT
-      Q_INTERFACES (pcl::cloud_composer::ToolFactory)
-      public:
-        NewItemTool*
-        createTool (PropertiesModel* parameter_model, QObject* parent = 0)
-        {
-            return new FPFHEstimationTool(parameter_model, parent);
-        }
+    virtual QString getToolGroupName() const { return "Feature Estimation"; }
 
-        PropertiesModel*
-        createToolParameterModel (QObject* parent);
+    virtual QString getIconName() const { return ":/fpfh_estimation.png"; }
 
-        inline virtual QString
-        getPluginName () const { return "FPFH Estimation";}
+    inline virtual CloudComposerItem::ItemType getInputItemType() const {
+        return CloudComposerItem::CLOUD_ITEM;
+    }
 
-        virtual QString
-        getToolGroupName () const { return "Feature Estimation";}
+    inline virtual QList<CloudComposerItem::ItemType>
+    getRequiredInputChildrenTypes() const {
+        QList<CloudComposerItem::ItemType> input_types;
+        return (input_types << CloudComposerItem::NORMALS_ITEM);
+    }
+};
 
-        virtual QString
-        getIconName () const { return ":/fpfh_estimation.png"; }
+} // namespace cloud_composer
+} // namespace pcl
 
-        inline virtual CloudComposerItem::ItemType
-        getInputItemType () const
-        {
-          return CloudComposerItem::CLOUD_ITEM;
-        }
-
-        inline virtual QList <CloudComposerItem::ItemType>
-        getRequiredInputChildrenTypes () const
-        {
-          QList <CloudComposerItem::ItemType> input_types;
-          return (input_types << CloudComposerItem::NORMALS_ITEM);
-        }
-    };
-
-
-
-  }
-}
-
-
-
-
-
-
-#endif //FPFH_ESTIMATION_H_
+#endif // FPFH_ESTIMATION_H_

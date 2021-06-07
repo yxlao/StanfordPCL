@@ -38,19 +38,18 @@
 #ifndef PCL_FEATURES_LINEAR_LEAST_SQUARES_NORMAL_H_
 #define PCL_FEATURES_LINEAR_LEAST_SQUARES_NORMAL_H_
 
+#include <pcl/features/feature.h>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
-#include <pcl/features/feature.h>
 
-namespace pcl
-{
-  /**
-    * \brief Surface normal estimation on dense data using a least-squares estimation based on a first-order Taylor approximation.
-    * \author Stefan Holzer, Cedric Cagniart
-    */
-  template <typename PointInT, typename PointOutT>
-  class LinearLeastSquaresNormalEstimation : public Feature<PointInT, PointOutT>
-  {
+namespace pcl {
+/**
+ * \brief Surface normal estimation on dense data using a least-squares
+ * estimation based on a first-order Taylor approximation. \author Stefan
+ * Holzer, Cedric Cagniart
+ */
+template <typename PointInT, typename PointOutT>
+class LinearLeastSquaresNormalEstimation : public Feature<PointInT, PointOutT> {
 
     using Feature<PointInT, PointOutT>::input_;
     using Feature<PointInT, PointOutT>::feature_name_;
@@ -58,82 +57,72 @@ namespace pcl
     using Feature<PointInT, PointOutT>::k_;
 
   public:
-
-    typedef typename Feature<PointInT, PointOutT>::PointCloudIn  PointCloudIn;
+    typedef typename Feature<PointInT, PointOutT>::PointCloudIn PointCloudIn;
     typedef typename Feature<PointInT, PointOutT>::PointCloudOut PointCloudOut;
 
     /** \brief Constructor */
-    LinearLeastSquaresNormalEstimation () :
-        use_depth_dependent_smoothing_(false),
-        max_depth_change_factor_(1.0f),
-        normal_smoothing_size_(9.0f)
-    {
+    LinearLeastSquaresNormalEstimation()
+        : use_depth_dependent_smoothing_(false), max_depth_change_factor_(1.0f),
+          normal_smoothing_size_(9.0f) {
         feature_name_ = "LinearLeastSquaresNormalEstimation";
-        tree_.reset ();
+        tree_.reset();
         k_ = 1;
     };
 
     /** \brief Destructor */
-    virtual ~LinearLeastSquaresNormalEstimation ();
+    virtual ~LinearLeastSquaresNormalEstimation();
 
     /** \brief Computes the normal at the specified position.
-      * \param pos_x x position (pixel)
-      * \param pos_y y position (pixel)
-      * \param normal the output estimated normal
-      */
-    void
-    computePointNormal (const int pos_x, const int pos_y, PointOutT &normal);
+     * \param pos_x x position (pixel)
+     * \param pos_y y position (pixel)
+     * \param normal the output estimated normal
+     */
+    void computePointNormal(const int pos_x, const int pos_y,
+                            PointOutT &normal);
 
     /** \brief Set the normal smoothing size
-      * \param normal_smoothing_size factor which influences the size of the area used to smooth normals
-      * (depth dependent if useDepthDependentSmoothing is true)
-      */
-    void
-    setNormalSmoothingSize (float normal_smoothing_size)
-    {
-      normal_smoothing_size_ = normal_smoothing_size;
+     * \param normal_smoothing_size factor which influences the size of the area
+     * used to smooth normals (depth dependent if useDepthDependentSmoothing is
+     * true)
+     */
+    void setNormalSmoothingSize(float normal_smoothing_size) {
+        normal_smoothing_size_ = normal_smoothing_size;
     }
 
     /** \brief Set whether to use depth depending smoothing or not
-      * \param use_depth_dependent_smoothing decides whether the smoothing is depth dependent
-      */
-    void
-    setDepthDependentSmoothing (bool use_depth_dependent_smoothing)
-    {
-      use_depth_dependent_smoothing_ = use_depth_dependent_smoothing;
+     * \param use_depth_dependent_smoothing decides whether the smoothing is
+     * depth dependent
+     */
+    void setDepthDependentSmoothing(bool use_depth_dependent_smoothing) {
+        use_depth_dependent_smoothing_ = use_depth_dependent_smoothing;
     }
 
     /** \brief The depth change threshold for computing object borders
-      * \param max_depth_change_factor the depth change threshold for computing object borders based on
-      * depth changes
-      */
-    void
-    setMaxDepthChangeFactor (float max_depth_change_factor)
-    {
-      max_depth_change_factor_ = max_depth_change_factor;
+     * \param max_depth_change_factor the depth change threshold for computing
+     * object borders based on depth changes
+     */
+    void setMaxDepthChangeFactor(float max_depth_change_factor) {
+        max_depth_change_factor_ = max_depth_change_factor;
     }
 
-    /** \brief Provide a pointer to the input dataset (overwrites the PCLBase::setInputCloud method)
-      * \param cloud the const boost shared pointer to a PointCloud message
-      */
+    /** \brief Provide a pointer to the input dataset (overwrites the
+     * PCLBase::setInputCloud method) \param cloud the const boost shared
+     * pointer to a PointCloud message
+     */
     virtual inline void
-    setInputCloud (const typename PointCloudIn::ConstPtr &cloud)
-    {
-      input_ = cloud;
+    setInputCloud(const typename PointCloudIn::ConstPtr &cloud) {
+        input_ = cloud;
     }
 
   protected:
-
     /** \brief Computes the normal for the complete cloud.
-      * \param output the resultant normals
-      */
-    void
-    computeFeature (PointCloudOut &output);
+     * \param output the resultant normals
+     */
+    void computeFeature(PointCloudOut &output);
 
   private:
-
     /** the threshold used to detect depth discontinuities */
-    //float distance_threshold_;
+    // float distance_threshold_;
 
     /** \brief Smooth data based on depth (true/false). */
     bool use_depth_dependent_smoothing_;
@@ -144,13 +133,11 @@ namespace pcl
     /** \brief */
     float normal_smoothing_size_;
 
-    /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from outside the class
-      * \param[out] output the output point cloud
-      */
-    void
-    computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &) {}
-  };
-}
+    /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from
+     * outside the class \param[out] output the output point cloud
+     */
+    void computeFeatureEigen(pcl::PointCloud<Eigen::MatrixXf> &) {}
+};
+} // namespace pcl
 
 #endif
-

@@ -41,17 +41,17 @@
 #define PCL_FEATURES_BOOST_H_
 
 #if defined __GNUC__
-#  pragma GCC system_header
+#pragma GCC system_header
 #endif
 
-#include <boost/unordered_map.hpp>
-#include <boost/function.hpp>
 #include <boost/bind.hpp>
+#include <boost/function.hpp>
 #include <boost/mpl/size.hpp>
-#include <boost/random.hpp>
 #include <boost/multi_array.hpp>
 #include <boost/property_map/property_map.hpp>
+#include <boost/random.hpp>
+#include <boost/unordered_map.hpp>
 //#include <boost/graph/adjacency_list.hpp>
 //#include <boost/graph/johnson_all_pairs_shortest.hpp>
 
-#endif    // PCL_FEATURES_BOOST_H_
+#endif // PCL_FEATURES_BOOST_H_

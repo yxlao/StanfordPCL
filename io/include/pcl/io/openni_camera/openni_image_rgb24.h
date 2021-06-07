@@ -41,42 +41,47 @@
 #include "openni_image.h"
 #include <pcl/pcl_macros.h>
 
-namespace openni_wrapper
-{
+namespace openni_wrapper {
 
-  /**
-   * @brief This class provides methods to fill a RGB or Grayscale image buffer from underlying RGB24 image.
-   * @author Suat Gedikli
-   * @date 19. June 2011
-   * @ingroup io
-   */
-  class PCL_EXPORTS ImageRGB24 : public Image
-  {
+/**
+ * @brief This class provides methods to fill a RGB or Grayscale image buffer
+ * from underlying RGB24 image.
+ * @author Suat Gedikli
+ * @date 19. June 2011
+ * @ingroup io
+ */
+class PCL_EXPORTS ImageRGB24 : public Image {
   public:
+    ImageRGB24(boost::shared_ptr<xn::ImageMetaData> image_meta_data) throw();
+    virtual ~ImageRGB24() throw();
 
-    ImageRGB24 (boost::shared_ptr<xn::ImageMetaData> image_meta_data) throw ();
-    virtual ~ImageRGB24 () throw ();
+    inline virtual Encoding getEncoding() const { return (RGB); }
 
-    inline virtual Encoding
-    getEncoding () const
-    {
-      return (RGB);
-    }
+    virtual void fillRGB(unsigned width, unsigned height,
+                         unsigned char *rgb_buffer,
+                         unsigned rgb_line_step = 0) const;
+    virtual void fillGrayscale(unsigned width, unsigned height,
+                               unsigned char *gray_buffer,
+                               unsigned gray_line_step = 0) const;
+    virtual bool isResizingSupported(unsigned input_width,
+                                     unsigned input_height,
+                                     unsigned output_width,
+                                     unsigned output_height) const;
+    inline static bool resizingSupported(unsigned input_width,
+                                         unsigned input_height,
+                                         unsigned output_width,
+                                         unsigned output_height);
+};
 
-    virtual void fillRGB (unsigned width, unsigned height, unsigned char* rgb_buffer, unsigned rgb_line_step = 0) const;
-    virtual void fillGrayscale (unsigned width, unsigned height, unsigned char* gray_buffer, unsigned gray_line_step = 0) const;
-    virtual bool isResizingSupported (unsigned input_width, unsigned input_height, unsigned output_width, unsigned output_height) const;
-    inline static bool resizingSupported (unsigned input_width, unsigned input_height, unsigned output_width, unsigned output_height);
-  } ;
-
-  bool
-  ImageRGB24::resizingSupported (unsigned input_width, unsigned input_height, unsigned output_width, unsigned output_height)
-  {
-    return (output_width <= input_width && output_height <= input_height && input_width % output_width == 0 && input_height % output_height == 0 );
-  }
+bool ImageRGB24::resizingSupported(unsigned input_width, unsigned input_height,
+                                   unsigned output_width,
+                                   unsigned output_height) {
+    return (output_width <= input_width && output_height <= input_height &&
+            input_width % output_width == 0 &&
+            input_height % output_height == 0);
+}
 
 } // namespace openni_wrapper
 
 #endif // __OPENNI_IMAGE_RGB__
 #endif // HAVE_OPENNI
-

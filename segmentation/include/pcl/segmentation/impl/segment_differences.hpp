@@ -38,100 +38,102 @@
 #ifndef PCL_SEGMENTATION_IMPL_SEGMENT_DIFFERENCES_H_
 #define PCL_SEGMENTATION_IMPL_SEGMENT_DIFFERENCES_H_
 
-#include <pcl/segmentation/segment_differences.h>
 #include <pcl/common/concatenate.h>
+#include <pcl/segmentation/segment_differences.h>
 
 //////////////////////////////////////////////////////////////////////////
-template <typename PointT> void
-pcl::getPointCloudDifference (
-    const pcl::PointCloud<PointT> &src,
-    const pcl::PointCloud<PointT> &,
-    double threshold, const boost::shared_ptr<pcl::search::Search<PointT> > &tree,
-    pcl::PointCloud<PointT> &output)
-{
-  // We're interested in a single nearest neighbor only
-  std::vector<int> nn_indices (1);
-  std::vector<float> nn_distances (1);
+template <typename PointT>
+void pcl::getPointCloudDifference(
+    const pcl::PointCloud<PointT> &src, const pcl::PointCloud<PointT> &,
+    double threshold,
+    const boost::shared_ptr<pcl::search::Search<PointT>> &tree,
+    pcl::PointCloud<PointT> &output) {
+    // We're interested in a single nearest neighbor only
+    std::vector<int> nn_indices(1);
+    std::vector<float> nn_distances(1);
 
-  // The src indices that do not have a neighbor in tgt
-  std::vector<int> src_indices;
+    // The src indices that do not have a neighbor in tgt
+    std::vector<int> src_indices;
 
-  // Iterate through the source data set
-  for (int i = 0; i < static_cast<int> (src.points.size ()); ++i)
-  {
-    if (!isFinite (src.points[i]))
-      continue;
-    // Search for the closest point in the target data set (number of neighbors to find = 1)
-    if (!tree->nearestKSearch (src.points[i], 1, nn_indices, nn_distances))
-    {
-      PCL_WARN ("No neighbor found for point %zu (%f %f %f)!\n", i, src.points[i].x, src.points[i].y, src.points[i].z);
-      continue;
+    // Iterate through the source data set
+    for (int i = 0; i < static_cast<int>(src.points.size()); ++i) {
+        if (!isFinite(src.points[i]))
+            continue;
+        // Search for the closest point in the target data set (number of
+        // neighbors to find = 1)
+        if (!tree->nearestKSearch(src.points[i], 1, nn_indices, nn_distances)) {
+            PCL_WARN("No neighbor found for point %zu (%f %f %f)!\n", i,
+                     src.points[i].x, src.points[i].y, src.points[i].z);
+            continue;
+        }
+
+        if (nn_distances[0] > threshold)
+            src_indices.push_back(i);
     }
 
-    if (nn_distances[0] > threshold)
-      src_indices.push_back (i);
-  }
-
-  // Allocate enough space and copy the basics
-  output.points.resize (src_indices.size ());
-  output.header   = src.header;
-  output.width    = static_cast<uint32_t> (src_indices.size ());
-  output.height   = 1;
-  //if (src.is_dense)
+    // Allocate enough space and copy the basics
+    output.points.resize(src_indices.size());
+    output.header = src.header;
+    output.width = static_cast<uint32_t>(src_indices.size());
+    output.height = 1;
+    // if (src.is_dense)
     output.is_dense = true;
-  //else
-    // It's not necessarily true that is_dense is false if cloud_in.is_dense is false
-    // To verify this, we would need to iterate over all points and check for NaNs
-    //output.is_dense = false;
+    // else
+    // It's not necessarily true that is_dense is false if cloud_in.is_dense is
+    // false To verify this, we would need to iterate over all points and check
+    // for NaNs
+    // output.is_dense = false;
 
-  // Copy all the data fields from the input cloud to the output one
-  typedef typename pcl::traits::fieldList<PointT>::type FieldList;
-  // Iterate over each point
-  for (size_t i = 0; i < src_indices.size (); ++i)
-    // Iterate over each dimension
-    pcl::for_each_type <FieldList> (NdConcatenateFunctor <PointT, PointT> (src.points[src_indices[i]], output.points[i]));
+    // Copy all the data fields from the input cloud to the output one
+    typedef typename pcl::traits::fieldList<PointT>::type FieldList;
+    // Iterate over each point
+    for (size_t i = 0; i < src_indices.size(); ++i)
+        // Iterate over each dimension
+        pcl::for_each_type<FieldList>(NdConcatenateFunctor<PointT, PointT>(
+            src.points[src_indices[i]], output.points[i]));
 }
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
-template <typename PointT> void
-pcl::SegmentDifferences<PointT>::segment (PointCloud &output)
-{
-  output.header = input_->header;
+template <typename PointT>
+void pcl::SegmentDifferences<PointT>::segment(PointCloud &output) {
+    output.header = input_->header;
 
-  if (!initCompute ())
-  {
-    output.width = output.height = 0;
-    output.points.clear ();
-    return;
-  }
+    if (!initCompute()) {
+        output.width = output.height = 0;
+        output.points.clear();
+        return;
+    }
 
-  // If target is empty, input - target = input
-  if (target_->points.empty ())
-  {
-    output = *input_;
-    return;
-  }
+    // If target is empty, input - target = input
+    if (target_->points.empty()) {
+        output = *input_;
+        return;
+    }
 
-  // Initialize the spatial locator
-  if (!tree_)
-  {
-    if (target_->isOrganized ())
-      tree_.reset (new pcl::search::OrganizedNeighbor<PointT> ());
-    else
-      tree_.reset (new pcl::search::KdTree<PointT> (false));
-  }
-  // Send the input dataset to the spatial locator
-  tree_->setInputCloud (target_);
+    // Initialize the spatial locator
+    if (!tree_) {
+        if (target_->isOrganized())
+            tree_.reset(new pcl::search::OrganizedNeighbor<PointT>());
+        else
+            tree_.reset(new pcl::search::KdTree<PointT>(false));
+    }
+    // Send the input dataset to the spatial locator
+    tree_->setInputCloud(target_);
 
-  getPointCloudDifference (*input_, *target_, distance_threshold_, tree_, output);
+    getPointCloudDifference(*input_, *target_, distance_threshold_, tree_,
+                            output);
 
-  deinitCompute ();
+    deinitCompute();
 }
 
-#define PCL_INSTANTIATE_SegmentDifferences(T) template class PCL_EXPORTS pcl::SegmentDifferences<T>;
-#define PCL_INSTANTIATE_getPointCloudDifference(T) template PCL_EXPORTS void pcl::getPointCloudDifference<T>(const pcl::PointCloud<T> &, const pcl::PointCloud<T> &, double, const boost::shared_ptr<pcl::search::Search<T> > &, pcl::PointCloud<T> &);
+#define PCL_INSTANTIATE_SegmentDifferences(T)                                  \
+    template class PCL_EXPORTS pcl::SegmentDifferences<T>;
+#define PCL_INSTANTIATE_getPointCloudDifference(T)                             \
+    template PCL_EXPORTS void pcl::getPointCloudDifference<T>(                 \
+        const pcl::PointCloud<T> &, const pcl::PointCloud<T> &, double,        \
+        const boost::shared_ptr<pcl::search::Search<T>> &,                     \
+        pcl::PointCloud<T> &);
 
-#endif        // PCL_SEGMENTATION_IMPL_SEGMENT_DIFFERENCES_H_
-
+#endif // PCL_SEGMENTATION_IMPL_SEGMENT_DIFFERENCES_H_

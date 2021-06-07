@@ -34,8 +34,8 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <pcl/point_types.h>
 #include <pcl/impl/instantiate.hpp>
+#include <pcl/point_types.h>
 #include <pcl/recognition/hv/hv_papazov.h>
 #include <pcl/recognition/impl/hv/hv_papazov.hpp>
 

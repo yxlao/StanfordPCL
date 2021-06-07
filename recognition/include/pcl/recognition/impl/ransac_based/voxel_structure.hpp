@@ -39,37 +39,40 @@
 #ifndef PCL_RECOGNITION_VOXEL_STRUCTURE_HPP_
 #define PCL_RECOGNITION_VOXEL_STRUCTURE_HPP_
 
-template<class T> void
-pcl::recognition::VoxelStructure<T>::build (const double bounds[6], int num_of_voxels[3])
-{
-  this->clear();
+template <class T>
+void pcl::recognition::VoxelStructure<T>::build(const double bounds[6],
+                                                int num_of_voxels[3]) {
+    this->clear();
 
-  // Copy the bounds
-  bounds_[0] = bounds[0];
-  bounds_[1] = bounds[1];
-  bounds_[2] = bounds[2];
-  bounds_[3] = bounds[3];
-  bounds_[4] = bounds[4];
-  bounds_[5] = bounds[5];
+    // Copy the bounds
+    bounds_[0] = bounds[0];
+    bounds_[1] = bounds[1];
+    bounds_[2] = bounds[2];
+    bounds_[3] = bounds[3];
+    bounds_[4] = bounds[4];
+    bounds_[5] = bounds[5];
 
-  num_of_voxels_[0] = num_of_voxels[0];
-  num_of_voxels_[1] = num_of_voxels[1];
-  num_of_voxels_[2] = num_of_voxels[2];
-  num_of_voxels_xy_plane_ = num_of_voxels[0]*num_of_voxels[1];
-  total_num_of_voxels_ = num_of_voxels_xy_plane_*num_of_voxels[2];
+    num_of_voxels_[0] = num_of_voxels[0];
+    num_of_voxels_[1] = num_of_voxels[1];
+    num_of_voxels_[2] = num_of_voxels[2];
+    num_of_voxels_xy_plane_ = num_of_voxels[0] * num_of_voxels[1];
+    total_num_of_voxels_ = num_of_voxels_xy_plane_ * num_of_voxels[2];
 
-  // Allocate memory for the voxels
-  voxels_ = new T[total_num_of_voxels_];
+    // Allocate memory for the voxels
+    voxels_ = new T[total_num_of_voxels_];
 
-  // Compute the spacing between the voxels in x, y and z direction
-  spacing_[0] = (bounds[1]-bounds[0])/static_cast<double>(num_of_voxels[0]);
-  spacing_[1] = (bounds[3]-bounds[2])/static_cast<double>(num_of_voxels[1]);
-  spacing_[2] = (bounds[5]-bounds[4])/static_cast<double>(num_of_voxels[2]);
+    // Compute the spacing between the voxels in x, y and z direction
+    spacing_[0] =
+        (bounds[1] - bounds[0]) / static_cast<double>(num_of_voxels[0]);
+    spacing_[1] =
+        (bounds[3] - bounds[2]) / static_cast<double>(num_of_voxels[1]);
+    spacing_[2] =
+        (bounds[5] - bounds[4]) / static_cast<double>(num_of_voxels[2]);
 
-  // Compute the center of the voxel with integer coordinates (0, 0, 0)
-  min_center_[0] = bounds_[0] + 0.5*spacing_[0];
-  min_center_[1] = bounds_[2] + 0.5*spacing_[1];
-  min_center_[2] = bounds_[4] + 0.5*spacing_[2];
+    // Compute the center of the voxel with integer coordinates (0, 0, 0)
+    min_center_[0] = bounds_[0] + 0.5 * spacing_[0];
+    min_center_[1] = bounds_[2] + 0.5 * spacing_[1];
+    min_center_[2] = bounds_[4] + 0.5 * spacing_[2];
 }
 
 #endif // PCL_RECOGNITION_VOXEL_STRUCTURE_HPP_

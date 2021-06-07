@@ -45,96 +45,101 @@
 #include <iostream>
 #include <vector>
 
-namespace pcl
-{
-  namespace gpu
-  {
-    namespace people
-    {
-      namespace trees
-      {
-        // this has nothing to do here...
-        static const double focal = 1000.;
+namespace pcl {
+namespace gpu {
+namespace people {
+namespace trees {
+// this has nothing to do here...
+static const double focal = 1000.;
 
-        // ###############################################
-        // compile type values
-        enum { NUM_ATTRIBS  = 2000 };
-        enum { NUM_LABELS = 32 };
+// ###############################################
+// compile type values
+enum { NUM_ATTRIBS = 2000 };
+enum { NUM_LABELS = 32 };
 
-        // ###############################################
-        // base data types used in the structures
+// ###############################################
+// base data types used in the structures
 
-        using boost::uint8_t;
-        using boost::int16_t;
-        using boost::uint16_t;
-        using boost::int32_t;
-        using boost::uint32_t;
+using boost::int16_t;
+using boost::int32_t;
+using boost::uint16_t;
+using boost::uint32_t;
+using boost::uint8_t;
 
-        typedef int16_t Attrib;
-        typedef uint8_t Label;
-        typedef uint32_t Label32;
-        typedef uint16_t Depth;
+typedef int16_t Attrib;
+typedef uint8_t Label;
+typedef uint32_t Label32;
+typedef uint16_t Depth;
 
-        struct AttribLocation
-        {
-          inline AttribLocation () {du1=dv1=du2=dv2=0;}
-          inline AttribLocation (int u1, int v1, int u2, int v2): du1 (static_cast<int16_t>(u1)),
-                                                                  dv1 (static_cast<int16_t>(v1)),
-                                                                  du2 (static_cast<int16_t>(u2)),
-                                                                  dv2 (static_cast<int16_t>(v2))
-          {}
+struct AttribLocation {
+    inline AttribLocation() { du1 = dv1 = du2 = dv2 = 0; }
+    inline AttribLocation(int u1, int v1, int u2, int v2)
+        : du1(static_cast<int16_t>(u1)), dv1(static_cast<int16_t>(v1)),
+          du2(static_cast<int16_t>(u2)), dv2(static_cast<int16_t>(v2)) {}
 
-          int16_t du1,dv1,du2,dv2;
-        };
+    int16_t du1, dv1, du2, dv2;
+};
 
-        ////////////////////////////////////////////////
-        // Tree basic Structure
-        struct Node
-        {
-          Node () {}
-          Node (const AttribLocation& l, const Attrib& t) : loc(l), thresh(t) {}
-          AttribLocation loc;
-          Attrib         thresh;
-        };
+////////////////////////////////////////////////
+// Tree basic Structure
+struct Node {
+    Node() {}
+    Node(const AttribLocation &l, const Attrib &t) : loc(l), thresh(t) {}
+    AttribLocation loc;
+    Attrib thresh;
+};
 
-        struct Histogram
-        {
-          float label_prob[NUM_PARTS];
-        };
+struct Histogram {
+    float label_prob[NUM_PARTS];
+};
 
-        ////////////////////////////////////////////////
-        // tree_io - Reading and writing AttributeLocations
-        inline std::ostream& operator << (std::ostream& os, const AttribLocation& aloc ) { return os<<aloc.du1<<" "<<aloc.dv1<<" "<<aloc.du2<<" "<<aloc.dv2<<"\n"; }
-        inline std::istream& operator >> (std::istream& is, AttribLocation& aloc ) { return is >> aloc.du1 >> aloc.dv1 >> aloc.du2 >> aloc.dv2; }
-        inline std::istream& operator >> (std::istream& is, Node& n) { return is >> n.loc >> n.thresh; }
+////////////////////////////////////////////////
+// tree_io - Reading and writing AttributeLocations
+inline std::ostream &operator<<(std::ostream &os, const AttribLocation &aloc) {
+    return os << aloc.du1 << " " << aloc.dv1 << " " << aloc.du2 << " "
+              << aloc.dv2 << "\n";
+}
+inline std::istream &operator>>(std::istream &is, AttribLocation &aloc) {
+    return is >> aloc.du1 >> aloc.dv1 >> aloc.du2 >> aloc.dv2;
+}
+inline std::istream &operator>>(std::istream &is, Node &n) {
+    return is >> n.loc >> n.thresh;
+}
 
-        void writeAttribLocs( const std::string& filename, const std::vector<AttribLocation>& alocs );
-        void readAttribLocs( const std::string& filename, std::vector<AttribLocation>& alocs );
-        void readThreshs( const std::string& filename, std::vector<Attrib>& threshs );
-        void writeThreshs( const std::string& filename, const std::vector<Attrib>& threshs );
+void writeAttribLocs(const std::string &filename,
+                     const std::vector<AttribLocation> &alocs);
+void readAttribLocs(const std::string &filename,
+                    std::vector<AttribLocation> &alocs);
+void readThreshs(const std::string &filename, std::vector<Attrib> &threshs);
+void writeThreshs(const std::string &filename,
+                  const std::vector<Attrib> &threshs);
 
-        ////////////////////////////////////////////////
-        // tree_run
+////////////////////////////////////////////////
+// tree_run
 
-        /** The stream points to ascii data that goes:
-          * ##################
-          * TreeHeight
-          * du1 dv1 du2 dv2 thresh
-          * du1 dv1 du2 dv2 thresh
-          * ............
-          * label
-          * label
-          * ##################
-          *
-          * there are 2^threeheight -1 nodes ( [du1 dv1 du2 dv2 thresh] lines )
-          * there are 2^threeheight   leaves ( [label] lines )
-          */
-        int loadTree( std::istream& is, std::vector<Node>&  tree, std::vector<Label>& leaves );
-        int loadTree( const std::string&  filename, std::vector<Node>&  tree, std::vector<Label>& leaves );
-        void runThroughTree( int maxDepth, const std::vector<Node>& tree, const std::vector<Label>& leaves, int W, int H, const uint16_t* dmap, Label* lmap );
+/** The stream points to ascii data that goes:
+ * ##################
+ * TreeHeight
+ * du1 dv1 du2 dv2 thresh
+ * du1 dv1 du2 dv2 thresh
+ * ............
+ * label
+ * label
+ * ##################
+ *
+ * there are 2^threeheight -1 nodes ( [du1 dv1 du2 dv2 thresh] lines )
+ * there are 2^threeheight   leaves ( [label] lines )
+ */
+int loadTree(std::istream &is, std::vector<Node> &tree,
+             std::vector<Label> &leaves);
+int loadTree(const std::string &filename, std::vector<Node> &tree,
+             std::vector<Label> &leaves);
+void runThroughTree(int maxDepth, const std::vector<Node> &tree,
+                    const std::vector<Label> &leaves, int W, int H,
+                    const uint16_t *dmap, Label *lmap);
 
-      } // end namespace Trees
-    } // end namespace people
-  } // end namespace gpu
+} // namespace trees
+} // end namespace people
+} // end namespace gpu
 } // end namespace pcl
-#endif  // PCL_GPU_PEOPLE_TREES_TREE_H_
+#endif // PCL_GPU_PEOPLE_TREES_TREE_H_

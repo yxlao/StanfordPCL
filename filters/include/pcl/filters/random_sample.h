@@ -38,23 +38,20 @@
 #ifndef PCL_FILTERS_RANDOM_SUBSAMPLE_H_
 #define PCL_FILTERS_RANDOM_SUBSAMPLE_H_
 
+#include <limits.h>
 #include <pcl/filters/filter_indices.h>
 #include <time.h>
-#include <limits.h>
 
-namespace pcl
-{
-  /** \brief @b RandomSample applies a random sampling with uniform probability.
-    * Based off Algorithm A from the paper "Faster Methods for Random Sampling"
-    * by Jeffrey Scott Vitter. The algorithm runs in O(N) and results in sorted
-    * indices
-    * http://www.ittc.ku.edu/~jsv/Papers/Vit84.sampling.pdf
-    * \author Justin Rosen
-    * \ingroup filters
-    */
-  template<typename PointT>
-  class RandomSample : public FilterIndices<PointT>
-  {
+namespace pcl {
+/** \brief @b RandomSample applies a random sampling with uniform probability.
+ * Based off Algorithm A from the paper "Faster Methods for Random Sampling"
+ * by Jeffrey Scott Vitter. The algorithm runs in O(N) and results in sorted
+ * indices
+ * http://www.ittc.ku.edu/~jsv/Papers/Vit84.sampling.pdf
+ * \author Justin Rosen
+ * \ingroup filters
+ */
+template <typename PointT> class RandomSample : public FilterIndices<PointT> {
     using FilterIndices<PointT>::filter_name_;
     using FilterIndices<PointT>::getClassName;
     using FilterIndices<PointT>::indices_;
@@ -64,84 +61,65 @@ namespace pcl
     typedef typename PointCloud::Ptr PointCloudPtr;
     typedef typename PointCloud::ConstPtr PointCloudConstPtr;
 
-    public:
-      /** \brief Empty constructor. */
-      RandomSample () : sample_ (UINT_MAX), seed_ (static_cast<unsigned int> (time (NULL)))
-      {
+  public:
+    /** \brief Empty constructor. */
+    RandomSample()
+        : sample_(UINT_MAX), seed_(static_cast<unsigned int>(time(NULL))) {
         filter_name_ = "RandomSample";
-      }
+    }
 
-      /** \brief Set number of indices to be sampled.
-        * \param sample
-        */
-      inline void
-      setSample (unsigned int sample)
-      {
-        sample_ = sample;
-      }
+    /** \brief Set number of indices to be sampled.
+     * \param sample
+     */
+    inline void setSample(unsigned int sample) { sample_ = sample; }
 
-      /** \brief Get the value of the internal \a sample parameter.
-        */
-      inline unsigned int
-      getSample ()
-      {
-        return (sample_);
-      }
+    /** \brief Get the value of the internal \a sample parameter.
+     */
+    inline unsigned int getSample() { return (sample_); }
 
-      /** \brief Set seed of random function.
-        * \param seed
-        */
-      inline void
-      setSeed (unsigned int seed)
-      {
-        seed_ = seed;
-      }
+    /** \brief Set seed of random function.
+     * \param seed
+     */
+    inline void setSeed(unsigned int seed) { seed_ = seed; }
 
-      /** \brief Get the value of the internal \a seed parameter.
-        */
-      inline unsigned int
-      getSeed ()
-      {
-        return (seed_);
-      }
+    /** \brief Get the value of the internal \a seed parameter.
+     */
+    inline unsigned int getSeed() { return (seed_); }
 
-    protected:
+  protected:
+    /** \brief Number of indices that will be returned. */
+    unsigned int sample_;
+    /** \brief Random number seed. */
+    unsigned int seed_;
 
-      /** \brief Number of indices that will be returned. */
-      unsigned int sample_;
-      /** \brief Random number seed. */
-      unsigned int seed_;
+    /** \brief Sample of point indices into a separate PointCloud
+     * \param output the resultant point cloud
+     */
+    void applyFilter(PointCloud &output);
 
-      /** \brief Sample of point indices into a separate PointCloud
-        * \param output the resultant point cloud
-        */
-      void
-      applyFilter (PointCloud &output);
+    /** \brief Sample of point indices
+     * \param indices the resultant point cloud indices
+     */
+    void applyFilter(std::vector<int> &indices);
 
-      /** \brief Sample of point indices
-        * \param indices the resultant point cloud indices
-        */
-      void
-      applyFilter (std::vector<int> &indices);
+    /** \brief Return a random number fast using a LCG (Linear Congruential
+     * Generator) algorithm. See
+     * http://software.intel.com/en-us/articles/fast-random-number-generator-on-the-intel-pentiumr-4-processor/
+     * for more information.
+     */
+    inline float unifRand() {
+        return (static_cast<float>(rand() / double(RAND_MAX)));
+        // return (((214013 * seed_ + 2531011) >> 16) & 0x7FFF);
+    }
+};
 
-      /** \brief Return a random number fast using a LCG (Linear Congruential Generator) algorithm.
-        * See http://software.intel.com/en-us/articles/fast-random-number-generator-on-the-intel-pentiumr-4-processor/ for more information.
-        */
-      inline float
-      unifRand ()
-      {
-        return (static_cast<float>(rand () / double (RAND_MAX)));
-        //return (((214013 * seed_ + 2531011) >> 16) & 0x7FFF);
-      }
-  };
-
-  /** \brief @b RandomSample applies a random sampling with uniform probability.
-    * \author Justin Rosen
-    * \ingroup filters
-    */
-  template<>
-  class PCL_EXPORTS RandomSample<sensor_msgs::PointCloud2> : public FilterIndices<sensor_msgs::PointCloud2>
-  {
+/** \brief @b RandomSample applies a random sampling with uniform probability.
+ * \author Justin Rosen
+ * \ingroup filters
+ */
+template <>
+class PCL_EXPORTS RandomSample<sensor_msgs::PointCloud2>
+    : public FilterIndices<sensor_msgs::PointCloud2> {
     using FilterIndices<sensor_msgs::PointCloud2>::filter_name_;
     using FilterIndices<sensor_msgs::PointCloud2>::getClassName;
 
@@ -149,76 +127,57 @@ namespace pcl
     typedef PointCloud2::Ptr PointCloud2Ptr;
     typedef PointCloud2::ConstPtr PointCloud2ConstPtr;
 
-    public:
-      /** \brief Empty constructor. */
-      RandomSample () : sample_ (UINT_MAX), seed_ (static_cast<unsigned int> (time (NULL)))
-      {
+  public:
+    /** \brief Empty constructor. */
+    RandomSample()
+        : sample_(UINT_MAX), seed_(static_cast<unsigned int>(time(NULL))) {
         filter_name_ = "RandomSample";
-      }
+    }
 
-      /** \brief Set number of indices to be sampled.
-        * \param sample
-        */
-      inline void
-      setSample (unsigned int sample)
-      {
-        sample_ = sample;
-      }
+    /** \brief Set number of indices to be sampled.
+     * \param sample
+     */
+    inline void setSample(unsigned int sample) { sample_ = sample; }
 
-      /** \brief Get the value of the internal \a sample parameter.
-        */
-      inline unsigned int
-      getSample ()
-      {
-        return (sample_);
-      }
+    /** \brief Get the value of the internal \a sample parameter.
+     */
+    inline unsigned int getSample() { return (sample_); }
 
-      /** \brief Set seed of random function.
-        * \param seed
-        */
-      inline void
-      setSeed (unsigned int seed)
-      {
-        seed_ = seed;
-      }
+    /** \brief Set seed of random function.
+     * \param seed
+     */
+    inline void setSeed(unsigned int seed) { seed_ = seed; }
 
-      /** \brief Get the value of the internal \a seed parameter.
-        */
-      inline unsigned int
-      getSeed ()
-      {
-        return (seed_);
-      }
+    /** \brief Get the value of the internal \a seed parameter.
+     */
+    inline unsigned int getSeed() { return (seed_); }
 
-    protected:
+  protected:
+    /** \brief Number of indices that will be returned. */
+    unsigned int sample_;
+    /** \brief Random number seed. */
+    unsigned int seed_;
 
-      /** \brief Number of indices that will be returned. */
-      unsigned int sample_;
-      /** \brief Random number seed. */
-      unsigned int seed_;
+    /** \brief Sample of point indices into a separate PointCloud
+     * \param output the resultant point cloud
+     */
+    void applyFilter(PointCloud2 &output);
 
-      /** \brief Sample of point indices into a separate PointCloud
-        * \param output the resultant point cloud
-        */
-      void
-      applyFilter (PointCloud2 &output);
+    /** \brief Sample of point indices
+     * \param indices the resultant point cloud indices
+     */
+    void applyFilter(std::vector<int> &indices);
 
-      /** \brief Sample of point indices
-        * \param indices the resultant point cloud indices
-        */
-      void
-      applyFilter (std::vector<int> &indices);
+    /** \brief Return a random number fast using a LCG (Linear Congruential
+     * Generator) algorithm. See
+     * http://software.intel.com/en-us/articles/fast-random-number-generator-on-the-intel-pentiumr-4-processor/
+     * for more information.
+     */
+    inline float unifRand() {
+        return (static_cast<float>(rand() / double(RAND_MAX)));
+        // return (((214013 * seed_ + 2531011) >> 16) & 0x7FFF);
+    }
+};
+} // namespace pcl
 
-      /** \brief Return a random number fast using a LCG (Linear Congruential Generator) algorithm.
-        * See http://software.intel.com/en-us/articles/fast-random-number-generator-on-the-intel-pentiumr-4-processor/ for more information.
-        */
-      inline float
-      unifRand ()
-      {
-        return (static_cast<float> (rand () / double (RAND_MAX)));
-        //return (((214013 * seed_ + 2531011) >> 16) & 0x7FFF);
-      }
-   };
-}
-
-#endif  //#ifndef PCL_FILTERS_RANDOM_SUBSAMPLE_H_
+#endif //#ifndef PCL_FILTERS_RANDOM_SUBSAMPLE_H_

@@ -35,76 +35,72 @@
 #ifndef PCL_NARF_DESCRIPTOR_H_
 #define PCL_NARF_DESCRIPTOR_H_
 
-#include <pcl/point_types.h>
 #include <pcl/features/feature.h>
+#include <pcl/point_types.h>
 
-#if defined BUILD_Maintainer && defined __GNUC__ && __GNUC__ == 4 && __GNUC_MINOR__ > 3
+#if defined BUILD_Maintainer && defined __GNUC__ && __GNUC__ == 4 &&           \
+    __GNUC_MINOR__ > 3
 #pragma GCC diagnostic ignored "-Weffc++"
 #endif
-namespace pcl
-{
-  // Forward declarations
-  class RangeImage;
+namespace pcl {
+// Forward declarations
+class RangeImage;
 
-  /** @b Computes NARF feature descriptors for points in a range image
-    * \author Bastian Steder
-    * \ingroup features
-    */
-  class PCL_EXPORTS NarfDescriptor : public Feature<PointWithRange,Narf36>
-  {
-    public:
-      // =====TYPEDEFS=====
-      typedef Feature<PointWithRange,Narf36> BaseClass;
+/** @b Computes NARF feature descriptors for points in a range image
+ * \author Bastian Steder
+ * \ingroup features
+ */
+class PCL_EXPORTS NarfDescriptor : public Feature<PointWithRange, Narf36> {
+  public:
+    // =====TYPEDEFS=====
+    typedef Feature<PointWithRange, Narf36> BaseClass;
 
-      // =====STRUCTS/CLASSES=====
-      struct Parameters
-      {
+    // =====STRUCTS/CLASSES=====
+    struct Parameters {
         Parameters() : support_size(-1.0f), rotation_invariant(true) {}
         float support_size;
         bool rotation_invariant;
-      };
+    };
 
-      // =====CONSTRUCTOR & DESTRUCTOR=====
-      /** Constructor */
-      NarfDescriptor (const RangeImage* range_image=NULL, const std::vector<int>* indices=NULL);
-      /** Destructor */
-      ~NarfDescriptor();
+    // =====CONSTRUCTOR & DESTRUCTOR=====
+    /** Constructor */
+    NarfDescriptor(const RangeImage *range_image = NULL,
+                   const std::vector<int> *indices = NULL);
+    /** Destructor */
+    ~NarfDescriptor();
 
-      // =====METHODS=====
-      //! Set input data
-      void
-      setRangeImage (const RangeImage* range_image, const std::vector<int>* indices=NULL);
+    // =====METHODS=====
+    //! Set input data
+    void setRangeImage(const RangeImage *range_image,
+                       const std::vector<int> *indices = NULL);
 
-      //! Overwrite the compute function of the base class
-      void
-      compute (PointCloudOut& output);
+    //! Overwrite the compute function of the base class
+    void compute(PointCloudOut &output);
 
-      // =====GETTER=====
-      //! Get a reference to the parameters struct
-      Parameters&
-      getParameters () { return parameters_;}
+    // =====GETTER=====
+    //! Get a reference to the parameters struct
+    Parameters &getParameters() { return parameters_; }
 
-    protected:
-      // =====PROTECTED MEMBER VARIABLES=====
-      const RangeImage* range_image_;
-      Parameters parameters_;
+  protected:
+    // =====PROTECTED MEMBER VARIABLES=====
+    const RangeImage *range_image_;
+    Parameters parameters_;
 
-      // =====PROTECTED METHODS=====
-      /** Implementation of abstract derived function */
-      virtual void
-      computeFeature (PointCloudOut& output);
-    private:
-      /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from outside the class
-        * \param[out] output the output point cloud
-        */
-      void
-      computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf>&) {}
-  };
+    // =====PROTECTED METHODS=====
+    /** Implementation of abstract derived function */
+    virtual void computeFeature(PointCloudOut &output);
 
-}  // namespace end
-#if defined BUILD_Maintainer && defined __GNUC__ && __GNUC__ == 4 && __GNUC_MINOR__ > 3
+  private:
+    /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from
+     * outside the class \param[out] output the output point cloud
+     */
+    void computeFeatureEigen(pcl::PointCloud<Eigen::MatrixXf> &) {}
+};
+
+} // namespace pcl
+#if defined BUILD_Maintainer && defined __GNUC__ && __GNUC__ == 4 &&           \
+    __GNUC_MINOR__ > 3
 #pragma GCC diagnostic warning "-Weffc++"
 #endif
 
-
-#endif  //#ifndef PCL_NARF_DESCRIPTOR_H_
+#endif //#ifndef PCL_NARF_DESCRIPTOR_H_

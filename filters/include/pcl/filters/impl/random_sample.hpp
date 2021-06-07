@@ -40,106 +40,97 @@
 
 #include <pcl/filters/random_sample.h>
 
-
 ///////////////////////////////////////////////////////////////////////////////
-template<typename PointT> void
-pcl::RandomSample<PointT>::applyFilter (PointCloud &output)
-{
-  unsigned N = static_cast<unsigned> (input_->size ());
-  float one_over_N = 1.0f / float (N);
+template <typename PointT>
+void pcl::RandomSample<PointT>::applyFilter(PointCloud &output) {
+    unsigned N = static_cast<unsigned>(input_->size());
+    float one_over_N = 1.0f / float(N);
 
-  // If sample size is 0 or if the sample size is greater then input cloud size
-  //   then return entire copy of cloud
-  if (sample_ >= N)
-  {
-    output = *input_;
-  }
-  else
-  {
-    // Resize output cloud to sample size
-    output.points.resize (sample_);
-    output.width = sample_;
-    output.height = 1;
+    // If sample size is 0 or if the sample size is greater then input cloud
+    // size
+    //   then return entire copy of cloud
+    if (sample_ >= N) {
+        output = *input_;
+    } else {
+        // Resize output cloud to sample size
+        output.points.resize(sample_);
+        output.width = sample_;
+        output.height = 1;
 
-    // Set random seed so derived indices are the same each time the filter runs
-    std::srand (seed_);
+        // Set random seed so derived indices are the same each time the filter
+        // runs
+        std::srand(seed_);
 
-    unsigned top = N - sample_;
-    unsigned i = 0;
-    unsigned index = 0;
+        unsigned top = N - sample_;
+        unsigned i = 0;
+        unsigned index = 0;
 
-    // Algorithm A
-    for (size_t n = sample_; n >= 2; n--)
-    {
-      unsigned int V = static_cast<unsigned int> (unifRand ());
-      unsigned S = 0;
-      float quot = static_cast<float> (top) * one_over_N;
-      while (quot > V)
-      {
-        S++;
-        top--;
-        N--;
-        quot = quot * float (top) * one_over_N;
-      }
-      index += S;
-      output.points[i++] = input_->points[index++];
-      N--;
+        // Algorithm A
+        for (size_t n = sample_; n >= 2; n--) {
+            unsigned int V = static_cast<unsigned int>(unifRand());
+            unsigned S = 0;
+            float quot = static_cast<float>(top) * one_over_N;
+            while (quot > V) {
+                S++;
+                top--;
+                N--;
+                quot = quot * float(top) * one_over_N;
+            }
+            index += S;
+            output.points[i++] = input_->points[index++];
+            N--;
+        }
+
+        index += N * static_cast<unsigned>(unifRand());
+        output.points[i++] = input_->points[index++];
     }
-
-    index += N * static_cast<unsigned> (unifRand ());
-    output.points[i++] = input_->points[index++];
-  }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-template<typename PointT>
-void
-pcl::RandomSample<PointT>::applyFilter (std::vector<int> &indices)
-{
-  unsigned N = static_cast<unsigned> (input_->size ());
-  float one_over_N = 1.0f / float (N);
+template <typename PointT>
+void pcl::RandomSample<PointT>::applyFilter(std::vector<int> &indices) {
+    unsigned N = static_cast<unsigned>(input_->size());
+    float one_over_N = 1.0f / float(N);
 
-  // If sample size is 0 or if the sample size is greater then input cloud size
-  //   then return all indices
-  if (sample_ >= N)
-  {
-    indices = *indices_;
-  }
-  else
-  {
-    // Resize output indices to sample size
-    indices.resize (sample_);
+    // If sample size is 0 or if the sample size is greater then input cloud
+    // size
+    //   then return all indices
+    if (sample_ >= N) {
+        indices = *indices_;
+    } else {
+        // Resize output indices to sample size
+        indices.resize(sample_);
 
-    // Set random seed so derived indices are the same each time the filter runs
-    std::srand (seed_);
+        // Set random seed so derived indices are the same each time the filter
+        // runs
+        std::srand(seed_);
 
-    // Algorithm A
-    unsigned top = N - sample_;
-    unsigned i = 0;
-    unsigned index = 0;
+        // Algorithm A
+        unsigned top = N - sample_;
+        unsigned i = 0;
+        unsigned index = 0;
 
-    for (size_t n = sample_; n >= 2; n--)
-    {
-      unsigned int V = static_cast<unsigned int>( unifRand () );
-      unsigned S = 0;
-      float quot = float (top) * one_over_N;
-      while (quot > V)
-      {
-        S++;
-        top--;
-        N--;
-        quot = quot * float (top) * one_over_N;
-      }
-      index += S;
-      indices[i++] = (*indices_)[index++];
-      N--;
+        for (size_t n = sample_; n >= 2; n--) {
+            unsigned int V = static_cast<unsigned int>(unifRand());
+            unsigned S = 0;
+            float quot = float(top) * one_over_N;
+            while (quot > V) {
+                S++;
+                top--;
+                N--;
+                quot = quot * float(top) * one_over_N;
+            }
+            index += S;
+            indices[i++] = (*indices_)[index++];
+            N--;
+        }
+
+        index += N * static_cast<unsigned>(unifRand());
+        indices[i++] = (*indices_)[index++];
     }
-
-    index += N * static_cast<unsigned> (unifRand ());
-    indices[i++] = (*indices_)[index++];
-  }
 }
 
-#define PCL_INSTANTIATE_RandomSample(T) template class PCL_EXPORTS pcl::RandomSample<T>;
+#define PCL_INSTANTIATE_RandomSample(T)                                        \
+    template class PCL_EXPORTS pcl::RandomSample<T>;
 
-#endif    // PCL_FILTERS_IMPL_RANDOM_SAMPLE_H_
+#endif // PCL_FILTERS_IMPL_RANDOM_SAMPLE_H_

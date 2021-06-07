@@ -43,31 +43,39 @@
 #include "openni_device.h"
 #include "openni_driver.h"
 
-namespace openni_wrapper
-{
+namespace openni_wrapper {
 /**
- * @brief Concrete implementation of the interface OpenNIDevice for a Primesense device.
+ * @brief Concrete implementation of the interface OpenNIDevice for a Primesense
+ * device.
  * @author Suat Gedikli
  * @date 02.january 2011
  * @ingroup io
  */
-class DevicePrimesense : public OpenNIDevice
-{
-  friend class OpenNIDriver;
-public:
-  DevicePrimesense (xn::Context& context, const xn::NodeInfo& device_node, const xn::NodeInfo& image_node, const xn::NodeInfo& depth_node, const xn::NodeInfo& ir_node);
-  virtual ~DevicePrimesense () throw ();
-  //virtual void setImageOutputMode (const XnMapOutputMode& output_mode);
+class DevicePrimesense : public OpenNIDevice {
+    friend class OpenNIDriver;
 
-protected:
-  virtual boost::shared_ptr<Image> getCurrentImage (boost::shared_ptr<xn::ImageMetaData> image_meta_data) const throw ();
-  void enumAvailableModes () throw ();
-  virtual bool isImageResizeSupported (unsigned input_width, unsigned input_height, unsigned output_width, unsigned output_height) const throw ();
+  public:
+    DevicePrimesense(xn::Context &context, const xn::NodeInfo &device_node,
+                     const xn::NodeInfo &image_node,
+                     const xn::NodeInfo &depth_node,
+                     const xn::NodeInfo &ir_node);
+    virtual ~DevicePrimesense() throw();
+    // virtual void setImageOutputMode (const XnMapOutputMode& output_mode);
 
-  virtual void startImageStream ();
-  virtual void startDepthStream ();
+  protected:
+    virtual boost::shared_ptr<Image>
+    getCurrentImage(boost::shared_ptr<xn::ImageMetaData> image_meta_data) const
+        throw();
+    void enumAvailableModes() throw();
+    virtual bool isImageResizeSupported(unsigned input_width,
+                                        unsigned input_height,
+                                        unsigned output_width,
+                                        unsigned output_height) const throw();
+
+    virtual void startImageStream();
+    virtual void startDepthStream();
 };
-} // namespace
+} // namespace openni_wrapper
 
 #endif
 #endif // __OPENNI_DEVICE_PRIMESENSE__

@@ -34,7 +34,6 @@
  *  Author: Anatoly Baskeheev, Itseez Ltd, (myname.mysurname@mycompany.com)
  */
 
-
 #include <thrust/copy.h>
 #include <thrust/device_ptr.h>
 #include <thrust/iterator/counting_iterator.h>
@@ -46,41 +45,42 @@
 using namespace std;
 using namespace thrust;
 
-namespace pcl
-{
-    namespace device
-    {
-        struct InSphere
-        {
-            float x_, y_, z_, radius2_;
-            InSphere(float x, float y, float z, float radius) : x_(x), y_(y), z_(z), radius2_(radius * radius) {}
+namespace pcl {
+namespace device {
+struct InSphere {
+    float x_, y_, z_, radius2_;
+    InSphere(float x, float y, float z, float radius)
+        : x_(x), y_(y), z_(z), radius2_(radius * radius) {}
 
-            __device__ __host__ __forceinline__ bool operator()(const float3& point) const
-            {
-                float dx = point.x - x_;
-                float dy = point.y - y_;
-                float dz = point.z - z_;
+    __device__ __host__ __forceinline__ bool
+    operator()(const float3 &point) const {
+        float dx = point.x - x_;
+        float dy = point.y - y_;
+        float dz = point.z - z_;
 
-                return (dx * dx + dy * dy + dz * dz) < radius2_;
-            }
-
-            __device__ __host__ __forceinline__ bool operator()(const float4& point) const
-            {
-                return (*this)(make_float3(point.x, point.y, point.z));
-            }
-        };
+        return (dx * dx + dy * dy + dz * dz) < radius2_;
     }
-}
+
+    __device__ __host__ __forceinline__ bool
+    operator()(const float4 &point) const {
+        return (*this)(make_float3(point.x, point.y, point.z));
+    }
+};
+} // namespace device
+} // namespace pcl
 
 #if defined(CUDA_VERSION) && CUDA_VERSION == 4000
-    //workaround of bug in Thrust
-    typedef thrust::counting_iterator<int, thrust::use_default, thrust::use_default, thrust::use_default> It;
-    template<> struct thrust::iterator_difference<It> { typedef int type; };
+  // workaround of bug in Thrust
+typedef thrust::counting_iterator<int, thrust::use_default, thrust::use_default,
+                                  thrust::use_default>
+    It;
+template <> struct thrust::iterator_difference<It> { typedef int type; };
 #endif
 
-
-void pcl::device::bruteForceRadiusSearch(const OctreeImpl::PointCloud& cloud, const OctreeImpl::PointType& query, float radius, DeviceArray<int>& result, DeviceArray<int>& buffer)
-{
+void pcl::device::bruteForceRadiusSearch(const OctreeImpl::PointCloud &cloud,
+                                         const OctreeImpl::PointType &query,
+                                         float radius, DeviceArray<int> &result,
+                                         DeviceArray<int> &buffer) {
     typedef OctreeImpl::PointType PointType;
 
     if (buffer.size() < cloud.size())
@@ -88,14 +88,15 @@ void pcl::device::bruteForceRadiusSearch(const OctreeImpl::PointCloud& cloud, co
 
     InSphere cond(query.x, query.y, query.z, radius);
 
-    device_ptr<const PointType> cloud_ptr((const PointType*)cloud.ptr());
+    device_ptr<const PointType> cloud_ptr((const PointType *)cloud.ptr());
     device_ptr<int> res_ptr(buffer.ptr());
 
     counting_iterator<int> first(0);
     counting_iterator<int> last = first + cloud.size();
 
-    //main bottle neck is a kernel call overhead/allocs
-    //work time for 871k points ~0.8ms
-    int count = (int)(thrust::copy_if(first, last, cloud_ptr, res_ptr, cond) - res_ptr);
+    // main bottle neck is a kernel call overhead/allocs
+    // work time for 871k points ~0.8ms
+    int count =
+        (int)(thrust::copy_if(first, last, cloud_ptr, res_ptr, cond) - res_ptr);
     result = DeviceArray<int>(buffer.ptr(), count);
 }

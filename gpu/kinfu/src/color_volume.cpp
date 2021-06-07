@@ -35,11 +35,11 @@
  *
  */
 
+#include "internal.h"
+#include <Eigen/Core>
+#include <algorithm>
 #include <pcl/gpu/kinfu/color_volume.h>
 #include <pcl/gpu/kinfu/tsdf_volume.h>
-#include "internal.h"
-#include <algorithm>
-#include <Eigen/Core>
 
 using namespace pcl;
 using namespace pcl::gpu;
@@ -48,56 +48,43 @@ using pcl::device::device_cast;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-pcl::gpu::ColorVolume::ColorVolume(const TsdfVolume& tsdf, int max_weight) : resolution_(tsdf.getResolution()), volume_size_(tsdf.getSize()), max_weight_(1)
-{
-  max_weight_ = max_weight < 0 ? max_weight_ : max_weight;
-  max_weight_ = max_weight_ > 255 ? 255 : max_weight_;
+pcl::gpu::ColorVolume::ColorVolume(const TsdfVolume &tsdf, int max_weight)
+    : resolution_(tsdf.getResolution()), volume_size_(tsdf.getSize()),
+      max_weight_(1) {
+    max_weight_ = max_weight < 0 ? max_weight_ : max_weight;
+    max_weight_ = max_weight_ > 255 ? 255 : max_weight_;
 
-  int volume_x = resolution_(0);
-  int volume_y = resolution_(1);
-  int volume_z = resolution_(2);
+    int volume_x = resolution_(0);
+    int volume_y = resolution_(1);
+    int volume_z = resolution_(2);
 
-  color_volume_.create (volume_y * volume_z, volume_x);
-  reset();
+    color_volume_.create(volume_y * volume_z, volume_x);
+    reset();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-pcl::gpu::ColorVolume::~ColorVolume()
-{
-
-}
+pcl::gpu::ColorVolume::~ColorVolume() {}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void
-pcl::gpu::ColorVolume::reset()
-{
-  device::initColorVolume(color_volume_);
-}
+void pcl::gpu::ColorVolume::reset() { device::initColorVolume(color_volume_); }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-int
-pcl::gpu::ColorVolume::getMaxWeight() const
-{
-  return max_weight_;
-}
+int pcl::gpu::ColorVolume::getMaxWeight() const { return max_weight_; }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-DeviceArray2D<int>
-pcl::gpu::ColorVolume::data() const
-{
-  return color_volume_;
-}
+DeviceArray2D<int> pcl::gpu::ColorVolume::data() const { return color_volume_; }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::gpu::ColorVolume::fetchColors (const DeviceArray<PointType>& cloud, DeviceArray<RGB>& colors) const
-{
-  colors.create(cloud.size());
-  device::exctractColors(color_volume_, device_cast<const float3> (volume_size_), cloud, (uchar4*)colors.ptr()/*bgra*/);
+void pcl::gpu::ColorVolume::fetchColors(const DeviceArray<PointType> &cloud,
+                                        DeviceArray<RGB> &colors) const {
+    colors.create(cloud.size());
+    device::exctractColors(color_volume_,
+                           device_cast<const float3>(volume_size_), cloud,
+                           (uchar4 *)colors.ptr() /*bgra*/);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

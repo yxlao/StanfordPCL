@@ -8,7 +8,7 @@
 // THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
 // ALL IMPLIED WARRANTIES OF FITNESS FOR ANY PARTICULAR PURPOSE AND OF
 // MERCHANTABILITY ARE HEREBY DISCLAIMED.
-//				
+//
 // For complete openNURBS copyright information see <http://www.opennurbs.org>.
 //
 ////////////////////////////////////////////////////////////////
@@ -31,7 +31,8 @@ Parameters:
 Example:
   16 bit CRC calculations are typically done something like this:
 
-          const ON__UINT16 crc_seed = 0; // or 1, or your favorite starting value
+          const ON__UINT16 crc_seed = 0; // or 1, or your favorite starting
+value
 
           // Compute CRC on "good" data
           unsigned ON__UINT16 first_crc = crc_seed;
@@ -42,8 +43,8 @@ Example:
           first_crc = ON_CRC16( first_crc, 2, two_zero_bytes );
 
           // make sure 16 bit CRC calculation is valid
-          ON__UINT16 check_crc_calculation = ON_CRC16( first_crc, 2, &first_crc );
-          if ( check_crc_calculation != 0 )
+          ON__UINT16 check_crc_calculation = ON_CRC16( first_crc, 2, &first_crc
+); if ( check_crc_calculation != 0 )
           {
              printf("ON_CRC16() calculated a bogus 16 bit CRC\n");
           }
@@ -62,11 +63,8 @@ Example:
           }
 */
 ON_DECL
-ON__UINT16 ON_CRC16(
-         ON__UINT16 current_remainder,
-         size_t sizeof_buffer,
-         const void* buffer
-         );
+ON__UINT16 ON_CRC16(ON__UINT16 current_remainder, size_t sizeof_buffer,
+                    const void *buffer);
 
 /*
 Description:
@@ -88,7 +86,8 @@ Parameters:
 Example:
   32 bit CRC calculations are typically done something like this:
 
-          const ON__UINT32 crc_seed = 0; // or 1, or your favorite starting value
+          const ON__UINT32 crc_seed = 0; // or 1, or your favorite starting
+value
 
           //Compute CRC on "good" data
           ON__UINT32 first_crc = crc_seed;
@@ -110,11 +109,8 @@ Example:
           }
 */
 ON_DECL
-ON__UINT32 ON_CRC32(
-         ON__UINT32 current_remainder,
-         size_t sizeof_buffer,
-         const void* buffer
-         );
+ON__UINT32 ON_CRC32(ON__UINT32 current_remainder, size_t sizeof_buffer,
+                    const void *buffer);
 
 /*
 zlib.h -- interface of the 'zlib' general purpose compression library

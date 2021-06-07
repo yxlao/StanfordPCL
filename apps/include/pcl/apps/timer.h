@@ -44,25 +44,24 @@
 #include <pcl/common/time.h> //fps calculations
 
 #if SHOW_FPS
-#define FPS_CALC(_WHAT_) \
-do \
-{ \
-    static unsigned count = 0;\
-    static double last = pcl::getTime ();\
-    double now = pcl::getTime (); \
-    ++count; \
-    if (now - last >= 1.0) \
-    { \
-      std::cout << "Average framerate("<< _WHAT_ << "): " << double(count)/double(now - last) << " Hz" <<  std::endl; \
-      count = 0; \
-      last = now; \
-    } \
-}while(false)
+#define FPS_CALC(_WHAT_)                                                       \
+    do {                                                                       \
+        static unsigned count = 0;                                             \
+        static double last = pcl::getTime();                                   \
+        double now = pcl::getTime();                                           \
+        ++count;                                                               \
+        if (now - last >= 1.0) {                                               \
+            std::cout << "Average framerate(" << _WHAT_                        \
+                      << "): " << double(count) / double(now - last) << " Hz"  \
+                      << std::endl;                                            \
+            count = 0;                                                         \
+            last = now;                                                        \
+        }                                                                      \
+    } while (false)
 #else
-#define FPS_CALC(_WHAT_) \
-do \
-{ \
-}while(false)
+#define FPS_CALC(_WHAT_)                                                       \
+    do {                                                                       \
+    } while (false)
 #endif
 
-#endif    // PCL_APPS_TIMER_H_
+#endif // PCL_APPS_TIMER_H_

@@ -41,70 +41,55 @@
 #include <pcl/apps/cloud_composer/tool_interface/abstract_tool.h>
 #include <pcl/apps/cloud_composer/tool_interface/tool_factory.h>
 
+namespace pcl {
+namespace cloud_composer {
+class VoxelGridDownsampleTool : public ModifyItemTool {
+    Q_OBJECT
+  public:
+    VoxelGridDownsampleTool(PropertiesModel *parameter_model, QObject *parent);
+    virtual ~VoxelGridDownsampleTool();
 
-namespace pcl
-{
-  namespace cloud_composer
-  {
-    class VoxelGridDownsampleTool : public ModifyItemTool
-    {
-      Q_OBJECT
-      public:
-        VoxelGridDownsampleTool (PropertiesModel* parameter_model, QObject* parent);
-        virtual ~VoxelGridDownsampleTool ();
+    virtual QList<CloudComposerItem *>
+    performAction(QList<const CloudComposerItem *> input_data,
+                  PointTypeFlags::PointType type = PointTypeFlags::NONE);
 
-        virtual QList <CloudComposerItem*>
-        performAction (QList <const CloudComposerItem*> input_data, PointTypeFlags::PointType type = PointTypeFlags::NONE);
+    inline virtual QString getToolName() const {
+        return "Voxel Grid Downsample Tool";
+    }
+};
 
-        inline virtual QString
-        getToolName () const { return "Voxel Grid Downsample Tool";}
-    };
+class VoxelGridDownsampleToolFactory : public QObject, public ToolFactory {
+    Q_OBJECT
+    Q_INTERFACES(pcl::cloud_composer::ToolFactory)
+  public:
+    ModifyItemTool *createTool(PropertiesModel *parameter_model,
+                               QObject *parent = 0) {
+        return new VoxelGridDownsampleTool(parameter_model, parent);
+    }
 
+    PropertiesModel *createToolParameterModel(QObject *parent);
 
-    class VoxelGridDownsampleToolFactory : public QObject, public ToolFactory
-    {
-      Q_OBJECT
-      Q_INTERFACES (pcl::cloud_composer::ToolFactory)
-      public:
-        ModifyItemTool*
-        createTool (PropertiesModel* parameter_model, QObject* parent = 0)
-        {
-            return new VoxelGridDownsampleTool(parameter_model, parent);
-        }
+    inline virtual QString getPluginName() const {
+        return "Voxel Grid Downsample";
+    }
 
-        PropertiesModel*
-        createToolParameterModel (QObject* parent);
+    virtual QString getToolGroupName() const { return "Filters"; }
 
-        inline virtual QString
-        getPluginName () const { return "Voxel Grid Downsample";}
+    virtual QString getIconName() const {
+        return ":/voxel_grid_downsample.png";
+    }
 
-        virtual QString
-        getToolGroupName () const { return "Filters";}
+    inline virtual CloudComposerItem::ItemType getInputItemType() const {
+        return CloudComposerItem::CLOUD_ITEM;
+    }
 
-        virtual QString
-        getIconName () const { return ":/voxel_grid_downsample.png"; }
+    inline virtual QList<CloudComposerItem::ItemType>
+    getRequiredInputChildrenTypes() const {
+        return QList<CloudComposerItem::ItemType>();
+    }
+};
 
-        inline virtual CloudComposerItem::ItemType
-        getInputItemType () const
-        {
-          return CloudComposerItem::CLOUD_ITEM;
-        }
+} // namespace cloud_composer
+} // namespace pcl
 
-        inline virtual QList <CloudComposerItem::ItemType>
-        getRequiredInputChildrenTypes () const
-        {
-          return QList <CloudComposerItem::ItemType> ();
-        }
-    };
-
-
-
-  }
-}
-
-
-
-
-
-
-#endif //VOXEL_GRID_DOWNSAMPLE_H_
+#endif // VOXEL_GRID_DOWNSAMPLE_H_

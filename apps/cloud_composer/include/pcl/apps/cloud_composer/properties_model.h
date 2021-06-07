@@ -41,56 +41,46 @@
 #include <pcl/apps/cloud_composer/qt.h>
 #include <pcl/common/boost.h>
 
+namespace pcl {
+namespace cloud_composer {
+class CloudComposerItem;
+class PropertiesModel : public QStandardItemModel {
+    Q_OBJECT
+  public:
+    /** \brief Constructor used for tool parameters */
+    PropertiesModel(QObject *parent = 0);
+    /** \brief Constructor used for item parameters */
+    PropertiesModel(CloudComposerItem *parent_item, QObject *parent = 0);
+    PropertiesModel(const PropertiesModel &to_copy);
+    virtual ~PropertiesModel();
 
-namespace pcl
-{
-  namespace cloud_composer
-  {
-    class CloudComposerItem;
-    class PropertiesModel : public QStandardItemModel
-    {
-      Q_OBJECT
-      public:
+    /** \brief Helper function for adding a new property */
+    void addProperty(const QString prop_name, const QVariant value,
+                     const Qt::ItemFlags flags = Qt::ItemIsSelectable,
+                     const QString category = "");
 
-        /** \brief Constructor used for tool parameters */
-        PropertiesModel (QObject *parent = 0);
-        /** \brief Constructor used for item parameters */
-        PropertiesModel (CloudComposerItem* parent_item, QObject *parent = 0);
-        PropertiesModel (const PropertiesModel& to_copy);
-        virtual ~PropertiesModel ();
+    /** \brief Helper function for adding a new property category */
+    void addCategory(const QString category_name);
 
-        /** \brief Helper function for adding a new property */
-        void
-        addProperty (const QString prop_name, const QVariant value, const Qt::ItemFlags flags = Qt::ItemIsSelectable, const QString category = "");
+    /** \brief Helper function to get a property */
+    QVariant getProperty(const QString prop_name) const;
 
-        /** \brief Helper function for adding a new property category */
-        void
-        addCategory (const QString category_name);
+    void copyProperties(const PropertiesModel *to_copy);
 
-        /** \brief Helper function to get a property */
-        QVariant
-        getProperty (const QString prop_name) const;
+  public slots:
+    void propertyChanged(QStandardItem *property_item);
 
-        void
-        copyProperties (const PropertiesModel* to_copy);
+  signals:
+    void propertyChanged(const QStandardItem *property_item,
+                         const CloudComposerItem *parent_item_);
 
-      public slots:
-        void
-        propertyChanged (QStandardItem* property_item);
+  private:
+    CloudComposerItem *parent_item_;
+};
+} // namespace cloud_composer
+} // namespace pcl
 
-      signals:
-        void
-        propertyChanged (const QStandardItem* property_item, const CloudComposerItem* parent_item_);
+Q_DECLARE_METATYPE(pcl::cloud_composer::PropertiesModel);
+Q_DECLARE_METATYPE(pcl::cloud_composer::PropertiesModel *);
 
-
-      private:
-        CloudComposerItem* parent_item_;
-
-     };
-  }
-}
-
-Q_DECLARE_METATYPE (pcl::cloud_composer::PropertiesModel);
-Q_DECLARE_METATYPE (pcl::cloud_composer::PropertiesModel*);
-
-#endif //PROPERTIES_MODEL_H_
+#endif // PROPERTIES_MODEL_H_

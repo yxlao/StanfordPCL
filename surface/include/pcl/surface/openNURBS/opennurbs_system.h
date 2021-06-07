@@ -8,7 +8,7 @@
 // THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
 // ALL IMPLIED WARRANTIES OF FITNESS FOR ANY PARTICULAR PURPOSE AND OF
 // MERCHANTABILITY ARE HEREBY DISCLAIMED.
-//				
+//
 // For complete openNURBS copyright information see <http://www.opennurbs.org>.
 //
 ////////////////////////////////////////////////////////////////
@@ -61,7 +61,6 @@
 // Using at least Visual C++ 8.0 (2005)
 #define ON_COMPILER_MSC1400
 
-
 #if _MSC_VER >= 1600
 // Using at least Visual C++ 10.0 (2010)
 #define ON_COMPILER_MSC1600
@@ -74,7 +73,8 @@
 // to enable specific warnings.
 
 #if defined(ON_COMPILING_OPENNURBS)
-#pragma warning(disable:4100) // C4100: 'identifier' : unreferenced formal parameter
+#pragma warning(                                                               \
+    disable : 4100) // C4100: 'identifier' : unreferenced formal parameter
 #endif
 
 #if !defined(_CRT_SECURE_NO_DEPRECATE)
@@ -92,7 +92,8 @@
 
 #endif
 
-#if defined(__GNUG_) || defined(__GNUG__) || defined(__GNUC_) || defined(__GNUC__) || defined(_GNU_SOURCE) || defined(__GNU_SOURCE)
+#if defined(__GNUG_) || defined(__GNUG__) || defined(__GNUC_) ||               \
+    defined(__GNUC__) || defined(_GNU_SOURCE) || defined(__GNU_SOURCE)
 /* using Gnu's compiler */
 #if !defined(ON_COMPILER_GNU)
 #define ON_COMPILER_GNU
@@ -101,7 +102,6 @@
 #define _GNU_SOURCE
 #endif
 #endif
-
 
 #if defined(_GNU_SOURCE) && defined(__APPLE__)
 /* using Apple's OSX XCode compiler */
@@ -155,14 +155,16 @@
 #if defined(ON_COMPILER_MSC1600)
 // include SKDDDKVer.h When using the v100 platform headers.
 // Including SDKDDKVer.h defines the highest available Windows platform.
-// If you wish to build your application for a previous Windows platform, include WinSDKVer.h and
-// set the _WIN32_WINNT macro to the platform you wish to support before including SDKDDKVer.h.
+// If you wish to build your application for a previous Windows platform,
+// include WinSDKVer.h and set the _WIN32_WINNT macro to the platform you wish
+// to support before including SDKDDKVer.h.
 //#include <SDKDDKVer.h>
 #endif
 
 #if !defined(_WINDOWS_)
 /* windows.h has not been read - read just what we need */
-#define WIN32_LEAN_AND_MEAN  /* Exclude rarely-used stuff from Windows headers */
+#define WIN32_LEAN_AND_MEAN /* Exclude rarely-used stuff from Windows headers  \
+                             */
 #include <windows.h>
 #endif
 
@@ -212,21 +214,21 @@
 //#define _CRT_RAND_S
 //#endif
 
-#include <stdlib.h>
 #include <memory.h>
+#include <stdlib.h>
 #if defined(ON_COMPILER_XCODE)
 #include <malloc/malloc.h>
 #else
 #include <malloc.h>
 #endif
-#include <string.h>
-#include <math.h>
-#include <stdio.h>
-#include <stdarg.h>
-#include <float.h>
-#include <time.h>
-#include <limits.h>
 #include <ctype.h>
+#include <float.h>
+#include <limits.h>
+#include <math.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
 
 #if defined(ON_COMPILER_IRIX)
 #include <alloca.h>
@@ -248,10 +250,10 @@
 #endif
 
 #if defined(ON_COMPILER_GNU)
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <wctype.h>
 #include <dirent.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <wctype.h>
 #if defined(ON_COMPILER_XCODE)
 #include <uuid/uuid.h>
 #endif
@@ -259,7 +261,7 @@
 
 #include <errno.h>
 
-#if defined (cplusplus) || defined(_cplusplus) || defined(__cplusplus)
+#if defined(cplusplus) || defined(_cplusplus) || defined(__cplusplus)
 // C++ system includes
 
 #if !defined(ON_CPLUSPLUS)
@@ -306,7 +308,6 @@ typedef unsigned short wchar_t;
 #endif
 
 #endif
-
 
 // As 64 bit compilers become more common, the definitions
 // of the next 6 typedefs may need to vary with compiler.
@@ -382,7 +383,8 @@ typedef unsigned long long ON__UINT64;
 #endif
 
 // 32 bit boolean (true/false) value
-// When we can break the SDK, this will be replaced with "bool", which is 1 byte on windows.
+// When we can break the SDK, this will be replaced with "bool", which is 1 byte
+// on windows.
 typedef int ON_BOOL32;
 
 // ON_INT_PTR must be an integer type with sizeof(ON_INT_PTR) = sizeof(void*).
@@ -404,8 +406,6 @@ typedef unsigned int ON__UINT_PTR;
 #else
 #error Update OpenNURBS to work with new pointer size.
 #endif
-
-
 
 // In some functions, performance is slightly increased
 // when the endianess of the CPU is known at compile time.
@@ -438,25 +438,23 @@ typedef unsigned int ON__UINT_PTR;
 
 #if (defined(__ppc__) || defined(__ppc64__))
 #define ON_BIG_ENDIAN
-#elif (defined (__i386__) || defined( __x86_64__ ))
+#elif (defined(__i386__) || defined(__x86_64__))
 #define ON_LITTLE_ENDIAN
 #endif
 
 #endif
 
-
 #if defined(ON_LITTLE_ENDIAN) && defined(ON_BIG_ENDIAN)
 #error At most one of ON_LITTLE_ENDIAN and ON_BIG_ENDIAN can be defined.
 #endif
 
-
 // on_vsnprintf()/on_vsnwprintf() call _vsnprintf()/_vsnwprintf() in Windows
 // and something equivalent in other OSs
 
-int on_vsnprintf( char *buffer, size_t count, const char *format, va_list argptr );
+int on_vsnprintf(char *buffer, size_t count, const char *format,
+                 va_list argptr);
 
-int on_vsnwprintf( wchar_t *buffer, size_t count, const wchar_t *format, va_list argptr );
-
+int on_vsnwprintf(wchar_t *buffer, size_t count, const wchar_t *format,
+                  va_list argptr);
 
 #endif
-

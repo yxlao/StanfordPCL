@@ -34,76 +34,75 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: correspondence_estimation_organized_projection.hpp 7164 2012-09-17 17:20:47Z svn $
+ * $Id: correspondence_estimation_organized_projection.hpp 7164 2012-09-17
+ * 17:20:47Z svn $
  *
  */
 
 #include <pcl/registration/correspondence_estimation_organized_projection.h>
 
+template <typename PointSource, typename PointTarget>
+bool pcl::registration::CorrespondenceEstimationOrganizedProjection<
+    PointSource, PointTarget>::initCompute() {
+    if (!CorrespondenceEstimation<PointSource, PointTarget>::initCompute())
+        return false;
 
-template <typename PointSource, typename PointTarget> bool
-pcl::registration::CorrespondenceEstimationOrganizedProjection<PointSource, PointTarget>::initCompute ()
-{
-  if (!CorrespondenceEstimation<PointSource, PointTarget>::initCompute ())
-    return false;
+    /// Check if the target cloud is organized
+    if (!target_->isOrganized()) {
+        PCL_WARN("[pcl::%s::initCompute] Target cloud is not organized.\n",
+                 getClassName().c_str());
+        return false;
+    }
 
-  /// Check if the target cloud is organized
-  if (!target_->isOrganized ())
-  {
-    PCL_WARN ("[pcl::%s::initCompute] Target cloud is not organized.\n", getClassName ().c_str ());
-    return false;
-  }
+    /// Put the projection matrix together
+    projection_matrix_(0, 0) = fx_;
+    projection_matrix_(1, 1) = fy_;
+    projection_matrix_(0, 2) = cx_;
+    projection_matrix_(1, 2) = cy_;
 
-  /// Put the projection matrix together
-  projection_matrix_ (0, 0) = fx_;
-  projection_matrix_ (1, 1) = fy_;
-  projection_matrix_ (0, 2) = cx_;
-  projection_matrix_ (1, 2) = cy_;
-
-  return true;
+    return true;
 }
 
+template <typename PointSource, typename PointTarget>
+void pcl::registration::CorrespondenceEstimationOrganizedProjection<
+    PointSource, PointTarget>::determineCorrespondences(pcl::Correspondences
+                                                            &correspondences,
+                                                        double max_distance) {
+    if (!initCompute())
+        return;
 
-template <typename PointSource, typename PointTarget> void
-pcl::registration::CorrespondenceEstimationOrganizedProjection<PointSource, PointTarget>::determineCorrespondences (pcl::Correspondences &correspondences,
-                                                                                                                    double max_distance)
-{
-  if (!initCompute ())
-    return;
+    correspondences.resize(input_->size());
+    size_t c_index = 0;
 
+    for (std::vector<int>::const_iterator src_it = indices_->begin();
+         src_it != indices_->end(); ++src_it) {
+        if (isFinite(input_->points[*src_it])) {
+            Eigen::Vector4f p_src = src_to_tgt_transformation_ *
+                                    input_->points[*src_it].getVector4fMap();
+            Eigen::Vector3f p_src3(p_src[0], p_src[1], p_src[2]);
+            Eigen::Vector3f uv = projection_matrix_ * p_src3;
 
-  correspondences.resize (input_->size ());
-  size_t c_index = 0;
+            /// Check if the point was behind the camera
+            if (uv[2] < 0)
+                continue;
 
-  for (std::vector<int>::const_iterator src_it = indices_->begin (); src_it != indices_->end (); ++src_it)
-  {
-    if (isFinite (input_->points[*src_it]))
-    {
-      Eigen::Vector4f p_src = src_to_tgt_transformation_ * input_->points[*src_it].getVector4fMap ();
-      Eigen::Vector3f p_src3 (p_src[0], p_src[1], p_src[2]);
-      Eigen::Vector3f uv = projection_matrix_ * p_src3;
+            int u = static_cast<int>(uv[0] / uv[2]);
+            int v = static_cast<int>(uv[1] / uv[2]);
 
-      /// Check if the point was behind the camera
-      if (uv[2] < 0)
-        continue;
+            if (u >= 0 && u < target_->width && v >= 0 && v < target_->height &&
+                isFinite((*target_)(u, v))) {
+                /// Check if the depth difference is larger than the threshold
+                if (fabs(uv[2] - (*target_)(u, v).z) > depth_threshold_)
+                    continue;
 
-      int u = static_cast<int> (uv[0] / uv[2]);
-      int v = static_cast<int> (uv[1] / uv[2]);
-
-      if (u >= 0 && u < target_->width &&
-          v >= 0 && v < target_->height &&
-          isFinite ((*target_) (u, v)))
-      {
-        /// Check if the depth difference is larger than the threshold
-        if (fabs (uv[2] - (*target_) (u, v).z) > depth_threshold_)
-          continue;
-
-        double dist = (p_src3 - (*target_) (u, v).getVector3fMap ()).norm ();
-        if (dist < max_distance)
-          correspondences[c_index ++] =  pcl::Correspondence (*src_it, v * target_->width + u, dist);
-      }
+                double dist =
+                    (p_src3 - (*target_)(u, v).getVector3fMap()).norm();
+                if (dist < max_distance)
+                    correspondences[c_index++] = pcl::Correspondence(
+                        *src_it, v * target_->width + u, dist);
+            }
+        }
     }
-  }
 
-  correspondences.resize (c_index);
+    correspondences.resize(c_index);
 }

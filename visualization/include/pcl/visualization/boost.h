@@ -41,23 +41,23 @@
 #define PCL_VISUALIZATION_BOOST_H_
 
 #if defined __GNUC__
-#  pragma GCC system_header
+#pragma GCC system_header
 #endif
 
-#include <boost/function.hpp>
-#include <boost/shared_array.hpp>
-#include <boost/signals2.hpp>
-#include <boost/shared_ptr.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/algorithm/string/split.hpp>
 #include <boost/algorithm/string/classification.hpp>
-#include <boost/thread.hpp>
+#include <boost/algorithm/string/split.hpp>
 #include <boost/bind.hpp>
-#include <boost/unordered_map.hpp>
-#include <boost/thread/mutex.hpp>
-#include <boost/thread/thread.hpp>
-#include <boost/foreach.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/foreach.hpp>
+#include <boost/function.hpp>
+#include <boost/shared_array.hpp>
+#include <boost/shared_ptr.hpp>
+#include <boost/signals2.hpp>
+#include <boost/thread.hpp>
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/thread.hpp>
+#include <boost/unordered_map.hpp>
 
-#endif    // PCL_VISUALIZATION_BOOST_H_
+#endif // PCL_VISUALIZATION_BOOST_H_

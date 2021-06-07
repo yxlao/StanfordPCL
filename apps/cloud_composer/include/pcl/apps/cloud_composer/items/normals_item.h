@@ -38,51 +38,42 @@
 #ifndef NORMALS_ITEM_H_
 #define NORMALS_ITEM_H_
 
+#include <pcl/features/normal_3d.h>
 #include <pcl/pcl_exports.h>
 #include <pcl/point_types.h>
-#include <pcl/features/normal_3d.h>
 
 #include <pcl/apps/cloud_composer/items/cloud_composer_item.h>
 
-namespace pcl
-{
-  namespace cloud_composer
-  {
+namespace pcl {
+namespace cloud_composer {
 
-    class PCL_EXPORTS NormalsItem : public CloudComposerItem
-    {
-      public:
+class PCL_EXPORTS NormalsItem : public CloudComposerItem {
+  public:
+    NormalsItem(QString name, pcl::PointCloud<pcl::Normal>::Ptr normals_ptr,
+                double radius);
+    NormalsItem(const NormalsItem &to_copy);
+    virtual ~NormalsItem();
 
-        NormalsItem (QString name,
-                     pcl::PointCloud<pcl::Normal>::Ptr normals_ptr,
-                     double radius);
-        NormalsItem (const NormalsItem& to_copy);
-        virtual ~NormalsItem ();
+    inline virtual int type() const { return NORMALS_ITEM; }
 
-        inline virtual int
-        type () const { return NORMALS_ITEM; }
+    virtual NormalsItem *clone() const;
 
-        virtual NormalsItem*
-        clone () const;
+    virtual void
+    paintView(boost::shared_ptr<pcl::visualization::PCLVisualizer> vis) const;
 
-        virtual void
-        paintView (boost::shared_ptr<pcl::visualization::PCLVisualizer> vis) const;
+    /** \brief Remove from View function - removes the normal cloud from a
+     * PCLVisualizer object*/
+    virtual void removeFromView(
+        boost::shared_ptr<pcl::visualization::PCLVisualizer> vis) const;
 
-        /** \brief Remove from View function - removes the normal cloud from a PCLVisualizer object*/
-        virtual void
-        removeFromView (boost::shared_ptr<pcl::visualization::PCLVisualizer> vis) const;
+  private:
+    pcl::PointCloud<pcl::Normal>::Ptr normals_ptr_;
+};
 
-      private:
-        pcl::PointCloud<pcl::Normal>::Ptr normals_ptr_;
+} // namespace cloud_composer
+} // namespace pcl
 
-    };
+Q_DECLARE_METATYPE(pcl::PointCloud<pcl::Normal>::Ptr);
+Q_DECLARE_METATYPE(pcl::PointCloud<pcl::Normal>::ConstPtr);
 
-
-
-  }
-}
-
-Q_DECLARE_METATYPE (pcl::PointCloud<pcl::Normal>::Ptr);
-Q_DECLARE_METATYPE (pcl::PointCloud<pcl::Normal>::ConstPtr);
-
-#endif //NORMALS_ITEM_H_
+#endif // NORMALS_ITEM_H_

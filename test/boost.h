@@ -47,11 +47,11 @@
 
 // Marking all Boost headers as system headers to remove warnings
 #include <boost/random.hpp>
-#include <boost/thread.hpp>
-#include <boost/smart_ptr/shared_array.hpp>
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int.hpp>
 #include <boost/random/uniform_real.hpp>
 #include <boost/random/variate_generator.hpp>
+#include <boost/smart_ptr/shared_array.hpp>
+#include <boost/thread.hpp>
 
-#endif    // PCL_TEST_BOOST_H_
+#endif // PCL_TEST_BOOST_H_

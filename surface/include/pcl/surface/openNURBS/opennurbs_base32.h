@@ -8,7 +8,7 @@
 // THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
 // ALL IMPLIED WARRANTIES OF FITNESS FOR ANY PARTICULAR PURPOSE AND OF
 // MERCHANTABILITY ARE HEREBY DISCLAIMED.
-//				
+//
 // For complete openNURBS copyright information see <http://www.opennurbs.org>.
 //
 ////////////////////////////////////////////////////////////////
@@ -16,7 +16,6 @@
 
 #if !defined(ON_BASE32_INC_)
 #define ON_BASE32_INC_
-
 
 /*
 Description:
@@ -41,10 +40,11 @@ Returns
   If 0 is returned, the input is not valid.
 */
 ON_DECL
-int ON_GetBase32Digits( const ON_SimpleArray<unsigned char>& x, ON_SimpleArray<unsigned char>& base32_digits );
+int ON_GetBase32Digits(const ON_SimpleArray<unsigned char> &x,
+                       ON_SimpleArray<unsigned char> &base32_digits);
 ON_DECL
-int ON_GetBase32Digits( const unsigned char* x, int x_count, unsigned char* base32_digits );
-
+int ON_GetBase32Digits(const unsigned char *x, int x_count,
+                       unsigned char *base32_digits);
 
 /*
 Description:
@@ -65,12 +65,14 @@ Returns
   in which case hash marks indicate the invalid entries.
 */
 ON_DECL
-bool ON_Base32ToString( const ON_SimpleArray<unsigned char>& base32_digits, ON_String& sBase32 );
+bool ON_Base32ToString(const ON_SimpleArray<unsigned char> &base32_digits,
+                       ON_String &sBase32);
 ON_DECL
-bool ON_Base32ToString( const ON_SimpleArray<unsigned char>& base32_digits, ON_wString& sBase32 );
+bool ON_Base32ToString(const ON_SimpleArray<unsigned char> &base32_digits,
+                       ON_wString &sBase32);
 ON_DECL
-bool ON_Base32ToString( const unsigned char* base32_digits, int base32_digit_count, char* sBase32 );
-
+bool ON_Base32ToString(const unsigned char *base32_digits,
+                       int base32_digit_count, char *sBase32);
 
 /*
 Description:
@@ -86,12 +88,12 @@ Returns:
   If the input is not valid, 0 is returned.
 */
 ON_DECL
-int ON_CorrectBase32StringTypos( const wchar_t* sBase32, ON_wString& sBase32clean );
+int ON_CorrectBase32StringTypos(const wchar_t *sBase32,
+                                ON_wString &sBase32clean);
 ON_DECL
-int ON_CorrectBase32StringTypos( const char* sBase32, ON_String& sBase32clean );
+int ON_CorrectBase32StringTypos(const char *sBase32, ON_String &sBase32clean);
 ON_DECL
-int ON_CorrectBase32StringTypos( const char* sBase32, char* sBase32clean );
-
+int ON_CorrectBase32StringTypos(const char *sBase32, char *sBase32clean);
 
 /*
 Description:
@@ -116,11 +118,12 @@ Returns
   in which case hash marks indicate the invalid entries.
 */
 ON_DECL
-int ON_StringToBase32(const ON_wString& sBase32, ON_SimpleArray<unsigned char>& base32_digits );
+int ON_StringToBase32(const ON_wString &sBase32,
+                      ON_SimpleArray<unsigned char> &base32_digits);
 ON_DECL
-int ON_StringToBase32(const ON_String& sBase32, ON_SimpleArray<unsigned char>& base32_digits );
+int ON_StringToBase32(const ON_String &sBase32,
+                      ON_SimpleArray<unsigned char> &base32_digits);
 ON_DECL
-int ON_StringToBase32(const char* sBase32, unsigned char* base32_digits );
-
+int ON_StringToBase32(const char *sBase32, unsigned char *base32_digits);
 
 #endif

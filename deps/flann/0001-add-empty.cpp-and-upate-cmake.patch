@@ -15,13 +15,13 @@ index f37cefd..e81690f 100644
 +++ b/src/cpp/CMakeLists.txt
 @@ -29,12 +29,12 @@ if (BUILD_CUDA_LIB)
  endif()
- 
+
  if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND CMAKE_COMPILER_IS_GNUCC)
 -    add_library(flann_cpp SHARED "")
 +    add_library(flann_cpp SHARED flann/empty.cpp)
      set_target_properties(flann_cpp PROPERTIES LINKER_LANGUAGE CXX)
      target_link_libraries(flann_cpp -Wl,-whole-archive flann_cpp_s -Wl,-no-whole-archive)
- 
+
      if (BUILD_CUDA_LIB)
 -	    cuda_add_library(flann_cuda SHARED "")
 +	    cuda_add_library(flann_cuda SHARED flann/empty.cpp)
@@ -32,35 +32,35 @@ index f37cefd..e81690f 100644
     VERSION ${FLANN_VERSION}
     SOVERSION ${FLANN_SOVERSION}
     DEFINE_SYMBOL FLANN_EXPORTS
--) 
+-)
 +)
- 
+
  if (BUILD_CUDA_LIB)
      set_target_properties(flann_cuda PROPERTIES
         VERSION ${FLANN_VERSION}
         SOVERSION ${FLANN_SOVERSION}
         DEFINE_SYMBOL FLANN_EXPORTS
--    ) 
+-    )
 +    )
  endif()
- 
- 
+
+
 @@ -77,10 +77,10 @@ if (HDF5_FOUND)
- 
+
          add_executable(flann_mpi_server flann/mpi/flann_mpi_server.cpp)
          target_link_libraries(flann_mpi_server flann_cpp ${HDF5_LIBRARIES} ${MPI_LIBRARIES} ${Boost_LIBRARIES})
--        
+-
 +
          add_executable(flann_mpi_client flann/mpi/flann_mpi_client.cpp)
          target_link_libraries(flann_mpi_client flann_cpp ${HDF5_LIBRARIES} ${MPI_LIBRARIES} ${Boost_LIBRARIES})
--   
+-
 +
          install (TARGETS flann_mpi_client flann_mpi_server
                  DESTINATION bin)
      endif()
 @@ -95,7 +95,7 @@ if (BUILD_C_BINDINGS)
      set_property(TARGET flann_s PROPERTY COMPILE_DEFINITIONS FLANN_STATIC)
- 
+
      if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND CMAKE_COMPILER_IS_GNUCC)
 -        add_library(flann SHARED "")
 +        add_library(flann SHARED flann/empty.cpp)
@@ -71,16 +71,16 @@ index f37cefd..e81690f 100644
         VERSION ${FLANN_VERSION}
         SOVERSION ${FLANN_SOVERSION}
         DEFINE_SYMBOL FLANN_EXPORTS
--    ) 
+-    )
 +    )
  endif()
- 
+
  if(WIN32)
 @@ -125,7 +125,7 @@ install (
      LIBRARY DESTINATION ${FLANN_LIB_INSTALL_DIR}
      ARCHIVE DESTINATION ${FLANN_LIB_INSTALL_DIR}
  )
-- 
+-
 +
  if (BUILD_CUDA_LIB)
      install (
@@ -88,6 +88,6 @@ index f37cefd..e81690f 100644
 diff --git a/src/cpp/flann/empty.cpp b/src/cpp/flann/empty.cpp
 new file mode 100644
 index 0000000..e69de29
--- 
+--
 2.17.1
 

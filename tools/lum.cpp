@@ -37,11 +37,11 @@
  *
  */
 
+#include <pcl/common/transforms.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/point_types.h>
-#include <pcl/common/transforms.h>
-#include <pcl/registration/lum.h>
 #include <pcl/registration/correspondence_estimation.h>
+#include <pcl/registration/lum.h>
 
 #include <iostream>
 #include <string>
@@ -55,65 +55,67 @@ typedef Cloud::Ptr CloudPtr;
 typedef std::pair<std::string, CloudPtr> CloudPair;
 typedef std::vector<CloudPair> CloudVector;
 
-int
-main (int argc, char **argv)
-{
-  pcl::registration::LUM<PointType> lum;
-  lum.setMaxIterations (1);
-  lum.setConvergenceThreshold (0.001f);
+int main(int argc, char **argv) {
+    pcl::registration::LUM<PointType> lum;
+    lum.setMaxIterations(1);
+    lum.setConvergenceThreshold(0.001f);
 
-  CloudVector clouds;
-  for (int i = 1; i < argc; i++)
-  {
-    CloudPtr pc (new Cloud);
-    pcl::io::loadPCDFile (argv[i], *pc);
-    clouds.push_back (CloudPair (argv[i], pc));
-    //std::cout << "loading file: " << argv[i] << " size: " << pc->size () << std::endl;
-    lum.addPointCloud (clouds[i-1].second);
-  }
-
-  for (int i = 0; i < 10; i++)
-  {
-    for (size_t i = 1; i < clouds.size (); i++)
-      for (size_t j = 0; j < i; j++)
-      {
-        Eigen::Vector4f ci, cj;
-        pcl::compute3DCentroid (*(clouds[i].second), ci);
-        pcl::compute3DCentroid (*(clouds[j].second), cj);
-        Eigen::Vector4f diff = ci - cj;
-
-        //std::cout << i << " " << j << " " << diff.norm () << std::endl;
-
-        if(diff.norm () < 5.0 && (i - j == 1 || i - j > 20))
-        {
-          if(i - j > 20)
-            std::cout << "add connection between " << i << " (" << clouds[i].first << ") and " << j << " (" << clouds[j].first << ")" << std::endl;
-          pcl::registration::CorrespondenceEstimation<PointType, PointType> ce;
-          ce.setInputTarget (clouds[i].second);
-          ce.setInputCloud (clouds[j].second);
-          pcl::CorrespondencesPtr corr (new pcl::Correspondences);
-          ce.determineCorrespondences (*corr, 2.5f);
-          if (corr->size () > 2)
-            lum.setCorrespondences (j, i, corr);
-        }
-      }
-
-    lum.compute ();
-
-    for(int i = 0; i < lum.getNumVertices (); i++)
-    {
-      //std::cout << i << ": " << lum.getTransformation (i) (0, 3) << " " << lum.getTransformation (i) (1, 3) << " " << lum.getTransformation (i) (2, 3) << std::endl;
-      clouds[i].second = lum.getTransformedCloud (i);
+    CloudVector clouds;
+    for (int i = 1; i < argc; i++) {
+        CloudPtr pc(new Cloud);
+        pcl::io::loadPCDFile(argv[i], *pc);
+        clouds.push_back(CloudPair(argv[i], pc));
+        // std::cout << "loading file: " << argv[i] << " size: " << pc->size ()
+        // << std::endl;
+        lum.addPointCloud(clouds[i - 1].second);
     }
-  }
 
-  for(int i = 0; i < lum.getNumVertices (); i++)
-  {
-    std::string result_filename (clouds[i].first);
-    result_filename = result_filename.substr (result_filename.rfind ("/") + 1);
-    pcl::io::savePCDFileBinary (result_filename.c_str (), *(clouds[i].second));
-    //std::cout << "saving result to " << result_filename << std::endl;
-  }
+    for (int i = 0; i < 10; i++) {
+        for (size_t i = 1; i < clouds.size(); i++)
+            for (size_t j = 0; j < i; j++) {
+                Eigen::Vector4f ci, cj;
+                pcl::compute3DCentroid(*(clouds[i].second), ci);
+                pcl::compute3DCentroid(*(clouds[j].second), cj);
+                Eigen::Vector4f diff = ci - cj;
 
-  return 0;
+                // std::cout << i << " " << j << " " << diff.norm () <<
+                // std::endl;
+
+                if (diff.norm() < 5.0 && (i - j == 1 || i - j > 20)) {
+                    if (i - j > 20)
+                        std::cout << "add connection between " << i << " ("
+                                  << clouds[i].first << ") and " << j << " ("
+                                  << clouds[j].first << ")" << std::endl;
+                    pcl::registration::CorrespondenceEstimation<PointType,
+                                                                PointType>
+                        ce;
+                    ce.setInputTarget(clouds[i].second);
+                    ce.setInputCloud(clouds[j].second);
+                    pcl::CorrespondencesPtr corr(new pcl::Correspondences);
+                    ce.determineCorrespondences(*corr, 2.5f);
+                    if (corr->size() > 2)
+                        lum.setCorrespondences(j, i, corr);
+                }
+            }
+
+        lum.compute();
+
+        for (int i = 0; i < lum.getNumVertices(); i++) {
+            // std::cout << i << ": " << lum.getTransformation (i) (0, 3) << " "
+            // << lum.getTransformation (i) (1, 3) << " " <<
+            // lum.getTransformation (i) (2, 3) << std::endl;
+            clouds[i].second = lum.getTransformedCloud(i);
+        }
+    }
+
+    for (int i = 0; i < lum.getNumVertices(); i++) {
+        std::string result_filename(clouds[i].first);
+        result_filename =
+            result_filename.substr(result_filename.rfind("/") + 1);
+        pcl::io::savePCDFileBinary(result_filename.c_str(),
+                                   *(clouds[i].second));
+        // std::cout << "saving result to " << result_filename << std::endl;
+    }
+
+    return 0;
 }

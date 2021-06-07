@@ -43,53 +43,54 @@
 #include <vector>
 
 ///////////////////////////////////////////////////////////////////////////////
-template<typename PointT, typename NormalT> void
-pcl::ShadowPoints<PointT, NormalT>::applyFilter (PointCloud &output)
-{
-  assert (input_normals_ != NULL);
-  output.points.resize (input_->points.size ());
+template <typename PointT, typename NormalT>
+void pcl::ShadowPoints<PointT, NormalT>::applyFilter(PointCloud &output) {
+    assert(input_normals_ != NULL);
+    output.points.resize(input_->points.size());
 
-  unsigned int cp = 0;
-  for (unsigned int i = 0; i < input_->points.size (); i++)
-  {
-    const NormalT &normal = input_normals_->points[i];
-    const PointT &pt = input_->points[i];
-    float val = fabsf (normal.normal_x * pt.x + normal.normal_y * pt.y + normal.normal_z * pt.z);
+    unsigned int cp = 0;
+    for (unsigned int i = 0; i < input_->points.size(); i++) {
+        const NormalT &normal = input_normals_->points[i];
+        const PointT &pt = input_->points[i];
+        float val = fabsf(normal.normal_x * pt.x + normal.normal_y * pt.y +
+                          normal.normal_z * pt.z);
 
-    if (val >= threshold_)
-      output.points[cp++] = pt;
-  }
-  output.points.resize (cp);
-  output.width = 1;
-  output.height = static_cast<uint32_t> (output.points.size ());
+        if (val >= threshold_)
+            output.points[cp++] = pt;
+    }
+    output.points.resize(cp);
+    output.width = 1;
+    output.height = static_cast<uint32_t>(output.points.size());
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-template<typename PointT, typename NormalT> void
-pcl::ShadowPoints<PointT, NormalT>::applyFilter (std::vector<int> &indices)
-{
-  assert (input_normals_ != NULL);
-  indices.resize (input_->points.size ());
-  removed_indices_->resize (indices_->size ());
+template <typename PointT, typename NormalT>
+void pcl::ShadowPoints<PointT, NormalT>::applyFilter(
+    std::vector<int> &indices) {
+    assert(input_normals_ != NULL);
+    indices.resize(input_->points.size());
+    removed_indices_->resize(indices_->size());
 
-  unsigned int k = 0;
-  unsigned int z = 0;
-  for (std::vector<int>::const_iterator idx = indices_->begin (); idx != indices_->end (); ++idx)
-  {
-    const NormalT &normal = input_normals_->points[*idx];
-    const PointT &pt = input_->points[*idx];
+    unsigned int k = 0;
+    unsigned int z = 0;
+    for (std::vector<int>::const_iterator idx = indices_->begin();
+         idx != indices_->end(); ++idx) {
+        const NormalT &normal = input_normals_->points[*idx];
+        const PointT &pt = input_->points[*idx];
 
-    float val = fabsf (normal.normal_x * pt.x + normal.normal_y * pt.y + normal.normal_z * pt.z);
+        float val = fabsf(normal.normal_x * pt.x + normal.normal_y * pt.y +
+                          normal.normal_z * pt.z);
 
-    if (val >= threshold_)
-      indices[k++] = *idx;
-    else
-      (*removed_indices_)[z++] = *idx;
-  }
-  indices.resize (k);
-  removed_indices_->resize (z);
+        if (val >= threshold_)
+            indices[k++] = *idx;
+        else
+            (*removed_indices_)[z++] = *idx;
+    }
+    indices.resize(k);
+    removed_indices_->resize(z);
 }
 
-#define PCL_INSTANTIATE_ShadowPoints(T,NT) template class PCL_EXPORTS pcl::ShadowPoints<T,NT>;
+#define PCL_INSTANTIATE_ShadowPoints(T, NT)                                    \
+    template class PCL_EXPORTS pcl::ShadowPoints<T, NT>;
 
-#endif    // PCL_FILTERS_IMPL_NORMAL_SPACE_SAMPLE_H_
+#endif // PCL_FILTERS_IMPL_NORMAL_SPACE_SAMPLE_H_

@@ -41,48 +41,41 @@
 
 class vtkIdTypeArray;
 
-namespace pcl
-{
-  namespace modeler
-  {
-    class SurfaceActorItem : public ChannelActorItem
-    {
-      public:
-        typedef pcl::visualization::PointCloudGeometryHandler<pcl::PointSurfel> GeometryHandler;
-        typedef GeometryHandler::Ptr GeometryHandlerPtr;
-        typedef GeometryHandler::ConstPtr GeometryHandlerConstPtr;
+namespace pcl {
+namespace modeler {
+class SurfaceActorItem : public ChannelActorItem {
+  public:
+    typedef pcl::visualization::PointCloudGeometryHandler<pcl::PointSurfel>
+        GeometryHandler;
+    typedef GeometryHandler::Ptr GeometryHandlerPtr;
+    typedef GeometryHandler::ConstPtr GeometryHandlerConstPtr;
 
-        typedef pcl::visualization::PointCloudColorHandler<pcl::PointSurfel> ColorHandler;
-        typedef ColorHandler::Ptr ColorHandlerPtr;
-        typedef ColorHandler::ConstPtr ColorHandlerConstPtr;
+    typedef pcl::visualization::PointCloudColorHandler<pcl::PointSurfel>
+        ColorHandler;
+    typedef ColorHandler::Ptr ColorHandlerPtr;
+    typedef ColorHandler::ConstPtr ColorHandlerConstPtr;
 
-        SurfaceActorItem(QTreeWidgetItem* parent,
-                        const boost::shared_ptr<CloudMesh>& cloud_mesh,
-                        const vtkSmartPointer<vtkRenderWindow>& render_window);
-        ~SurfaceActorItem ();
+    SurfaceActorItem(QTreeWidgetItem *parent,
+                     const boost::shared_ptr<CloudMesh> &cloud_mesh,
+                     const vtkSmartPointer<vtkRenderWindow> &render_window);
+    ~SurfaceActorItem();
 
-        virtual std::string
-        getItemName() const {return "Points Actor Item";}
+    virtual std::string getItemName() const { return "Points Actor Item"; }
 
-      protected:
-        virtual void
-        initImpl();
+  protected:
+    virtual void initImpl();
 
-        virtual void
-        updateImpl();
+    virtual void updateImpl();
 
-        virtual void
-        prepareContextMenu(QMenu* menu) const;
+    virtual void prepareContextMenu(QMenu *menu) const;
 
-        virtual void
-        prepareProperties(ParameterDialog* parameter_dialog);
+    virtual void prepareProperties(ParameterDialog *parameter_dialog);
 
-        virtual void
-        setProperties();
+    virtual void setProperties();
 
-      private:
-    };
-  }
-}
+  private:
+};
+} // namespace modeler
+} // namespace pcl
 
 #endif // PCL_MODELER_SURFACE_ACTOR_ITEM_H_

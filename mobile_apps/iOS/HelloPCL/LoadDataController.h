@@ -21,16 +21,16 @@
 #import <UIKit/UIKit.h>
 
 @protocol LoadDataDelegate
--(void)dataSelected:(int)index;
+- (void)dataSelected:(int)index;
 @end
 
 @interface LoadDataController : UITableViewController {
-  NSMutableArray *_exampleData;
-  NSMutableArray *_helpStrings;
-  id<LoadDataDelegate> _delegate;
+    NSMutableArray *_exampleData;
+    NSMutableArray *_helpStrings;
+    id<LoadDataDelegate> _delegate;
 }
 
-@property (nonatomic, retain) NSMutableArray *exampleData;
-@property (nonatomic, retain) NSMutableArray *helpStrings;
-@property (nonatomic, assign) id<LoadDataDelegate> delegate;
+@property(nonatomic, retain) NSMutableArray *exampleData;
+@property(nonatomic, retain) NSMutableArray *helpStrings;
+@property(nonatomic, assign) id<LoadDataDelegate> delegate;
 @end

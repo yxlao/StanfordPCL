@@ -43,99 +43,87 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include <pcl/apps/in_hand_scanner/eigen.h>
 #include <pcl/apps/in_hand_scanner/common_types.h>
+#include <pcl/apps/in_hand_scanner/eigen.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Forward declarations
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace pcl
-{
-  template <typename PointT>
-  class KdTree;
+namespace pcl {
+template <typename PointT> class KdTree;
 } // End namespace pcl
 
 ////////////////////////////////////////////////////////////////////////////////
 // ICP
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace pcl
-{
-  namespace ihs
-  {
+namespace pcl {
+namespace ihs {
 
-    class ICP
-    {
+class ICP {
 
-      public:
+  public:
+    typedef pcl::ihs::PointProcessed PointProcessed;
+    typedef pcl::ihs::CloudProcessed CloudProcessed;
+    typedef pcl::ihs::CloudProcessedPtr CloudProcessedPtr;
+    typedef pcl::ihs::CloudProcessedConstPtr CloudProcessedConstPtr;
 
-        typedef pcl::ihs::PointProcessed         PointProcessed;
-        typedef pcl::ihs::CloudProcessed         CloudProcessed;
-        typedef pcl::ihs::CloudProcessedPtr      CloudProcessedPtr;
-        typedef pcl::ihs::CloudProcessedConstPtr CloudProcessedConstPtr;
+    typedef pcl::ihs::PointModel PointModel;
+    typedef pcl::ihs::CloudModel CloudModel;
+    typedef pcl::ihs::CloudModelPtr CloudModelPtr;
+    typedef pcl::ihs::CloudModelConstPtr CloudModelConstPtr;
 
-        typedef pcl::ihs::PointModel         PointModel;
-        typedef pcl::ihs::CloudModel         CloudModel;
-        typedef pcl::ihs::CloudModelPtr      CloudModelPtr;
-        typedef pcl::ihs::CloudModelConstPtr CloudModelConstPtr;
+    typedef pcl::ihs::Transformation Transformation;
 
-        typedef pcl::ihs::Transformation         Transformation;
+  private:
+    typedef pcl::PointNormal PointNormal;
+    typedef pcl::PointCloud<PointNormal> CloudNormal;
+    typedef CloudNormal::Ptr CloudNormalPtr;
+    typedef CloudNormal::ConstPtr CloudNormalConstPtr;
 
-      private:
+    typedef pcl::KdTree<PointNormal> KdTree;
+    typedef boost::shared_ptr<KdTree> KdTreePtr;
+    typedef boost::shared_ptr<const KdTree> KdTreeConstPtr;
 
-        typedef pcl::PointNormal              PointNormal;
-        typedef pcl::PointCloud <PointNormal> CloudNormal;
-        typedef CloudNormal::Ptr              CloudNormalPtr;
-        typedef CloudNormal::ConstPtr         CloudNormalConstPtr;
+  public:
+    ICP();
 
-        typedef pcl::KdTree <PointNormal>        KdTree;
-        typedef boost::shared_ptr <KdTree>       KdTreePtr;
-        typedef boost::shared_ptr <const KdTree> KdTreeConstPtr;
+    bool findTransformation(const CloudModelConstPtr &cloud_model,
+                            const CloudProcessedConstPtr &cloud_data,
+                            const Transformation &T_init,
+                            Transformation &T_final);
 
-      public:
+  private:
+    CloudNormalConstPtr
+    selectModelPoints(const CloudModelConstPtr &cloud_model,
+                      const Transformation &T_init_inv) const;
 
-        ICP ();
+    CloudNormalConstPtr
+    selectDataPoints(const CloudProcessedConstPtr &cloud_data) const;
 
-        bool
-        findTransformation (const CloudModelConstPtr&     cloud_model,
-                            const CloudProcessedConstPtr& cloud_data,
-                            const Transformation&         T_init,
-                            Transformation&               T_final);
+    bool minimizePointPlane(const CloudNormalConstPtr &cloud_source,
+                            const CloudNormalConstPtr &cloud_target,
+                            Transformation &T) const;
 
-      private:
+  private:
+    // Nearest neighbor search
+    KdTreePtr kd_tree_;
 
-        CloudNormalConstPtr
-        selectModelPoints (const CloudModelConstPtr& cloud_model,
-                           const Transformation&     T_init_inv) const;
+    // Convergence
+    float epsilon_; // in m^2
 
-        CloudNormalConstPtr
-        selectDataPoints (const CloudProcessedConstPtr& cloud_data) const;
+    // Registration failure
+    unsigned int max_iterations_;
+    float min_overlap_; // [0 1]
+    float max_fitness_; // in m^2
 
-        bool
-        minimizePointPlane (const CloudNormalConstPtr& cloud_source,
-                            const CloudNormalConstPtr& cloud_target,
-                            Transformation&            T) const;
+    // Correspondence rejection
+    float squared_distance_threshold_factor_;
+    float normals_threshold_; // cos(angle)
+};
 
-      private:
-
-        // Nearest neighbor search
-        KdTreePtr    kd_tree_;
-
-        // Convergence
-        float        epsilon_; // in m^2
-
-        // Registration failure
-        unsigned int max_iterations_;
-        float        min_overlap_; // [0 1]
-        float        max_fitness_; // in m^2
-
-        // Correspondence rejection
-        float        squared_distance_threshold_factor_;
-        float        normals_threshold_; // cos(angle)
-    };
-
-  } // End namespace ihs
+} // End namespace ihs
 } // End namespace pcl
 
 #endif // PCL_IN_HAND_SCANNER_ICP_H

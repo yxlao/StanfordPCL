@@ -33,7 +33,8 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: transformation_estimation_point_to_plane.h 7116 2012-09-10 21:18:41Z rusu $
+ * $Id: transformation_estimation_point_to_plane.h 7116 2012-09-10 21:18:41Z
+ * rusu $
  *
  */
 #ifndef PCL_REGISTRATION_TRANSFORMATION_ESTIMATION_POINT_TO_PLANE_H_
@@ -43,48 +44,47 @@
 #include <pcl/registration/transformation_estimation_lm.h>
 #include <pcl/registration/warp_point_rigid.h>
 
-namespace pcl
-{
-  namespace registration
-  {
-    /** @b TransformationEstimationPointToPlane uses Levenberg Marquardt optimization to find the
-      * transformation that minimizes the point-to-plane distance between the given correspondences.
-      *
-      * \author Michael Dixon
-      * \ingroup registration
-      */
-    template <typename PointSource, typename PointTarget, typename Scalar = float>
-    class TransformationEstimationPointToPlane : public TransformationEstimationLM<PointSource, PointTarget, Scalar>
-    {
-      public:
-        typedef boost::shared_ptr<TransformationEstimationPointToPlane<PointSource, PointTarget, Scalar> > Ptr;
-        typedef boost::shared_ptr<const TransformationEstimationPointToPlane<PointSource, PointTarget, Scalar> > ConstPtr;
+namespace pcl {
+namespace registration {
+/** @b TransformationEstimationPointToPlane uses Levenberg Marquardt
+ * optimization to find the transformation that minimizes the point-to-plane
+ * distance between the given correspondences.
+ *
+ * \author Michael Dixon
+ * \ingroup registration
+ */
+template <typename PointSource, typename PointTarget, typename Scalar = float>
+class TransformationEstimationPointToPlane
+    : public TransformationEstimationLM<PointSource, PointTarget, Scalar> {
+  public:
+    typedef boost::shared_ptr<
+        TransformationEstimationPointToPlane<PointSource, PointTarget, Scalar>>
+        Ptr;
+    typedef boost::shared_ptr<const TransformationEstimationPointToPlane<
+        PointSource, PointTarget, Scalar>>
+        ConstPtr;
 
-        typedef pcl::PointCloud<PointSource> PointCloudSource;
-        typedef typename PointCloudSource::Ptr PointCloudSourcePtr;
-        typedef typename PointCloudSource::ConstPtr PointCloudSourceConstPtr;
-        typedef pcl::PointCloud<PointTarget> PointCloudTarget;
-        typedef PointIndices::Ptr PointIndicesPtr;
-        typedef PointIndices::ConstPtr PointIndicesConstPtr;
+    typedef pcl::PointCloud<PointSource> PointCloudSource;
+    typedef typename PointCloudSource::Ptr PointCloudSourcePtr;
+    typedef typename PointCloudSource::ConstPtr PointCloudSourceConstPtr;
+    typedef pcl::PointCloud<PointTarget> PointCloudTarget;
+    typedef PointIndices::Ptr PointIndicesPtr;
+    typedef PointIndices::ConstPtr PointIndicesConstPtr;
 
+    TransformationEstimationPointToPlane(){};
+    virtual ~TransformationEstimationPointToPlane(){};
 
-        TransformationEstimationPointToPlane () {};
-        virtual ~TransformationEstimationPointToPlane () {};
-
-      protected:
-        virtual double
-        computeDistance (const PointSource &p_src, const PointTarget &p_tgt) const
-        {
-          // Compute the point-to-plane distance
-          Eigen::Vector4f s (p_src.x, p_src.y, p_src.z, 0);
-          Eigen::Vector4f t (p_tgt.x, p_tgt.y, p_tgt.z, 0);
-          Eigen::Vector4f n (p_tgt.normal_x, p_tgt.normal_y, p_tgt.normal_z, 0);
-          return ((s - t).dot (n));
-        }
-
-    };
-  }
-}
+  protected:
+    virtual double computeDistance(const PointSource &p_src,
+                                   const PointTarget &p_tgt) const {
+        // Compute the point-to-plane distance
+        Eigen::Vector4f s(p_src.x, p_src.y, p_src.z, 0);
+        Eigen::Vector4f t(p_tgt.x, p_tgt.y, p_tgt.z, 0);
+        Eigen::Vector4f n(p_tgt.normal_x, p_tgt.normal_y, p_tgt.normal_z, 0);
+        return ((s - t).dot(n));
+    }
+};
+} // namespace registration
+} // namespace pcl
 
 #endif /* PCL_REGISTRATION_TRANSFORMATION_ESTIMATION_POINT_TO_PLANE_H_ */
-

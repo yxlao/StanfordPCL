@@ -35,43 +35,36 @@
  *
  */
 
+#include "pcl/cuda/io/cloud_to_pcl.h"
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
-#include "pcl/cuda/io/cloud_to_pcl.h"
 
+namespace pcl {
+namespace cuda {
 
-namespace pcl
-{
-namespace cuda
-{
-
-void
-fromPCL (const pcl::PointCloud<pcl::PointXYZRGB> &input, PointCloudAOS<Host> &output)
-{
-//  output.resize (input.size());
-//  for (std::size_t i = 0; i < input.size (); ++i)
-//  {
-//    output[i].x = input[i].x;
-//    output[i].y = input[i].y;
-//    output[i].z = input[i].z;
-//    // Pack RGB into a float
-//    output[i].rgb = *(float*)(&input[i].rgb);
-//  }
-//  thrust::copy (output.begin(), output.end (), input.begin());
-//  output.width    = input.width;
-//  output.height   = input.height;
-//  output.is_dense = input.is_dense;
+void fromPCL(const pcl::PointCloud<pcl::PointXYZRGB> &input,
+             PointCloudAOS<Host> &output) {
+    //  output.resize (input.size());
+    //  for (std::size_t i = 0; i < input.size (); ++i)
+    //  {
+    //    output[i].x = input[i].x;
+    //    output[i].y = input[i].y;
+    //    output[i].z = input[i].z;
+    //    // Pack RGB into a float
+    //    output[i].rgb = *(float*)(&input[i].rgb);
+    //  }
+    //  thrust::copy (output.begin(), output.end (), input.begin());
+    //  output.width    = input.width;
+    //  output.height   = input.height;
+    //  output.is_dense = input.is_dense;
 }
 
-void                                                                                  
-fromPCL (const pcl::PointCloud<pcl::PointXYZRGB> &input, PointCloudAOS<Device> &output)
-{
-//  PointCloudAOS<Host> output_host;
-//  fromPCL (input, output_host);
-//  output << output_host;
+void fromPCL(const pcl::PointCloud<pcl::PointXYZRGB> &input,
+             PointCloudAOS<Device> &output) {
+    //  PointCloudAOS<Host> output_host;
+    //  fromPCL (input, output_host);
+    //  output << output_host;
 }
 
-} // namespace
-} // namespace
-
-
+} // namespace cuda
+} // namespace pcl

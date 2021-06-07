@@ -41,81 +41,75 @@
 #include <pcl/apps/cloud_composer/point_selectors/interactor_style_switch.h>
 #include <pcl/apps/cloud_composer/qt.h>
 
+namespace pcl {
+namespace cloud_composer {
 
+class PCL_EXPORTS ClickTrackballStyleInteractor
+    : public vtkInteractorStyleTrackballActor {
+  public:
+    static ClickTrackballStyleInteractor *New();
+    vtkTypeMacro(ClickTrackballStyleInteractor,
+                 vtkInteractorStyleTrackballActor);
 
+    ClickTrackballStyleInteractor();
 
-namespace pcl
-{
-  namespace cloud_composer
-  {
+    virtual ~ClickTrackballStyleInteractor();
 
-    class PCL_EXPORTS ClickTrackballStyleInteractor : public vtkInteractorStyleTrackballActor
-    {
-      public:
-        static ClickTrackballStyleInteractor* New();
-        vtkTypeMacro(ClickTrackballStyleInteractor,vtkInteractorStyleTrackballActor);
+    /** \brief Pass a pointer to the actor map
+     * \param[in] actors the actor map that will be used with this style
+     */
+    inline void
+    setCloudActorMap(const pcl::visualization::CloudActorMapPtr &actors) {
+        actors_ = actors;
+    }
 
-        ClickTrackballStyleInteractor ();
+    /** \brief Get the cloud actor map pointer. */
+    inline pcl::visualization::CloudActorMapPtr getCloudActorMap() const {
+        return (actors_);
+    }
 
-        virtual ~ClickTrackballStyleInteractor ();
+    /** \brief Pass a set of renderers to the interactor style.
+     * \param[in] rens the vtkRendererCollection to use
+     */
+    void setRendererCollection(vtkSmartPointer<vtkRendererCollection> &rens) {
+        renderers_ = rens;
+    }
 
-        /** \brief Pass a pointer to the actor map
-          * \param[in] actors the actor map that will be used with this style
-          */
-        inline void
-        setCloudActorMap (const pcl::visualization::CloudActorMapPtr &actors) { actors_ = actors; }
+    /** \brief Function called on left mouse button release, ie, end of
+     * rectangular drag */
+    virtual void OnLeftButtonDown();
 
-        /** \brief Get the cloud actor map pointer. */
-        inline pcl::visualization::CloudActorMapPtr
-        getCloudActorMap () const { return (actors_); }
+    /** \brief Function called on left mouse button release, ie, end of
+     * rectangular drag */
+    virtual void OnLeftButtonUp();
 
-        /** \brief Pass a set of renderers to the interactor style.
-          * \param[in] rens the vtkRendererCollection to use
-          */
-        void
-        setRendererCollection (vtkSmartPointer<vtkRendererCollection> &rens) { renderers_ = rens; }
+    virtual void OnRightButtonDown();
 
-        /** \brief Function called on left mouse button release, ie, end of rectangular drag */
-        virtual void
-        OnLeftButtonDown ();
+    virtual void OnRightButtonUp();
 
-        /** \brief Function called on left mouse button release, ie, end of rectangular drag */
-        virtual void
-        OnLeftButtonUp ();
+    /** \brief Event emitted once a valid selection has been made */
+    int manipulation_complete_event_;
 
-        virtual void
-        OnRightButtonDown ();
+    inline void setProjectModel(ProjectModel *model) { model_ = model; }
 
-        virtual void
-        OnRightButtonUp ();
+  private:
+    /** \brief Actor map stored internally. */
+    pcl::visualization::CloudActorMapPtr actors_;
 
-        /** \brief Event emitted once a valid selection has been made */
-        int manipulation_complete_event_;
+    /** \brief Collection of vtkRenderers stored internally. */
+    vtkSmartPointer<vtkRendererCollection> renderers_;
 
-        inline void
-        setProjectModel (ProjectModel* model) { model_ = model; }
-      private:
+    /** \brief Internal Pointer to Project Model */
+    ProjectModel *model_;
 
+    vtkSmartPointer<vtkMatrix4x4> start_matrix_;
+    vtkSmartPointer<vtkMatrix4x4> end_matrix_;
 
-        /** \brief Actor map stored internally. */
-        pcl::visualization::CloudActorMapPtr actors_;
+    vtkSmartPointer<vtkTransform> transform_;
+};
 
-        /** \brief Collection of vtkRenderers stored internally. */
-        vtkSmartPointer<vtkRendererCollection> renderers_;
+} // namespace cloud_composer
 
-        /** \brief Internal Pointer to Project Model */
-        ProjectModel* model_;
-
-        vtkSmartPointer<vtkMatrix4x4> start_matrix_;
-        vtkSmartPointer<vtkMatrix4x4> end_matrix_;
-
-        vtkSmartPointer<vtkTransform> transform_;
-
-    };
-
-  }
-
-}
+} // namespace pcl
 
 #endif // CLICK_TRACKBALL_STYLE_INTERACTOR_H_
-

@@ -35,53 +35,57 @@
  *
  */
 
-#include <pcl/point_types.h>
-#include <pcl/io/pcd_io.h>
 #include <pcl/apps/vfh_nn_classifier.h>
+#include <pcl/io/pcd_io.h>
+#include <pcl/point_types.h>
 
-int
-main (int, char* argv[])
-{
-  // Load input file
-  char* file_name = argv[1];
-  sensor_msgs::PointCloud2 cloud_blob;
-  pcl::io::loadPCDFile (file_name, cloud_blob);
+int main(int, char *argv[]) {
+    // Load input file
+    char *file_name = argv[1];
+    sensor_msgs::PointCloud2 cloud_blob;
+    pcl::io::loadPCDFile(file_name, cloud_blob);
 
-  // Declare variable to hold result
-  pcl::NNClassification<pcl::VFHSignature308>::ResultPtr result;
-  // same as: pcl::VFHClassifierNN::ResultPtr result;
+    // Declare variable to hold result
+    pcl::NNClassification<pcl::VFHSignature308>::ResultPtr result;
+    // same as: pcl::VFHClassifierNN::ResultPtr result;
 
-  // Do general classification using NNClassification or use the VHClassiierNN helper class
-  if (false)
-  {
-    // Estimate your favorite feature
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ> ());
-    pcl::fromROSMsg (cloud_blob, *cloud);
-    /// NOTE: make sure to use same radius as for training data
-    pcl::PointCloud<pcl::VFHSignature308>::Ptr feature = pcl::computeVFH<pcl::PointXYZ> (cloud, 0.03);
+    // Do general classification using NNClassification or use the VHClassiierNN
+    // helper class
+    if (false) {
+        // Estimate your favorite feature
+        pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(
+            new pcl::PointCloud<pcl::PointXYZ>());
+        pcl::fromROSMsg(cloud_blob, *cloud);
+        /// NOTE: make sure to use same radius as for training data
+        pcl::PointCloud<pcl::VFHSignature308>::Ptr feature =
+            pcl::computeVFH<pcl::PointXYZ>(cloud, 0.03);
 
-    // Nearest neighbors classification
-    pcl::NNClassification<pcl::VFHSignature308> nn;
-    //nn.setTrainingFeatures(cloud);
-    //nn.setTrainingLabels(std::vector<std::string>(cloud->points.size(), "bla"));
-    nn.loadTrainingFeatures (argv[2], argv[3]);
-    result = nn.classify(feature->points[0], 300, 50);
-  }
-  else
-  {
-    pcl::VFHClassifierNN vfh_classifier;
-    //vfh_classifier.loadTrainingData ("/home/marton/ros/pcl/trunk/apps/data/can.pcd", "can");
-    //vfh_classifier.loadTrainingData ("/home/marton/ros/pcl/trunk/apps/data/salt.pcd", "salt");
-    //vfh_classifier.loadTrainingData ("/home/marton/ros/pcl/trunk/apps/data/sugar.pcd", "sugar");
-    //vfh_classifier.saveTrainingFeatures ("/tmp/vfhs.pcd", "/tmp/vfhs.labels");
-    vfh_classifier.loadTrainingFeatures (argv[2], argv[3]);
-    vfh_classifier.finalizeTraining ();
-    result = vfh_classifier.classify(cloud_blob);
-  }
+        // Nearest neighbors classification
+        pcl::NNClassification<pcl::VFHSignature308> nn;
+        // nn.setTrainingFeatures(cloud);
+        // nn.setTrainingLabels(std::vector<std::string>(cloud->points.size(),
+        // "bla"));
+        nn.loadTrainingFeatures(argv[2], argv[3]);
+        result = nn.classify(feature->points[0], 300, 50);
+    } else {
+        pcl::VFHClassifierNN vfh_classifier;
+        // vfh_classifier.loadTrainingData
+        // ("/home/marton/ros/pcl/trunk/apps/data/can.pcd", "can");
+        // vfh_classifier.loadTrainingData
+        // ("/home/marton/ros/pcl/trunk/apps/data/salt.pcd", "salt");
+        // vfh_classifier.loadTrainingData
+        // ("/home/marton/ros/pcl/trunk/apps/data/sugar.pcd", "sugar");
+        // vfh_classifier.saveTrainingFeatures ("/tmp/vfhs.pcd",
+        // "/tmp/vfhs.labels");
+        vfh_classifier.loadTrainingFeatures(argv[2], argv[3]);
+        vfh_classifier.finalizeTraining();
+        result = vfh_classifier.classify(cloud_blob);
+    }
 
-  // Print results
-  for (unsigned i = 0; i < result->first.size(); ++i)
-    std::cerr << result->first.at (i) << ": " << result->second.at (i) << std::endl;
+    // Print results
+    for (unsigned i = 0; i < result->first.size(); ++i)
+        std::cerr << result->first.at(i) << ": " << result->second.at(i)
+                  << std::endl;
 
-  return 0;
+    return 0;
 }

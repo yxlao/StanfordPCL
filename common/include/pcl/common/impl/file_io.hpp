@@ -33,49 +33,46 @@
  *
  */
 
-namespace pcl
-{
+namespace pcl {
 
 #ifndef _WIN32
-  void getAllPcdFilesInDirectory(const std::string& directory, std::vector<std::string>& file_names)
-  {
+void getAllPcdFilesInDirectory(const std::string &directory,
+                               std::vector<std::string> &file_names) {
     DIR *dp;
     struct dirent *dirp;
-    if((dp  = opendir(directory.c_str())) == NULL) {
-      std::cerr << "Could not open directory.\n";
-      return;
+    if ((dp = opendir(directory.c_str())) == NULL) {
+        std::cerr << "Could not open directory.\n";
+        return;
     }
     while ((dirp = readdir(dp)) != NULL) {
-      if (dirp->d_type == DT_REG)  // Only regular files
-      {
-        std::string file_name = dirp->d_name;
-        if (file_name.substr(file_name.size()-4, 4)==".pcd")
-          file_names.push_back(dirp->d_name);
-      }
+        if (dirp->d_type == DT_REG) // Only regular files
+        {
+            std::string file_name = dirp->d_name;
+            if (file_name.substr(file_name.size() - 4, 4) == ".pcd")
+                file_names.push_back(dirp->d_name);
+        }
     }
     closedir(dp);
     std::sort(file_names.begin(), file_names.end());
-    //for (unsigned int i=0; i<file_names.size(); ++i)
-      //cout << file_names[i]<<"\n";
-  }
+    // for (unsigned int i=0; i<file_names.size(); ++i)
+    // cout << file_names[i]<<"\n";
+}
 #endif
 
-std::string getFilenameWithoutPath(const std::string& input)
-{
-  size_t filename_start = input.find_last_of('/', static_cast<size_t>(-1)) + 1;
-  return input.substr(filename_start, input.size()-filename_start);
+std::string getFilenameWithoutPath(const std::string &input) {
+    size_t filename_start =
+        input.find_last_of('/', static_cast<size_t>(-1)) + 1;
+    return input.substr(filename_start, input.size() - filename_start);
 }
 
-std::string getFilenameWithoutExtension(const std::string& input)
-{
-  size_t dot_position = input.find_last_of('.', input.size());
-  return input.substr(0, dot_position);
+std::string getFilenameWithoutExtension(const std::string &input) {
+    size_t dot_position = input.find_last_of('.', input.size());
+    return input.substr(0, dot_position);
 }
 
-std::string getFileExtension(const std::string& input)
-{
-  size_t dot_position = input.find_last_of('.', input.size());
-  return input.substr(dot_position+1, input.size());
+std::string getFileExtension(const std::string &input) {
+    size_t dot_position = input.find_last_of('.', input.size());
+    return input.substr(dot_position + 1, input.size());
 }
 
-}  // namespace end
+} // namespace pcl

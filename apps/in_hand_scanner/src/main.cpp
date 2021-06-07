@@ -41,10 +41,9 @@
 #include <cstdlib> // EXIT_SUCCESS, EXIT_FAILURE
 #include <pcl/apps/in_hand_scanner/in_hand_scanner.h>
 
-int main (int argc, char** argv)
-{
-  pcl::ihs::InHandScanner scanner (argc, argv);
-  scanner.run ();
+int main(int argc, char **argv) {
+    pcl::ihs::InHandScanner scanner(argc, argv);
+    scanner.run();
 
-  return (EXIT_SUCCESS);
+    return (EXIT_SUCCESS);
 }

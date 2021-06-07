@@ -42,233 +42,240 @@
 
 #include <thrust/random.h>
 
-namespace pcl
-{
-  namespace cuda
-  {
-    /** \brief Check if a certain tuple is a point inlier. */
-    struct CountPlanarInlier
-    {
-      float4 coefficients;
-      float threshold;
+namespace pcl {
+namespace cuda {
+/** \brief Check if a certain tuple is a point inlier. */
+struct CountPlanarInlier {
+    float4 coefficients;
+    float threshold;
 
-      CountPlanarInlier (float4 coeff, float thresh) :
-        coefficients(coeff), threshold(thresh)
-      {}
+    CountPlanarInlier(float4 coeff, float thresh)
+        : coefficients(coeff), threshold(thresh) {}
 
-      template <typename Tuple> __inline__ __host__ __device__ bool
-      operator () (const Tuple &t);
+    template <typename Tuple>
+    __inline__ __host__ __device__ bool operator()(const Tuple &t);
+};
+
+/** \brief Check if a certain tuple is a point inlier. */
+struct CheckPlanarInlier {
+    float4 coefficients;
+    float threshold;
+
+    CheckPlanarInlier(float4 coeff, float thresh)
+        : coefficients(coeff), threshold(thresh) {}
+
+    template <typename Tuple>
+    __inline__ __host__ __device__ int operator()(const Tuple &t);
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////
+/** \brief @b SampleConsensusModelPlane defines a model for 3D plane
+ * segmentation.
+ */
+template <template <typename> class Storage>
+class SampleConsensusModelPlane : public SampleConsensusModel<Storage> {
+  public:
+    using SampleConsensusModel<Storage>::input_;
+    using SampleConsensusModel<Storage>::indices_;
+    using SampleConsensusModel<Storage>::rngl_;
+
+    typedef typename SampleConsensusModel<Storage>::PointCloud PointCloud;
+    typedef typename PointCloud::Ptr PointCloudPtr;
+    typedef typename PointCloud::ConstPtr PointCloudConstPtr;
+
+    typedef typename SampleConsensusModel<Storage>::Indices Indices;
+    typedef typename SampleConsensusModel<Storage>::IndicesPtr IndicesPtr;
+    typedef
+        typename SampleConsensusModel<Storage>::IndicesConstPtr IndicesConstPtr;
+
+    typedef typename SampleConsensusModel<Storage>::Coefficients Coefficients;
+    typedef typename SampleConsensusModel<Storage>::Hypotheses Hypotheses;
+    typedef typename SampleConsensusModel<Storage>::Samples Samples;
+
+    typedef boost::shared_ptr<SampleConsensusModelPlane> Ptr;
+
+    /** \brief Constructor for base SampleConsensusModelPlane.
+     * \param cloud the input point cloud dataset
+     */
+    SampleConsensusModelPlane(const PointCloudConstPtr &cloud);
+
+    /** \brief Constructor for base SampleConsensusModelPlane.
+     * \param cloud the input point cloud dataset
+     * \param indices a vector of point indices to be used from \a cloud
+     */
+    //      SampleConsensusModelPlane (const PointCloudConstPtr &cloud, const
+    //      std::vector<int> &indices) : SampleConsensusModel<PointT> (cloud,
+    //      indices) {};
+
+    /** \brief Get 3 random non-collinear points as data samples and return them
+     * as point indices. \param iterations the internal number of iterations
+     * used by SAC methods \param samples the resultant model samples \note
+     * assumes unique points!
+     */
+    void getSamples(int &iterations, Indices &samples);
+
+    /** \brief Check whether the given index samples can form a valid plane
+     * model, compute the model coefficients from these samples and store them
+     * in model_coefficients. The plane coefficients are: a, b, c, d
+     * (ax+by+cz+d=0) \param samples the point indices found as possible good
+     * candidates for creating a valid model \param model_coefficients the
+     * resultant model coefficients
+     */
+    bool computeModelCoefficients(const Indices &samples,
+                                  Coefficients &model_coefficients);
+
+    bool generateModelHypotheses(Hypotheses &h, int max_iterations);
+
+    virtual bool generateModelHypotheses(Hypotheses &h, Samples &s,
+                                         int max_iterations) {
+        // TODO: hack.. Samples should be vector<int>, not int..
+        return generateModelHypotheses(h, max_iterations);
     };
 
-    /** \brief Check if a certain tuple is a point inlier. */
-    struct CheckPlanarInlier
-    {
-      float4 coefficients;
-      float threshold;
+    //      /** \brief Compute all distances from the cloud data to a given
+    //      plane model.
+    //        * \param model_coefficients the coefficients of a plane model that
+    //        we need to compute distances to
+    //        * \param distances the resultant estimated distances
+    //        */
+    //      void
+    //      getDistancesToModel (const Eigen::VectorXf &model_coefficients,
+    //      std::vector<float> &distances);
 
-      CheckPlanarInlier (float4 coeff, float thresh) :
-        coefficients(coeff), threshold(thresh)
-      {}
+    /** \brief Select all the points which respect the given model coefficients
+     * as inliers. \param model_coefficients the coefficients of a plane model
+     * that we need to compute distances to \param threshold a maximum
+     * admissible distance threshold for determining the inliers from the
+     * outliers \param inliers the resultant model inliers
+     */
+    int selectWithinDistance(const Coefficients &model_coefficients,
+                             float threshold, IndicesPtr &inliers,
+                             IndicesPtr &inliers_stencil);
+    int selectWithinDistance(const Hypotheses &h, int idx, float threshold,
+                             IndicesPtr &inliers, IndicesPtr &inliers_stencil);
+    int selectWithinDistance(Hypotheses &h, int idx, float threshold,
+                             IndicesPtr &inliers_stencil, float3 &centroid);
 
-      template <typename Tuple> __inline__ __host__ __device__ int
-      operator () (const Tuple &t);
-    };
+    int countWithinDistance(const Coefficients &model_coefficients,
+                            float threshold);
 
-    ////////////////////////////////////////////////////////////////////////////////////////////
-    /** \brief @b SampleConsensusModelPlane defines a model for 3D plane segmentation.
-      */
-    template <template <typename> class Storage>
-    class SampleConsensusModelPlane : public SampleConsensusModel<Storage>
-    {
-      public:
-        using SampleConsensusModel<Storage>::input_;
-        using SampleConsensusModel<Storage>::indices_;
-        using SampleConsensusModel<Storage>::rngl_;
+    int countWithinDistance(const Hypotheses &h, int idx, float threshold);
 
-        typedef typename SampleConsensusModel<Storage>::PointCloud PointCloud;
-        typedef typename PointCloud::Ptr PointCloudPtr;
-        typedef typename PointCloud::ConstPtr PointCloudConstPtr;
+    //      /** \brief Recompute the plane coefficients using the given inlier
+    //      set and return them to the user.
+    //        * @note: these are the coefficients of the plane model after
+    //        refinement (eg. after SVD)
+    //        * \param inliers the data inliers found as supporting the model
+    //        * \param model_coefficients the initial guess for the model
+    //        coefficients
+    //        * \param optimized_coefficients the resultant recomputed
+    //        coefficients after non-linear optimization
+    //        */
+    //      void
+    //      optimizeModelCoefficients (const std::vector<int> &inliers, const
+    //      Eigen::VectorXf &model_coefficients, Eigen::VectorXf
+    //      &optimized_coefficients);
+    //
+    //      /** \brief Create a new point cloud with inliers projected onto the
+    //      plane model.
+    //        * \param inliers the data inliers that we want to project on the
+    //        plane model
+    //        * \param model_coefficients the *normalized* coefficients of a
+    //        plane model
+    //        * \param projected_points the resultant projected points
+    //        * \param copy_data_fields set to true if we need to copy the other
+    //        data fields
+    //        */
+    //      void
+    //      projectPoints (const std::vector<int> &inliers, const
+    //      Eigen::VectorXf &model_coefficients, PointCloud &projected_points,
+    //      bool copy_data_fields = true);
+    //
+    //      /** \brief Verify whether a subset of indices verifies the given
+    //      plane model coefficients.
+    //        * \param indices the data indices that need to be tested against
+    //        the plane model
+    //        * \param model_coefficients the plane model coefficients
+    //        * \param threshold a maximum admissible distance threshold for
+    //        determining the inliers from the outliers
+    //        */
+    //      bool
+    //      doSamplesVerifyModel (const std::set<int> &indices, const
+    //      Eigen::VectorXf &model_coefficients, float threshold);
+    //
+    //      /** \brief Return an unique id for this model (SACMODEL_PLANE). */
+    //      //inline pcl::SacModel getModelType () const { return
+    //      (SACMODEL_PLANE); }
+    //
+    //    protected:
+    //      /** \brief Check whether a model is valid given the user
+    //      constraints.
+    //        * \param model_coefficients the set of model coefficients
+    //        */
+    ///*      inline bool
+    //      isModelValid (const Eigen::VectorXf &model_coefficients)
+    //      {
+    //        // Needs a valid model coefficients
+    //        if (model_coefficients.size () != 4)
+    //        {
+    //          ROS_ERROR ("[pcl::SampleConsensusModelPlane::isModelValid]
+    //          Invalid number of model coefficients given (%lu)!", (unsigned
+    //          long) model_coefficients.size ()); return (false);
+    //        }
+    //        return (true);
+    //      }*/
+    //
+    //    private:
+    //      /** \brief Define the maximum number of iterations for collinearity
+    //      checks */
+    const static int MAX_ITERATIONS_COLLINEAR = 1000;
+};
 
-        typedef typename SampleConsensusModel<Storage>::Indices Indices;
-        typedef typename SampleConsensusModel<Storage>::IndicesPtr IndicesPtr;
-        typedef typename SampleConsensusModel<Storage>::IndicesConstPtr IndicesConstPtr;
+/** \brief Check if a certain tuple is a point inlier. */
+template <template <typename> class Storage> struct CreatePlaneHypothesis {
+    typedef typename SampleConsensusModel<Storage>::PointCloud PointCloud;
+    typedef typename PointCloud::ConstPtr PointCloudConstPtr;
 
-        typedef typename SampleConsensusModel<Storage>::Coefficients Coefficients;
-        typedef typename SampleConsensusModel<Storage>::Hypotheses Hypotheses;
-        typedef typename SampleConsensusModel<Storage>::Samples Samples;
+    typedef typename SampleConsensusModel<Storage>::Indices Indices;
+    typedef typename SampleConsensusModel<Storage>::IndicesPtr IndicesPtr;
+    typedef
+        typename SampleConsensusModel<Storage>::IndicesConstPtr IndicesConstPtr;
 
-        typedef boost::shared_ptr<SampleConsensusModelPlane> Ptr;
+    const PointXYZRGB *input;
+    const int *indices;
+    int nr_indices;
+    float bad_value;
 
-        /** \brief Constructor for base SampleConsensusModelPlane.
-          * \param cloud the input point cloud dataset
-          */
-        SampleConsensusModelPlane (const PointCloudConstPtr &cloud);
+    CreatePlaneHypothesis(const PointXYZRGB *_input, const int *_indices,
+                          int _nr_indices, float bad)
+        : input(_input), indices(_indices), nr_indices(_nr_indices),
+          bad_value(bad) {}
 
-        /** \brief Constructor for base SampleConsensusModelPlane.
-          * \param cloud the input point cloud dataset
-          * \param indices a vector of point indices to be used from \a cloud
-          */
-  //      SampleConsensusModelPlane (const PointCloudConstPtr &cloud, const std::vector<int> &indices) : SampleConsensusModel<PointT> (cloud, indices) {};
+    // template <typename Tuple>
+    __inline__ __host__ __device__ float4
+    // operator () (const Tuple &t);
+    operator()(int t);
+};
 
-        /** \brief Get 3 random non-collinear points as data samples and return them as point indices.
-          * \param iterations the internal number of iterations used by SAC methods
-          * \param samples the resultant model samples
-          * \note assumes unique points!
-          */
-        void
-        getSamples (int &iterations, Indices &samples);
+struct parallel_random_generator {
 
-        /** \brief Check whether the given index samples can form a valid plane model, compute the model coefficients from
-          * these samples and store them in model_coefficients. The plane coefficients are:
-          * a, b, c, d (ax+by+cz+d=0)
-          * \param samples the point indices found as possible good candidates for creating a valid model
-          * \param model_coefficients the resultant model coefficients
-          */
-        bool
-        computeModelCoefficients (const Indices &samples, Coefficients &model_coefficients);
-
-        bool
-        generateModelHypotheses (Hypotheses &h, int max_iterations);
-
-        virtual bool
-        generateModelHypotheses (Hypotheses &h, Samples &s, int max_iterations)
-        {
-          // TODO: hack.. Samples should be vector<int>, not int..
-          return generateModelHypotheses (h, max_iterations);
-        };
-
-  //      /** \brief Compute all distances from the cloud data to a given plane model.
-  //        * \param model_coefficients the coefficients of a plane model that we need to compute distances to
-  //        * \param distances the resultant estimated distances
-  //        */
-  //      void
-  //      getDistancesToModel (const Eigen::VectorXf &model_coefficients, std::vector<float> &distances);
-
-        /** \brief Select all the points which respect the given model coefficients as inliers.
-          * \param model_coefficients the coefficients of a plane model that we need to
-          * compute distances to
-          * \param threshold a maximum admissible distance threshold for determining the
-          * inliers from the outliers
-          * \param inliers the resultant model inliers
-          */
-        int
-        selectWithinDistance (const Coefficients &model_coefficients,
-                              float threshold, IndicesPtr &inliers, IndicesPtr &inliers_stencil);
-        int
-        selectWithinDistance (const Hypotheses &h, int idx,
-                              float threshold,
-                              IndicesPtr &inliers, IndicesPtr &inliers_stencil);
-        int
-        selectWithinDistance (Hypotheses &h, int idx,
-                              float threshold,
-                              IndicesPtr &inliers_stencil,
-                              float3 &centroid);
-
-        int
-        countWithinDistance (const Coefficients &model_coefficients, float threshold);
-
-        int
-        countWithinDistance (const Hypotheses &h, int idx, float threshold);
-
-  //      /** \brief Recompute the plane coefficients using the given inlier set and return them to the user.
-  //        * @note: these are the coefficients of the plane model after refinement (eg. after SVD)
-  //        * \param inliers the data inliers found as supporting the model
-  //        * \param model_coefficients the initial guess for the model coefficients
-  //        * \param optimized_coefficients the resultant recomputed coefficients after non-linear optimization
-  //        */
-  //      void
-  //      optimizeModelCoefficients (const std::vector<int> &inliers, const Eigen::VectorXf &model_coefficients, Eigen::VectorXf &optimized_coefficients);
-  //
-  //      /** \brief Create a new point cloud with inliers projected onto the plane model.
-  //        * \param inliers the data inliers that we want to project on the plane model
-  //        * \param model_coefficients the *normalized* coefficients of a plane model
-  //        * \param projected_points the resultant projected points
-  //        * \param copy_data_fields set to true if we need to copy the other data fields
-  //        */
-  //      void
-  //      projectPoints (const std::vector<int> &inliers, const Eigen::VectorXf &model_coefficients, PointCloud &projected_points, bool copy_data_fields = true);
-  //
-  //      /** \brief Verify whether a subset of indices verifies the given plane model coefficients.
-  //        * \param indices the data indices that need to be tested against the plane model
-  //        * \param model_coefficients the plane model coefficients
-  //        * \param threshold a maximum admissible distance threshold for determining the inliers from the outliers
-  //        */
-  //      bool
-  //      doSamplesVerifyModel (const std::set<int> &indices, const Eigen::VectorXf &model_coefficients, float threshold);
-  //
-  //      /** \brief Return an unique id for this model (SACMODEL_PLANE). */
-  //      //inline pcl::SacModel getModelType () const { return (SACMODEL_PLANE); }
-  //
-  //    protected:
-  //      /** \brief Check whether a model is valid given the user constraints.
-  //        * \param model_coefficients the set of model coefficients
-  //        */
-  ///*      inline bool
-  //      isModelValid (const Eigen::VectorXf &model_coefficients)
-  //      {
-  //        // Needs a valid model coefficients
-  //        if (model_coefficients.size () != 4)
-  //        {
-  //          ROS_ERROR ("[pcl::SampleConsensusModelPlane::isModelValid] Invalid number of model coefficients given (%lu)!", (unsigned long) model_coefficients.size ());
-  //          return (false);
-  //        }
-  //        return (true);
-  //      }*/
-  //
-  //    private:
-  //      /** \brief Define the maximum number of iterations for collinearity checks */
-        const static int MAX_ITERATIONS_COLLINEAR = 1000;
-    };
-
-    /** \brief Check if a certain tuple is a point inlier. */
-    template <template <typename> class Storage>
-    struct CreatePlaneHypothesis
-    {
-      typedef typename SampleConsensusModel<Storage>::PointCloud PointCloud;
-      typedef typename PointCloud::ConstPtr PointCloudConstPtr;
-
-      typedef typename SampleConsensusModel<Storage>::Indices Indices;
-      typedef typename SampleConsensusModel<Storage>::IndicesPtr IndicesPtr;
-      typedef typename SampleConsensusModel<Storage>::IndicesConstPtr IndicesConstPtr;
-
-      const PointXYZRGB *input;
-      const int *indices;
-      int nr_indices;
-      float bad_value;
-
-      CreatePlaneHypothesis (const PointXYZRGB *_input, const int *_indices, int _nr_indices, float bad) :
-        input(_input), indices(_indices), nr_indices(_nr_indices), bad_value(bad)
-      {}
-
-      //template <typename Tuple>
-      __inline__ __host__ __device__ float4
-      //operator () (const Tuple &t);
-      operator () (int t);
-    };
-
-
-    struct parallel_random_generator
-    {
-
-      __inline__ __host__ __device__
-      parallel_random_generator(unsigned int seed)
-      {
+    __inline__ __host__ __device__
+    parallel_random_generator(unsigned int seed) {
         m_seed = seed;
-      }
+    }
 
-      __inline__ __host__ __device__
-      unsigned int operator()(const unsigned int n) const
-      {
+    __inline__ __host__ __device__ unsigned int
+    operator()(const unsigned int n) const {
         thrust::default_random_engine rng(m_seed);
         // discard n numbers to avoid correlation
         rng.discard(n);
         // return a random number
         return rng();
-      }
-      unsigned int m_seed;
-    };
+    }
+    unsigned int m_seed;
+};
 
-  } // namespace
-} // namespace
+} // namespace cuda
+} // namespace pcl
 
-#endif  //#ifndef PCL_CUDA_SAMPLE_CONSENSUS_MODEL_PLANE_H_
+#endif //#ifndef PCL_CUDA_SAMPLE_CONSENSUS_MODEL_PLANE_H_

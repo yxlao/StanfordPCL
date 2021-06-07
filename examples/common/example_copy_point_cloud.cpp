@@ -47,64 +47,62 @@
 #include <iostream>
 
 // PCL
+#include <pcl/common/io.h>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
-#include <pcl/common/io.h>
 
-static void
-sameType ();
+static void sameType();
 
-static void
-differenceType ();
+static void differenceType();
 
 // We show this function as an example of what you cannot do.
 // static void
 // badConversion ();
 
-int
-main ()
-{
-  sameType();
-  differenceType();
-  // badConversion();
-  return 0;
+int main() {
+    sameType();
+    differenceType();
+    // badConversion();
+    return 0;
 }
 
-void
-sameType ()
-{
-  typedef pcl::PointCloud<pcl::PointXYZ> CloudType;
-  CloudType::Ptr cloud (new CloudType);
+void sameType() {
+    typedef pcl::PointCloud<pcl::PointXYZ> CloudType;
+    CloudType::Ptr cloud(new CloudType);
 
-  CloudType::PointType p;
-  p.x = 1; p.y = 2; p.z = 3;
-  cloud->push_back(p);
-  std::cout << p.x << " " << p.y << " " << p.z << std::endl;
+    CloudType::PointType p;
+    p.x = 1;
+    p.y = 2;
+    p.z = 3;
+    cloud->push_back(p);
+    std::cout << p.x << " " << p.y << " " << p.z << std::endl;
 
-  CloudType::Ptr cloud2(new CloudType);
-  copyPointCloud(*cloud, *cloud2);
+    CloudType::Ptr cloud2(new CloudType);
+    copyPointCloud(*cloud, *cloud2);
 
-  CloudType::PointType p_retrieved = cloud2->points[0];
-  std::cout << p_retrieved.x << " " << p_retrieved.y << " " << p_retrieved.z << std::endl;
+    CloudType::PointType p_retrieved = cloud2->points[0];
+    std::cout << p_retrieved.x << " " << p_retrieved.y << " " << p_retrieved.z
+              << std::endl;
 }
 
-void
-differenceType ()
-{
-  typedef pcl::PointCloud<pcl::PointXYZ> CloudType;
-  CloudType::Ptr cloud (new CloudType);
+void differenceType() {
+    typedef pcl::PointCloud<pcl::PointXYZ> CloudType;
+    CloudType::Ptr cloud(new CloudType);
 
-  CloudType::PointType p;
-  p.x = 1; p.y = 2; p.z = 3;
-  cloud->push_back(p);
-  std::cout << p.x << " " << p.y << " " << p.z << std::endl;
+    CloudType::PointType p;
+    p.x = 1;
+    p.y = 2;
+    p.z = 3;
+    cloud->push_back(p);
+    std::cout << p.x << " " << p.y << " " << p.z << std::endl;
 
-  typedef pcl::PointCloud<pcl::PointNormal> CloudType2;
-  CloudType2::Ptr cloud2(new CloudType2);
-  copyPointCloud(*cloud, *cloud2);
+    typedef pcl::PointCloud<pcl::PointNormal> CloudType2;
+    CloudType2::Ptr cloud2(new CloudType2);
+    copyPointCloud(*cloud, *cloud2);
 
-  CloudType2::PointType p_retrieved = cloud2->points[0];
-  std::cout << p_retrieved.x << " " << p_retrieved.y << " " << p_retrieved.z << std::endl;
+    CloudType2::PointType p_retrieved = cloud2->points[0];
+    std::cout << p_retrieved.x << " " << p_retrieved.y << " " << p_retrieved.z
+              << std::endl;
 }
 
 /*
@@ -127,7 +125,8 @@ badConversion ()
   copyPointCloud(*cloud, *cloud2);
 
   CloudType2::PointType p_retrieved = cloud2->points[0];
-  std::cout << p_retrieved.x << " " << p_retrieved.y << " " << p_retrieved.z << std::endl;
+  std::cout << p_retrieved.x << " " << p_retrieved.y << " " << p_retrieved.z <<
+std::endl;
 }
 
 */

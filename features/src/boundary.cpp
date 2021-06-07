@@ -37,15 +37,23 @@
  *
  */
 
-#include <pcl/point_types.h>
-#include <pcl/impl/instantiate.hpp>
 #include <pcl/features/boundary.h>
 #include <pcl/features/impl/boundary.hpp>
+#include <pcl/impl/instantiate.hpp>
+#include <pcl/point_types.h>
 
 // Instantiations of specific point types
 #ifdef PCL_ONLY_CORE_POINT_TYPES
-  PCL_INSTANTIATE_PRODUCT(BoundaryEstimation, ((pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA)(pcl::PointXYZRGBNormal)(pcl::PointNormal))((pcl::PointXYZRGBNormal)(pcl::Normal)(pcl::PointNormal))((pcl::Boundary)))
+PCL_INSTANTIATE_PRODUCT(
+    BoundaryEstimation,
+    ((pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA)(pcl::PointXYZRGBNormal)(
+        pcl::PointNormal))((pcl::PointXYZRGBNormal)(pcl::Normal)(
+        pcl::PointNormal))((pcl::Boundary)))
 #else
-  PCL_INSTANTIATE_PRODUCT(BoundaryEstimation, (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES)((pcl::Boundary)))
-  PCL_INSTANTIATE_PRODUCT(BoundaryEstimation, (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES)((Eigen::MatrixXf)))
+PCL_INSTANTIATE_PRODUCT(
+    BoundaryEstimation,
+    (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES)((pcl::Boundary)))
+PCL_INSTANTIATE_PRODUCT(
+    BoundaryEstimation,
+    (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES)((Eigen::MatrixXf)))
 #endif

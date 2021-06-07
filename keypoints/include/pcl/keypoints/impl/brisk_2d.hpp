@@ -43,60 +43,60 @@
 #include <pcl/common/io.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointInT, typename PointOutT, typename IntensityT> bool
-pcl::BriskKeypoint2D<PointInT, PointOutT, IntensityT>::initCompute ()
-{
-  if (!pcl::Keypoint<PointInT, PointOutT>::initCompute ())
-  {
-    PCL_ERROR ("[pcl::%s::initCompute] init failed.!\n", name_.c_str ());
-    return (false);
-  }
+template <typename PointInT, typename PointOutT, typename IntensityT>
+bool pcl::BriskKeypoint2D<PointInT, PointOutT, IntensityT>::initCompute() {
+    if (!pcl::Keypoint<PointInT, PointOutT>::initCompute()) {
+        PCL_ERROR("[pcl::%s::initCompute] init failed.!\n", name_.c_str());
+        return (false);
+    }
 
-  if (!input_->isOrganized ())
-  {
-    PCL_ERROR ("[pcl::%s::initCompute] %s doesn't support non organized clouds!\n", name_.c_str ());
-    return (false);
-  }
+    if (!input_->isOrganized()) {
+        PCL_ERROR(
+            "[pcl::%s::initCompute] %s doesn't support non organized clouds!\n",
+            name_.c_str());
+        return (false);
+    }
 
-  return (true);
+    return (true);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointInT, typename PointOutT, typename IntensityT> void
-pcl::BriskKeypoint2D<PointInT, PointOutT, IntensityT>::detectKeypoints (PointCloudOut &output)
-{
-  // image size
-  const int width = int (input_->width);
-  const int height = int (input_->height);
+template <typename PointInT, typename PointOutT, typename IntensityT>
+void pcl::BriskKeypoint2D<PointInT, PointOutT, IntensityT>::detectKeypoints(
+    PointCloudOut &output) {
+    // image size
+    const int width = int(input_->width);
+    const int height = int(input_->height);
 
-  // destination for intensity data; will be forwarded to BRISK
-  std::vector<unsigned char> image_data (width*height);
+    // destination for intensity data; will be forwarded to BRISK
+    std::vector<unsigned char> image_data(width * height);
 
-  for (size_t row_index = 0; row_index < height; ++row_index)
-  {
-    for (size_t col_index = 0; col_index < width; ++col_index)
-    {
-      image_data[row_index*width + col_index] = static_cast<unsigned char> (intensity_ ((*input_) (col_index, row_index)));
+    for (size_t row_index = 0; row_index < height; ++row_index) {
+        for (size_t col_index = 0; col_index < width; ++col_index) {
+            image_data[row_index * width + col_index] =
+                static_cast<unsigned char>(
+                    intensity_((*input_)(col_index, row_index)));
+        }
     }
-  }
 
-  pcl::keypoints::brisk::ScaleSpace brisk_scale_space (octaves_);
-  brisk_scale_space.constructPyramid (image_data, width, height);
-  // Check if the template types are the same. If true, avoid a copy.
-  // The PointOutT MUST be registered using the POINT_CLOUD_REGISTER_POINT_STRUCT macro!
-  if (isSamePointType<PointOutT, pcl::PointWithScale> ())
-    brisk_scale_space.getKeypoints (threshold_, output.points);
-  else
-  {
-    pcl::PointCloud<pcl::PointWithScale> output_temp;
-    brisk_scale_space.getKeypoints (threshold_, output_temp.points);
-    pcl::copyPointCloud<pcl::PointWithScale, PointOutT> (output_temp, output);
-  }
+    pcl::keypoints::brisk::ScaleSpace brisk_scale_space(octaves_);
+    brisk_scale_space.constructPyramid(image_data, width, height);
+    // Check if the template types are the same. If true, avoid a copy.
+    // The PointOutT MUST be registered using the
+    // POINT_CLOUD_REGISTER_POINT_STRUCT macro!
+    if (isSamePointType<PointOutT, pcl::PointWithScale>())
+        brisk_scale_space.getKeypoints(threshold_, output.points);
+    else {
+        pcl::PointCloud<pcl::PointWithScale> output_temp;
+        brisk_scale_space.getKeypoints(threshold_, output_temp.points);
+        pcl::copyPointCloud<pcl::PointWithScale, PointOutT>(output_temp,
+                                                            output);
+    }
 
-  // we do not change the denseness
-  output.width = int (output.points.size ());
-  output.height = 1;
-  output.is_dense = true;
+    // we do not change the denseness
+    output.width = int(output.points.size());
+    output.height = 1;
+    output.is_dense = true;
 }
 
 #endif

@@ -41,70 +41,49 @@
 #include <pcl/apps/cloud_composer/tool_interface/abstract_tool.h>
 #include <pcl/apps/cloud_composer/tool_interface/tool_factory.h>
 
+namespace pcl {
+namespace cloud_composer {
+class SanitizeCloudTool : public ModifyItemTool {
+    Q_OBJECT
+  public:
+    SanitizeCloudTool(PropertiesModel *parameter_model, QObject *parent);
+    virtual ~SanitizeCloudTool();
 
-namespace pcl
-{
-  namespace cloud_composer
-  {
-    class SanitizeCloudTool : public ModifyItemTool
-    {
-      Q_OBJECT
-    public:
-      SanitizeCloudTool (PropertiesModel* parameter_model, QObject* parent);
-      virtual ~SanitizeCloudTool ();
+    virtual QList<CloudComposerItem *>
+    performAction(QList<const CloudComposerItem *> input_data,
+                  PointTypeFlags::PointType type = PointTypeFlags::NONE);
 
-      virtual QList <CloudComposerItem*>
-      performAction (QList <const CloudComposerItem*> input_data, PointTypeFlags::PointType type = PointTypeFlags::NONE);
+    inline virtual QString getToolName() const { return "Sanitize Cloud Tool"; }
+};
 
-      inline virtual QString
-      getToolName () const { return "Sanitize Cloud Tool";}
-      };
-
-
-      class SanitizeCloudToolFactory : public QObject, public ToolFactory
-      {
-        Q_OBJECT
-        Q_INTERFACES (pcl::cloud_composer::ToolFactory)
-      public:
-        ModifyItemTool*
-        createTool (PropertiesModel* parameter_model, QObject* parent = 0)
-        {
-          return new SanitizeCloudTool(parameter_model, parent);
-        }
-
-        PropertiesModel*
-        createToolParameterModel (QObject* parent);
-
-        inline virtual QString
-        getPluginName () const { return "Sanitize Cloud";}
-
-        virtual QString
-        getToolGroupName () const { return "Filters";}
-
-        virtual QString
-        getIconName () const { return ":/sanitize_cloud.png"; }
-
-        inline virtual CloudComposerItem::ItemType
-        getInputItemType () const
-        {
-          return CloudComposerItem::CLOUD_ITEM;
-        }
-
-        inline virtual QList <CloudComposerItem::ItemType>
-        getRequiredInputChildrenTypes () const
-        {
-          return QList <CloudComposerItem::ItemType> ();
-        }
-      };
-
-
-
+class SanitizeCloudToolFactory : public QObject, public ToolFactory {
+    Q_OBJECT
+    Q_INTERFACES(pcl::cloud_composer::ToolFactory)
+  public:
+    ModifyItemTool *createTool(PropertiesModel *parameter_model,
+                               QObject *parent = 0) {
+        return new SanitizeCloudTool(parameter_model, parent);
     }
-  }
 
+    PropertiesModel *createToolParameterModel(QObject *parent);
 
+    inline virtual QString getPluginName() const { return "Sanitize Cloud"; }
 
+    virtual QString getToolGroupName() const { return "Filters"; }
 
+    virtual QString getIconName() const { return ":/sanitize_cloud.png"; }
 
+    inline virtual CloudComposerItem::ItemType getInputItemType() const {
+        return CloudComposerItem::CLOUD_ITEM;
+    }
 
-  #endif //SANITIZE_CLOUD_H_
+    inline virtual QList<CloudComposerItem::ItemType>
+    getRequiredInputChildrenTypes() const {
+        return QList<CloudComposerItem::ItemType>();
+    }
+};
+
+} // namespace cloud_composer
+} // namespace pcl
+
+#endif // SANITIZE_CLOUD_H_

@@ -40,57 +40,53 @@
 
 // PCL
 #include <pcl/apps/openni_passthrough_qt.h>
+#include <pcl/common/time.h>
+#include <pcl/filters/passthrough.h>
+#include <pcl/io/openni_grabber.h>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
-#include <pcl/io/openni_grabber.h>
-#include <pcl/common/time.h>
 #include <pcl/visualization/pcl_visualizer.h>
-#include <pcl/filters/passthrough.h>
 
 // Useful macros
-#define FPS_CALC(_WHAT_) \
-do \
-{ \
-    static unsigned count = 0;\
-    static double last = pcl::getTime ();\
-    double now = pcl::getTime (); \
-    ++count; \
-    if (now - last >= 1.0) \
-    { \
-      std::cout << "Average framerate("<< _WHAT_ << "): " << double(count)/double(now - last) << " Hz" <<  std::endl; \
-      count = 0; \
-      last = now; \
-    } \
-}while(false)
+#define FPS_CALC(_WHAT_)                                                       \
+    do {                                                                       \
+        static unsigned count = 0;                                             \
+        static double last = pcl::getTime();                                   \
+        double now = pcl::getTime();                                           \
+        ++count;                                                               \
+        if (now - last >= 1.0) {                                               \
+            std::cout << "Average framerate(" << _WHAT_                        \
+                      << "): " << double(count) / double(now - last) << " Hz"  \
+                      << std::endl;                                            \
+            count = 0;                                                         \
+            last = now;                                                        \
+        }                                                                      \
+    } while (false)
 
-namespace Ui
-{
-  class MainWindow;
+namespace Ui {
+class MainWindow;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class OpenNIPassthrough : public QMainWindow
-{
-  Q_OBJECT
+class OpenNIPassthrough : public QMainWindow {
+    Q_OBJECT
   public:
     typedef pcl::PointCloud<pcl::PointXYZRGBA> Cloud;
     typedef Cloud::Ptr CloudPtr;
     typedef Cloud::ConstPtr CloudConstPtr;
 
-    OpenNIPassthrough (pcl::OpenNIGrabber& grabber);
+    OpenNIPassthrough(pcl::OpenNIGrabber &grabber);
 
-    ~OpenNIPassthrough ()
-    {
-      if (grabber_.isRunning ())
-        grabber_.stop ();
+    ~OpenNIPassthrough() {
+        if (grabber_.isRunning())
+            grabber_.stop();
     }
 
-    void
-    cloud_cb (const CloudConstPtr& cloud);
+    void cloud_cb(const CloudConstPtr &cloud);
 
   protected:
     boost::shared_ptr<pcl::visualization::PCLVisualizer> vis_;
-    pcl::OpenNIGrabber& grabber_;
+    pcl::OpenNIGrabber &grabber_;
     std::string device_id_;
     CloudPtr cloud_pass_;
     pcl::PassThrough<pcl::PointXYZRGBA> pass_;
@@ -101,20 +97,17 @@ class OpenNIPassthrough : public QMainWindow
     QTimer *vis_timer_;
 
   public slots:
-    void
-    adjustPassThroughValues (int new_value)
-    {
-      pass_.setFilterLimits (0.0f, float (new_value) / 10.0f);
-      PCL_INFO ("Changed passthrough maximum value to: %f\n", float (new_value) / 10.0f);
+    void adjustPassThroughValues(int new_value) {
+        pass_.setFilterLimits(0.0f, float(new_value) / 10.0f);
+        PCL_INFO("Changed passthrough maximum value to: %f\n",
+                 float(new_value) / 10.0f);
     }
 
   private slots:
-    void
-    timeoutSlot ();
+    void timeoutSlot();
 
   signals:
-    void
-    valueChanged (int new_value);
+    void valueChanged(int new_value);
 };
 
-#endif    // PCL_APPS_OPENNI_PASSTHROUGH_3D_
+#endif // PCL_APPS_OPENNI_PASSTHROUGH_3D_

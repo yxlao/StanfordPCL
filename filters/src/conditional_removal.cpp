@@ -35,10 +35,10 @@
  *
  */
 
-#include <pcl/impl/instantiate.hpp>
-#include <pcl/point_types.h>
 #include <pcl/filters/conditional_removal.h>
 #include <pcl/filters/impl/conditional_removal.hpp>
+#include <pcl/impl/instantiate.hpp>
+#include <pcl/point_types.h>
 
 // Instantiations of specific point types
 PCL_INSTANTIATE(PointDataAtOffset, PCL_XYZ_POINT_TYPES)
@@ -51,4 +51,3 @@ PCL_INSTANTIATE(ConditionBase, PCL_XYZ_POINT_TYPES)
 PCL_INSTANTIATE(ConditionAnd, PCL_XYZ_POINT_TYPES)
 PCL_INSTANTIATE(ConditionOr, PCL_XYZ_POINT_TYPES)
 PCL_INSTANTIATE(ConditionalRemoval, PCL_XYZ_POINT_TYPES)
-

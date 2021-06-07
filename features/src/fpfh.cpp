@@ -37,16 +37,22 @@
  *
  */
 
-#include <pcl/point_types.h>
-#include <pcl/impl/instantiate.hpp>
 #include <pcl/features/fpfh.h>
 #include <pcl/features/impl/fpfh.hpp>
+#include <pcl/impl/instantiate.hpp>
+#include <pcl/point_types.h>
 
 // Instantiations of specific point types
 #ifdef PCL_ONLY_CORE_POINT_TYPES
-  PCL_INSTANTIATE_PRODUCT(FPFHEstimation, ((pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGB)(pcl::PointXYZRGBA)(pcl::PointNormal))((pcl::Normal)(pcl::PointNormal))((pcl::FPFHSignature33)))
+PCL_INSTANTIATE_PRODUCT(FPFHEstimation,
+                        ((pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGB)(
+                            pcl::PointXYZRGBA)(pcl::PointNormal))((pcl::Normal)(
+                            pcl::PointNormal))((pcl::FPFHSignature33)))
 #else
-  PCL_INSTANTIATE_PRODUCT(FPFHEstimation, (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES)((pcl::FPFHSignature33)))
-  PCL_INSTANTIATE_PRODUCT(FPFHEstimation, (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES)((Eigen::MatrixXf)))
+PCL_INSTANTIATE_PRODUCT(
+    FPFHEstimation,
+    (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES)((pcl::FPFHSignature33)))
+PCL_INSTANTIATE_PRODUCT(
+    FPFHEstimation,
+    (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES)((Eigen::MatrixXf)))
 #endif
-

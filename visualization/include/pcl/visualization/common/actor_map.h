@@ -37,66 +37,65 @@
 #ifndef PCL_PCL_VISUALIZER_ACTOR_MAP_H_
 #define PCL_PCL_VISUALIZER_ACTOR_MAP_H_
 
+#include <pcl/visualization/boost.h>
 #include <pcl/visualization/point_cloud_handlers.h>
+#include <sensor_msgs/PointCloud2.h>
 #include <vector>
 #include <vtkLODActor.h>
 #include <vtkSmartPointer.h>
-#include <sensor_msgs/PointCloud2.h>
-#include <pcl/visualization/boost.h>
 
-namespace pcl
-{
-  namespace visualization
-  {
-    class PCL_EXPORTS CloudActor
-    {
-      typedef PointCloudGeometryHandler<sensor_msgs::PointCloud2> GeometryHandler;
-      typedef GeometryHandler::Ptr GeometryHandlerPtr;
-      typedef GeometryHandler::ConstPtr GeometryHandlerConstPtr;
+namespace pcl {
+namespace visualization {
+class PCL_EXPORTS CloudActor {
+    typedef PointCloudGeometryHandler<sensor_msgs::PointCloud2> GeometryHandler;
+    typedef GeometryHandler::Ptr GeometryHandlerPtr;
+    typedef GeometryHandler::ConstPtr GeometryHandlerConstPtr;
 
-      typedef PointCloudColorHandler<sensor_msgs::PointCloud2> ColorHandler;
-      typedef ColorHandler::Ptr ColorHandlerPtr;
-      typedef ColorHandler::ConstPtr ColorHandlerConstPtr;
+    typedef PointCloudColorHandler<sensor_msgs::PointCloud2> ColorHandler;
+    typedef ColorHandler::Ptr ColorHandlerPtr;
+    typedef ColorHandler::ConstPtr ColorHandlerConstPtr;
 
-      public:
-        CloudActor () : color_handler_index_ (0), geometry_handler_index_ (0) {}
+  public:
+    CloudActor() : color_handler_index_(0), geometry_handler_index_(0) {}
 
-        virtual ~CloudActor ()
-        {
-          geometry_handlers.clear ();
-          color_handlers.clear ();
-        }
+    virtual ~CloudActor() {
+        geometry_handlers.clear();
+        color_handlers.clear();
+    }
 
-        /** \brief The actor holding the data to render. */
-        vtkSmartPointer<vtkLODActor> actor;
+    /** \brief The actor holding the data to render. */
+    vtkSmartPointer<vtkLODActor> actor;
 
-        /** \brief A vector of geometry handlers that can be used for rendering the data. */
-        std::vector<GeometryHandlerConstPtr> geometry_handlers;
+    /** \brief A vector of geometry handlers that can be used for rendering the
+     * data. */
+    std::vector<GeometryHandlerConstPtr> geometry_handlers;
 
-        /** \brief A vector of color handlers that can be used for rendering the data. */
-        std::vector<ColorHandlerConstPtr> color_handlers;
+    /** \brief A vector of color handlers that can be used for rendering the
+     * data. */
+    std::vector<ColorHandlerConstPtr> color_handlers;
 
-        /** \brief The active color handler. */
-        int color_handler_index_;
+    /** \brief The active color handler. */
+    int color_handler_index_;
 
-        /** \brief The active geometry handler. */
-        int geometry_handler_index_;
+    /** \brief The active geometry handler. */
+    int geometry_handler_index_;
 
-        /** \brief The viewpoint transformation matrix. */
-        vtkSmartPointer<vtkMatrix4x4> viewpoint_transformation_;
+    /** \brief The viewpoint transformation matrix. */
+    vtkSmartPointer<vtkMatrix4x4> viewpoint_transformation_;
 
-        /** \brief Internal cell array. Used for optimizing updatePointCloud. */
-        vtkSmartPointer<vtkIdTypeArray> cells;
-    };
+    /** \brief Internal cell array. Used for optimizing updatePointCloud. */
+    vtkSmartPointer<vtkIdTypeArray> cells;
+};
 
-    typedef boost::unordered_map<std::string, CloudActor> CloudActorMap;
-    typedef boost::shared_ptr<CloudActorMap> CloudActorMapPtr;
+typedef boost::unordered_map<std::string, CloudActor> CloudActorMap;
+typedef boost::shared_ptr<CloudActorMap> CloudActorMapPtr;
 
-    typedef boost::unordered_map<std::string, vtkSmartPointer<vtkProp> > ShapeActorMap;
-    typedef boost::shared_ptr<ShapeActorMap> ShapeActorMapPtr;
+typedef boost::unordered_map<std::string, vtkSmartPointer<vtkProp>>
+    ShapeActorMap;
+typedef boost::shared_ptr<ShapeActorMap> ShapeActorMapPtr;
 
-    typedef std::map<int, vtkSmartPointer<vtkProp> > CoordinateActorMap;
-  }
-}
+typedef std::map<int, vtkSmartPointer<vtkProp>> CoordinateActorMap;
+} // namespace visualization
+} // namespace pcl
 
 #endif

@@ -35,11 +35,11 @@
  *
  */
 
+#include <pcl/filters/impl/shadowpoints.hpp>
 #include <pcl/impl/instantiate.hpp>
 #include <pcl/point_types.h>
-#include <pcl/filters/impl/shadowpoints.hpp>
 
 // Instantiations of specific point types
 //
-PCL_INSTANTIATE_PRODUCT(ShadowPoints, (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES))
-
+PCL_INSTANTIATE_PRODUCT(ShadowPoints,
+                        (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES))

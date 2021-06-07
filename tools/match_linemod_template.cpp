@@ -35,15 +35,15 @@
  *
  */
 
+#include <pcl/console/parse.h>
+#include <pcl/console/print.h>
+#include <pcl/console/time.h>
+#include <pcl/io/pcd_io.h>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
-#include <pcl/io/pcd_io.h>
-#include <pcl/console/print.h>
-#include <pcl/console/parse.h>
-#include <pcl/console/time.h>
 
-#include <pcl/recognition/linemod.h>
 #include <pcl/recognition/color_gradient_modality.h>
+#include <pcl/recognition/linemod.h>
 #include <pcl/recognition/surface_normal_modality.h>
 
 //#include <png++/png.hpp>
@@ -54,129 +54,124 @@ using namespace pcl::console;
 
 typedef pcl::PointCloud<pcl::PointXYZRGBA> PointCloudXYZRGBA;
 
-void
-printHelp (int, char **argv)
-{
-  print_error ("Syntax is: %s input_cloud.pcd input_template.lmt\n", argv[0]);
+void printHelp(int, char **argv) {
+    print_error("Syntax is: %s input_cloud.pcd input_template.lmt\n", argv[0]);
 }
 
-void printElapsedTimeAndNumberOfPoints (double t, int w, int h=1)
-{
-  print_info ("[done, "); print_value ("%g", t); print_info (" ms : ");
-  print_value ("%d", w*h); print_info (" points]\n");
+void printElapsedTimeAndNumberOfPoints(double t, int w, int h = 1) {
+    print_info("[done, ");
+    print_value("%g", t);
+    print_info(" ms : ");
+    print_value("%d", w * h);
+    print_info(" points]\n");
 }
 
-bool
-loadCloud (const std::string & filename, PointCloudXYZRGBA & cloud)
-{
-  TicToc tt;
-  print_highlight ("Loading "); print_value ("%s ", filename.c_str ());
+bool loadCloud(const std::string &filename, PointCloudXYZRGBA &cloud) {
+    TicToc tt;
+    print_highlight("Loading ");
+    print_value("%s ", filename.c_str());
 
-  tt.tic ();
-  if (loadPCDFile (filename, cloud) < 0)
-    return (false);
+    tt.tic();
+    if (loadPCDFile(filename, cloud) < 0)
+        return (false);
 
-  printElapsedTimeAndNumberOfPoints (tt.toc (), cloud.width, cloud.height);
+    printElapsedTimeAndNumberOfPoints(tt.toc(), cloud.width, cloud.height);
 
-  print_info ("Available dimensions: "); print_value ("%s\n", pcl::getFieldsList (cloud).c_str ());
+    print_info("Available dimensions: ");
+    print_value("%s\n", pcl::getFieldsList(cloud).c_str());
 
-  return (true);
+    return (true);
 }
 
 std::vector<pcl::LINEMODDetection>
-matchTemplates (const PointCloudXYZRGBA::ConstPtr & input, const pcl::LINEMOD & linemod)
-{
-  pcl::ColorGradientModality<pcl::PointXYZRGBA> color_grad_mod;
-  color_grad_mod.setInputCloud (input);
-  color_grad_mod.processInputData ();
+matchTemplates(const PointCloudXYZRGBA::ConstPtr &input,
+               const pcl::LINEMOD &linemod) {
+    pcl::ColorGradientModality<pcl::PointXYZRGBA> color_grad_mod;
+    color_grad_mod.setInputCloud(input);
+    color_grad_mod.processInputData();
 
-  pcl::SurfaceNormalModality<pcl::PointXYZRGBA> surface_norm_mod;
-  surface_norm_mod.setInputCloud (input);
-  surface_norm_mod.processInputData ();
+    pcl::SurfaceNormalModality<pcl::PointXYZRGBA> surface_norm_mod;
+    surface_norm_mod.setInputCloud(input);
+    surface_norm_mod.processInputData();
 
-  std::vector<pcl::QuantizableModality*> modalities (2);
-  modalities[0] = &color_grad_mod;
-  modalities[1] = &surface_norm_mod;
+    std::vector<pcl::QuantizableModality *> modalities(2);
+    modalities[0] = &color_grad_mod;
+    modalities[1] = &surface_norm_mod;
 
-  std::vector<pcl::LINEMODDetection> detections;
-  linemod.matchTemplates (modalities, detections);
+    std::vector<pcl::LINEMODDetection> detections;
+    linemod.matchTemplates(modalities, detections);
 
-  return (detections);
+    return (detections);
 }
 
-void
-compute (const PointCloudXYZRGBA::ConstPtr & input, const char * templates_filename)
-{
-  pcl::LINEMOD linemod;
+void compute(const PointCloudXYZRGBA::ConstPtr &input,
+             const char *templates_filename) {
+    pcl::LINEMOD linemod;
 
-  // Load the templates from disk
-  linemod.loadTemplates (templates_filename);
+    // Load the templates from disk
+    linemod.loadTemplates(templates_filename);
 
-  // Match the templates to the provided image
-  std::vector<pcl::LINEMODDetection> detections = matchTemplates (input, linemod);
+    // Match the templates to the provided image
+    std::vector<pcl::LINEMODDetection> detections =
+        matchTemplates(input, linemod);
 
-  // Output the position and score of the best match for each template
-  for (size_t i = 0; i < detections.size (); ++i)
-  {
-    const LINEMODDetection & d = detections[i];
-    printf ("%zu: %d %d %d %f\n", i, d.x, d.y, d.template_id, d.score);
-  }
-
-  /*// Visualization code for testing purposes (requires libpng++)
-  int i = 0;
-  png::image<png::rgb_pixel> image (640, 480);
-  for (size_t y = 0; y < image.get_height (); ++y)
-  {
-    for (size_t x = 0; x < image.get_width (); ++x)
-    {
-      const pcl::PointXYZRGBA & p = input->points[i++];
-      image[y][x] = png::rgb_pixel(p.r, p.g, p.b);
+    // Output the position and score of the best match for each template
+    for (size_t i = 0; i < detections.size(); ++i) {
+        const LINEMODDetection &d = detections[i];
+        printf("%zu: %d %d %d %f\n", i, d.x, d.y, d.template_id, d.score);
     }
-  }
-  // Draw a green box around the object
-  for (size_t i = 0; i < detections.size (); ++i)
-  {
-    const LINEMODDetection & d = detections[i];
-    if (d.score < 0.6)
-      continue;
 
-    const pcl::SparseQuantizedMultiModTemplate & tmplt = linemod.getTemplate (d.template_id);
-    int w = tmplt.region.width;
-    int h = tmplt.region.height;
-    for (int x = d.x; x < d.x+w; ++x)
+    /*// Visualization code for testing purposes (requires libpng++)
+    int i = 0;
+    png::image<png::rgb_pixel> image (640, 480);
+    for (size_t y = 0; y < image.get_height (); ++y)
     {
-      image[d.y][x] = png::rgb_pixel(0, 255, 0);
-      image[d.y+h-1][x] = png::rgb_pixel(0, 255, 0);
+      for (size_t x = 0; x < image.get_width (); ++x)
+      {
+        const pcl::PointXYZRGBA & p = input->points[i++];
+        image[y][x] = png::rgb_pixel(p.r, p.g, p.b);
+      }
     }
-    for (int y = d.y; y < d.y+h; ++y)
+    // Draw a green box around the object
+    for (size_t i = 0; i < detections.size (); ++i)
     {
-      image[y][d.x] = png::rgb_pixel(0, 255, 0);
-      image[y][d.x+w-1] = png::rgb_pixel(0, 255, 0);
+      const LINEMODDetection & d = detections[i];
+      if (d.score < 0.6)
+        continue;
+
+      const pcl::SparseQuantizedMultiModTemplate & tmplt = linemod.getTemplate
+    (d.template_id); int w = tmplt.region.width; int h = tmplt.region.height;
+      for (int x = d.x; x < d.x+w; ++x)
+      {
+        image[d.y][x] = png::rgb_pixel(0, 255, 0);
+        image[d.y+h-1][x] = png::rgb_pixel(0, 255, 0);
+      }
+      for (int y = d.y; y < d.y+h; ++y)
+      {
+        image[y][d.x] = png::rgb_pixel(0, 255, 0);
+        image[y][d.x+w-1] = png::rgb_pixel(0, 255, 0);
+      }
     }
-  }
-  image.write("output.png");
-  */
+    image.write("output.png");
+    */
 }
 
 /* ---[ */
-int
-main (int argc, char** argv)
-{
-  print_info ("Match a LINE-MOD template to an organized point cloud. For more information, use: %s -h\n", argv[0]);
+int main(int argc, char **argv) {
+    print_info("Match a LINE-MOD template to an organized point cloud. For "
+               "more information, use: %s -h\n",
+               argv[0]);
 
-  if (argc < 2)
-  {
-    printHelp (argc, argv);
-    return (-1);
-  }
+    if (argc < 2) {
+        printHelp(argc, argv);
+        return (-1);
+    }
 
-  // Load the input point cloud from the provided PCD file
-  PointCloudXYZRGBA::Ptr cloud (new PointCloudXYZRGBA);
-  if (!loadCloud (argv[1], *cloud))
-    return (-1);
+    // Load the input point cloud from the provided PCD file
+    PointCloudXYZRGBA::Ptr cloud(new PointCloudXYZRGBA);
+    if (!loadCloud(argv[1], *cloud))
+        return (-1);
 
-  // Load the specified templates and match them to the provided input cloud
-  compute (cloud, argv[2]);
-
+    // Load the specified templates and match them to the provided input cloud
+    compute(cloud, argv[2]);
 }
-

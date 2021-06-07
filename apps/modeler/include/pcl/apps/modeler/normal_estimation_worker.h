@@ -39,40 +39,34 @@
 
 #include <pcl/apps/modeler/abstract_worker.h>
 
-namespace pcl
-{
-  namespace modeler
-  {
-    class DoubleParameter;
+namespace pcl {
+namespace modeler {
+class DoubleParameter;
 
-    class NormalEstimationWorker : public AbstractWorker
-    {
-      public:
-        NormalEstimationWorker(const QList<CloudMeshItem*>& cloud_mesh_items, QWidget* parent = 0);
-        ~NormalEstimationWorker(void);
+class NormalEstimationWorker : public AbstractWorker {
+  public:
+    NormalEstimationWorker(const QList<CloudMeshItem *> &cloud_mesh_items,
+                           QWidget *parent = 0);
+    ~NormalEstimationWorker(void);
 
-      protected:
-        virtual std::string
-        getName () const { return ("Normal Estimation"); }
+  protected:
+    virtual std::string getName() const { return ("Normal Estimation"); }
 
-        virtual void
-        initParameters(CloudMeshItem* cloud_mesh_item);
+    virtual void initParameters(CloudMeshItem *cloud_mesh_item);
 
-        virtual void
-        setupParameters();
+    virtual void setupParameters();
 
-        virtual void
-        processImpl(CloudMeshItem* cloud_mesh_item);
+    virtual void processImpl(CloudMeshItem *cloud_mesh_item);
 
-      private:
-        double x_min_, x_max_;
-        double y_min_, y_max_;
-        double z_min_, z_max_;
+  private:
+    double x_min_, x_max_;
+    double y_min_, y_max_;
+    double z_min_, z_max_;
 
-        DoubleParameter* search_radius_;
-    };
+    DoubleParameter *search_radius_;
+};
 
-  }
-}
+} // namespace modeler
+} // namespace pcl
 
 #endif // PCL_MODELER_NORMAL_ESTIMATION_WORKER_H_

@@ -35,11 +35,11 @@
  * $Id: smoothed_surfaces_keypoint.cpp 6459 2012-07-18 07:50:37Z dpb $
  */
 
-#include <pcl/keypoints/smoothed_surfaces_keypoint.h>
-#include <pcl/keypoints/impl/smoothed_surfaces_keypoint.hpp>
-#include <pcl/point_types.h>
 #include <pcl/impl/instantiate.hpp>
-
+#include <pcl/keypoints/impl/smoothed_surfaces_keypoint.hpp>
+#include <pcl/keypoints/smoothed_surfaces_keypoint.h>
+#include <pcl/point_types.h>
 
 // Instantiations of specific point types
-PCL_INSTANTIATE_PRODUCT(SmoothedSurfacesKeypoint, (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES))
+PCL_INSTANTIATE_PRODUCT(SmoothedSurfacesKeypoint,
+                        (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES))

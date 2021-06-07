@@ -38,169 +38,150 @@
 #ifndef PCL_CUDA_POINT_TYPES_H_
 #define PCL_CUDA_POINT_TYPES_H_
 
-#include <pcl/cuda/common/point_type_rgb.h>
 #include <cuda.h>
+#include <pcl/cuda/common/point_type_rgb.h>
 
-namespace pcl
-{
-namespace cuda
-{
-  /** \brief Default point xyz-rgb structure. */
-  struct /*__align__(16)*/ PointXYZRGB
-  {
-    inline __host__ __device__ PointXYZRGB () {}
-    inline __host__ __device__ PointXYZRGB (float _x, float _y, float _z, int _rgb) :
-                                     x(_x), y(_y), z(_z), rgb(_rgb) {}
+namespace pcl {
+namespace cuda {
+/** \brief Default point xyz-rgb structure. */
+struct /*__align__(16)*/ PointXYZRGB {
+    inline __host__ __device__ PointXYZRGB() {}
+    inline __host__ __device__ PointXYZRGB(float _x, float _y, float _z,
+                                           int _rgb)
+        : x(_x), y(_y), z(_z), rgb(_rgb) {}
 
     // Declare a union for XYZ
-    union
-    {
-      float3 xyz;
-      struct
-      {
-        float x;
-        float y;
-        float z;
-      };
+    union {
+        float3 xyz;
+        struct {
+            float x;
+            float y;
+            float z;
+        };
     };
     RGB rgb;
 
-    inline __host__ __device__ bool operator == (const PointXYZRGB &rhs)
-    {
-      return (x == rhs.x && y == rhs.y && z == rhs.z && rgb == rhs.rgb);
+    inline __host__ __device__ bool operator==(const PointXYZRGB &rhs) {
+        return (x == rhs.x && y == rhs.y && z == rhs.z && rgb == rhs.rgb);
     }
 
     // this allows direct assignment of a PointXYZRGB to float3...
-    inline __host__ __device__ operator float3 () const
-    {
-      return xyz;
+    inline __host__ __device__ operator float3() const { return xyz; }
+
+    const inline __host__ __device__ PointXYZRGB
+    operator-(const PointXYZRGB &rhs) const {
+        PointXYZRGB res = *this;
+        res -= rhs;
+        return (res);
+        //      xyz = -rhs.xyz;
+        //      rgb = -rhs.rgb;
+        //      return (*this -= rhs);
     }
 
-    const inline __host__ __device__ PointXYZRGB operator - (const PointXYZRGB &rhs) const
-    {
-      PointXYZRGB res = *this;
-      res -= rhs;
-      return (res);
-//      xyz = -rhs.xyz;
-//      rgb = -rhs.rgb;
-//      return (*this -= rhs);
+    inline __host__ __device__ PointXYZRGB &operator+=(const PointXYZRGB &rhs) {
+        xyz += rhs.xyz;
+        rgb += rhs.rgb;
+        return (*this);
     }
 
-    inline __host__ __device__ PointXYZRGB& operator += (const PointXYZRGB &rhs)
-    {
-      xyz += rhs.xyz;
-      rgb += rhs.rgb;
-      return (*this);
+    inline __host__ __device__ PointXYZRGB &operator-=(const PointXYZRGB &rhs) {
+        xyz -= rhs.xyz;
+        rgb -= rhs.rgb;
+        return (*this);
     }
 
-    inline __host__ __device__ PointXYZRGB& operator -= (const PointXYZRGB &rhs)
-    {
-      xyz -= rhs.xyz;
-      rgb -= rhs.rgb;
-      return (*this);
+    inline __host__ __device__ PointXYZRGB &operator*=(const PointXYZRGB &rhs) {
+        xyz *= rhs.xyz;
+        rgb *= rhs.rgb;
+        return (*this);
     }
 
-    inline __host__ __device__ PointXYZRGB& operator *= (const PointXYZRGB &rhs)
-    {
-      xyz *= rhs.xyz;
-      rgb *= rhs.rgb;
-      return (*this);
+    inline __host__ __device__ PointXYZRGB &operator/=(const PointXYZRGB &rhs) {
+        xyz /= rhs.xyz;
+        rgb /= rhs.rgb;
+        return (*this);
     }
+};
 
-    inline __host__ __device__ PointXYZRGB& operator /= (const PointXYZRGB &rhs)
-    {
-      xyz /= rhs.xyz;
-      rgb /= rhs.rgb;
-      return (*this);
-    }
-  };
-
-  /** \brief Default point xyz-rgb structure. */
-  struct __align__(16) PointXYZRGBNormal
-  {
-    inline __host__ __device__ PointXYZRGBNormal () {}
-    inline __host__ __device__ PointXYZRGBNormal (float _x, float _y, float _z, int _rgb) :
-                                     x(_x), y(_y), z(_z), rgb(_rgb) {}
+/** \brief Default point xyz-rgb structure. */
+struct __align__(16) PointXYZRGBNormal {
+    inline __host__ __device__ PointXYZRGBNormal() {}
+    inline __host__ __device__ PointXYZRGBNormal(float _x, float _y, float _z,
+                                                 int _rgb)
+        : x(_x), y(_y), z(_z), rgb(_rgb) {}
 
     // Declare a union for XYZ
-    union
-    {
-      float3 xyz;
-      struct
-      {
-        float x;
-        float y;
-        float z;
-      };
+    union {
+        float3 xyz;
+        struct {
+            float x;
+            float y;
+            float z;
+        };
     };
     RGB rgb;
-    union
-    {
-      float4 normal;
-      struct
-      {
-        float normal_x;
-        float normal_y;
-        float normal_z;
-        float curvature;
-      };
+    union {
+        float4 normal;
+        struct {
+            float normal_x;
+            float normal_y;
+            float normal_z;
+            float curvature;
+        };
     };
 
-    inline __host__ __device__ bool operator == (const PointXYZRGBNormal &rhs)
-    {
-      return (x == rhs.x && y == rhs.y && z == rhs.z && rgb == rhs.rgb && normal_x == rhs.normal_x && normal_y == rhs.normal_y && normal_z == rhs.normal_z);
+    inline __host__ __device__ bool operator==(const PointXYZRGBNormal &rhs) {
+        return (x == rhs.x && y == rhs.y && z == rhs.z && rgb == rhs.rgb &&
+                normal_x == rhs.normal_x && normal_y == rhs.normal_y &&
+                normal_z == rhs.normal_z);
     }
 
     // this allows direct assignment of a PointXYZRGBNormal to float3...
-    inline __host__ __device__ operator float3 () const
-    {
-      return xyz;
+    inline __host__ __device__ operator float3() const { return xyz; }
+
+    const inline __host__ __device__ PointXYZRGBNormal operator-(
+        const PointXYZRGBNormal &rhs) const {
+        PointXYZRGBNormal res = *this;
+        res -= rhs;
+        return (res);
+        //      xyz = -rhs.xyz;
+        //      rgb = -rhs.rgb;
+        //      return (*this -= rhs);
     }
 
-    const inline __host__ __device__ PointXYZRGBNormal operator - (const PointXYZRGBNormal &rhs) const
-    {
-      PointXYZRGBNormal res = *this;
-      res -= rhs;
-      return (res);
-//      xyz = -rhs.xyz;
-//      rgb = -rhs.rgb;
-//      return (*this -= rhs);
+    inline __host__ __device__ PointXYZRGBNormal &operator+=(
+        const PointXYZRGBNormal &rhs) {
+        xyz += rhs.xyz;
+        rgb += rhs.rgb;
+        normal += rhs.normal;
+        return (*this);
     }
 
-    inline __host__ __device__ PointXYZRGBNormal& operator += (const PointXYZRGBNormal &rhs)
-    {
-      xyz += rhs.xyz;
-      rgb += rhs.rgb;
-      normal += rhs.normal;
-      return (*this);
+    inline __host__ __device__ PointXYZRGBNormal &operator-=(
+        const PointXYZRGBNormal &rhs) {
+        xyz -= rhs.xyz;
+        rgb -= rhs.rgb;
+        normal -= rhs.normal;
+        return (*this);
     }
 
-    inline __host__ __device__ PointXYZRGBNormal& operator -= (const PointXYZRGBNormal &rhs)
-    {
-      xyz -= rhs.xyz;
-      rgb -= rhs.rgb;
-      normal -= rhs.normal;
-      return (*this);
+    inline __host__ __device__ PointXYZRGBNormal &operator*=(
+        const PointXYZRGBNormal &rhs) {
+        xyz *= rhs.xyz;
+        rgb *= rhs.rgb;
+        normal *= rhs.normal;
+        return (*this);
     }
 
-    inline __host__ __device__ PointXYZRGBNormal& operator *= (const PointXYZRGBNormal &rhs)
-    {
-      xyz *= rhs.xyz;
-      rgb *= rhs.rgb;
-      normal *= rhs.normal;
-      return (*this);
+    inline __host__ __device__ PointXYZRGBNormal &operator/=(
+        const PointXYZRGBNormal &rhs) {
+        xyz /= rhs.xyz;
+        rgb /= rhs.rgb;
+        normal /= rhs.normal;
+        return (*this);
     }
+};
+} // namespace cuda
+} // namespace pcl
 
-    inline __host__ __device__ PointXYZRGBNormal& operator /= (const PointXYZRGBNormal &rhs)
-    {
-      xyz /= rhs.xyz;
-      rgb /= rhs.rgb;
-      normal /= rhs.normal;
-      return (*this);
-    }
-  };
-} // namespace
-} // namespace
-
-#endif  //#ifndef PCL_CUDA_POINT_TYPES_H_
-
+#endif //#ifndef PCL_CUDA_POINT_TYPES_H_

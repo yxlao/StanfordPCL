@@ -40,11 +40,10 @@
 #ifndef PCL_CUDA_COMMON_THRUST_H_
 #define PCL_CUDA_COMMON_THRUST_H_
 
-#include <thrust/host_vector.h>
-#include <thrust/device_vector.h>
 #include <thrust/copy.h>
 #include <thrust/device_ptr.h>
+#include <thrust/device_vector.h>
+#include <thrust/host_vector.h>
 #include <thrust/sequence.h>
 
-#endif    // PCL_CUDA_COMMON_THRUST_H_
-
+#endif // PCL_CUDA_COMMON_THRUST_H_

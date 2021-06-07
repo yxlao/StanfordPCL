@@ -42,62 +42,61 @@
 #include <pcl/common/io.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointInT, typename PointOutT, typename IntensityT> bool
-pcl::AgastKeypoint2DBase<PointInT, PointOutT, IntensityT>::initCompute ()
-{
-  if (!pcl::Keypoint<PointInT, PointOutT>::initCompute ())
-  {
-    PCL_ERROR ("[pcl::%s::initCompute] init failed.!\n", name_.c_str ());
-    return (false);
-  }
+template <typename PointInT, typename PointOutT, typename IntensityT>
+bool pcl::AgastKeypoint2DBase<PointInT, PointOutT, IntensityT>::initCompute() {
+    if (!pcl::Keypoint<PointInT, PointOutT>::initCompute()) {
+        PCL_ERROR("[pcl::%s::initCompute] init failed.!\n", name_.c_str());
+        return (false);
+    }
 
-  if (!input_->isOrganized ())
-  {
-    PCL_ERROR ("[pcl::%s::initCompute] %s doesn't support non organized clouds!\n", name_.c_str ());
-    return (false);
-  }
+    if (!input_->isOrganized()) {
+        PCL_ERROR(
+            "[pcl::%s::initCompute] %s doesn't support non organized clouds!\n",
+            name_.c_str());
+        return (false);
+    }
 
-  return (true);
+    return (true);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointInT, typename PointOutT> void
-pcl::AgastKeypoint2D<PointInT, PointOutT>::detectKeypoints (PointCloudOut &output)
-{
-  // image size
-  const size_t width = input_->width;
-  const size_t height = input_->height;
+template <typename PointInT, typename PointOutT>
+void pcl::AgastKeypoint2D<PointInT, PointOutT>::detectKeypoints(
+    PointCloudOut &output) {
+    // image size
+    const size_t width = input_->width;
+    const size_t height = input_->height;
 
-  // destination for intensity data; will be forwarded to AGAST
-  std::vector<unsigned char> image_data (width*height);
+    // destination for intensity data; will be forwarded to AGAST
+    std::vector<unsigned char> image_data(width * height);
 
-  for (size_t row_index = 0; row_index < height; ++row_index)
-    for (size_t col_index = 0; col_index < width; ++col_index)
-      image_data[row_index*width + col_index] = static_cast<unsigned char> (intensity_ ((*input_) (col_index, row_index)));
+    for (size_t row_index = 0; row_index < height; ++row_index)
+        for (size_t col_index = 0; col_index < width; ++col_index)
+            image_data[row_index * width + col_index] =
+                static_cast<unsigned char>(
+                    intensity_((*input_)(col_index, row_index)));
 
-  if (!detector_)
-    detector_.reset (new pcl::keypoints::agast::AgastDetector7_12s (width, height, threshold_, bmax_));
+    if (!detector_)
+        detector_.reset(new pcl::keypoints::agast::AgastDetector7_12s(
+            width, height, threshold_, bmax_));
 
-  detector_->setMaxKeypoints (nr_max_keypoints_);
+    detector_->setMaxKeypoints(nr_max_keypoints_);
 
-  if (apply_non_max_suppression_)
-  {
-    pcl::PointCloud<pcl::PointUV> tmp_cloud;
-    detector_->detectKeypoints (image_data, tmp_cloud);
+    if (apply_non_max_suppression_) {
+        pcl::PointCloud<pcl::PointUV> tmp_cloud;
+        detector_->detectKeypoints(image_data, tmp_cloud);
 
-    pcl::keypoints::internal::AgastApplyNonMaxSuppresion<PointOutT> anms (
-        image_data, tmp_cloud, detector_, output);
-  }
-  else
-  {
-    pcl::keypoints::internal::AgastDetector<PointOutT> dec (
-        image_data, detector_, output);
-  }
+        pcl::keypoints::internal::AgastApplyNonMaxSuppresion<PointOutT> anms(
+            image_data, tmp_cloud, detector_, output);
+    } else {
+        pcl::keypoints::internal::AgastDetector<PointOutT> dec(
+            image_data, detector_, output);
+    }
 
-  // we do not change the denseness
-  output.is_dense = true;
+    // we do not change the denseness
+    output.is_dense = true;
 }
 
-
-#define AgastKeypoint2D(T,I) template class PCL_EXPORTS pcl::AgastKeypoint2D<T,I>;
+#define AgastKeypoint2D(T, I)                                                  \
+    template class PCL_EXPORTS pcl::AgastKeypoint2D<T, I>;
 #endif

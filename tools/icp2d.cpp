@@ -45,9 +45,9 @@
 #include <pcl/registration/transformation_estimation_lm.h>
 #include <pcl/registration/warp_point_rigid_3d.h>
 
-#include <string>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <string>
 #include <vector>
 
 typedef pcl::PointXYZ PointType;
@@ -55,82 +55,86 @@ typedef pcl::PointCloud<PointType> Cloud;
 typedef Cloud::ConstPtr CloudConstPtr;
 typedef Cloud::Ptr CloudPtr;
 
-int
-main (int argc, char **argv)
-{
-  double dist = 0.05;
-  pcl::console::parse_argument (argc, argv, "-d", dist);
+int main(int argc, char **argv) {
+    double dist = 0.05;
+    pcl::console::parse_argument(argc, argv, "-d", dist);
 
-  double rans = 0.05;
-  pcl::console::parse_argument (argc, argv, "-r", rans);
+    double rans = 0.05;
+    pcl::console::parse_argument(argc, argv, "-r", rans);
 
-  int iter = 50;
-  pcl::console::parse_argument (argc, argv, "-i", iter);
+    int iter = 50;
+    pcl::console::parse_argument(argc, argv, "-i", iter);
 
-  std::vector<int> pcd_indices;
-  pcd_indices = pcl::console::parse_file_extension_argument (argc, argv, ".pcd");
+    std::vector<int> pcd_indices;
+    pcd_indices =
+        pcl::console::parse_file_extension_argument(argc, argv, ".pcd");
 
-  CloudPtr model (new Cloud);
-  if (pcl::io::loadPCDFile (argv[pcd_indices[0]], *model) == -1)
-  {
-    std::cout << "Could not read file" << std::endl;
-    return -1;
-  }
-  std::cout << argv[pcd_indices[0]] << " width: " << model->width << " height: " << model->height << std::endl;
-
-  std::string result_filename (argv[pcd_indices[0]]);
-  result_filename = result_filename.substr (result_filename.rfind ("/") + 1);
-  pcl::io::savePCDFile (result_filename.c_str (), *model);
-  std::cout << "saving first model to " << result_filename << std::endl;
-
-  Eigen::Matrix4f t (Eigen::Matrix4f::Identity ());
-
-  for (size_t i = 1; i < pcd_indices.size (); i++)
-  {
-    CloudPtr data (new Cloud);
-    if (pcl::io::loadPCDFile (argv[pcd_indices[i]], *data) == -1)
-    {
-      std::cout << "Could not read file" << std::endl;
-      return -1;
+    CloudPtr model(new Cloud);
+    if (pcl::io::loadPCDFile(argv[pcd_indices[0]], *model) == -1) {
+        std::cout << "Could not read file" << std::endl;
+        return -1;
     }
-    std::cout << argv[pcd_indices[i]] << " width: " << data->width << " height: " << data->height << std::endl;
+    std::cout << argv[pcd_indices[0]] << " width: " << model->width
+              << " height: " << model->height << std::endl;
 
-    pcl::IterativeClosestPointNonLinear<PointType, PointType> icp;
+    std::string result_filename(argv[pcd_indices[0]]);
+    result_filename = result_filename.substr(result_filename.rfind("/") + 1);
+    pcl::io::savePCDFile(result_filename.c_str(), *model);
+    std::cout << "saving first model to " << result_filename << std::endl;
 
-    boost::shared_ptr<pcl::registration::WarpPointRigid3D<PointType, PointType> > warp_fcn
-      (new pcl::registration::WarpPointRigid3D<PointType, PointType>);
+    Eigen::Matrix4f t(Eigen::Matrix4f::Identity());
 
-    // Create a TransformationEstimationLM object, and set the warp to it
-    boost::shared_ptr<pcl::registration::TransformationEstimationLM<PointType, PointType> > te (new pcl::registration::TransformationEstimationLM<PointType, PointType>);
-    te->setWarpFunction (warp_fcn);
+    for (size_t i = 1; i < pcd_indices.size(); i++) {
+        CloudPtr data(new Cloud);
+        if (pcl::io::loadPCDFile(argv[pcd_indices[i]], *data) == -1) {
+            std::cout << "Could not read file" << std::endl;
+            return -1;
+        }
+        std::cout << argv[pcd_indices[i]] << " width: " << data->width
+                  << " height: " << data->height << std::endl;
 
-    // Pass the TransformationEstimation objec to the ICP algorithm
-    icp.setTransformationEstimation (te);
+        pcl::IterativeClosestPointNonLinear<PointType, PointType> icp;
 
-    icp.setMaximumIterations (iter);
-    icp.setMaxCorrespondenceDistance (dist);
-    icp.setRANSACOutlierRejectionThreshold (rans);
+        boost::shared_ptr<
+            pcl::registration::WarpPointRigid3D<PointType, PointType>>
+            warp_fcn(
+                new pcl::registration::WarpPointRigid3D<PointType, PointType>);
 
-    icp.setInputTarget (model);
+        // Create a TransformationEstimationLM object, and set the warp to it
+        boost::shared_ptr<
+            pcl::registration::TransformationEstimationLM<PointType, PointType>>
+            te(new pcl::registration::TransformationEstimationLM<PointType,
+                                                                 PointType>);
+        te->setWarpFunction(warp_fcn);
 
-    icp.setInputCloud (data);
+        // Pass the TransformationEstimation objec to the ICP algorithm
+        icp.setTransformationEstimation(te);
 
-    CloudPtr tmp (new Cloud);
-    icp.align (*tmp);
+        icp.setMaximumIterations(iter);
+        icp.setMaxCorrespondenceDistance(dist);
+        icp.setRANSACOutlierRejectionThreshold(rans);
 
-    t = icp.getFinalTransformation () * t;
+        icp.setInputTarget(model);
 
-    pcl::transformPointCloud (*data, *tmp, t);
+        icp.setInputCloud(data);
 
-    std::cout << icp.getFinalTransformation () << std::endl;
+        CloudPtr tmp(new Cloud);
+        icp.align(*tmp);
 
-    *model = *data;
+        t = icp.getFinalTransformation() * t;
 
-    std::string result_filename (argv[pcd_indices[i]]);
-    result_filename = result_filename.substr (result_filename.rfind ("/") + 1);
-    pcl::io::savePCDFileBinary (result_filename.c_str (), *tmp);
-    std::cout << "saving result to " << result_filename << std::endl;
-  }
+        pcl::transformPointCloud(*data, *tmp, t);
 
-  return 0;
+        std::cout << icp.getFinalTransformation() << std::endl;
+
+        *model = *data;
+
+        std::string result_filename(argv[pcd_indices[i]]);
+        result_filename =
+            result_filename.substr(result_filename.rfind("/") + 1);
+        pcl::io::savePCDFileBinary(result_filename.c_str(), *tmp);
+        std::cout << "saving result to " << result_filename << std::endl;
+    }
+
+    return 0;
 }

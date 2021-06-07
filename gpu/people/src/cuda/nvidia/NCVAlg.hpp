@@ -43,71 +43,55 @@
 
 #include "NCV.hpp"
 
-
-template <class T>
-static void swap(T &p1, T &p2)
-{
+template <class T> static void swap(T &p1, T &p2) {
     T tmp = p1;
     p1 = p2;
     p2 = tmp;
 }
 
+template <typename T> static T divUp(T a, T b) { return (a + b - 1) / b; }
 
-template<typename T>
-static T divUp(T a, T b)
-{
-    return (a + b - 1) / b;
-}
-
-
-template<typename T>
-struct functorAddValues
-{
-    static __device__ __inline__ void assign(volatile T *dst, volatile T *src)
-    {
-        //Works only for integral types. If you see compiler error here, then you have to specify how to copy your object as a set of integral fields.
+template <typename T> struct functorAddValues {
+    static __device__ __inline__ void assign(volatile T *dst, volatile T *src) {
+        // Works only for integral types. If you see compiler error here, then
+        // you have to specify how to copy your object as a set of integral
+        // fields.
         *dst = *src;
     }
-    static __device__ __inline__ void reduce(volatile T &in1out, const volatile T &in2)
-    {
+    static __device__ __inline__ void reduce(volatile T &in1out,
+                                             const volatile T &in2) {
         in1out += in2;
     }
 };
 
-
-template<typename T>
-struct functorMinValues
-{
-    static __device__ __inline__ void assign(volatile T *dst, volatile T *src)
-    {
-        //Works only for integral types. If you see compiler error here, then you have to specify how to copy your object as a set of integral fields.
+template <typename T> struct functorMinValues {
+    static __device__ __inline__ void assign(volatile T *dst, volatile T *src) {
+        // Works only for integral types. If you see compiler error here, then
+        // you have to specify how to copy your object as a set of integral
+        // fields.
         *dst = *src;
     }
-    static __device__ __inline__ void reduce(volatile T &in1out, const volatile T &in2)
-    {
+    static __device__ __inline__ void reduce(volatile T &in1out,
+                                             const volatile T &in2) {
         in1out = in1out > in2 ? in2 : in1out;
     }
 };
 
-
-template<typename T>
-struct functorMaxValues
-{
-    static __device__ __inline__ void assign(volatile T *dst, volatile T *src)
-    {
-        //Works only for integral types. If you see compiler error here, then you have to specify how to copy your object as a set of integral fields.
+template <typename T> struct functorMaxValues {
+    static __device__ __inline__ void assign(volatile T *dst, volatile T *src) {
+        // Works only for integral types. If you see compiler error here, then
+        // you have to specify how to copy your object as a set of integral
+        // fields.
         *dst = *src;
     }
-    static __device__ __inline__ void reduce(volatile T &in1out, const volatile T &in2)
-    {
+    static __device__ __inline__ void reduce(volatile T &in1out,
+                                             const volatile T &in2) {
         in1out = in1out > in2 ? in1out : in2;
     }
 };
 
-
-template<typename Tdata, class Tfunc, Ncv32u nThreads>
-static __device__ Tdata subReduce(Tdata threadElem)
-{
+template <typename Tdata, class Tfunc, Ncv32u nThreads>
+static __device__ Tdata subReduce(Tdata threadElem) {
     Tfunc functor;
 
     __shared__ Tdata _reduceArr[nThreads];
@@ -115,26 +99,21 @@ static __device__ Tdata subReduce(Tdata threadElem)
     functor.assign(reduceArr + threadIdx.x, &threadElem);
     __syncthreads();
 
-    if (nThreads >= 256 && threadIdx.x < 128)
-    {
+    if (nThreads >= 256 && threadIdx.x < 128) {
         functor.reduce(reduceArr[threadIdx.x], reduceArr[threadIdx.x + 128]);
     }
     __syncthreads();
 
-    if (nThreads >= 128 && threadIdx.x < 64)
-    {
+    if (nThreads >= 128 && threadIdx.x < 64) {
         functor.reduce(reduceArr[threadIdx.x], reduceArr[threadIdx.x + 64]);
     }
     __syncthreads();
 
-    if (threadIdx.x < 32)
-    {
-        if (nThreads >= 64)
-        {
+    if (threadIdx.x < 32) {
+        if (nThreads >= 64) {
             functor.reduce(reduceArr[threadIdx.x], reduceArr[threadIdx.x + 32]);
         }
-        if (nThreads >= 32 && threadIdx.x < 16)
-        {
+        if (nThreads >= 32 && threadIdx.x < 16) {
             functor.reduce(reduceArr[threadIdx.x], reduceArr[threadIdx.x + 16]);
             functor.reduce(reduceArr[threadIdx.x], reduceArr[threadIdx.x + 8]);
             functor.reduce(reduceArr[threadIdx.x], reduceArr[threadIdx.x + 4]);
@@ -148,6 +127,5 @@ static __device__ Tdata subReduce(Tdata threadElem)
     functor.assign(&reduceRes, reduceArr);
     return reduceRes;
 }
-
 
 #endif //_ncv_alg_hpp_

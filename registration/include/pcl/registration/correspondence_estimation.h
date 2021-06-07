@@ -43,269 +43,257 @@
 
 #include <string>
 
-#include <pcl/pcl_base.h>
 #include <pcl/kdtree/kdtree.h>
 #include <pcl/kdtree/kdtree_flann.h>
+#include <pcl/pcl_base.h>
 #include <pcl/pcl_macros.h>
 
 #include <pcl/registration/correspondence_types.h>
 
-namespace pcl
-{
-  namespace registration
-  {
-    /** \brief Abstract @b CorrespondenceEstimationBase class.
-      * All correspondence estimation methods should inherit from this.
-      * \author Radu B. Rusu
-      * \ingroup registration
-      */
-    template <typename PointSource, typename PointTarget>
-    class CorrespondenceEstimationBase: public PCLBase<PointSource>
-    {
-      public:
-        typedef boost::shared_ptr<CorrespondenceEstimationBase<PointSource, PointTarget> > Ptr;
-        typedef boost::shared_ptr<const CorrespondenceEstimationBase<PointSource, PointTarget> > ConstPtr;
+namespace pcl {
+namespace registration {
+/** \brief Abstract @b CorrespondenceEstimationBase class.
+ * All correspondence estimation methods should inherit from this.
+ * \author Radu B. Rusu
+ * \ingroup registration
+ */
+template <typename PointSource, typename PointTarget>
+class CorrespondenceEstimationBase : public PCLBase<PointSource> {
+  public:
+    typedef boost::shared_ptr<
+        CorrespondenceEstimationBase<PointSource, PointTarget>>
+        Ptr;
+    typedef boost::shared_ptr<
+        const CorrespondenceEstimationBase<PointSource, PointTarget>>
+        ConstPtr;
 
-        using PCLBase<PointSource>::initCompute;
-        using PCLBase<PointSource>::deinitCompute;
-        using PCLBase<PointSource>::input_;
-        using PCLBase<PointSource>::indices_;
-        using PCLBase<PointSource>::setIndices;
+    using PCLBase<PointSource>::initCompute;
+    using PCLBase<PointSource>::deinitCompute;
+    using PCLBase<PointSource>::input_;
+    using PCLBase<PointSource>::indices_;
+    using PCLBase<PointSource>::setIndices;
 
-        typedef typename pcl::KdTree<PointTarget> KdTree;
-        typedef typename pcl::KdTree<PointTarget>::Ptr KdTreePtr;
+    typedef typename pcl::KdTree<PointTarget> KdTree;
+    typedef typename pcl::KdTree<PointTarget>::Ptr KdTreePtr;
 
-        typedef pcl::PointCloud<PointSource> PointCloudSource;
-        typedef typename PointCloudSource::Ptr PointCloudSourcePtr;
-        typedef typename PointCloudSource::ConstPtr PointCloudSourceConstPtr;
+    typedef pcl::PointCloud<PointSource> PointCloudSource;
+    typedef typename PointCloudSource::Ptr PointCloudSourcePtr;
+    typedef typename PointCloudSource::ConstPtr PointCloudSourceConstPtr;
 
-        typedef pcl::PointCloud<PointTarget> PointCloudTarget;
-        typedef typename PointCloudTarget::Ptr PointCloudTargetPtr;
-        typedef typename PointCloudTarget::ConstPtr PointCloudTargetConstPtr;
+    typedef pcl::PointCloud<PointTarget> PointCloudTarget;
+    typedef typename PointCloudTarget::Ptr PointCloudTargetPtr;
+    typedef typename PointCloudTarget::ConstPtr PointCloudTargetConstPtr;
 
-        typedef typename KdTree::PointRepresentationConstPtr PointRepresentationConstPtr;
+    typedef typename KdTree::PointRepresentationConstPtr
+        PointRepresentationConstPtr;
 
-        /** \brief Empty constructor. */
-        CorrespondenceEstimationBase ()
-          : corr_name_ ("CorrespondenceEstimationBase")
-          , tree_ (new pcl::KdTreeFLANN<PointTarget>)
-          , target_ ()
-          , target_indices_ ()
-          , point_representation_ ()
-        {
-        }
+    /** \brief Empty constructor. */
+    CorrespondenceEstimationBase()
+        : corr_name_("CorrespondenceEstimationBase"),
+          tree_(new pcl::KdTreeFLANN<PointTarget>), target_(),
+          target_indices_(), point_representation_() {}
 
-        /** \brief Provide a pointer to the input source
-          * (e.g., the point cloud that we want to align to the target)
-          *
-          * \param[in] cloud the input point cloud source
-          */
-        inline void
-        setInputSource (const PointCloudSourceConstPtr &cloud)
-        {
-          PCLBase<PointSource>::setInputCloud (cloud);
-        }
+    /** \brief Provide a pointer to the input source
+     * (e.g., the point cloud that we want to align to the target)
+     *
+     * \param[in] cloud the input point cloud source
+     */
+    inline void setInputSource(const PointCloudSourceConstPtr &cloud) {
+        PCLBase<PointSource>::setInputCloud(cloud);
+    }
 
-        /** \brief Get a pointer to the input point cloud dataset target. */
-        inline PointCloudSourceConstPtr const
-        getInputSource () { return (input_ ); }
+    /** \brief Get a pointer to the input point cloud dataset target. */
+    inline PointCloudSourceConstPtr const getInputSource() { return (input_); }
 
-        /** \brief Provide a pointer to the input target
-          * (e.g., the point cloud that we want to align the input source to)
-          * \param[in] cloud the input point cloud target
-          */
-        inline void
-        setInputTarget (const PointCloudTargetConstPtr &cloud);
+    /** \brief Provide a pointer to the input target
+     * (e.g., the point cloud that we want to align the input source to)
+     * \param[in] cloud the input point cloud target
+     */
+    inline void setInputTarget(const PointCloudTargetConstPtr &cloud);
 
-        /** \brief Get a pointer to the input point cloud dataset target. */
-        inline PointCloudTargetConstPtr const
-        getInputTarget () { return (target_ ); }
+    /** \brief Get a pointer to the input point cloud dataset target. */
+    inline PointCloudTargetConstPtr const getInputTarget() { return (target_); }
 
-        /** \brief Provide a pointer to the vector of indices that represent the
-          * input source point cloud.
-          * \param[in] indices a pointer to the vector of indices
-          */
-        inline void
-        setIndicesSource (const IndicesPtr &indices)
-        {
-          setIndices (indices);
-        }
+    /** \brief Provide a pointer to the vector of indices that represent the
+     * input source point cloud.
+     * \param[in] indices a pointer to the vector of indices
+     */
+    inline void setIndicesSource(const IndicesPtr &indices) {
+        setIndices(indices);
+    }
 
-        /** \brief Get a pointer to the vector of indices used for the source dataset. */
-        inline IndicesPtr const
-        getIndicesSource () { return (indices_); }
+    /** \brief Get a pointer to the vector of indices used for the source
+     * dataset. */
+    inline IndicesPtr const getIndicesSource() { return (indices_); }
 
-        /** \brief Provide a pointer to the vector of indices that represent the
-          * input target point cloud.
-          * \param[in] indices a pointer to the vector of indices
-          */
-        inline void
-        setIndicesTarget (const IndicesPtr &indices)
-        {
-          target_indices_ = indices;
-        }
+    /** \brief Provide a pointer to the vector of indices that represent the
+     * input target point cloud.
+     * \param[in] indices a pointer to the vector of indices
+     */
+    inline void setIndicesTarget(const IndicesPtr &indices) {
+        target_indices_ = indices;
+    }
 
-        /** \brief Get a pointer to the vector of indices used for the target dataset. */
-        inline IndicesPtr const
-        getIndicesTarget () { return (target_indices_); }
+    /** \brief Get a pointer to the vector of indices used for the target
+     * dataset. */
+    inline IndicesPtr const getIndicesTarget() { return (target_indices_); }
 
-        /** \brief Determine the correspondences between input and target cloud.
-          * \param[out] correspondences the found correspondences (index of query point, index of target point, distance)
-          * \param[in] max_distance maximum allowed distance between correspondences
-          */
-        virtual void
-        determineCorrespondences (pcl::Correspondences &correspondences,
-                                  double max_distance = std::numeric_limits<double>::max ()) = 0;
+    /** \brief Determine the correspondences between input and target cloud.
+     * \param[out] correspondences the found correspondences (index of query
+     * point, index of target point, distance) \param[in] max_distance maximum
+     * allowed distance between correspondences
+     */
+    virtual void determineCorrespondences(
+        pcl::Correspondences &correspondences,
+        double max_distance = std::numeric_limits<double>::max()) = 0;
 
-        /** \brief Determine the reciprocal correspondences between input and target cloud.
-          * A correspondence is considered reciprocal if both Src_i has Tgt_i as a
-          * correspondence, and Tgt_i has Src_i as one.
-          *
-          * \param[out] correspondences the found correspondences (index of query and target point, distance)
-          * \param[in] max_distance maximum allowed distance between correspondences
-          */
-        virtual void
-        determineReciprocalCorrespondences (pcl::Correspondences &correspondences,
-                                            double max_distance = std::numeric_limits<double>::max ()) = 0;
+    /** \brief Determine the reciprocal correspondences between input and target
+     * cloud. A correspondence is considered reciprocal if both Src_i has Tgt_i
+     * as a correspondence, and Tgt_i has Src_i as one.
+     *
+     * \param[out] correspondences the found correspondences (index of query and
+     * target point, distance) \param[in] max_distance maximum allowed distance
+     * between correspondences
+     */
+    virtual void determineReciprocalCorrespondences(
+        pcl::Correspondences &correspondences,
+        double max_distance = std::numeric_limits<double>::max()) = 0;
 
-        /** \brief Provide a boost shared pointer to the PointRepresentation to be used
-          * when searching for nearest neighbors.
-          *
-          * \param[in] point_representation the PointRepresentation to be used by the
-          * k-D tree for nearest neighbor search
-          */
-        inline void
-        setPointRepresentation (const PointRepresentationConstPtr &point_representation)
-        {
-          point_representation_ = point_representation;
-        }
+    /** \brief Provide a boost shared pointer to the PointRepresentation to be
+     * used when searching for nearest neighbors.
+     *
+     * \param[in] point_representation the PointRepresentation to be used by the
+     * k-D tree for nearest neighbor search
+     */
+    inline void setPointRepresentation(
+        const PointRepresentationConstPtr &point_representation) {
+        point_representation_ = point_representation;
+    }
 
-        /** \brief Return true if the source normals are needed for correspondence estimation. */
-        virtual bool
-        needsSourceNormals () = 0;
+    /** \brief Return true if the source normals are needed for correspondence
+     * estimation. */
+    virtual bool needsSourceNormals() = 0;
 
-        /** \brief Return true if the target normals are needed for correspondence estimation. */
-        virtual bool
-        needsTargetNormals () = 0;
+    /** \brief Return true if the target normals are needed for correspondence
+     * estimation. */
+    virtual bool needsTargetNormals() = 0;
 
-      protected:
-        /** \brief The correspondence estimation method name. */
-        std::string corr_name_;
+  protected:
+    /** \brief The correspondence estimation method name. */
+    std::string corr_name_;
 
-        /** \brief A pointer to the spatial search object. */
-        KdTreePtr tree_;
+    /** \brief A pointer to the spatial search object. */
+    KdTreePtr tree_;
 
-        /** \brief The input point cloud dataset target. */
-        PointCloudTargetConstPtr target_;
+    /** \brief The input point cloud dataset target. */
+    PointCloudTargetConstPtr target_;
 
-        /** \brief The target point cloud dataset indices. */
-        IndicesPtr target_indices_;
+    /** \brief The target point cloud dataset indices. */
+    IndicesPtr target_indices_;
 
-        /** \brief The point representation used (internal). */
-        PointRepresentationConstPtr point_representation_;
+    /** \brief The point representation used (internal). */
+    PointRepresentationConstPtr point_representation_;
 
-        /** \brief Abstract class get name method. */
-        inline const std::string&
-        getClassName () const { return (corr_name_); }
+    /** \brief Abstract class get name method. */
+    inline const std::string &getClassName() const { return (corr_name_); }
 
-        /** \brief Internal computation initalization. */
-        bool
-        initCompute ();
-     };
+    /** \brief Internal computation initalization. */
+    bool initCompute();
+};
 
-    /** \brief @b CorrespondenceEstimation represents the base class for
-      * determining correspondences between target and query point
-      * sets/features.
-      *
-      * Code example:
-      *
-      * \code
-      * pcl::PointCloud<pcl::PointXYZRGBA>::Ptr source, target;
-      * // ... read or fill in source and target
-      * pcl::CorrespondenceEstimation<pcl::PointXYZ, pcl::PointXYZ> est;
-      * est.setInputSource (source);
-      * est.setInputTarget (target);
-      *
-      * pcl::Correspondences all_correspondences;
-      * // Determine all reciprocal correspondences
-      * est.determineReciprocalCorrespondences (all_correspondences);
-      * \endcode
-      *
-      * \author Radu B. Rusu, Michael Dixon, Dirk Holz
-      * \ingroup registration
-      */
-    template <typename PointSource, typename PointTarget>
-    class CorrespondenceEstimation : public CorrespondenceEstimationBase<PointSource, PointTarget>
-    {
-      public:
-        typedef boost::shared_ptr<CorrespondenceEstimation<PointSource, PointTarget> > Ptr;
-        typedef boost::shared_ptr<const CorrespondenceEstimation<PointSource, PointTarget> > ConstPtr;
+/** \brief @b CorrespondenceEstimation represents the base class for
+ * determining correspondences between target and query point
+ * sets/features.
+ *
+ * Code example:
+ *
+ * \code
+ * pcl::PointCloud<pcl::PointXYZRGBA>::Ptr source, target;
+ * // ... read or fill in source and target
+ * pcl::CorrespondenceEstimation<pcl::PointXYZ, pcl::PointXYZ> est;
+ * est.setInputSource (source);
+ * est.setInputTarget (target);
+ *
+ * pcl::Correspondences all_correspondences;
+ * // Determine all reciprocal correspondences
+ * est.determineReciprocalCorrespondences (all_correspondences);
+ * \endcode
+ *
+ * \author Radu B. Rusu, Michael Dixon, Dirk Holz
+ * \ingroup registration
+ */
+template <typename PointSource, typename PointTarget>
+class CorrespondenceEstimation
+    : public CorrespondenceEstimationBase<PointSource, PointTarget> {
+  public:
+    typedef boost::shared_ptr<
+        CorrespondenceEstimation<PointSource, PointTarget>>
+        Ptr;
+    typedef boost::shared_ptr<
+        const CorrespondenceEstimation<PointSource, PointTarget>>
+        ConstPtr;
 
-        using CorrespondenceEstimationBase<PointSource, PointTarget>::point_representation_;
-        using CorrespondenceEstimationBase<PointSource, PointTarget>::tree_;
-        using CorrespondenceEstimationBase<PointSource, PointTarget>::target_;
-        using CorrespondenceEstimationBase<PointSource, PointTarget>::corr_name_;
-        using CorrespondenceEstimationBase<PointSource, PointTarget>::target_indices_;
-        using CorrespondenceEstimationBase<PointSource, PointTarget>::getClassName;
-        using CorrespondenceEstimationBase<PointSource, PointTarget>::initCompute;
-        using CorrespondenceEstimationBase<PointSource, PointTarget>::input_;
-        using CorrespondenceEstimationBase<PointSource, PointTarget>::indices_;
-        using PCLBase<PointSource>::deinitCompute;
+    using CorrespondenceEstimationBase<PointSource,
+                                       PointTarget>::point_representation_;
+    using CorrespondenceEstimationBase<PointSource, PointTarget>::tree_;
+    using CorrespondenceEstimationBase<PointSource, PointTarget>::target_;
+    using CorrespondenceEstimationBase<PointSource, PointTarget>::corr_name_;
+    using CorrespondenceEstimationBase<PointSource,
+                                       PointTarget>::target_indices_;
+    using CorrespondenceEstimationBase<PointSource, PointTarget>::getClassName;
+    using CorrespondenceEstimationBase<PointSource, PointTarget>::initCompute;
+    using CorrespondenceEstimationBase<PointSource, PointTarget>::input_;
+    using CorrespondenceEstimationBase<PointSource, PointTarget>::indices_;
+    using PCLBase<PointSource>::deinitCompute;
 
-        typedef typename pcl::KdTree<PointTarget> KdTree;
-        typedef typename pcl::KdTree<PointTarget>::Ptr KdTreePtr;
+    typedef typename pcl::KdTree<PointTarget> KdTree;
+    typedef typename pcl::KdTree<PointTarget>::Ptr KdTreePtr;
 
-        typedef pcl::PointCloud<PointSource> PointCloudSource;
-        typedef typename PointCloudSource::Ptr PointCloudSourcePtr;
-        typedef typename PointCloudSource::ConstPtr PointCloudSourceConstPtr;
+    typedef pcl::PointCloud<PointSource> PointCloudSource;
+    typedef typename PointCloudSource::Ptr PointCloudSourcePtr;
+    typedef typename PointCloudSource::ConstPtr PointCloudSourceConstPtr;
 
-        typedef pcl::PointCloud<PointTarget> PointCloudTarget;
-        typedef typename PointCloudTarget::Ptr PointCloudTargetPtr;
-        typedef typename PointCloudTarget::ConstPtr PointCloudTargetConstPtr;
+    typedef pcl::PointCloud<PointTarget> PointCloudTarget;
+    typedef typename PointCloudTarget::Ptr PointCloudTargetPtr;
+    typedef typename PointCloudTarget::ConstPtr PointCloudTargetConstPtr;
 
-        typedef typename KdTree::PointRepresentationConstPtr PointRepresentationConstPtr;
+    typedef typename KdTree::PointRepresentationConstPtr
+        PointRepresentationConstPtr;
 
-        /** \brief Empty constructor. */
-        CorrespondenceEstimation ()
-        {
-          corr_name_  = "CorrespondenceEstimation";
-        }
+    /** \brief Empty constructor. */
+    CorrespondenceEstimation() { corr_name_ = "CorrespondenceEstimation"; }
 
-        /** \brief Determine the correspondences between input and target cloud.
-          * \param[out] correspondences the found correspondences (index of query point, index of target point, distance)
-          * \param[in] max_distance maximum allowed distance between correspondences
-          */
-        virtual void
-        determineCorrespondences (pcl::Correspondences &correspondences,
-                                  double max_distance = std::numeric_limits<double>::max ());
+    /** \brief Determine the correspondences between input and target cloud.
+     * \param[out] correspondences the found correspondences (index of query
+     * point, index of target point, distance) \param[in] max_distance maximum
+     * allowed distance between correspondences
+     */
+    virtual void determineCorrespondences(
+        pcl::Correspondences &correspondences,
+        double max_distance = std::numeric_limits<double>::max());
 
-        /** \brief Determine the reciprocal correspondences between input and target cloud.
-          * A correspondence is considered reciprocal if both Src_i has Tgt_i as a
-          * correspondence, and Tgt_i has Src_i as one.
-          *
-          * \param[out] correspondences the found correspondences (index of query and target point, distance)
-          * \param[in] max_distance maximum allowed distance between correspondences
-          */
-        virtual void
-        determineReciprocalCorrespondences (pcl::Correspondences &correspondences,
-                                            double max_distance = std::numeric_limits<double>::max ());
+    /** \brief Determine the reciprocal correspondences between input and target
+     * cloud. A correspondence is considered reciprocal if both Src_i has Tgt_i
+     * as a correspondence, and Tgt_i has Src_i as one.
+     *
+     * \param[out] correspondences the found correspondences (index of query and
+     * target point, distance) \param[in] max_distance maximum allowed distance
+     * between correspondences
+     */
+    virtual void determineReciprocalCorrespondences(
+        pcl::Correspondences &correspondences,
+        double max_distance = std::numeric_limits<double>::max());
 
-        /** \brief Return true if the source normals are needed for correspondence estimation. */
-        virtual bool
-        needsSourceNormals ()
-        {
-          return (false);
-        }
+    /** \brief Return true if the source normals are needed for correspondence
+     * estimation. */
+    virtual bool needsSourceNormals() { return (false); }
 
-        /** \brief Return true if the target normals are needed for correspondence estimation. */
-        virtual bool
-        needsTargetNormals ()
-        {
-          return (false);
-        }
-     };
-  }
-}
+    /** \brief Return true if the target normals are needed for correspondence
+     * estimation. */
+    virtual bool needsTargetNormals() { return (false); }
+};
+} // namespace registration
+} // namespace pcl
 
 #include <pcl/registration/impl/correspondence_estimation.hpp>
 

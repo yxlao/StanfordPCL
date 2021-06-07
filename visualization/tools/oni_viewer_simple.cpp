@@ -30,178 +30,154 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- *	
+ *
  * Author: Nico Blodow (blodow@cs.tum.edu)
  *         Radu Bogdan Rusu (rusu@willowgarage.com)
  *         Suat Gedikli (gedikli@willowgarage.com)
  *         Ethan Rublee (rublee@willowgarage.com)
  */
 
+#include <pcl/common/time.h> //fps calculations
+#include <pcl/common/time_trigger.h>
+#include <pcl/io/oni_grabber.h>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
-#include <pcl/common/time.h> //fps calculations
-#include <pcl/io/oni_grabber.h>
 #include <pcl/visualization/boost.h>
 #include <pcl/visualization/cloud_viewer.h>
 #include <vector>
-#include <pcl/common/time_trigger.h>
 
 #define SHOW_FPS 1
 #if SHOW_FPS
-#define FPS_CALC(_WHAT_) \
-do \
-{ \
-    static unsigned count = 0;\
-    static double last = pcl::getTime ();\
-    ++count; \
-    if (pcl::getTime() - last >= 1.0) \
-    { \
-      double now = pcl::getTime (); \
-      std::cout << "Average framerate("<< _WHAT_ << "): " << double(count)/double(now - last) << " Hz" <<  std::endl; \
-      count = 0; \
-      last = now; \
-    } \
-}while(false)
+#define FPS_CALC(_WHAT_)                                                       \
+    do {                                                                       \
+        static unsigned count = 0;                                             \
+        static double last = pcl::getTime();                                   \
+        ++count;                                                               \
+        if (pcl::getTime() - last >= 1.0) {                                    \
+            double now = pcl::getTime();                                       \
+            std::cout << "Average framerate(" << _WHAT_                        \
+                      << "): " << double(count) / double(now - last) << " Hz"  \
+                      << std::endl;                                            \
+            count = 0;                                                         \
+            last = now;                                                        \
+        }                                                                      \
+    } while (false)
 #else
-#define FPS_CALC(_WHAT_) \
-do \
-{ \
-}while(false)
+#define FPS_CALC(_WHAT_)                                                       \
+    do {                                                                       \
+    } while (false)
 #endif
 
-template <typename PointType>
-class SimpleONIViewer
-{
-public:
-  typedef pcl::PointCloud<PointType> Cloud;
-  typedef typename Cloud::ConstPtr CloudConstPtr;
+template <typename PointType> class SimpleONIViewer {
+  public:
+    typedef pcl::PointCloud<PointType> Cloud;
+    typedef typename Cloud::ConstPtr CloudConstPtr;
 
-  SimpleONIViewer(pcl::ONIGrabber& grabber)
-    : viewer("PCL OpenNI Viewer")
-    , grabber_(grabber)
-    , mtx_ ()
-    , cloud_ ()
-  {
-  }
+    SimpleONIViewer(pcl::ONIGrabber &grabber)
+        : viewer("PCL OpenNI Viewer"), grabber_(grabber), mtx_(), cloud_() {}
 
-  /**
-   * @brief Callback method for the grabber interface
-   * @param cloud The new point cloud from Grabber
-   */
-  void
-  cloud_cb_ (const CloudConstPtr& cloud)
-  {
-    FPS_CALC ("callback");
-    boost::mutex::scoped_lock lock (mtx_);
-    cloud_ = cloud;
-  }
-
-  /**
-   * @brief swaps the pointer to the point cloud with Null pointer and returns the cloud pointer
-   * @return boost shared pointer to point cloud
-   */
-  CloudConstPtr
-  getLatestCloud ()
-  {
-    //lock while we swap our cloud and reset it.
-    boost::mutex::scoped_lock lock(mtx_);
-    CloudConstPtr temp_cloud;
-    temp_cloud.swap (cloud_); //here we set cloud_ to null, so that
-    //it is safe to set it again from our
-    //callback
-    return (temp_cloud);
-  }
-
-  /**
-   * @brief starts the main loop
-   */
-  void
-  run()
-  {
-    //pcl::Grabber* interface = new pcl::OpenNIGrabber(device_id_, pcl::OpenNIGrabber::OpenNI_QQVGA_30Hz, pcl::OpenNIGrabber::OpenNI_VGA_30Hz);
-
-    boost::function<void (const CloudConstPtr&) > f = boost::bind (&SimpleONIViewer::cloud_cb_, this, _1);
-
-    boost::signals2::connection c = grabber_.registerCallback (f);
-
-    grabber_.start();
-
-    while (!viewer.wasStopped ())
-    {
-      if (cloud_)
-      {
-        FPS_CALC ("drawing");
-        //the call to get() sets the cloud_ to null;
-        viewer.showCloud (getLatestCloud ());
-      }
+    /**
+     * @brief Callback method for the grabber interface
+     * @param cloud The new point cloud from Grabber
+     */
+    void cloud_cb_(const CloudConstPtr &cloud) {
+        FPS_CALC("callback");
+        boost::mutex::scoped_lock lock(mtx_);
+        cloud_ = cloud;
     }
 
-    grabber_.stop();
-  }
+    /**
+     * @brief swaps the pointer to the point cloud with Null pointer and returns
+     * the cloud pointer
+     * @return boost shared pointer to point cloud
+     */
+    CloudConstPtr getLatestCloud() {
+        // lock while we swap our cloud and reset it.
+        boost::mutex::scoped_lock lock(mtx_);
+        CloudConstPtr temp_cloud;
+        temp_cloud.swap(cloud_); // here we set cloud_ to null, so that
+        // it is safe to set it again from our
+        // callback
+        return (temp_cloud);
+    }
 
-  pcl::visualization::CloudViewer viewer;
-  pcl::ONIGrabber& grabber_;
-  boost::mutex mtx_;
-  CloudConstPtr cloud_;
+    /**
+     * @brief starts the main loop
+     */
+    void run() {
+        // pcl::Grabber* interface = new pcl::OpenNIGrabber(device_id_,
+        // pcl::OpenNIGrabber::OpenNI_QQVGA_30Hz,
+        // pcl::OpenNIGrabber::OpenNI_VGA_30Hz);
+
+        boost::function<void(const CloudConstPtr &)> f =
+            boost::bind(&SimpleONIViewer::cloud_cb_, this, _1);
+
+        boost::signals2::connection c = grabber_.registerCallback(f);
+
+        grabber_.start();
+
+        while (!viewer.wasStopped()) {
+            if (cloud_) {
+                FPS_CALC("drawing");
+                // the call to get() sets the cloud_ to null;
+                viewer.showCloud(getLatestCloud());
+            }
+        }
+
+        grabber_.stop();
+    }
+
+    pcl::visualization::CloudViewer viewer;
+    pcl::ONIGrabber &grabber_;
+    boost::mutex mtx_;
+    CloudConstPtr cloud_;
 };
 
-void
-usage(char ** argv)
-{
-  cout << "usage: " << argv[0] << " <path-to-oni-file> [framerate]\n";
-  cout << argv[0] << " -h | --help : shows this help" << endl;
-  return;
+void usage(char **argv) {
+    cout << "usage: " << argv[0] << " <path-to-oni-file> [framerate]\n";
+    cout << argv[0] << " -h | --help : shows this help" << endl;
+    return;
 }
 
-int
-main(int argc, char ** argv)
-{
-  std::string arg("");
+int main(int argc, char **argv) {
+    std::string arg("");
 
-  unsigned frame_rate = 0;
-  if (argc >= 2)
-  {
-    arg = argv[1];
+    unsigned frame_rate = 0;
+    if (argc >= 2) {
+        arg = argv[1];
 
-    if (arg == "--help" || arg == "-h")
-    {
-      usage(argv);
-      return 1;
+        if (arg == "--help" || arg == "-h") {
+            usage(argv);
+            return 1;
+        }
+
+        if (argc >= 3) {
+            frame_rate = atoi(argv[2]);
+        }
+    } else {
+        usage(argv);
+        return 1;
     }
 
-    if (argc >= 3)
-    {
-      frame_rate = atoi(argv[2]);
+    pcl::TimeTrigger trigger;
+
+    pcl::ONIGrabber *grabber = 0;
+    if (frame_rate == 0)
+        grabber = new pcl::ONIGrabber(arg, true, true);
+    else {
+        grabber = new pcl::ONIGrabber(arg, true, false);
+        trigger.setInterval(1.0 / static_cast<double>(frame_rate));
+        trigger.registerCallback(boost::bind(&pcl::ONIGrabber::start, grabber));
+        trigger.start();
     }
-  }
-  else
-  {
-    usage (argv);
-    return 1;
-  }
+    if (grabber->providesCallback<
+            pcl::ONIGrabber::sig_cb_openni_point_cloud_rgb>()) {
+        SimpleONIViewer<pcl::PointXYZRGBA> v(*grabber);
+        v.run();
+    } else {
+        SimpleONIViewer<pcl::PointXYZI> v(*grabber);
+        v.run();
+    }
 
-  pcl::TimeTrigger trigger;
-
-  pcl::ONIGrabber* grabber = 0;
-  if (frame_rate == 0)
-    grabber = new  pcl::ONIGrabber(arg, true, true);
-  else
-  {
-    grabber = new  pcl::ONIGrabber(arg, true, false);
-    trigger.setInterval (1.0 / static_cast<double> (frame_rate));
-    trigger.registerCallback (boost::bind(&pcl::ONIGrabber::start, grabber));
-    trigger.start();
-  }
-  if (grabber->providesCallback<pcl::ONIGrabber::sig_cb_openni_point_cloud_rgb > ())
-  {
-    SimpleONIViewer<pcl::PointXYZRGBA> v(*grabber);
-    v.run();
-  }
-  else
-  {
-    SimpleONIViewer<pcl::PointXYZI> v(*grabber);
-    v.run();
-  }
-
-  return (0);
+    return (0);
 }

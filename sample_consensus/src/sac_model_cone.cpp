@@ -37,14 +37,17 @@
  *
  */
 
-#include <pcl/sample_consensus/sac_model_cone.h>
-#include <pcl/sample_consensus/impl/sac_model_cone.hpp>
-#include <pcl/point_types.h>
 #include <pcl/impl/instantiate.hpp>
+#include <pcl/point_types.h>
+#include <pcl/sample_consensus/impl/sac_model_cone.hpp>
+#include <pcl/sample_consensus/sac_model_cone.h>
 
 // Instantiations of specific point types
 #ifdef PCL_ONLY_CORE_POINT_TYPES
-  PCL_INSTANTIATE_PRODUCT(SampleConsensusModelCone, ((pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA)(pcl::PointXYZRGB))((pcl::Normal)))
+PCL_INSTANTIATE_PRODUCT(SampleConsensusModelCone,
+                        ((pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA)(
+                            pcl::PointXYZRGB))((pcl::Normal)))
 #else
- PCL_INSTANTIATE_PRODUCT(SampleConsensusModelCone, (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES))
+PCL_INSTANTIATE_PRODUCT(SampleConsensusModelCone,
+                        (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES))
 #endif

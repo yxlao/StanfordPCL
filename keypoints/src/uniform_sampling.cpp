@@ -35,11 +35,10 @@
  * $Id: uniform_sampling.cpp 6459 2012-07-18 07:50:37Z dpb $
  */
 
-#include <pcl/keypoints/uniform_sampling.h>
-#include <pcl/keypoints/impl/uniform_sampling.hpp>
-#include <pcl/point_types.h>
 #include <pcl/impl/instantiate.hpp>
-
+#include <pcl/keypoints/impl/uniform_sampling.hpp>
+#include <pcl/keypoints/uniform_sampling.h>
+#include <pcl/point_types.h>
 
 // Instantiations of specific point types
 PCL_INSTANTIATE_PRODUCT(UniformSampling, (PCL_XYZ_POINT_TYPES))

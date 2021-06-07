@@ -37,15 +37,21 @@
  *
  */
 
-#include <pcl/point_types.h>
-#include <pcl/impl/instantiate.hpp>
-#include <pcl/features/intensity_gradient.h>
 #include <pcl/features/impl/intensity_gradient.hpp>
+#include <pcl/features/intensity_gradient.h>
+#include <pcl/impl/instantiate.hpp>
+#include <pcl/point_types.h>
 
 // Instantiations of specific point types
 #ifdef PCL_ONLY_CORE_POINT_TYPES
-  PCL_INSTANTIATE_PRODUCT(IntensityGradientEstimation, ((pcl::PointXYZI))((pcl::Normal))((pcl::IntensityGradient)))
+PCL_INSTANTIATE_PRODUCT(
+    IntensityGradientEstimation,
+    ((pcl::PointXYZI))((pcl::Normal))((pcl::IntensityGradient)))
 #else
-  PCL_INSTANTIATE_PRODUCT(IntensityGradientEstimation, ((pcl::PointXYZI)(pcl::PointXYZINormal))(PCL_NORMAL_POINT_TYPES)((pcl::IntensityGradient)))
-  PCL_INSTANTIATE_PRODUCT(IntensityGradientEstimation, ((pcl::PointXYZI)(pcl::PointXYZINormal))(PCL_NORMAL_POINT_TYPES)((Eigen::MatrixXf)))
+PCL_INSTANTIATE_PRODUCT(IntensityGradientEstimation,
+                        ((pcl::PointXYZI)(pcl::PointXYZINormal))(
+                            PCL_NORMAL_POINT_TYPES)((pcl::IntensityGradient)))
+PCL_INSTANTIATE_PRODUCT(IntensityGradientEstimation,
+                        ((pcl::PointXYZI)(pcl::PointXYZINormal))(
+                            PCL_NORMAL_POINT_TYPES)((Eigen::MatrixXf)))
 #endif

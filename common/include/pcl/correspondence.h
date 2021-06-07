@@ -42,122 +42,127 @@
 #include <pcl/common/eigen.h>
 #include <vector>
 
-namespace pcl
-{
-  /** \brief Correspondence represents a match between two entities (e.g., points, descriptors, etc). This is
-    * represesented via the indices of a \a source point and a \a target point, and the distance between them.
-    *
-    * \author Dirk Holz, Radu B. Rusu, Bastian Steder
-    * \ingroup common
-    */
-  struct Correspondence
-  {
+namespace pcl {
+/** \brief Correspondence represents a match between two entities (e.g., points,
+ * descriptors, etc). This is represesented via the indices of a \a source point
+ * and a \a target point, and the distance between them.
+ *
+ * \author Dirk Holz, Radu B. Rusu, Bastian Steder
+ * \ingroup common
+ */
+struct Correspondence {
     /** \brief Index of the query (source) point. */
     int index_query;
-    /** \brief Index of the matching (target) point. Set to -1 if no correspondence found. */
+    /** \brief Index of the matching (target) point. Set to -1 if no
+     * correspondence found. */
     int index_match;
-    /** \brief Distance between the corresponding points, or the weight denoting the confidence in correspondence estimation */
-    union
-    {
-      float distance;
-      float weight;
+    /** \brief Distance between the corresponding points, or the weight denoting
+     * the confidence in correspondence estimation */
+    union {
+        float distance;
+        float weight;
     };
 
     /** \brief Standard constructor.
-      * Sets \ref index_query to 0, \ref index_match to -1, and \ref distance to FLT_MAX.
-      */
-    inline Correspondence () : index_query (0), index_match (-1),
-                               distance (std::numeric_limits<float>::max ())
-    {}
+     * Sets \ref index_query to 0, \ref index_match to -1, and \ref distance to
+     * FLT_MAX.
+     */
+    inline Correspondence()
+        : index_query(0), index_match(-1),
+          distance(std::numeric_limits<float>::max()) {}
 
     /** \brief Constructor. */
-    inline Correspondence (int _index_query, int _index_match, float _distance) :
-      index_query (_index_query), index_match (_index_match), distance (_distance)
-    {}
+    inline Correspondence(int _index_query, int _index_match, float _distance)
+        : index_query(_index_query), index_match(_index_match),
+          distance(_distance) {}
 
     /** \brief Empty destructor. */
-    virtual ~Correspondence () {}
+    virtual ~Correspondence() {}
 
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-  };
+};
 
-  /** \brief overloaded << operator */
-  inline std::ostream&
-  operator << (std::ostream& os, const Correspondence& c)
-  {
+/** \brief overloaded << operator */
+inline std::ostream &operator<<(std::ostream &os, const Correspondence &c) {
     os << c.index_query << " " << c.index_match << " " << c.distance;
     return (os);
-  }
+}
 
-  typedef std::vector< pcl::Correspondence, Eigen::aligned_allocator<pcl::Correspondence> > Correspondences;
-  typedef boost::shared_ptr<Correspondences> CorrespondencesPtr;
-  typedef boost::shared_ptr<const Correspondences > CorrespondencesConstPtr;
+typedef std::vector<pcl::Correspondence,
+                    Eigen::aligned_allocator<pcl::Correspondence>>
+    Correspondences;
+typedef boost::shared_ptr<Correspondences> CorrespondencesPtr;
+typedef boost::shared_ptr<const Correspondences> CorrespondencesConstPtr;
 
-  /**
-    * \brief Get the query points of correspondences that are present in
-    * one correspondence vector but not in the other, e.g., to compare
-    * correspondences before and after rejection.
-    * \param[in] correspondences_before Vector of correspondences before rejection
-    * \param[in] correspondences_after Vector of correspondences after rejection
-    * \param[out] indices Query point indices of correspondences that have been rejected
-    * \param[in] presorting_required Enable/disable internal sorting of vectors.
-    * By default (true), vectors are internally sorted before determining their difference.
-    * If the order of correspondences in \a correspondences_after is not different (has not been changed)
-    * from the order in \b correspondences_before this pre-processing step can be disabled
-    * in order to gain efficiency. In order to disable pre-sorting set \a presorting_requered to false.
-    */
-  void
-  getRejectedQueryIndices (const pcl::Correspondences &correspondences_before,
-                           const pcl::Correspondences &correspondences_after,
-                           std::vector<int>& indices,
-                           bool presorting_required = true);
+/**
+ * \brief Get the query points of correspondences that are present in
+ * one correspondence vector but not in the other, e.g., to compare
+ * correspondences before and after rejection.
+ * \param[in] correspondences_before Vector of correspondences before rejection
+ * \param[in] correspondences_after Vector of correspondences after rejection
+ * \param[out] indices Query point indices of correspondences that have been
+ * rejected \param[in] presorting_required Enable/disable internal sorting of
+ * vectors. By default (true), vectors are internally sorted before determining
+ * their difference. If the order of correspondences in \a correspondences_after
+ * is not different (has not been changed) from the order in \b
+ * correspondences_before this pre-processing step can be disabled in order to
+ * gain efficiency. In order to disable pre-sorting set \a presorting_requered
+ * to false.
+ */
+void getRejectedQueryIndices(const pcl::Correspondences &correspondences_before,
+                             const pcl::Correspondences &correspondences_after,
+                             std::vector<int> &indices,
+                             bool presorting_required = true);
 
-  /**
-    * \brief Representation of a (possible) correspondence between two 3D points in two different coordinate frames
-    *        (e.g. from feature matching)
-    * \ingroup common
-    */
-  struct PointCorrespondence3D : public Correspondence
-  {
-    Eigen::Vector3f point1;  //!< The 3D position of the point in the first coordinate frame
-    Eigen::Vector3f point2;  //!< The 3D position of the point in the second coordinate frame
+/**
+ * \brief Representation of a (possible) correspondence between two 3D points in
+ * two different coordinate frames (e.g. from feature matching) \ingroup common
+ */
+struct PointCorrespondence3D : public Correspondence {
+    Eigen::Vector3f
+        point1; //!< The 3D position of the point in the first coordinate frame
+    Eigen::Vector3f
+        point2; //!< The 3D position of the point in the second coordinate frame
 
     /** \brief Empty constructor. */
-    PointCorrespondence3D () : point1 (), point2 () {}
+    PointCorrespondence3D() : point1(), point2() {}
 
     /** \brief Empty destructor. */
-    virtual ~PointCorrespondence3D () {}
+    virtual ~PointCorrespondence3D() {}
 
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-  };
-  typedef std::vector<PointCorrespondence3D, Eigen::aligned_allocator<PointCorrespondence3D> > PointCorrespondences3DVector;
+};
+typedef std::vector<PointCorrespondence3D,
+                    Eigen::aligned_allocator<PointCorrespondence3D>>
+    PointCorrespondences3DVector;
 
-  /**
-    * \brief Representation of a (possible) correspondence between two points (e.g. from feature matching),
-    *        that encode complete 6DOF transoformations.
-    * \ingroup common
-    */
-  struct PointCorrespondence6D : public PointCorrespondence3D
-  {
-    Eigen::Affine3f transformation;  //!< The transformation to go from the coordinate system
-                                        //!< of point2 to the coordinate system of point1
+/**
+ * \brief Representation of a (possible) correspondence between two points (e.g.
+ * from feature matching), that encode complete 6DOF transoformations. \ingroup
+ * common
+ */
+struct PointCorrespondence6D : public PointCorrespondence3D {
+    Eigen::Affine3f
+        transformation; //!< The transformation to go from the coordinate system
+                        //!< of point2 to the coordinate system of point1
     /** \brief Empty destructor. */
-    virtual ~PointCorrespondence6D () {}
+    virtual ~PointCorrespondence6D() {}
 
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-  };
-  typedef std::vector<PointCorrespondence6D, Eigen::aligned_allocator<PointCorrespondence6D> > PointCorrespondences6DVector;
+};
+typedef std::vector<PointCorrespondence6D,
+                    Eigen::aligned_allocator<PointCorrespondence6D>>
+    PointCorrespondences6DVector;
 
-  /**
-    * \brief Comparator to enable us to sort a vector of PointCorrespondences according to their scores using
-    *        std::sort (begin(), end(), isBetterCorrespondence);
-    * \ingroup common
-    */
-  inline bool
-  isBetterCorrespondence (const Correspondence &pc1, const Correspondence &pc2)
-  {
+/**
+ * \brief Comparator to enable us to sort a vector of PointCorrespondences
+ * according to their scores using std::sort (begin(), end(),
+ * isBetterCorrespondence); \ingroup common
+ */
+inline bool isBetterCorrespondence(const Correspondence &pc1,
+                                   const Correspondence &pc2) {
     return (pc1.distance > pc2.distance);
-  }
 }
+} // namespace pcl
 
 #endif /* PCL_COMMON_CORRESPONDENCE_H_ */

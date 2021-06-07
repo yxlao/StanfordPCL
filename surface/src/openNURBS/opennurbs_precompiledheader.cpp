@@ -8,7 +8,7 @@
 // THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
 // ALL IMPLIED WARRANTIES OF FITNESS FOR ANY PARTICULAR PURPOSE AND OF
 // MERCHANTABILITY ARE HEREBY DISCLAIMED.
-//				
+//
 // For complete openNURBS copyright information see <http://www.opennurbs.org>.
 //
 ////////////////////////////////////////////////////////////////
@@ -17,7 +17,6 @@
 // Delete evertyhing this comment and everything below it except
 // the "#include <pcl/surface/openNURBS/opennurbs.h>" for the public version of
 // opennurbs source code.
-
 
 // CHECK SETTINGS BEFORE ANYTHING IS INCLUDED
 
@@ -53,7 +52,6 @@
 
 #endif
 
-
 #if defined(WIN32)
 
 #if !defined(_WIN32)
@@ -71,11 +69,7 @@
 
 #endif
 
-
-
 #include <pcl/surface/openNURBS/opennurbs.h>
-
-
 
 // CHECK SETTINGS AFTER EVERTHING IS INCLUDED
 
@@ -111,7 +105,6 @@
 
 #endif
 
-
 #if defined(WIN32)
 
 #if !defined(_WIN32)
@@ -128,4 +121,3 @@
 #endif
 
 #endif
-

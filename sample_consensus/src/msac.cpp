@@ -39,12 +39,14 @@
 
 #include <pcl/impl/instantiate.hpp>
 #include <pcl/point_types.h>
-#include <pcl/sample_consensus/msac.h>
 #include <pcl/sample_consensus/impl/msac.hpp>
+#include <pcl/sample_consensus/msac.h>
 
 // Instantiations of specific point types
 #ifdef PCL_ONLY_CORE_POINT_TYPES
-  PCL_INSTANTIATE(MEstimatorSampleConsensus, (pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA)(pcl::PointXYZRGB))
+PCL_INSTANTIATE(
+    MEstimatorSampleConsensus,
+    (pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA)(pcl::PointXYZRGB))
 #else
- PCL_INSTANTIATE(MEstimatorSampleConsensus, PCL_XYZ_POINT_TYPES)
+PCL_INSTANTIATE(MEstimatorSampleConsensus, PCL_XYZ_POINT_TYPES)
 #endif

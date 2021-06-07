@@ -38,138 +38,107 @@
 #ifndef CLOUD_COMPOSER_ITEM_H_
 #define CLOUD_COMPOSER_ITEM_H_
 
-
+#include <pcl/apps/cloud_composer/properties_model.h>
+#include <pcl/apps/cloud_composer/qt.h>
 #include <pcl/point_types.h>
 #include <pcl/visualization/pcl_visualizer.h>
-#include <pcl/apps/cloud_composer/qt.h>
-#include <pcl/apps/cloud_composer/properties_model.h>
 
+static QStringList ITEM_TYPES_STRINGS(QStringList() << "Cloud Composer Item"
+                                                    << "Cloud Item"
+                                                    << "Normals Item"
+                                                    << "FPFH Item");
 
-
-
-static QStringList ITEM_TYPES_STRINGS(QStringList()
-      << "Cloud Composer Item"
-      << "Cloud Item"
-      << "Normals Item"
-      << "FPFH Item"
-      );
-
-namespace pcl
-{
-  namespace cloud_composer
-  {
-    class PropertiesModel;
-    namespace ItemDataRole
-    {
-      enum
-      {
-        PROPERTIES = Qt::UserRole,
-        ITEM_ID,
-        CLOUD_BLOB,
-        CLOUD_TEMPLATED,
-        GEOMETRY_HANDLER,
-        COLOR_HANDLER,
-        ORIGIN,
-        ORIENTATION,
-        KD_TREE_SEARCH
-      };
+namespace pcl {
+namespace cloud_composer {
+class PropertiesModel;
+namespace ItemDataRole {
+enum {
+    PROPERTIES = Qt::UserRole,
+    ITEM_ID,
+    CLOUD_BLOB,
+    CLOUD_TEMPLATED,
+    GEOMETRY_HANDLER,
+    COLOR_HANDLER,
+    ORIGIN,
+    ORIENTATION,
+    KD_TREE_SEARCH
+};
+};
+class PCL_EXPORTS CloudComposerItem : public QStandardItem {
+  public:
+    enum ItemType {
+        CLOUD_COMPOSER_ITEM = QStandardItem::UserType,
+        CLOUD_ITEM,
+        NORMALS_ITEM,
+        FPFH_ITEM
     };
-    class PCL_EXPORTS CloudComposerItem : public QStandardItem
-    {
-      public:
 
+    CloudComposerItem(const QString name = "default item");
+    CloudComposerItem(const CloudComposerItem &to_copy);
+    virtual ~CloudComposerItem();
 
-        enum ItemType
-        {
-          CLOUD_COMPOSER_ITEM = QStandardItem::UserType,
-          CLOUD_ITEM,
-          NORMALS_ITEM,
-          FPFH_ITEM
-        };
+    inline virtual int type() const { return CLOUD_COMPOSER_ITEM; }
 
-        CloudComposerItem (const QString name = "default item");
-        CloudComposerItem (const CloudComposerItem& to_copy);
-        virtual ~CloudComposerItem ();
+    /** \brief Convenience function to get Item's ID String */
+    inline QString getId() const {
+        return data(ItemDataRole::ITEM_ID).toString();
+    }
 
-        inline virtual int
-        type () const { return CLOUD_COMPOSER_ITEM; }
+    /** \brief Convenience function to get Item's Property Pointer */
+    inline PropertiesModel *getPropertiesModel() const { return properties_; }
 
-        /** \brief Convenience function to get Item's ID String */
-        inline QString
-        getId () const { return data (ItemDataRole::ITEM_ID).toString (); }
+    /** \brief Returns all children of item type type*/
+    QList<CloudComposerItem *> getChildren(ItemType type) const;
 
-        /** \brief Convenience function to get Item's Property Pointer */
-        inline PropertiesModel*
-        getPropertiesModel () const { return properties_; }
+    virtual CloudComposerItem *clone() const;
 
-        /** \brief Returns all children of item type type*/
-        QList <CloudComposerItem*>
-        getChildren (ItemType type) const;
-
-        virtual CloudComposerItem*
-        clone () const;
-
-     //   /** \brief Convenience function which pulls out a cloud Ptr of type CloudPtrT */
+    //   /** \brief Convenience function which pulls out a cloud Ptr of type
+    //   CloudPtrT */
     //    template <typename CloudPtrT>
     //    CloudPtrT
     //    getCloudPtr () const;
 
-        /** \brief Paint View function - reimpliment in item subclass if it can be displayed in PCLVisualizer*/
-        virtual void
-        paintView (boost::shared_ptr<pcl::visualization::PCLVisualizer> vis) const;
+    /** \brief Paint View function - reimpliment in item subclass if it can be
+     * displayed in PCLVisualizer*/
+    virtual void
+    paintView(boost::shared_ptr<pcl::visualization::PCLVisualizer> vis) const;
 
-        /** \brief Remove from View function - reimpliment in item subclass if it can be displayed in PCLVisualizer*/
-        virtual void
-        removeFromView (boost::shared_ptr<pcl::visualization::PCLVisualizer> vis) const;
+    /** \brief Remove from View function - reimpliment in item subclass if it
+     * can be displayed in PCLVisualizer*/
+    virtual void removeFromView(
+        boost::shared_ptr<pcl::visualization::PCLVisualizer> vis) const;
 
-        /** \brief Inspector additional tabs paint function - reimpliment in item subclass if item has additional tabs to show in Inspector*/
-        virtual QMap <QString, QWidget*>
-        getInspectorTabs ();
+    /** \brief Inspector additional tabs paint function - reimpliment in item
+     * subclass if item has additional tabs to show in Inspector*/
+    virtual QMap<QString, QWidget *> getInspectorTabs();
 
-        /** \brief The property model calls this when a property changes */
-        inline void
-        propertyChanged ()
-        {
-          emitDataChanged ();
-        }
-      protected:
+    /** \brief The property model calls this when a property changes */
+    inline void propertyChanged() { emitDataChanged(); }
 
-        /** \brief Model for storing the properties of the item - pointer kept for convenience   */
-        PropertiesModel* properties_;
+  protected:
+    /** \brief Model for storing the properties of the item - pointer kept for
+     * convenience   */
+    PropertiesModel *properties_;
+};
 
-    };
+/** \brief Templated helper class for converting QVariant to/from pointer
+ * classes   */
+template <class T> class VPtr {
+  public:
+    static T *asPtr(QVariant v) {
+        return (static_cast<T *>(v.value<void *>()));
+    }
 
+    static QVariant asQVariant(T *ptr) {
+        return (qVariantFromValue(static_cast<void *>(ptr)));
+    }
+};
 
+} // namespace cloud_composer
+} // namespace pcl
 
-    /** \brief Templated helper class for converting QVariant to/from pointer classes   */
-    template <class T> class VPtr
-    {
-      public:
-        static T* asPtr (QVariant v)
-        {
-          return (static_cast<T *> (v.value<void *> ()));
-        }
+typedef QList<const pcl::cloud_composer::CloudComposerItem *> ConstItemList;
 
-        static QVariant asQVariant (T* ptr)
-        {
-          return (qVariantFromValue (static_cast<void*>(ptr)));
-        }
-    };
+Q_DECLARE_METATYPE(pcl::cloud_composer::CloudComposerItem);
 
-  }
-}
-
-typedef QList<const pcl::cloud_composer::CloudComposerItem*> ConstItemList;
-
-Q_DECLARE_METATYPE (pcl::cloud_composer::CloudComposerItem);
-
-
-
-
-
-
-
-
-
-
-#endif //CLOUD_COMPOSER_ITEM_H_
+#endif // CLOUD_COMPOSER_ITEM_H_

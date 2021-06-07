@@ -39,72 +39,62 @@
 #include <pcl/surface/boost.h>
 #include <pcl/surface/marching_cubes.h>
 
-namespace pcl
-{
-  /** \brief The marching cubes surface reconstruction algorithm, using a signed distance function based on radial
-    * basis functions. Partially based on:
-    * Carr J.C., Beatson R.K., Cherrie J.B., Mitchell T.J., Fright W.R., McCallum B.C. and Evans T.R.,
-    * "Reconstruction and representation of 3D objects with radial basis functions"
-    * SIGGRAPH '01
-    *
-    * \author Alexandru E. Ichim
-    * \ingroup surface
-    */
-  template <typename PointNT>
-  class MarchingCubesRBF : public MarchingCubes<PointNT>
-  {
-    public:
-      using SurfaceReconstruction<PointNT>::input_;
-      using SurfaceReconstruction<PointNT>::tree_;
-      using MarchingCubes<PointNT>::grid_;
-      using MarchingCubes<PointNT>::res_x_;
-      using MarchingCubes<PointNT>::res_y_;
-      using MarchingCubes<PointNT>::res_z_;
-      using MarchingCubes<PointNT>::min_p_;
-      using MarchingCubes<PointNT>::max_p_;
+namespace pcl {
+/** \brief The marching cubes surface reconstruction algorithm, using a signed
+ * distance function based on radial basis functions. Partially based on: Carr
+ * J.C., Beatson R.K., Cherrie J.B., Mitchell T.J., Fright W.R., McCallum B.C.
+ * and Evans T.R., "Reconstruction and representation of 3D objects with radial
+ * basis functions" SIGGRAPH '01
+ *
+ * \author Alexandru E. Ichim
+ * \ingroup surface
+ */
+template <typename PointNT>
+class MarchingCubesRBF : public MarchingCubes<PointNT> {
+  public:
+    using SurfaceReconstruction<PointNT>::input_;
+    using SurfaceReconstruction<PointNT>::tree_;
+    using MarchingCubes<PointNT>::grid_;
+    using MarchingCubes<PointNT>::res_x_;
+    using MarchingCubes<PointNT>::res_y_;
+    using MarchingCubes<PointNT>::res_z_;
+    using MarchingCubes<PointNT>::min_p_;
+    using MarchingCubes<PointNT>::max_p_;
 
-      typedef typename pcl::PointCloud<PointNT>::Ptr PointCloudPtr;
+    typedef typename pcl::PointCloud<PointNT>::Ptr PointCloudPtr;
 
-      typedef typename pcl::KdTree<PointNT> KdTree;
-      typedef typename pcl::KdTree<PointNT>::Ptr KdTreePtr;
+    typedef typename pcl::KdTree<PointNT> KdTree;
+    typedef typename pcl::KdTree<PointNT>::Ptr KdTreePtr;
 
+    /** \brief Constructor. */
+    MarchingCubesRBF();
 
-      /** \brief Constructor. */
-      MarchingCubesRBF ();
+    /** \brief Destructor. */
+    ~MarchingCubesRBF();
 
-      /** \brief Destructor. */
-      ~MarchingCubesRBF ();
+    /** \brief Convert the point cloud into voxel data. */
+    void voxelizeData();
 
-      /** \brief Convert the point cloud into voxel data. */
-      void
-      voxelizeData ();
+    /** \brief Set the off-surface points displacement value.
+     * \param[in] epsilon the value
+     */
+    inline void setOffSurfaceDisplacement(float epsilon) {
+        off_surface_epsilon_ = epsilon;
+    }
 
+    /** \brief Get the off-surface points displacement value. */
+    inline float getOffSurfaceDisplacement() { return off_surface_epsilon_; }
 
-      /** \brief Set the off-surface points displacement value.
-        * \param[in] epsilon the value
-        */
-      inline void
-      setOffSurfaceDisplacement (float epsilon)
-      { off_surface_epsilon_ = epsilon; }
+  protected:
+    /** \brief the Radial Basis Function kernel. */
+    double kernel(Eigen::Vector3d c, Eigen::Vector3d x);
 
-      /** \brief Get the off-surface points displacement value. */
-      inline float
-      getOffSurfaceDisplacement ()
-      { return off_surface_epsilon_; }
+    /** \brief The off-surface displacement value. */
+    float off_surface_epsilon_;
 
+  public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+};
+} // namespace pcl
 
-    protected:
-      /** \brief the Radial Basis Function kernel. */
-      double
-      kernel (Eigen::Vector3d c, Eigen::Vector3d x);
-
-      /** \brief The off-surface displacement value. */
-      float off_surface_epsilon_;
-
-    public:
-      EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-  };
-}
-
-#endif  // PCL_SURFACE_MARCHING_CUBES_RBF_H_
-
+#endif // PCL_SURFACE_MARCHING_CUBES_RBF_H_

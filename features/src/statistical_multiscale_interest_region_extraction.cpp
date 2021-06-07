@@ -32,17 +32,20 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- *  $Id: statistical_multiscale_interest_region_extraction.cpp 6459 2012-07-18 07:50:37Z dpb $
+ *  $Id: statistical_multiscale_interest_region_extraction.cpp 6459 2012-07-18
+ * 07:50:37Z dpb $
  */
 
-#include <pcl/features/statistical_multiscale_interest_region_extraction.h>
 #include <pcl/features/impl/statistical_multiscale_interest_region_extraction.hpp>
-#include <pcl/point_types.h>
+#include <pcl/features/statistical_multiscale_interest_region_extraction.h>
 #include <pcl/impl/instantiate.hpp>
+#include <pcl/point_types.h>
 
 // Instantiations of specific point types
 #ifdef PCL_ONLY_CORE_POINT_TYPES
-  PCL_INSTANTIATE_PRODUCT(StatisticalMultiscaleInterestRegionExtraction, ((pcl::PointXYZ)))
+PCL_INSTANTIATE_PRODUCT(StatisticalMultiscaleInterestRegionExtraction,
+                        ((pcl::PointXYZ)))
 #else
-  PCL_INSTANTIATE_PRODUCT(StatisticalMultiscaleInterestRegionExtraction, (PCL_XYZ_POINT_TYPES))
+PCL_INSTANTIATE_PRODUCT(StatisticalMultiscaleInterestRegionExtraction,
+                        (PCL_XYZ_POINT_TYPES))
 #endif

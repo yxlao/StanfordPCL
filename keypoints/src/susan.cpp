@@ -35,10 +35,9 @@
  * $Id: susan.cpp 6459 2012-07-18 07:50:37Z dpb $
  */
 
+#include <pcl/impl/instantiate.hpp>
 #include <pcl/keypoints/impl/susan.hpp>
 #include <pcl/point_types.h>
-#include <pcl/impl/instantiate.hpp>
-
 
 // Instantiations of specific point types
-//PCL_INSTANTIATE_PRODUCT(HarrisKeypoint3D, (PCL_XYZ_POINT_TYPES));
+// PCL_INSTANTIATE_PRODUCT(HarrisKeypoint3D, (PCL_XYZ_POINT_TYPES));

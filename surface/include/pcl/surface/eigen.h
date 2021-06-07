@@ -41,9 +41,9 @@
 #define PCL_SURFACE_EIGEN_H_
 
 #if defined __GNUC__
-#  pragma GCC system_header
+#pragma GCC system_header
 #endif
 
 #include <Eigen/SVD>
 
-#endif    // PCL_SURFACE_EIGEN_H_
+#endif // PCL_SURFACE_EIGEN_H_

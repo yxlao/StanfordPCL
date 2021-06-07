@@ -40,19 +40,18 @@
 #define PCL_OUTOFCORE_BOOST_H_
 
 #if defined __GNUC__
-#  pragma GCC system_header
+#pragma GCC system_header
 #endif
 
 #include <boost/filesystem.hpp>
-#include <boost/thread.hpp>
+#include <boost/foreach.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/random/bernoulli_distribution.hpp>
+#include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int.hpp>
+#include <boost/thread.hpp>
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
-#include <boost/random/mersenne_twister.hpp>
-#include <boost/random/uniform_int.hpp>
-#include <boost/random/bernoulli_distribution.hpp>
-#include <boost/foreach.hpp>
-#include <boost/lexical_cast.hpp>
 
-#endif //PCL_OUTOFCORE_BOOST_H_
+#endif // PCL_OUTOFCORE_BOOST_H_
