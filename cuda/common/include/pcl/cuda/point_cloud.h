@@ -41,6 +41,8 @@
 #include <boost/shared_ptr.hpp>
 #include <pcl/cuda/point_types.h>
 #include <pcl/cuda/thrust.h>
+#include <thrust/device_free.h>
+#include <thrust/device_malloc.h>
 
 namespace pcl {
 namespace cuda {
