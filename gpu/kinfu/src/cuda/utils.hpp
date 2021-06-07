@@ -433,14 +433,14 @@ namespace pcl
              mmax[0] = len2;
              evecs[0] = vec_tmp[1] * rsqrtf (len2);
              min_el = len3 <= mmax[min_el] ? 0 : min_el;
-             max_el = len3  > mmax[max_el] ? 0 : max_el; 		
+             max_el = len3 > mmax[max_el] ? 0 : max_el;
            }
            else
            {
              mmax[0] = len3;
              evecs[0] = vec_tmp[2] * rsqrtf (len3);
              min_el = len3 <= mmax[min_el] ? 0 : min_el;
-             max_el = len3  > mmax[max_el] ? 0 : max_el;	
+             max_el = len3 > mmax[max_el] ? 0 : max_el;
            }
 
            unsigned mid_el = 3 - min_el - max_el;
@@ -531,8 +531,8 @@ namespace pcl
 		  if (CTA_SIZE >=    4) { buffer[tid] = val = op(val, buffer[tid +   2]); }
 		  if (CTA_SIZE >=    2) { buffer[tid] = val = op(val, buffer[tid +   1]); }
 		}
-		__syncthreads();				
-		return buffer[0];
+    __syncthreads();
+    return buffer[0];
       }
     };
 
@@ -587,7 +587,7 @@ namespace pcl
         const unsigned int lane = tid & 31; // index of thread in warp (0..31)
 
         if (lane < 16)
-        {				
+        {
           int partial = ptr[tid];
 
           ptr[tid] = partial = partial + ptr[tid + 16];
@@ -604,11 +604,11 @@ namespace pcl
 	  {
 #if __CUDA_ARCH__ >= 200
 	    (void)cta_buffer;
-		return __ballot(predicate);
+      return __ballot_sync(0xffffffff, predicate);
 #else
-        int tid = Block::flattenedThreadId();				
-		cta_buffer[tid] = predicate ? (1 << (tid & 31)) : 0;
-		return warp_reduce(cta_buffer, tid);
+      int tid = Block::flattenedThreadId();
+      cta_buffer[tid] = predicate ? (1 << (tid & 31)) : 0;
+      return warp_reduce(cta_buffer, tid);
 #endif
       }
 
@@ -619,8 +619,8 @@ namespace pcl
 	    (void)cta_buffer;
 		return __all(predicate);
 #else
-        int tid = Block::flattenedThreadId();				
-		cta_buffer[tid] = predicate ? 1 : 0;
+        int tid = Block::flattenedThreadId();
+        cta_buffer[tid] = predicate ? 1 : 0;
         return warp_reduce(cta_buffer, tid) == 32;
 #endif
       }

@@ -46,7 +46,7 @@
 namespace pcl { namespace device { namespace appnearest_search
 {
     typedef OctreeImpl::PointType PointType;
-	
+
 	struct Batch
 	{
 		const PointType* queries;
@@ -56,7 +56,7 @@ namespace pcl { namespace device { namespace appnearest_search
 		int points_step; // elem step
 
 		OctreeGlobalWithBox octree;
-	
+
 		int queries_num;
 		mutable int* output;
 	};
@@ -70,12 +70,12 @@ namespace pcl { namespace device { namespace appnearest_search
 			LOG_WARP_SIZE = 5,
 			WARP_SIZE = 1 << LOG_WARP_SIZE,
 			WARPS_COUNT = CTA_SIZE/WARP_SIZE,
-		};	
+		};
 	};
 
 	struct Warp_appNearestSearch
 	{
-	public:                		
+	public:
 		const Batch& batch;
 
 		int query_index;
@@ -141,7 +141,7 @@ namespace pcl { namespace device { namespace appnearest_search
 		{
             __shared__ volatile int  per_warp_buffer[KernelPolicy::WARPS_COUNT];
 
-			int mask = __ballot(node_idx != -1);
+			int mask = __ballot_sync(0xffffffff, node_idx != -1);
 
 			while(mask)
 			{
@@ -188,10 +188,10 @@ namespace pcl { namespace device { namespace appnearest_search
 
         template<int CTA_SIZE>
 		__device__ __forceinline__ int NearestWarpKernel(const float* points, int points_step, int length, const float3& active_query)
-		{                        						
+		{
             __shared__ volatile float dist2[CTA_SIZE];
             __shared__ volatile int   index[CTA_SIZE];
-			
+
             int tid = threadIdx.x;
 			dist2[tid] = pcl::device::numeric_limits<float>::max();
 
@@ -268,7 +268,7 @@ namespace pcl { namespace device { namespace appnearest_search
 			return index[tid - lane];
 		}
 	};
-	
+
 	__global__ void KernelAN(const Batch batch)
 	{
 		int query_index = blockIdx.x * blockDim.x + threadIdx.x;

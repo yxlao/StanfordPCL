@@ -217,7 +217,7 @@ namespace pcl
 
             __device__ __forceinline__ void processLeaf(int leaf)
             {
-                int mask = __ballot(leaf != -1);
+                int mask = __ballot_sync(0xffffffff, leaf != -1);
 
                 while(mask)
                 {

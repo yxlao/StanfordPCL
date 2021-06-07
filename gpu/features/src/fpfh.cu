@@ -237,7 +237,7 @@ namespace pcl
                     if (i < size)
                         sinds[lane] = ginds[i];
 
-                    int inds_num = __popc(__ballot(i < size));
+                    int inds_num = __popc(__ballot_sync(0xffffffff, i < size));
 
                     for(int j = 0; j < inds_num; ++j)
                     {

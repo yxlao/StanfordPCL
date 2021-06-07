@@ -66,70 +66,70 @@ using namespace std;
 namespace pcl
 {
   namespace device
-  { 	
+  {
 	  __global__ void size_check() { Static<sizeof(uint64_type) == 8>::check(); };
-	
+
 	  template<bool use_max>
 	  struct IndOp
 	  {
 		  __device__ __forceinline__ tuple<float, int> operator()(const tuple<float, int>& e1, const tuple<float, int>& e2) const
-		  {	
+		  {
 			  tuple<float, int> res;
-			
+
 			  if (use_max)
-			    res.get<0>() = fmax(e1.get<0>(), e2.get<0>());			  			
+			    res.get<0>() = fmax(e1.get<0>(), e2.get<0>());
 			  else
-				res.get<0>() = fmin(e1.get<0>(), e2.get<0>());			  			
+				res.get<0>() = fmin(e1.get<0>(), e2.get<0>());
 
 			  res.get<1>()  = (res.get<0>() == e1.get<0>()) ? e1.get<1>() : e2.get<1>();
-			  return res;			
-		  }		
+			  return res;
+		  }
 	  };
 
 	  struct X
-	  {			
+	  {
 		  __device__ __forceinline__
 		  tuple<float, int>
 		  operator()(const tuple<PointType, int>& in) const
 		  {
-			return tuple<float, int>(in.get<0>().x, in.get<1>());			
+			return tuple<float, int>(in.get<0>().x, in.get<1>());
 		  }
 	  };
 
 	  struct Y
-	  {			
+	  {
 		  __device__ __forceinline__  float operator()(const PointType& in) const { return in.y; }
 	  };
 
 	  struct Z
-	  {			
+	  {
 		  __device__ __forceinline__  float operator()(const PointType& in) const { return in.z; }
 	  };
-		
+
 	  struct LineDist
 	  {
 		  float3 x1, x2;
 		  LineDist(const PointType& p1, const PointType& p2) : x1(tr(p1)), x2(tr(p2)) {}
-		
+
 		  __device__ __forceinline__
 		  tuple<float, int> operator()(const tuple<PointType, int>& in) const
-		  {			
+		  {
 			  float3 x0 = tr(in.get<0>());
 
-			  float dist = norm(cross(x0 - x1, x0 - x2))/norm(x1 - x2);			
+			  float dist = norm(cross(x0 - x1, x0 - x2))/norm(x1 - x2);
 			  return tuple<float, int>(dist, in.get<1>());
-		  }	
+		  }
 	  };
 
 	  struct PlaneDist
-	  {		
+	  {
 		  float3 x1, n;
 		  PlaneDist(const PointType& p1, const PointType& p2, const PointType& p3) : x1(tr(p1))
 		  {
 			  float3 x2 = tr(p2), x3 = tr(p3);
               n = normalized(cross(x2 - x1, x3 - x1));
 		  }
-		
+
 		  __device__ __forceinline__
 		  tuple<float, int> operator()(const tuple<PointType, int>& in) const
 		  {
@@ -138,18 +138,18 @@ namespace pcl
 			  return tuple<float, int>(dist, in.get<1>());
 		  }
 	  };
-	
+
 	  template<typename It, typename Unary, typename Init, typename Binary>
       int transform_reduce_index(It beg, It end, Unary unop, Init init, Binary binary)
 	  {
 	    counting_iterator<int> cbeg(0);
 		counting_iterator<int> cend = cbeg + thrust::distance(beg, end);
-			 		
+
 	    tuple<float, int> t = transform_reduce(
 		  make_zip_iterator(make_tuple(beg, cbeg)),
 		  make_zip_iterator(make_tuple(end, cend)),
 		  unop, init, binary);
-		
+
 		return t.get<1>();
 	  }
 
@@ -165,12 +165,12 @@ namespace pcl
 	  {
 		tuple<float, int> max_tuple(std::numeric_limits<float>::min(), 0);
 		return transform_reduce_index(beg, end, unop, max_tuple, IndOp<true>());
-	  }	
+	  }
   }
 }
 
 pcl::device::PointStream::PointStream(const Cloud& cloud_) : cloud(cloud_)
-{				
+{
   cloud_size = cloud.size();
   facets_dists.create(cloud_size);
   perm.create(cloud_size);
@@ -189,7 +189,7 @@ void pcl::device::PointStream::computeInitalSimplex()
 
   PointType p1 = *(beg + minx);
   PointType p2 = *(beg + maxx);
-  	
+
   int maxl = transform_reduce_max_index(beg, end, LineDist(p1, p2));
 
   PointType p3 = *(beg + maxl);
@@ -206,7 +206,7 @@ void pcl::device::PointStream::computeInitalSimplex()
 
   float maxz = transform_reduce(beg, end, Z(), std::numeric_limits<float>::min(), maximum<float>());
   float minz = transform_reduce(beg, end, Z(), std::numeric_limits<float>::max(), minimum<float>());
-		
+
   float dx = (p2.x - p1.x);
   float dy = (maxy - miny);
   float dz = (maxz - minz);
@@ -224,7 +224,7 @@ namespace pcl
   namespace device
   {
     __global__ void init_fs(int i1, int i2, int i3, int i4, PtrStep<int> verts_inds)
-	{	  	  	
+	{
       *(int4*)verts_inds.ptr(0) = make_int4(i2, i1, i1, i1);
       *(int4*)verts_inds.ptr(1) = make_int4(i3, i3, i2, i2);
       *(int4*)verts_inds.ptr(2) = make_int4(i4, i4, i4, i3);
@@ -252,16 +252,16 @@ namespace pcl
 	{
       float diag;
       float4 pl1, pl2, pl3, pl4;
-	  	
+
       InitalClassify(const float4& p1, const float4& p2, const float4& p3, const float4& p4, float diagonal)
           : diag(diagonal), pl1(p1), pl2(p2), pl3(p3), pl4(p4)
-	  {				
+	  {
         pl1 *= compue_inv_normal_norm(pl1);
         pl2 *= compue_inv_normal_norm(pl2);
         pl3 *= compue_inv_normal_norm(pl3);
         pl4 *= compue_inv_normal_norm(pl4);
 	  }
-	  	
+
 	  __device__ __forceinline__
 	  uint64_type
 	  operator()(const PointType& p) const
@@ -318,8 +318,8 @@ namespace pcl
 		  uint64_type res = idx;
 		  res <<= 32;
 		  return res + *reinterpret_cast<unsigned int*>(&dist);
-	  }		
-	};		
+	  }
+	};
 
     __global__ void initalClassifyKernel(const InitalClassify ic, const PointType* points, int cloud_size, uint64_type* output)
     {
@@ -359,7 +359,7 @@ namespace pcl
   {
     __device__ int new_cloud_size;
 	struct SearchFacetHeads
-	{		
+	{
 	  uint64_type *facets_dists;
 	  int cloud_size;
 	  int facet_count;
@@ -368,17 +368,17 @@ namespace pcl
 
 	  mutable int* head_points;
       //bool logger;
-	
+
 	  __device__ __forceinline__
 	  void operator()(int facet) const
-	  {			
+	  {
 		const uint64_type* b = facets_dists;
 		const uint64_type* e = b + cloud_size;
 
         bool last_thread = facet == facet_count;
 
-        int search_value = !last_thread ? facet : numeric_limits<int>::max();		
-		int index = lower_bound(b, e, search_value, LessThanByFacet()) - b;			
+        int search_value = !last_thread ? facet : numeric_limits<int>::max();
+		int index = lower_bound(b, e, search_value, LessThanByFacet()) - b;
 
         if (last_thread)
             new_cloud_size = index;
@@ -386,7 +386,7 @@ namespace pcl
         {
           bool not_found = index == cloud_size || (facet != (facets_dists[index] >> 32));
 
-          head_points[facet] = not_found ? -1 : perm[index];		
+          head_points[facet] = not_found ? -1 : perm[index];
         }
 	  }
 	};
@@ -411,9 +411,9 @@ int pcl::device::PointStream::searchFacetHeads(size_t facet_count, DeviceArray<i
 	sfh.perm = perm;
 	sfh.points = cloud.ptr();
 	sfh.head_points = head_points;
-	
+
     //thrust::counting_iterator<int> b(0);
-    //thrust::counting_iterator<int> e = b + facet_count + 1;  	
+    //thrust::counting_iterator<int> e = b + facet_count + 1;
     //thrust::for_each(b, e, sfh);
 
     searchFacetHeadsKernel<<<divUp(facet_count+1, 256), 256>>>(sfh);
@@ -421,7 +421,7 @@ int pcl::device::PointStream::searchFacetHeads(size_t facet_count, DeviceArray<i
     cudaSafeCall( cudaDeviceSynchronize() );
 
 	int new_size;
-	cudaSafeCall( cudaMemcpyFromSymbol(	(void*)&new_size,  pcl::device::new_cloud_size, sizeof(new_size)) );	
+	cudaSafeCall( cudaMemcpyFromSymbol(	(void*)&new_size,  pcl::device::new_cloud_size, sizeof(new_size)) );
 	return new_size;
 }
 
@@ -450,18 +450,18 @@ namespace pcl
 
 		int* head_points_in;
 		PtrStep<int>  verts_inds_in;
-		
+
 
 		int *scan_buffer;
 		int facet_count;
 
 		mutable int* head_points_out;
 		mutable PtrStep<int>  verts_inds_out;
-		
+
 
 		mutable PtrStep<int> empty_facets;
 		mutable int *empty_count;
-		
+
 		__device__ __forceinline__
 		void operator()() const
 		{
@@ -469,7 +469,7 @@ namespace pcl
 
 			if (__all(idx >= facet_count))
 				return;
-						
+
 			int empty = 0;
 
 			if(idx < facet_count)
@@ -480,22 +480,22 @@ namespace pcl
 					int offset = scan_buffer[idx];
 
 					head_points_out[offset] = head_idx;
-					
+
 					verts_inds_out.ptr(0)[offset] = verts_inds_in.ptr(0)[idx];
 					verts_inds_out.ptr(1)[offset] = verts_inds_in.ptr(1)[idx];
 					verts_inds_out.ptr(2)[offset] = verts_inds_in.ptr(2)[idx];
 
 
-					
+
 				}
 				else
 				  empty = 1;
 			}
 
-			int total = __popc(__ballot(empty));
+			int total = __popc(__ballot_sync(0xffffffff, empty));
 			if (total > 0)
 			{
-				int offset = Warp::binaryExclScan(__ballot(empty));
+				int offset = Warp::binaryExclScan(__ballot_sync(0xffffffff, empty));
 
 				volatile __shared__ int wapr_buffer[WARPS];
 
@@ -512,11 +512,11 @@ namespace pcl
                 {
 				  empty_facets.ptr(0)[old + offset] = verts_inds_in.ptr(0)[idx];
 				  empty_facets.ptr(1)[old + offset] = verts_inds_in.ptr(1)[idx];
-				  empty_facets.ptr(2)[old + offset] = verts_inds_in.ptr(2)[idx];		
+				  empty_facets.ptr(2)[old + offset] = verts_inds_in.ptr(2)[idx];
 
                   int a1 = verts_inds_in.ptr(0)[idx], a2 = verts_inds_in.ptr(1)[idx], a3 = verts_inds_in.ptr(2)[idx];
                 }
-			}							
+			}
 		}
 	};
 
@@ -602,7 +602,7 @@ namespace pcl
           if (hi == perm_index)
           {
             uint64_type res = numeric_limits<int>::max();
-		    res <<= 32;		
+		    res <<= 32;
             facets_dists[point_idx] = res;
           }
           else
@@ -616,10 +616,10 @@ namespace pcl
 		    float3 v1 = tr( points[ i1 ] );
 		    float3 v2 = tr( points[ i2 ] );
 		    float3 v3 = tr( points[ i3 ] );
-		
+
 		    float4 p0 = compute_plane(hp, v1, v2, /*opposite*/v3); // j
 		    float4 p1 = compute_plane(hp, v2, v3, /*opposite*/v1); // facet_count + j
-		    float4 p2 = compute_plane(hp, v3, v1, /*opposite*/v2); // facet_count + j*2			
+		    float4 p2 = compute_plane(hp, v3, v1, /*opposite*/v2); // facet_count + j*2
 
             p0 *= compue_inv_normal_norm(p0);
             p1 *= compue_inv_normal_norm(p1);
@@ -676,7 +676,7 @@ namespace pcl
 
             // if (neg_count == 0)
             // new_idx = INT_MAX ==>> internal point
-                      	       	 	
+
             uint64_type res = new_idx;
 		    res <<= 32;
 		    res += *reinterpret_cast<unsigned int*>(&dist);

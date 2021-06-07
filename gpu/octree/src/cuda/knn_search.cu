@@ -163,7 +163,7 @@ namespace pcl { namespace device { namespace knn_search
 
         __device__ __forceinline__ void processLeaf(int node_idx)
         {
-            int mask = __ballot(node_idx != -1);
+            int mask = __ballot_sync(0xffffffff, node_idx != -1);
 
             unsigned int laneId = Warp::laneId();
             unsigned int warpId = Warp::id();
@@ -222,10 +222,10 @@ namespace pcl { namespace device { namespace knn_search
 
         template<int CTA_SIZE>
 		__device__ __forceinline__ int NearestWarpKernel(const float* points, int points_step, int length, const float3& active_query, float& dist)
-		{                        						
+		{
             __shared__ volatile float dist2[CTA_SIZE];
             __shared__ volatile int   index[CTA_SIZE];
-			
+
             int tid = threadIdx.x;
 			dist2[tid] = pcl::device::numeric_limits<float>::max();
 
