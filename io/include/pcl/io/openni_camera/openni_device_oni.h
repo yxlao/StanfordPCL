@@ -43,51 +43,61 @@
 #include "openni_device.h"
 #include "openni_driver.h"
 
-namespace openni_wrapper
-{
+namespace openni_wrapper {
 
-  /**
-   * @brief Concrete implementation of the interface OpenNIDevice for a virtual device playing back an ONI file.
-   * @author Suat Gedikli
-   * @date 19. june 2011
-   * @ingroup io
-   */
-  class DeviceONI : public OpenNIDevice
-  {
+/**
+ * @brief Concrete implementation of the interface OpenNIDevice for a virtual
+ * device playing back an ONI file.
+ * @author Suat Gedikli
+ * @date 19. june 2011
+ * @ingroup io
+ */
+class DeviceONI : public OpenNIDevice {
     friend class OpenNIDriver;
+
   public:
-    DeviceONI (xn::Context& context, const std::string& file_name, bool repeat = false, bool streaming = true);
-    virtual ~DeviceONI () throw ();
+    DeviceONI(xn::Context &context, const std::string &file_name,
+              bool repeat = false, bool streaming = true);
+    virtual ~DeviceONI() throw();
 
-    virtual void startImageStream ();
-    virtual void stopImageStream ();
+    virtual void startImageStream();
+    virtual void stopImageStream();
 
-    virtual void startDepthStream ();
-    virtual void stopDepthStream ();
+    virtual void startDepthStream();
+    virtual void stopDepthStream();
 
-    virtual void startIRStream ();
-    virtual void stopIRStream ();
+    virtual void startIRStream();
+    virtual void stopIRStream();
 
-    virtual bool isImageStreamRunning () const throw ();
-    virtual bool isDepthStreamRunning () const throw ();
-    virtual bool isIRStreamRunning () const throw ();
+    virtual bool isImageStreamRunning() const throw();
+    virtual bool isDepthStreamRunning() const throw();
+    virtual bool isIRStreamRunning() const throw();
 
-    virtual bool isImageResizeSupported (unsigned input_width, unsigned input_height, unsigned output_width, unsigned output_height) const throw ();
+    virtual bool isImageResizeSupported(unsigned input_width,
+                                        unsigned input_height,
+                                        unsigned output_width,
+                                        unsigned output_height) const throw();
 
-    bool trigger ();
+    bool trigger();
 
-	bool seekDepthFrame( int frame );
-	bool seekImageFrame( int frame );
-	bool seekIRFrame( int frame );
+    bool seekDepthFrame(int frame);
+    bool seekImageFrame(int frame);
+    bool seekIRFrame(int frame);
 
-    bool isStreaming () const throw ();
+    bool isStreaming() const throw();
+
   protected:
-    virtual boost::shared_ptr<Image> getCurrentImage (boost::shared_ptr<xn::ImageMetaData> image_meta_data) const throw ();
+    virtual boost::shared_ptr<Image>
+    getCurrentImage(boost::shared_ptr<xn::ImageMetaData> image_meta_data) const
+        throw();
 
-    void PlayerThreadFunction ();
-    static void __stdcall NewONIDepthDataAvailable (xn::ProductionNode& node, void* cookie) throw ();
-    static void __stdcall NewONIImageDataAvailable (xn::ProductionNode& node, void* cookie) throw ();
-    static void __stdcall NewONIIRDataAvailable (xn::ProductionNode& node, void* cookie) throw ();
+    void PlayerThreadFunction();
+    static void __stdcall NewONIDepthDataAvailable(xn::ProductionNode &node,
+                                                   void *cookie) throw();
+    static void __stdcall NewONIImageDataAvailable(xn::ProductionNode &node,
+                                                   void *cookie) throw();
+    static void __stdcall NewONIIRDataAvailable(xn::ProductionNode &node,
+                                                void *cookie) throw();
 
     xn::Player player_;
     boost::thread player_thread_;
@@ -97,9 +107,8 @@ namespace openni_wrapper
     bool depth_stream_running_;
     bool image_stream_running_;
     bool ir_stream_running_;
-  } ;
+};
 
-} //namespace openni_wrapper
+} // namespace openni_wrapper
 #endif //__OPENNI_DEVICE_ONI__
-#endif //HAVE_OPENNI
-
+#endif // HAVE_OPENNI

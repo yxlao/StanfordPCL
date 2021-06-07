@@ -33,7 +33,8 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: correspondence_rejection_median_distance.hpp 7153 2012-09-16 22:24:29Z aichim $
+ * $Id: correspondence_rejection_median_distance.hpp 7153 2012-09-16 22:24:29Z
+ * aichim $
  *
  */
 #ifndef PCL_REGISTRATION_IMPL_CORRESPONDENCE_REJECTION_MEDIAN_DISTANCE_HPP_
@@ -42,33 +43,33 @@
 #include <vector>
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::registration::CorrespondenceRejectorMedianDistance::getRemainingCorrespondences (
-    const pcl::Correspondences& original_correspondences,
-    pcl::Correspondences& remaining_correspondences)
-{
-  std::vector <double> dists;
-  dists.resize (original_correspondences.size ());
+void pcl::registration::CorrespondenceRejectorMedianDistance::
+    getRemainingCorrespondences(
+        const pcl::Correspondences &original_correspondences,
+        pcl::Correspondences &remaining_correspondences) {
+    std::vector<double> dists;
+    dists.resize(original_correspondences.size());
 
-  for (size_t i = 0; i < original_correspondences.size (); ++i)
-  {
-    if (data_container_)
-      dists[i] = data_container_->getCorrespondenceScore (original_correspondences[i]);
-    else
-      dists[i] = original_correspondences[i].distance;
-  }
+    for (size_t i = 0; i < original_correspondences.size(); ++i) {
+        if (data_container_)
+            dists[i] = data_container_->getCorrespondenceScore(
+                original_correspondences[i]);
+        else
+            dists[i] = original_correspondences[i].distance;
+    }
 
-  std::vector <double> nth (dists);
-  nth_element (nth.begin (), nth.begin () + (nth.size () / 2), nth.end ());
-  median_distance_ = nth [nth.size () / 2];
+    std::vector<double> nth(dists);
+    nth_element(nth.begin(), nth.begin() + (nth.size() / 2), nth.end());
+    median_distance_ = nth[nth.size() / 2];
 
-  unsigned int number_valid_correspondences = 0;
-  remaining_correspondences.resize (original_correspondences.size ());
+    unsigned int number_valid_correspondences = 0;
+    remaining_correspondences.resize(original_correspondences.size());
 
-  for (size_t i = 0; i < original_correspondences.size (); ++i)
-    if (dists[i] <= median_distance_ * factor_)
-      remaining_correspondences[number_valid_correspondences++] = original_correspondences[i];
-  remaining_correspondences.resize (number_valid_correspondences);
+    for (size_t i = 0; i < original_correspondences.size(); ++i)
+        if (dists[i] <= median_distance_ * factor_)
+            remaining_correspondences[number_valid_correspondences++] =
+                original_correspondences[i];
+    remaining_correspondences.resize(number_valid_correspondences);
 }
 
-#endif    // PCL_REGISTRATION_IMPL_CORRESPONDENCE_REJECTION_MEDIAN_DISTANCE_HPP_
+#endif // PCL_REGISTRATION_IMPL_CORRESPONDENCE_REJECTION_MEDIAN_DISTANCE_HPP_

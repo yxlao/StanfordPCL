@@ -42,49 +42,44 @@
 
 #include <pcl/common/eigen.h>
 
-namespace pcl
-{
-  /** \brief CloudProperties stores a list of \b optional point cloud properties such as:
-    *
-    *   - acquisition time
-    *   - the origin and orientation of the sensor when the data was acquired
-    *   - optional user parameters
-    *
-    * <b>This part of the API is for advanced users only, and constitutes a transition to the 2.0 API!</b>
-    *
-    * \author Radu B. Rusu
-    */
-  class CloudProperties
-  {
-    public:
+namespace pcl {
+/** \brief CloudProperties stores a list of \b optional point cloud properties
+ * such as:
+ *
+ *   - acquisition time
+ *   - the origin and orientation of the sensor when the data was acquired
+ *   - optional user parameters
+ *
+ * <b>This part of the API is for advanced users only, and constitutes a
+ * transition to the 2.0 API!</b>
+ *
+ * \author Radu B. Rusu
+ */
+class CloudProperties {
+  public:
+    /** \brief Default constructor. Sets:
+     *
+     *   - \ref acquisition_time to 0
+     *   - \ref sensor_origin to {0, 0, 0}
+     *   - \ref sensor_orientation to {1, 0, 0, 0}
+     */
+    CloudProperties()
+        : acquisition_time(0), sensor_origin(Eigen::Vector4f::Zero()),
+          sensor_orientation(Eigen::Quaternionf::Identity()) {}
 
-      /** \brief Default constructor. Sets:
-        *
-        *   - \ref acquisition_time to 0
-        *   - \ref sensor_origin to {0, 0, 0}
-        *   - \ref sensor_orientation to {1, 0, 0, 0}
-        */
-      CloudProperties () :
-        acquisition_time (0),
-        sensor_origin (Eigen::Vector4f::Zero ()),
-        sensor_orientation (Eigen::Quaternionf::Identity ())
-      {
-      }
+    /** \brief Data acquisition time. */
+    uint64_t acquisition_time;
 
-      /** \brief Data acquisition time. */
-      uint64_t acquisition_time;
+    /** \brief Sensor acquisition pose (origin/translation in the cloud data
+     * coordinate system). */
+    Eigen::Vector4f sensor_origin;
 
-      /** \brief Sensor acquisition pose (origin/translation in the cloud data coordinate system). */
-      Eigen::Vector4f    sensor_origin;
+    /** \brief Sensor acquisition pose (rotation in the cloud data coordinate
+     * system). \note the data is stored in (w, x, y, z) format.
+     */
+    Eigen::Quaternionf sensor_orientation;
+};
 
-      /** \brief Sensor acquisition pose (rotation in the cloud data coordinate system).
-        * \note the data is stored in (w, x, y, z) format.
-        */
-      Eigen::Quaternionf sensor_orientation;
-  };
+} // namespace pcl
 
-}
-
-#endif  // PCL_CLOUD_PROPERTIES_H_
-
-
+#endif // PCL_CLOUD_PROPERTIES_H_

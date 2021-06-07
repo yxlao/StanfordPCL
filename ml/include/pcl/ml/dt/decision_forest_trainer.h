@@ -48,125 +48,103 @@
 
 #include <vector>
 
-namespace pcl
-{
+namespace pcl {
 
-  /** \brief Trainer for decision trees. */
-  template <
-    class FeatureType,
-    class DataSet,
-    class LabelType,
-    class ExampleIndex,
-    class NodeType >
-  class PCL_EXPORTS DecisionForestTrainer
-  {
+/** \brief Trainer for decision trees. */
+template <class FeatureType, class DataSet, class LabelType, class ExampleIndex,
+          class NodeType>
+class PCL_EXPORTS DecisionForestTrainer {
 
-    public:
+  public:
+    /** \brief Constructor. */
+    DecisionForestTrainer();
+    /** \brief Destructor. */
+    virtual ~DecisionForestTrainer();
 
-      /** \brief Constructor. */
-      DecisionForestTrainer ();
-      /** \brief Destructor. */
-      virtual
-      ~DecisionForestTrainer ();
-
-      /** \brief Sets the number of trees to train.
-        * \param[in] num_of_trees The number of trees.
-        */
-      inline void
-      setNumberOfTreesToTrain (const size_t num_of_trees)
-      {
+    /** \brief Sets the number of trees to train.
+     * \param[in] num_of_trees The number of trees.
+     */
+    inline void setNumberOfTreesToTrain(const size_t num_of_trees) {
         num_of_trees_to_train_ = num_of_trees;
-      }
+    }
 
-      /** \brief Sets the feature handler used to create and evaluate features.
-        * \param[in] feature_handler The feature handler.
-        */
-      inline void
-      setFeatureHandler (pcl::FeatureHandler<FeatureType, DataSet, ExampleIndex> & feature_handler)
-      {
-        decision_tree_trainer_.setFeatureHandler (feature_handler);
-      }
+    /** \brief Sets the feature handler used to create and evaluate features.
+     * \param[in] feature_handler The feature handler.
+     */
+    inline void
+    setFeatureHandler(pcl::FeatureHandler<FeatureType, DataSet, ExampleIndex>
+                          &feature_handler) {
+        decision_tree_trainer_.setFeatureHandler(feature_handler);
+    }
 
-      /** \brief Sets the object for estimating the statistics for tree nodes.
-        * \param[in] stats_estimator The statistics estimator.
-        */
-      inline void
-      setStatsEstimator (pcl::StatsEstimator<LabelType, NodeType, DataSet, ExampleIndex> & stats_estimator)
-      {
-        decision_tree_trainer_.setStatsEstimator (stats_estimator);
-      }
+    /** \brief Sets the object for estimating the statistics for tree nodes.
+     * \param[in] stats_estimator The statistics estimator.
+     */
+    inline void setStatsEstimator(
+        pcl::StatsEstimator<LabelType, NodeType, DataSet, ExampleIndex>
+            &stats_estimator) {
+        decision_tree_trainer_.setStatsEstimator(stats_estimator);
+    }
 
-      /** \brief Sets the maximum depth of the learned tree.
-        * \param[in] max_tree_depth Maximum depth of the learned tree.
-        */
-      inline void
-      setMaxTreeDepth (const size_t max_tree_depth)
-      {
-        decision_tree_trainer_.setMaxTreeDepth (max_tree_depth);
-      }
+    /** \brief Sets the maximum depth of the learned tree.
+     * \param[in] max_tree_depth Maximum depth of the learned tree.
+     */
+    inline void setMaxTreeDepth(const size_t max_tree_depth) {
+        decision_tree_trainer_.setMaxTreeDepth(max_tree_depth);
+    }
 
-      /** \brief Sets the number of features used to find optimal decision features.
-        * \param[in] num_of_features The number of features.
-        */
-      inline void
-      setNumOfFeatures (const size_t num_of_features)
-      {
-        decision_tree_trainer_.setNumOfFeatures (num_of_features);
-      }
+    /** \brief Sets the number of features used to find optimal decision
+     * features. \param[in] num_of_features The number of features.
+     */
+    inline void setNumOfFeatures(const size_t num_of_features) {
+        decision_tree_trainer_.setNumOfFeatures(num_of_features);
+    }
 
-      /** \brief Sets the number of thresholds tested for finding the optimal decision threshold on the feature responses.
-        * \param[in] num_of_thresholds The number of thresholds.
-        */
-      inline void
-      setNumOfThresholds (const size_t num_of_threshold)
-      {
-        decision_tree_trainer_.setNumOfThresholds (num_of_threshold);
-      }
+    /** \brief Sets the number of thresholds tested for finding the optimal
+     * decision threshold on the feature responses. \param[in] num_of_thresholds
+     * The number of thresholds.
+     */
+    inline void setNumOfThresholds(const size_t num_of_threshold) {
+        decision_tree_trainer_.setNumOfThresholds(num_of_threshold);
+    }
 
-      /** \brief Sets the input data set used for training.
-        * \param[in] data_set The data set used for training.
-        */
-      inline void
-      setTrainingDataSet (DataSet & data_set)
-      {
-        decision_tree_trainer_.setTrainingDataSet (data_set);
-      }
+    /** \brief Sets the input data set used for training.
+     * \param[in] data_set The data set used for training.
+     */
+    inline void setTrainingDataSet(DataSet &data_set) {
+        decision_tree_trainer_.setTrainingDataSet(data_set);
+    }
 
-      /** \brief Example indices that specify the data used for training.
-        * \param[in] examples The examples.
-        */
-      inline void
-      setExamples (std::vector<ExampleIndex> & examples)
-      {
-        decision_tree_trainer_.setExamples (examples);
-      }
+    /** \brief Example indices that specify the data used for training.
+     * \param[in] examples The examples.
+     */
+    inline void setExamples(std::vector<ExampleIndex> &examples) {
+        decision_tree_trainer_.setExamples(examples);
+    }
 
-      /** \brief Sets the label data corresponding to the example data.
-        * \param[in] label_data The label data.
-        */
-      inline void
-      setLabelData (std::vector<LabelType> & label_data)
-      {
-        decision_tree_trainer_.setLabelData (label_data);
-      }
+    /** \brief Sets the label data corresponding to the example data.
+     * \param[in] label_data The label data.
+     */
+    inline void setLabelData(std::vector<LabelType> &label_data) {
+        decision_tree_trainer_.setLabelData(label_data);
+    }
 
-      /** \brief Trains a decision forest using the set training data and settings.
-        * \param[out] tree Destination for the trained forest.
-        */
-      void
-      train (DecisionForest<NodeType> & forest);
+    /** \brief Trains a decision forest using the set training data and
+     * settings. \param[out] tree Destination for the trained forest.
+     */
+    void train(DecisionForest<NodeType> &forest);
 
-    private:
+  private:
+    /** \brief The number of trees to train. */
+    size_t num_of_trees_to_train_;
 
-      /** \brief The number of trees to train. */
-      size_t num_of_trees_to_train_;
+    /** \brief The trainer for the decision trees of the forest. */
+    pcl::DecisionTreeTrainer<FeatureType, DataSet, LabelType, ExampleIndex,
+                             NodeType>
+        decision_tree_trainer_;
+};
 
-      /** \brief The trainer for the decision trees of the forest. */
-      pcl::DecisionTreeTrainer<FeatureType, DataSet, LabelType, ExampleIndex, NodeType> decision_tree_trainer_;
-
-  };
-
-}
+} // namespace pcl
 
 #include <pcl/ml/impl/dt/decision_forest_trainer.hpp>
 

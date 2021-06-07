@@ -41,7 +41,7 @@
 #define PCL_FEATURES_BOOST_H_
 
 #if defined __GNUC__
-#  pragma GCC system_header
+#pragma GCC system_header
 #endif
 
 #include <boost/unordered_map.hpp>
@@ -54,4 +54,4 @@
 //#include <boost/graph/adjacency_list.hpp>
 //#include <boost/graph/johnson_all_pairs_shortest.hpp>
 
-#endif    // PCL_FEATURES_BOOST_H_
+#endif // PCL_FEATURES_BOOST_H_

@@ -35,10 +35,10 @@
  *
  */
 
-
-
 #include <pcl/impl/instantiate.hpp>
 #include <pcl/point_types.h>
 #include <pcl/filters/impl/sampling_surface_normal.hpp>
 
-PCL_INSTANTIATE (SamplingSurfaceNormal, (pcl::PointNormal) (pcl::PointXYZRGBNormal) (pcl::PointXYZINormal))
+PCL_INSTANTIATE(
+    SamplingSurfaceNormal,
+    (pcl::PointNormal)(pcl::PointXYZRGBNormal)(pcl::PointXYZINormal))

@@ -40,68 +40,69 @@
 
 #include <pcl/features/feature.h>
 
-namespace pcl
-{
-  PCL_EXPORTS bool
-  computeRGBPairFeatures (const Eigen::Vector4f &p1, const Eigen::Vector4f &n1, const Eigen::Vector4i &colors1,
-                          const Eigen::Vector4f &p2, const Eigen::Vector4f &n2, const Eigen::Vector4i &colors2,
-                          float &f1, float &f2, float &f3, float &f4, float &f5, float &f6, float &f7);
+namespace pcl {
+PCL_EXPORTS bool
+computeRGBPairFeatures(const Eigen::Vector4f &p1, const Eigen::Vector4f &n1,
+                       const Eigen::Vector4i &colors1,
+                       const Eigen::Vector4f &p2, const Eigen::Vector4f &n2,
+                       const Eigen::Vector4i &colors2, float &f1, float &f2,
+                       float &f3, float &f4, float &f5, float &f6, float &f7);
 
+template <typename PointInT, typename PointNT,
+          typename PointOutT = pcl::PFHRGBSignature250>
+class PFHRGBEstimation
+    : public FeatureFromNormals<PointInT, PointNT, PointOutT> {
+  public:
+    using PCLBase<PointInT>::indices_;
+    using Feature<PointInT, PointOutT>::feature_name_;
+    using Feature<PointInT, PointOutT>::surface_;
+    using Feature<PointInT, PointOutT>::k_;
+    using Feature<PointInT, PointOutT>::search_parameter_;
+    using FeatureFromNormals<PointInT, PointNT, PointOutT>::normals_;
+    typedef typename Feature<PointInT, PointOutT>::PointCloudOut PointCloudOut;
 
-  template <typename PointInT, typename PointNT, typename PointOutT = pcl::PFHRGBSignature250>
-  class PFHRGBEstimation : public FeatureFromNormals<PointInT, PointNT, PointOutT>
-  {
-    public:
-      using PCLBase<PointInT>::indices_;
-      using Feature<PointInT, PointOutT>::feature_name_;
-      using Feature<PointInT, PointOutT>::surface_;
-      using Feature<PointInT, PointOutT>::k_;
-      using Feature<PointInT, PointOutT>::search_parameter_;
-      using FeatureFromNormals<PointInT, PointNT, PointOutT>::normals_;
-      typedef typename Feature<PointInT, PointOutT>::PointCloudOut PointCloudOut;
-
-
-      PFHRGBEstimation ()
-        : nr_subdiv_ (5), pfhrgb_histogram_ (), pfhrgb_tuple_ (), d_pi_ (1.0f / (2.0f * static_cast<float> (M_PI)))
-      {
+    PFHRGBEstimation()
+        : nr_subdiv_(5), pfhrgb_histogram_(), pfhrgb_tuple_(),
+          d_pi_(1.0f / (2.0f * static_cast<float>(M_PI))) {
         feature_name_ = "PFHRGBEstimation";
-      }
+    }
 
-      bool
-      computeRGBPairFeatures (const pcl::PointCloud<PointInT> &cloud, const pcl::PointCloud<PointNT> &normals,
-                              int p_idx, int q_idx,
-                              float &f1, float &f2, float &f3, float &f4, float &f5, float &f6, float &f7);
+    bool computeRGBPairFeatures(const pcl::PointCloud<PointInT> &cloud,
+                                const pcl::PointCloud<PointNT> &normals,
+                                int p_idx, int q_idx, float &f1, float &f2,
+                                float &f3, float &f4, float &f5, float &f6,
+                                float &f7);
 
-      void
-      computePointPFHRGBSignature (const pcl::PointCloud<PointInT> &cloud, const pcl::PointCloud<PointNT> &normals,
-                                   const std::vector<int> &indices, int nr_split, Eigen::VectorXf &pfhrgb_histogram);
+    void computePointPFHRGBSignature(const pcl::PointCloud<PointInT> &cloud,
+                                     const pcl::PointCloud<PointNT> &normals,
+                                     const std::vector<int> &indices,
+                                     int nr_split,
+                                     Eigen::VectorXf &pfhrgb_histogram);
 
-    protected:
-      void
-      computeFeature (PointCloudOut &output);
+  protected:
+    void computeFeature(PointCloudOut &output);
 
-    private:
-      /** \brief The number of subdivisions for each angular feature interval. */
-      int nr_subdiv_;
+  private:
+    /** \brief The number of subdivisions for each angular feature interval. */
+    int nr_subdiv_;
 
-      /** \brief Placeholder for a point's PFHRGB signature. */
-      Eigen::VectorXf pfhrgb_histogram_;
+    /** \brief Placeholder for a point's PFHRGB signature. */
+    Eigen::VectorXf pfhrgb_histogram_;
 
-      /** \brief Placeholder for a PFHRGB 7-tuple. */
-      Eigen::VectorXf pfhrgb_tuple_;
+    /** \brief Placeholder for a PFHRGB 7-tuple. */
+    Eigen::VectorXf pfhrgb_tuple_;
 
-      /** \brief Placeholder for a histogram index. */
-      int f_index_[7];
+    /** \brief Placeholder for a histogram index. */
+    int f_index_[7];
 
-      /** \brief Float constant = 1.0 / (2.0 * M_PI) */
-      float d_pi_;
+    /** \brief Float constant = 1.0 / (2.0 * M_PI) */
+    float d_pi_;
 
-      /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from outside the class
-        * \param[out] output the output point cloud
-        */
-      void
-      computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &) {}
-  };
-}
+    /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from
+     * outside the class \param[out] output the output point cloud
+     */
+    void computeFeatureEigen(pcl::PointCloud<Eigen::MatrixXf> &) {}
+};
+} // namespace pcl
 
 #endif /* PCL_PFHRGB_H_ */

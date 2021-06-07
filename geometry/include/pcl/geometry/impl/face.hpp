@@ -41,266 +41,212 @@
 #ifndef PCL_GEOMETRY_FACE_HPP
 #define PCL_GEOMETRY_FACE_HPP
 
-namespace pcl
-{
+namespace pcl {
 
-  /** \brief A Face is defined by a closed loop of edges.
-    *
-    * \tparam FaceDataT User data that is stored in the Face: Must have operator == (Equality Comparable)
-    * \tparam MeshT Mesh to which the Face belongs to (classes derived from MeshBase)
-    *
-    * \note It is not necessary to declare the Face manually. Please declare the mesh first and use the provided typedefs.
-    * \author Martin Saelzle
-    * \ingroup geometry
-    */
-  template <class FaceDataT, class MeshT>
-  class Face : public FaceDataT
-  {
-      //////////////////////////////////////////////////////////////////////////
-      // Types
-      //////////////////////////////////////////////////////////////////////////
+/** \brief A Face is defined by a closed loop of edges.
+ *
+ * \tparam FaceDataT User data that is stored in the Face: Must have operator ==
+ * (Equality Comparable) \tparam MeshT Mesh to which the Face belongs to
+ * (classes derived from MeshBase)
+ *
+ * \note It is not necessary to declare the Face manually. Please declare the
+ * mesh first and use the provided typedefs. \author Martin Saelzle \ingroup
+ * geometry
+ */
+template <class FaceDataT, class MeshT> class Face : public FaceDataT {
+    //////////////////////////////////////////////////////////////////////////
+    // Types
+    //////////////////////////////////////////////////////////////////////////
 
-    public:
+  public:
+    typedef pcl::Face<FaceDataT, MeshT> Self;
 
-      typedef pcl::Face <FaceDataT, MeshT> Self;
+    typedef FaceDataT FaceData;
+    typedef MeshT Mesh;
 
-      typedef FaceDataT FaceData;
-      typedef MeshT     Mesh;
+    typedef typename Mesh::HalfEdge HalfEdge;
+    typedef typename Mesh::HalfEdgeIndex HalfEdgeIndex;
 
-      typedef typename Mesh::HalfEdge      HalfEdge;
-      typedef typename Mesh::HalfEdgeIndex HalfEdgeIndex;
+    //////////////////////////////////////////////////////////////////////////
+    // Constructor
+    //////////////////////////////////////////////////////////////////////////
 
-      //////////////////////////////////////////////////////////////////////////
-      // Constructor
-      //////////////////////////////////////////////////////////////////////////
+  public:
+    /** \brief Constructor
+     * \param face_data (optional) User data that is stored in the Face;
+     * defaults to FaceData () \param idx_inner_half_edge (optional) Inner
+     * HalfEdgeIndex; defaults to HalfEdgeIndex () (invalid index)
+     */
+    Face(const FaceData &face_data = FaceData(),
+         const HalfEdgeIndex &idx_inner_half_edge = HalfEdgeIndex())
+        : FaceData(face_data), is_deleted_(false),
+          idx_inner_half_edge_(idx_inner_half_edge) {}
 
-    public:
+    //////////////////////////////////////////////////////////////////////////
+    // InnerHalfEdge
+    //////////////////////////////////////////////////////////////////////////
 
-      /** \brief Constructor
-        * \param face_data (optional) User data that is stored in the Face; defaults to FaceData ()
-        * \param idx_inner_half_edge (optional) Inner HalfEdgeIndex; defaults to HalfEdgeIndex () (invalid index)
-        */
-      Face (const FaceData&      face_data           = FaceData (),
-            const HalfEdgeIndex& idx_inner_half_edge = HalfEdgeIndex ())
-        : FaceData             (face_data),
-          is_deleted_          (false),
-          idx_inner_half_edge_ (idx_inner_half_edge)
-      {
-      }
+  public:
+    /** \brief Returns the inner HalfEdgeIndex (non-const) */
+    HalfEdgeIndex &getInnerHalfEdgeIndex() { return (idx_inner_half_edge_); }
 
-      //////////////////////////////////////////////////////////////////////////
-      // InnerHalfEdge
-      //////////////////////////////////////////////////////////////////////////
-
-    public:
-
-      /** \brief Returns the inner HalfEdgeIndex (non-const) */
-      HalfEdgeIndex&
-      getInnerHalfEdgeIndex ()
-      {
+    /** \brief Returns the inner HalfEdgeIndex (const) */
+    const HalfEdgeIndex &getInnerHalfEdgeIndex() const {
         return (idx_inner_half_edge_);
-      }
+    }
 
-      /** \brief Returns the inner HalfEdgeIndex (const) */
-      const HalfEdgeIndex&
-      getInnerHalfEdgeIndex () const
-      {
-        return (idx_inner_half_edge_);
-      }
-
-      /** \brief Set the inner HalfEdgeIndex */
-      void
-      setInnerHalfEdgeIndex (const HalfEdgeIndex& idx_inner_half_edge)
-      {
+    /** \brief Set the inner HalfEdgeIndex */
+    void setInnerHalfEdgeIndex(const HalfEdgeIndex &idx_inner_half_edge) {
         idx_inner_half_edge_ = idx_inner_half_edge;
-      }
+    }
 
-      /** \brief Returns the inner HalfEdge (non-const)
-        * \param mesh Reference to the mesh to which the Face belongs to
-        * \note Convenience method for Mesh::getElement
-        */
-      HalfEdge&
-      getInnerHalfEdge (Mesh& mesh) const
-      {
-        return (mesh.getElement (this->getInnerHalfEdgeIndex ()));
-      }
+    /** \brief Returns the inner HalfEdge (non-const)
+     * \param mesh Reference to the mesh to which the Face belongs to
+     * \note Convenience method for Mesh::getElement
+     */
+    HalfEdge &getInnerHalfEdge(Mesh &mesh) const {
+        return (mesh.getElement(this->getInnerHalfEdgeIndex()));
+    }
 
-      /** \brief Returns the inner HalfEdge (const)
-        * \param mesh Reference to the mesh to which the Face belongs to
-        * \note Convenience method for Mesh::getElement
-        */
-      const HalfEdge&
-      getInnerHalfEdge (const Mesh& mesh) const
-      {
-        return (mesh.getElement (this->getInnerHalfEdgeIndex ()));
-      }
+    /** \brief Returns the inner HalfEdge (const)
+     * \param mesh Reference to the mesh to which the Face belongs to
+     * \note Convenience method for Mesh::getElement
+     */
+    const HalfEdge &getInnerHalfEdge(const Mesh &mesh) const {
+        return (mesh.getElement(this->getInnerHalfEdgeIndex()));
+    }
 
-      //////////////////////////////////////////////////////////////////////////
-      // OuterHalfEdge
-      //////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////
+    // OuterHalfEdge
+    //////////////////////////////////////////////////////////////////////////
 
-    public:
+  public:
+    /** \brief Returns the outer HalfEdgeIndex (non-const)
+     * \param mesh Reference to the mesh to which the Face belongs to
+     * \note Convenience method for getInnerHalfEdge -> getOppositeHalfEdgeIndex
+     */
+    HalfEdgeIndex &getOuterHalfEdgeIndex(Mesh &mesh) const {
+        return (this->getInnerHalfEdge(mesh).getOppositeHalfEdgeIndex());
+    }
 
-      /** \brief Returns the outer HalfEdgeIndex (non-const)
-        * \param mesh Reference to the mesh to which the Face belongs to
-        * \note Convenience method for getInnerHalfEdge -> getOppositeHalfEdgeIndex
-        */
-      HalfEdgeIndex&
-      getOuterHalfEdgeIndex (Mesh& mesh) const
-      {
-        return (this->getInnerHalfEdge (mesh).getOppositeHalfEdgeIndex ());
-      }
+    /** \brief Returns the outer HalfEdgeIndex (const)
+     * \param mesh Reference to the mesh to which the Face belongs to
+     * \note Convenience method for getInnerHalfEdge -> getOppositeHalfEdgeIndex
+     */
+    const HalfEdgeIndex &getOuterHalfEdgeIndex(const Mesh &mesh) const {
+        return (this->getInnerHalfEdge(mesh).getOppositeHalfEdgeIndex());
+    }
 
-      /** \brief Returns the outer HalfEdgeIndex (const)
-        * \param mesh Reference to the mesh to which the Face belongs to
-        * \note Convenience method for getInnerHalfEdge -> getOppositeHalfEdgeIndex
-        */
-      const HalfEdgeIndex&
-      getOuterHalfEdgeIndex (const Mesh& mesh) const
-      {
-        return (this->getInnerHalfEdge (mesh).getOppositeHalfEdgeIndex ());
-      }
+    /** \brief Set the outer HalfEdgeIndex
+     * \param mesh Reference to the mesh to which the Face belongs to
+     * \param idx_outer_half_edge Outer HalfEdgeIndex
+     * \note Convenience method for getInnerHalfEdge -> setOppositeHalfEdgeIndex
+     */
+    void setOuterHalfEdgeIndex(Mesh &mesh,
+                               const HalfEdgeIndex &idx_outer_half_edge) const {
+        this->getInnerHalfEdge(mesh).setOppositeHalfEdgeIndex(
+            idx_outer_half_edge);
+    }
 
-      /** \brief Set the outer HalfEdgeIndex
-        * \param mesh Reference to the mesh to which the Face belongs to
-        * \param idx_outer_half_edge Outer HalfEdgeIndex
-        * \note Convenience method for getInnerHalfEdge -> setOppositeHalfEdgeIndex
-        */
-      void
-      setOuterHalfEdgeIndex (Mesh&                mesh,
-                             const HalfEdgeIndex& idx_outer_half_edge) const
-      {
-        this->getInnerHalfEdge (mesh).setOppositeHalfEdgeIndex (idx_outer_half_edge);
-      }
+    /** \brief Returns the outer HalfEdge (non-const)
+     * \param mesh Reference to the mesh to which the Face belongs to
+     * \note Convenience method for getInnerHalfEdge -> getOppositeHalfEdge
+     */
+    HalfEdge &getOuterHalfEdge(Mesh &mesh) const {
+        return (this->getInnerHalfEdge(mesh).getOppositeHalfEdge(mesh));
+    }
 
-      /** \brief Returns the outer HalfEdge (non-const)
-        * \param mesh Reference to the mesh to which the Face belongs to
-        * \note Convenience method for getInnerHalfEdge -> getOppositeHalfEdge
-        */
-      HalfEdge&
-      getOuterHalfEdge (Mesh& mesh) const
-      {
-        return (this->getInnerHalfEdge (mesh).getOppositeHalfEdge (mesh));
-      }
+    /** \brief Returns the outer HalfEdge (const)
+     * \param mesh Reference to the mesh to which the Face belongs to
+     * \note Convenience method for getInnerHalfEdge -> getOppositeHalfEdge
+     */
+    const HalfEdge &getOuterHalfEdge(const Mesh &mesh) const {
+        return (this->getInnerHalfEdge(mesh).getOppositeHalfEdge(mesh));
+    }
 
-      /** \brief Returns the outer HalfEdge (const)
-        * \param mesh Reference to the mesh to which the Face belongs to
-        * \note Convenience method for getInnerHalfEdge -> getOppositeHalfEdge
-        */
-      const HalfEdge&
-      getOuterHalfEdge (const Mesh& mesh) const
-      {
-        return (this->getInnerHalfEdge (mesh).getOppositeHalfEdge (mesh));
-      }
+    //////////////////////////////////////////////////////////////////////////
+    // deleted
+    //////////////////////////////////////////////////////////////////////////
 
-      //////////////////////////////////////////////////////////////////////////
-      // deleted
-      //////////////////////////////////////////////////////////////////////////
+  public:
+    /** \brief Returns true if the Face is marked as deleted */
+    bool getDeleted() const { return (is_deleted_); }
 
-    public:
+    /** \brief Mark the Face as deleted (or not-deleted) */
+    void setDeleted(const bool is_deleted) { is_deleted_ = is_deleted; }
 
-      /** \brief Returns true if the Face is marked as deleted */
-      bool
-      getDeleted () const
-      {
-        return (is_deleted_);
-      }
+    //////////////////////////////////////////////////////////////////////////
+    // Isolated
+    //////////////////////////////////////////////////////////////////////////
 
-      /** \brief Mark the Face as deleted (or not-deleted) */
-      void
-      setDeleted (const bool is_deleted)
-      {
-        is_deleted_ = is_deleted;
-      }
+  public:
+    /** \brief Returns true if the Face is isolated (not connected to any
+     * HalfEdge) */
+    bool isIsolated() const {
+        return (!this->getInnerHalfEdgeIndex().isValid());
+    }
 
-      //////////////////////////////////////////////////////////////////////////
-      // Isolated
-      //////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////
+    // isBoundary
+    //////////////////////////////////////////////////////////////////////////
 
-    public:
-
-      /** \brief Returns true if the Face is isolated (not connected to any HalfEdge) */
-      bool
-      isIsolated () const
-      {
-        return (!this->getInnerHalfEdgeIndex ().isValid ());
-      }
-
-      //////////////////////////////////////////////////////////////////////////
-      // isBoundary
-      //////////////////////////////////////////////////////////////////////////
-
-    public:
-
-      /** \brief Returns true if any Vertex in the Face is on the boundary
-        * \param mesh Reference to the mesh to which the Face belongs to
-        */
-      bool
-      isBoundary (const Mesh& mesh) const
-      {
-        typename Mesh::VertexAroundFaceConstCirculator       circ     = mesh.getVertexAroundFaceConstCirculator (*this);
+  public:
+    /** \brief Returns true if any Vertex in the Face is on the boundary
+     * \param mesh Reference to the mesh to which the Face belongs to
+     */
+    bool isBoundary(const Mesh &mesh) const {
+        typename Mesh::VertexAroundFaceConstCirculator circ =
+            mesh.getVertexAroundFaceConstCirculator(*this);
         const typename Mesh::VertexAroundFaceConstCirculator circ_end = circ;
 
-        do
-        {
-          if ((*circ++).isBoundary (mesh))
-          {
-            return (true);
-          }
-        } while (circ!=circ_end);
+        do {
+            if ((*circ++).isBoundary(mesh)) {
+                return (true);
+            }
+        } while (circ != circ_end);
 
         return (false);
-      }
+    }
 
-      //////////////////////////////////////////////////////////////////////////
-      // Operators
-      //////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
 
-    public:
+  public:
+    /** \brief Equality comparison operator with FaceData */
+    bool operator==(const FaceData &other) const {
+        return (FaceData::operator==(other));
+    }
 
-      /** \brief Equality comparison operator with FaceData */
-      bool
-      operator == (const FaceData& other) const
-      {
-        return (FaceData::operator == (other));
-      }
+    /** \brief Inequality comparison operator with FaceData */
+    bool operator!=(const FaceData &other) const {
+        return (!this->operator==(other));
+    }
 
-      /** \brief Inequality comparison operator with FaceData */
-      bool
-      operator != (const FaceData& other) const
-      {
-        return (!this->operator == (other));
-      }
+    /** \brief Equality comparison operator with another Face */
+    bool operator==(const Self &other) const {
+        return (this->getInnerHalfEdgeIndex() ==
+                    other.getInnerHalfEdgeIndex() &&
+                this->operator==(FaceData(other)));
+    }
 
-      /** \brief Equality comparison operator with another Face */
-      bool
-      operator == (const Self& other) const
-      {
-        return (this->getInnerHalfEdgeIndex () == other.getInnerHalfEdgeIndex () &&
-                this->operator                 == (FaceData (other)));
-      }
+    /** \brief Inequality comparison operator with another Face */
+    bool operator!=(const Self &other) const {
+        return (!this->operator==(other));
+    }
 
-      /** \brief Inequality comparison operator with another Face */
-      bool
-      operator != (const Self& other) const
-      {
-        return (!this->operator == (other));
-      }
+    //////////////////////////////////////////////////////////////////////////
+    // Members
+    //////////////////////////////////////////////////////////////////////////
 
-      //////////////////////////////////////////////////////////////////////////
-      // Members
-      //////////////////////////////////////////////////////////////////////////
+  private:
+    /** \brief Face is marked as deleted */
+    bool is_deleted_;
 
-    private:
-
-      /** \brief Face is marked as deleted */
-      bool          is_deleted_;
-
-      /** \brief Index to an inner HalfEdge */
-      HalfEdgeIndex idx_inner_half_edge_;
-  };
+    /** \brief Index to an inner HalfEdge */
+    HalfEdgeIndex idx_inner_half_edge_;
+};
 
 } // End namespace pcl
 
 #endif // PCL_GEOMETRY_FACE_HPP
-

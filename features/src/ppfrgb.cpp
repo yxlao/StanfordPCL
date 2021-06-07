@@ -42,11 +42,13 @@
 
 // Instantiations of specific point types
 #ifdef PCL_ONLY_CORE_POINT_TYPES
-PCL_INSTANTIATE_PRODUCT(PPFRGBEstimation, ((pcl::PointXYZRGBA) (pcl::PointXYZRGBNormal))
-                        ((pcl::Normal) (pcl::PointNormal)  (pcl::PointXYZRGBNormal))
-                        ((pcl::PPFRGBSignature)))
+PCL_INSTANTIATE_PRODUCT(
+    PPFRGBEstimation,
+    ((pcl::PointXYZRGBA)(pcl::PointXYZRGBNormal))((pcl::Normal)(
+        pcl::PointNormal)(pcl::PointXYZRGBNormal))((pcl::PPFRGBSignature)))
 #else
-PCL_INSTANTIATE_PRODUCT(PPFRGBRegionEstimation, ((pcl::PointXYZRGBA) (pcl::PointXYZRGBNormal))
-                        ((pcl::Normal) (pcl::PointNormal)  (pcl::PointXYZRGBNormal))
-                        ((pcl::PPFRGBSignature)))
+PCL_INSTANTIATE_PRODUCT(
+    PPFRGBRegionEstimation,
+    ((pcl::PointXYZRGBA)(pcl::PointXYZRGBNormal))((pcl::Normal)(
+        pcl::PointNormal)(pcl::PointXYZRGBNormal))((pcl::PPFRGBSignature)))
 #endif

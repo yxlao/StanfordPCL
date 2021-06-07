@@ -32,7 +32,8 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: correspondence_estimation_backprojection.cpp 7153 2012-09-16 22:24:29Z aichim $
+ * $Id: correspondence_estimation_backprojection.cpp 7153 2012-09-16 22:24:29Z
+ * aichim $
  *
  */
 

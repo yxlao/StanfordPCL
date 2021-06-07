@@ -21,35 +21,29 @@
 
 #include <vtkPolyDataAlgorithm.h>
 
+class vtkPCLVoxelGrid : public vtkPolyDataAlgorithm {
+  public:
+    vtkTypeMacro(vtkPCLVoxelGrid, vtkPolyDataAlgorithm);
+    void PrintSelf(ostream &os, vtkIndent indent);
 
-class vtkPCLVoxelGrid : public vtkPolyDataAlgorithm
-{
-public:
-  vtkTypeMacro(vtkPCLVoxelGrid, vtkPolyDataAlgorithm);
-  void PrintSelf(ostream& os, vtkIndent indent);
+    static vtkPCLVoxelGrid *New();
 
-  static vtkPCLVoxelGrid *New();
+    vtkSetVector3Macro(LeafSize, double);
+    vtkGetVector3Macro(LeafSize, double);
 
-  vtkSetVector3Macro(LeafSize, double);
-  vtkGetVector3Macro(LeafSize, double);
+  protected:
+    double LeafSize[3];
 
-protected:
+    virtual int RequestData(vtkInformation *request,
+                            vtkInformationVector **inputVector,
+                            vtkInformationVector *outputVector);
 
-  double LeafSize[3];
+    vtkPCLVoxelGrid();
+    virtual ~vtkPCLVoxelGrid();
 
-  virtual int RequestData(vtkInformation *request,
-                          vtkInformationVector **inputVector,
-                          vtkInformationVector *outputVector);
-
-
-  vtkPCLVoxelGrid();
-  virtual ~vtkPCLVoxelGrid();
-
-private:
-  vtkPCLVoxelGrid(const vtkPCLVoxelGrid&);  // Not implemented.
-  void operator=(const vtkPCLVoxelGrid&);  // Not implemented.
+  private:
+    vtkPCLVoxelGrid(const vtkPCLVoxelGrid &); // Not implemented.
+    void operator=(const vtkPCLVoxelGrid &);  // Not implemented.
 };
 
 #endif
-
-

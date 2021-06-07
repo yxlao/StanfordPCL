@@ -1,4 +1,4 @@
- /*
+/*
  * Software License Agreement (BSD License)
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
@@ -42,88 +42,101 @@
 
 #include <pcl/console/parse.h>
 
-int
-print_help ()
-{
-  std::cout << "\nUsage:" << std::endl;
-  std::cout << "    pcl_kinfu_largeScale_mesh_output <tsdf_world.pcd> [options]" << std::endl << std::endl ;
+int print_help() {
+    std::cout << "\nUsage:" << std::endl;
+    std::cout
+        << "    pcl_kinfu_largeScale_mesh_output <tsdf_world.pcd> [options]"
+        << std::endl
+        << std::endl;
 
-  std::cout << "\nAvailable options:" << std::endl;
-  std::cout << "    --help, -h                      : print this message" << std::endl;
-  std::cout << "    --volume_size <in_meters>       : define integration volume size. MUST match the size used when scanning." << std::endl << std::endl;
+    std::cout << "\nAvailable options:" << std::endl;
+    std::cout << "    --help, -h                      : print this message"
+              << std::endl;
+    std::cout << "    --volume_size <in_meters>       : define integration "
+                 "volume size. MUST match the size used when scanning."
+              << std::endl
+              << std::endl;
 
-  return 0;
+    return 0;
 }
 
+int main(int argc, char **argv) {
+    if (pcl::console::find_switch(argc, argv, "--help") ||
+        pcl::console::find_switch(argc, argv, "-h"))
+        return print_help();
 
-int
-main (int argc, char** argv)
-{
-  if (pcl::console::find_switch (argc, argv, "--help") || pcl::console::find_switch (argc, argv, "-h"))
-    return print_help ();
+    // Reading input cloud
+    pcl::PointCloud<pcl::PointXYZI>::Ptr cloud(
+        new pcl::PointCloud<pcl::PointXYZI>);
 
-  //Reading input cloud
-  pcl::PointCloud<pcl::PointXYZI>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZI>);
+    if (argc < 2) {
+        PCL_ERROR("No pcd file to read... Exiting...\n");
+        print_help();
+        return (-1);
+    }
 
-  if (argc < 2) {
-    PCL_ERROR ("No pcd file to read... Exiting...\n");
-    print_help ();
-    return (-1);
-  }
+    if (pcl::io::loadPCDFile<pcl::PointXYZI>(argv[1], *cloud) ==
+        -1) //* load the file
+    {
+        PCL_ERROR("Couldn't read file %s \n", argv[1]);
+        print_help();
+        return (-1);
+    }
 
-  if (pcl::io::loadPCDFile<pcl::PointXYZI> (argv[1], *cloud) == -1) //* load the file
-  {
-    PCL_ERROR ("Couldn't read file %s \n", argv[1]);
-    print_help ();
-    return (-1);
-  }
+    // Creating world model object
+    pcl::WorldModel<pcl::PointXYZI> wm;
 
-  // Creating world model object
-  pcl::WorldModel<pcl::PointXYZI> wm;
+    // Adding current cloud to the world model
+    wm.addSlice(cloud);
 
-  //Adding current cloud to the world model
-  wm.addSlice(cloud);
+    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> clouds;
+    std::vector<Eigen::Vector3f> transforms;
 
-  std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> clouds;
-  std::vector<Eigen::Vector3f> transforms;
+    /*
+    //Get world as a vector of cubes
+    wm.getWorldAsCubes (pcl::device::VOLUME_X, clouds, transforms, 0.025);
+    // 2.5% overlapp (12 cells with a 512-wide cube)
 
-  /*
-  //Get world as a vector of cubes
-  wm.getWorldAsCubes (pcl::device::VOLUME_X, clouds, transforms, 0.025); // 2.5% overlapp (12 cells with a 512-wide cube)
+    //Creating the standalone marching cubes instance
+    float volume_size = pcl::device::VOLUME_SIZE;
+    pcl::console::parse_argument (argc, argv, "--volume_size", volume_size);
+    pcl::console::parse_argument (argc, argv, "-vs", volume_size);
 
-  //Creating the standalone marching cubes instance
-  float volume_size = pcl::device::VOLUME_SIZE;
-  pcl::console::parse_argument (argc, argv, "--volume_size", volume_size);
-  pcl::console::parse_argument (argc, argv, "-vs", volume_size);
+    PCL_WARN("Processing world with volume size set to %.2f meters\n",
+    volume_size);
 
-  PCL_WARN("Processing world with volume size set to %.2f meters\n", volume_size);
+    pcl::gpu::StandaloneMarchingCubes<pcl::PointXYZI>
+    m_cubes(pcl::device::VOLUME_X,pcl::device::VOLUME_Y,pcl::device::VOLUME_Z,volume_size);
 
-  pcl::gpu::StandaloneMarchingCubes<pcl::PointXYZI> m_cubes(pcl::device::VOLUME_X,pcl::device::VOLUME_Y,pcl::device::VOLUME_Z,volume_size);
+    //~ //Creating the output
+    //~ boost::shared_ptr<pcl::PolygonMesh> mesh_ptr_;
+    //~ std::vector< boost::shared_ptr<pcl::PolygonMesh> > meshes;
 
-  //~ //Creating the output
-  //~ boost::shared_ptr<pcl::PolygonMesh> mesh_ptr_;
-  //~ std::vector< boost::shared_ptr<pcl::PolygonMesh> > meshes;
+    m_cubes.getMeshesFromTSDFVector (clouds, transforms);
+    */
 
-  m_cubes.getMeshesFromTSDFVector (clouds, transforms);
-  */
+    // Creating the standalone marching cubes instance
+    float volume_size = pcl::device::VOLUME_SIZE;
+    pcl::console::parse_argument(argc, argv, "--volume_size", volume_size);
+    pcl::console::parse_argument(argc, argv, "-vs", volume_size);
 
-  //Creating the standalone marching cubes instance
-  float volume_size = pcl::device::VOLUME_SIZE;
-  pcl::console::parse_argument (argc, argv, "--volume_size", volume_size);
-  pcl::console::parse_argument (argc, argv, "-vs", volume_size);
+    PCL_WARN("Processing world with volume size set to %.2f meters\n",
+             volume_size);
 
-  PCL_WARN("Processing world with volume size set to %.2f meters\n", volume_size);
+    pcl::gpu::StandaloneMarchingCubes<pcl::PointXYZI> m_cubes(
+        pcl::device::VOLUME_X, pcl::device::VOLUME_Y, pcl::device::VOLUME_Z,
+        volume_size);
 
-  pcl::gpu::StandaloneMarchingCubes<pcl::PointXYZI> m_cubes(pcl::device::VOLUME_X,pcl::device::VOLUME_Y,pcl::device::VOLUME_Z,volume_size);
+    //~ //Creating the output
+    //~ boost::shared_ptr<pcl::PolygonMesh> mesh_ptr_;
+    //~ std::vector< boost::shared_ptr<pcl::PolygonMesh> > meshes;
 
-  //~ //Creating the output
-  //~ boost::shared_ptr<pcl::PolygonMesh> mesh_ptr_;
-  //~ std::vector< boost::shared_ptr<pcl::PolygonMesh> > meshes;
+    // Get world as a vector of cubes
+    // wm.getWorldAsCubes (pcl::device::VOLUME_X, clouds, transforms, 0.025);
+    // // 2.5% overlapp (12 cells with a 512-wide cube)
+    wm.getWorldAsCubes(pcl::device::VOLUME_X, clouds, transforms, 0.025,
+                       m_cubes);
 
-  //Get world as a vector of cubes
-  //wm.getWorldAsCubes (pcl::device::VOLUME_X, clouds, transforms, 0.025); // 2.5% overlapp (12 cells with a 512-wide cube)
-  wm.getWorldAsCubes (pcl::device::VOLUME_X, clouds, transforms, 0.025, m_cubes);
-
- PCL_INFO( "Done!\n");
-  return (0);
+    PCL_INFO("Done!\n");
+    return (0);
 }

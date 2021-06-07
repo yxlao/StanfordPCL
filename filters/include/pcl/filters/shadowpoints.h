@@ -42,16 +42,15 @@
 #include <time.h>
 #include <limits.h>
 
-namespace pcl
-{
-  /** \brief @b ShadowPoints removes the ghost points appearing on edge discontinuties
-   *
-   *  \author Aravindhan K Krishnan. This code is ported from libpointmatcher (https://github.com/ethz-asl/libpointmatcher)
-   * \ingroup filters
-   */
-  template<typename PointT, typename NormalT>
-  class ShadowPoints : public FilterIndices<PointT>
-  {
+namespace pcl {
+/** \brief @b ShadowPoints removes the ghost points appearing on edge
+ * discontinuties
+ *
+ *  \author Aravindhan K Krishnan. This code is ported from libpointmatcher
+ * (https://github.com/ethz-asl/libpointmatcher) \ingroup filters
+ */
+template <typename PointT, typename NormalT>
+class ShadowPoints : public FilterIndices<PointT> {
     using FilterIndices<PointT>::filter_name_;
     using FilterIndices<PointT>::getClassName;
     using FilterIndices<PointT>::indices_;
@@ -63,55 +62,48 @@ namespace pcl
     typedef typename PointCloud::ConstPtr PointCloudConstPtr;
     typedef typename pcl::PointCloud<NormalT>::Ptr NormalsPtr;
 
-    public:
-      /** \brief Empty constructor. */
-      ShadowPoints () : input_normals_ (), threshold_ (0.1f)
-      {
+  public:
+    /** \brief Empty constructor. */
+    ShadowPoints() : input_normals_(), threshold_(0.1f) {
         filter_name_ = "ShadowPoints";
-      }
+    }
 
-      /** \brief Set the normals computed on the input point cloud
-        * \param[in] normals the normals computed for the input cloud
-        */
-      inline void
-      setNormals (const NormalsPtr &normals) { input_normals_ = normals; }
+    /** \brief Set the normals computed on the input point cloud
+     * \param[in] normals the normals computed for the input cloud
+     */
+    inline void setNormals(const NormalsPtr &normals) {
+        input_normals_ = normals;
+    }
 
-      /** \brief Get the normals computed on the input point cloud */
-      inline NormalsPtr
-      getNormals () const { return (input_normals_); }
+    /** \brief Get the normals computed on the input point cloud */
+    inline NormalsPtr getNormals() const { return (input_normals_); }
 
-      /** \brief Set the threshold for shadow points rejection
-        * \param[in] thresold the threshold
-        */
-      inline void
-      setThreshold (float threshold) { threshold_ = threshold; }
+    /** \brief Set the threshold for shadow points rejection
+     * \param[in] thresold the threshold
+     */
+    inline void setThreshold(float threshold) { threshold_ = threshold; }
 
-      /** \brief Get the threshold for shadow points rejection */
-      inline float
-      getThreshold () const { return threshold_; }
+    /** \brief Get the threshold for shadow points rejection */
+    inline float getThreshold() const { return threshold_; }
 
-    protected:
+  protected:
+    /** \brief The normals computed at each point in the input cloud */
+    NormalsPtr input_normals_;
 
-      /** \brief The normals computed at each point in the input cloud */
-      NormalsPtr input_normals_;
+    /** \brief Sample of point indices into a separate PointCloud
+     * \param[out] output the resultant point cloud
+     */
+    void applyFilter(PointCloud &output);
 
-      /** \brief Sample of point indices into a separate PointCloud
-        * \param[out] output the resultant point cloud
-        */
-      void
-      applyFilter (PointCloud &output);
+    /** \brief Sample of point indices
+     * \param[out] indices the resultant point cloud indices
+     */
+    void applyFilter(std::vector<int> &indices);
 
-      /** \brief Sample of point indices
-        * \param[out] indices the resultant point cloud indices
-        */
-      void
-      applyFilter (std::vector<int> &indices);
-
-    private:
-
-      /** \brief Threshold for shadow point rejection
-        */
-      float threshold_;
-  };
-}
-#endif  //#ifndef PCL_FILTERS_SHADOW_POINTS_FILTER_H_
+  private:
+    /** \brief Threshold for shadow point rejection
+     */
+    float threshold_;
+};
+} // namespace pcl
+#endif //#ifndef PCL_FILTERS_SHADOW_POINTS_FILTER_H_

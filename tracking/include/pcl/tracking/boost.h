@@ -41,9 +41,9 @@
 #define PCL_TRACKING_BOOST_H_
 
 #if defined __GNUC__
-#  pragma GCC system_header
+#pragma GCC system_header
 #endif
 
 #include <boost/random.hpp>
 
-#endif    // PCL_TRACKING_BOOST_H_
+#endif // PCL_TRACKING_BOOST_H_

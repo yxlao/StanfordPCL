@@ -47,75 +47,63 @@
 // Forward declarations
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace pcl
-{
-  template <class PointInT, class PointOutT>
-  class IntegralImageNormalEstimation;
+namespace pcl {
+template <class PointInT, class PointOutT> class IntegralImageNormalEstimation;
 } // End namespace pcl
 
 ////////////////////////////////////////////////////////////////////////////////
 // InputDataProcessing
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace pcl
-{
-  namespace ihs
-  {
+namespace pcl {
+namespace ihs {
 
-    class InputDataProcessing
-    {
+class InputDataProcessing {
 
-      public:
+  public:
+    typedef pcl::ihs::PointInput PointInput;
+    typedef pcl::ihs::CloudInput CloudInput;
+    typedef pcl::ihs::CloudInputPtr CloudInputPtr;
+    typedef pcl::ihs::CloudInputConstPtr CloudInputConstPtr;
 
-        typedef pcl::ihs::PointInput         PointInput;
-        typedef pcl::ihs::CloudInput         CloudInput;
-        typedef pcl::ihs::CloudInputPtr      CloudInputPtr;
-        typedef pcl::ihs::CloudInputConstPtr CloudInputConstPtr;
+    typedef pcl::ihs::PointProcessed PointProcessed;
+    typedef pcl::ihs::CloudProcessed CloudProcessed;
+    typedef pcl::ihs::CloudProcessedPtr CloudProcessedPtr;
+    typedef pcl::ihs::CloudProcessedConstPtr CloudProcessedConstPtr;
 
-        typedef pcl::ihs::PointProcessed         PointProcessed;
-        typedef pcl::ihs::CloudProcessed         CloudProcessed;
-        typedef pcl::ihs::CloudProcessedPtr      CloudProcessedPtr;
-        typedef pcl::ihs::CloudProcessedConstPtr CloudProcessedConstPtr;
+    typedef pcl::Normal Normal;
+    typedef pcl::PointCloud<Normal> CloudNormals;
+    typedef boost::shared_ptr<CloudNormals> CloudNormalsPtr;
+    typedef boost::shared_ptr<const CloudNormals> CloudNormalsConstPtr;
 
-        typedef pcl::Normal                            Normal;
-        typedef pcl::PointCloud <Normal>               CloudNormals;
-        typedef boost::shared_ptr <CloudNormals>       CloudNormalsPtr;
-        typedef boost::shared_ptr <const CloudNormals> CloudNormalsConstPtr;
+    typedef pcl::IntegralImageNormalEstimation<PointInput, Normal>
+        NormalEstimation;
+    typedef boost::shared_ptr<NormalEstimation> NormalEstimationPtr;
+    typedef boost::shared_ptr<const NormalEstimation> NormalEstimationConstPtr;
 
-        typedef pcl::IntegralImageNormalEstimation <PointInput, Normal> NormalEstimation;
-        typedef boost::shared_ptr <NormalEstimation>                    NormalEstimationPtr;
-        typedef boost::shared_ptr <const NormalEstimation>              NormalEstimationConstPtr;
+  public:
+    InputDataProcessing();
 
-      public:
+  public:
+    CloudProcessedPtr process(const CloudInputConstPtr &cloud) const;
 
-        InputDataProcessing ();
+    CloudProcessedPtr calculateNormals(const CloudInputConstPtr &cloud) const;
 
-      public:
+    void getCropBox(float &x_min, float &x_max, float &y_min, float &y_max,
+                    float &z_min, float &z_max) const;
 
-        CloudProcessedPtr
-        process (const CloudInputConstPtr& cloud) const;
+  private:
+    NormalEstimationPtr normal_estimation_;
 
-        CloudProcessedPtr
-        calculateNormals (const CloudInputConstPtr& cloud) const;
+    float x_min_;
+    float x_max_;
+    float y_min_;
+    float y_max_;
+    float z_min_;
+    float z_max_;
+};
 
-        void
-        getCropBox (float& x_min, float& x_max,
-                    float& y_min, float& y_max,
-                    float& z_min, float& z_max) const;
-
-      private:
-
-        NormalEstimationPtr normal_estimation_;
-
-        float               x_min_;
-        float               x_max_;
-        float               y_min_;
-        float               y_max_;
-        float               z_min_;
-        float               z_max_;
-    };
-
-  } // End namespace ihs
+} // End namespace ihs
 } // End namespace pcl
 
 #endif // PCL_IN_HAND_SCANNER_INPUT_DATA_PROCESSING_H

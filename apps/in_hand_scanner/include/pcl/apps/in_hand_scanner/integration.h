@@ -47,68 +47,58 @@
 // Forward declarations
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace pcl
-{
-  template <typename PointT>
-  class KdTree;
+namespace pcl {
+template <typename PointT> class KdTree;
 } // End namespace pcl
 
 ////////////////////////////////////////////////////////////////////////////////
 // Integration
 ////////////////////////////////////////////////////////////////////////////////
 
-namespace pcl
-{
-  namespace ihs
-  {
+namespace pcl {
+namespace ihs {
 
-    class Integration
-    {
+class Integration {
 
-      public:
+  public:
+    typedef pcl::ihs::PointProcessed PointProcessed;
+    typedef pcl::ihs::CloudProcessed CloudProcessed;
+    typedef pcl::ihs::CloudProcessedPtr CloudProcessedPtr;
+    typedef pcl::ihs::CloudProcessedConstPtr CloudProcessedConstPtr;
 
-        typedef pcl::ihs::PointProcessed         PointProcessed;
-        typedef pcl::ihs::CloudProcessed         CloudProcessed;
-        typedef pcl::ihs::CloudProcessedPtr      CloudProcessedPtr;
-        typedef pcl::ihs::CloudProcessedConstPtr CloudProcessedConstPtr;
+    typedef pcl::ihs::PointModel PointModel;
+    typedef pcl::ihs::CloudModel CloudModel;
+    typedef pcl::ihs::CloudModelPtr CloudModelPtr;
+    typedef pcl::ihs::CloudModelConstPtr CloudModelConstPtr;
 
-        typedef pcl::ihs::PointModel         PointModel;
-        typedef pcl::ihs::CloudModel         CloudModel;
-        typedef pcl::ihs::CloudModelPtr      CloudModelPtr;
-        typedef pcl::ihs::CloudModelConstPtr CloudModelConstPtr;
+    typedef pcl::ihs::Transformation Transformation;
 
-        typedef pcl::ihs::Transformation         Transformation;
+    typedef pcl::KdTree<PointModel> KdTree;
+    typedef boost::shared_ptr<KdTree> KdTreePtr;
+    typedef boost::shared_ptr<const KdTree> KdTreeConstPtr;
 
-        typedef pcl::KdTree <PointModel>         KdTree;
-        typedef boost::shared_ptr <KdTree>       KdTreePtr;
-        typedef boost::shared_ptr <const KdTree> KdTreeConstPtr;
+  public:
+    Integration();
 
-      public:
+    void setInitialModel(const CloudModelPtr &cloud_model,
+                         const CloudProcessedConstPtr &cloud_data) const;
 
-        Integration ();
+    bool merge(const CloudModelPtr &cloud_model,
+               const CloudProcessedConstPtr &cloud_data,
+               const Transformation &T) const;
 
-        void
-        setInitialModel (const CloudModelPtr&          cloud_model,
-                         const CloudProcessedConstPtr& cloud_data) const;
+  private:
+    // Nearest neighbor search
+    KdTreePtr kd_tree_;
 
-        bool
-        merge (const CloudModelPtr&          cloud_model,
-               const CloudProcessedConstPtr& cloud_data,
-               const Transformation&         T) const;
+    // Maximum squared distance below which points are averaged out
+    float squared_distance_max_;
 
-      private:
+    // Minium dot product between normals above which points are averaged out
+    float dot_normal_min_;
+};
 
-        // Nearest neighbor search
-        KdTreePtr kd_tree_;
-
-        // Maximum squared distance below which points are averaged out
-        float     squared_distance_max_;
-
-        // Minium dot product between normals above which points are averaged out
-        float     dot_normal_min_;
-    };
-
-  } // End namespace ihs
+} // End namespace ihs
 } // End namespace pcl
 
 #endif // PCL_IN_HAND_SCANNER_INTEGRATION_H

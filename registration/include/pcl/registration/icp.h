@@ -44,98 +44,105 @@
 #include <pcl/registration/registration.h>
 #include <pcl/registration/transformation_estimation_svd.h>
 
-namespace pcl
-{
-  /** \brief @b IterativeClosestPoint provides a base implementation of the Iterative Closest Point algorithm.
-    * The transformation is estimated based on Singular Value Decomposition (SVD).
-    *
-    * The algorithm has several termination criteria:
-    *
-    * <ol>
-    * <li>Number of iterations has reached the maximum user imposed number of iterations (via \ref setMaximumIterations)</li>
-    * <li>The epsilon (difference) between the previous transformation and the current estimated transformation is smaller than an user imposed value (via \ref setTransformationEpsilon)</li>
-    * <li>The sum of Euclidean squared errors is smaller than a user defined threshold (via \ref setEuclideanFitnessEpsilon)</li>
-    * </ol>
-    *
-    *
-    * Usage example:
-    * \code
-    * IterativeClosestPoint<PointXYZ, PointXYZ> icp;
-    * // Set the input source and target
-    * icp.setInputCloud (cloud_source);
-    * icp.setInputTarget (cloud_target);
-    *
-    * // Set the max correspondence distance to 5cm (e.g., correspondences with higher distances will be ignored)
-    * icp.setMaxCorrespondenceDistance (0.05);
-    * // Set the maximum number of iterations (criterion 1)
-    * icp.setMaximumIterations (50);
-    * // Set the transformation epsilon (criterion 2)
-    * icp.setTransformationEpsilon (1e-8);
-    * // Set the euclidean distance difference epsilon (criterion 3)
-    * icp.setEuclideanFitnessEpsilon (1);
-    *
-    * // Perform the alignment
-    * icp.align (cloud_source_registered);
-    *
-    * // Obtain the transformation that aligned cloud_source to cloud_source_registered
-    * Eigen::Matrix4f transformation = icp.getFinalTransformation ();
-    * \endcode
-    *
-    * \author Radu Bogdan Rusu, Michael Dixon
-    * \ingroup registration
-    */
-  template <typename PointSource, typename PointTarget>
-  class IterativeClosestPoint : public Registration<PointSource, PointTarget>
-  {
-    typedef typename Registration<PointSource, PointTarget>::PointCloudSource PointCloudSource;
+namespace pcl {
+/** \brief @b IterativeClosestPoint provides a base implementation of the
+ * Iterative Closest Point algorithm. The transformation is estimated based on
+ * Singular Value Decomposition (SVD).
+ *
+ * The algorithm has several termination criteria:
+ *
+ * <ol>
+ * <li>Number of iterations has reached the maximum user imposed number of
+ * iterations (via \ref setMaximumIterations)</li> <li>The epsilon (difference)
+ * between the previous transformation and the current estimated transformation
+ * is smaller than an user imposed value (via \ref
+ * setTransformationEpsilon)</li> <li>The sum of Euclidean squared errors is
+ * smaller than a user defined threshold (via \ref
+ * setEuclideanFitnessEpsilon)</li>
+ * </ol>
+ *
+ *
+ * Usage example:
+ * \code
+ * IterativeClosestPoint<PointXYZ, PointXYZ> icp;
+ * // Set the input source and target
+ * icp.setInputCloud (cloud_source);
+ * icp.setInputTarget (cloud_target);
+ *
+ * // Set the max correspondence distance to 5cm (e.g., correspondences with
+ * higher distances will be ignored) icp.setMaxCorrespondenceDistance (0.05);
+ * // Set the maximum number of iterations (criterion 1)
+ * icp.setMaximumIterations (50);
+ * // Set the transformation epsilon (criterion 2)
+ * icp.setTransformationEpsilon (1e-8);
+ * // Set the euclidean distance difference epsilon (criterion 3)
+ * icp.setEuclideanFitnessEpsilon (1);
+ *
+ * // Perform the alignment
+ * icp.align (cloud_source_registered);
+ *
+ * // Obtain the transformation that aligned cloud_source to
+ * cloud_source_registered Eigen::Matrix4f transformation =
+ * icp.getFinalTransformation (); \endcode
+ *
+ * \author Radu Bogdan Rusu, Michael Dixon
+ * \ingroup registration
+ */
+template <typename PointSource, typename PointTarget>
+class IterativeClosestPoint : public Registration<PointSource, PointTarget> {
+    typedef typename Registration<PointSource, PointTarget>::PointCloudSource
+        PointCloudSource;
     typedef typename PointCloudSource::Ptr PointCloudSourcePtr;
     typedef typename PointCloudSource::ConstPtr PointCloudSourceConstPtr;
 
-    typedef typename Registration<PointSource, PointTarget>::PointCloudTarget PointCloudTarget;
+    typedef typename Registration<PointSource, PointTarget>::PointCloudTarget
+        PointCloudTarget;
 
     typedef PointIndices::Ptr PointIndicesPtr;
     typedef PointIndices::ConstPtr PointIndicesConstPtr;
 
-    public:
-      /** \brief Empty constructor. */
-      IterativeClosestPoint ()
-      {
+  public:
+    /** \brief Empty constructor. */
+    IterativeClosestPoint() {
         reg_name_ = "IterativeClosestPoint";
         ransac_iterations_ = 1000;
-        transformation_estimation_.reset (new pcl::registration::TransformationEstimationSVD<PointSource, PointTarget>);
-      };
+        transformation_estimation_.reset(
+            new pcl::registration::TransformationEstimationSVD<PointSource,
+                                                               PointTarget>);
+    };
 
-    protected:
-      /** \brief Rigid transformation computation method  with initial guess.
-        * \param output the transformed input point cloud dataset using the rigid transformation found
-        * \param guess the initial guess of the transformation to compute
-        */
-      virtual void
-      computeTransformation (PointCloudSource &output, const Eigen::Matrix4f &guess);
+  protected:
+    /** \brief Rigid transformation computation method  with initial guess.
+     * \param output the transformed input point cloud dataset using the rigid
+     * transformation found \param guess the initial guess of the transformation
+     * to compute
+     */
+    virtual void computeTransformation(PointCloudSource &output,
+                                       const Eigen::Matrix4f &guess);
 
-      using Registration<PointSource, PointTarget>::reg_name_;
-      using Registration<PointSource, PointTarget>::getClassName;
-      using Registration<PointSource, PointTarget>::input_;
-      using Registration<PointSource, PointTarget>::indices_;
-      using Registration<PointSource, PointTarget>::target_;
-      using Registration<PointSource, PointTarget>::nr_iterations_;
-      using Registration<PointSource, PointTarget>::max_iterations_;
-      using Registration<PointSource, PointTarget>::ransac_iterations_;
-      using Registration<PointSource, PointTarget>::previous_transformation_;
-      using Registration<PointSource, PointTarget>::final_transformation_;
-      using Registration<PointSource, PointTarget>::transformation_;
-      using Registration<PointSource, PointTarget>::transformation_epsilon_;
-      using Registration<PointSource, PointTarget>::converged_;
-      using Registration<PointSource, PointTarget>::corr_dist_threshold_;
-      using Registration<PointSource, PointTarget>::inlier_threshold_;
-      using Registration<PointSource, PointTarget>::min_number_correspondences_;
-      using Registration<PointSource, PointTarget>::update_visualizer_;
-      using Registration<PointSource, PointTarget>::correspondence_distances_;
-      using Registration<PointSource, PointTarget>::euclidean_fitness_epsilon_;
-      using Registration<PointSource, PointTarget>::transformation_estimation_;
-  };
-}
+    using Registration<PointSource, PointTarget>::reg_name_;
+    using Registration<PointSource, PointTarget>::getClassName;
+    using Registration<PointSource, PointTarget>::input_;
+    using Registration<PointSource, PointTarget>::indices_;
+    using Registration<PointSource, PointTarget>::target_;
+    using Registration<PointSource, PointTarget>::nr_iterations_;
+    using Registration<PointSource, PointTarget>::max_iterations_;
+    using Registration<PointSource, PointTarget>::ransac_iterations_;
+    using Registration<PointSource, PointTarget>::previous_transformation_;
+    using Registration<PointSource, PointTarget>::final_transformation_;
+    using Registration<PointSource, PointTarget>::transformation_;
+    using Registration<PointSource, PointTarget>::transformation_epsilon_;
+    using Registration<PointSource, PointTarget>::converged_;
+    using Registration<PointSource, PointTarget>::corr_dist_threshold_;
+    using Registration<PointSource, PointTarget>::inlier_threshold_;
+    using Registration<PointSource, PointTarget>::min_number_correspondences_;
+    using Registration<PointSource, PointTarget>::update_visualizer_;
+    using Registration<PointSource, PointTarget>::correspondence_distances_;
+    using Registration<PointSource, PointTarget>::euclidean_fitness_epsilon_;
+    using Registration<PointSource, PointTarget>::transformation_estimation_;
+};
+} // namespace pcl
 
 #include <pcl/registration/impl/icp.hpp>
 
-#endif  //#ifndef PCL_ICP_H_
+#endif //#ifndef PCL_ICP_H_

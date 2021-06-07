@@ -44,25 +44,20 @@
 #include <pcl/recognition/mask_map.h>
 #include <pcl/recognition/region_xy.h>
 
-namespace pcl
-{
-  class PCL_EXPORTS DOTModality
-  {
-    public:
+namespace pcl {
+class PCL_EXPORTS DOTModality {
+  public:
+    virtual ~DOTModality(){};
 
-      virtual ~DOTModality () {};
+    // virtual QuantizedMap &
+    // getDominantQuantizedMap () = 0;
 
-      //virtual QuantizedMap &
-      //getDominantQuantizedMap () = 0;
+    virtual QuantizedMap &getDominantQuantizedMap() = 0;
 
-      virtual QuantizedMap &
-      getDominantQuantizedMap () = 0;
+    virtual QuantizedMap
+    computeInvariantQuantizedMap(const MaskMap &mask,
+                                 const RegionXY &region) = 0;
+};
+} // namespace pcl
 
-      virtual QuantizedMap
-      computeInvariantQuantizedMap (const MaskMap & mask,
-                                    const RegionXY & region) = 0;
-
-  };
-}
-
-#endif    // PCL_FEATURES_DOT_MODALITY
+#endif // PCL_FEATURES_DOT_MODALITY

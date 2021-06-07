@@ -45,126 +45,99 @@
 
 #include <pcl/ml/pairwise_potential.h>
 
-namespace pcl
-{
-  /** \brief
-   *
-   */
-  class PCL_EXPORTS DenseCrf
-  {
-    public:
+namespace pcl {
+/** \brief
+ *
+ */
+class PCL_EXPORTS DenseCrf {
+  public:
+    /** \brief Constructor for DenseCrf class */
+    DenseCrf(int N, int m);
 
-      /** \brief Constructor for DenseCrf class */
-      DenseCrf (int N, int m);
+    /** \brief Deconstructor for DenseCrf class */
+    ~DenseCrf();
 
-      /** \brief Deconstructor for DenseCrf class */
-      ~DenseCrf ();
+    /** \brief set the input data vector.
+     * The input data vector holds the measurements
+     * coordinates as ijk of the voxel grid
+     */
+    void setDataVector(const std::vector<Eigen::Vector3i> data);
 
-      /** \brief set the input data vector.
-       * The input data vector holds the measurements
-       * coordinates as ijk of the voxel grid
-       */
-      void
-      setDataVector (const std::vector<Eigen::Vector3i> data);
+    /** \brief The associated color of the data
+     */
+    void setColorVector(const std::vector<Eigen::Vector3i> color);
 
-      /** \brief The associated color of the data
-       */
-      void
-      setColorVector (const std::vector<Eigen::Vector3i> color);
+    void setUnaryEnergy(const std::vector<float> unary);
 
-      void
-      setUnaryEnergy (const std::vector<float> unary);
+    /** \brief      */
+    void addPairwiseEnergy(const std::vector<float> &feature,
+                           const int feature_dimension, const float w);
 
-      /** \brief      */
-      void
-      addPairwiseEnergy (const std::vector<float> &feature, const int feature_dimension, const float w);
+    /** \brief Add a pairwise gaussian kernel
+     *
+     */
+    void addPairwiseGaussian(float sx, float sy, float sz, float w);
 
+    /** \brief Add a bilateral gaussian kernel
+     *
+     */
+    void addPairwiseBilateral(float sx, float sy, float sz, float sr, float sg,
+                              float sb, float w);
 
-      /** \brief Add a pairwise gaussian kernel
-       *
-       */
-      void
-      addPairwiseGaussian (float sx, float sy, float sz, float w);
-
-      /** \brief Add a bilateral gaussian kernel
-       *
-       */
-      void
-      addPairwiseBilateral (float sx, float sy, float sz,
-                            float sr, float sg, float sb,
+    void addPairwiseNormals(std::vector<Eigen::Vector3i> &coord,
+                            std::vector<Eigen::Vector3f> &normals, float sx,
+                            float sy, float sz, float snx, float sny, float snz,
                             float w);
 
+    void inference(int n_iterations, std::vector<float> &result,
+                   float relax = 1.0f);
 
-      void
-      addPairwiseNormals (std::vector<Eigen::Vector3i> &coord,
-                          std::vector<Eigen::Vector3f> &normals,
-                          float sx, float sy, float sz,
-                          float snx, float sny, float snz,
-                          float w);
+    void mapInference(int n_iterations, std::vector<int> &result,
+                      float relax = 1.0f);
 
+    void expAndNormalize(std::vector<float> &out, const std::vector<float> &in,
+                         float scale, float relax = 1.0f);
 
-      void
-      inference (int n_iterations, std::vector<float> &result, float relax = 1.0f);
+    void expAndNormalizeORI(float *out, const float *in, float scale = 1.0f,
+                            float relax = 1.0f);
+    void map(int n_iterations, std::vector<int> result, float relax = 1.0f);
+    std::vector<float> runInference(int n_iterations, float relax);
+    void startInference();
+    void stepInference(float relax);
 
-      void
-      mapInference (int n_iterations, std::vector<int> &result, float relax = 1.0f);
+    void runInference(float relax);
 
-      void
-      expAndNormalize (std::vector<float> &out, const std::vector<float> &in,
-                       float scale, float relax = 1.0f);
+    void getBarycentric(int idx, std::vector<float> &bary);
 
-      void
-      expAndNormalizeORI ( float* out, const float* in, float scale=1.0f, float relax=1.0f );
-      void map ( int n_iterations, std::vector<int> result, float relax=1.0f );
-      std::vector<float> runInference( int n_iterations, float relax );
-      void startInference();
-      void stepInference( float relax );
+    void getFeatures(int idx, std::vector<float> &features);
 
+  protected:
+    /** \brief Number of variables and labels */
+    int N_, M_;
 
-      void
-      runInference (float relax);
+    /** \brief Data vector */
+    std::vector<Eigen::Vector3i> data_;
 
+    /** \brief Color vector */
+    std::vector<Eigen::Vector3i> color_;
 
-      void
-      getBarycentric (int idx, std::vector<float> &bary);
+    /** TODO: double might use to much memory */
+    /** \brief CRF unary potentials */
+    std::vector<float> unary_;
 
-      void
-      getFeatures (int idx, std::vector<float> &features);
+    std::vector<float> current_;
+    std::vector<float> next_;
+    std::vector<float> tmp_;
 
+    /** \brief pairwise potentials */
+    std::vector<PairwisePotential *> pairwise_potential_;
 
+    /** \brief input types */
+    bool xyz_, rgb_, normal_;
 
-    protected:
-
-      /** \brief Number of variables and labels */
-      int N_, M_;
-
-      /** \brief Data vector */
-      std::vector<Eigen::Vector3i> data_;
-
-      /** \brief Color vector */
-      std::vector<Eigen::Vector3i> color_;
-
-      /** TODO: double might use to much memory */
-      /** \brief CRF unary potentials */
-      std::vector<float> unary_;
-
-      std::vector<float> current_;
-      std::vector<float> next_;
-      std::vector<float> tmp_;
-
-      /** \brief pairwise potentials */
-      std::vector<PairwisePotential*> pairwise_potential_;
-
-      /** \brief input types */
-      bool xyz_, rgb_, normal_;
-
-    public:
-      EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-  };
-}
-
-
-
-
+  public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+};
+} // namespace pcl
 
 #endif

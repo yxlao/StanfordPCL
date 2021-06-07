@@ -64,4 +64,4 @@
 #include <boost/random/normal_distribution.hpp>
 #include <boost/random/variate_generator.hpp>
 
-#endif    // PCL_COMMON_BOOST_H_
+#endif // PCL_COMMON_BOOST_H_

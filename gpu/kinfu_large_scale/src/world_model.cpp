@@ -33,12 +33,11 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- *  Author: Raphael Favier, Technical University Eindhoven, (r.mysurname <aT> tue.nl)
+ *  Author: Raphael Favier, Technical University Eindhoven, (r.mysurname <aT>
+ * tue.nl)
  */
 
- #include <pcl/gpu/kinfu_large_scale/world_model.h>
- #include <pcl/gpu/kinfu_large_scale/impl/world_model.hpp>
-
-
+#include <pcl/gpu/kinfu_large_scale/world_model.h>
+#include <pcl/gpu/kinfu_large_scale/impl/world_model.hpp>
 
 PCL_INSTANTIATE(WorldModel, (pcl::PointXYZ)(pcl::PointXYZI));

@@ -251,5 +251,4 @@ void optimized_shs5(const PointCloud<PointXYZRGB> &cloud, float tolerance, const
 
 #endif
 
-
 #endif

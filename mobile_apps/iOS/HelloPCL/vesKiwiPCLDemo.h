@@ -28,52 +28,46 @@ class vesShaderProgram;
 class vesKiwiPolyDataRepresentation;
 class vesGeometryData;
 
-class vesKiwiPCLDemo : public vesKiwiWidgetRepresentation
-{
-public:
+class vesKiwiPCLDemo : public vesKiwiWidgetRepresentation {
+  public:
+    vesTypeMacro(vesKiwiPCLDemo);
+    typedef vesKiwiWidgetRepresentation Superclass;
 
-  vesTypeMacro(vesKiwiPCLDemo);
-  typedef vesKiwiWidgetRepresentation Superclass;
+    vesKiwiPCLDemo();
+    ~vesKiwiPCLDemo();
 
-  vesKiwiPCLDemo();
-  ~vesKiwiPCLDemo();
+    void initialize(const std::string &filename,
+                    vesSharedPtr<vesShaderProgram> shader);
 
-  void initialize(const std::string& filename, vesSharedPtr<vesShaderProgram> shader);
+    void setLeafSize(double value);
 
+    void setPlaneDistanceThreshold(double value);
 
-  void setLeafSize(double value);
+    vesSharedPtr<vesKiwiPolyDataRepresentation> cloudRepresentation();
 
-  void setPlaneDistanceThreshold(double value);
+    virtual void addSelfToRenderer(vesSharedPtr<vesRenderer> renderer);
+    virtual void removeSelfFromRenderer(vesSharedPtr<vesRenderer> renderer);
+    virtual void willRender(vesSharedPtr<vesRenderer> renderer);
 
+    virtual int numberOfFacets();
+    virtual int numberOfVertices();
+    virtual int numberOfLines();
 
-  vesSharedPtr<vesKiwiPolyDataRepresentation> cloudRepresentation();
+    virtual bool handleSingleTouchTap(int displayX, int displayY);
+    virtual bool handleSingleTouchDown(int displayX, int displayY);
+    virtual bool handleSingleTouchPanGesture(double deltaX, double deltaY);
+    virtual bool handleSingleTouchUp();
 
-  virtual void addSelfToRenderer(vesSharedPtr<vesRenderer> renderer);
-  virtual void removeSelfFromRenderer(vesSharedPtr<vesRenderer> renderer);
-  virtual void willRender(vesSharedPtr<vesRenderer> renderer);
+    class vesInternal;
 
-  virtual int numberOfFacets();
-  virtual int numberOfVertices();
-  virtual int numberOfLines();
+  protected:
+    vesSharedPtr<vesGeometryData> updateGeometryData();
 
-  virtual bool handleSingleTouchTap(int displayX, int displayY);
-  virtual bool handleSingleTouchDown(int displayX, int displayY);
-  virtual bool handleSingleTouchPanGesture(double deltaX, double deltaY);
-  virtual bool handleSingleTouchUp();
+  private:
+    vesKiwiPCLDemo(const vesKiwiPCLDemo &); // Not implemented
+    void operator=(const vesKiwiPCLDemo &); // Not implemented
 
-  class vesInternal;
-
-protected:
-
-  vesSharedPtr<vesGeometryData> updateGeometryData();
-
-private:
-
-  vesKiwiPCLDemo(const vesKiwiPCLDemo&); // Not implemented
-  void operator=(const vesKiwiPCLDemo&); // Not implemented
-
-
-  vesInternal* Internal;
+    vesInternal *Internal;
 };
 
 #endif

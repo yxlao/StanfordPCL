@@ -54,121 +54,135 @@ int default_depth = 8;
 int default_solver_divide = 8;
 int default_iso_divide = 8;
 
-void
-printHelp (int, char **argv)
-{
-  print_error ("Syntax is: %s input.pcd output.vtk <options>\n", argv[0]);
-  print_info ("  where options are:\n");
-  print_info ("                     -depth X          = set the maximum depth of the tree that will be used for surface reconstruction (default: ");
-  print_value ("%d", default_depth); print_info (")\n");
-  print_info ("                     -solver_divide X  = set the the depth at which a block Gauss-Seidel solver is used to solve the Laplacian equation (default: ");
-  print_value ("%d", default_solver_divide); print_info (")\n");
-  print_info ("                     -iso_divide X     = Set the depth at which a block iso-surface extractor should be used to extract the iso-surface (default: ");
-  print_value ("%d", default_iso_divide); print_info (")\n");
+void printHelp(int, char **argv) {
+    print_error("Syntax is: %s input.pcd output.vtk <options>\n", argv[0]);
+    print_info("  where options are:\n");
+    print_info(
+        "                     -depth X          = set the maximum depth of the "
+        "tree that will be used for surface reconstruction (default: ");
+    print_value("%d", default_depth);
+    print_info(")\n");
+    print_info("                     -solver_divide X  = set the the depth at "
+               "which a block Gauss-Seidel solver is used to solve the "
+               "Laplacian equation (default: ");
+    print_value("%d", default_solver_divide);
+    print_info(")\n");
+    print_info("                     -iso_divide X     = Set the depth at "
+               "which a block iso-surface extractor should be used to extract "
+               "the iso-surface (default: ");
+    print_value("%d", default_iso_divide);
+    print_info(")\n");
 }
 
-bool
-loadCloud (const std::string &filename, sensor_msgs::PointCloud2 &cloud)
-{
-  TicToc tt;
-  print_highlight ("Loading "); print_value ("%s ", filename.c_str ());
+bool loadCloud(const std::string &filename, sensor_msgs::PointCloud2 &cloud) {
+    TicToc tt;
+    print_highlight("Loading ");
+    print_value("%s ", filename.c_str());
 
-  tt.tic ();
-  if (loadPCDFile (filename, cloud) < 0)
-    return (false);
-  print_info ("[done, "); print_value ("%g", tt.toc ()); print_info (" ms : "); print_value ("%d", cloud.width * cloud.height); print_info (" points]\n");
-  print_info ("Available dimensions: "); print_value ("%s\n", pcl::getFieldsList (cloud).c_str ());
+    tt.tic();
+    if (loadPCDFile(filename, cloud) < 0)
+        return (false);
+    print_info("[done, ");
+    print_value("%g", tt.toc());
+    print_info(" ms : ");
+    print_value("%d", cloud.width * cloud.height);
+    print_info(" points]\n");
+    print_info("Available dimensions: ");
+    print_value("%s\n", pcl::getFieldsList(cloud).c_str());
 
-  return (true);
+    return (true);
 }
 
-void
-compute (const sensor_msgs::PointCloud2::ConstPtr &input, PolygonMesh &output,
-         int depth, int solver_divide, int iso_divide)
-{
-  PointCloud<PointNormal>::Ptr xyz_cloud (new pcl::PointCloud<PointNormal> ());
-  fromROSMsg (*input, *xyz_cloud);
+void compute(const sensor_msgs::PointCloud2::ConstPtr &input,
+             PolygonMesh &output, int depth, int solver_divide,
+             int iso_divide) {
+    PointCloud<PointNormal>::Ptr xyz_cloud(new pcl::PointCloud<PointNormal>());
+    fromROSMsg(*input, *xyz_cloud);
 
-	Poisson<PointNormal> poisson;
-	poisson.setDepth (depth);
-	poisson.setSolverDivide (solver_divide);
-	poisson.setIsoDivide (iso_divide);
-  poisson.setInputCloud (xyz_cloud);
+    Poisson<PointNormal> poisson;
+    poisson.setDepth(depth);
+    poisson.setSolverDivide(solver_divide);
+    poisson.setIsoDivide(iso_divide);
+    poisson.setInputCloud(xyz_cloud);
 
+    TicToc tt;
+    tt.tic();
 
-  TicToc tt;
-  tt.tic ();
+    print_highlight("Computing ");
+    poisson.reconstruct(output);
 
-  print_highlight ("Computing ");
-  poisson.reconstruct (output);
-
-  print_info ("[done, "); print_value ("%g", tt.toc ()); print_info (" ms]\n");
+    print_info("[done, ");
+    print_value("%g", tt.toc());
+    print_info(" ms]\n");
 }
 
-void
-saveCloud (const std::string &filename, const PolygonMesh &output)
-{
-  TicToc tt;
-  tt.tic ();
+void saveCloud(const std::string &filename, const PolygonMesh &output) {
+    TicToc tt;
+    tt.tic();
 
-  print_highlight ("Saving "); print_value ("%s ", filename.c_str ());
-  saveVTKFile (filename, output);
+    print_highlight("Saving ");
+    print_value("%s ", filename.c_str());
+    saveVTKFile(filename, output);
 
-  print_info ("[done, "); print_value ("%g", tt.toc ()); print_info (" ms]\n");
+    print_info("[done, ");
+    print_value("%g", tt.toc());
+    print_info(" ms]\n");
 }
 
 /* ---[ */
-int
-main (int argc, char** argv)
-{
-  print_info ("Compute the surface reconstruction of a point cloud using the marching cubes algorithm (pcl::surface::MarchingCubesGreedy or pcl::surface::MarchingCubesGreedyDot. For more information, use: %s -h\n", argv[0]);
+int main(int argc, char **argv) {
+    print_info("Compute the surface reconstruction of a point cloud using the "
+               "marching cubes algorithm (pcl::surface::MarchingCubesGreedy or "
+               "pcl::surface::MarchingCubesGreedyDot. For more information, "
+               "use: %s -h\n",
+               argv[0]);
 
-  if (argc < 3)
-  {
-    printHelp (argc, argv);
-    return (-1);
-  }
+    if (argc < 3) {
+        printHelp(argc, argv);
+        return (-1);
+    }
 
-  // Parse the command line arguments for .pcd files
-  std::vector<int> pcd_file_indices;
-  pcd_file_indices = parse_file_extension_argument (argc, argv, ".pcd");
-  if (pcd_file_indices.size () != 1)
-  {
-    print_error ("Need one input PCD file and one output PCD file to continue.\n");
-    return (-1);
-  }
+    // Parse the command line arguments for .pcd files
+    std::vector<int> pcd_file_indices;
+    pcd_file_indices = parse_file_extension_argument(argc, argv, ".pcd");
+    if (pcd_file_indices.size() != 1) {
+        print_error(
+            "Need one input PCD file and one output PCD file to continue.\n");
+        return (-1);
+    }
 
-  std::vector<int> vtk_file_indices = parse_file_extension_argument (argc, argv, ".vtk");
-  if (vtk_file_indices.size () != 1)
-  {
-    print_error ("Need one output VTK file to continue.\n");
-    return (-1);
-  }
+    std::vector<int> vtk_file_indices =
+        parse_file_extension_argument(argc, argv, ".vtk");
+    if (vtk_file_indices.size() != 1) {
+        print_error("Need one output VTK file to continue.\n");
+        return (-1);
+    }
 
-  // Command line parsing
-  int depth = default_depth;
-  parse_argument (argc, argv, "-depth", depth);
-  print_info ("Using a depth of: "); print_value ("%d\n", depth);
+    // Command line parsing
+    int depth = default_depth;
+    parse_argument(argc, argv, "-depth", depth);
+    print_info("Using a depth of: ");
+    print_value("%d\n", depth);
 
-  int solver_divide = default_solver_divide;
-  parse_argument (argc, argv, "-solver_divide", solver_divide);
-  print_info ("Setting solver_divide to: "); print_value ("%d\n", solver_divide);
+    int solver_divide = default_solver_divide;
+    parse_argument(argc, argv, "-solver_divide", solver_divide);
+    print_info("Setting solver_divide to: ");
+    print_value("%d\n", solver_divide);
 
-  int iso_divide = default_iso_divide;
-  parse_argument (argc, argv, "-iso_divide", iso_divide);
-  print_info ("Setting iso_divide to: "); print_value ("%d\n", iso_divide);
+    int iso_divide = default_iso_divide;
+    parse_argument(argc, argv, "-iso_divide", iso_divide);
+    print_info("Setting iso_divide to: ");
+    print_value("%d\n", iso_divide);
 
+    // Load the first file
+    sensor_msgs::PointCloud2::Ptr cloud(new sensor_msgs::PointCloud2);
+    if (!loadCloud(argv[pcd_file_indices[0]], *cloud))
+        return (-1);
 
-  // Load the first file
-  sensor_msgs::PointCloud2::Ptr cloud (new sensor_msgs::PointCloud2);
-  if (!loadCloud (argv[pcd_file_indices[0]], *cloud))
-    return (-1);
+    // Apply the marching cubes algorithm
+    PolygonMesh output;
+    compute(cloud, output, depth, solver_divide, iso_divide);
 
-  // Apply the marching cubes algorithm
-  PolygonMesh output;
-  compute (cloud, output, depth, solver_divide, iso_divide);
-
-  // Save into the second file
-  saveCloud (argv[vtk_file_indices[0]], output);
+    // Save into the second file
+    saveCloud(argv[vtk_file_indices[0]], output);
 }
-

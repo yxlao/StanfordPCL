@@ -1,4 +1,4 @@
- /*
+/*
  * Software License Agreement  (BSD License)
  *
  *  Point Cloud Library  (PCL) - www.pointclouds.org
@@ -42,42 +42,45 @@
 #include <pcl/point_cloud.h>
 #include <pcl/impl/instantiate.hpp>
 
-template <typename PointT> void
-pcl::cloud_composer::CloudItem::printNumPoints () const
-{
-  //boost::shared_ptr <PointCloud<PointT> > cloud = this->data (ItemDataRole::CLOUD_TEMPLATED).value <boost::shared_ptr <PointCloud<PointT> > > ();
-  QVariant variant = this->data (ItemDataRole::CLOUD_TEMPLATED);
-  typename PointCloud<PointT>::Ptr cloud;
-  if ( variant.canConvert <typename PointCloud<PointT>::Ptr> () )
-  {
-    cloud = variant.value <typename PointCloud<PointT>::Ptr> ();
-  }
-  else
-  {
-    qWarning () << "Attempted to cast to template type which does not exist in this item!";
-    return;
-  }
+template <typename PointT>
+void pcl::cloud_composer::CloudItem::printNumPoints() const {
+    // boost::shared_ptr <PointCloud<PointT> > cloud = this->data
+    // (ItemDataRole::CLOUD_TEMPLATED).value <boost::shared_ptr
+    // <PointCloud<PointT> > > ();
+    QVariant variant = this->data(ItemDataRole::CLOUD_TEMPLATED);
+    typename PointCloud<PointT>::Ptr cloud;
+    if (variant.canConvert<typename PointCloud<PointT>::Ptr>()) {
+        cloud = variant.value<typename PointCloud<PointT>::Ptr>();
+    } else {
+        qWarning() << "Attempted to cast to template type which does not exist "
+                      "in this item!";
+        return;
+    }
 
-  qDebug () << "CLOUD HAS WIDTH = "<< cloud->width;
-
+    qDebug() << "CLOUD HAS WIDTH = " << cloud->width;
 }
 
-
-
-template <typename PointT> pcl::cloud_composer::CloudItem*
-pcl::cloud_composer::CloudItem::createCloudItemFromTemplate (const QString name, typename PointCloud<PointT>::Ptr cloud_ptr)
-{
-  sensor_msgs::PointCloud2::Ptr cloud_blob = boost::make_shared <sensor_msgs::PointCloud2> ();
-  toROSMsg (*cloud_ptr, *cloud_blob);
-  CloudItem* cloud_item = new CloudItem ( name, cloud_blob,  Eigen::Vector4f (), Eigen::Quaternionf (), false);
-  cloud_item->setData (QVariant::fromValue(cloud_ptr), ItemDataRole::CLOUD_TEMPLATED);
-  cloud_item->setPointType<PointT> ();
-  return cloud_item;
+template <typename PointT>
+pcl::cloud_composer::CloudItem *
+pcl::cloud_composer::CloudItem::createCloudItemFromTemplate(
+    const QString name, typename PointCloud<PointT>::Ptr cloud_ptr) {
+    sensor_msgs::PointCloud2::Ptr cloud_blob =
+        boost::make_shared<sensor_msgs::PointCloud2>();
+    toROSMsg(*cloud_ptr, *cloud_blob);
+    CloudItem *cloud_item = new CloudItem(name, cloud_blob, Eigen::Vector4f(),
+                                          Eigen::Quaternionf(), false);
+    cloud_item->setData(QVariant::fromValue(cloud_ptr),
+                        ItemDataRole::CLOUD_TEMPLATED);
+    cloud_item->setPointType<PointT>();
+    return cloud_item;
 }
 
+#define PCL_INSTANTIATE_createCloudItemFromTemplate(T)                         \
+    template PCL_EXPORTS pcl::cloud_composer::CloudItem *                      \
+    pcl::cloud_composer::CloudItem::createCloudItemFromTemplate<T>(            \
+        const QString, typename PointCloud<PointT>::Ptr);
 
-#define PCL_INSTANTIATE_createCloudItemFromTemplate(T) template PCL_EXPORTS pcl::cloud_composer::CloudItem* pcl::cloud_composer::CloudItem::createCloudItemFromTemplate<T>(const QString, typename PointCloud<PointT>::Ptr);
-
-#define PCL_INSTANTIATE_printNumPoints(T) template PCL_EXPORTS void pcl::cloud_composer::CloudItem::getNumPoints<T>();
+#define PCL_INSTANTIATE_printNumPoints(T)                                      \
+    template PCL_EXPORTS void pcl::cloud_composer::CloudItem::getNumPoints<T>();
 
 #endif

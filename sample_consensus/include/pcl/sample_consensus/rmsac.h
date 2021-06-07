@@ -42,19 +42,18 @@
 #include <pcl/sample_consensus/sac.h>
 #include <pcl/sample_consensus/sac_model.h>
 
-namespace pcl
-{
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /** \brief @b RandomizedMEstimatorSampleConsensus represents an implementation of the RMSAC (Randomized M-estimator
-    * SAmple Consensus) algorithm, which basically adds a Td,d test (see \a RandomizedRandomSampleConsensus) to an MSAC
-    * estimator (see \a MEstimatorSampleConsensus).
-    * \note RMSAC is useful in situations where most of the data samples belong to the model, and a fast outlier rejection algorithm is needed.
-    * \author Radu Bogdan Rusu
-    * \ingroup sample_consensus
-    */
-  template <typename PointT>
-  class RandomizedMEstimatorSampleConsensus : public SampleConsensus<PointT>
-  {
+namespace pcl {
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/** \brief @b RandomizedMEstimatorSampleConsensus represents an implementation
+ * of the RMSAC (Randomized M-estimator SAmple Consensus) algorithm, which
+ * basically adds a Td,d test (see \a RandomizedRandomSampleConsensus) to an
+ * MSAC estimator (see \a MEstimatorSampleConsensus). \note RMSAC is useful in
+ * situations where most of the data samples belong to the model, and a fast
+ * outlier rejection algorithm is needed. \author Radu Bogdan Rusu \ingroup
+ * sample_consensus
+ */
+template <typename PointT>
+class RandomizedMEstimatorSampleConsensus : public SampleConsensus<PointT> {
     using SampleConsensus<PointT>::max_iterations_;
     using SampleConsensus<PointT>::threshold_;
     using SampleConsensus<PointT>::iterations_;
@@ -66,45 +65,53 @@ namespace pcl
 
     typedef typename SampleConsensusModel<PointT>::Ptr SampleConsensusModelPtr;
 
-    public:
-      /** \brief RMSAC (Randomized M-estimator SAmple Consensus) main constructor
-        * \param model a Sample Consensus model
-        */
-      RandomizedMEstimatorSampleConsensus (const SampleConsensusModelPtr &model) : SampleConsensus<PointT> (model),
-                                                                                   fraction_nr_pretest_ (10.0) // Number of samples to try randomly in percents
-      {
+  public:
+    /** \brief RMSAC (Randomized M-estimator SAmple Consensus) main constructor
+     * \param model a Sample Consensus model
+     */
+    RandomizedMEstimatorSampleConsensus(const SampleConsensusModelPtr &model)
+        : SampleConsensus<PointT>(model),
+          fraction_nr_pretest_(
+              10.0) // Number of samples to try randomly in percents
+    {
         // Maximum number of trials before we give up.
         max_iterations_ = 10000;
-      }
+    }
 
-      /** \brief RMSAC (Randomized M-estimator SAmple Consensus) main constructor
-        * \param model a Sample Consensus model
-        * \param threshold distance to model threshold
-        */
-      RandomizedMEstimatorSampleConsensus (const SampleConsensusModelPtr &model, double threshold) : SampleConsensus<PointT> (model, threshold),
-                                                                                                     fraction_nr_pretest_ (10.0) // Number of samples to try randomly in percents
-      {
+    /** \brief RMSAC (Randomized M-estimator SAmple Consensus) main constructor
+     * \param model a Sample Consensus model
+     * \param threshold distance to model threshold
+     */
+    RandomizedMEstimatorSampleConsensus(const SampleConsensusModelPtr &model,
+                                        double threshold)
+        : SampleConsensus<PointT>(model, threshold),
+          fraction_nr_pretest_(
+              10.0) // Number of samples to try randomly in percents
+    {
         // Maximum number of trials before we give up.
         max_iterations_ = 10000;
-      }
+    }
 
-      /** \brief Compute the actual model and find the inliers
-        * \param debug_verbosity_level enable/disable on-screen debug information and set the verbosity level
-        */
-      bool computeModel (int debug_verbosity_level = 0);
+    /** \brief Compute the actual model and find the inliers
+     * \param debug_verbosity_level enable/disable on-screen debug information
+     * and set the verbosity level
+     */
+    bool computeModel(int debug_verbosity_level = 0);
 
-      /** \brief Set the percentage of points to pre-test.
-        * \param nr_pretest percentage of points to pre-test
-        */
-      inline void setFractionNrPretest (double nr_pretest) { fraction_nr_pretest_ = nr_pretest; }
+    /** \brief Set the percentage of points to pre-test.
+     * \param nr_pretest percentage of points to pre-test
+     */
+    inline void setFractionNrPretest(double nr_pretest) {
+        fraction_nr_pretest_ = nr_pretest;
+    }
 
-      /** \brief Get the percentage of points to pre-test. */
-      inline double getFractionNrPretest () { return (fraction_nr_pretest_); }
+    /** \brief Get the percentage of points to pre-test. */
+    inline double getFractionNrPretest() { return (fraction_nr_pretest_); }
 
-    private:
-      /** \brief Number of samples to randomly pre-test, in percents. */
-      double fraction_nr_pretest_;
-  };
-}
+  private:
+    /** \brief Number of samples to randomly pre-test, in percents. */
+    double fraction_nr_pretest_;
+};
+} // namespace pcl
 
-#endif  //#ifndef PCL_SAMPLE_CONSENSUS_RMSAC_H_
+#endif //#ifndef PCL_SAMPLE_CONSENSUS_RMSAC_H_

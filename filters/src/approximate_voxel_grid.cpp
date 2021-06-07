@@ -44,4 +44,3 @@
 
 // Instantiations of specific point types
 PCL_INSTANTIATE(ApproximateVoxelGrid, PCL_XYZ_POINT_TYPES)
-

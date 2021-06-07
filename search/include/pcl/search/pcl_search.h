@@ -45,5 +45,4 @@
 #include <pcl/search/octree.h>
 #include <pcl/search/organized.h>
 
-#endif    // PCL_SEARCH_PCL_SEARCH_H_
-
+#endif // PCL_SEARCH_PCL_SEARCH_H_

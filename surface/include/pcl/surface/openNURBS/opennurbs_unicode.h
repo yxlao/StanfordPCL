@@ -8,7 +8,7 @@
 // THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
 // ALL IMPLIED WARRANTIES OF FITNESS FOR ANY PARTICULAR PURPOSE AND OF
 // MERCHANTABILITY ARE HEREBY DISCLAIMED.
-//				
+//
 // For complete openNURBS copyright information see <http://www.opennurbs.org>.
 //
 ////////////////////////////////////////////////////////////////
@@ -19,63 +19,61 @@
 
 ON_BEGIN_EXTERNC
 
-struct ON_UnicodeErrorParameters
-{
-  /*
-  If an error occurs, then bits of error_status are
-  set to indicate what type of error occured.
+struct ON_UnicodeErrorParameters {
+    /*
+    If an error occurs, then bits of error_status are
+    set to indicate what type of error occured.
 
-  Error types:
-    1: The input parameters were invalid.
-       This error cannot be masked.
+    Error types:
+      1: The input parameters were invalid.
+         This error cannot be masked.
 
-    2: The ouput buffer was not large enough to hold the converted
-       string. As much conversion as possible is performed in this
-       case and the error cannot be masked.
+      2: The ouput buffer was not large enough to hold the converted
+         string. As much conversion as possible is performed in this
+         case and the error cannot be masked.
 
-    4: When parsing a UTF-8 or UTF-32 string, the values of two
-       consecutive encoding sequences formed a valid UTF-16
-       surrogate pair.
+      4: When parsing a UTF-8 or UTF-32 string, the values of two
+         consecutive encoding sequences formed a valid UTF-16
+         surrogate pair.
 
-       This error is masked if 0 != (4 & m_error_mask).
-       If the error is masked, then the surrogate pair is
-       decoded, the value of the resulting unicode code point
-       is used, and parsing continues.
+         This error is masked if 0 != (4 & m_error_mask).
+         If the error is masked, then the surrogate pair is
+         decoded, the value of the resulting unicode code point
+         is used, and parsing continues.
 
-    8: An overlong UTF-8 encoding sequence was encountered and
-       the value of the overlong sUTF-8 equence was a valid unicode
-       code point.
+      8: An overlong UTF-8 encoding sequence was encountered and
+         the value of the overlong sUTF-8 equence was a valid unicode
+         code point.
 
-       This error is masked if 0 != (8 & m_error_mask).
-       If the error is masked, then the unicode code point is
-       used and parsing continues.
+         This error is masked if 0 != (8 & m_error_mask).
+         If the error is masked, then the unicode code point is
+         used and parsing continues.
 
-   16: An illegal UTF-8 encoding sequence occured or an invalid
-       unicode code point value resulted from decoding a
-       UTF-8 sequence.
+     16: An illegal UTF-8 encoding sequence occured or an invalid
+         unicode code point value resulted from decoding a
+         UTF-8 sequence.
 
-       This error is masked if 0 != (16 & m_error_mask).
-       If the error is masked and the value of error_code_point is
-       a valid unicode code point, then error_code_point is used
-       and parsing continues.
-  */
-  unsigned int m_error_status;
+         This error is masked if 0 != (16 & m_error_mask).
+         If the error is masked and the value of error_code_point is
+         a valid unicode code point, then error_code_point is used
+         and parsing continues.
+    */
+    unsigned int m_error_status;
 
-  /*
-  If 0 != (error_mask & 4), then type 4 errors are masked.
-  If 0 != (error_mask & 8), then type 8 errors are masked.
-  If 0 != (error_mask & 16) and error_code_point is a valid unicode
-  code point value, then type 16 errors are masked.
-  */
-  unsigned int m_error_mask;
+    /*
+    If 0 != (error_mask & 4), then type 4 errors are masked.
+    If 0 != (error_mask & 8), then type 8 errors are masked.
+    If 0 != (error_mask & 16) and error_code_point is a valid unicode
+    code point value, then type 16 errors are masked.
+    */
+    unsigned int m_error_mask;
 
-  /*
-  Unicode code point value to use in when masking type 16 errors.
-  If 0 == (error_mask & 16), then this parameter is ignored.
-  */
-  ON__UINT32 m_error_code_point;
+    /*
+    Unicode code point value to use in when masking type 16 errors.
+    If 0 == (error_mask & 16), then this parameter is ignored.
+    */
+    ON__UINT32 m_error_code_point;
 };
-
 
 /*
 Description:
@@ -90,7 +88,7 @@ Remarks:
   (0 <= u && u <= 0xD7FF) || (0xE000 <= u && u <= 0x10FFFF)
 */
 ON_DECL
-int ON_IsValidUnicodeCodePoint( ON__UINT32 u );
+int ON_IsValidUnicodeCodePoint(ON__UINT32 u);
 
 /*
 Description:
@@ -110,19 +108,19 @@ Returns:
   1: the UTF-8 form of u is 1 byte returned in sUTF8[0].
   2: the UTF-8 form of u is 2 byts returned in sUTF8[0],sUTF8[1].
   3: the UTF-8 form of u is 3 bytes returned in sUTF8[0],sUTF8[1],sUTF8[2].
-  4: the UTF-8 form of u is 4 bytes returned in sUTF8[0],sUTF8[1],sUTF8[2],sUTF8[3].
-  5: the UTF-8 form of u is 5 bytes returned in sUTF8[0],sUTF8[1],sUTF8[2],sUTF8[3],sUTF8[4].
-  6: the UTF-8 form of u is 6 bytes returned in sUTF8[0],sUTF8[1],sUTF8[2],sUTF8[3],sUTF8[4],sUTF8[5].
-  For return values requiring less than 6 bytes, no changes
-  are made to the unused bytes in sUTF8[].
-Remarks:
-  Any integer in the range 0 to 2^31 - 1 can be encoded as a UTF-8 string.
-  When a unicode string is being encoded take steps to ensure that
-  u is a valid unicode code point value.  The function ON_IsValidUnicodeCodePoint()
-  can be used to determine if u is a valid unicode code point value.
+  4: the UTF-8 form of u is 4 bytes returned in
+sUTF8[0],sUTF8[1],sUTF8[2],sUTF8[3]. 5: the UTF-8 form of u is 5 bytes returned
+in sUTF8[0],sUTF8[1],sUTF8[2],sUTF8[3],sUTF8[4]. 6: the UTF-8 form of u is 6
+bytes returned in sUTF8[0],sUTF8[1],sUTF8[2],sUTF8[3],sUTF8[4],sUTF8[5]. For
+return values requiring less than 6 bytes, no changes are made to the unused
+bytes in sUTF8[]. Remarks: Any integer in the range 0 to 2^31 - 1 can be encoded
+as a UTF-8 string. When a unicode string is being encoded take steps to ensure
+that u is a valid unicode code point value.  The function
+ON_IsValidUnicodeCodePoint() can be used to determine if u is a valid unicode
+code point value.
 */
 ON_DECL
-int ON_EncodeUTF8( ON__UINT32 u, ON__UINT8 sUTF8[6] );
+int ON_EncodeUTF8(ON__UINT32 u, ON__UINT8 sUTF8[6]);
 
 /*
 Description:
@@ -150,12 +148,9 @@ Returns:
   0 indicates failure.
 */
 ON_DECL
-int ON_DecodeUTF8(
-    const ON__UINT8* sUTF8,
-    int sUTF8_count,
-    struct ON_UnicodeErrorParameters* e,
-    ON__UINT32* unicode_code_point
-    );
+int ON_DecodeUTF8(const ON__UINT8 *sUTF8, int sUTF8_count,
+                  struct ON_UnicodeErrorParameters *e,
+                  ON__UINT32 *unicode_code_point);
 
 /*
 Description:
@@ -181,7 +176,7 @@ Returns:
      consisting of a surrogate pair returned in w[0] and w[1].
 */
 ON_DECL
-int ON_EncodeUTF16( ON__UINT32 unicode_code_point, ON__UINT16 sUTF16[2] );
+int ON_EncodeUTF16(ON__UINT32 unicode_code_point, ON__UINT16 sUTF16[2]);
 
 /*
 Description:
@@ -209,12 +204,9 @@ Returns:
   0 indicates failure.
 */
 ON_DECL
-int ON_DecodeUTF16(
-    const ON__UINT16* sUTF16,
-    int sUTF16_count,
-    struct ON_UnicodeErrorParameters* e,
-    ON__UINT32* unicode_code_point
-    );
+int ON_DecodeUTF16(const ON__UINT16 *sUTF16, int sUTF16_count,
+                   struct ON_UnicodeErrorParameters *e,
+                   ON__UINT32 *unicode_code_point);
 
 /*
 Description:
@@ -244,12 +236,9 @@ Returns:
   0 indicates failure.
 */
 ON_DECL
-int ON_DecodeSwapByteUTF16(
-    const ON__UINT16* sUTF16,
-    int sUTF16_count,
-    struct ON_UnicodeErrorParameters* e,
-    ON__UINT32* unicode_code_point
-    );
+int ON_DecodeSwapByteUTF16(const ON__UINT16 *sUTF16, int sUTF16_count,
+                           struct ON_UnicodeErrorParameters *e,
+                           ON__UINT32 *unicode_code_point);
 
 /*
 Description:
@@ -338,16 +327,11 @@ Returns:
   to use for a null terminator.
 */
 ON_DECL
-int ON_ConvertUTF8ToUTF16(
-    const ON__UINT8* sUTF8,
-    int sUTF8_count,
-    ON__UINT16* sUTF16,
-    int sUTF16_count,
-    unsigned int* error_status,
-    unsigned int error_mask,
-    ON__UINT32 error_code_point,
-    const ON__UINT8** sNextUTF8
-    );
+int ON_ConvertUTF8ToUTF16(const ON__UINT8 *sUTF8, int sUTF8_count,
+                          ON__UINT16 *sUTF16, int sUTF16_count,
+                          unsigned int *error_status, unsigned int error_mask,
+                          ON__UINT32 error_code_point,
+                          const ON__UINT8 **sNextUTF8);
 
 /*
 Description:
@@ -437,16 +421,11 @@ Returns:
   to use for a null terminator.
 */
 ON_DECL
-int ON_ConvertUTF8ToUTF32(
-    const ON__UINT8* sUTF8,
-    int sUTF8_count,
-    ON__UINT32* sUTF32,
-    int sUTF32_count,
-    unsigned int* error_status,
-    unsigned int error_mask,
-    ON__UINT32 error_code_point,
-    const ON__UINT8** sNextUTF8
-    );
+int ON_ConvertUTF8ToUTF32(const ON__UINT8 *sUTF8, int sUTF8_count,
+                          ON__UINT32 *sUTF32, int sUTF32_count,
+                          unsigned int *error_status, unsigned int error_mask,
+                          ON__UINT32 error_code_point,
+                          const ON__UINT8 **sNextUTF8);
 
 /*
 Description:
@@ -548,17 +527,11 @@ Parameters:
   to use for a null terminator.
 */
 ON_DECL
-int ON_ConvertUTF16ToUTF8(
-    int bTestByteOrder,
-    const ON__UINT16* sUTF16,
-    int sUTF16_count,
-    ON__UINT8* sUTF8,
-    int sUTF8_count,
-    unsigned int* error_status,
-    unsigned int error_mask,
-    ON__UINT32 error_code_point,
-    const ON__UINT16** sNextUTF16
-    );
+int ON_ConvertUTF16ToUTF8(int bTestByteOrder, const ON__UINT16 *sUTF16,
+                          int sUTF16_count, ON__UINT8 *sUTF8, int sUTF8_count,
+                          unsigned int *error_status, unsigned int error_mask,
+                          ON__UINT32 error_code_point,
+                          const ON__UINT16 **sNextUTF16);
 
 /*
 Description:
@@ -661,17 +634,11 @@ Returns:
   to use for a null terminator.
 */
 ON_DECL
-int ON_ConvertUTF16ToUTF32(
-    int bTestByteOrder,
-    const ON__UINT16* sUTF16,
-    int sUTF16_count,
-    unsigned int* sUTF32,
-    int sUTF32_count,
-    unsigned int* error_status,
-    unsigned int error_mask,
-    ON__UINT32 error_code_point,
-    const ON__UINT16** sNextUTF16
-    );
+int ON_ConvertUTF16ToUTF32(int bTestByteOrder, const ON__UINT16 *sUTF16,
+                           int sUTF16_count, unsigned int *sUTF32,
+                           int sUTF32_count, unsigned int *error_status,
+                           unsigned int error_mask, ON__UINT32 error_code_point,
+                           const ON__UINT16 **sNextUTF16);
 
 /*
 Description:
@@ -779,17 +746,11 @@ Returns:
   to use for a null terminator.
 */
 ON_DECL
-int ON_ConvertUTF32ToUTF8(
-    int bTestByteOrder,
-    const ON__UINT32* sUTF32,
-    int sUTF32_count,
-    ON__UINT8* sUTF8,
-    int sUTF8_count,
-    unsigned int* error_status,
-    unsigned int error_mask,
-    ON__UINT32 error_code_point,
-    const ON__UINT32** sNextUTF32
-    );
+int ON_ConvertUTF32ToUTF8(int bTestByteOrder, const ON__UINT32 *sUTF32,
+                          int sUTF32_count, ON__UINT8 *sUTF8, int sUTF8_count,
+                          unsigned int *error_status, unsigned int error_mask,
+                          ON__UINT32 error_code_point,
+                          const ON__UINT32 **sNextUTF32);
 
 /*
 Description:
@@ -897,17 +858,11 @@ Returns:
   to use for a null terminator.
 */
 ON_DECL
-int ON_ConvertUTF32ToUTF16(
-    int bTestByteOrder,
-    const ON__UINT32* sUTF32,
-    int sUTF32_count,
-    ON__UINT16* sUTF16,
-    int sUTF16_count,
-    unsigned int* error_status,
-    unsigned int error_mask,
-    ON__UINT32 error_code_point,
-    const ON__UINT32** sNextUTF32
-    );
+int ON_ConvertUTF32ToUTF16(int bTestByteOrder, const ON__UINT32 *sUTF32,
+                           int sUTF32_count, ON__UINT16 *sUTF16,
+                           int sUTF16_count, unsigned int *error_status,
+                           unsigned int error_mask, ON__UINT32 error_code_point,
+                           const ON__UINT32 **sNextUTF32);
 
 /*
 Description:
@@ -1017,17 +972,12 @@ Parameters:
   to use for a null terminator.
 */
 ON_DECL
-int ON_ConvertWideCharToUTF8(
-    int bTestByteOrder,
-    const wchar_t* sWideChar,
-    int sWideChar_count,
-    char* sUTF8,
-    int sUTF8_count,
-    unsigned int* error_status,
-    unsigned int error_mask,
-    ON__UINT32 error_code_point,
-    const wchar_t** sNextWideChar
-    );
+int ON_ConvertWideCharToUTF8(int bTestByteOrder, const wchar_t *sWideChar,
+                             int sWideChar_count, char *sUTF8, int sUTF8_count,
+                             unsigned int *error_status,
+                             unsigned int error_mask,
+                             ON__UINT32 error_code_point,
+                             const wchar_t **sNextWideChar);
 
 /*
 Description:
@@ -1124,16 +1074,12 @@ Returns:
   to use for a null terminator.
 */
 ON_DECL
-int ON_ConvertUTF8ToWideChar(
-    const char* sUTF8,
-    int sUTF8_count,
-    wchar_t* sWideChar,
-    int sWideChar_count,
-    unsigned int* error_status,
-    unsigned int error_mask,
-    ON__UINT32 error_code_point,
-    const char** sNextUTF8
-    );
+int ON_ConvertUTF8ToWideChar(const char *sUTF8, int sUTF8_count,
+                             wchar_t *sWideChar, int sWideChar_count,
+                             unsigned int *error_status,
+                             unsigned int error_mask,
+                             ON__UINT32 error_code_point,
+                             const char **sNextUTF8);
 
 ON_END_EXTERNC
 

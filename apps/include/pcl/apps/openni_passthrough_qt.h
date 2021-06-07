@@ -49,4 +49,4 @@
 #include <QTimer>
 #include <QObject>
 
-#endif    // PCL_APPS_OPENNI_PASSTHROUGH_QT_
+#endif // PCL_APPS_OPENNI_PASSTHROUGH_QT_

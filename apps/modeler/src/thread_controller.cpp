@@ -40,55 +40,46 @@
 #include <pcl/apps/modeler/cloud_mesh_item.h>
 #include <pcl/apps/modeler/main_window.h>
 
+//////////////////////////////////////////////////////////////////////////////////////////////
+pcl::modeler::ThreadController::ThreadController() {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-pcl::modeler::ThreadController::ThreadController()
-{
-
+pcl::modeler::ThreadController::~ThreadController(void) {
+    MainWindow::getInstance().slotOnWorkerFinished();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-pcl::modeler::ThreadController::~ThreadController(void)
-{
-  MainWindow::getInstance().slotOnWorkerFinished();
+bool pcl::modeler::ThreadController::runWorker(AbstractWorker *worker) {
+    if (worker->exec() != QDialog::Accepted) {
+        delete worker;
+        deleteLater();
+
+        return (false);
+    }
+
+    QThread *thread = new QThread;
+
+    connect(this, SIGNAL(prepared()), worker, SLOT(process()));
+
+    connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
+
+    connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
+    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+
+    connect(worker, SIGNAL(finished()), this, SLOT(deleteLater()));
+
+    worker->moveToThread(thread);
+    thread->start();
+
+    MainWindow::getInstance().slotOnWorkerStarted();
+
+    emit prepared();
+
+    return (true);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-bool
-pcl::modeler::ThreadController::runWorker(AbstractWorker* worker)
-{
-  if (worker->exec() != QDialog::Accepted)
-  {
-    delete worker;
-    deleteLater();
-
-    return (false);
-  }
-
-  QThread* thread = new QThread;
-
-  connect(this, SIGNAL(prepared()), worker, SLOT(process()));
-
-  connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
-
-  connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
-  connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-
-  connect(worker, SIGNAL(finished()), this, SLOT(deleteLater()));
-
-  worker->moveToThread(thread);
-  thread->start();
-
-  MainWindow::getInstance().slotOnWorkerStarted();
-
-  emit prepared();
-
-   return (true);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::modeler::ThreadController::slotOnCloudMeshItemUpdate(CloudMeshItem* cloud_mesh_item)
-{
-  cloud_mesh_item->updateChannels();
+void pcl::modeler::ThreadController::slotOnCloudMeshItemUpdate(
+    CloudMeshItem *cloud_mesh_item) {
+    cloud_mesh_item->updateChannels();
 }

@@ -40,6 +40,6 @@
 #include <pcl/point_types.h>
 #include <pcl/impl/instantiate.hpp>
 
-
 // Instantiations of specific point types
-//PCL_INSTANTIATE_PRODUCT(SIFTKeypoint, (PCL_XYZ_POINT_TYPES)((pcl::PointWithScale)));
+// PCL_INSTANTIATE_PRODUCT(SIFTKeypoint,
+// (PCL_XYZ_POINT_TYPES)((pcl::PointWithScale)));

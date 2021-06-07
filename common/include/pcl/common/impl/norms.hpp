@@ -35,199 +35,173 @@
 
 #include <pcl/pcl_macros.h>
 
-namespace pcl
-{
+namespace pcl {
 
-template <typename FloatVectorT> inline float
-selectNorm (FloatVectorT a, FloatVectorT b, int dim, NormType norm_type)
-{
-  // {L1, L2_SQR, L2, LINF, JM, B, SUBLINEAR, CS, DIV, PF, K, KL, HIK};
-  switch (norm_type)
-  {
+template <typename FloatVectorT>
+inline float selectNorm(FloatVectorT a, FloatVectorT b, int dim,
+                        NormType norm_type) {
+    // {L1, L2_SQR, L2, LINF, JM, B, SUBLINEAR, CS, DIV, PF, K, KL, HIK};
+    switch (norm_type) {
     case (L1):
-        return L1_Norm (a, b, dim);
+        return L1_Norm(a, b, dim);
     case (L2_SQR):
-        return L2_Norm_SQR (a, b, dim);
+        return L2_Norm_SQR(a, b, dim);
     case (L2):
-        return L2_Norm  (a, b, dim);
+        return L2_Norm(a, b, dim);
     case (LINF):
-        return Linf_Norm (a, b, dim);
+        return Linf_Norm(a, b, dim);
     case (JM):
-        return JM_Norm  (a, b, dim);
+        return JM_Norm(a, b, dim);
     case (B):
-        return B_Norm  (a, b, dim);
+        return B_Norm(a, b, dim);
     case (SUBLINEAR):
-        return Sublinear_Norm (a, b, dim);
+        return Sublinear_Norm(a, b, dim);
     case (CS):
-        return CS_Norm (a, b, dim);
+        return CS_Norm(a, b, dim);
     case (DIV):
-        return Div_Norm (a, b, dim);
+        return Div_Norm(a, b, dim);
     case (KL):
-        return KL_Norm (a, b, dim);
+        return KL_Norm(a, b, dim);
     case (HIK):
-        return HIK_Norm (a, b, dim);
+        return HIK_Norm(a, b, dim);
 
     case (PF):
     case (K):
     default:
-      PCL_ERROR ("[pcl::selectNorm] For PF and K norms you have to explicitly call the method, as they need additional parameters\n");
-      return -1;
-  }
+        PCL_ERROR("[pcl::selectNorm] For PF and K norms you have to explicitly "
+                  "call the method, as they need additional parameters\n");
+        return -1;
+    }
 }
 
-
-template <typename FloatVectorT> inline float
-L1_Norm (FloatVectorT a, FloatVectorT b, int dim)
-{
-  float norm = 0.0f;
-  for (int i = 0; i < dim; ++i)
-    norm += fabsf(a[i] - b[i]);
-  return norm;
+template <typename FloatVectorT>
+inline float L1_Norm(FloatVectorT a, FloatVectorT b, int dim) {
+    float norm = 0.0f;
+    for (int i = 0; i < dim; ++i)
+        norm += fabsf(a[i] - b[i]);
+    return norm;
 }
 
-
-template <typename FloatVectorT> inline float
-L2_Norm_SQR (FloatVectorT a, FloatVectorT b, int dim)
-{
-  float norm = 0.0;
-  for (int i = 0; i < dim; ++i)
-  {
-    float diff  =  a[i] - b[i];
-    norm += diff*diff;
-  }
-  return norm;
+template <typename FloatVectorT>
+inline float L2_Norm_SQR(FloatVectorT a, FloatVectorT b, int dim) {
+    float norm = 0.0;
+    for (int i = 0; i < dim; ++i) {
+        float diff = a[i] - b[i];
+        norm += diff * diff;
+    }
+    return norm;
 }
 
-
-template <typename FloatVectorT> inline float
-L2_Norm (FloatVectorT a, FloatVectorT b, int dim)
-{
-  return sqrtf(L2_Norm_SQR(a, b, dim));
+template <typename FloatVectorT>
+inline float L2_Norm(FloatVectorT a, FloatVectorT b, int dim) {
+    return sqrtf(L2_Norm_SQR(a, b, dim));
 }
 
-
-template <typename FloatVectorT> inline float
-Linf_Norm (FloatVectorT a, FloatVectorT b, int dim)
-{
-  float norm = 0.0;
-  for (int i = 0; i < dim; ++i)
-    norm = (std::max)(fabsf(a[i] - b[i]), norm);
-  return norm;
+template <typename FloatVectorT>
+inline float Linf_Norm(FloatVectorT a, FloatVectorT b, int dim) {
+    float norm = 0.0;
+    for (int i = 0; i < dim; ++i)
+        norm = (std::max)(fabsf(a[i] - b[i]), norm);
+    return norm;
 }
 
+template <typename FloatVectorT>
+inline float JM_Norm(FloatVectorT a, FloatVectorT b, int dim) {
+    float norm = 0.0;
 
-template <typename FloatVectorT> inline float
-JM_Norm (FloatVectorT a, FloatVectorT b, int dim)
-{
-  float norm = 0.0;
+    for (int i = 0; i < dim; ++i)
+        norm += (sqrtf(a[i]) - sqrtf(b[i])) * (sqrtf(a[i]) - sqrtf(b[i]));
 
-  for (int i = 0; i < dim; ++i)
-    norm += (sqrtf (a[i]) - sqrtf (b[i])) * (sqrtf (a[i]) - sqrtf (b[i]));
-
-  return sqrtf (norm);
+    return sqrtf(norm);
 }
 
+template <typename FloatVectorT>
+inline float B_Norm(FloatVectorT a, FloatVectorT b, int dim) {
+    float norm = 0.0, result;
 
-template <typename FloatVectorT> inline float
-B_Norm (FloatVectorT a, FloatVectorT b, int dim)
-{
-  float norm = 0.0, result;
+    for (int i = 0; i < dim; ++i)
+        norm += sqrtf(a[i] * b[i]);
 
-  for (int i = 0; i < dim; ++i)
-    norm += sqrtf (a[i] * b[i]);
-
-  if (norm > 0)
-    result = -logf (norm);
-  else
-    result = 0;
-
-  return result;
-}
-
-
-template <typename FloatVectorT> inline float
-Sublinear_Norm (FloatVectorT a, FloatVectorT b, int dim)
-{
-  float norm = 0.0;
-
-  for (int i = 0; i < dim; ++i)
-    norm += sqrtf (fabsf (a[i] - b[i]));
-
-  return norm;
-}
-
-
-template <typename FloatVectorT> inline float
-CS_Norm (FloatVectorT a, FloatVectorT b, int dim)
-{
-  float norm = 0.0;
-
-  for (int i = 0; i < dim; ++i)
-    if ((a[i] + b[i]) != 0)
-      norm += (a[i] - b[i]) * (a[i] - b[i]) / (a[i] + b[i]);
+    if (norm > 0)
+        result = -logf(norm);
     else
-      norm += 0;
-  return norm;
+        result = 0;
+
+    return result;
 }
 
+template <typename FloatVectorT>
+inline float Sublinear_Norm(FloatVectorT a, FloatVectorT b, int dim) {
+    float norm = 0.0;
 
-template <typename FloatVectorT> inline float
-Div_Norm (FloatVectorT a, FloatVectorT b, int dim)
-{
-  float norm = 0.0;
+    for (int i = 0; i < dim; ++i)
+        norm += sqrtf(fabsf(a[i] - b[i]));
 
-  for (int i = 0; i < dim; ++i)
-    if ((a[i] / b[i]) > 0)
-      norm += (a[i] - b[i]) * logf (a[i] / b[i]);
-    else
-      norm += 0;
-  return norm;
+    return norm;
 }
 
+template <typename FloatVectorT>
+inline float CS_Norm(FloatVectorT a, FloatVectorT b, int dim) {
+    float norm = 0.0;
 
-template <typename FloatVectorT> inline float
-PF_Norm (FloatVectorT a, FloatVectorT b, int dim, float P1, float P2)
-{
-  float norm = 0.0;
-
-  for (int i = 0; i < dim; ++i)
-    norm += (P1 * a[i] - P2 * b[i]) * (P1 * a[i] - P2 * b[i]);
-  return sqrtf (norm);
+    for (int i = 0; i < dim; ++i)
+        if ((a[i] + b[i]) != 0)
+            norm += (a[i] - b[i]) * (a[i] - b[i]) / (a[i] + b[i]);
+        else
+            norm += 0;
+    return norm;
 }
 
+template <typename FloatVectorT>
+inline float Div_Norm(FloatVectorT a, FloatVectorT b, int dim) {
+    float norm = 0.0;
 
-template <typename FloatVectorT> inline float
-K_Norm (FloatVectorT a, FloatVectorT b, int dim, float P1, float P2)
-{
-  float norm = 0.0;
-
-  for (int i = 0; i < dim; ++i)
-    norm += fabsf (P1 * a[i] - P2 * b[i]);
-  return norm;
+    for (int i = 0; i < dim; ++i)
+        if ((a[i] / b[i]) > 0)
+            norm += (a[i] - b[i]) * logf(a[i] / b[i]);
+        else
+            norm += 0;
+    return norm;
 }
 
+template <typename FloatVectorT>
+inline float PF_Norm(FloatVectorT a, FloatVectorT b, int dim, float P1,
+                     float P2) {
+    float norm = 0.0;
 
-template <typename FloatVectorT> inline float
-KL_Norm (FloatVectorT a, FloatVectorT b, int dim)
-{
-  float norm = 0.0;
-
-  for (int i = 0; i < dim; ++i)
-    if ( (b[i] != 0) && ((a[i] / b[i]) > 0) )
-      norm += a[i] * logf (a[i] / b[i]);
-    else
-      norm += 0;
-  return norm;
+    for (int i = 0; i < dim; ++i)
+        norm += (P1 * a[i] - P2 * b[i]) * (P1 * a[i] - P2 * b[i]);
+    return sqrtf(norm);
 }
 
+template <typename FloatVectorT>
+inline float K_Norm(FloatVectorT a, FloatVectorT b, int dim, float P1,
+                    float P2) {
+    float norm = 0.0;
 
-template <typename FloatVectorT> inline float
-HIK_Norm(FloatVectorT a, FloatVectorT b, int dim)
-{
-  float norm = 0.0f;
-  for (int i = 0; i < dim; ++i)
-    norm += (std::min)(a[i], b[i]);
-  return norm;
+    for (int i = 0; i < dim; ++i)
+        norm += fabsf(P1 * a[i] - P2 * b[i]);
+    return norm;
 }
 
+template <typename FloatVectorT>
+inline float KL_Norm(FloatVectorT a, FloatVectorT b, int dim) {
+    float norm = 0.0;
+
+    for (int i = 0; i < dim; ++i)
+        if ((b[i] != 0) && ((a[i] / b[i]) > 0))
+            norm += a[i] * logf(a[i] / b[i]);
+        else
+            norm += 0;
+    return norm;
 }
+
+template <typename FloatVectorT>
+inline float HIK_Norm(FloatVectorT a, FloatVectorT b, int dim) {
+    float norm = 0.0f;
+    for (int i = 0; i < dim; ++i)
+        norm += (std::min)(a[i], b[i]);
+    return norm;
+}
+
+} // namespace pcl

@@ -42,7 +42,6 @@
 #ifndef PCL_POISSON_HASH_H_
 #define PCL_POISSON_HASH_H_
 
-
 #ifdef WIN32
 #include <hash_map>
 using namespace stdext;
@@ -51,49 +50,31 @@ using namespace stdext;
 #include <ext/hash_map>
 using namespace __gnu_cxx;
 
-namespace __gnu_cxx
-{
-  template<>
-  struct hash<long long>
-  {
-    size_t
-    operator() (long long __x) const
-    {
-      return (static_cast<size_t> (__x));
+namespace __gnu_cxx {
+template <> struct hash<long long> {
+    size_t operator()(long long __x) const {
+        return (static_cast<size_t>(__x));
     }
-  };
+};
 
-  template<>
-  struct hash<const long long>
-  {
-    size_t
-    operator() (const long long __x) const
-    {
-      return (static_cast<size_t> (__x));
+template <> struct hash<const long long> {
+    size_t operator()(const long long __x) const {
+        return (static_cast<size_t>(__x));
     }
-  };
+};
 
-  template<>
-  struct hash<unsigned long long>
-  {
-    size_t
-    operator() (unsigned long long __x) const
-    {
-      return (static_cast<size_t> (__x));
+template <> struct hash<unsigned long long> {
+    size_t operator()(unsigned long long __x) const {
+        return (static_cast<size_t>(__x));
     }
-  };
+};
 
-  template<>
-  struct hash<const unsigned long long>
-  {
-    size_t
-    operator() (const unsigned long long __x) const
-    {
-      return (static_cast<size_t> (__x));
+template <> struct hash<const unsigned long long> {
+    size_t operator()(const unsigned long long __x) const {
+        return (static_cast<size_t>(__x));
     }
-  };
-}
+};
+} // namespace __gnu_cxx
 #endif // WIN32
 
 #endif /* PCL_POISSON_HASH_H_ */
-

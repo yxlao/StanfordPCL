@@ -50,160 +50,140 @@
 
 #include <pcl/pcl_base.h>
 
-namespace pcl
-{
-  /** \brief @b K-means clustering.
-    * \author Christian Potthast
-    * \ingroup ML
+namespace pcl {
+/** \brief @b K-means clustering.
+ * \author Christian Potthast
+ * \ingroup ML
+ */
+// template <typename PointT>
+// class Kmeans : public PCLBase<PointT>
+class PCL_EXPORTS Kmeans {
+    /*
+        typedef PCLBase<PointT> BasePCLBase;
+
+        public:
+          typedef pcl::PointCloud<PointT> PointCloud;
+          typedef typename PointCloud::Ptr PointCloudPtr;
+          typedef typename PointCloud::ConstPtr PointCloudConstPtr;
+
+          typedef PointIndices::Ptr PointIndicesPtr;
+          typedef PointIndices::ConstPtr PointIndicesConstPtr;
     */
-  //template <typename PointT>
-  //class Kmeans : public PCLBase<PointT>
-  class PCL_EXPORTS Kmeans
-  {
-/*
-    typedef PCLBase<PointT> BasePCLBase;
 
-    public:
-      typedef pcl::PointCloud<PointT> PointCloud;
-      typedef typename PointCloud::Ptr PointCloudPtr;
-      typedef typename PointCloud::ConstPtr PointCloudConstPtr;
+  public:
+    typedef unsigned int PointId;   // the id of this point
+    typedef unsigned int ClusterId; // the id of this cluster
 
-      typedef PointIndices::Ptr PointIndicesPtr;
-      typedef PointIndices::ConstPtr PointIndicesConstPtr;
-*/
+    // typedef std::vector<Coord> Point;    // a point (a centroid)
 
-    public:
+    typedef std::set<PointId> SetPoints; // set of points
 
-      typedef unsigned int PointId;    // the id of this point
-      typedef unsigned int ClusterId;  // the id of this cluster
+    typedef std::vector<float> Point;
 
+    // ClusterId -> (PointId, PointId, PointId, .... )
+    typedef std::vector<SetPoints> ClustersToPoints;
+    // PointId -> ClusterId
+    typedef std::vector<ClusterId> PointsToClusters;
+    // coll of centroids
+    typedef std::vector<Point> Centroids;
 
-      //typedef std::vector<Coord> Point;    // a point (a centroid)
+    /** \brief Empty constructor. */
+    Kmeans(unsigned int num_points, unsigned int num_dimensions);
 
-      typedef std::set<PointId> SetPoints; // set of points
+    /** \brief This destructor destroys
+     *
+     */
+    ~Kmeans();
 
-      typedef std::vector<float> Point;
+    /** \brief This method sets the k-means cluster size.
+     * \param[in] number of clusters
+     */
+    void setClusterSize(unsigned int k) { num_clusters_ = k; };
 
-      // ClusterId -> (PointId, PointId, PointId, .... )
-      typedef std::vector<SetPoints> ClustersToPoints;
-      // PointId -> ClusterId
-      typedef std::vector<ClusterId> PointsToClusters;
-      // coll of centroids
-      typedef std::vector<Point> Centroids;
+    /*
+          void
+          setClusterField (std::string field_name)
+          {
+            cluster_field_name_ = field_name;
+          };
+    */
 
+    // void
+    // getClusterCentroids (PointT &out);
 
-      /** \brief Empty constructor. */
-      Kmeans (unsigned int num_points, unsigned int num_dimensions);
+    // void
+    // cluster (std::vector<PointIndices> &clusters);
 
-      /** \brief This destructor destroys
-        *
-        */
-      ~Kmeans ();
+    void kMeans();
 
-      /** \brief This method sets the k-means cluster size.
-        * \param[in] number of clusters
-        */
-      void
-      setClusterSize (unsigned int k) {num_clusters_ = k;};
-
-/*
-      void
-      setClusterField (std::string field_name)
-      {
-        cluster_field_name_ = field_name;
-      };
-*/
-
-      //void
-      //getClusterCentroids (PointT &out);
-
-      //void
-      //cluster (std::vector<PointIndices> &clusters);
-
-      void
-      kMeans ();
-
-      void
-      setInputData (std::vector<Point> &data)
-      {
-        if (num_points_ != data.size ())
-          std::cout << "Data vector not the same" << std::endl;
+    void setInputData(std::vector<Point> &data) {
+        if (num_points_ != data.size())
+            std::cout << "Data vector not the same" << std::endl;
 
         data_ = data;
-      }
+    }
 
-      void
-      addDataPoint (Point &data_point)
-      {
-        if (num_dimensions_ != data_point.size ())
-          std::cout << "Dimensions not the same" << std::endl;
+    void addDataPoint(Point &data_point) {
+        if (num_dimensions_ != data_point.size())
+            std::cout << "Dimensions not the same" << std::endl;
 
-
-        data_.push_back (data_point);
-      }
+        data_.push_back(data_point);
+    }
 
     // Initial partition points among available clusters
     void initialClusterPoints();
 
-      void
-      computeCentroids();
+    void computeCentroids();
 
-      // distance between two points
-      float distance(const Point& x, const Point& y)
-      {
+    // distance between two points
+    float distance(const Point &x, const Point &y) {
         float total = 0.0;
         float diff;
 
-        Point::const_iterator cpx=x.begin();
-        Point::const_iterator cpy=y.begin();
-        Point::const_iterator cpx_end=x.end();
-        for(;cpx!=cpx_end;++cpx,++cpy){
-          diff = *cpx - *cpy;
-          total += (diff * diff);
+        Point::const_iterator cpx = x.begin();
+        Point::const_iterator cpy = y.begin();
+        Point::const_iterator cpx_end = x.end();
+        for (; cpx != cpx_end; ++cpx, ++cpy) {
+            diff = *cpx - *cpy;
+            total += (diff * diff);
         }
-        return total;  // no need to take sqrt, which is monotonic
-      }
+        return total; // no need to take sqrt, which is monotonic
+    }
 
+    Centroids get_centroids() { return centroids_; }
 
-      Centroids get_centroids (){return centroids_;}
+  protected:
+    // Members derived from the base class
+    /*
+          using BasePCLBase::input_;
+          using BasePCLBase::indices_;
+          using BasePCLBase::initCompute;
+          using BasePCLBase::deinitCompute;
+    */
 
+    unsigned int num_points_;
+    unsigned int num_dimensions_;
 
-    protected:
-      // Members derived from the base class
-/*
-      using BasePCLBase::input_;
-      using BasePCLBase::indices_;
-      using BasePCLBase::initCompute;
-      using BasePCLBase::deinitCompute;
-*/
+    /** \brief The number of clusters. */
+    unsigned int num_clusters_;
 
-      unsigned int num_points_;
-      unsigned int num_dimensions_;
+    /** \brief The cluster centroids. */
+    // std::vector
 
+    // std::string cluster_field_name_;
 
-      /** \brief The number of clusters. */
-      unsigned int num_clusters_;
+    // one data point
 
-      /** \brief The cluster centroids. */
-      //std::vector
+    // all data points
+    std::vector<Point> data_;
 
-      //std::string cluster_field_name_;
+    ClustersToPoints clusters_to_points_;
+    PointsToClusters points_to_clusters_;
+    Centroids centroids_;
 
-      // one data point
-
-      // all data points
-      std::vector<Point> data_;
-
-      ClustersToPoints clusters_to_points_;
-      PointsToClusters points_to_clusters_;
-      Centroids centroids_;
-
-
-
-
-    public:
-      EIGEN_MAKE_ALIGNED_OPERATOR_NEW
- };
-}
+  public:
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+};
+} // namespace pcl
 
 #endif

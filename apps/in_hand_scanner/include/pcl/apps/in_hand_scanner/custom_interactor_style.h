@@ -43,28 +43,25 @@
 
 #include <pcl/visualization/interactor_style.h>
 
-namespace pcl
-{
-  namespace ihs
-  {
+namespace pcl {
+namespace ihs {
 
-    class CustomInteractorStyle : public pcl::visualization::PCLVisualizerInteractorStyle
-    {
+class CustomInteractorStyle
+    : public pcl::visualization::PCLVisualizerInteractorStyle {
 
-      public:
+  public:
+    static CustomInteractorStyle *New();
 
-        static CustomInteractorStyle* New ();
+    CustomInteractorStyle();
 
-        CustomInteractorStyle ();
+    vtkTypeMacro(CustomInteractorStyle, vtkInteractorStyleTrackballCamera)
 
-        vtkTypeMacro (CustomInteractorStyle, vtkInteractorStyleTrackballCamera)
+        /** \brief Deactivate the key-commands. The rest is copy pasted from
+           pcl::visualization::PCLVisualizerInteractorStyle */
+        virtual void OnKeyDown();
+};
 
-        /** \brief Deactivate the key-commands. The rest is copy pasted from pcl::visualization::PCLVisualizerInteractorStyle */
-        virtual void
-        OnKeyDown ();
-    };
-
-  } // End namespace ihs
+} // End namespace ihs
 } // End namespace pcl
 
 #endif // PCL_IN_HAND_SCANNER_CUSTOM_INTERACTOR_STYLE_H

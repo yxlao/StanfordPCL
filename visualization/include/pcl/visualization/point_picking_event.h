@@ -36,96 +36,92 @@
  */
 
 #ifndef PCL_VISUALIZATION_POINT_PICKING_EVENT_H_
-#define	PCL_VISUALIZATION_POINT_PICKING_EVENT_H_
+#define PCL_VISUALIZATION_POINT_PICKING_EVENT_H_
 
 #include <pcl/pcl_macros.h>
 #include <pcl/visualization/vtk.h>
 
-namespace pcl
-{
-  namespace visualization
-  {
-    class PCL_EXPORTS PointPickingCallback : public vtkCommand
-    {
-      public:
-        static PointPickingCallback *New ()
-        {
-          return (new PointPickingCallback);
-        }
+namespace pcl {
+namespace visualization {
+class PCL_EXPORTS PointPickingCallback : public vtkCommand {
+  public:
+    static PointPickingCallback *New() { return (new PointPickingCallback); }
 
-        PointPickingCallback () : x_ (0), y_ (0), z_ (0), idx_ (-1), pick_first_ (false) {}
+    PointPickingCallback()
+        : x_(0), y_(0), z_(0), idx_(-1), pick_first_(false) {}
 
-        virtual void
-        Execute (vtkObject *caller, unsigned long eventid, void*);
+    virtual void Execute(vtkObject *caller, unsigned long eventid, void *);
 
-        int
-        performSinglePick (vtkRenderWindowInteractor *iren);
+    int performSinglePick(vtkRenderWindowInteractor *iren);
 
-        int
-        performSinglePick (vtkRenderWindowInteractor *iren, float &x, float &y, float &z);
+    int performSinglePick(vtkRenderWindowInteractor *iren, float &x, float &y,
+                          float &z);
 
-      private:
-        float x_, y_, z_;
-        int idx_;
-        bool pick_first_;
-     };
+  private:
+    float x_, y_, z_;
+    int idx_;
+    bool pick_first_;
+};
 
-    /** /brief Class representing 3D point picking events. */
-    class PCL_EXPORTS PointPickingEvent
-    {
-      public:
-        PointPickingEvent (int idx) : idx_ (idx), idx2_ (-1), x_ (), y_ (), z_ (), x2_ (), y2_ (), z2_ () {}
-        PointPickingEvent (int idx, float x, float y, float z) : idx_ (idx), idx2_ (-1), x_ (x), y_ (y), z_ (z), x2_ (), y2_ (), z2_ () {}
+/** /brief Class representing 3D point picking events. */
+class PCL_EXPORTS PointPickingEvent {
+  public:
+    PointPickingEvent(int idx)
+        : idx_(idx), idx2_(-1), x_(), y_(), z_(), x2_(), y2_(), z2_() {}
+    PointPickingEvent(int idx, float x, float y, float z)
+        : idx_(idx), idx2_(-1), x_(x), y_(y), z_(z), x2_(), y2_(), z2_() {}
 
-        PointPickingEvent (int idx1, int idx2, float x1, float y1, float z1, float x2, float y2, float z2) :
-          idx_ (idx1), idx2_ (idx2), x_ (x1), y_ (y1), z_ (z1), x2_ (x2), y2_ (y2), z2_ (z2)
-        {}
+    PointPickingEvent(int idx1, int idx2, float x1, float y1, float z1,
+                      float x2, float y2, float z2)
+        : idx_(idx1), idx2_(idx2), x_(x1), y_(y1), z_(z1), x2_(x2), y2_(y2),
+          z2_(z2) {}
 
-        /** \brief Obtain the ID of a point that the user just clicked on. */
-        inline int
-        getPointIndex () const
-        {
-          return (idx_);
-        }
+    /** \brief Obtain the ID of a point that the user just clicked on. */
+    inline int getPointIndex() const { return (idx_); }
 
-        /** \brief Obtain the XYZ point coordinates of a point that the user just clicked on.
-          * \param[out] x the x coordinate of the point that got selected by the user
-          * \param[out] y the y coordinate of the point that got selected by the user
-          * \param[out] z the z coordinate of the point that got selected by the user
-          */
-        inline void
-        getPoint (float &x, float &y, float &z) const
-        {
-          x = x_; y = y_; z = z_;
-        }
+    /** \brief Obtain the XYZ point coordinates of a point that the user just
+     * clicked on. \param[out] x the x coordinate of the point that got selected
+     * by the user \param[out] y the y coordinate of the point that got selected
+     * by the user \param[out] z the z coordinate of the point that got selected
+     * by the user
+     */
+    inline void getPoint(float &x, float &y, float &z) const {
+        x = x_;
+        y = y_;
+        z = z_;
+    }
 
-        /** \brief For situations when multiple points are selected in a sequence, return the point coordinates.
-          * \param[out] x1 the x coordinate of the first point that got selected by the user
-          * \param[out] y1 the y coordinate of the first point that got selected by the user
-          * \param[out] z1 the z coordinate of the firts point that got selected by the user
-          * \param[out] x2 the x coordinate of the second point that got selected by the user
-          * \param[out] y2 the y coordinate of the second point that got selected by the user
-          * \param[out] z2 the z coordinate of the second point that got selected by the user
-          * \return true, if two points are available and have been clicked by the user, false otherwise
-          */
-        inline bool
-        getPoints (float &x1, float &y1, float &z1, float &x2, float &y2, float &z2) const
-        {
-          if (idx2_ == -1)
+    /** \brief For situations when multiple points are selected in a sequence,
+     * return the point coordinates. \param[out] x1 the x coordinate of the
+     * first point that got selected by the user \param[out] y1 the y coordinate
+     * of the first point that got selected by the user \param[out] z1 the z
+     * coordinate of the firts point that got selected by the user \param[out]
+     * x2 the x coordinate of the second point that got selected by the user
+     * \param[out] y2 the y coordinate of the second point that got selected by
+     * the user \param[out] z2 the z coordinate of the second point that got
+     * selected by the user \return true, if two points are available and have
+     * been clicked by the user, false otherwise
+     */
+    inline bool getPoints(float &x1, float &y1, float &z1, float &x2, float &y2,
+                          float &z2) const {
+        if (idx2_ == -1)
             return (false);
-          x1 = x_; y1 = y_; z1 = z_;
-          x2 = x2_; y2 = y2_; z2 = z2_;
-          return (true);
-        }
+        x1 = x_;
+        y1 = y_;
+        z1 = z_;
+        x2 = x2_;
+        y2 = y2_;
+        z2 = z2_;
+        return (true);
+    }
 
-      private:
-        int idx_, idx2_;
+  private:
+    int idx_, idx2_;
 
-        float x_, y_, z_;
-        float x2_, y2_, z2_;
-    };
-  } //namespace visualization
-} //namespace pcl
+    float x_, y_, z_;
+    float x2_, y2_, z2_;
+};
+} // namespace visualization
+} // namespace pcl
 
-#endif	/* PCL_VISUALIZATION_POINT_PICKING_EVENT_H_ */
-
+#endif /* PCL_VISUALIZATION_POINT_PICKING_EVENT_H_ */

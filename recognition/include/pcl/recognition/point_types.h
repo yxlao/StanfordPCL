@@ -42,71 +42,63 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 
+namespace pcl {
 
-namespace pcl
-{
+/** \brief A point structure for representing RGB color
+ * \ingroup common
+ */
+// struct EIGEN_ALIGN16 PointRGB
+//{
+//  union
+//  {
+//    union
+//    {
+//      struct
+//      {
+//        uint8_t b;
+//        uint8_t g;
+//        uint8_t r;
+//        uint8_t _unused;
+//      };
+//      float rgb;
+//    };
+//    uint32_t rgba;
+//  };
 
-  /** \brief A point structure for representing RGB color
-    * \ingroup common
-    */
-  //struct EIGEN_ALIGN16 PointRGB
-  //{
-  //  union
-  //  {
-  //    union
-  //    {
-  //      struct
-  //      {
-  //        uint8_t b;
-  //        uint8_t g;
-  //        uint8_t r;
-  //        uint8_t _unused;
-  //      };
-  //      float rgb;
-  //    };
-  //    uint32_t rgba;
-  //  };
+//  inline PointRGB ()
+//  {}
 
-  //  inline PointRGB ()
-  //  {}
+//  inline PointRGB (const uint8_t b, const uint8_t g, const uint8_t r)
+//    : b (b), g (g), r (r), _unused (0)
+//  {}
 
-  //  inline PointRGB (const uint8_t b, const uint8_t g, const uint8_t r)
-  //    : b (b), g (g), r (r), _unused (0)
-  //  {}
+//  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+//};
 
-  //  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-  //};
-
-
-  /** \brief A point structure representing Euclidean xyz coordinates, and the intensity value.
-    * \ingroup common
-    */
-  struct EIGEN_ALIGN16 GradientXY
-  {
-    union
-    {
-      struct
-      {
-        float x;
-        float y;
-        float angle;
-        float magnitude;
-      };
-      float data[4];
+/** \brief A point structure representing Euclidean xyz coordinates, and the
+ * intensity value. \ingroup common
+ */
+struct EIGEN_ALIGN16 GradientXY {
+    union {
+        struct {
+            float x;
+            float y;
+            float angle;
+            float magnitude;
+        };
+        float data[4];
     };
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-    inline bool operator< (const GradientXY & rhs)
-    {
-      return (magnitude > rhs.magnitude);
+    inline bool operator<(const GradientXY &rhs) {
+        return (magnitude > rhs.magnitude);
     }
-  };
-  inline std::ostream & operator << (std::ostream & os, const GradientXY & p)
-  {
+};
+inline std::ostream &operator<<(std::ostream &os, const GradientXY &p) {
     os << "(" << p.x << "," << p.y << " - " << p.magnitude << ")";
     return (os);
-  }
-
 }
+
+} // namespace pcl
 
 #endif

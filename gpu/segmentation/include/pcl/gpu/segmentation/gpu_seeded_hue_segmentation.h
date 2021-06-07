@@ -47,108 +47,104 @@
 #include <pcl/gpu/octree/octree.hpp>
 #include <pcl/gpu/containers/device_array.hpp>
 
-namespace pcl
-{
-  namespace gpu
-  {
-    void
-    seededHueSegmentation (const boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB> >  &host_cloud_,
-                           const pcl::gpu::Octree::Ptr                                  &tree,
-                           float                                                        tolerance,
-                           PointIndices                                                 &clusters_in,
-                           PointIndices                                                 &clusters_out,
-                           float                                                        delta_hue = 0.0);
+namespace pcl {
+namespace gpu {
+void seededHueSegmentation(
+    const boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>> &host_cloud_,
+    const pcl::gpu::Octree::Ptr &tree, float tolerance,
+    PointIndices &clusters_in, PointIndices &clusters_out,
+    float delta_hue = 0.0);
 
-    class SeededHueSegmentation
-    {
-      public:
-        typedef pcl::PointXYZ PointType;
-        typedef pcl::PointCloud<pcl::PointXYZ> PointCloudHost;
-        typedef PointCloudHost::Ptr PointCloudHostPtr;
-        typedef PointCloudHost::ConstPtr PointCloudHostConstPtr;
+class SeededHueSegmentation {
+  public:
+    typedef pcl::PointXYZ PointType;
+    typedef pcl::PointCloud<pcl::PointXYZ> PointCloudHost;
+    typedef PointCloudHost::Ptr PointCloudHostPtr;
+    typedef PointCloudHost::ConstPtr PointCloudHostConstPtr;
 
-        typedef PointIndices::Ptr PointIndicesPtr;
-        typedef PointIndices::ConstPtr PointIndicesConstPtr;
+    typedef PointIndices::Ptr PointIndicesPtr;
+    typedef PointIndices::ConstPtr PointIndicesConstPtr;
 
-        typedef pcl::gpu::Octree GPUTree;
-        typedef pcl::gpu::Octree::Ptr GPUTreePtr;
+    typedef pcl::gpu::Octree GPUTree;
+    typedef pcl::gpu::Octree::Ptr GPUTreePtr;
 
-        typedef pcl::gpu::Octree::PointCloud CloudDevice;
+    typedef pcl::gpu::Octree::PointCloud CloudDevice;
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /** \brief Empty constructor. */
-        SeededHueSegmentation () : delta_hue_ (0.0)
-        {};
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /** \brief Empty constructor. */
+    SeededHueSegmentation() : delta_hue_(0.0){};
 
-        /** \brief Provide a pointer to the search object.
-          * \param tree a pointer to the spatial search object.
-          */
-        inline void setSearchMethod (const GPUTreePtr &tree) { tree_ = tree; }
+    /** \brief Provide a pointer to the search object.
+     * \param tree a pointer to the spatial search object.
+     */
+    inline void setSearchMethod(const GPUTreePtr &tree) { tree_ = tree; }
 
-        /** \brief Get a pointer to the search method used.
-          *  @todo fix this for a generic search tree
-          */
-        inline GPUTreePtr getSearchMethod () { return (tree_); }
+    /** \brief Get a pointer to the search method used.
+     *  @todo fix this for a generic search tree
+     */
+    inline GPUTreePtr getSearchMethod() { return (tree_); }
 
-        /** \brief Set the spatial cluster tolerance as a measure in the L2 Euclidean space
-          * \param tolerance the spatial cluster tolerance as a measure in the L2 Euclidean space
-          */
-        inline void setClusterTolerance (double tolerance) { cluster_tolerance_ = tolerance; }
-
-        /** \brief Get the spatial cluster tolerance as a measure in the L2 Euclidean space. */
-        inline double getClusterTolerance () { return (cluster_tolerance_); }
-
-        inline void setInput (CloudDevice input) {input_ = input;}
-
-        inline void setHostCloud (PointCloudHostPtr host_cloud) {host_cloud_ = host_cloud;}
-
-        /** \brief Set the tollerance on the hue
-          * \param[in] delta_hue the new delta hue
-          */
-        inline void
-        setDeltaHue (float delta_hue) { delta_hue_ = delta_hue; }
-
-        /** \brief Get the tolerance on the hue */
-        inline float
-        getDeltaHue () { return (delta_hue_); }
-
-        /** \brief Cluster extraction in a PointCloud given by <setInputCloud (), setIndices ()>
-          * \param clusters the resultant point clusters
-          */
-        void segment (PointIndices &indices_in, PointIndices &indices_out);
-
-      protected:
-        /** \brief the input cloud on the GPU */
-        CloudDevice input_;
-
-        /** \brief the original cloud the Host */
-        PointCloudHostPtr host_cloud_;
-
-        /** \brief A pointer to the spatial search object. */
-        GPUTreePtr tree_;
-
-        /** \brief The spatial cluster tolerance as a measure in the L2 Euclidean space. */
-        double cluster_tolerance_;
-
-        /** \brief The allowed difference on the hue*/
-        float delta_hue_;
-
-        /** \brief Class getName method. */
-        virtual std::string getClassName () const { return ("gpu::SeededHueSegmentation"); }
-    };
-    /** \brief Sort clusters method (for std::sort).
-      * \ingroup segmentation
-      */
-    inline bool
-      comparePointClusters (const pcl::PointIndices &a, const pcl::PointIndices &b)
-    {
-      return (a.indices.size () < b.indices.size ());
+    /** \brief Set the spatial cluster tolerance as a measure in the L2
+     * Euclidean space \param tolerance the spatial cluster tolerance as a
+     * measure in the L2 Euclidean space
+     */
+    inline void setClusterTolerance(double tolerance) {
+        cluster_tolerance_ = tolerance;
     }
-  }
+
+    /** \brief Get the spatial cluster tolerance as a measure in the L2
+     * Euclidean space. */
+    inline double getClusterTolerance() { return (cluster_tolerance_); }
+
+    inline void setInput(CloudDevice input) { input_ = input; }
+
+    inline void setHostCloud(PointCloudHostPtr host_cloud) {
+        host_cloud_ = host_cloud;
+    }
+
+    /** \brief Set the tollerance on the hue
+     * \param[in] delta_hue the new delta hue
+     */
+    inline void setDeltaHue(float delta_hue) { delta_hue_ = delta_hue; }
+
+    /** \brief Get the tolerance on the hue */
+    inline float getDeltaHue() { return (delta_hue_); }
+
+    /** \brief Cluster extraction in a PointCloud given by <setInputCloud (),
+     * setIndices ()> \param clusters the resultant point clusters
+     */
+    void segment(PointIndices &indices_in, PointIndices &indices_out);
+
+  protected:
+    /** \brief the input cloud on the GPU */
+    CloudDevice input_;
+
+    /** \brief the original cloud the Host */
+    PointCloudHostPtr host_cloud_;
+
+    /** \brief A pointer to the spatial search object. */
+    GPUTreePtr tree_;
+
+    /** \brief The spatial cluster tolerance as a measure in the L2 Euclidean
+     * space. */
+    double cluster_tolerance_;
+
+    /** \brief The allowed difference on the hue*/
+    float delta_hue_;
+
+    /** \brief Class getName method. */
+    virtual std::string getClassName() const {
+        return ("gpu::SeededHueSegmentation");
+    }
+};
+/** \brief Sort clusters method (for std::sort).
+ * \ingroup segmentation
+ */
+inline bool comparePointClusters(const pcl::PointIndices &a,
+                                 const pcl::PointIndices &b) {
+    return (a.indices.size() < b.indices.size());
 }
+} // namespace gpu
+} // namespace pcl
 
-#endif //PCL_GPU_SEEDED_HUE_SEGMENTATION_H_
-
-
-
-
+#endif // PCL_GPU_SEEDED_HUE_SEGMENTATION_H_

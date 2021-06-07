@@ -38,92 +38,74 @@
 
 #include <pcl/apps/modeler/cloud_mesh.h>
 
+//////////////////////////////////////////////////////////////////////////////////////////////
+pcl::modeler::SurfaceActorItem::SurfaceActorItem(
+    QTreeWidgetItem *parent, const boost::shared_ptr<CloudMesh> &cloud_mesh,
+    const vtkSmartPointer<vtkRenderWindow> &render_window)
+    : ChannelActorItem(parent, cloud_mesh, render_window,
+                       vtkSmartPointer<vtkLODActor>::New(), "Surface") {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-pcl::modeler::SurfaceActorItem::SurfaceActorItem(QTreeWidgetItem* parent,
-                                               const boost::shared_ptr<CloudMesh>& cloud_mesh,
-                                               const vtkSmartPointer<vtkRenderWindow>& render_window)
-  :ChannelActorItem(parent, cloud_mesh, render_window, vtkSmartPointer<vtkLODActor>::New(), "Surface")
-{
+pcl::modeler::SurfaceActorItem::~SurfaceActorItem() {}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+void pcl::modeler::SurfaceActorItem::initImpl() {
+    poly_data_->SetPoints(cloud_mesh_->getVtkPoints());
+    poly_data_->SetStrips(cloud_mesh_->getVtkPolygons());
+
+    vtkSmartPointer<vtkDataArray> scalars;
+    cloud_mesh_->getColorScalarsFromField(scalars, color_scheme_);
+    poly_data_->GetPointData()->SetScalars(scalars);
+    poly_data_->Update();
+
+    vtkSmartPointer<vtkDataSetMapper> mapper =
+        vtkSmartPointer<vtkDataSetMapper>::New();
+    mapper->SetInput(poly_data_);
+
+    double minmax[2];
+    scalars->GetRange(minmax);
+    mapper->SetScalarRange(minmax);
+
+    mapper->SetScalarModeToUsePointData();
+    mapper->InterpolateScalarsBeforeMappingOn();
+    mapper->ScalarVisibilityOn();
+    mapper->ImmediateModeRenderingOff();
+
+    vtkSmartPointer<vtkLODActor> actor = vtkSmartPointer<vtkLODActor>(
+        dynamic_cast<vtkLODActor *>(actor_.GetPointer()));
+    actor->SetMapper(mapper);
+
+    actor->SetNumberOfCloudPoints(
+        int(std::max<vtkIdType>(1, poly_data_->GetNumberOfPoints() / 10)));
+    actor->GetProperty()->SetInterpolationToFlat();
+
+    actor->GetProperty()->SetRepresentationToSurface();
+    actor->GetProperty()->BackfaceCullingOn();
+    actor->GetProperty()->EdgeVisibilityOff();
+    actor->GetProperty()->ShadingOff();
+
+    return;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-pcl::modeler::SurfaceActorItem::~SurfaceActorItem ()
-{
+void pcl::modeler::SurfaceActorItem::updateImpl() {
+    vtkSmartPointer<vtkDataArray> scalars;
+    cloud_mesh_->getColorScalarsFromField(scalars, "random");
+    poly_data_->GetPointData()->SetScalars(scalars);
+    double minmax[2];
+    scalars->GetRange(minmax);
+    actor_->GetMapper()->SetScalarRange(minmax);
 
+    poly_data_->Update();
+
+    return;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::modeler::SurfaceActorItem::initImpl()
-{
-  poly_data_->SetPoints(cloud_mesh_->getVtkPoints());
-  poly_data_->SetStrips(cloud_mesh_->getVtkPolygons());
-
-  vtkSmartPointer<vtkDataArray> scalars;
-  cloud_mesh_->getColorScalarsFromField(scalars, color_scheme_);
-  poly_data_->GetPointData ()->SetScalars (scalars);
-  poly_data_->Update();
-
-  vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
-  mapper->SetInput(poly_data_);
-
-  double minmax[2];
-  scalars->GetRange(minmax);
-  mapper->SetScalarRange(minmax);
-
-  mapper->SetScalarModeToUsePointData ();
-  mapper->InterpolateScalarsBeforeMappingOn ();
-  mapper->ScalarVisibilityOn ();
-  mapper->ImmediateModeRenderingOff ();
-
-  vtkSmartPointer<vtkLODActor> actor = vtkSmartPointer<vtkLODActor>(dynamic_cast<vtkLODActor*>(actor_.GetPointer()));
-  actor->SetMapper(mapper);
-
-  actor->SetNumberOfCloudPoints(int(std::max<vtkIdType> (1, poly_data_->GetNumberOfPoints () / 10)));
-  actor->GetProperty ()->SetInterpolationToFlat ();
-
-  actor->GetProperty ()->SetRepresentationToSurface ();
-  actor->GetProperty ()->BackfaceCullingOn ();
-  actor->GetProperty ()->EdgeVisibilityOff ();
-  actor->GetProperty ()->ShadingOff ();
-
-  return;
-}
+void pcl::modeler::SurfaceActorItem::prepareContextMenu(QMenu *) const {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::modeler::SurfaceActorItem::updateImpl()
-{
-  vtkSmartPointer<vtkDataArray> scalars;
-  cloud_mesh_->getColorScalarsFromField(scalars, "random");
-  poly_data_->GetPointData ()->SetScalars (scalars);
-  double minmax[2];
-  scalars->GetRange(minmax);
-  actor_->GetMapper()->SetScalarRange(minmax);
-
-  poly_data_->Update();
-
-  return;
-}
+void pcl::modeler::SurfaceActorItem::prepareProperties(ParameterDialog *) {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::modeler::SurfaceActorItem::prepareContextMenu(QMenu *) const
-{
-
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::modeler::SurfaceActorItem::prepareProperties(ParameterDialog *)
-{
-
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::modeler::SurfaceActorItem::setProperties()
-{
-
-}
+void pcl::modeler::SurfaceActorItem::setProperties() {}

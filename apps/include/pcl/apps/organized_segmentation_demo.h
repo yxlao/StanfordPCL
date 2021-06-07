@@ -65,48 +65,44 @@
 typedef pcl::PointXYZRGBA PointT;
 
 // Useful macros
-#define FPS_CALC(_WHAT_) \
-do \
-{ \
-    static unsigned count = 0;\
-    static double last = pcl::getTime ();\
-    double now = pcl::getTime (); \
-    ++count; \
-    if (now - last >= 1.0) \
-    { \
-      std::cout << "Average framerate("<< _WHAT_ << "): " << double(count)/double(now - last) << " Hz" <<  std::endl; \
-      count = 0; \
-      last = now; \
-    } \
-}while(false)
+#define FPS_CALC(_WHAT_)                                                       \
+    do {                                                                       \
+        static unsigned count = 0;                                             \
+        static double last = pcl::getTime();                                   \
+        double now = pcl::getTime();                                           \
+        ++count;                                                               \
+        if (now - last >= 1.0) {                                               \
+            std::cout << "Average framerate(" << _WHAT_                        \
+                      << "): " << double(count) / double(now - last) << " Hz"  \
+                      << std::endl;                                            \
+            count = 0;                                                         \
+            last = now;                                                        \
+        }                                                                      \
+    } while (false)
 
-namespace Ui
-{
-  class MainWindow;
+namespace Ui {
+class MainWindow;
 }
 
-class OrganizedSegmentationDemo : public QMainWindow
-{
-  Q_OBJECT
+class OrganizedSegmentationDemo : public QMainWindow {
+    Q_OBJECT
   public:
     typedef pcl::PointCloud<PointT> Cloud;
     typedef Cloud::Ptr CloudPtr;
     typedef Cloud::ConstPtr CloudConstPtr;
 
+    OrganizedSegmentationDemo(pcl::Grabber &grabber);
 
-    OrganizedSegmentationDemo(pcl::Grabber& grabber);
-
-    ~OrganizedSegmentationDemo ()
-    {
-      if(grabber_.isRunning())
-        grabber_.stop();
+    ~OrganizedSegmentationDemo() {
+        if (grabber_.isRunning())
+            grabber_.stop();
     }
 
-    void cloud_cb (const CloudConstPtr& cloud);
+    void cloud_cb(const CloudConstPtr &cloud);
 
   protected:
     boost::shared_ptr<pcl::visualization::PCLVisualizer> vis_;
-    pcl::Grabber& grabber_;
+    pcl::Grabber &grabber_;
 
     QMutex mtx_;
     QMutex vis_mtx_;
@@ -114,8 +110,10 @@ class OrganizedSegmentationDemo : public QMainWindow
     QTimer *vis_timer_;
     pcl::PointCloud<PointT> prev_cloud_;
     pcl::PointCloud<pcl::Normal> prev_normals_;
-    std::vector<pcl::PlanarRegion<PointT>, Eigen::aligned_allocator<pcl::PlanarRegion<PointT> > > prev_regions_;
-    float* prev_distance_map_;
+    std::vector<pcl::PlanarRegion<PointT>,
+                Eigen::aligned_allocator<pcl::PlanarRegion<PointT>>>
+        prev_regions_;
+    float *prev_distance_map_;
 
     pcl::PointCloud<PointT>::CloudVectorType prev_clusters_;
 
@@ -135,52 +133,38 @@ class OrganizedSegmentationDemo : public QMainWindow
     bool use_clustering_;
 
     pcl::PlaneCoefficientComparator<PointT, pcl::Normal>::Ptr plane_comparator_;
-    pcl::EuclideanPlaneCoefficientComparator<PointT, pcl::Normal>::Ptr euclidean_comparator_;
-    pcl::RGBPlaneCoefficientComparator<PointT, pcl::Normal>::Ptr rgb_comparator_;
+    pcl::EuclideanPlaneCoefficientComparator<PointT, pcl::Normal>::Ptr
+        euclidean_comparator_;
+    pcl::RGBPlaneCoefficientComparator<PointT, pcl::Normal>::Ptr
+        rgb_comparator_;
     pcl::RGBPlaneCoefficientComparator<PointT, pcl::Normal> rgb_comp_;
-    pcl::EdgeAwarePlaneComparator<PointT, pcl::Normal>::Ptr edge_aware_comparator_;
-    pcl::EuclideanClusterComparator<PointT, pcl::Normal, pcl::Label>::Ptr euclidean_cluster_comparator_;
+    pcl::EdgeAwarePlaneComparator<PointT, pcl::Normal>::Ptr
+        edge_aware_comparator_;
+    pcl::EuclideanClusterComparator<PointT, pcl::Normal, pcl::Label>::Ptr
+        euclidean_cluster_comparator_;
 
   public slots:
-    void toggleCapturePressed()
-    {
-      capture_ = !capture_;
-    }
+    void toggleCapturePressed() { capture_ = !capture_; }
 
-    void usePlaneComparatorPressed ();
-    void useEuclideanComparatorPressed ();
-    void useRGBComparatorPressed ();
-    void useEdgeAwareComparatorPressed ();
+    void usePlaneComparatorPressed();
+    void useEuclideanComparatorPressed();
+    void useRGBComparatorPressed();
+    void useEdgeAwareComparatorPressed();
 
-    void displayCurvaturePressed ();
-    void displayDistanceMapPressed ();
-    void displayNormalsPressed ();
+    void displayCurvaturePressed();
+    void displayDistanceMapPressed();
+    void displayNormalsPressed();
 
-    void disableRefinementPressed ()
-    {
-      use_planar_refinement_ = false;
-    }
+    void disableRefinementPressed() { use_planar_refinement_ = false; }
 
-    void usePlanarRefinementPressed ()
-    {
-      use_planar_refinement_ = true;
-    }
+    void usePlanarRefinementPressed() { use_planar_refinement_ = true; }
 
-    void disableClusteringPressed ()
-    {
-      use_clustering_ = false;
-    }
+    void disableClusteringPressed() { use_clustering_ = false; }
 
-    void useEuclideanClusteringPressed ()
-    {
-      use_clustering_ = true;
-    }
-
+    void useEuclideanClusteringPressed() { use_clustering_ = true; }
 
   private slots:
-  void
-    timeoutSlot();
-
+    void timeoutSlot();
 };
 
-#endif    // PCL_ORGANIZED_SEGMENTATION_DEMO_H_
+#endif // PCL_ORGANIZED_SEGMENTATION_DEMO_H_

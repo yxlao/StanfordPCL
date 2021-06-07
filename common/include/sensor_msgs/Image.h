@@ -7,15 +7,13 @@
 // Include the correct Header path here
 #include "std_msgs/Header.h"
 
-namespace sensor_msgs
-{
-  struct Image
-  {
-    Image () : header (), height (0), width (0), encoding (),
-               is_bigendian (0), step (0), data ()
-    {}
+namespace sensor_msgs {
+struct Image {
+    Image()
+        : header(), height(0), width(0), encoding(), is_bigendian(0), step(0),
+          data() {}
 
-     ::std_msgs::Header  header;
+    ::std_msgs::Header header;
 
     pcl::uint32_t height;
     pcl::uint32_t width;
@@ -26,15 +24,15 @@ namespace sensor_msgs
 
     std::vector<pcl::uint8_t> data;
 
-    typedef boost::shared_ptr< ::sensor_msgs::Image> Ptr;
-    typedef boost::shared_ptr< ::sensor_msgs::Image  const> ConstPtr;
-  }; // struct Image
+    typedef boost::shared_ptr<::sensor_msgs::Image> Ptr;
+    typedef boost::shared_ptr<::sensor_msgs::Image const> ConstPtr;
+}; // struct Image
 
-  typedef boost::shared_ptr< ::sensor_msgs::Image> ImagePtr;
-  typedef boost::shared_ptr< ::sensor_msgs::Image const> ImageConstPtr;
+typedef boost::shared_ptr<::sensor_msgs::Image> ImagePtr;
+typedef boost::shared_ptr<::sensor_msgs::Image const> ImageConstPtr;
 
-  inline std::ostream& operator<<(std::ostream& s, const  ::sensor_msgs::Image & v)
-  {
+inline std::ostream &operator<<(std::ostream &s,
+                                const ::sensor_msgs::Image &v) {
     s << "header: " << std::endl;
     s << v.header;
     s << "height: ";
@@ -48,14 +46,12 @@ namespace sensor_msgs
     s << "step: ";
     s << "  " << v.step << std::endl;
     s << "data[]" << std::endl;
-    for (size_t i = 0; i < v.data.size (); ++i)
-    {
-      s << "  data[" << i << "]: ";
-      s << "  " << v.data[i] << std::endl;
+    for (size_t i = 0; i < v.data.size(); ++i) {
+        s << "  data[" << i << "]: ";
+        s << "  " << v.data[i] << std::endl;
     }
     return (s);
-  }
+}
 } // namespace sensor_msgs
 
 #endif // PCL_MESSAGE_IMAGE_H
-

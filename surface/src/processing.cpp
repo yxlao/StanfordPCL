@@ -40,47 +40,40 @@
 #include <pcl/surface/processing.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool
-pcl::MeshProcessing::initCompute ()
-{
-  if (!input_mesh_)
-    return (false);
+bool pcl::MeshProcessing::initCompute() {
+    if (!input_mesh_)
+        return (false);
 
-  return (true);
+    return (true);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::MeshProcessing::deinitCompute ()
-{
-
-}
+void pcl::MeshProcessing::deinitCompute() {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void
-pcl::MeshProcessing::process (pcl::PolygonMesh &output)
-{
-  // Copy the header
-  output.header = input_mesh_->header;
+void pcl::MeshProcessing::process(pcl::PolygonMesh &output) {
+    // Copy the header
+    output.header = input_mesh_->header;
 
-  if (!initCompute ())
-  {
-    output.cloud.width = output.cloud.height = 0;
-    output.cloud.data.clear ();
-    output.polygons.clear ();
-    return;
-  }
+    if (!initCompute()) {
+        output.cloud.width = output.cloud.height = 0;
+        output.cloud.data.clear();
+        output.polygons.clear();
+        return;
+    }
 
-  // Set up the output dataset
-  output.cloud = input_mesh_->cloud;
-  // \TODO: Double check if this is needed
-  {
-    output.polygons.clear ();
-    output.polygons.reserve (2*input_mesh_->polygons.size ()); /// NOTE: usually the number of triangles is around twice the number of vertices
-  }
-  // Perform the actual surface reconstruction
-  performProcessing (output);
+    // Set up the output dataset
+    output.cloud = input_mesh_->cloud;
+    // \TODO: Double check if this is needed
+    {
+        output.polygons.clear();
+        output.polygons.reserve(
+            2 * input_mesh_->polygons
+                    .size()); /// NOTE: usually the number of triangles is
+                              /// around twice the number of vertices
+    }
+    // Perform the actual surface reconstruction
+    performProcessing(output);
 
-  deinitCompute ();
+    deinitCompute();
 }
-

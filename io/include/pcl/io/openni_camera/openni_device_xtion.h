@@ -44,31 +44,37 @@
 #include "openni_driver.h"
 #include "openni_image_yuv_422.h"
 
-namespace openni_wrapper
-{
+namespace openni_wrapper {
 
-  /**
-   * @brief Concrete implementation of the interface OpenNIDevice for a Asus Xtion Pro device.
-   * @author Suat Gedikli
-   * @date 02.january 2011
-   * @ingroup io
-   */
-  class DeviceXtionPro : public OpenNIDevice
-  {
+/**
+ * @brief Concrete implementation of the interface OpenNIDevice for a Asus Xtion
+ * Pro device.
+ * @author Suat Gedikli
+ * @date 02.january 2011
+ * @ingroup io
+ */
+class DeviceXtionPro : public OpenNIDevice {
     friend class OpenNIDriver;
+
   public:
-    DeviceXtionPro (xn::Context& context, const xn::NodeInfo& device_node, const xn::NodeInfo& depth_node, const xn::NodeInfo& ir_node);
-    virtual ~DeviceXtionPro () throw ();
-    //virtual void setImageOutputMode (const XnMapOutputMode& output_mode);
+    DeviceXtionPro(xn::Context &context, const xn::NodeInfo &device_node,
+                   const xn::NodeInfo &depth_node, const xn::NodeInfo &ir_node);
+    virtual ~DeviceXtionPro() throw();
+    // virtual void setImageOutputMode (const XnMapOutputMode& output_mode);
 
   protected:
-    virtual boost::shared_ptr<Image> getCurrentImage (boost::shared_ptr<xn::ImageMetaData> image_meta_data) const throw ();
-    void enumAvailableModes () throw ();
-    virtual bool isImageResizeSupported (unsigned input_width, unsigned input_height, unsigned output_width, unsigned output_height) const throw ();
+    virtual boost::shared_ptr<Image>
+    getCurrentImage(boost::shared_ptr<xn::ImageMetaData> image_meta_data) const
+        throw();
+    void enumAvailableModes() throw();
+    virtual bool isImageResizeSupported(unsigned input_width,
+                                        unsigned input_height,
+                                        unsigned output_width,
+                                        unsigned output_height) const throw();
 
-    virtual void startDepthStream ();
-  } ;
-} // namespace
+    virtual void startDepthStream();
+};
+} // namespace openni_wrapper
 
 #endif
 #endif // __OPENNI_DEVICE_PRIMESENSE__

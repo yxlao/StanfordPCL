@@ -45,106 +45,105 @@
 #include <pcl/sample_consensus/model_types.h>
 #include <pcl/common/common.h>
 
-namespace pcl
-{
-  /** \brief @b SampleConsensusModelNormalSphere defines a model for 3D sphere
-    * segmentation using additional surface normal constraints. Basically this
-    * means that checking for inliers will not only involve a "distance to
-    * model" criterion, but also an additional "maximum angular deviation"
-    * between the sphere's normal and the inlier points normals.
-    *
-    * The model coefficients are defined as:
-    * <ul>
-    * <li><b>a</b> : the X coordinate of the plane's normal (normalized)
-    * <li><b>b</b> : the Y coordinate of the plane's normal (normalized)
-    * <li><b>c</b> : the Z coordinate of the plane's normal (normalized)
-    * <li><b>d</b> : radius of the sphere
-    * </ul>
-    *
-    * \author Stefan Schrandt
-    * \ingroup sample_consensus
-    */
-  template <typename PointT, typename PointNT>
-  class SampleConsensusModelNormalSphere : public SampleConsensusModelSphere<PointT>, public SampleConsensusModelFromNormals<PointT, PointNT>
-  {
+namespace pcl {
+/** \brief @b SampleConsensusModelNormalSphere defines a model for 3D sphere
+ * segmentation using additional surface normal constraints. Basically this
+ * means that checking for inliers will not only involve a "distance to
+ * model" criterion, but also an additional "maximum angular deviation"
+ * between the sphere's normal and the inlier points normals.
+ *
+ * The model coefficients are defined as:
+ * <ul>
+ * <li><b>a</b> : the X coordinate of the plane's normal (normalized)
+ * <li><b>b</b> : the Y coordinate of the plane's normal (normalized)
+ * <li><b>c</b> : the Z coordinate of the plane's normal (normalized)
+ * <li><b>d</b> : radius of the sphere
+ * </ul>
+ *
+ * \author Stefan Schrandt
+ * \ingroup sample_consensus
+ */
+template <typename PointT, typename PointNT>
+class SampleConsensusModelNormalSphere
+    : public SampleConsensusModelSphere<PointT>,
+      public SampleConsensusModelFromNormals<PointT, PointNT> {
     using SampleConsensusModel<PointT>::input_;
     using SampleConsensusModel<PointT>::indices_;
     using SampleConsensusModel<PointT>::radius_min_;
     using SampleConsensusModel<PointT>::radius_max_;
     using SampleConsensusModelFromNormals<PointT, PointNT>::normals_;
-    using SampleConsensusModelFromNormals<PointT, PointNT>::normal_distance_weight_;
+    using SampleConsensusModelFromNormals<PointT,
+                                          PointNT>::normal_distance_weight_;
 
-    public:
+  public:
+    typedef typename SampleConsensusModel<PointT>::PointCloud PointCloud;
+    typedef typename SampleConsensusModel<PointT>::PointCloudPtr PointCloudPtr;
+    typedef typename SampleConsensusModel<PointT>::PointCloudConstPtr
+        PointCloudConstPtr;
 
-      typedef typename SampleConsensusModel<PointT>::PointCloud PointCloud;
-      typedef typename SampleConsensusModel<PointT>::PointCloudPtr PointCloudPtr;
-      typedef typename SampleConsensusModel<PointT>::PointCloudConstPtr PointCloudConstPtr;
+    typedef typename SampleConsensusModelFromNormals<
+        PointT, PointNT>::PointCloudNPtr PointCloudNPtr;
+    typedef typename SampleConsensusModelFromNormals<
+        PointT, PointNT>::PointCloudNConstPtr PointCloudNConstPtr;
 
-      typedef typename SampleConsensusModelFromNormals<PointT, PointNT>::PointCloudNPtr PointCloudNPtr;
-      typedef typename SampleConsensusModelFromNormals<PointT, PointNT>::PointCloudNConstPtr PointCloudNConstPtr;
+    typedef boost::shared_ptr<SampleConsensusModelNormalSphere> Ptr;
 
-      typedef boost::shared_ptr<SampleConsensusModelNormalSphere> Ptr;
+    /** \brief Constructor for base SampleConsensusModelNormalSphere.
+     * \param[in] cloud the input point cloud dataset
+     */
+    SampleConsensusModelNormalSphere(const PointCloudConstPtr &cloud)
+        : SampleConsensusModelSphere<PointT>(cloud),
+          SampleConsensusModelFromNormals<PointT, PointNT>() {}
 
-      /** \brief Constructor for base SampleConsensusModelNormalSphere.
-        * \param[in] cloud the input point cloud dataset
-        */
-      SampleConsensusModelNormalSphere (const PointCloudConstPtr &cloud)
-        : SampleConsensusModelSphere<PointT> (cloud)
-        , SampleConsensusModelFromNormals<PointT, PointNT> ()
-      {
-      }
+    /** \brief Constructor for base SampleConsensusModelNormalSphere.
+     * \param[in] cloud the input point cloud dataset
+     * \param[in] indices a vector of point indices to be used from \a cloud
+     */
+    SampleConsensusModelNormalSphere(const PointCloudConstPtr &cloud,
+                                     const std::vector<int> &indices)
+        : SampleConsensusModelSphere<PointT>(cloud, indices),
+          SampleConsensusModelFromNormals<PointT, PointNT>() {}
 
-      /** \brief Constructor for base SampleConsensusModelNormalSphere.
-        * \param[in] cloud the input point cloud dataset
-        * \param[in] indices a vector of point indices to be used from \a cloud
-        */
-      SampleConsensusModelNormalSphere (const PointCloudConstPtr &cloud, const std::vector<int> &indices)
-        : SampleConsensusModelSphere<PointT> (cloud, indices)
-        , SampleConsensusModelFromNormals<PointT, PointNT> ()
-      {
-      }
+    /** \brief Select all the points which respect the given model coefficients
+     * as inliers. \param[in] model_coefficients the coefficients of a sphere
+     * model that we need to compute distances to \param[in] threshold a maximum
+     * admissible distance threshold for determining the inliers from the
+     * outliers \param[out] inliers the resultant model inliers
+     */
+    void selectWithinDistance(const Eigen::VectorXf &model_coefficients,
+                              const double threshold,
+                              std::vector<int> &inliers);
 
-      /** \brief Select all the points which respect the given model coefficients as inliers.
-        * \param[in] model_coefficients the coefficients of a sphere model that we need to compute distances to
-        * \param[in] threshold a maximum admissible distance threshold for determining the inliers from the outliers
-        * \param[out] inliers the resultant model inliers
-        */
-      void
-      selectWithinDistance (const Eigen::VectorXf &model_coefficients,
-                            const double threshold,
-                            std::vector<int> &inliers);
+    /** \brief Count all the points which respect the given model coefficients
+     * as inliers. \param[in] model_coefficients the coefficients of a model
+     * that we need to compute distances to \param[in] threshold maximum
+     * admissible distance threshold for determining the inliers from the
+     * outliers \return the resultant number of inliers
+     */
+    virtual int countWithinDistance(const Eigen::VectorXf &model_coefficients,
+                                    const double threshold);
 
-      /** \brief Count all the points which respect the given model coefficients as inliers.
-        * \param[in] model_coefficients the coefficients of a model that we need to compute distances to
-        * \param[in] threshold maximum admissible distance threshold for determining the inliers from the outliers
-        * \return the resultant number of inliers
-        */
-      virtual int
-      countWithinDistance (const Eigen::VectorXf &model_coefficients,
-                           const double threshold);
+    /** \brief Compute all distances from the cloud data to a given sphere
+     * model. \param[in] model_coefficients the coefficients of a sphere model
+     * that we need to compute distances to \param[out] distances the resultant
+     * estimated distances
+     */
+    void getDistancesToModel(const Eigen::VectorXf &model_coefficients,
+                             std::vector<double> &distances);
 
-      /** \brief Compute all distances from the cloud data to a given sphere model.
-        * \param[in] model_coefficients the coefficients of a sphere model that we need to compute distances to
-        * \param[out] distances the resultant estimated distances
-        */
-      void
-      getDistancesToModel (const Eigen::VectorXf &model_coefficients,
-                           std::vector<double> &distances);
+    /** \brief Return an unique id for this model (SACMODEL_NORMAL_SPHERE). */
+    inline pcl::SacModel getModelType() const {
+        return (SACMODEL_NORMAL_SPHERE);
+    }
 
-      /** \brief Return an unique id for this model (SACMODEL_NORMAL_SPHERE). */
-      inline pcl::SacModel
-      getModelType () const { return (SACMODEL_NORMAL_SPHERE); }
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-    	EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+  protected:
+    /** \brief Check whether a model is valid given the user constraints.
+     * \param[in] model_coefficients the set of model coefficients
+     */
+    bool isModelValid(const Eigen::VectorXf &model_coefficients);
+};
+} // namespace pcl
 
-    protected:
-      /** \brief Check whether a model is valid given the user constraints.
-        * \param[in] model_coefficients the set of model coefficients
-        */
-      bool
-      isModelValid (const Eigen::VectorXf &model_coefficients);
-
-  };
-}
-
-#endif  //#ifndef PCL_SAMPLE_CONSENSUS_MODEL_NORMALSPHERE_H_
+#endif //#ifndef PCL_SAMPLE_CONSENSUS_MODEL_NORMALSPHERE_H_

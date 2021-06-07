@@ -41,46 +41,36 @@
 
 class QMenu;
 class QPoint;
-namespace Ui
-{
-  class MainWindow;
+namespace Ui {
+class MainWindow;
 }
 
-namespace pcl
-{
-  namespace modeler
-  {
-    class ParameterDialog;
+namespace pcl {
+namespace modeler {
+class ParameterDialog;
 
-    class AbstractItem
-    {
-      public:
-        AbstractItem(void);
-        ~AbstractItem(void);
+class AbstractItem {
+  public:
+    AbstractItem(void);
+    ~AbstractItem(void);
 
-        void
-        showContextMenu(const QPoint* position);
+    void showContextMenu(const QPoint *position);
 
-        virtual std::string
-        getItemName() const = 0;
+    virtual std::string getItemName() const = 0;
 
-        void
-        showPropertyEditor();
+    void showPropertyEditor();
 
-      protected:
-        Ui::MainWindow* ui() const;
+  protected:
+    Ui::MainWindow *ui() const;
 
-        virtual void
-        prepareContextMenu(QMenu* menu) const = 0;
+    virtual void prepareContextMenu(QMenu *menu) const = 0;
 
-        virtual void
-        prepareProperties(ParameterDialog* parameter_dialog) = 0;
+    virtual void prepareProperties(ParameterDialog *parameter_dialog) = 0;
 
-        virtual void
-        setProperties() = 0;
-    };
+    virtual void setProperties() = 0;
+};
 
-  }
-}
+} // namespace modeler
+} // namespace pcl
 
 #endif // PCL_MODELER_ABSTRACT_ITEM_H_

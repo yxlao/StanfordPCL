@@ -40,37 +40,39 @@
 #include <pcl/pcl_exports.h>
 #include <string>
 
-namespace pcl
-{
-    namespace gpu
-    {
-        /** \brief Returns number of Cuda device. */
-        PCL_EXPORTS int getCudaEnabledDeviceCount();
+namespace pcl {
+namespace gpu {
+/** \brief Returns number of Cuda device. */
+PCL_EXPORTS int getCudaEnabledDeviceCount();
 
-        /** \brief Sets active device to work with. */
-        PCL_EXPORTS void setDevice(int device);
+/** \brief Sets active device to work with. */
+PCL_EXPORTS void setDevice(int device);
 
-        /** \brief Return devuce name for gived device. */
-        PCL_EXPORTS std::string getDeviceName(int device);
+/** \brief Return devuce name for gived device. */
+PCL_EXPORTS std::string getDeviceName(int device);
 
-        /** \brief Prints infromatoin about given cuda deivce or about all deivces
-         *  \param deivce: if < 0 prints info for all devices, otherwise the function interpets is as device id.
-         */
-        void PCL_EXPORTS printCudaDeviceInfo(int device = -1);
+/** \brief Prints infromatoin about given cuda deivce or about all deivces
+ *  \param deivce: if < 0 prints info for all devices, otherwise the function
+ * interpets is as device id.
+ */
+void PCL_EXPORTS printCudaDeviceInfo(int device = -1);
 
-        /** \brief Prints infromatoin about given cuda deivce or about all deivces
-         *  \param deivce: if < 0 prints info for all devices, otherwise the function interpets is as device id.
-         */
-        void PCL_EXPORTS printShortCudaDeviceInfo(int device = -1);
+/** \brief Prints infromatoin about given cuda deivce or about all deivces
+ *  \param deivce: if < 0 prints info for all devices, otherwise the function
+ * interpets is as device id.
+ */
+void PCL_EXPORTS printShortCudaDeviceInfo(int device = -1);
 
-        /** \brief Returns true if pre-Fermi generaton GPU.
-          * \param device: device id to check, if < 0 checks current device.
-          */
-        bool PCL_EXPORTS checkIfPreFermiGPU(int device = -1);
+/** \brief Returns true if pre-Fermi generaton GPU.
+ * \param device: device id to check, if < 0 checks current device.
+ */
+bool PCL_EXPORTS checkIfPreFermiGPU(int device = -1);
 
-        /** \brief Error handler. All GPU functions call this to report an error. For internal use only */
-        void PCL_EXPORTS error(const char *error_string, const char *file, const int line, const char *func = "");
-    }
-}
+/** \brief Error handler. All GPU functions call this to report an error. For
+ * internal use only */
+void PCL_EXPORTS error(const char *error_string, const char *file,
+                       const int line, const char *func = "");
+} // namespace gpu
+} // namespace pcl
 
 #endif /* PCL_GPU_CONTAINERS_INITIALISATION_H_ */

@@ -8,7 +8,7 @@
 // THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY.
 // ALL IMPLIED WARRANTIES OF FITNESS FOR ANY PARTICULAR PURPOSE AND OF
 // MERCHANTABILITY ARE HEREBY DISCLAIMED.
-//				
+//
 // For complete openNURBS copyright information see <http://www.opennurbs.org>.
 //
 ////////////////////////////////////////////////////////////////
@@ -27,13 +27,8 @@
 // and statically link with the zlib library. All the necessary
 // header files are included by opennurbs.h.
 
-
-voidpf zcalloc (voidpf, unsigned items, unsigned size)
-{
+voidpf zcalloc(voidpf, unsigned items, unsigned size) {
     return oncalloc(items, size);
 }
 
-void  zcfree (voidpf, voidpf ptr)
-{
-    onfree(ptr);
-}
+void zcfree(voidpf, voidpf ptr) { onfree(ptr); }

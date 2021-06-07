@@ -42,4 +42,3 @@
 
 // Instantiations of specific point types
 PCL_INSTANTIATE(KdTreeFLANN, PCL_POINT_TYPES)
-

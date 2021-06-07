@@ -41,9 +41,13 @@
 
 // Instantiations of specific point types
 //#ifdef PCL_ONLY_CORE_POINT_TYPES
-//  PCL_INSTANTIATE_PRODUCT(CVFHEstimation, ((pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA))((pcl::Normal))((pcl::VFHSignature308)))
+//  PCL_INSTANTIATE_PRODUCT(CVFHEstimation,
+//  ((pcl::PointXYZ)(pcl::PointXYZI)(pcl::PointXYZRGBA))((pcl::Normal))((pcl::VFHSignature308)))
 //#else
-//PCL_INSTANTIATE_PRODUCT(ZBuffering, (PCL_XYZ_POINT_TYPES)(PCL_XYZ_POINT_TYPES))
-template class pcl::occlusion_reasoning::ZBuffering<pcl::PointXYZ, pcl::PointXYZ>;
-template class pcl::occlusion_reasoning::ZBuffering<pcl::PointXYZ, pcl::PointXYZRGB>;
+// PCL_INSTANTIATE_PRODUCT(ZBuffering,
+// (PCL_XYZ_POINT_TYPES)(PCL_XYZ_POINT_TYPES))
+template class pcl::occlusion_reasoning::ZBuffering<pcl::PointXYZ,
+                                                    pcl::PointXYZ>;
+template class pcl::occlusion_reasoning::ZBuffering<pcl::PointXYZ,
+                                                    pcl::PointXYZRGB>;
 //#endif

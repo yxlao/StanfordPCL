@@ -31,60 +31,44 @@ class vesShaderProgram;
 class vesKiwiPolyDataRepresentation;
 class vesGeometryData;
 
-class vesKiwiPCLApp : public vesKiwiViewerApp
-{
-public:
+class vesKiwiPCLApp : public vesKiwiViewerApp {
+  public:
+    vesTypeMacro(vesKiwiPCLApp);
 
-  vesTypeMacro(vesKiwiPCLApp);
-
-  vesKiwiPCLApp()
-  {
-    this->addBuiltinDataset("Kinect point cloud", "pointcloud.pcd");
-  }
-
-  ~vesKiwiPCLApp()
-  {
-  }
-
-  virtual  bool loadDatasetWithCustomBehavior(const std::string& filename)
-  {
-    if (this->mRep) {
-      this->mRep->removeSelfFromRenderer(this->renderer());
-      this->mRep.reset();
+    vesKiwiPCLApp() {
+        this->addBuiltinDataset("Kinect point cloud", "pointcloud.pcd");
     }
 
-    if (vtksys::SystemTools::GetFilenameLastExtension(filename) == ".pcd") {
-      return this->loadPCLDemo(filename);
+    ~vesKiwiPCLApp() {}
+
+    virtual bool loadDatasetWithCustomBehavior(const std::string &filename) {
+        if (this->mRep) {
+            this->mRep->removeSelfFromRenderer(this->renderer());
+            this->mRep.reset();
+        }
+
+        if (vtksys::SystemTools::GetFilenameLastExtension(filename) == ".pcd") {
+            return this->loadPCLDemo(filename);
+        }
+        return vesKiwiViewerApp::loadDatasetWithCustomBehavior(filename);
     }
-    return vesKiwiViewerApp::loadDatasetWithCustomBehavior(filename);
-  }
 
-  bool loadPCLDemo(const std::string& filename)
-  {
-    this->mRep = vesKiwiPCLDemo::Ptr(new vesKiwiPCLDemo);
-    this->mRep->initialize(filename, this->shaderProgram());
-    this->mRep->addSelfToRenderer(this->renderer());
-    this->setBackgroundColor(0., 0., 0.);
-    return true;
-  }
+    bool loadPCLDemo(const std::string &filename) {
+        this->mRep = vesKiwiPCLDemo::Ptr(new vesKiwiPCLDemo);
+        this->mRep->initialize(filename, this->shaderProgram());
+        this->mRep->addSelfToRenderer(this->renderer());
+        this->setBackgroundColor(0., 0., 0.);
+        return true;
+    }
 
-  vesKiwiPCLDemo::Ptr getPCLDemo()
-  {
-    return this->mRep;
-  }
+    vesKiwiPCLDemo::Ptr getPCLDemo() { return this->mRep; }
 
+  protected:
+    vesKiwiPCLDemo::Ptr mRep;
 
-protected:
-
-
-  vesKiwiPCLDemo::Ptr mRep;
-
-
-private:
-
-  vesKiwiPCLApp(const vesKiwiPCLApp&); // Not implemented
-  void operator=(const vesKiwiPCLApp&); // Not implemented
-
+  private:
+    vesKiwiPCLApp(const vesKiwiPCLApp &);  // Not implemented
+    void operator=(const vesKiwiPCLApp &); // Not implemented
 };
 
 #endif

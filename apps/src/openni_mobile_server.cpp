@@ -33,7 +33,6 @@
  *
  */
 
-
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl/io/openni_grabber.h>
@@ -48,171 +47,159 @@
 
 using boost::asio::ip::tcp;
 
-
-struct PointCloudBuffers
-{
-  typedef boost::shared_ptr<PointCloudBuffers> Ptr;
-  std::vector<short> points;
-  std::vector<unsigned char> rgb;
+struct PointCloudBuffers {
+    typedef boost::shared_ptr<PointCloudBuffers> Ptr;
+    std::vector<short> points;
+    std::vector<unsigned char> rgb;
 };
 
-void
-CopyPointCloudToBuffers (pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr cloud, PointCloudBuffers& cloud_buffers)
-{
-  const size_t nr_points = cloud->points.size ();
+void CopyPointCloudToBuffers(pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr cloud,
+                             PointCloudBuffers &cloud_buffers) {
+    const size_t nr_points = cloud->points.size();
 
-  cloud_buffers.points.resize (nr_points*3);
-  cloud_buffers.rgb.resize (nr_points*3);
+    cloud_buffers.points.resize(nr_points * 3);
+    cloud_buffers.rgb.resize(nr_points * 3);
 
-  const pcl::PointXYZ  bounds_min (-0.9f, -0.8f, 1.0f);
-  const pcl::PointXYZ  bounds_max (0.9f, 3.0f, 3.3f);
+    const pcl::PointXYZ bounds_min(-0.9f, -0.8f, 1.0f);
+    const pcl::PointXYZ bounds_max(0.9f, 3.0f, 3.3f);
 
-  size_t j = 0;
-  for (size_t i = 0; i < nr_points; ++i)
-  {
+    size_t j = 0;
+    for (size_t i = 0; i < nr_points; ++i) {
 
-    const pcl::PointXYZRGBA& point = cloud->points[i];
+        const pcl::PointXYZRGBA &point = cloud->points[i];
 
-    if (!pcl_isfinite (point.x) ||
-        !pcl_isfinite (point.y) ||
-        !pcl_isfinite (point.z))
-      continue;
+        if (!pcl_isfinite(point.x) || !pcl_isfinite(point.y) ||
+            !pcl_isfinite(point.z))
+            continue;
 
-    if (point.x < bounds_min.x ||
-        point.y < bounds_min.y ||
-        point.z < bounds_min.z ||
-        point.x > bounds_max.x ||
-        point.y > bounds_max.y ||
-        point.z > bounds_max.z)
-      continue;
+        if (point.x < bounds_min.x || point.y < bounds_min.y ||
+            point.z < bounds_min.z || point.x > bounds_max.x ||
+            point.y > bounds_max.y || point.z > bounds_max.z)
+            continue;
 
-    const int conversion_factor = 500;
+        const int conversion_factor = 500;
 
-    cloud_buffers.points[j*3 + 0] = static_cast<short> (point.x * conversion_factor);
-    cloud_buffers.points[j*3 + 1] = static_cast<short> (point.y * conversion_factor);
-    cloud_buffers.points[j*3 + 2] = static_cast<short> (point.z * conversion_factor);
+        cloud_buffers.points[j * 3 + 0] =
+            static_cast<short>(point.x * conversion_factor);
+        cloud_buffers.points[j * 3 + 1] =
+            static_cast<short>(point.y * conversion_factor);
+        cloud_buffers.points[j * 3 + 2] =
+            static_cast<short>(point.z * conversion_factor);
 
-    cloud_buffers.rgb[j*3 + 0] = point.r;
-    cloud_buffers.rgb[j*3 + 1] = point.g;
-    cloud_buffers.rgb[j*3 + 2] = point.b;
+        cloud_buffers.rgb[j * 3 + 0] = point.r;
+        cloud_buffers.rgb[j * 3 + 1] = point.g;
+        cloud_buffers.rgb[j * 3 + 2] = point.b;
 
-    j++;
-  }
+        j++;
+    }
 
-  cloud_buffers.points.resize (j * 3);
-  cloud_buffers.rgb.resize (j * 3);
+    cloud_buffers.points.resize(j * 3);
+    cloud_buffers.rgb.resize(j * 3);
 }
 
-
-template <typename PointType>
-class PCLMobileServer
-{
+template <typename PointType> class PCLMobileServer {
   public:
-
     typedef pcl::PointCloud<PointType> Cloud;
     typedef typename Cloud::Ptr CloudPtr;
     typedef typename Cloud::ConstPtr CloudConstPtr;
 
-    PCLMobileServer (const std::string& device_id = "", int port = 11111,
-                     float leaf_size_x = 0.01, float leaf_size_y = 0.01, float leaf_size_z = 0.01)
-    : port_ (port),
-      device_id_ (device_id),
-      viewer_ ("PCL OpenNI Mobile Server")
-    {
-      voxel_grid_filter_.setLeafSize (leaf_size_x, leaf_size_y, leaf_size_z);
+    PCLMobileServer(const std::string &device_id = "", int port = 11111,
+                    float leaf_size_x = 0.01, float leaf_size_y = 0.01,
+                    float leaf_size_z = 0.01)
+        : port_(port), device_id_(device_id),
+          viewer_("PCL OpenNI Mobile Server") {
+        voxel_grid_filter_.setLeafSize(leaf_size_x, leaf_size_y, leaf_size_z);
     }
 
-    void
-    handleIncomingCloud (const CloudConstPtr& new_cloud)
-    {
-      CloudPtr temp_cloud (new Cloud);
-      voxel_grid_filter_.setInputCloud (new_cloud);
-      voxel_grid_filter_.filter (*temp_cloud);
+    void handleIncomingCloud(const CloudConstPtr &new_cloud) {
+        CloudPtr temp_cloud(new Cloud);
+        voxel_grid_filter_.setInputCloud(new_cloud);
+        voxel_grid_filter_.filter(*temp_cloud);
 
-      PointCloudBuffers::Ptr new_buffers = PointCloudBuffers::Ptr (new PointCloudBuffers);
-      CopyPointCloudToBuffers (temp_cloud, *new_buffers);
+        PointCloudBuffers::Ptr new_buffers =
+            PointCloudBuffers::Ptr(new PointCloudBuffers);
+        CopyPointCloudToBuffers(temp_cloud, *new_buffers);
 
-      boost::mutex::scoped_lock lock (mutex_);
-      filtered_cloud_ = temp_cloud;
-      buffers_ = new_buffers;
+        boost::mutex::scoped_lock lock(mutex_);
+        filtered_cloud_ = temp_cloud;
+        buffers_ = new_buffers;
     }
 
-    PointCloudBuffers::Ptr
-    getLatestBuffers ()
-    {
-      boost::mutex::scoped_lock lock (mutex_);
-      return (buffers_);
+    PointCloudBuffers::Ptr getLatestBuffers() {
+        boost::mutex::scoped_lock lock(mutex_);
+        return (buffers_);
     }
 
-    CloudPtr
-    getLatestPointCloud ()
-    {
-      boost::mutex::scoped_lock lock (mutex_);
-      return (filtered_cloud_);
+    CloudPtr getLatestPointCloud() {
+        boost::mutex::scoped_lock lock(mutex_);
+        return (filtered_cloud_);
     }
 
-    void
-    run ()
-    {
-      pcl::OpenNIGrabber grabber (device_id_);
-      boost::function<void (const CloudConstPtr&)> handler_function = boost::bind (&PCLMobileServer::handleIncomingCloud, this, _1);
-      grabber.registerCallback (handler_function);
-      grabber.start ();
+    void run() {
+        pcl::OpenNIGrabber grabber(device_id_);
+        boost::function<void(const CloudConstPtr &)> handler_function =
+            boost::bind(&PCLMobileServer::handleIncomingCloud, this, _1);
+        grabber.registerCallback(handler_function);
+        grabber.start();
 
-      // wait for first cloud
-      while (!getLatestPointCloud ())
-        boost::this_thread::sleep (boost::posix_time::milliseconds (10));
+        // wait for first cloud
+        while (!getLatestPointCloud())
+            boost::this_thread::sleep(boost::posix_time::milliseconds(10));
 
-      viewer_.showCloud (getLatestPointCloud ());
+        viewer_.showCloud(getLatestPointCloud());
 
+        boost::asio::io_service io_service;
+        tcp::endpoint endpoint(tcp::v4(), static_cast<unsigned short>(port_));
+        tcp::acceptor acceptor(io_service, endpoint);
+        tcp::socket socket(io_service);
 
-      boost::asio::io_service io_service;
-      tcp::endpoint endpoint (tcp::v4 (), static_cast<unsigned short> (port_));
-      tcp::acceptor acceptor (io_service, endpoint);
-      tcp::socket socket (io_service);
+        std::cout << "Listening on port " << port_ << "..." << std::endl;
+        acceptor.accept(socket);
 
-      std::cout << "Listening on port " << port_ << "..." << std::endl;
-      acceptor.accept (socket);
+        std::cout << "Client connected." << std::endl;
 
-      std::cout << "Client connected." << std::endl;
+        double start_time = pcl::getTime();
+        int counter = 0;
 
-      double start_time = pcl::getTime ();
-      int counter = 0;
+        while (!viewer_.wasStopped()) {
 
-      while (!viewer_.wasStopped ())
-      {
+            // wait for client
+            unsigned int nr_points = 0;
+            boost::asio::read(
+                socket, boost::asio::buffer(&nr_points, sizeof(nr_points)));
 
-        // wait for client
-        unsigned int nr_points = 0;
-        boost::asio::read (socket, boost::asio::buffer (&nr_points, sizeof (nr_points)));
+            PointCloudBuffers::Ptr buffers_to_send = getLatestBuffers();
 
-        PointCloudBuffers::Ptr buffers_to_send = getLatestBuffers ();
+            nr_points =
+                static_cast<unsigned int>(buffers_to_send->points.size() / 3);
+            boost::asio::write(
+                socket, boost::asio::buffer(&nr_points, sizeof(nr_points)));
 
-        nr_points = static_cast<unsigned int> (buffers_to_send->points.size()/3);
-        boost::asio::write (socket, boost::asio::buffer (&nr_points, sizeof (nr_points)));
+            if (nr_points) {
+                boost::asio::write(socket, boost::asio::buffer(
+                                               &buffers_to_send->points.front(),
+                                               nr_points * 3 * sizeof(short)));
+                boost::asio::write(
+                    socket,
+                    boost::asio::buffer(&buffers_to_send->rgb.front(),
+                                        nr_points * 3 * sizeof(unsigned char)));
+            }
 
-        if (nr_points)
-        {
-          boost::asio::write (socket, boost::asio::buffer (&buffers_to_send->points.front(), nr_points * 3 * sizeof (short)));
-          boost::asio::write (socket, boost::asio::buffer (&buffers_to_send->rgb.front(), nr_points * 3 * sizeof (unsigned char)));
+            counter++;
+
+            double new_time = pcl::getTime();
+            double elapsed_time = new_time - start_time;
+            if (elapsed_time > 1.0) {
+                double frames_per_second = counter / elapsed_time;
+                start_time = new_time;
+                counter = 0;
+                std::cout << "fps: " << frames_per_second << std::endl;
+            }
+
+            viewer_.showCloud(getLatestPointCloud());
         }
 
-        counter++;
-
-        double new_time = pcl::getTime ();
-        double elapsed_time = new_time - start_time;
-        if (elapsed_time > 1.0)
-        {
-          double frames_per_second = counter / elapsed_time;
-          start_time = new_time;
-          counter = 0;
-          std::cout << "fps: " << frames_per_second << std::endl;
-        }
-
-        viewer_.showCloud (getLatestPointCloud ());
-      }
-
-      grabber.stop ();
+        grabber.stop();
     }
 
     int port_;
@@ -226,43 +213,42 @@ class PCLMobileServer
     PointCloudBuffers::Ptr buffers_;
 };
 
-void
-usage (char ** argv)
-{
-  std::cout << "usage: " << argv[0] << " <options>\n"
-            << "where options are:\n"
-            << "  -port p :: set the server port (default: 11111)\n"
-            << "  -leaf x, y, z  :: set the voxel grid leaf size (default: 0.01)\n";
+void usage(char **argv) {
+    std::cout
+        << "usage: " << argv[0] << " <options>\n"
+        << "where options are:\n"
+        << "  -port p :: set the server port (default: 11111)\n"
+        << "  -leaf x, y, z  :: set the voxel grid leaf size (default: 0.01)\n";
 }
 
+int main(int argc, char **argv) {
+    if (pcl::console::find_argument(argc, argv, "-h") != -1) {
+        usage(argv);
+        return (0);
+    }
 
-int
-main (int argc, char ** argv)
-{
-  if (pcl::console::find_argument (argc, argv, "-h") != -1)
-  {
-    usage (argv);
+    int port = 11111;
+    float leaf_x = 0.01f, leaf_y = 0.01f, leaf_z = 0.01f;
+    std::string device_id = "";
+
+    pcl::console::parse_argument(argc, argv, "-port", port);
+    pcl::console::parse_3x_arguments(argc, argv, "-leaf", leaf_x, leaf_y,
+                                     leaf_z, false);
+
+    pcl::OpenNIGrabber grabber("");
+    if (!grabber.providesCallback<
+            pcl::OpenNIGrabber::sig_cb_openni_point_cloud_rgba>()) {
+        std::cout << "OpenNI grabber does not provide the rgba cloud format."
+                  << std::endl;
+        return (1);
+    }
+
+    PCL_INFO("Using %f, %f, %f as a leaf size for VoxelGrid.\n", leaf_x, leaf_y,
+             leaf_z);
+
+    PCLMobileServer<pcl::PointXYZRGBA> server(device_id, port, leaf_x, leaf_y,
+                                              leaf_z);
+    server.run();
+
     return (0);
-  }
-
-  int port = 11111;
-  float leaf_x = 0.01f, leaf_y = 0.01f, leaf_z = 0.01f;
-  std::string device_id = "";
-
-  pcl::console::parse_argument (argc, argv, "-port", port);
-  pcl::console::parse_3x_arguments (argc, argv, "-leaf", leaf_x, leaf_y, leaf_z, false);
-
-  pcl::OpenNIGrabber grabber ("");
-  if (!grabber.providesCallback<pcl::OpenNIGrabber::sig_cb_openni_point_cloud_rgba> ())
-  {
-    std::cout << "OpenNI grabber does not provide the rgba cloud format." << std::endl;
-    return (1);
-  }
-
-  PCL_INFO ("Using %f, %f, %f as a leaf size for VoxelGrid.\n", leaf_x, leaf_y, leaf_z);
-
-  PCLMobileServer<pcl::PointXYZRGBA> server (device_id, port, leaf_x, leaf_y, leaf_z);
-  server.run ();
-
-  return (0);
 }

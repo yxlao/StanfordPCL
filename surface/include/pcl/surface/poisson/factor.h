@@ -48,44 +48,40 @@
 #define SQRT_3 1.7320508075688772935
 
 namespace pcl {
-  namespace poisson {
+namespace poisson {
 
-    double PCL_EXPORTS
-    ArcTan2 (const double& y, const double& x);
+double PCL_EXPORTS ArcTan2(const double &y, const double &x);
 
-    double PCL_EXPORTS
-    Angle (const double in[2]);
+double PCL_EXPORTS Angle(const double in[2]);
 
-    void PCL_EXPORTS
-    Sqrt (const double in[2], double out[2]);
+void PCL_EXPORTS Sqrt(const double in[2], double out[2]);
 
-    void PCL_EXPORTS
-    Add (const double in1[2], const double in2[2], double out[2]);
+void PCL_EXPORTS Add(const double in1[2], const double in2[2], double out[2]);
 
-    void PCL_EXPORTS
-    Subtract (const double in1[2], const double in2[2], double out[2]);
+void PCL_EXPORTS Subtract(const double in1[2], const double in2[2],
+                          double out[2]);
 
-    void PCL_EXPORTS
-    Multiply (const double in1[2], const double in2[2], double out[2]);
+void PCL_EXPORTS Multiply(const double in1[2], const double in2[2],
+                          double out[2]);
 
-    void PCL_EXPORTS
-    Divide (const double in1[2], const double in2[2], double out[2]);
+void PCL_EXPORTS Divide(const double in1[2], const double in2[2],
+                        double out[2]);
 
-    int PCL_EXPORTS
-    Factor (double a1, double a0, double roots[1][2], const double& EPS);
+int PCL_EXPORTS Factor(double a1, double a0, double roots[1][2],
+                       const double &EPS);
 
-    int PCL_EXPORTS
-    Factor (double a2, double a1, double a0, double roots[2][2], const double& EPS);
+int PCL_EXPORTS Factor(double a2, double a1, double a0, double roots[2][2],
+                       const double &EPS);
 
-    int PCL_EXPORTS
-    Factor (double a3, double a2, double a1, double a0, double roots[3][2], const double& EPS);
+int PCL_EXPORTS Factor(double a3, double a2, double a1, double a0,
+                       double roots[3][2], const double &EPS);
 
-    int PCL_EXPORTS
-    Factor (double a4, double a3, double a2, double a1, double a0, double roots[4][2], const double& EPS);
+int PCL_EXPORTS Factor(double a4, double a3, double a2, double a1, double a0,
+                       double roots[4][2], const double &EPS);
 
-    int PCL_EXPORTS
-    Solve (const double* eqns, const double* values, double* solutions, const int& dim);
-  }
-}
+int PCL_EXPORTS Solve(const double *eqns, const double *values,
+                      double *solutions, const int &dim);
+} // namespace poisson
+} // namespace pcl
 
 #endif /* PCL_POISSON_FACTOR_H_ */

@@ -42,46 +42,36 @@
 
 #include <pcl/apps/cloud_composer/commands.h>
 
-namespace pcl
-{
-  namespace cloud_composer
-  {
-    class AbstractTool;
-    class CloudComposerItem;
+namespace pcl {
+namespace cloud_composer {
+class AbstractTool;
+class CloudComposerItem;
 
-    struct ActionPair
-    {
-      CloudCommand* command;
-      AbstractTool* tool;
-    };
+struct ActionPair {
+    CloudCommand *command;
+    AbstractTool *tool;
+};
 
-    class WorkQueue : public QObject
-    {
-      Q_OBJECT
-      public:
-        WorkQueue (QObject* parent = 0);
-        virtual ~WorkQueue();
-      public slots:
-        void
-        enqueueNewAction (AbstractTool* new_tool, ConstItemList input_data);
+class WorkQueue : public QObject {
+    Q_OBJECT
+  public:
+    WorkQueue(QObject *parent = 0);
+    virtual ~WorkQueue();
+  public slots:
+    void enqueueNewAction(AbstractTool *new_tool, ConstItemList input_data);
 
-        void
-        actionFinished (ActionPair finished_action);
+    void actionFinished(ActionPair finished_action);
 
-        void
-        checkQueue ();
-      signals:
-        void
-        commandProgress (QString command_text, double progress);
+    void checkQueue();
+  signals:
+    void commandProgress(QString command_text, double progress);
 
-        void
-        commandComplete (CloudCommand* completed_command);
+    void commandComplete(CloudCommand *completed_command);
 
-      private:
-        QQueue <ActionPair> work_queue_;
+  private:
+    QQueue<ActionPair> work_queue_;
+};
+} // namespace cloud_composer
+} // namespace pcl
 
-    };
-  }
-}
-
-#endif //WORK_QUEUE_H_
+#endif // WORK_QUEUE_H_

@@ -39,80 +39,75 @@
 
 #include <pcl/common/eigen.h>
 
-namespace pcl
-{
-  /** \brief Calculates the weighted average and the covariance matrix
-    *
-    * A class to calculate the weighted average and the covariance matrix of a set of vectors with given weights.
-    * The original data is not saved. Mean and covariance are calculated iteratively.
-    * \author Bastian Steder
-    * \ingroup common
-    */
-  template <typename real, int dimension>
-  class VectorAverage
-  {
-     public:
-        //-----CONSTRUCTOR&DESTRUCTOR-----
-        /** Constructor - dimension gives the size of the vectors to work with. */
-        VectorAverage ();
-        /** Destructor */
-        ~VectorAverage () {}
+namespace pcl {
+/** \brief Calculates the weighted average and the covariance matrix
+ *
+ * A class to calculate the weighted average and the covariance matrix of a set
+ * of vectors with given weights. The original data is not saved. Mean and
+ * covariance are calculated iteratively. \author Bastian Steder \ingroup common
+ */
+template <typename real, int dimension> class VectorAverage {
+  public:
+    //-----CONSTRUCTOR&DESTRUCTOR-----
+    /** Constructor - dimension gives the size of the vectors to work with. */
+    VectorAverage();
+    /** Destructor */
+    ~VectorAverage() {}
 
-        //-----METHODS-----
-        /** Reset the object to work with a new data set */
-        inline void
-        reset ();
+    //-----METHODS-----
+    /** Reset the object to work with a new data set */
+    inline void reset();
 
-        /** Get the mean of the added vectors */
-        inline const
-        Eigen::Matrix<real, dimension, 1>& getMean () const { return mean_;}
+    /** Get the mean of the added vectors */
+    inline const Eigen::Matrix<real, dimension, 1> &getMean() const {
+        return mean_;
+    }
 
-        /** Get the covariance matrix of the added vectors */
-        inline const
-        Eigen::Matrix<real, dimension, dimension>& getCovariance () const { return covariance_;}
+    /** Get the covariance matrix of the added vectors */
+    inline const Eigen::Matrix<real, dimension, dimension> &
+    getCovariance() const {
+        return covariance_;
+    }
 
-        /** Get the summed up weight of all added vectors */
-        inline real
-        getAccumulatedWeight () const { return accumulatedWeight_;}
+    /** Get the summed up weight of all added vectors */
+    inline real getAccumulatedWeight() const { return accumulatedWeight_; }
 
-        /** Get the number of added vectors */
-        inline unsigned int
-        getNoOfSamples () { return noOfSamples_;}
+    /** Get the number of added vectors */
+    inline unsigned int getNoOfSamples() { return noOfSamples_; }
 
-        /** Add a new sample */
-        inline void
-        add (const Eigen::Matrix<real, dimension, 1>& sample, real weight=1.0);
+    /** Add a new sample */
+    inline void add(const Eigen::Matrix<real, dimension, 1> &sample,
+                    real weight = 1.0);
 
-        /** Do Principal component analysis */
-        inline void
-        doPCA (Eigen::Matrix<real, dimension, 1>& eigen_values, Eigen::Matrix<real, dimension, 1>& eigen_vector1,
-               Eigen::Matrix<real, dimension, 1>& eigen_vector2, Eigen::Matrix<real, dimension, 1>& eigen_vector3) const;
+    /** Do Principal component analysis */
+    inline void doPCA(Eigen::Matrix<real, dimension, 1> &eigen_values,
+                      Eigen::Matrix<real, dimension, 1> &eigen_vector1,
+                      Eigen::Matrix<real, dimension, 1> &eigen_vector2,
+                      Eigen::Matrix<real, dimension, 1> &eigen_vector3) const;
 
-        /** Do Principal component analysis */
-        inline void
-        doPCA (Eigen::Matrix<real, dimension, 1>& eigen_values) const;
+    /** Do Principal component analysis */
+    inline void doPCA(Eigen::Matrix<real, dimension, 1> &eigen_values) const;
 
-        /** Get the eigenvector corresponding to the smallest eigenvalue */
-        inline void
-        getEigenVector1 (Eigen::Matrix<real, dimension, 1>& eigen_vector1) const;
+    /** Get the eigenvector corresponding to the smallest eigenvalue */
+    inline void
+    getEigenVector1(Eigen::Matrix<real, dimension, 1> &eigen_vector1) const;
 
-        //-----VARIABLES-----
+    //-----VARIABLES-----
 
-     protected:
-        //-----METHODS-----
-        //-----VARIABLES-----
-        unsigned int noOfSamples_;
-        real accumulatedWeight_;
-        Eigen::Matrix<real, dimension, 1> mean_;
-        Eigen::Matrix<real, dimension, dimension> covariance_;
-  };
+  protected:
+    //-----METHODS-----
+    //-----VARIABLES-----
+    unsigned int noOfSamples_;
+    real accumulatedWeight_;
+    Eigen::Matrix<real, dimension, 1> mean_;
+    Eigen::Matrix<real, dimension, dimension> covariance_;
+};
 
-  typedef VectorAverage<float, 2> VectorAverage2f;
-  typedef VectorAverage<float, 3> VectorAverage3f;
-  typedef VectorAverage<float, 4> VectorAverage4f;
-}  // END namespace
+typedef VectorAverage<float, 2> VectorAverage2f;
+typedef VectorAverage<float, 3> VectorAverage3f;
+typedef VectorAverage<float, 4> VectorAverage4f;
+} // namespace pcl
 
 #include <pcl/common/impl/vector_average.hpp>
 
-#endif  // #ifndef PCL_VECTOR_AVERAGE_H
-
+#endif // #ifndef PCL_VECTOR_AVERAGE_H

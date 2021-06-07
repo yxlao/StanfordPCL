@@ -42,5 +42,4 @@
 
 #include <pcl/common/io.h>
 
-#endif  //#ifndef PCL_IO_IO_H_
-
+#endif //#ifndef PCL_IO_IO_H_

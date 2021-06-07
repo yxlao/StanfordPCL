@@ -39,13 +39,10 @@
  *
  */
 
-
 #include <pcl/point_types.h>
 #include <pcl/impl/instantiate.hpp>
 #include <pcl/filters/fast_bilateral.h>
 #include <pcl/filters/impl/fast_bilateral.hpp>
 
-PCL_INSTANTIATE (FastBilateralFilter, (pcl::PointXYZ)(pcl::PointXYZRGB)(pcl::PointXYZRGBA))
-
-
-
+PCL_INSTANTIATE(FastBilateralFilter,
+                (pcl::PointXYZ)(pcl::PointXYZRGB)(pcl::PointXYZRGBA))

@@ -45,155 +45,133 @@
 #include <boost/circular_buffer.hpp>
 #include <string>
 
-#define IMAGE_WIDTH     320
-#define IMAGE_HEIGHT    240
-#define IMAGE_SIZE      IMAGE_WIDTH * IMAGE_HEIGHT
+#define IMAGE_WIDTH 320
+#define IMAGE_HEIGHT 240
+#define IMAGE_SIZE IMAGE_WIDTH *IMAGE_HEIGHT
 
-#define SYNC_PACKET     512
+#define SYNC_PACKET 512
 
-#define RAW8_LENGTH     IMAGE_WIDTH*IMAGE_HEIGHT
-#define RGB16_LENGTH    IMAGE_WIDTH*2*IMAGE_HEIGHT
-#define RGB24_LENGTH    IMAGE_WIDTH*3*IMAGE_HEIGHT
-#define RGB32_LENGTH    IMAGE_WIDTH*4*IMAGE_HEIGHT
+#define RAW8_LENGTH IMAGE_WIDTH *IMAGE_HEIGHT
+#define RGB16_LENGTH IMAGE_WIDTH * 2 * IMAGE_HEIGHT
+#define RGB24_LENGTH IMAGE_WIDTH * 3 * IMAGE_HEIGHT
+#define RGB32_LENGTH IMAGE_WIDTH * 4 * IMAGE_HEIGHT
 
-#define IMAGE_PAGE_MAX    (1)
+#define IMAGE_PAGE_MAX (1)
 
-namespace pcl
-{
-  /** \brief Grabber for DINAST devices (i.e., IPA-1002, IPA-1110, IPA-2001)
-    * \author Marco A. Gutierrez <marcog@unex.es>
-  * \ingroup io
-  */
-  class PCL_EXPORTS DinastGrabber: public Grabber
-  {
+namespace pcl {
+/** \brief Grabber for DINAST devices (i.e., IPA-1002, IPA-1110, IPA-2001)
+ * \author Marco A. Gutierrez <marcog@unex.es>
+ * \ingroup io
+ */
+class PCL_EXPORTS DinastGrabber : public Grabber {
 
-    public:
+  public:
+    /** \brief Constructor. */
+    DinastGrabber();
 
-      /** \brief Constructor. */
-      DinastGrabber ();
+    /** \brief Destructor */
+    ~DinastGrabber() throw();
 
-      /** \brief Destructor */
-      ~DinastGrabber () throw ();
+    /** \brief returns the name of the concrete subclass, DinastGrabber.
+     * \return DinastGrabber.
+     */
+    std::string getName() const;
 
-      /** \brief returns the name of the concrete subclass, DinastGrabber.
-        * \return DinastGrabber.
-        */
-      std::string
-      getName() const;
+    /** \brief Check if the grabber is running
+     * \return true if grabber is running / streaming. False otherwise.
+     */
+    bool isRunning() const;
 
-      /** \brief Check if the grabber is running
-        * \return true if grabber is running / streaming. False otherwise.
-        */
-      bool
-      isRunning () const;
+    /** \brief Obtain the number of frames per second (FPS). */
+    float getFramesPerSecond() const;
 
-      /** \brief Obtain the number of frames per second (FPS). */
-      float
-      getFramesPerSecond () const;
+    /** \brief Find a Dinast 3D camera device and open de device handler
+     * \param[in] device_position Number corresponding to the device to grab
+     * \param[in] id_vendor the ID of the camera vendor (should be 0x18d1)
+     * \param[in] id_product the ID of the product (should be 0x1402)
+     */
+    void findDevice(int device_position, const int id_vendor = 0x18d1,
+                    const int id_product = 0x1402);
 
+    /** \brief Claims the interface for the already finded device
+     */
+    void openDevice();
 
-      /** \brief Find a Dinast 3D camera device and open de device handler
-        * \param[in] device_position Number corresponding to the device to grab
-        * \param[in] id_vendor the ID of the camera vendor (should be 0x18d1)
-        * \param[in] id_product the ID of the product (should be 0x1402)
-        */
-      void
-      findDevice (int device_position,
-                  const int id_vendor = 0x18d1,
-                  const int id_product = 0x1402);
+    /** \brief Close the given the device of the DINAST camera
+     */
+    void closeDevice();
 
-      /** \brief Claims the interface for the already finded device
-        */
-      void
-      openDevice ();
+    /** \brief Send a RX data packet request
+     * \param[in] req_code the request to send (the request field for the setup
+     * packet) \param[in] length the length field for the setup packet. The data
+     * buffer should be at least this size.
+     */
+    bool USBRxControlData(const unsigned char req_code, unsigned char *buffer,
+                          int length);
 
-      /** \brief Close the given the device of the DINAST camera
-        */
-      void
-      closeDevice ();
+    /** \brief Send a TX data packet request
+     * \param[in] req_code the request to send (the request field for the setup
+     * packet) \param[in] length the length field for the setup packet. The data
+     * buffer should be at least this size.
+     */
+    bool USBTxControlData(const unsigned char req_code, unsigned char *buffer,
+                          int length);
 
-      /** \brief Send a RX data packet request
-        * \param[in] req_code the request to send (the request field for the setup packet)
-        * \param[in] length the length field for the setup packet. The data buffer should be at least this size.
-        */
-      bool
-      USBRxControlData (const unsigned char req_code,
-                        unsigned char *buffer,
-                        int length);
+    /** \brief Get the version number of the currently opened device
+     */
+    std::string getDeviceVersion();
 
-      /** \brief Send a TX data packet request
-        * \param[in] req_code the request to send (the request field for the setup packet)
-        * \param[in] length the length field for the setup packet. The data buffer should be at least this size.
-        */
-      bool
-      USBTxControlData (const unsigned char req_code,
-                        unsigned char *buffer,
-                        int length);
+    /** \brief Start the data acquisition process.
+     */
+    void start();
 
-      /** \brief Get the version number of the currently opened device
-        */
-      std::string
-      getDeviceVersion ();
+    /** \brief Stop the data acquisition process.
+     */
+    void stop();
 
-      /** \brief Start the data acquisition process.
-        */
-      void
-      start ();
+    /** \brief Check if we have a header in the global buffer, and return the
+     * position of the next valid image. \note If the image in the buffer is
+     * partial, return -1, as we have to wait until we add more data to it.
+     * \return the position of the next valid image (i.e., right after a valid
+     * header) or -1 in case the buffer either doesn't have an image or has a
+     * partial image
+     */
+    int checkHeader();
 
-      /** \brief Stop the data acquisition process.
-        */
-      void
-      stop ();
+    /** \brief Read image data
+     * \param[out] the image data in unsigned short format
+     */
+    int readImage(unsigned char *image);
 
-      /** \brief Check if we have a header in the global buffer, and return the position of the next valid image.
-        * \note If the image in the buffer is partial, return -1, as we have to wait until we add more data to it.
-        * \return the position of the next valid image (i.e., right after a valid header) or -1 in case the buffer
-        * either doesn't have an image or has a partial image
-        */
-      int
-      checkHeader ();
+    /** \brief Read image data
+     * \param[out] the image data in unsigned short format
+     */
+    int readImage(unsigned char *image1, unsigned char *image2);
 
-       /** \brief Read image data
-        * \param[out] the image data in unsigned short format
-        */
-      int
-      readImage (unsigned char *image);
+    /** \brief Read image data
+     * \param[out] the image data in PointCloud format
+     */
+    int readData(unsigned char *_image, pcl::PointCloud<pcl::PointXYZI> &cloud);
 
-      /** \brief Read image data
-        * \param[out] the image data in unsigned short format
-        */
-      int
-      readImage (unsigned char *image1, unsigned char *image2);
+    /** \brief the libusb context*/
+    libusb_context *ctx;
 
-      /** \brief Read image data
-      * \param[out] the image data in PointCloud format
-      */
-      int
-      readData(unsigned char *_image, pcl::PointCloud<pcl::PointXYZI> &cloud);
+    /** \brief the actual device_handle for the camera */
+    struct libusb_device_handle *device_handle;
 
+    /** \brief Temporary USB read buffer */
+    unsigned char raw_buffer[(RGB16_LENGTH + SYNC_PACKET) * 2];
 
-      /** \brief the libusb context*/
-      libusb_context *ctx;
+    /** \brief Global buffer */
+    boost::circular_buffer<unsigned char> g_buffer;
 
-      /** \brief the actual device_handle for the camera */
-      struct libusb_device_handle* device_handle;
+    // Bulk endpoint address value
+    unsigned char bulk_ep;
 
-      /** \brief Temporary USB read buffer */
-      unsigned char raw_buffer[(RGB16_LENGTH + SYNC_PACKET)*2];
-
-      /** \brief Global buffer */
-      boost::circular_buffer<unsigned char> g_buffer;
-
-      // Bulk endpoint address value
-      unsigned char bulk_ep;
-
-      // Since there is no header after the first image, we need to save the state
-      bool second_image;
-      bool running_;
-
-
-
-  };
-} //namespace pcl
+    // Since there is no header after the first image, we need to save the state
+    bool second_image;
+    bool running_;
+};
+} // namespace pcl
 
 #endif // __PCL_IO_DINAST_GRABBER__

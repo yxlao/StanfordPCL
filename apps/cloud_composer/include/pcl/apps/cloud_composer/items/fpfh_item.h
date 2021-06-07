@@ -44,46 +44,36 @@
 #include <pcl/apps/cloud_composer/items/cloud_composer_item.h>
 #include <pcl/visualization/pcl_plotter.h>
 
+namespace pcl {
+namespace cloud_composer {
 
-namespace pcl
-{
-  namespace cloud_composer
-  {
+class FPFHItem : public CloudComposerItem {
+  public:
+    FPFHItem(QString name, pcl::PointCloud<pcl::FPFHSignature33>::Ptr fpfh_ptr,
+             double radius);
+    FPFHItem(const FPFHItem &to_copy);
+    virtual ~FPFHItem();
 
-    class FPFHItem : public CloudComposerItem
-    {
-      public:
+    inline virtual int type() const { return FPFH_ITEM; }
 
-        FPFHItem (QString name,
-                     pcl::PointCloud<pcl::FPFHSignature33>::Ptr fpfh_ptr,
-                     double radius);
-        FPFHItem (const FPFHItem& to_copy);
-        virtual ~FPFHItem ();
+    virtual FPFHItem *clone() const;
 
-        inline virtual int
-        type () const { return FPFH_ITEM; }
+    /** \brief Inspector additional tabs paint function - get the histogram plot
+     * widget*/
+    virtual QMap<QString, QWidget *> getInspectorTabs();
 
-        virtual FPFHItem*
-        clone () const;
+  private:
+    pcl::PointCloud<pcl::FPFHSignature33>::Ptr fpfh_ptr_;
+    double radius_;
+    boost::shared_ptr<pcl::visualization::PCLPlotter> plot_;
+    QVTKWidget *qvtk_;
+    QWidget *hist_page_;
+};
 
-        /** \brief Inspector additional tabs paint function - get the histogram plot widget*/
-        virtual QMap <QString, QWidget*>
-        getInspectorTabs ();
+} // namespace cloud_composer
+} // namespace pcl
 
-      private:
-        pcl::PointCloud<pcl::FPFHSignature33>::Ptr fpfh_ptr_;
-        double radius_;
-        boost::shared_ptr<pcl::visualization::PCLPlotter> plot_;
-        QVTKWidget *qvtk_;
-        QWidget *hist_page_;
-    };
+Q_DECLARE_METATYPE(pcl::PointCloud<pcl::FPFHSignature33>::Ptr);
+Q_DECLARE_METATYPE(pcl::PointCloud<pcl::FPFHSignature33>::ConstPtr);
 
-
-
-  }
-}
-
-Q_DECLARE_METATYPE (pcl::PointCloud<pcl::FPFHSignature33>::Ptr);
-Q_DECLARE_METATYPE (pcl::PointCloud<pcl::FPFHSignature33>::ConstPtr);
-
-#endif //NORMALS_ITEM_H_
+#endif // NORMALS_ITEM_H_

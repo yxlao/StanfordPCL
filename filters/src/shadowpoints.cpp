@@ -41,5 +41,5 @@
 
 // Instantiations of specific point types
 //
-PCL_INSTANTIATE_PRODUCT(ShadowPoints, (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES))
-
+PCL_INSTANTIATE_PRODUCT(ShadowPoints,
+                        (PCL_XYZ_POINT_TYPES)(PCL_NORMAL_POINT_TYPES))

@@ -20,25 +20,22 @@
 
 struct vesKiwiPCLApp;
 
-@interface ES2Renderer : NSObject
-{
-@public
+@interface ES2Renderer : NSObject {
+  @public
 
-@private
+  @private
 
-  vesKiwiPCLApp* mApp;
-
+    vesKiwiPCLApp *mApp;
 }
 
 - (void)render;
 - (void)resetView;
-- (BOOL)resizeFromLayer:(int)w height:(int) h;
+- (BOOL)resizeFromLayer:(int)w height:(int)h;
 
 - (int)getNumberOfFacetsForCurrentModel;
 - (int)getNumberOfLinesForCurrentModel;
 - (int)getNumberOfVerticesForCurrentModel;
 
-@property (readonly) struct vesKiwiPCLApp* app;
+@property(readonly) struct vesKiwiPCLApp *app;
 
 @end
-

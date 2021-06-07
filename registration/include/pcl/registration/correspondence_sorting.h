@@ -38,89 +38,79 @@
 #define PCL_REGISTRATION_CORRESPONDENCE_SORTING_H_
 
 #if defined __GNUC__
-#  pragma GCC system_header
+#pragma GCC system_header
 #endif
 
 #include <pcl/registration/correspondence_types.h>
 
-namespace pcl
-{
-  namespace registration
-  {
-    /** @b sortCorrespondencesByQueryIndex : a functor for sorting correspondences by query index
-      * \author Dirk Holz
-      * \ingroup registration
-      */
-    struct sortCorrespondencesByQueryIndex : public std::binary_function<pcl::Correspondence, pcl::Correspondence, bool>
-    {
-      bool
-      operator()( pcl::Correspondence a, pcl::Correspondence b)
-      {
+namespace pcl {
+namespace registration {
+/** @b sortCorrespondencesByQueryIndex : a functor for sorting correspondences
+ * by query index \author Dirk Holz \ingroup registration
+ */
+struct sortCorrespondencesByQueryIndex
+    : public std::binary_function<pcl::Correspondence, pcl::Correspondence,
+                                  bool> {
+    bool operator()(pcl::Correspondence a, pcl::Correspondence b) {
         return (a.index_query < b.index_query);
-      }
-    };
+    }
+};
 
-    /** @b sortCorrespondencesByMatchIndex : a functor for sorting correspondences by match index
-      * \author Dirk Holz
-      * \ingroup registration
-      */
-    struct sortCorrespondencesByMatchIndex : public std::binary_function<pcl::Correspondence, pcl::Correspondence, bool>
-    {
-      bool
-      operator()( pcl::Correspondence a, pcl::Correspondence b)
-      {
+/** @b sortCorrespondencesByMatchIndex : a functor for sorting correspondences
+ * by match index \author Dirk Holz \ingroup registration
+ */
+struct sortCorrespondencesByMatchIndex
+    : public std::binary_function<pcl::Correspondence, pcl::Correspondence,
+                                  bool> {
+    bool operator()(pcl::Correspondence a, pcl::Correspondence b) {
         return (a.index_match < b.index_match);
-      }
-    };
+    }
+};
 
-    /** @b sortCorrespondencesByDistance : a functor for sorting correspondences by distance
-      * \author Dirk Holz
-      * \ingroup registration
-      */
-    struct sortCorrespondencesByDistance : public std::binary_function<pcl::Correspondence, pcl::Correspondence, bool>
-    {
-      bool
-      operator()( pcl::Correspondence a, pcl::Correspondence b)
-      {
+/** @b sortCorrespondencesByDistance : a functor for sorting correspondences by
+ * distance \author Dirk Holz \ingroup registration
+ */
+struct sortCorrespondencesByDistance
+    : public std::binary_function<pcl::Correspondence, pcl::Correspondence,
+                                  bool> {
+    bool operator()(pcl::Correspondence a, pcl::Correspondence b) {
         return (a.distance < b.distance);
-      }
-    };
+    }
+};
 
-    /** @b sortCorrespondencesByQueryIndexAndDistance : a functor for sorting correspondences by query index _and_ distance
-      * \author Dirk Holz
-      * \ingroup registration
-      */
-    struct sortCorrespondencesByQueryIndexAndDistance : public std::binary_function<pcl::Correspondence, pcl::Correspondence, bool>
-    {
-      inline bool
-      operator()( pcl::Correspondence a, pcl::Correspondence b)
-      {
+/** @b sortCorrespondencesByQueryIndexAndDistance : a functor for sorting
+ * correspondences by query index _and_ distance \author Dirk Holz \ingroup
+ * registration
+ */
+struct sortCorrespondencesByQueryIndexAndDistance
+    : public std::binary_function<pcl::Correspondence, pcl::Correspondence,
+                                  bool> {
+    inline bool operator()(pcl::Correspondence a, pcl::Correspondence b) {
         if (a.index_query < b.index_query)
-          return (true);
-        else if ( (a.index_query == b.index_query) && (a.distance < b.distance) )
-          return (true);
+            return (true);
+        else if ((a.index_query == b.index_query) && (a.distance < b.distance))
+            return (true);
         return (false);
-      }
-    };
+    }
+};
 
-    /** @b sortCorrespondencesByMatchIndexAndDistance : a functor for sorting correspondences by match index _and_ distance
-      * \author Dirk Holz
-      * \ingroup registration
-      */
-    struct sortCorrespondencesByMatchIndexAndDistance : public std::binary_function<pcl::Correspondence, pcl::Correspondence, bool>
-    {
-      inline bool
-      operator()( pcl::Correspondence a, pcl::Correspondence b)
-      {
+/** @b sortCorrespondencesByMatchIndexAndDistance : a functor for sorting
+ * correspondences by match index _and_ distance \author Dirk Holz \ingroup
+ * registration
+ */
+struct sortCorrespondencesByMatchIndexAndDistance
+    : public std::binary_function<pcl::Correspondence, pcl::Correspondence,
+                                  bool> {
+    inline bool operator()(pcl::Correspondence a, pcl::Correspondence b) {
         if (a.index_match < b.index_match)
-          return (true);
-        else if ( (a.index_match == b.index_match) && (a.distance < b.distance) )
-          return (true);
+            return (true);
+        else if ((a.index_match == b.index_match) && (a.distance < b.distance))
+            return (true);
         return (false);
-      }
-    };
+    }
+};
 
-  }
-}
+} // namespace registration
+} // namespace pcl
 
 #endif /* PCL_REGISTRATION_CORRESPONDENCE_SORTING_H_ */

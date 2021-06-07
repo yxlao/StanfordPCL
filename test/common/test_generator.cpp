@@ -41,115 +41,105 @@
 #include <pcl/common/random.h>
 #include <pcl/common/generate.h>
 
-TEST (UniformCloudGenerator, PointXYZ)
-{
-  using namespace pcl::common;
-  CloudGenerator<pcl::PointXYZ,  UniformGenerator<float> > generator;
-  UniformGenerator<float>::Parameters x_params;
-  generator.setParametersForX (x_params);
-  UniformGenerator<float>::Parameters y_params (-1.f, 1.f);
-  generator.setParametersForY (y_params);
-  UniformGenerator<float>::Parameters z_params (-2.5, 1.5f);
-  generator.setParametersForZ (z_params);
+TEST(UniformCloudGenerator, PointXYZ) {
+    using namespace pcl::common;
+    CloudGenerator<pcl::PointXYZ, UniformGenerator<float>> generator;
+    UniformGenerator<float>::Parameters x_params;
+    generator.setParametersForX(x_params);
+    UniformGenerator<float>::Parameters y_params(-1.f, 1.f);
+    generator.setParametersForY(y_params);
+    UniformGenerator<float>::Parameters z_params(-2.5, 1.5f);
+    generator.setParametersForZ(z_params);
 
-  pcl::PointCloud<pcl::PointXYZ> output;
-  int result = generator.fill (480, 640, output);
-  EXPECT_EQ (result, 0);
-  EXPECT_EQ (output.height, 640);
-  EXPECT_EQ (output.width, 480);
-  EXPECT_EQ (output.size (), 480*640);
-  for(pcl::PointCloud<pcl::PointXYZ>::const_iterator points_it = output.begin ();
-      points_it != output.end ();
-      ++points_it)
-  {
-    EXPECT_GE (points_it->x, 0);
-    EXPECT_LT (points_it->x, 1);
-    EXPECT_GE (points_it->y, -1);
-    EXPECT_LT (points_it->y, 1);
-    EXPECT_GE (points_it->z, -2.5);
-    EXPECT_LT (points_it->z, 1.5);
-  }
+    pcl::PointCloud<pcl::PointXYZ> output;
+    int result = generator.fill(480, 640, output);
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(output.height, 640);
+    EXPECT_EQ(output.width, 480);
+    EXPECT_EQ(output.size(), 480 * 640);
+    for (pcl::PointCloud<pcl::PointXYZ>::const_iterator points_it =
+             output.begin();
+         points_it != output.end(); ++points_it) {
+        EXPECT_GE(points_it->x, 0);
+        EXPECT_LT(points_it->x, 1);
+        EXPECT_GE(points_it->y, -1);
+        EXPECT_LT(points_it->y, 1);
+        EXPECT_GE(points_it->z, -2.5);
+        EXPECT_LT(points_it->z, 1.5);
+    }
 }
 
-TEST (UniformCloudGenerator, PointXY)
-{
-  using namespace pcl::common;
-  CloudGenerator<pcl::PointXY,  UniformGenerator<float> > generator;
-  UniformGenerator<float>::Parameters x_params;
-  generator.setParametersForX (x_params);
-  UniformGenerator<float>::Parameters y_params (-1.f, 1.f);
-  generator.setParametersForY (y_params);
+TEST(UniformCloudGenerator, PointXY) {
+    using namespace pcl::common;
+    CloudGenerator<pcl::PointXY, UniformGenerator<float>> generator;
+    UniformGenerator<float>::Parameters x_params;
+    generator.setParametersForX(x_params);
+    UniformGenerator<float>::Parameters y_params(-1.f, 1.f);
+    generator.setParametersForY(y_params);
 
-  pcl::PointCloud<pcl::PointXY> output;
-  int result = generator.fill (480, 640, output);
-  EXPECT_EQ (result, 0);
-  EXPECT_EQ (output.height, 640);
-  EXPECT_EQ (output.width, 480);
-  EXPECT_EQ (output.size (), 480*640);
-  for(pcl::PointCloud<pcl::PointXY>::const_iterator points_it = output.begin ();
-      points_it != output.end ();
-      ++points_it)
-  {
-    EXPECT_GE (points_it->x, 0);
-    EXPECT_LT (points_it->x, 1);
-    EXPECT_GE (points_it->y, -1);
-    EXPECT_LT (points_it->y, 1);
-  }
+    pcl::PointCloud<pcl::PointXY> output;
+    int result = generator.fill(480, 640, output);
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(output.height, 640);
+    EXPECT_EQ(output.width, 480);
+    EXPECT_EQ(output.size(), 480 * 640);
+    for (pcl::PointCloud<pcl::PointXY>::const_iterator points_it =
+             output.begin();
+         points_it != output.end(); ++points_it) {
+        EXPECT_GE(points_it->x, 0);
+        EXPECT_LT(points_it->x, 1);
+        EXPECT_GE(points_it->y, -1);
+        EXPECT_LT(points_it->y, 1);
+    }
 }
 
-TEST (UniformCloudGenerator, Cube)
-{
-  using namespace pcl::common;
-  CloudGenerator<pcl::PointXYZ,  UniformGenerator<float> > generator;
-  UniformGenerator<float>::Parameters params (-3, 3, 1);
-  generator.setParameters (params);
+TEST(UniformCloudGenerator, Cube) {
+    using namespace pcl::common;
+    CloudGenerator<pcl::PointXYZ, UniformGenerator<float>> generator;
+    UniformGenerator<float>::Parameters params(-3, 3, 1);
+    generator.setParameters(params);
 
-  pcl::PointCloud<pcl::PointXYZ> output;
-  int result = generator.fill (480, 640, output);
-  EXPECT_EQ (result, 0);
-  EXPECT_EQ (output.height, 640);
-  EXPECT_EQ (output.width, 480);
-  EXPECT_EQ (output.size (), 480*640);
-  for(pcl::PointCloud<pcl::PointXYZ>::const_iterator points_it = output.begin ();
-      points_it != output.end ();
-      ++points_it)
-  {
-    EXPECT_GE (points_it->x, -3);
-    EXPECT_LT (points_it->x, 3);
-    EXPECT_GE (points_it->y, -3);
-    EXPECT_LT (points_it->y, 3);
-    EXPECT_GE (points_it->z, -3);
-    EXPECT_LT (points_it->z, 3);
-  }
+    pcl::PointCloud<pcl::PointXYZ> output;
+    int result = generator.fill(480, 640, output);
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(output.height, 640);
+    EXPECT_EQ(output.width, 480);
+    EXPECT_EQ(output.size(), 480 * 640);
+    for (pcl::PointCloud<pcl::PointXYZ>::const_iterator points_it =
+             output.begin();
+         points_it != output.end(); ++points_it) {
+        EXPECT_GE(points_it->x, -3);
+        EXPECT_LT(points_it->x, 3);
+        EXPECT_GE(points_it->y, -3);
+        EXPECT_LT(points_it->y, 3);
+        EXPECT_GE(points_it->z, -3);
+        EXPECT_LT(points_it->z, 3);
+    }
 }
 
-TEST (UniformCloudGenerator, Square)
-{
-  using namespace pcl::common;
-  CloudGenerator<pcl::PointXY,  UniformGenerator<float> > generator;
-  UniformGenerator<float>::Parameters params (-3, 3, 1);
-  generator.setParameters (params);
+TEST(UniformCloudGenerator, Square) {
+    using namespace pcl::common;
+    CloudGenerator<pcl::PointXY, UniformGenerator<float>> generator;
+    UniformGenerator<float>::Parameters params(-3, 3, 1);
+    generator.setParameters(params);
 
-  pcl::PointCloud<pcl::PointXY> output;
-  int result = generator.fill (480, 640, output);
-  EXPECT_EQ (result, 0);
-  EXPECT_EQ (output.height, 640);
-  EXPECT_EQ (output.width, 480);
-  EXPECT_EQ (output.size (), 480*640);
-  for(pcl::PointCloud<pcl::PointXY>::const_iterator points_it = output.begin ();
-      points_it != output.end ();
-      ++points_it)
-  {
-    EXPECT_GE (points_it->x, -3);
-    EXPECT_LT (points_it->x, 3);
-    EXPECT_GE (points_it->y, -3);
-    EXPECT_LT (points_it->y, 3);
-  }
+    pcl::PointCloud<pcl::PointXY> output;
+    int result = generator.fill(480, 640, output);
+    EXPECT_EQ(result, 0);
+    EXPECT_EQ(output.height, 640);
+    EXPECT_EQ(output.width, 480);
+    EXPECT_EQ(output.size(), 480 * 640);
+    for (pcl::PointCloud<pcl::PointXY>::const_iterator points_it =
+             output.begin();
+         points_it != output.end(); ++points_it) {
+        EXPECT_GE(points_it->x, -3);
+        EXPECT_LT(points_it->x, 3);
+        EXPECT_GE(points_it->y, -3);
+        EXPECT_LT(points_it->y, 3);
+    }
 }
 
-int
-main (int argc, char** argv)
-{
-  testing::InitGoogleTest (&argc, argv);
-  return (RUN_ALL_TESTS ());
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+    return (RUN_ALL_TESTS());
 }

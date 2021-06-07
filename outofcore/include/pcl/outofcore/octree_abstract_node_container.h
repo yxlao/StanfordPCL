@@ -46,77 +46,70 @@
 #include <boost/thread.hpp>
 #include <boost/random/mersenne_twister.hpp>
 
-namespace pcl
-{
-  namespace outofcore
-  {
-    template<typename PointT>
-    class OutofcoreAbstractNodeContainer
-    {
+namespace pcl {
+namespace outofcore {
+template <typename PointT> class OutofcoreAbstractNodeContainer {
 
-      public:
-        typedef std::vector<PointT, Eigen::aligned_allocator<PointT> > AlignedPointTVector;
+  public:
+    typedef std::vector<PointT, Eigen::aligned_allocator<PointT>>
+        AlignedPointTVector;
 
-        OutofcoreAbstractNodeContainer () {}
+    OutofcoreAbstractNodeContainer() {}
 
-        OutofcoreAbstractNodeContainer (const boost::filesystem::path&) {}
+    OutofcoreAbstractNodeContainer(const boost::filesystem::path &) {}
 
-        virtual
-        ~OutofcoreAbstractNodeContainer () {}
+    virtual ~OutofcoreAbstractNodeContainer() {}
 
-        virtual void
-        insertRange (const PointT* start, const uint64_t count)=0;
+    virtual void insertRange(const PointT *start, const uint64_t count) = 0;
 
-        virtual void
-        insertRange (const PointT* const* start, const uint64_t count)=0;
+    virtual void insertRange(const PointT *const *start,
+                             const uint64_t count) = 0;
 
-        virtual void
-        readRange (const uint64_t start, const uint64_t count, AlignedPointTVector& v)=0;
+    virtual void readRange(const uint64_t start, const uint64_t count,
+                           AlignedPointTVector &v) = 0;
 
-        virtual void
-        readRangeSubSample (const uint64_t start, const uint64_t count, const double percent, AlignedPointTVector& v) =0;
+    virtual void readRangeSubSample(const uint64_t start, const uint64_t count,
+                                    const double percent,
+                                    AlignedPointTVector &v) = 0;
 
-        virtual bool
-        empty () const=0;
+    virtual bool empty() const = 0;
 
-        virtual uint64_t
-        size () const =0;
+    virtual uint64_t size() const = 0;
 
-        virtual void
-        clear ()=0;
+    virtual void clear() = 0;
 
-        virtual void
-        convertToXYZ (const boost::filesystem::path& path)=0;
+    virtual void convertToXYZ(const boost::filesystem::path &path) = 0;
 
-////////////////////////////////////////////////////////////////////////////////
-//METHODS IMPLEMENTED IN ONLY DISK OR RAM THAT PROBABLY COULD BE IN BOTH
-////////////////////////////////////////////////////////////////////////////////
-/*        virtual void
-          readRangeSubSample_bernoulli (const boost::uint64_t start, const boost::uint64_t count, const double percent, std::vector<PointT, Eigen::aligned_allocator<PointT> >& v)=0;*/
+    ////////////////////////////////////////////////////////////////////////////////
+    // METHODS IMPLEMENTED IN ONLY DISK OR RAM THAT PROBABLY COULD BE IN BOTH
+    ////////////////////////////////////////////////////////////////////////////////
+    /*        virtual void
+              readRangeSubSample_bernoulli (const boost::uint64_t start, const
+       boost::uint64_t count, const double percent, std::vector<PointT,
+       Eigen::aligned_allocator<PointT> >& v)=0;*/
 
-/*
-        virtual void
-        flush (const bool force_cache_dealloc)=0;
-*/
-        virtual PointT
-        operator[] (uint64_t idx) const=0;
-/*
-        virtual void
-        push_back (const PointT& p)=0;
-*/
-/*
-        virtual std::string&
-        path () =0;
-*/
-      protected:
-        OutofcoreAbstractNodeContainer (const OutofcoreAbstractNodeContainer& rval);
+    /*
+            virtual void
+            flush (const bool force_cache_dealloc)=0;
+    */
+    virtual PointT operator[](uint64_t idx) const = 0;
+    /*
+            virtual void
+            push_back (const PointT& p)=0;
+    */
+    /*
+            virtual std::string&
+            path () =0;
+    */
+  protected:
+    OutofcoreAbstractNodeContainer(const OutofcoreAbstractNodeContainer &rval);
 
-        AlignedPointTVector container_;
+    AlignedPointTVector container_;
 
-        static boost::mutex rng_mutex_;
-        static boost::mt19937 rand_gen_;
-    };
-  }//namespace outofcore
-}//namespace pcl
+    static boost::mutex rng_mutex_;
+    static boost::mt19937 rand_gen_;
+};
+} // namespace outofcore
+} // namespace pcl
 
-#endif //PCL_OUTOFCORE_OCTREE_ABSTRACT_CONTAINER_H_
+#endif // PCL_OUTOFCORE_OCTREE_ABSTRACT_CONTAINER_H_

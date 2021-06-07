@@ -38,17 +38,14 @@
 #ifndef PCL_KINFU_PIXEL_RGB_HPP_
 #define PCL_KINFU_PIXEL_RGB_HPP_
 
-namespace pcl
-{
-  namespace gpu
-  {
-    /** \brief Input/output pixel format for KinfuTracker */
+namespace pcl {
+namespace gpu {
+/** \brief Input/output pixel format for KinfuTracker */
 
-    struct PixelRGB
-    {
-      unsigned char r, g, b;
-    };
-  }
-}
+struct PixelRGB {
+    unsigned char r, g, b;
+};
+} // namespace gpu
+} // namespace pcl
 
 #endif /* PCL_KINFU_PIXEL_RGB_HPP_ */

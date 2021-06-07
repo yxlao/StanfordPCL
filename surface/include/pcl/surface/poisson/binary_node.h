@@ -43,59 +43,63 @@
 #define PCL_POISSON_BINARY_NODE_H_
 
 namespace pcl {
-  namespace poisson {
+namespace poisson {
 
-    template<class Real>
-    class BinaryNode
+template <class Real> class BinaryNode {
+  public:
+    static inline int CenterCount(int depth) { return 1 << depth; }
+    static inline int CumulativeCenterCount(int maxDepth) {
+        return (1 << (maxDepth + 1)) - 1;
+    }
+    static inline int Index(int depth, int offSet) {
+        return (1 << depth) + offSet - 1;
+    }
+    static inline int CornerIndex(int maxDepth, int depth, int offSet,
+                                  int forwardCorner) {
+        return (offSet + forwardCorner) << (maxDepth - depth);
+    }
+    static inline Real CornerIndexPosition(int index, int maxDepth) {
+        return Real(index) / (1 << maxDepth);
+    }
+    static inline Real Width(int depth) { return Real(1.0 / (1 << depth)); }
+
+    // Fix for Bug #717 with Visual Studio that generates wrong code for this
+    // function when global optimization is enabled (release mode).
+#ifdef _MSC_VER
+    static __declspec(noinline) void CenterAndWidth(int depth, int offset,
+                                                    Real &center, Real &width)
+#else
+    static inline void CenterAndWidth(int depth, int offset, Real &center,
+                                      Real &width)
+#endif
     {
-    public:
-      static inline int CenterCount (int depth){return 1<<depth;}
-      static inline int CumulativeCenterCount (int maxDepth){return  (1<< (maxDepth+1))-1;}
-      static inline int Index (int depth,  int offSet){return  (1<<depth)+offSet-1;}
-      static inline int CornerIndex (int maxDepth, int depth, int offSet, int forwardCorner)
-      {return  (offSet+forwardCorner)<< (maxDepth-depth);}
-      static inline Real CornerIndexPosition (int index, int maxDepth)
-      {return Real (index)/ (1<<maxDepth);}
-      static inline Real Width (int depth)
-      {return Real (1.0/ (1<<depth));}
-
-      // Fix for Bug #717 with Visual Studio that generates wrong code for this function
-      // when global optimization is enabled (release mode).
-#ifdef _MSC_VER
-      static __declspec(noinline) void CenterAndWidth (int depth, int offset, Real& center, Real& width)
-#else
-      static inline void CenterAndWidth (int depth, int offset, Real& center, Real& width)
-#endif
-      {
-        width=Real (1.0/ (1<<depth));
-        center=Real ( (0.5+offset)*width);
-      }
+        width = Real(1.0 / (1 << depth));
+        center = Real((0.5 + offset) * width);
+    }
 
 #ifdef _MSC_VER
-      static __declspec(noinline) void CenterAndWidth (int idx, Real& center, Real& width)
+    static __declspec(noinline) void CenterAndWidth(int idx, Real &center,
+                                                    Real &width)
 #else
-      static inline void CenterAndWidth (int idx, Real& center, Real& width)
+    static inline void CenterAndWidth(int idx, Real &center, Real &width)
 #endif
-      {
+    {
         int depth, offset;
-        DepthAndOffset (idx, depth, offset);
-        CenterAndWidth (depth, offset, center, width);
-      }
-      static inline void DepthAndOffset (int idx,  int& depth, int& offset)
-      {
-        int i = idx+1;
+        DepthAndOffset(idx, depth, offset);
+        CenterAndWidth(depth, offset, center, width);
+    }
+    static inline void DepthAndOffset(int idx, int &depth, int &offset) {
+        int i = idx + 1;
         depth = -1;
-        while (i)
-        {
-          i>>=1;
-          depth++;
+        while (i) {
+            i >>= 1;
+            depth++;
         }
-        offset= (idx+1)- (1<<depth);
-      }
-    };
+        offset = (idx + 1) - (1 << depth);
+    }
+};
 
-
-  }
-}
+} // namespace poisson
+} // namespace pcl
 
 #endif /* PCL_POISSON_BINARY_NODE_H_ */

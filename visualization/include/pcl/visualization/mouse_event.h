@@ -38,160 +38,120 @@
  */
 
 #ifndef PCL_VISUALIZATION_MOUSE_EVENT_H_
-#define	PCL_VISUALIZATION_MOUSE_EVENT_H_
+#define PCL_VISUALIZATION_MOUSE_EVENT_H_
 
 #include "keyboard_event.h"
 
-namespace pcl
-{
-  namespace visualization
-  {
-    class MouseEvent
-    {
-      public:
-        typedef enum
-        {
-          MouseMove = 1,
-          MouseButtonPress,
-          MouseButtonRelease,
-          MouseScrollDown,
-          MouseScrollUp,
-          MouseDblClick
-        } Type;
+namespace pcl {
+namespace visualization {
+class MouseEvent {
+  public:
+    typedef enum {
+        MouseMove = 1,
+        MouseButtonPress,
+        MouseButtonRelease,
+        MouseScrollDown,
+        MouseScrollUp,
+        MouseDblClick
+    } Type;
 
-        typedef enum
-        {
-          NoButton      = 0,
-          LeftButton,
-          MiddleButton,
-          RightButton,
-          VScroll /*other buttons, scroll wheels etc. may follow*/
-        } MouseButton;
+    typedef enum {
+        NoButton = 0,
+        LeftButton,
+        MiddleButton,
+        RightButton,
+        VScroll /*other buttons, scroll wheels etc. may follow*/
+    } MouseButton;
 
-        /** Constructor.
-          * \param[in] type   event type
-          * \param[in] button The Button that causes the event
-          * \param[in] x      x position of mouse pointer at that time where event got fired
-          * \param[in] y      y position of mouse pointer at that time where event got fired
-          * \param[in] alt    whether the ALT key was pressed at that time where event got fired
-          * \param[in] ctrl   whether the CTRL key was pressed at that time where event got fired
-          * \param[in] shift  whether the Shift key was pressed at that time where event got fired
-          */
-        inline MouseEvent (const Type& type, const MouseButton& button,
-                           unsigned int x, unsigned int y,
-                           bool alt, bool ctrl, bool shift);
+    /** Constructor.
+     * \param[in] type   event type
+     * \param[in] button The Button that causes the event
+     * \param[in] x      x position of mouse pointer at that time where event
+     * got fired \param[in] y      y position of mouse pointer at that time
+     * where event got fired \param[in] alt    whether the ALT key was pressed
+     * at that time where event got fired \param[in] ctrl   whether the CTRL key
+     * was pressed at that time where event got fired \param[in] shift  whether
+     * the Shift key was pressed at that time where event got fired
+     */
+    inline MouseEvent(const Type &type, const MouseButton &button,
+                      unsigned int x, unsigned int y, bool alt, bool ctrl,
+                      bool shift);
 
-        /**
-          * \return type of mouse event
-          */
-        inline const Type&
-        getType () const;
+    /**
+     * \return type of mouse event
+     */
+    inline const Type &getType() const;
 
-        /**
-          * \brief Sets the mouse event type
-          */
-        inline void
-        setType (const Type& type);
+    /**
+     * \brief Sets the mouse event type
+     */
+    inline void setType(const Type &type);
 
-        /**
-          * \return the Button that caused the action
-          */
-        inline const MouseButton&
-        getButton () const;
+    /**
+     * \return the Button that caused the action
+     */
+    inline const MouseButton &getButton() const;
 
-        /** \brief Set the button that caused the event */
-        inline void
-        setButton (const MouseButton& button);
+    /** \brief Set the button that caused the event */
+    inline void setButton(const MouseButton &button);
 
-        /**
-          * \return the x position of the mouse pointer at that time where the event got fired
-          */
-        inline unsigned int
-        getX () const;
+    /**
+     * \return the x position of the mouse pointer at that time where the event
+     * got fired
+     */
+    inline unsigned int getX() const;
 
-        /**
-          * \return the y position of the mouse pointer at that time where the event got fired
-          */
-        inline unsigned int
-        getY () const;
+    /**
+     * \return the y position of the mouse pointer at that time where the event
+     * got fired
+     */
+    inline unsigned int getY() const;
 
-        /**
-          * \return returns the keyboard modifiers state at that time where the event got fired
-          */
-        inline unsigned int
-        getKeyboardModifiers () const;
+    /**
+     * \return returns the keyboard modifiers state at that time where the event
+     * got fired
+     */
+    inline unsigned int getKeyboardModifiers() const;
 
-      protected:
-        Type type_;
-        MouseButton button_;
-        unsigned int pointer_x_;
-        unsigned int pointer_y_;
-        unsigned int key_state_;
-    };
+  protected:
+    Type type_;
+    MouseButton button_;
+    unsigned int pointer_x_;
+    unsigned int pointer_y_;
+    unsigned int key_state_;
+};
 
-    MouseEvent::MouseEvent (const Type& type, const MouseButton& button,
-                            unsigned x, unsigned y,
-                            bool alt, bool ctrl, bool shift)
-    : type_ (type)
-    , button_ (button)
-    , pointer_x_ (x)
-    , pointer_y_ (y)
-    , key_state_ (0)
-    {
-      if (alt)
+MouseEvent::MouseEvent(const Type &type, const MouseButton &button, unsigned x,
+                       unsigned y, bool alt, bool ctrl, bool shift)
+    : type_(type), button_(button), pointer_x_(x), pointer_y_(y),
+      key_state_(0) {
+    if (alt)
         key_state_ = KeyboardEvent::Alt;
 
-      if (ctrl)
+    if (ctrl)
         key_state_ |= KeyboardEvent::Ctrl;
 
-      if (shift)
+    if (shift)
         key_state_ |= KeyboardEvent::Shift;
-    }
+}
 
-    const MouseEvent::Type&
-    MouseEvent::getType () const
-    {
-      return (type_);
-    }
+const MouseEvent::Type &MouseEvent::getType() const { return (type_); }
 
-    void
-    MouseEvent::setType (const Type& type)
-    {
-      type_ = type;
-    }
+void MouseEvent::setType(const Type &type) { type_ = type; }
 
-    const MouseEvent::MouseButton&
-    MouseEvent::getButton () const
-    {
-      return (button_);
-    }
+const MouseEvent::MouseButton &MouseEvent::getButton() const {
+    return (button_);
+}
 
-    void
-    MouseEvent::setButton (const MouseButton& button)
-    {
-      button_ = button;
-    }
+void MouseEvent::setButton(const MouseButton &button) { button_ = button; }
 
-    unsigned int
-    MouseEvent::getX () const
-    {
-      return (pointer_x_);
-    }
+unsigned int MouseEvent::getX() const { return (pointer_x_); }
 
-    unsigned int
-    MouseEvent::getY () const
-    {
-      return (pointer_y_);
-    }
+unsigned int MouseEvent::getY() const { return (pointer_y_); }
 
-    unsigned int
-    MouseEvent::getKeyboardModifiers () const
-    {
-      return (key_state_);
-    }
+unsigned int MouseEvent::getKeyboardModifiers() const { return (key_state_); }
 
-  } //namespace visualization
-} //namespace pcl
+} // namespace visualization
+} // namespace pcl
 
-#endif	/* PCL_VISUALIZATION_MOUSE_EVENT_H_ */
-
+#endif /* PCL_VISUALIZATION_MOUSE_EVENT_H_ */

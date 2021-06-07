@@ -40,41 +40,35 @@
 
 #include <pcl/pcl_macros.h>
 
+template <typename PointT>
+void pcl::removeNaNFromPointCloud(const pcl::PointCloud<PointT> &cloud_in,
+                                  std::vector<int> &index) {
+    // Reserve enough space for the indices
+    index.resize(cloud_in.points.size());
+    int j = 0;
 
-template <typename PointT> void
-pcl::removeNaNFromPointCloud (const pcl::PointCloud<PointT> &cloud_in,
-                              std::vector<int> &index)
-{
-  // Reserve enough space for the indices
-  index.resize (cloud_in.points.size ());
-  int j = 0;
-
-  // If the data is dense, we don't need to check for NaN
-  if (cloud_in.is_dense)
-  {
-    for (j = 0; j < static_cast<int> (cloud_in.points.size ()); ++j)
-      index[j] = j;
-  }
-  else
-  {
-    for (int i = 0; i < static_cast<int> (cloud_in.points.size ()); ++i)
-    {
-      if (!pcl_isfinite (cloud_in.points[i].x) ||
-          !pcl_isfinite (cloud_in.points[i].y) ||
-          !pcl_isfinite (cloud_in.points[i].z))
-        continue;
-      index[j] = i;
-      j++;
+    // If the data is dense, we don't need to check for NaN
+    if (cloud_in.is_dense) {
+        for (j = 0; j < static_cast<int>(cloud_in.points.size()); ++j)
+            index[j] = j;
+    } else {
+        for (int i = 0; i < static_cast<int>(cloud_in.points.size()); ++i) {
+            if (!pcl_isfinite(cloud_in.points[i].x) ||
+                !pcl_isfinite(cloud_in.points[i].y) ||
+                !pcl_isfinite(cloud_in.points[i].z))
+                continue;
+            index[j] = i;
+            j++;
+        }
+        if (j != static_cast<int>(cloud_in.points.size())) {
+            // Resize to the correct size
+            index.resize(j);
+        }
     }
-    if (j != static_cast<int> (cloud_in.points.size ()))
-    {
-      // Resize to the correct size
-      index.resize (j);
-    }
-  }
 }
 
-#define PCL_INSTANTIATE_removeNanFromPointCloud(T) template PCL_EXPORTS void pcl::removeNaNFromPointCloud<T>(const pcl::PointCloud<T>&, std::vector<int>&);
+#define PCL_INSTANTIATE_removeNanFromPointCloud(T)                             \
+    template PCL_EXPORTS void pcl::removeNaNFromPointCloud<T>(                 \
+        const pcl::PointCloud<T> &, std::vector<int> &);
 
-#endif    // PCL_FILTERS_IMPL_FILTER_INDICES_H_
-
+#endif // PCL_FILTERS_IMPL_FILTER_INDICES_H_

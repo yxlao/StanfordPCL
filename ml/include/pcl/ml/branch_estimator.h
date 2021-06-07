@@ -44,105 +44,84 @@
 #include <istream>
 #include <ostream>
 
-namespace pcl
-{
+namespace pcl {
 
-  /** \brief Interface for branch estimators. */
-  class PCL_EXPORTS BranchEstimator
-  {
-    public:
-      /** \brief Destructor. */
-      virtual ~BranchEstimator () {}
+/** \brief Interface for branch estimators. */
+class PCL_EXPORTS BranchEstimator {
+  public:
+    /** \brief Destructor. */
+    virtual ~BranchEstimator() {}
 
-      /** \brief Returns the number of branches the corresponding tree has. */
-      virtual size_t
-      getNumOfBranches () const = 0;
+    /** \brief Returns the number of branches the corresponding tree has. */
+    virtual size_t getNumOfBranches() const = 0;
 
-      /** \brief Computes the branch index for the specified result.
-        * \param[in] result The result the branch index will be computed for.
-        * \param[in] flag The flag corresponding to the specified result.
-        * \param[in] threshold The threshold used to compute the branch index.
-        * \param[out] branch_index The destination for the computed branch index.
-        */
-      virtual void
-      computeBranchIndex(
-        const float result,
-        const unsigned char flag,
-        const float threshold,
-        unsigned char & branch_index) const = 0;
-  };
+    /** \brief Computes the branch index for the specified result.
+     * \param[in] result The result the branch index will be computed for.
+     * \param[in] flag The flag corresponding to the specified result.
+     * \param[in] threshold The threshold used to compute the branch index.
+     * \param[out] branch_index The destination for the computed branch index.
+     */
+    virtual void computeBranchIndex(const float result,
+                                    const unsigned char flag,
+                                    const float threshold,
+                                    unsigned char &branch_index) const = 0;
+};
 
-  /** \brief Branch estimator for binary trees where the branch is computed only from the threshold. */
-  class PCL_EXPORTS BinaryTreeThresholdBasedBranchEstimator
-    : public BranchEstimator
-  {
-    public:
-      /** \brief Constructor. */
-      inline BinaryTreeThresholdBasedBranchEstimator () {}
-      /** \brief Destructor. */
-      inline virtual ~BinaryTreeThresholdBasedBranchEstimator () {}
+/** \brief Branch estimator for binary trees where the branch is computed only
+ * from the threshold. */
+class PCL_EXPORTS BinaryTreeThresholdBasedBranchEstimator
+    : public BranchEstimator {
+  public:
+    /** \brief Constructor. */
+    inline BinaryTreeThresholdBasedBranchEstimator() {}
+    /** \brief Destructor. */
+    inline virtual ~BinaryTreeThresholdBasedBranchEstimator() {}
 
-      /** \brief Returns the number of branches the corresponding tree has. */
-      inline size_t
-      getNumOfBranches () const
-      {
-        return 2;
-      }
+    /** \brief Returns the number of branches the corresponding tree has. */
+    inline size_t getNumOfBranches() const { return 2; }
 
-      /** \brief Computes the branch index for the specified result.
-        * \param[in] result The result the branch index will be computed for.
-        * \param[in] flag The flag corresponding to the specified result.
-        * \param[in] threshold The threshold used to compute the branch index.
-        * \param[out] branch_index The destination for the computed branch index.
-        */
-      inline void
-      computeBranchIndex(
-        const float result,
-        const unsigned char flag,
-        const float threshold,
-        unsigned char & branch_index) const
-      {
+    /** \brief Computes the branch index for the specified result.
+     * \param[in] result The result the branch index will be computed for.
+     * \param[in] flag The flag corresponding to the specified result.
+     * \param[in] threshold The threshold used to compute the branch index.
+     * \param[out] branch_index The destination for the computed branch index.
+     */
+    inline void computeBranchIndex(const float result, const unsigned char flag,
+                                   const float threshold,
+                                   unsigned char &branch_index) const {
         branch_index = (result > threshold) ? 1 : 0;
-      }
-  };
+    }
+};
 
-  /** \brief Branch estimator for ternary trees where one branch is used for missing data (indicated by flag != 0). */
-  class PCL_EXPORTS TernaryTreeMissingDataBranchEstimator
-    : public BranchEstimator
-  {
-    public:
-      /** \brief Constructor. */
-      inline TernaryTreeMissingDataBranchEstimator () {}
-      /** \brief Destructor. */
-      inline virtual ~TernaryTreeMissingDataBranchEstimator () {}
+/** \brief Branch estimator for ternary trees where one branch is used for
+ * missing data (indicated by flag != 0). */
+class PCL_EXPORTS TernaryTreeMissingDataBranchEstimator
+    : public BranchEstimator {
+  public:
+    /** \brief Constructor. */
+    inline TernaryTreeMissingDataBranchEstimator() {}
+    /** \brief Destructor. */
+    inline virtual ~TernaryTreeMissingDataBranchEstimator() {}
 
-      /** \brief Returns the number of branches the corresponding tree has. */
-      inline size_t
-      getNumOfBranches () const
-      {
-        return 3;
-      }
+    /** \brief Returns the number of branches the corresponding tree has. */
+    inline size_t getNumOfBranches() const { return 3; }
 
-      /** \brief Computes the branch index for the specified result.
-        * \param[in] result The result the branch index will be computed for.
-        * \param[in] flag The flag corresponding to the specified result.
-        * \param[in] threshold The threshold used to compute the branch index.
-        * \param[out] branch_index The destination for the computed branch index.
-        */
-      inline void
-      computeBranchIndex(
-        const float result,
-        const unsigned char flag,
-        const float threshold,
-        unsigned char & branch_index) const
-      {
+    /** \brief Computes the branch index for the specified result.
+     * \param[in] result The result the branch index will be computed for.
+     * \param[in] flag The flag corresponding to the specified result.
+     * \param[in] threshold The threshold used to compute the branch index.
+     * \param[out] branch_index The destination for the computed branch index.
+     */
+    inline void computeBranchIndex(const float result, const unsigned char flag,
+                                   const float threshold,
+                                   unsigned char &branch_index) const {
         if (flag == 0)
-          branch_index = (result > threshold) ? 1 : 0;
+            branch_index = (result > threshold) ? 1 : 0;
         else
-          branch_index = 2;
-      }
-  };
+            branch_index = 2;
+    }
+};
 
-}
+} // namespace pcl
 
 #endif

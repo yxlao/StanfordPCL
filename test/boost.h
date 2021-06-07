@@ -54,4 +54,4 @@
 #include <boost/random/uniform_real.hpp>
 #include <boost/random/variate_generator.hpp>
 
-#endif    // PCL_TEST_BOOST_H_
+#endif // PCL_TEST_BOOST_H_

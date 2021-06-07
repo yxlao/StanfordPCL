@@ -49,4 +49,4 @@
 #include <boost/random.hpp>
 #include <boost/random/variate_generator.hpp>
 
-#endif    // PCL_TEST_COMMON_BOOST_H_
+#endif // PCL_TEST_COMMON_BOOST_H_

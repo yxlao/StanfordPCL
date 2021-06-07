@@ -13,24 +13,23 @@ using namespace boost::xpressive;
 #ifdef __cplusplus
 extern "C" {
 #endif
-	/*
-	 * Class:     org_pointclouds_PCLAndroidSample_HelloPCL
-	 * Method:    boostMkDir
-	 * Signature: ()Ljava/lang/String;
-	 */
-	JNIEXPORT jstring JNICALL Java_org_pointclouds_PCLAndroidSample_HelloPCL_boostMkDir
-  (JNIEnv *, jobject);
+/*
+ * Class:     org_pointclouds_PCLAndroidSample_HelloPCL
+ * Method:    boostMkDir
+ * Signature: ()Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL
+Java_org_pointclouds_PCLAndroidSample_HelloPCL_boostMkDir(JNIEnv *, jobject);
 
-	/*
-	 * Class:     org_pointclouds_PCLAndroidSample_HelloPCL
-	 * Method:    smoothPointCloud
-	 * Signature: ()Ljava/lang/String;
-	 */
-	JNIEXPORT jstring JNICALL Java_org_pointclouds_PCLAndroidSample_HelloPCL_smoothPointCloud
-  (JNIEnv *, jobject);
-	
-	
-	
+/*
+ * Class:     org_pointclouds_PCLAndroidSample_HelloPCL
+ * Method:    smoothPointCloud
+ * Signature: ()Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL
+Java_org_pointclouds_PCLAndroidSample_HelloPCL_smoothPointCloud(JNIEnv *,
+                                                                jobject);
+
 #ifdef __cplusplus
 }
 #endif

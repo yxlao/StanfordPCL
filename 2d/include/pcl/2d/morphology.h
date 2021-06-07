@@ -40,60 +40,58 @@
 #define MORPHOLOGY_H_
 
 #include <pcl/pcl_base.h>
-namespace pcl
-{
-  namespace pcl_2d
-  {
-    template<typename PointT>
-    class morphology
-    {
-private:
+namespace pcl {
+namespace pcl_2d {
+template <typename PointT> class morphology {
+  private:
     typedef typename pcl::PointCloud<PointT> PointCloudIn;
     typedef typename PointCloudIn::Ptr PointCloudInPtr;
 
     PointCloudInPtr input_;
     PointCloudInPtr structuring_element_;
 
-public:
-    morphology  (){
-
-    }
+  public:
+    morphology() {}
     /**
      *
      * @param output Output point cloud passed by reference
      *
-     * This function performs erosion followed by dilation. It is useful for removing noise in the form of small blobs and patches
+     * This function performs erosion followed by dilation. It is useful for
+     * removing noise in the form of small blobs and patches
      */
-    void openingBinary  (pcl::PointCloud<PointT> &output);
-
-    /**
-     *
-     * @param output Output point cloud passed by reference
-     *
-     * This function performs dilation followed by erosion. It is useful for filling up (holes/cracks/small discontinuities)
-     * in a binary segmented region
-     */
-    void closingBinary  (pcl::PointCloud<PointT> &output);
+    void openingBinary(pcl::PointCloud<PointT> &output);
 
     /**
      *
      * @param output Output point cloud passed by reference
      *
-     * Binary dilation is similar to a logical disjunction of sets. At each pixel having value 1,
-     * if for all pixels in the structuring element having value 1, the corresponding pixels in the input image are
-     * also 1, the center pixel is set to 1. Otherwise, it is set to 0.
+     * This function performs dilation followed by erosion. It is useful for
+     * filling up (holes/cracks/small discontinuities) in a binary segmented
+     * region
      */
-    void erosionBinary  (pcl::PointCloud<PointT> &output);
+    void closingBinary(pcl::PointCloud<PointT> &output);
 
     /**
      *
      * @param output Output point cloud passed by reference
      *
-     * Binary erosion is similar to a logical addition of sets. At each pixel having value 1,
-     * if at least one pixel in the structuring element is 1 and the corresponding point in the input image is 1,
-     * the center pixel is set to 1. Otherwise, it is set to 0.
+     * Binary dilation is similar to a logical disjunction of sets. At each
+     * pixel having value 1, if for all pixels in the structuring element having
+     * value 1, the corresponding pixels in the input image are also 1, the
+     * center pixel is set to 1. Otherwise, it is set to 0.
      */
-    void dilationBinary  (pcl::PointCloud<PointT> &output);
+    void erosionBinary(pcl::PointCloud<PointT> &output);
+
+    /**
+     *
+     * @param output Output point cloud passed by reference
+     *
+     * Binary erosion is similar to a logical addition of sets. At each pixel
+     * having value 1, if at least one pixel in the structuring element is 1 and
+     * the corresponding point in the input image is 1, the center pixel is set
+     * to 1. Otherwise, it is set to 0.
+     */
+    void dilationBinary(pcl::PointCloud<PointT> &output);
 
     /**
      *
@@ -103,7 +101,7 @@ public:
      * This is used to remove small bright artifacts from the image.
      * Large bright objects are relatively undisturbed.
      */
-    void openingGray  (pcl::PointCloud<PointT> &output);
+    void openingGray(pcl::PointCloud<PointT> &output);
 
     /**
      *
@@ -113,7 +111,7 @@ public:
      * This is used to remove small dark artifacts from the image.
      * bright features or large dark features are relatively undisturbed.
      */
-    void closingGray  (pcl::PointCloud<PointT> &output);
+    void closingGray(pcl::PointCloud<PointT> &output);
 
     /**
      *
@@ -121,7 +119,7 @@ public:
      *
      * takes the min of the pixels where kernel is 1
      */
-    void erosionGray  (pcl::PointCloud<PointT> &output);
+    void erosionGray(pcl::PointCloud<PointT> &output);
 
     /**
      *
@@ -129,7 +127,7 @@ public:
      *
      * takes the max of the pixels where kernel is 1
      */
-    void dilationGray  (pcl::PointCloud<PointT> &output);
+    void dilationGray(pcl::PointCloud<PointT> &output);
 
     /**
      *
@@ -139,7 +137,9 @@ public:
      * Set operation
      * output = input1 - input2
      */
-    void subtractionBinary  (pcl::PointCloud<PointT> &output, pcl::PointCloud<PointT> &input1, pcl::PointCloud<PointT> &input2);
+    void subtractionBinary(pcl::PointCloud<PointT> &output,
+                           pcl::PointCloud<PointT> &input1,
+                           pcl::PointCloud<PointT> &input2);
 
     /**
      *
@@ -149,7 +149,9 @@ public:
      * Set operation
      * output = input1 <union> input2
      */
-    void unionBinary  (pcl::PointCloud<PointT> &output, pcl::PointCloud<PointT> &input1, pcl::PointCloud<PointT> &input2);
+    void unionBinary(pcl::PointCloud<PointT> &output,
+                     pcl::PointCloud<PointT> &input1,
+                     pcl::PointCloud<PointT> &input2);
 
     /**
      *
@@ -159,17 +161,20 @@ public:
      * Set operation
      * output = input1 <intersection> input2
      */
-    void intersectionBinary  (pcl::PointCloud<PointT> &output, pcl::PointCloud<PointT> &input1, pcl::PointCloud<PointT> &input2);
+    void intersectionBinary(pcl::PointCloud<PointT> &output,
+                            pcl::PointCloud<PointT> &input1,
+                            pcl::PointCloud<PointT> &input2);
 
     /**
      *
      * @param kernel structuring element kernel passed by reference
      * @param radius Radius of the circular structuring element.
-     * Creates a circular structing element. The size of the kernel created is 2*radius x 2*radius.
-     * Center of the structuring element is the center of the circle.
-     * All values lying on the circle are 1 and the others are 0.
+     * Creates a circular structing element. The size of the kernel created is
+     * 2*radius x 2*radius. Center of the structuring element is the center of
+     * the circle. All values lying on the circle are 1 and the others are 0.
      */
-    void structuringElementCircular  (pcl::PointCloud<PointT> &kernel, const int radius);
+    void structuringElementCircular(pcl::PointCloud<PointT> &kernel,
+                                    const int radius);
 
     /**
      *
@@ -180,18 +185,18 @@ public:
      * Creates a rectangular structing element of size height x width.         *
      * All values are 1.
      */
-    void structuringElementRectangle  (pcl::PointCloud<PointT> &kernel, const int height, const int width);
+    void structuringElementRectangle(pcl::PointCloud<PointT> &kernel,
+                                     const int height, const int width);
 
-    enum MORPHOLOGICAL_OPERATOR_TYPE
-    {
-      EROSION_GRAY,
-      DILATION_GRAY,
-      OPENING_GRAY,
-      CLOSING_GRAY,
-      EROSION_BINARY,
-      DILATION_BINARY,
-      OPENING_BINARY,
-      CLOSING_BINARY
+    enum MORPHOLOGICAL_OPERATOR_TYPE {
+        EROSION_GRAY,
+        DILATION_GRAY,
+        OPENING_GRAY,
+        CLOSING_GRAY,
+        EROSION_BINARY,
+        DILATION_BINARY,
+        OPENING_BINARY,
+        CLOSING_BINARY
     };
 
     MORPHOLOGICAL_OPERATOR_TYPE operator_type;
@@ -200,19 +205,20 @@ public:
      *
      * @param output Output point cloud passed by reference
      */
-    void applyMorphologicalOperation  (PointCloud<PointT> &output);
+    void applyMorphologicalOperation(PointCloud<PointT> &output);
     /**
      *
-     * @param structuring_element The structuring element to be used for the morphological operation
+     * @param structuring_element The structuring element to be used for the
+     * morphological operation
      */
-    void setStructuringElement (PointCloudInPtr &structuring_element);
+    void setStructuringElement(PointCloudInPtr &structuring_element);
     /**
      *
      * @param input sets the input cloud for the operation
      */
-    void setInputCloud (PointCloudInPtr &input);
-    };
-  }
-}
+    void setInputCloud(PointCloudInPtr &input);
+};
+} // namespace pcl_2d
+} // namespace pcl
 #include <pcl/2d/impl/morphology.hpp>
 #endif /* MORPHOLOGY_H_ */

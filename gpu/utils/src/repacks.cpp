@@ -38,4 +38,3 @@
 
 #include <pcl/gpu/utils/repacks.hpp>
 #include "internal.hpp"
-

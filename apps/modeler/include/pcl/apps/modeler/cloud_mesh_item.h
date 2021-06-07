@@ -41,72 +41,56 @@
 #include <pcl/apps/modeler/abstract_item.h>
 #include <pcl/apps/modeler/cloud_mesh.h>
 
-namespace pcl
-{
-  namespace modeler
-  {
-    class CloudMesh;
-    class DoubleParameter;
+namespace pcl {
+namespace modeler {
+class CloudMesh;
+class DoubleParameter;
 
-    class CloudMeshItem : public QTreeWidgetItem, public AbstractItem
-    {
-      public:
-        CloudMeshItem(QTreeWidgetItem* parent, const std::string& filename);
-        CloudMeshItem(QTreeWidgetItem* parent, CloudMesh::PointCloudPtr cloud);
-        CloudMeshItem(QTreeWidgetItem* parent, const CloudMeshItem& cloud_mesh_item);
-        ~CloudMeshItem();
+class CloudMeshItem : public QTreeWidgetItem, public AbstractItem {
+  public:
+    CloudMeshItem(QTreeWidgetItem *parent, const std::string &filename);
+    CloudMeshItem(QTreeWidgetItem *parent, CloudMesh::PointCloudPtr cloud);
+    CloudMeshItem(QTreeWidgetItem *parent,
+                  const CloudMeshItem &cloud_mesh_item);
+    ~CloudMeshItem();
 
-        inline boost::shared_ptr<CloudMesh>&
-        getCloudMesh()
-        {
-          return cloud_mesh_;
-        }
-        inline const boost::shared_ptr<CloudMesh>&
-        getCloudMesh() const
-        {
-          return cloud_mesh_;
-        }
+    inline boost::shared_ptr<CloudMesh> &getCloudMesh() { return cloud_mesh_; }
+    inline const boost::shared_ptr<CloudMesh> &getCloudMesh() const {
+        return cloud_mesh_;
+    }
 
-        static bool
-        savePointCloud(const QList<CloudMeshItem*>& items, const QString& filename);
+    static bool savePointCloud(const QList<CloudMeshItem *> &items,
+                               const QString &filename);
 
-        bool
-        open();
+    bool open();
 
-        void
-        createChannels();
+    void createChannels();
 
-        void
-        updateChannels();
+    void updateChannels();
 
-        virtual std::string
-        getItemName() const {return "Cloud Mesh Item";}
+    virtual std::string getItemName() const { return "Cloud Mesh Item"; }
 
-        void
-        updateRenderWindow();
+    void updateRenderWindow();
 
-      protected:
-        virtual void
-        prepareContextMenu(QMenu* menu) const;
+  protected:
+    virtual void prepareContextMenu(QMenu *menu) const;
 
-        virtual void
-        prepareProperties(ParameterDialog* parameter_dialog);
+    virtual void prepareProperties(ParameterDialog *parameter_dialog);
 
-        virtual void
-        setProperties();
+    virtual void setProperties();
 
-      private:
-        std::string                           filename_;
-        boost::shared_ptr<CloudMesh>          cloud_mesh_;
+  private:
+    std::string filename_;
+    boost::shared_ptr<CloudMesh> cloud_mesh_;
 
-        DoubleParameter*                      translation_x_;
-        DoubleParameter*                      translation_y_;
-        DoubleParameter*                      translation_z_;
-        DoubleParameter*                      rotation_x_;
-        DoubleParameter*                      rotation_y_;
-        DoubleParameter*                      rotation_z_;
-    };
-  }
-}
+    DoubleParameter *translation_x_;
+    DoubleParameter *translation_y_;
+    DoubleParameter *translation_z_;
+    DoubleParameter *rotation_x_;
+    DoubleParameter *rotation_y_;
+    DoubleParameter *rotation_z_;
+};
+} // namespace modeler
+} // namespace pcl
 
 #endif // PCL_MODELER_CLOUD_MESH_ITEM_H_

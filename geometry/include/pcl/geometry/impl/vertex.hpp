@@ -41,289 +41,239 @@
 #ifndef PCL_GEOMETRY_VERTEX_HPP
 #define PCL_GEOMETRY_VERTEX_HPP
 
-namespace pcl
-{
+namespace pcl {
 
-  /** \brief A Vertex is a node in the mesh.
-    *
-    * \tparam VertexDataT User data that is stored in the Vertex: Must have operator == (Equality Comparable)
-    * \tparam MeshT Mesh to which the Vertex belongs to (classes derived from MeshBase)
-    *
-    * \note It is not necessary to declare the Vertex manually. Please declare the mesh first and use the provided typedefs.
-    * \author Martin Saelzle
-    * \ingroup geometry
-    */
-  template <class VertexDataT, class MeshT>
-  class Vertex : public VertexDataT
-  {
-      //////////////////////////////////////////////////////////////////////////
-      // Types
-      //////////////////////////////////////////////////////////////////////////
+/** \brief A Vertex is a node in the mesh.
+ *
+ * \tparam VertexDataT User data that is stored in the Vertex: Must have
+ * operator == (Equality Comparable) \tparam MeshT Mesh to which the Vertex
+ * belongs to (classes derived from MeshBase)
+ *
+ * \note It is not necessary to declare the Vertex manually. Please declare the
+ * mesh first and use the provided typedefs. \author Martin Saelzle \ingroup
+ * geometry
+ */
+template <class VertexDataT, class MeshT> class Vertex : public VertexDataT {
+    //////////////////////////////////////////////////////////////////////////
+    // Types
+    //////////////////////////////////////////////////////////////////////////
 
-    public:
+  public:
+    typedef pcl::Vertex<VertexDataT, MeshT> Self;
 
-      typedef pcl::Vertex <VertexDataT, MeshT> Self;
+    typedef VertexDataT VertexData;
+    typedef MeshT Mesh;
 
-      typedef VertexDataT VertexData;
-      typedef MeshT       Mesh;
+    typedef typename Mesh::HalfEdge HalfEdge;
+    typedef typename Mesh::HalfEdgeIndex HalfEdgeIndex;
 
-      typedef typename Mesh::HalfEdge      HalfEdge;
-      typedef typename Mesh::HalfEdgeIndex HalfEdgeIndex;
+    //////////////////////////////////////////////////////////////////////////
+    // Constructor
+    //////////////////////////////////////////////////////////////////////////
 
-      //////////////////////////////////////////////////////////////////////////
-      // Constructor
-      //////////////////////////////////////////////////////////////////////////
+  public:
+    /** \brief Constructor
+     * \param vertex_data (optional) User data that is stored in the Vertex;
+     * defaults to VertexData () \param idx_outgoing_half_edge_ (optional)
+     * Outgoing HalfEdgeIndex; defaults to HalfEdgeIndex () (invalid index)
+     */
+    Vertex(const VertexData &vertex_data = VertexData(),
+           const HalfEdgeIndex &idx_outgoing_half_edge_ = HalfEdgeIndex())
+        : VertexData(vertex_data), is_deleted_(false),
+          idx_outgoing_half_edge_(idx_outgoing_half_edge_) {}
 
-    public:
+    //////////////////////////////////////////////////////////////////////////
+    // OutgoingHalfEdge
+    //////////////////////////////////////////////////////////////////////////
 
-      /** \brief Constructor
-        * \param vertex_data (optional) User data that is stored in the Vertex; defaults to VertexData ()
-        * \param idx_outgoing_half_edge_ (optional) Outgoing HalfEdgeIndex; defaults to HalfEdgeIndex () (invalid index)
-        */
-      Vertex (const VertexData&    vertex_data             = VertexData (),
-              const HalfEdgeIndex& idx_outgoing_half_edge_ = HalfEdgeIndex ())
-        : VertexData              (vertex_data),
-          is_deleted_             (false),
-          idx_outgoing_half_edge_ (idx_outgoing_half_edge_)
-      {
-      }
-
-      //////////////////////////////////////////////////////////////////////////
-      // OutgoingHalfEdge
-      //////////////////////////////////////////////////////////////////////////
-
-    public:
-
-      /** \brief Returns the outgoing HalfEdgeIndex (non-const) */
-      HalfEdgeIndex&
-      getOutgoingHalfEdgeIndex ()
-      {
+  public:
+    /** \brief Returns the outgoing HalfEdgeIndex (non-const) */
+    HalfEdgeIndex &getOutgoingHalfEdgeIndex() {
         return (idx_outgoing_half_edge_);
-      }
+    }
 
-      /** \brief Returns the outgoing HalfEdgeIndex (const) */
-      const HalfEdgeIndex&
-      getOutgoingHalfEdgeIndex () const
-      {
+    /** \brief Returns the outgoing HalfEdgeIndex (const) */
+    const HalfEdgeIndex &getOutgoingHalfEdgeIndex() const {
         return (idx_outgoing_half_edge_);
-      }
+    }
 
-      /** \brief Set the outgoing HalfEdgeIndex */
-      void
-      setOutgoingHalfEdgeIndex (const HalfEdgeIndex& idx_outgoing_half_edge)
-      {
+    /** \brief Set the outgoing HalfEdgeIndex */
+    void setOutgoingHalfEdgeIndex(const HalfEdgeIndex &idx_outgoing_half_edge) {
         idx_outgoing_half_edge_ = idx_outgoing_half_edge;
-      }
+    }
 
-      /** \brief Returns the outgoing HalfEdge (non-const)
-        * \param mesh Reference to the mesh to which the Vertex belongs to
-        * \note Convenience method for Mesh::getElement
-        */
-      HalfEdge&
-      getOutgoingHalfEdge (Mesh& mesh) const
-      {
-        return (mesh.getElement (this->getOutgoingHalfEdgeIndex ()));
-      }
+    /** \brief Returns the outgoing HalfEdge (non-const)
+     * \param mesh Reference to the mesh to which the Vertex belongs to
+     * \note Convenience method for Mesh::getElement
+     */
+    HalfEdge &getOutgoingHalfEdge(Mesh &mesh) const {
+        return (mesh.getElement(this->getOutgoingHalfEdgeIndex()));
+    }
 
-      /** \brief Returns the outgoing HalfEdge (const)
-        * \param mesh Reference to the mesh to which the Vertex belongs to
-        * \note Convenience method for Mesh::getElement
-        */
-      const HalfEdge&
-      getOutgoingHalfEdge (const Mesh& mesh) const
-      {
-        return (mesh.getElement (this->getOutgoingHalfEdgeIndex ()));
-      }
+    /** \brief Returns the outgoing HalfEdge (const)
+     * \param mesh Reference to the mesh to which the Vertex belongs to
+     * \note Convenience method for Mesh::getElement
+     */
+    const HalfEdge &getOutgoingHalfEdge(const Mesh &mesh) const {
+        return (mesh.getElement(this->getOutgoingHalfEdgeIndex()));
+    }
 
-      //////////////////////////////////////////////////////////////////////////
-      // IncomingHalfEdge
-      //////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////
+    // IncomingHalfEdge
+    //////////////////////////////////////////////////////////////////////////
 
-    public:
+  public:
+    /** \brief Returns the incoming HalfEdgeIndex (non-const)
+     * \param mesh Reference to the mesh to which the Vertex belongs to
+     * \note Convenience method for getOutgoingHalfEdge ->
+     * getOppositeHalfEdgeIndex
+     */
+    HalfEdgeIndex &getIncomingHalfEdgeIndex(Mesh &mesh) const {
+        return (this->getOutgoingHalfEdge(mesh).getOppositeHalfEdgeIndex());
+    }
 
-      /** \brief Returns the incoming HalfEdgeIndex (non-const)
-        * \param mesh Reference to the mesh to which the Vertex belongs to
-        * \note Convenience method for getOutgoingHalfEdge -> getOppositeHalfEdgeIndex
-        */
-      HalfEdgeIndex&
-      getIncomingHalfEdgeIndex (Mesh& mesh) const
-      {
-        return (this->getOutgoingHalfEdge (mesh).getOppositeHalfEdgeIndex ());
-      }
+    /** \brief Returns the incoming HalfEdgeIndex (const)
+     * \param mesh Reference to the mesh to which the Vertex belongs to
+     * \note Convenience method for getOutgoingHalfEdge ->
+     * getOppositeHalfEdgeIndex
+     */
+    const HalfEdgeIndex &getIncomingHalfEdgeIndex(const Mesh &mesh) const {
+        return (this->getOutgoingHalfEdge(mesh).getOppositeHalfEdgeIndex());
+    }
 
-      /** \brief Returns the incoming HalfEdgeIndex (const)
-        * \param mesh Reference to the mesh to which the Vertex belongs to
-        * \note Convenience method for getOutgoingHalfEdge -> getOppositeHalfEdgeIndex
-        */
-      const HalfEdgeIndex&
-      getIncomingHalfEdgeIndex (const Mesh& mesh) const
-      {
-        return (this->getOutgoingHalfEdge (mesh).getOppositeHalfEdgeIndex ());
-      }
+    /** \brief Set the incoming HalfEdgeIndex
+     * \param mesh Reference to the mesh to which the Vertex belongs to
+     * \param idx_incoming_half_edge Incoming HalfEdgeIndex
+     * \note Convenience method for getOutgoingHalfEdge ->
+     * setOppositeHalfEdgeIndex
+     */
+    void setIncomingHalfEdgeIndex(
+        Mesh &mesh, const HalfEdgeIndex &idx_incoming_half_edge) const {
+        this->getOutgoingHalfEdge(mesh).setOppositeHalfEdgeIndex(
+            idx_incoming_half_edge);
+    }
 
-      /** \brief Set the incoming HalfEdgeIndex
-        * \param mesh Reference to the mesh to which the Vertex belongs to
-        * \param idx_incoming_half_edge Incoming HalfEdgeIndex
-        * \note Convenience method for getOutgoingHalfEdge -> setOppositeHalfEdgeIndex
-        */
-      void
-      setIncomingHalfEdgeIndex (Mesh&                mesh,
-                                const HalfEdgeIndex& idx_incoming_half_edge) const
-      {
-        this->getOutgoingHalfEdge (mesh).setOppositeHalfEdgeIndex (idx_incoming_half_edge);
-      }
+    /** \brief Returns the incoming HalfEdge (non-const)
+     * \param mesh Reference to the mesh to which the Vertex belongs to
+     * \note Convenience method for getOutgoingHalfEdge -> getOppositeHalfEdge
+     */
+    HalfEdge &getIncomingHalfEdge(Mesh &mesh) const {
+        return (this->getOutgoingHalfEdge(mesh).getOppositeHalfEdge(mesh));
+    }
 
-      /** \brief Returns the incoming HalfEdge (non-const)
-        * \param mesh Reference to the mesh to which the Vertex belongs to
-        * \note Convenience method for getOutgoingHalfEdge -> getOppositeHalfEdge
-        */
-      HalfEdge&
-      getIncomingHalfEdge (Mesh& mesh) const
-      {
-        return (this->getOutgoingHalfEdge (mesh).getOppositeHalfEdge (mesh));
-      }
+    /** \brief Returns the incoming HalfEdge (const)
+     * \param mesh Reference to the mesh to which the Vertex belongs to
+     * \note Convenience method for getOutgoingHalfEdge -> getOppositeHalfEdge
+     */
+    const HalfEdge &getIncomingHalfEdge(const Mesh &mesh) const {
+        return (this->getOutgoingHalfEdge(mesh).getOppositeHalfEdge(mesh));
+    }
 
-      /** \brief Returns the incoming HalfEdge (const)
-        * \param mesh Reference to the mesh to which the Vertex belongs to
-        * \note Convenience method for getOutgoingHalfEdge -> getOppositeHalfEdge
-        */
-      const HalfEdge&
-      getIncomingHalfEdge (const Mesh& mesh) const
-      {
-        return (this->getOutgoingHalfEdge (mesh).getOppositeHalfEdge (mesh));
-      }
+    //////////////////////////////////////////////////////////////////////////
+    // deleted
+    //////////////////////////////////////////////////////////////////////////
 
-      //////////////////////////////////////////////////////////////////////////
-      // deleted
-      //////////////////////////////////////////////////////////////////////////
+  public:
+    /** \brief Returns true if the Vertex is marked as deleted */
+    bool getDeleted() const { return (is_deleted_); }
 
-    public:
+    /** \brief Mark the Vertex as deleted (or not-deleted) */
+    void setDeleted(const bool is_deleted) { is_deleted_ = is_deleted; }
 
-      /** \brief Returns true if the Vertex is marked as deleted */
-      bool
-      getDeleted () const
-      {
-        return (is_deleted_);
-      }
+    //////////////////////////////////////////////////////////////////////////
+    // isIsolated
+    //////////////////////////////////////////////////////////////////////////
 
-      /** \brief Mark the Vertex as deleted (or not-deleted) */
-      void
-      setDeleted (const bool is_deleted)
-      {
-        is_deleted_ = is_deleted;
-      }
+  public:
+    /** \brief Returns true if the Vertex is isolated (not connected to any
+     * HalfEdge) */
+    bool isIsolated() const {
+        return (!this->getOutgoingHalfEdgeIndex().isValid());
+    }
 
-      //////////////////////////////////////////////////////////////////////////
-      // isIsolated
-      //////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////
+    // isBoundary
+    //////////////////////////////////////////////////////////////////////////
 
-    public:
+  public:
+    /** \brief Returns true if the outgoing HalfEdge is on the boundary.
+     * \param mesh Reference to the mesh to which the Vertex belongs to
+     */
+    bool isBoundary(const Mesh &mesh) const {
+        return (this->getOutgoingHalfEdge(mesh).isBoundary());
+    }
 
-      /** \brief Returns true if the Vertex is isolated (not connected to any HalfEdge) */
-      bool
-      isIsolated () const
-      {
-        return (!this->getOutgoingHalfEdgeIndex ().isValid ());
-      }
+    //////////////////////////////////////////////////////////////////////////
+    // isManifold
+    //////////////////////////////////////////////////////////////////////////
 
-      //////////////////////////////////////////////////////////////////////////
-      // isBoundary
-      //////////////////////////////////////////////////////////////////////////
+  public:
+    /** \brief Returns true if the vertex is manifold
+     * \param mesh Reference to the mesh to which the Vertex belongs to
+     *
+     *  * Non-boundary vertexes are always manifold
+     *  * Boundary vertexes are manifold if only one of its outgoing half-edges
+     * is on the boundary (this implies that it has only one incoming boundary
+     * half-edge)
+     */
+    bool isManifold(const Mesh &mesh) const {
+        typename Mesh::OutgoingHalfEdgeAroundVertexConstCirculator circ =
+            mesh.getOutgoingHalfEdgeAroundVertexConstCirculator(*this);
 
-    public:
-
-      /** \brief Returns true if the outgoing HalfEdge is on the boundary.
-        * \param mesh Reference to the mesh to which the Vertex belongs to
-        */
-      bool
-      isBoundary (const Mesh& mesh) const
-      {
-        return (this->getOutgoingHalfEdge (mesh).isBoundary ());
-      }
-
-      //////////////////////////////////////////////////////////////////////////
-      // isManifold
-      //////////////////////////////////////////////////////////////////////////
-
-    public:
-
-      /** \brief Returns true if the vertex is manifold
-        * \param mesh Reference to the mesh to which the Vertex belongs to
-        *
-        *  * Non-boundary vertexes are always manifold
-        *  * Boundary vertexes are manifold if only one of its outgoing half-edges is on the boundary (this implies that it has only one incoming boundary half-edge)
-        */
-      bool
-      isManifold (const Mesh& mesh) const
-      {
-        typename Mesh::OutgoingHalfEdgeAroundVertexConstCirculator circ = mesh.getOutgoingHalfEdgeAroundVertexConstCirculator (*this);
-
-        if (!circ->isBoundary ())
-        {
-          return (true);
+        if (!circ->isBoundary()) {
+            return (true);
         }
 
-        const typename Mesh::OutgoingHalfEdgeAroundVertexConstCirculator circ_end = circ++;
-        do
-        {
-          if ((*circ++).isBoundary ())
-          {
-            return (false);
-          }
-        } while (circ!=circ_end);
+        const typename Mesh::OutgoingHalfEdgeAroundVertexConstCirculator
+            circ_end = circ++;
+        do {
+            if ((*circ++).isBoundary()) {
+                return (false);
+            }
+        } while (circ != circ_end);
 
         return (true);
-      }
+    }
 
-      //////////////////////////////////////////////////////////////////////////
-      // Operators
-      //////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////
+    // Operators
+    //////////////////////////////////////////////////////////////////////////
 
-    public:
+  public:
+    /** \brief Equality comparison operator with VertexData */
+    bool operator==(const VertexData &other) const {
+        return (VertexData::operator==(other));
+    }
 
-      /** \brief Equality comparison operator with VertexData */
-      bool
-      operator == (const VertexData& other) const
-      {
-        return (VertexData::operator == (other));
-      }
+    /** \brief Inequality comparison operator with VertexData */
+    bool operator!=(const VertexData &other) const {
+        return (!this->operator==(other));
+    }
 
-      /** \brief Inequality comparison operator with VertexData */
-      bool
-      operator != (const VertexData& other) const
-      {
-        return (!this->operator == (other));
-      }
+    /** \brief Equality comparison operator with another Vertex */
+    bool operator==(const Self &other) const {
+        return (this->getOutgoingHalfEdgeIndex() ==
+                    other.getOutgoingHalfEdgeIndex() &&
+                this->operator==(VertexData(other)));
+    }
 
-      /** \brief Equality comparison operator with another Vertex */
-      bool
-      operator == (const Self& other) const
-      {
-        return (this->getOutgoingHalfEdgeIndex () == other.getOutgoingHalfEdgeIndex () &&
-                this->operator                    == (VertexData (other)));
-      }
+    /** \brief Inequality comparison operator with another Vertex */
+    bool operator!=(const Self &other) const {
+        return (!this->operator==(other));
+    }
 
-      /** \brief Inequality comparison operator with another Vertex */
-      bool
-      operator != (const Self& other) const
-      {
-        return (!this->operator == (other));
-      }
+    //////////////////////////////////////////////////////////////////////////
+    // Members
+    //////////////////////////////////////////////////////////////////////////
 
-      //////////////////////////////////////////////////////////////////////////
-      // Members
-      //////////////////////////////////////////////////////////////////////////
+  private:
+    /** \brief Vertex is marked as deleted */
+    bool is_deleted_;
 
-    private:
-
-      /** \brief Vertex is marked as deleted */
-      bool          is_deleted_;
-
-      /** \brief Index to an outgoing HalfEdge */
-      HalfEdgeIndex idx_outgoing_half_edge_;
-  };
+    /** \brief Index to an outgoing HalfEdge */
+    HalfEdgeIndex idx_outgoing_half_edge_;
+};
 
 } // End namespace pcl
 
 #endif // PCL_GEOMETRY_VERTEX_HPP
-

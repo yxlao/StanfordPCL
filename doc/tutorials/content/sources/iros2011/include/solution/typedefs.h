@@ -18,13 +18,15 @@ typedef pcl::PointCloud<NormalT> SurfaceNormals;
 typedef pcl::PointCloud<NormalT>::Ptr SurfaceNormalsPtr;
 typedef pcl::PointCloud<NormalT>::ConstPtr SurfaceNormalsConstPtr;
 
-// Define "LocalDescriptors" to be a pcl::PointCloud of pcl::FPFHSignature33 points
+// Define "LocalDescriptors" to be a pcl::PointCloud of pcl::FPFHSignature33
+// points
 typedef pcl::FPFHSignature33 LocalDescriptorT;
 typedef pcl::PointCloud<LocalDescriptorT> LocalDescriptors;
 typedef pcl::PointCloud<LocalDescriptorT>::Ptr LocalDescriptorsPtr;
 typedef pcl::PointCloud<LocalDescriptorT>::ConstPtr LocalDescriptorsConstPtr;
 
-// Define "GlobalDescriptors" to be a pcl::PointCloud of pcl::VFHSignature308 points
+// Define "GlobalDescriptors" to be a pcl::PointCloud of pcl::VFHSignature308
+// points
 typedef pcl::VFHSignature308 GlobalDescriptorT;
 typedef pcl::PointCloud<GlobalDescriptorT> GlobalDescriptors;
 typedef pcl::PointCloud<GlobalDescriptorT>::Ptr GlobalDescriptorsPtr;
