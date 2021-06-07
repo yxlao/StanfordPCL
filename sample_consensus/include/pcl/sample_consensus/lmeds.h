@@ -44,8 +44,8 @@
 namespace pcl
 {
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /** \brief @b LeastMedianSquares represents an implementation of the LMedS (Least Median of Squares) algorithm. LMedS 
-    * is a RANSAC-like model-fitting algorithm that can tolerate up to 50% outliers without requiring thresholds to be 
+  /** \brief @b LeastMedianSquares represents an implementation of the LMedS (Least Median of Squares) algorithm. LMedS
+    * is a RANSAC-like model-fitting algorithm that can tolerate up to 50% outliers without requiring thresholds to be
     * set. See Andrea Fusiello's "Elements of Geometric Computer Vision"
     * (http://homepages.inf.ed.ac.uk/rbf/CVonline/LOCAL_COPIES/FUSIELLO4/tutorial.html#x1-520007) for more details.
     * \author Radu Bogdan Rusu

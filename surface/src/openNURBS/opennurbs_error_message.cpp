@@ -23,12 +23,12 @@ void ON_ErrorMessage(
                           //           The thing causing the error is a bug that must
                           //           be fixed.
                           // 2=assert failed - crash is nearly certain
-        const char* sErrorMessage 
+        const char* sErrorMessage
         )
 {
   // error/warning/assert message is in sMessage[] buffer.  Modify this function
   // to do whatever you want to with the message.
-  if ( sErrorMessage && sErrorMessage[0] ) 
+  if ( sErrorMessage && sErrorMessage[0] )
   {
 
 #if defined(ON_OS_WINDOWS)

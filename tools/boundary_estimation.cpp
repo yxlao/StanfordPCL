@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
- *  
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -60,11 +60,11 @@ printHelp (int, char **argv)
 {
   print_error ("Syntax is: %s input.pcd output.pcd <options>\n", argv[0]);
   print_info ("  where options are:\n");
-  print_info ("                     -radius X = use a radius of Xm around each point to determine the neighborhood (default: "); 
+  print_info ("                     -radius X = use a radius of Xm around each point to determine the neighborhood (default: ");
   print_value ("%f", default_radius); print_info (")\n");
-  print_info ("                     -k X      = use a fixed number of X-nearest neighbors around each point (default: "); 
+  print_info ("                     -k X      = use a fixed number of X-nearest neighbors around each point (default: ");
   print_value ("%d", default_k); print_info (")\n");
-  print_info ("                     -thresh X = the decision boundary (angle threshold) that marks points as boundary or regular (default: "); 
+  print_info ("                     -thresh X = the decision boundary (angle threshold) that marks points as boundary or regular (default: ");
   print_value ("%f", default_angle); print_info (")\n");
 }
 
@@ -100,7 +100,7 @@ compute (const sensor_msgs::PointCloud2::ConstPtr &input, sensor_msgs::PointClou
   // Estimate
   TicToc tt;
   tt.tic ();
-  
+
   print_highlight (stderr, "Computing ");
 
   BoundaryEstimation<pcl::PointNormal, pcl::PointNormal, pcl::Boundary> ne;
@@ -110,7 +110,7 @@ compute (const sensor_msgs::PointCloud2::ConstPtr &input, sensor_msgs::PointClou
   ne.setKSearch (k);
   ne.setAngleThreshold (static_cast<float> (angle));
   ne.setRadiusSearch (radius);
-  
+
   PointCloud<Boundary> boundaries;
   ne.compute (boundaries);
 
@@ -129,9 +129,9 @@ saveCloud (const std::string &filename, const sensor_msgs::PointCloud2 &output)
   tt.tic ();
 
   print_highlight ("Saving "); print_value ("%s ", filename.c_str ());
-  
+
   pcl::io::savePCDFile (filename, output, translation, orientation, false);
-  
+
   print_info ("[done, "); print_value ("%g", tt.toc ()); print_info (" ms : "); print_value ("%d", output.width * output.height); print_info (" points]\n");
 }
 
@@ -167,7 +167,7 @@ main (int argc, char** argv)
 
   // Load the first file
   sensor_msgs::PointCloud2::Ptr cloud (new sensor_msgs::PointCloud2);
-  if (!loadCloud (argv[p_file_indices[0]], *cloud)) 
+  if (!loadCloud (argv[p_file_indices[0]], *cloud))
     return (-1);
 
   // Perform the feature estimation

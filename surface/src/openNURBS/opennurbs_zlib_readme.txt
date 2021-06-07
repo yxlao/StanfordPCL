@@ -25,7 +25,7 @@ The zlib license shown below was copied from the zlib web page
 http://www.zlib.net/zlib_license.html on 6 October 2005.
 
 
-  /* 
+  /*
     zlib.h -- interface of the 'zlib' general purpose compression library
     version 1.2.2, October 3rd, 2004
 

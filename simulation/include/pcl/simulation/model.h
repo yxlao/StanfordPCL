@@ -189,7 +189,7 @@ namespace pcl
 
         void
         render ();
-  
+
       private:
         int width_;
         int height_;

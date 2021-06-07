@@ -200,7 +200,7 @@ __global__ void kernelDownsampleX2(T *d_src,
 }
 
 /*
-namespace cv { namespace gpu { namespace device 
+namespace cv { namespace gpu { namespace device
 {
     namespace pyramid
     {
@@ -273,7 +273,7 @@ __global__ void kernelInterpolateFrom1(T *d_srcTop,
 }
 
 /*
-namespace cv { namespace gpu { namespace device 
+namespace cv { namespace gpu { namespace device
 {
     namespace pyramid
     {
@@ -282,7 +282,7 @@ namespace cv { namespace gpu { namespace device
             dim3 bDim(16, 8);
             dim3 gDim(divUp(dst.cols, bDim.x), divUp(dst.rows, bDim.y));
 
-            kernelInterpolateFrom1<<<gDim, bDim, 0, stream>>>((T*) src.data, src.step, NcvSize32u(src.cols, src.rows), 
+            kernelInterpolateFrom1<<<gDim, bDim, 0, stream>>>((T*) src.data, src.step, NcvSize32u(src.cols, src.rows),
                 (T*) dst.data, dst.step, NcvSize32u(dst.cols, dst.rows));
 
             cudaSafeCall( cudaGetLastError() );

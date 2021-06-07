@@ -57,7 +57,7 @@ namespace pcl
     *   In Proceedings of the 12th International Conference on Intelligent Autonomous Systems (IAS),
     *   Jeju Island, Korea, June 26-29 2012.
     *   <a href="http://purl.org/holz/papers/holz_2012_ias.pdf">http://purl.org/holz/papers/holz_2012_ias.pdf</a>
-    * 
+    *
     * \author Dirk Holz, Radu B. Rusu
     * \ingroup surface
     */

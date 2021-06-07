@@ -49,7 +49,7 @@ class SimpleOpenNIProcessor
 
     SimpleOpenNIProcessor (openni_wrapper::OpenNIDevice::DepthMode depth_mode = openni_wrapper::OpenNIDevice::OpenNI_12_bit_depth) : mode (depth_mode) {}
 
-    void 
+    void
     cloud_cb_ (const pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr &cloud)
     {
       static unsigned count = 0;
@@ -72,7 +72,7 @@ class SimpleOpenNIProcessor
       }
     }
 
-    void 
+    void
     imageDepthImageCallback (const boost::shared_ptr<openni_wrapper::Image>&, const boost::shared_ptr<openni_wrapper::DepthImage>& d_img, float constant)
     {
       static unsigned count = 0;
@@ -87,7 +87,7 @@ class SimpleOpenNIProcessor
       }
     }
 
-    void 
+    void
     run ()
     {
       save = false;

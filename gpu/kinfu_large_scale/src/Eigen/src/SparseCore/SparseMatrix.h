@@ -10,7 +10,7 @@
 #ifndef EIGEN_SPARSEMATRIX_H
 #define EIGEN_SPARSEMATRIX_H
 
-namespace Eigen { 
+namespace Eigen {
 
 /** \ingroup SparseCore_Module
   *
@@ -106,12 +106,12 @@ class SparseMatrix
     Index* m_outerIndex;
     Index* m_innerNonZeros;     // optional, if null then the data is compressed
     Storage m_data;
-    
+
     Eigen::Map<Matrix<Index,Dynamic,1> > innerNonZeros() { return Eigen::Map<Matrix<Index,Dynamic,1> >(m_innerNonZeros, m_innerNonZeros?m_outerSize:0); }
     const  Eigen::Map<const Matrix<Index,Dynamic,1> > innerNonZeros() const { return Eigen::Map<const Matrix<Index,Dynamic,1> >(m_innerNonZeros, m_innerNonZeros?m_outerSize:0); }
 
   public:
-    
+
     /** \returns whether \c *this is in compressed form. */
     inline bool isCompressed() const { return m_innerNonZeros==0; }
 
@@ -124,7 +124,7 @@ class SparseMatrix
     inline Index innerSize() const { return m_innerSize; }
     /** \returns the number of columns (resp. rows) of the matrix if the storage order column major (resp. row major) */
     inline Index outerSize() const { return m_outerSize; }
-    
+
     /** \returns a const pointer to the array of values.
       * This function is aimed at interoperability with other libraries.
       * \sa innerIndexPtr(), outerIndexPtr() */
@@ -252,7 +252,7 @@ class SparseMatrix
       eigen_assert(isCompressed() && "This function does not make sense in non compressed mode.");
       m_data.reserve(reserveSize);
     }
-    
+
     #ifdef EIGEN_PARSED_BY_DOXYGEN
     /** Preallocates \a reserveSize[\c j] non zeros for each column (resp. row) \c j.
       *
@@ -281,16 +281,16 @@ class SparseMatrix
     template<class SizesType>
     inline void reserveInnerVectors(const SizesType& reserveSizes)
     {
-      
+
       if(isCompressed())
       {
         std::size_t totalReserveSize = 0;
         // turn the matrix into non-compressed mode
         m_innerNonZeros = new Index[m_outerSize];
-        
+
         // temporarily use m_innerSizes to hold the new starting points.
         Index* newOuterIndex = m_innerNonZeros;
-        
+
         Index count = 0;
         for(Index j=0; j<m_outerSize; ++j)
         {
@@ -313,7 +313,7 @@ class SparseMatrix
           m_innerNonZeros[j] = innerNNZ;
         }
         m_outerIndex[m_outerSize] = m_outerIndex[m_outerSize-1] + m_innerNonZeros[m_outerSize-1] + reserveSizes[m_outerSize-1];
-        
+
         m_data.resize(m_outerIndex[m_outerSize]);
       }
       else
@@ -328,7 +328,7 @@ class SparseMatrix
           count += toReserve + m_innerNonZeros[j];
         }
         newOuterIndex[m_outerSize] = count;
-        
+
         m_data.resize(count);
         for(ptrdiff_t j=m_outerSize-1; j>=0; --j)
         {
@@ -343,11 +343,11 @@ class SparseMatrix
             }
           }
         }
-        
+
         std::swap(m_outerIndex, newOuterIndex);
         delete[] newOuterIndex;
       }
-      
+
     }
   public:
 
@@ -428,7 +428,7 @@ class SparseMatrix
     void sumupDuplicates();
 
     //---
-    
+
     /** \internal
       * same as insert(Index,Index) except that the indices are given relative to the storage order */
     EIGEN_DONT_INLINE Scalar& insertByOuterInner(Index j, Index i)
@@ -442,7 +442,7 @@ class SparseMatrix
     {
       if(isCompressed())
         return;
-      
+
       Index oldStart = m_outerIndex[1];
       m_outerIndex[1] = m_innerNonZeros[0];
       for(Index j=1; j<m_outerSize; ++j)
@@ -471,7 +471,7 @@ class SparseMatrix
     {
       prune(default_prunning_func(reference,epsilon));
     }
-    
+
     /** Turns the matrix into compressed format, and suppresses all nonzeros which do not satisfy the predicate \a keep.
       * The functor type \a KeepFunc must implement the following function:
       * \code
@@ -620,14 +620,14 @@ class SparseMatrix
     template<typename Lhs, typename Rhs>
     inline SparseMatrix& operator=(const SparseSparseProduct<Lhs,Rhs>& product)
     { return Base::operator=(product); }
-    
+
     template<typename OtherDerived>
     inline SparseMatrix& operator=(const ReturnByValue<OtherDerived>& other)
     {
       initAssignment(other);
       return Base::operator=(other.derived());
     }
-    
+
     template<typename OtherDerived>
     inline SparseMatrix& operator=(const EigenBase<OtherDerived>& other)
     { return Base::operator=(other.derived()); }
@@ -739,7 +739,7 @@ class SparseMatrix
     /** Overloaded for performance */
     Scalar sum() const;
 #endif
-    
+
 #   ifdef EIGEN_SPARSEMATRIX_PLUGIN
 #     include EIGEN_SPARSEMATRIX_PLUGIN
 #   endif

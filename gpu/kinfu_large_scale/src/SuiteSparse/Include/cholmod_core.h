@@ -1493,7 +1493,7 @@ cholmod_sparse *cholmod_l_copy_sparse (cholmod_sparse *, cholmod_common *) ;
 /* cholmod_copy:  C = A, with possible change of stype */
 /* -------------------------------------------------------------------------- */
 
-cholmod_sparse *cholmod_copy 
+cholmod_sparse *cholmod_copy
 (
     /* ---- input ---- */
     cholmod_sparse *A,	/* matrix to copy */

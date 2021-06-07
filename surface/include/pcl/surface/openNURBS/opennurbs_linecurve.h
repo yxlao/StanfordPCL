@@ -36,7 +36,7 @@ public:
 
 	ON_LineCurve& operator=(const ON_LineCurve&);
 	ON_LineCurve& operator=(const ON_Line&);
-  
+
   /////////////////////////////////////////////////////////////////
   // ON_Object overrides
 
@@ -54,9 +54,9 @@ public:
     text_log - [in] if the object is not valid and text_log
         is not NULL, then a brief englis description of the
         reason the object is not valid is appened to the log.
-        The information appended to text_log is suitable for 
-        low-level debugging purposes by programmers and is 
-        not intended to be useful as a high level user 
+        The information appended to text_log is suitable for
+        low-level debugging purposes by programmers and is
+        not intended to be useful as a high level user
         interface tool.
   Returns:
     @untitled table
@@ -95,22 +95,22 @@ public:
 		tight_bbox - [in/out] tight bounding box
 		bGrowBox -[in]	(default=false)			
       If true and the input tight_bbox is valid, then returned
-      tight_bbox is the union of the input tight_bbox and the 
+      tight_bbox is the union of the input tight_bbox and the
       line's tight bounding box.
 		xform -[in] (default=NULL)
       If not NULL, the tight bounding box of the transformed
       line is calculated.  The line is not modified.
 	Returns:
-    True if the returned tight_bbox is set to a valid 
+    True if the returned tight_bbox is set to a valid
     bounding box.
   */
-	bool GetTightBoundingBox( 
-			ON_BoundingBox& tight_bbox, 
+	bool GetTightBoundingBox(
+			ON_BoundingBox& tight_bbox,
       int bGrowBox = false,
 			const ON_Xform* xform = 0
       ) const;
 
-  ON_BOOL32 Transform( 
+  ON_BOOL32 Transform(
          const ON_Xform&
          );
 
@@ -136,9 +136,9 @@ public:
   //   t1 - [in] new domain will be [t0,t1]
   // Returns:
   //   true if successful.
-  ON_BOOL32 SetDomain( 
-        double t0, 
-        double t1 
+  ON_BOOL32 SetDomain(
+        double t0,
+        double t1
         );
 
   bool ChangeDimension(
@@ -147,13 +147,13 @@ public:
 
   int SpanCount() const; // number of smooth spans in curve
 
-  ON_BOOL32 GetSpanVector( // span "knots" 
-         double* // array of length SpanCount() + 1 
-         ) const; // 
+  ON_BOOL32 GetSpanVector( // span "knots"
+         double* // array of length SpanCount() + 1
+         ) const; //
 
-  int Degree( // returns maximum algebraic degree of any span 
+  int Degree( // returns maximum algebraic degree of any span
                   // ( or a good estimate if curve spans are not algebraic )
-    ) const; 
+    ) const;
 
   ON_BOOL32 IsLinear( // true if curve locus is a line segment between
                  // between specified points
@@ -207,9 +207,9 @@ public:
                   // periodic.)
 
   ON_BOOL32 IsPeriodic(  // true if curve is a single periodic segment
-        void 
+        void
         ) const;
-  
+
   /*
   Description:
     Force the curve to start at a specified point.
@@ -258,7 +258,7 @@ public:
          double*,        // array of length stride*(ndir+1)
          int = 0,        // optional - determines which side to evaluate from
                          //         0 = default
-                         //      <  0 to evaluate from below, 
+                         //      <  0 to evaluate from below,
                          //      >  0 to evaluate from above
          int* = 0        // optional - evaluation hint (int) used to speed
                          //            repeated evaluations
@@ -280,10 +280,10 @@ public:
   // Description:
   //   Where possible, analytically extends curve to include domain.
   // Parameters:
-  //   domain - [in] if domain is not included in curve domain, 
-  //   curve will be extended so that its domain includes domain.  
+  //   domain - [in] if domain is not included in curve domain,
+  //   curve will be extended so that its domain includes domain.
   //   Original curve is identical
-  //   to the restriction of the resulting curve to the original curve domain, 
+  //   to the restriction of the resulting curve to the original curve domain,
   // Returns:
   //   true if successful.
   bool Extend(
@@ -332,9 +332,9 @@ public:
   //       matches the curve's to wthe desired accuracy
   //   2   success - returned NURBS point locus matches
   //       the curve's to the desired accuracy but, on
-  //       the interior of the curve's domain, the 
+  //       the interior of the curve's domain, the
   //       curve's parameterization and the NURBS
-  //       parameterization may not match to the 
+  //       parameterization may not match to the
   //       desired accuracy.
   int GetNurbForm(
         ON_NurbsCurve&,
@@ -353,9 +353,9 @@ public:
   //       matches the curve's to wthe desired accuracy
   //   2   success - returned NURBS point locus matches
   //       the curve's to the desired accuracy but, on
-  //       the interior of the curve's domain, the 
+  //       the interior of the curve's domain, the
   //       curve's parameterization and the NURBS
-  //       parameterization may not match to the 
+  //       parameterization may not match to the
   //       desired accuracy.
   int HasNurbForm(
         ) const;

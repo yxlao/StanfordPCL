@@ -1,5 +1,5 @@
 /**
- * @brief This file is the execution node of the Human Tracking 
+ * @brief This file is the execution node of the Human Tracking
  * @copyright Copyright (2011) Willow Garage
  * @authors Koen Buys, Anatoly Baksheev
  **/

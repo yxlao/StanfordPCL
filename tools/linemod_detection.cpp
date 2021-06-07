@@ -26,7 +26,7 @@ printHelp (int, char **argv)
 
 void printElapsedTimeAndNumberOfPoints (double t, int w, int h=1)
 {
-  print_info ("[done, "); print_value ("%g", t); print_info (" ms : "); 
+  print_info ("[done, "); print_value ("%g", t); print_info (" ms : ");
   print_value ("%d", w*h); print_info (" points]\n");
 }
 
@@ -96,7 +96,7 @@ main (int argc, char** argv)
   if (parse_argument (argc, argv, "-input", input_filename) < 0)
     return (-1);
   PointCloudXYZRGBA::Ptr cloud (new PointCloudXYZRGBA);
-  if (!loadCloud (input_filename, *cloud)) 
+  if (!loadCloud (input_filename, *cloud))
     return (-1);
 
   // Detect objects
@@ -110,7 +110,7 @@ main (int argc, char** argv)
   {
     const LineRGBD<PointXYZRGBA>::Detection & d = detections[i];
     const BoundingBoxXYZ & bb = d.bounding_box;
-    print_info ("%zu %zu %f (%f %f %f) (%f %f %f)\n", 
+    print_info ("%zu %zu %f (%f %f %f) (%f %f %f)\n",
                 d.detection_id, d.template_id, d.response,
                 bb.x, bb.y, bb.z, bb.width, bb.height, bb.depth);
   }

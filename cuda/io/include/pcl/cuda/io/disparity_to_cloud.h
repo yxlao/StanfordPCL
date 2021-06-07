@@ -59,7 +59,7 @@ namespace cuda
     float  constant;
     float bad_point;
 
-    ComputeXYZ (int w, int h, int cx, int cy, float con) : 
+    ComputeXYZ (int w, int h, int cx, int cy, float con) :
       width(w), height(h), center_x(cx), center_y(cy), constant(con)
     {
       bad_point = std::numeric_limits<float>::quiet_NaN ();
@@ -77,8 +77,8 @@ namespace cuda
     float  constant;
     float bad_point;
 
-    ComputeXYZRGB (int w, int h, int cx, int cy, float con) : 
-      width(w), height(h), center_x(cx), center_y(cy), constant(con) 
+    ComputeXYZRGB (int w, int h, int cx, int cy, float con) :
+      width(w), height(h), center_x(cx), center_y(cy), constant(con)
     {
       bad_point = std::numeric_limits<float>::quiet_NaN ();
     }
@@ -96,21 +96,21 @@ namespace cuda
 //      void
 //      compute (const sensor_msgs::Image::ConstPtr &depth_image,
 //               const sensor_msgs::Image::ConstPtr &rgb_image,
-//               const sensor_msgs::CameraInfo::ConstPtr &info, 
+//               const sensor_msgs::CameraInfo::ConstPtr &info,
 //               PointCloudAOS<Device>::Ptr &output);
-//      
+//
 //      // compute using ROS images, Host output
 //      void
 //      compute (const sensor_msgs::Image::ConstPtr &depth_image,
 //               const sensor_msgs::Image::ConstPtr &rgb_image,
-//               const sensor_msgs::CameraInfo::ConstPtr &info, 
+//               const sensor_msgs::CameraInfo::ConstPtr &info,
 //               PointCloudAOS<Host>::Ptr &output);
 
       // compute using OpenNI images, Device output
       template <template <typename> class Storage> void
       compute (const boost::shared_ptr<openni_wrapper::DepthImage>& depth_image,
                const boost::shared_ptr<openni_wrapper::Image>& image,
-               float constant, 
+               float constant,
                typename PointCloudAOS<Storage>::Ptr &output,
                bool downsample = false, int stride = 2, int smoothing_nr_iterations = 0, int smoothing_filter_size = 2);
 
@@ -126,9 +126,9 @@ namespace cuda
 /*      void
       compute (const boost::shared_ptr<openni_wrapper::DepthImage>& depth_image,
                const boost::shared_ptr<openni_wrapper::Image>& image,
-               float constant, 
+               float constant,
                PointCloudAOS<Host>::Ptr &output);*/
-      
+
       // ...
 //      void
 //      compute (const sensor_msgs::Image::ConstPtr &depth_image,

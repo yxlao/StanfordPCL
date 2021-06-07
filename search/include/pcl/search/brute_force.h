@@ -68,14 +68,14 @@ namespace pcl
         Entry () : index (0), distance (0) {}
         unsigned index;
         float distance;
-        
-        inline bool 
+
+        inline bool
         operator < (const Entry& other) const
         {
           return (distance < other.distance);
         }
-        
-        inline bool 
+
+        inline bool
         operator > (const Entry& other) const
         {
           return (distance > other.distance);

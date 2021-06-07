@@ -151,7 +151,7 @@ namespace pcl
         negative_ = limit_negative;
       }
 
-      /** \brief Get whether the data outside the interval (min/max) is to be returned (true) or inside (false). 
+      /** \brief Get whether the data outside the interval (min/max) is to be returned (true) or inside (false).
         * \warning This method will be removed in the future. Use getNegative() instead.
         * \param[out] limit_negative true if data \b outside the interval [min; max] is to be returned, false otherwise
         */
@@ -161,7 +161,7 @@ namespace pcl
         limit_negative = negative_;
       }
 
-      /** \brief Get whether the data outside the interval (min/max) is to be returned (true) or inside (false). 
+      /** \brief Get whether the data outside the interval (min/max) is to be returned (true) or inside (false).
         * \warning This method will be removed in the future. Use getNegative() instead.
         * \return true if data \b outside the interval [min; max] is to be returned, false otherwise
         */
@@ -301,7 +301,7 @@ namespace pcl
         filter_limit_max_ = limit_max;
       }
 
-      /** \brief Get the field filter limits (min/max) set by the user. The default values are -FLT_MAX, FLT_MAX. 
+      /** \brief Get the field filter limits (min/max) set by the user. The default values are -FLT_MAX, FLT_MAX.
         * \param[out] limit_min the minimum allowed field value
         * \param[out] limit_max the maximum allowed field value
         */
@@ -322,7 +322,7 @@ namespace pcl
         filter_limit_negative_ = limit_negative;
       }
 
-      /** \brief Get whether the data outside the interval (min/max) is to be returned (true) or inside (false). 
+      /** \brief Get whether the data outside the interval (min/max) is to be returned (true) or inside (false).
         * \param[out] limit_negative true if data \b outside the interval [min; max] is to be returned, false otherwise
         */
       inline void
@@ -331,7 +331,7 @@ namespace pcl
         limit_negative = filter_limit_negative_;
       }
 
-      /** \brief Get whether the data outside the interval (min/max) is to be returned (true) or inside (false). 
+      /** \brief Get whether the data outside the interval (min/max) is to be returned (true) or inside (false).
         * \return true if data \b outside the interval [min; max] is to be returned, false otherwise
         */
       inline bool
@@ -346,12 +346,12 @@ namespace pcl
 
     private:
       /** \brief Keep the structure of the data organized, by setting the
-        * filtered points to the a user given value (NaN by default). 
+        * filtered points to the a user given value (NaN by default).
         */
       bool keep_organized_;
 
       /** \brief User given value to be set to any filtered point. Casted to
-        * the correct field type. 
+        * the correct field type.
         */
       float user_filter_value_;
 

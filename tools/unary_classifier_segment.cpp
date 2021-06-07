@@ -64,11 +64,11 @@ printHelp (int, char **argv)
   print_error ("Syntax is: %s input.pcd output.pcd <options>\n", argv[0]);
   print_info ("  where options are:\n");
   print_info ("                     -d = trained features directory \n");
-  print_info ("                     -threshold X = feature threshold (default: "); 
+  print_info ("                     -threshold X = feature threshold (default: ");
   print_value ("%f", default_feature_threshold); print_info (")\n");
-  print_info ("                     -normal-search X = Normal radius search (default: "); 
+  print_info ("                     -normal-search X = Normal radius search (default: ");
   print_value ("%f", default_normal_radius_search); print_info (")\n");
-  print_info ("                     -fpfh-search X = FPFH radius search (default: "); 
+  print_info ("                     -fpfh-search X = FPFH radius search (default: ");
   print_value ("%f", default_fpfh_radius_search); print_info (")\n");
 }
 
@@ -80,15 +80,15 @@ loadTrainedFeatures (std::vector<FeatureT::Ptr> &out,
     return false;
 
   for (boost::filesystem::directory_iterator it (base_dir); it != boost::filesystem::directory_iterator (); ++it)
-  {    
+  {
     if (!boost::filesystem::is_directory (it->status ()) &&
         boost::filesystem::extension (it->path ()) == ".pcd")
-    {   
+    {
       std::stringstream ss;
       ss << it->path ().filename ();
 
       print_highlight ("Loading %s \n", ss.str ().c_str ());
-      
+
       FeatureT::Ptr features (new FeatureT);
       loadPCDFile (ss.str (), *features);
 
@@ -121,7 +121,7 @@ compute (const CloudT::Ptr &input, std::vector<FeatureT::Ptr> &trained_features,
 {
   TicToc tt;
   tt.tic ();
-  
+
   print_highlight ("Computing ");
 
   UnaryClassifier<PointT> classifier;
@@ -133,9 +133,9 @@ compute (const CloudT::Ptr &input, std::vector<FeatureT::Ptr> &trained_features,
 
   classifier.segment (out);
 
-  print_info ("[done, "); 
-  print_value ("%g", tt.toc ()); 
-  print_info (" ms : "); print_value ("%d", out->width * out->height); 
+  print_info ("[done, ");
+  print_value ("%g", tt.toc ());
+  print_info (" ms : "); print_value ("%d", out->width * out->height);
   print_info (" points]\n");
 
 }
@@ -150,9 +150,9 @@ saveCloud (const std::string &filename, CloudLT::Ptr &output)
 
   PCDWriter w;
   w.write (filename, *output);
-  
-  print_info ("[done, "); 
-  print_value ("%g", tt.toc ()); print_info (" ms : "); 
+
+  print_info ("[done, ");
+  print_value ("%g", tt.toc ()); print_info (" ms : ");
   print_value ("%d", output->width * output->height); print_info (" points]\n");
 }
 
@@ -179,13 +179,13 @@ main (int argc, char** argv)
 
   // Load the input file
   CloudT::Ptr cloud (new CloudT);
-  if (!loadCloud (argv[p_file_indices[0]], cloud)) 
+  if (!loadCloud (argv[p_file_indices[0]], cloud))
     return (-1);
 
   // TODO:: make this as an optional argument ??
   std::vector<int> tmp_indices;
   pcl::removeNaNFromPointCloud (*cloud, *cloud, tmp_indices);
-  
+
   // parse optional input arguments from the command line
   float normal_radius_search = static_cast<float> (default_normal_radius_search);
   float fpfh_radius_search = static_cast<float> (default_fpfh_radius_search);

@@ -51,7 +51,7 @@ namespace pcl
 
       inline static int
       stateDimension () { return 6; }
-      
+
       void
       sample (const std::vector<double>& mean, const std::vector<double>& cov)
       {
@@ -104,17 +104,17 @@ namespace pcl
         default: return 0.0;
         }
       }
-      
+
       EIGEN_MAKE_ALIGNED_OPERATOR_NEW
     };
-    
+
     inline std::ostream& operator << (std::ostream& os, const ParticleXYZRPY& p)
     {
       os << "(" << p.x << "," << p.y << "," << p.z << ","
          << p.roll << "," << p.pitch << "," << p.yaw << ")";
       return (os);
     }
-    
+
     // a * k
     inline pcl::tracking::ParticleXYZRPY operator * (const ParticleXYZRPY& p, double val)
     {
@@ -127,7 +127,7 @@ namespace pcl
       newp.yaw   = static_cast<float> (p.yaw * val);
       return (newp);
     }
-    
+
     // a + b
     inline pcl::tracking::ParticleXYZRPY operator + (const ParticleXYZRPY& a, const ParticleXYZRPY& b)
     {
@@ -153,7 +153,7 @@ namespace pcl
       newp.yaw = a.yaw - b.yaw;
       return (newp);
     }
-    
+
   }
 }
 
@@ -206,7 +206,7 @@ namespace pcl
 
       inline static int
       stateDimension () { return 6; }
-      
+
       void
       sample (const std::vector<double>& mean, const std::vector<double>& cov)
       {
@@ -259,17 +259,17 @@ namespace pcl
           default: return 0.0;
         }
       }
-      
+
       EIGEN_MAKE_ALIGNED_OPERATOR_NEW
     };
-    
+
     inline std::ostream& operator << (std::ostream& os, const ParticleXYZR& p)
     {
       os << "(" << p.x << "," << p.y << "," << p.z << ","
          << p.roll << "," << p.pitch << "," << p.yaw << ")";
       return (os);
     }
-    
+
     // a * k
     inline pcl::tracking::ParticleXYZR operator * (const ParticleXYZR& p, double val)
     {
@@ -282,7 +282,7 @@ namespace pcl
       newp.yaw   = static_cast<float> (p.yaw * val);
       return (newp);
     }
-    
+
     // a + b
     inline pcl::tracking::ParticleXYZR operator + (const ParticleXYZR& a, const ParticleXYZR& b)
     {
@@ -308,7 +308,7 @@ namespace pcl
       newp.yaw = 0.0;
       return (newp);
     }
-    
+
   }
 }
 
@@ -361,7 +361,7 @@ namespace pcl
 
       inline static int
       stateDimension () { return 6; }
-      
+
       void
       sample (const std::vector<double>& mean, const std::vector<double>& cov)
       {
@@ -414,17 +414,17 @@ namespace pcl
           default: return 0.0;
         }
       }
-      
+
       EIGEN_MAKE_ALIGNED_OPERATOR_NEW
     };
-    
+
     inline std::ostream& operator << (std::ostream& os, const ParticleXYRPY& p)
     {
       os << "(" << p.x << "," << p.y << "," << p.z << ","
          << p.roll << "," << p.pitch << "," << p.yaw << ")";
       return (os);
     }
-    
+
     // a * k
     inline pcl::tracking::ParticleXYRPY operator * (const ParticleXYRPY& p, double val)
     {
@@ -437,7 +437,7 @@ namespace pcl
       newp.yaw   = static_cast<float> (p.yaw * val);
       return (newp);
     }
-    
+
     // a + b
     inline pcl::tracking::ParticleXYRPY operator + (const ParticleXYRPY& a, const ParticleXYRPY& b)
     {
@@ -463,7 +463,7 @@ namespace pcl
       newp.yaw = a.yaw - b.yaw;
       return (newp);
     }
-    
+
   }
 }
 
@@ -514,7 +514,7 @@ namespace pcl
 
       inline static int
       stateDimension () { return 6; }
-      
+
       void
       sample (const std::vector<double>& mean, const std::vector<double>& cov)
       {
@@ -567,17 +567,17 @@ namespace pcl
           default: return 0.0;
         }
       }
-      
+
       EIGEN_MAKE_ALIGNED_OPERATOR_NEW
     };
-    
+
     inline std::ostream& operator << (std::ostream& os, const ParticleXYRP& p)
     {
       os << "(" << p.x << "," << p.y << "," << p.z << ","
          << p.roll << "," << p.pitch << "," << p.yaw << ")";
       return (os);
     }
-    
+
     // a * k
     inline pcl::tracking::ParticleXYRP operator * (const ParticleXYRP& p, double val)
     {
@@ -590,7 +590,7 @@ namespace pcl
       newp.yaw   = static_cast<float> (p.yaw * val);
       return (newp);
     }
-    
+
     // a + b
     inline pcl::tracking::ParticleXYRP operator + (const ParticleXYRP& a, const ParticleXYRP& b)
     {
@@ -616,7 +616,7 @@ namespace pcl
       newp.yaw = a.yaw - b.yaw;
       return (newp);
     }
-    
+
   }
 }
 
@@ -667,7 +667,7 @@ namespace pcl
 
       inline static int
       stateDimension () { return 6; }
-      
+
       void
       sample (const std::vector<double>& mean, const std::vector<double>& cov)
       {
@@ -720,17 +720,17 @@ namespace pcl
           default: return 0.0;
         }
       }
-      
+
       EIGEN_MAKE_ALIGNED_OPERATOR_NEW
     };
-    
+
     inline std::ostream& operator << (std::ostream& os, const ParticleXYR& p)
     {
       os << "(" << p.x << "," << p.y << "," << p.z << ","
          << p.roll << "," << p.pitch << "," << p.yaw << ")";
       return (os);
     }
-    
+
     // a * k
     inline pcl::tracking::ParticleXYR operator * (const ParticleXYR& p, double val)
     {
@@ -743,7 +743,7 @@ namespace pcl
       newp.yaw   = static_cast<float> (p.yaw * val);
       return (newp);
     }
-    
+
     // a + b
     inline pcl::tracking::ParticleXYR operator + (const ParticleXYR& a, const ParticleXYR& b)
     {
@@ -769,7 +769,7 @@ namespace pcl
       newp.yaw = 0.0;
       return (newp);
     }
-    
+
   }
 }
 
@@ -780,4 +780,4 @@ namespace pcl
   (pcl::tracking::ParticleXYRPY) \
   (pcl::tracking::ParticleXYRP)
 
-#endif  // 
+#endif  //

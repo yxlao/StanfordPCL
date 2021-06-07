@@ -44,7 +44,7 @@ pcl::approximatePolygon (const PlanarPolygon<PointT>& polygon, PlanarPolygon<Poi
 {
   const Eigen::Vector4f& coefficients = polygon.getCoefficients ();
   const typename pcl::PointCloud<PointT>::VectorType &contour = polygon.getContour ();
-  
+
   Eigen::Vector3f rotation_axis (coefficients[1], -coefficients[0], 0.0f);
   rotation_axis.normalize ();
 
@@ -57,10 +57,10 @@ pcl::approximatePolygon (const PlanarPolygon<PointT>& polygon, PlanarPolygon<Poi
 
   typename pcl::PointCloud<PointT>::VectorType approx_polygon2D;
   approximatePolygon2D<PointT> (polygon2D, approx_polygon2D, threshold, refine, closed);
-  
+
   typename pcl::PointCloud<PointT>::VectorType &approx_contour = approx_polygon.getContour ();
   approx_contour.resize (approx_polygon2D.size ());
-  
+
   Eigen::Affine3f inv_transformation = transformation.inverse ();
   for (unsigned pIdx = 0; pIdx < approx_polygon2D.size (); ++pIdx)
     approx_contour [pIdx].getVector3fMap () = inv_transformation * approx_polygon2D [pIdx].getVector3fMap ();
@@ -68,23 +68,23 @@ pcl::approximatePolygon (const PlanarPolygon<PointT>& polygon, PlanarPolygon<Poi
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT> void
-pcl::approximatePolygon2D (const typename pcl::PointCloud<PointT>::VectorType &polygon, 
-                           typename pcl::PointCloud<PointT>::VectorType &approx_polygon, 
+pcl::approximatePolygon2D (const typename pcl::PointCloud<PointT>::VectorType &polygon,
+                           typename pcl::PointCloud<PointT>::VectorType &approx_polygon,
                            float threshold, bool refine, bool closed)
 {
   approx_polygon.clear ();
   if (polygon.size () < 3)
     return;
-  
+
   std::vector<std::pair<unsigned, unsigned> > intervals;
   std::pair<unsigned,unsigned> interval (0, 0);
-  
+
   if (closed)
   {
     float max_distance = .0f;
     for (unsigned idx = 1; idx < polygon.size (); ++idx)
     {
-      float distance = (polygon [0].x - polygon [idx].x) * (polygon [0].x - polygon [idx].x) + 
+      float distance = (polygon [0].x - polygon [idx].x) * (polygon [0].x - polygon [idx].x) +
                        (polygon [0].y - polygon [idx].y) * (polygon [0].y - polygon [idx].y);
 
       if (distance > max_distance)
@@ -96,7 +96,7 @@ pcl::approximatePolygon2D (const typename pcl::PointCloud<PointT>::VectorType &p
 
     for (unsigned idx = 1; idx < polygon.size (); ++idx)
     {
-      float distance = (polygon [interval.second].x - polygon [idx].x) * (polygon [interval.second].x - polygon [idx].x) + 
+      float distance = (polygon [interval.second].x - polygon [idx].x) * (polygon [interval.second].x - polygon [idx].x) +
                        (polygon [interval.second].y - polygon [idx].y) * (polygon [interval.second].y - polygon [idx].y);
 
       if (distance > max_distance)
@@ -119,7 +119,7 @@ pcl::approximatePolygon2D (const typename pcl::PointCloud<PointT>::VectorType &p
     interval.second = static_cast<unsigned int> (polygon.size ()) - 1;
     intervals.push_back (interval);
   }
-  
+
   std::vector<unsigned> result;
   // recursively refine
   while (!intervals.empty ())
@@ -128,13 +128,13 @@ pcl::approximatePolygon2D (const typename pcl::PointCloud<PointT>::VectorType &p
     float line_x = polygon [currentInterval.first].y - polygon [currentInterval.second].y;
     float line_y = polygon [currentInterval.second].x - polygon [currentInterval.first].x;
     float line_d = polygon [currentInterval.first].x * polygon [currentInterval.second].y - polygon [currentInterval.first].y * polygon [currentInterval.second].x;
-    
+
     float linelen = 1.0f / sqrtf (line_x * line_x + line_y * line_y);
-    
+
     line_x *= linelen;
     line_y *= linelen;
     line_d *= linelen;
-    
+
     float max_distance = 0.0;
     unsigned first_index = currentInterval.first + 1;
     unsigned max_index = 0;
@@ -176,7 +176,7 @@ pcl::approximatePolygon2D (const typename pcl::PointCloud<PointT>::VectorType &p
       intervals.pop_back ();
     }
   }
-  
+
   approx_polygon.reserve (result.size ());
   if (refine)
   {
@@ -187,7 +187,7 @@ pcl::approximatePolygon2D (const typename pcl::PointCloud<PointT>::VectorType &p
       unsigned nIdx = rIdx + 1;
       if (nIdx == result.size ())
         nIdx = 0;
-      
+
       Eigen::Vector2f centroid = Eigen::Vector2f::Zero ();
       Eigen::Matrix2f covariance = Eigen::Matrix2f::Zero ();
       unsigned pIdx = result[rIdx];
@@ -205,7 +205,7 @@ pcl::approximatePolygon2D (const typename pcl::PointCloud<PointT>::VectorType &p
         }
         pIdx = 0;
       }
-      
+
       num_points += result[nIdx] - pIdx;
       for (; pIdx < result[nIdx]; ++pIdx)
       {
@@ -215,16 +215,16 @@ pcl::approximatePolygon2D (const typename pcl::PointCloud<PointT>::VectorType &p
         centroid [0] += polygon [pIdx].x;
         centroid [1] += polygon [pIdx].y;
       }
-      
+
       covariance.coeffRef (2) = covariance.coeff (1);
-      
+
       float norm = 1.0f / float (num_points);
       centroid *= norm;
       covariance *= norm;
       covariance.coeffRef (0) -= centroid [0] * centroid [0];
       covariance.coeffRef (1) -= centroid [0] * centroid [1];
       covariance.coeffRef (3) -= centroid [1] * centroid [1];
-      
+
       float eval;
       Eigen::Vector2f normal;
       eigen22 (covariance, eval, normal);
@@ -234,37 +234,37 @@ pcl::approximatePolygon2D (const typename pcl::PointCloud<PointT>::VectorType &p
       direction [0] = polygon[result[nIdx]].x - polygon[result[rIdx]].x;
       direction [1] = polygon[result[nIdx]].y - polygon[result[rIdx]].y;
       direction.normalize ();
-      
+
       if (fabs (direction.dot (normal)) > float(M_SQRT1_2))
       {
         std::swap (normal [0], normal [1]);
         normal [0] = -normal [0];
       }
-      
+
       // needs to be on the left side of the edge
       if (direction [0] * normal [1] < direction [1] * normal [0])
         normal *= -1.0;
-      
+
       lines [rIdx].head<2> ().matrix () = normal;
       lines [rIdx] [2] = -normal.dot (centroid);
     }
-    
+
     float threshold2 = threshold * threshold;
     for (unsigned rIdx = 0; rIdx < lines.size (); ++rIdx)
     {
       unsigned nIdx = rIdx + 1;
       if (nIdx == result.size ())
-        nIdx = 0;      
-      
+        nIdx = 0;
+
       Eigen::Vector3f vertex = lines [rIdx].cross (lines [nIdx]);
       vertex /= vertex [2];
       vertex [2] = 0.0;
 
-      PointT point;      
+      PointT point;
       // test whether we need another edge since the intersection point is too far away from the original vertex
       Eigen::Vector3f pq = polygon [result[nIdx]].getVector3fMap () - vertex;
       pq [2] = 0.0;
-      
+
       float distance = pq.squaredNorm ();
       if (distance > threshold2)
       {
@@ -290,7 +290,7 @@ pcl::approximatePolygon2D (const typename pcl::PointCloud<PointT>::VectorType &p
   }
   else
   {
-    // we have a new polygon in results, but inverted (clockwise <-> counter-clockwise)    
+    // we have a new polygon in results, but inverted (clockwise <-> counter-clockwise)
     for (std::vector<unsigned>::reverse_iterator it = result.rbegin (); it != result.rend (); ++it)
       approx_polygon.push_back (polygon [*it]);
   }

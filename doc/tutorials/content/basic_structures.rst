@@ -78,7 +78,7 @@ To simplify development, the :pcl:`PointCloud<pcl::PointCloud>` class contains
 a number of helper member functions. For example, users don't have to check if
 **height** equals 1 or not in their code in order to see if a dataset is
 organized or not, but instead use :pcl:`PointCloud<pcl::PointCloud::isOrganized>`::
-  
+
   if (!cloud.isOrganized ())
     ...
 

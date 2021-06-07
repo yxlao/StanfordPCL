@@ -83,8 +83,8 @@ namespace pcl
       {
       }
 
-      /** \brief Setter method for the N parameter - the length of the columns used for the Discrete Fourier Transform. 
-        * \param[in] n the length of the columns used for the Discrete Fourier Transform. 
+      /** \brief Setter method for the N parameter - the length of the columns used for the Discrete Fourier Transform.
+        * \param[in] n the length of the columns used for the Discrete Fourier Transform.
         */
       inline void
       setN (size_t n) { N_ = n; }
@@ -155,9 +155,9 @@ namespace pcl
       size_t N_, M_, N_prime_, M_prime_;
 
       /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &) {}
   };
 }

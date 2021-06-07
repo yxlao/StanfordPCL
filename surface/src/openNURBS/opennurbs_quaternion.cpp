@@ -174,13 +174,13 @@ void ON_Quaternion::SetRotation(const ON_Plane& plane0, const ON_Plane& plane1 )
     return;
   }
 
-  i = (m[0][0] >= m[1][1]) 
-    ? ((m[0][0] >= m[2][2])?0:2) 
+  i = (m[0][0] >= m[1][1])
+    ? ((m[0][0] >= m[2][2])?0:2)
     : ((m[1][1] >= m[2][2])?1:2);
   j = (i+1)%3;
   k = (i+2)%3;
 
-  // Note: 
+  // Note:
   //   For any rotation matrix, the diagonal is
   //     x^2(1-cos(t)) + cos(t), y^2(1-cos(t)) + cos(t), z^2(1-cos(t)) + cos(t),
   //   where (x,y,z) is the unit vector axis of rotation and "t" is the angle.
@@ -189,9 +189,9 @@ void ON_Quaternion::SetRotation(const ON_Plane& plane0, const ON_Plane& plane1 )
   //   When cos(t) >= 0, m[i][i] corresponds to the axis component that has
   //   the largest absolute value.
   //
-  //   
   //
-  //   Observe that 
+  //
+  //   Observe that
   //     s = 1 + m[i][i] - m[j][j] - m[k][k]
   //       = 1 + 2*m[i][i] - m[i][i] - m[j][j] - m[k][k]
   //       = 1 + 2*m[i][i] - trace
@@ -334,10 +334,10 @@ bool ON_Quaternion::IsZero() const
 
 bool ON_Quaternion::IsNotZero() const
 {
-  return ( (0.0 != a || 0.0 != b || 0.0 != c || 0.0 != d) 
+  return ( (0.0 != a || 0.0 != b || 0.0 != c || 0.0 != d)
            && ON_IsValid(a)
            && ON_IsValid(b)
-           && ON_IsValid(c) 
+           && ON_IsValid(c)
            && ON_IsValid(d)
          );
 }
@@ -422,15 +422,15 @@ double ON_Quaternion::Length() const
   double fb = fabs(b);
   double fc = fabs(c);
   double fd = fabs(d);
-  if ( fb >= fa && fb >= fc && fb >= fd) 
+  if ( fb >= fa && fb >= fc && fb >= fd)
   {
     len = fa; fa = fb; fb = len;
   }
-  else if ( fc >= fa && fc >= fb && fc >= fd) 
+  else if ( fc >= fa && fc >= fb && fc >= fd)
   {
     len = fa; fa = fc; fc = len;
   }
-  else if ( fd >= fa && fd >= fb && fd >= fc) 
+  else if ( fd >= fa && fd >= fb && fd >= fc)
   {
     len = fa; fa = fd; fd = len;
   }
@@ -443,7 +443,7 @@ double ON_Quaternion::Length() const
   //
   //     This code is absolutely necessary.  It is a critical
   //     part of the bug fix for RR 11217.
-  if ( fa > ON_DBL_MIN ) 
+  if ( fa > ON_DBL_MIN )
   {
     len = 1.0/fa;
     fb *= len;
@@ -469,10 +469,10 @@ double ON_Quaternion::LengthSquared() const
 ON_Xform ON_Quaternion::MatrixForm() const
 {
   double m[4][4];
-  m[0][0] =  a; m[0][1] =  b; m[0][2] =  c; m[0][3] =  d; 
-  m[1][0] = -b; m[1][1] =  a; m[1][2] = -d; m[1][3] =  c; 
-  m[2][0] = -c; m[2][1] =  d; m[2][2] =  a; m[2][3] = -b; 
-  m[3][0] = -d; m[3][1] = -c; m[3][2] =  b; m[3][3] =  a; 
+  m[0][0] =  a; m[0][1] =  b; m[0][2] =  c; m[0][3] =  d;
+  m[1][0] = -b; m[1][1] =  a; m[1][2] = -d; m[1][3] =  c;
+  m[2][0] = -c; m[2][1] =  d; m[2][2] =  a; m[2][3] = -b;
+  m[3][0] = -d; m[3][1] = -c; m[3][2] =  b; m[3][3] =  a;
   return ON_Xform(&m[0][0]);
 }
 
@@ -490,7 +490,7 @@ bool ON_Quaternion::Unitize()
     ON_Quaternion q(a*1.0e300,b*1.0e300,c*1.0e300,c*1.0e300);
     if ( !q.Unitize() )
       return false;
-    a = q.a; 
+    a = q.a;
     b = q.b;
     c = q.c;
     d = q.d;

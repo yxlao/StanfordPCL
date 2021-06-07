@@ -57,8 +57,8 @@ namespace pcl
     * \ingroup filters
     */
   template<typename PointT> void
-  removeNaNFromPointCloud (const pcl::PointCloud<PointT> &cloud_in, 
-                           pcl::PointCloud<PointT> &cloud_out, 
+  removeNaNFromPointCloud (const pcl::PointCloud<PointT> &cloud_in,
+                           pcl::PointCloud<PointT> &cloud_out,
                            std::vector<int> &index);
 
   ////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,10 +81,10 @@ namespace pcl
       typedef typename PointCloud::ConstPtr PointCloudConstPtr;
 
       /** \brief Empty constructor.
-        * \param[in] extract_removed_indices set to true if the filtered data indices should be saved in a 
+        * \param[in] extract_removed_indices set to true if the filtered data indices should be saved in a
         * separate list. Default: false.
         */
-      Filter (bool extract_removed_indices = false) : 
+      Filter (bool extract_removed_indices = false) :
         removed_indices_ (new std::vector<int>),
         filter_name_ (),
         extract_removed_indices_ (extract_removed_indices)
@@ -98,7 +98,7 @@ namespace pcl
         return (removed_indices_);
       }
 
-      /** \brief Get the point indices being removed 
+      /** \brief Get the point indices being removed
         * \param[out] pi the resultant point indices that have been removed
         */
       inline void
@@ -145,7 +145,7 @@ namespace pcl
       /** \brief Set to true if we want to return the indices of the removed points. */
       bool extract_removed_indices_;
 
-      /** \brief Abstract filter method. 
+      /** \brief Abstract filter method.
         *
         * The implementation needs to set output.{points, width, height, is_dense}.
         *
@@ -175,11 +175,11 @@ namespace pcl
       typedef PointCloud2::Ptr PointCloud2Ptr;
       typedef PointCloud2::ConstPtr PointCloud2ConstPtr;
 
-      /** \brief Empty constructor. 
-        * \param[in] extract_removed_indices set to true if the filtered data indices should be saved in a 
+      /** \brief Empty constructor.
+        * \param[in] extract_removed_indices set to true if the filtered data indices should be saved in a
         * separate list. Default: false.
         */
-      Filter (bool extract_removed_indices = false) : 
+      Filter (bool extract_removed_indices = false) :
         removed_indices_ (new std::vector<int>),
         extract_removed_indices_ (extract_removed_indices),
         filter_name_ ()
@@ -193,7 +193,7 @@ namespace pcl
         return (removed_indices_);
       }
 
-      /** \brief Get the point indices being removed 
+      /** \brief Get the point indices being removed
         * \param[out] pi the resultant point indices that have been removed
         */
       inline void

@@ -19,7 +19,7 @@
 ON_VIRTUAL_OBJECT_IMPLEMENT(ON_UserData,ON_Object,"850324A7-050E-11d4-BFFA-0010830122F0");
 
 ON_UserData::ON_UserData()
-            : m_userdata_uuid(ON_nil_uuid), 
+            : m_userdata_uuid(ON_nil_uuid),
               m_application_uuid(ON_nil_uuid),
               m_userdata_copycount(0),
               m_userdata_xform(1),
@@ -27,16 +27,16 @@ ON_UserData::ON_UserData()
               m_userdata_next(0)
 {}
 
-ON_UserData::ON_UserData(const ON_UserData& src) 
+ON_UserData::ON_UserData(const ON_UserData& src)
             : ON_Object(src),
-              m_userdata_uuid(src.m_userdata_uuid), 
+              m_userdata_uuid(src.m_userdata_uuid),
               m_application_uuid(src.m_application_uuid),
               m_userdata_copycount(src.m_userdata_copycount),
               m_userdata_xform(src.m_userdata_xform),
               m_userdata_owner(0), // do not copy owner
               m_userdata_next(0)   // do not copy next
 {
-  if ( m_userdata_copycount) 
+  if ( m_userdata_copycount)
   {
     m_userdata_copycount++;
     if ( !m_userdata_copycount )
@@ -47,7 +47,7 @@ ON_UserData::ON_UserData(const ON_UserData& src)
 //virtual
 ON_BOOL32 ON_UserData::Archive() const
 {
-  // If you want your userdata to be saved, you must override 
+  // If you want your userdata to be saved, you must override
   // ON_UserData::Archive() and have it return true.
   return false;
 }
@@ -65,11 +65,11 @@ ON_UserData& ON_UserData::operator=(const ON_UserData& src)
   //    Do not copy the m_userdata_uuid, m_application_uuid,
   //    m_userdata_owner, or m_userdata_next values.
   //    The m_userdata_uuid and m_application_uuid are
-  //    set when the class is constructed and should not be 
+  //    set when the class is constructed and should not be
   //    changed.  The m_userdata_owner and m_userdata_next
   //    values are set when the user data is attached
   //    to a parent object.
-  if ( this != &src ) 
+  if ( this != &src )
   {
     ON_Object::operator=(src);
     m_userdata_copycount = src.m_userdata_copycount;
@@ -208,7 +208,7 @@ ON_BOOL32 ON_UserData::GetDescription( ON_wString& description )
 
 ON_OBJECT_IMPLEMENT(ON_UnknownUserData,ON_UserData,"850324A8-050E-11d4-BFFA-0010830122F0");
 
-ON_UnknownUserData::ON_UnknownUserData() 
+ON_UnknownUserData::ON_UnknownUserData()
 : m_unknownclass_uuid(ON_nil_uuid)
 , m_sizeof_buffer(0)
 , m_buffer(0)
@@ -216,7 +216,7 @@ ON_UnknownUserData::ON_UnknownUserData()
 , m_3dm_opennurbs_version(0)
 {}
 
-ON_UnknownUserData::ON_UnknownUserData(const ON_UnknownUserData& src) 
+ON_UnknownUserData::ON_UnknownUserData(const ON_UnknownUserData& src)
 : ON_UserData(src)
 , m_unknownclass_uuid(ON_nil_uuid)
 , m_sizeof_buffer(0)
@@ -224,13 +224,13 @@ ON_UnknownUserData::ON_UnknownUserData(const ON_UnknownUserData& src)
 , m_3dm_version(0)
 , m_3dm_opennurbs_version(0)
 {
-  if ( m_userdata_copycount > 0 && src.m_sizeof_buffer > 0 && src.m_buffer ) 
+  if ( m_userdata_copycount > 0 && src.m_sizeof_buffer > 0 && src.m_buffer )
   {
     // For most kinds of user data except ON_UnknownUserData,
     // m_userdata_uuid is set by the constructor and should not
     // be copied from src (which may be a derived class).  However,
-    // for ON_UnknownUserData, the value of m_userdata_uuid is 
-    // varies because it is set by the missing userdata class. 
+    // for ON_UnknownUserData, the value of m_userdata_uuid is
+    // varies because it is set by the missing userdata class.
     // So it has to be copied here.
     m_userdata_uuid = src.m_userdata_uuid;
 
@@ -244,7 +244,7 @@ ON_UnknownUserData::ON_UnknownUserData(const ON_UnknownUserData& src)
 
 ON_UnknownUserData& ON_UnknownUserData::operator=(const ON_UnknownUserData& src)
 {
-  if ( this != &src ) 
+  if ( this != &src )
   {
     m_sizeof_buffer = 0;
     if ( 0 != m_buffer )
@@ -259,14 +259,14 @@ ON_UnknownUserData& ON_UnknownUserData::operator=(const ON_UnknownUserData& src)
 
     // For most kinds of user data except ON_UnknownUserData,
     // m_userdata_uuid and m_application_uuid are set by the
-    // constructor and should not be altered by an operator=.  
-    // However, for ON_UnknownUserData, the value of m_userdata_uuid 
+    // constructor and should not be altered by an operator=.
+    // However, for ON_UnknownUserData, the value of m_userdata_uuid
     // and m_application_uuid vary because they are set by the
     // missing userdata class.  So they have to be copied here.
     m_userdata_uuid = src.m_userdata_uuid;
     m_application_uuid = src.m_application_uuid; // fix added 26 January 2010
 
-    if ( m_userdata_copycount > 0 && src.m_sizeof_buffer > 0 && src.m_buffer ) 
+    if ( m_userdata_copycount > 0 && src.m_sizeof_buffer > 0 && src.m_buffer )
     {
       m_unknownclass_uuid = src.m_unknownclass_uuid;
       m_sizeof_buffer = src.m_sizeof_buffer;
@@ -274,7 +274,7 @@ ON_UnknownUserData& ON_UnknownUserData::operator=(const ON_UnknownUserData& src)
       m_3dm_version = src.m_3dm_version;
       m_3dm_opennurbs_version = src.m_3dm_opennurbs_version;
     }
-    else 
+    else
     {
       // The unknown user data is not supposed to copy
       m_userdata_uuid = ON_nil_uuid;
@@ -296,7 +296,7 @@ ON_UnknownUserData::~ON_UnknownUserData()
 
 unsigned int ON_UnknownUserData::SizeOf() const
 {
-  return ON_UserData::SizeOf() 
+  return ON_UserData::SizeOf()
     + (sizeof(ON_UnknownUserData)-sizeof(ON_UserData))
     + m_sizeof_buffer;
 }
@@ -310,17 +310,17 @@ ON_BOOL32 ON_UnknownUserData::GetDescription( ON_wString& s )
 ON_BOOL32 ON_UnknownUserData::IsValid( ON_TextLog* text_log ) const
 {
   ON_BOOL32 rc = ON_UserData::IsValid(text_log);
-  
+
   // valid unknown user data must have something in it
-  if (rc) 
+  if (rc)
     rc = (m_sizeof_buffer>0);
-  if (rc) 
+  if (rc)
     rc = (m_buffer != NULL);
-  
+
   // the unknown class uuid cannot be nil
-  if (rc) 
+  if (rc)
     rc = ON_UuidCompare( &m_unknownclass_uuid, &ON_nil_uuid );
-  
+
   // the unknown class uuid cannot be the ON_UnknownUserData class uuid
   if (rc) {
     ON_UUID ON_UnknownUserData_classuuid = ON_UnknownUserData::m_ON_UnknownUserData_class_id.Uuid();
@@ -372,10 +372,10 @@ public:
 
   // ON_BinaryArchive overrides
   size_t CurrentPosition( // current offset (in bytes) into archive ( like ftell() )
-                ) const; 
+                ) const;
   bool SeekFromCurrentPosition( // seek from current position ( like fseek( ,SEEK_CUR) )
                 int // byte offset ( >= -CurrentPostion() )
-                ); 
+                );
   bool SeekFromStart(  // seek from current position ( like fseek( ,SEEK_SET) )
                 size_t // byte offset ( >= 0 )
                 );
@@ -415,7 +415,7 @@ bool ON_UnknownUserDataArchive::SeekFromCurrentPosition( int offset )
 {
   bool rc = false;
   size_t newpos = m_buffer_position + offset;
-  if ( newpos >= 0 && newpos < m_sizeof_buffer ) 
+  if ( newpos >= 0 && newpos < m_sizeof_buffer )
   {
     m_buffer_position = newpos;
     rc = true;
@@ -426,7 +426,7 @@ bool ON_UnknownUserDataArchive::SeekFromCurrentPosition( int offset )
 bool ON_UnknownUserDataArchive::SeekFromStart( size_t offset )
 {
   bool rc = false;
-  if ( offset >= 0 && offset < m_sizeof_buffer ) 
+  if ( offset >= 0 && offset < m_sizeof_buffer )
   {
     m_buffer_position = offset;
     rc = true;
@@ -443,7 +443,7 @@ size_t ON_UnknownUserDataArchive::Read( size_t count, void* buffer )
 {
   size_t maxcount = 0;
 
-  if ( m_sizeof_buffer > m_buffer_position ) 
+  if ( m_sizeof_buffer > m_buffer_position )
   {
     maxcount = m_sizeof_buffer - m_buffer_position;
   }
@@ -453,7 +453,7 @@ size_t ON_UnknownUserDataArchive::Read( size_t count, void* buffer )
     count = maxcount;
   }
 
-  if ( count > 0 ) 
+  if ( count > 0 )
   {
     memcpy( buffer, m_buffer+m_buffer_position, count );
     m_buffer_position += count;
@@ -490,7 +490,7 @@ ON_UserData* ON_UnknownUserData::Convert() const
         ud = ON_UserData::Cast(pObject);
         if ( !ud )
           delete pObject;
-        else 
+        else
         {
           // use class's Read() function to initialize class members from buffer
           ON_UnknownUserDataArchive file(*this);
@@ -602,7 +602,7 @@ void ON_UserString::Dump(ON_TextLog& text_log) const
   if ( !s )
     s = L"";
   text_log.Print("Key: %s\n");
-  
+
   s = m_string_value;
   if ( !s )
     s = L"";
@@ -718,7 +718,7 @@ ON_BOOL32 ON_UserStringList::Read(ON_BinaryArchive& archive)
     for ( int i = 0; i < count; i++ )
     {
       rc = m_e.AppendNew().Read(archive);
-      if ( !rc) 
+      if ( !rc)
       {
         m_e.Remove();
         break;
@@ -858,7 +858,7 @@ int ON_UserStringList::SetUserStrings( int count, const ON_UserString* us, bool 
     if ( us[i].m_key.IsEmpty() )
       continue;
 
-    // Set k0, k1 so that hash[k0]....,hash[k1-1] are 
+    // Set k0, k1 so that hash[k0]....,hash[k1-1] are
     // the hash[] entries keys with the same hash code
     // as us[i].m_key.
     h = ON_BinarySearch2dexArray(hash1[i].i,hash,count0_plus_count);
@@ -914,7 +914,7 @@ int ON_UserStringList::SetUserStrings( int count, const ON_UserString* us, bool 
 
     if ( k0 >= k1 )
     {
-      // hash is unique up to this point, so us[i].m_key is unique, 
+      // hash is unique up to this point, so us[i].m_key is unique,
       // so we add it if it is valid.
       if ( !us[i].m_string_value.IsEmpty() )
       {
@@ -969,8 +969,8 @@ bool ON_Object::SetUserString( const wchar_t* key, const wchar_t* string_value )
     {
       if ( b && 2 == us->m_userdata_copycount )
       {
-        // user data is brand new - roll back the 
-        // m_userdata_copycount++ that happens in 
+        // user data is brand new - roll back the
+        // m_userdata_copycount++ that happens in
         // SetUserString().
         us->m_userdata_copycount = 1;
       }
@@ -1039,8 +1039,8 @@ int ON_Object::UserStringCount() const
 }
 
 
-int ON_Object::GetUserStrings( 
-  ON_ClassArray<ON_UserString>& user_strings 
+int ON_Object::GetUserStrings(
+  ON_ClassArray<ON_UserString>& user_strings
   ) const
 {
   const int count0 = user_strings.Count();
@@ -1051,8 +1051,8 @@ int ON_Object::GetUserStrings(
   return user_strings.Count() - count0;
 }
 
-int ON_Object::GetUserStringKeys( 
-  ON_ClassArray<ON_wString>& user_string_keys 
+int ON_Object::GetUserStringKeys(
+  ON_ClassArray<ON_wString>& user_string_keys
   ) const
 {
   const int count0 = user_string_keys.Count();

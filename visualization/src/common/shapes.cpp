@@ -38,7 +38,7 @@
 #include <pcl/common/angles.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-vtkSmartPointer<vtkDataSet> 
+vtkSmartPointer<vtkDataSet>
 pcl::visualization::createCylinder (const pcl::ModelCoefficients &coefficients, int numsides)
 {
   vtkSmartPointer<vtkLineSource> line = vtkSmartPointer<vtkLineSource>::New ();
@@ -54,7 +54,7 @@ pcl::visualization::createCylinder (const pcl::ModelCoefficients &coefficients, 
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-vtkSmartPointer<vtkDataSet> 
+vtkSmartPointer<vtkDataSet>
 pcl::visualization::createSphere (const pcl::ModelCoefficients &coefficients, int res)
 {
   // Set the sphere origin
@@ -66,7 +66,7 @@ pcl::visualization::createSphere (const pcl::ModelCoefficients &coefficients, in
   s_sphere->SetPhiResolution (res);
   s_sphere->SetThetaResolution (res);
   s_sphere->LatLongTessellationOff ();
-  
+
   vtkSmartPointer<vtkTransformPolyDataFilter> tf = vtkSmartPointer<vtkTransformPolyDataFilter>::New ();
   tf->SetTransform (t);
   tf->SetInputConnection (s_sphere->GetOutputPort ());
@@ -75,32 +75,32 @@ pcl::visualization::createSphere (const pcl::ModelCoefficients &coefficients, in
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-vtkSmartPointer<vtkDataSet> 
+vtkSmartPointer<vtkDataSet>
 pcl::visualization::createCube (const pcl::ModelCoefficients &coefficients)
 {
   // coefficients = [Tx, Ty, Tz, Qx, Qy, Qz, Qw, width, height, depth]
   vtkSmartPointer<vtkTransform> t = vtkSmartPointer<vtkTransform>::New ();
   t->Identity ();
   t->Translate (coefficients.values[0], coefficients.values[1], coefficients.values[2]);
-  
+
   Eigen::AngleAxisf a (Eigen::Quaternionf (coefficients.values[6], coefficients.values[3],
                                            coefficients.values[4], coefficients.values[5]));
   t->RotateWXYZ (pcl::rad2deg (a.angle ()), a.axis ()[0], a.axis ()[1], a.axis ()[2]);
-  
+
   vtkSmartPointer<vtkCubeSource> cube = vtkSmartPointer<vtkCubeSource>::New ();
   cube->SetXLength (coefficients.values[7]);
   cube->SetYLength (coefficients.values[8]);
   cube->SetZLength (coefficients.values[9]);
-  
+
   vtkSmartPointer<vtkTransformPolyDataFilter> tf = vtkSmartPointer<vtkTransformPolyDataFilter>::New ();
   tf->SetTransform (t);
   tf->SetInputConnection (cube->GetOutputPort ());
-  
+
   return (tf->GetOutput ());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-vtkSmartPointer<vtkDataSet> 
+vtkSmartPointer<vtkDataSet>
 pcl::visualization::createCube (const Eigen::Vector3f &translation, const Eigen::Quaternionf &rotation,
                                 double width, double height, double depth)
 {
@@ -108,30 +108,30 @@ pcl::visualization::createCube (const Eigen::Vector3f &translation, const Eigen:
   vtkSmartPointer<vtkTransform> t = vtkSmartPointer<vtkTransform>::New ();
   t->Identity ();
   t->Translate (translation.x (), translation.y (), translation.z ());
-  
+
   Eigen::AngleAxisf a (rotation);
   t->RotateWXYZ (pcl::rad2deg (a.angle ()), a.axis ()[0], a.axis ()[1], a.axis ()[2]);
-  
+
   vtkSmartPointer<vtkCubeSource> cube = vtkSmartPointer<vtkCubeSource>::New ();
   cube->SetXLength (width);
   cube->SetYLength (height);
   cube->SetZLength (depth);
-  
+
   vtkSmartPointer<vtkTransformPolyDataFilter> tf = vtkSmartPointer<vtkTransformPolyDataFilter>::New ();
   tf->SetTransform (t);
   tf->SetInputConnection (cube->GetOutputPort ());
-  
+
   return (tf->GetOutput ());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-vtkSmartPointer<vtkDataSet> 
+vtkSmartPointer<vtkDataSet>
 pcl::visualization::createCube (double x_min, double x_max,
                                 double y_min, double y_max,
                                 double z_min, double z_max)
 {
   vtkSmartPointer<vtkTransform> t = vtkSmartPointer<vtkTransform>::New ();
-  
+
   vtkSmartPointer<vtkCubeSource> cube = vtkSmartPointer<vtkCubeSource>::New ();
   cube->SetBounds (x_min, x_max, y_min, y_max, z_min, z_max);
 
@@ -139,13 +139,13 @@ pcl::visualization::createCube (double x_min, double x_max,
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-vtkSmartPointer<vtkDataSet> 
+vtkSmartPointer<vtkDataSet>
 pcl::visualization::createLine (const pcl::ModelCoefficients &coefficients)
 {
   vtkSmartPointer<vtkLineSource> line = vtkSmartPointer<vtkLineSource>::New ();
   line->SetPoint1 (coefficients.values[0], coefficients.values[1], coefficients.values[2]);
-  line->SetPoint2 (coefficients.values[3] + coefficients.values[0], 
-                   coefficients.values[4] + coefficients.values[1], 
+  line->SetPoint2 (coefficients.values[3] + coefficients.values[0],
+                   coefficients.values[4] + coefficients.values[1],
                    coefficients.values[5] + coefficients.values[2]);
   line->Update ();
 
@@ -153,7 +153,7 @@ pcl::visualization::createLine (const pcl::ModelCoefficients &coefficients)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-vtkSmartPointer<vtkDataSet> 
+vtkSmartPointer<vtkDataSet>
 pcl::visualization::createPlane (const pcl::ModelCoefficients &coefficients)
 {
   vtkSmartPointer<vtkPlaneSource> plane = vtkSmartPointer<vtkPlaneSource>::New ();
@@ -168,11 +168,11 @@ pcl::visualization::createPlane (const pcl::ModelCoefficients &coefficients)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-vtkSmartPointer<vtkDataSet> 
+vtkSmartPointer<vtkDataSet>
 pcl::visualization::create2DCircle (const pcl::ModelCoefficients &coefficients, double z)
 {
   vtkSmartPointer<vtkDiskSource> disk = vtkSmartPointer<vtkDiskSource>::New ();
-  // Maybe the resolution should be lower e.g. 50 or 25 
+  // Maybe the resolution should be lower e.g. 50 or 25
   disk->SetCircumferentialResolution (100);
   disk->SetInnerRadius (coefficients.values[2] - 0.001);
   disk->SetOuterRadius (coefficients.values[2] + 0.001);
@@ -183,16 +183,16 @@ pcl::visualization::create2DCircle (const pcl::ModelCoefficients &coefficients, 
   vtkSmartPointer<vtkRegularPolygonSource> circle = vtkSmartPointer<vtkRegularPolygonSource>::New();
   circle->SetRadius (coefficients.values[2]);
   circle->SetNumberOfSides (100);
-  
+
   vtkSmartPointer<vtkTubeFilter> tube = vtkSmartPointer<vtkTubeFilter>::New();
   tube->SetInput (circle->GetOutput());
   tube->SetNumberOfSides (25);
   tube->SetRadius (0.001);
-  */ 
+  */
 
   // Set the circle origin
   vtkSmartPointer<vtkTransform> t = vtkSmartPointer<vtkTransform>::New ();
-  t->Identity (); 
+  t->Identity ();
   t->Translate (coefficients.values[0], coefficients.values[1], z);
 
   vtkSmartPointer<vtkTransformPolyDataFilter> tf = vtkSmartPointer<vtkTransformPolyDataFilter>::New ();
@@ -206,12 +206,12 @@ pcl::visualization::create2DCircle (const pcl::ModelCoefficients &coefficients, 
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-vtkSmartPointer<vtkDataSet> 
+vtkSmartPointer<vtkDataSet>
 pcl::visualization::createCone (const pcl::ModelCoefficients &coefficients)
 {
   vtkSmartPointer<vtkConeSource> cone = vtkSmartPointer<vtkConeSource>::New ();
   cone->SetHeight (1.0);
-  cone->SetCenter (coefficients.values[0] + coefficients.values[3] * 0.5, 
+  cone->SetCenter (coefficients.values[0] + coefficients.values[3] * 0.5,
                    coefficients.values[1] + coefficients.values[1] * 0.5,
                    coefficients.values[2] + coefficients.values[2] * 0.5);
   cone->SetDirection (-coefficients.values[3], -coefficients.values[4], -coefficients.values[5]);
@@ -222,12 +222,12 @@ pcl::visualization::createCone (const pcl::ModelCoefficients &coefficients)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-vtkSmartPointer<vtkDataSet> 
+vtkSmartPointer<vtkDataSet>
 pcl::visualization::createSphere (const Eigen::Vector4f &center, double radius, int res)
 {
   // Set the sphere origin
   vtkSmartPointer<vtkTransform> t = vtkSmartPointer<vtkTransform>::New ();
-  t->Identity (); 
+  t->Identity ();
   t->Translate (center[0], center[1], center[2]);
 
   vtkSmartPointer<vtkSphereSource> s_sphere = vtkSmartPointer<vtkSphereSource>::New ();
@@ -235,7 +235,7 @@ pcl::visualization::createSphere (const Eigen::Vector4f &center, double radius, 
   s_sphere->SetPhiResolution (res);
   s_sphere->SetThetaResolution (res);
   s_sphere->LatLongTessellationOff ();
-  
+
   vtkSmartPointer<vtkTransformPolyDataFilter> tf = vtkSmartPointer<vtkTransformPolyDataFilter>::New ();
   tf->SetTransform (t);
   tf->SetInputConnection (s_sphere->GetOutputPort ());

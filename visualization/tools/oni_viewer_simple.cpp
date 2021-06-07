@@ -168,7 +168,7 @@ main(int argc, char ** argv)
       usage(argv);
       return 1;
     }
-    
+
     if (argc >= 3)
     {
       frame_rate = atoi(argv[2]);
@@ -181,7 +181,7 @@ main(int argc, char ** argv)
   }
 
   pcl::TimeTrigger trigger;
-  
+
   pcl::ONIGrabber* grabber = 0;
   if (frame_rate == 0)
     grabber = new  pcl::ONIGrabber(arg, true, true);

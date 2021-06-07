@@ -176,7 +176,7 @@ int vtkPCLSACSegmentationPlane::RequestData(
     }
 
   // compute origin and normal
-  Eigen::Vector4d coeffs(this->PlaneCoefficients); 
+  Eigen::Vector4d coeffs(this->PlaneCoefficients);
   if (coeffs[2] < 0)
     {
     coeffs *= -1.0;

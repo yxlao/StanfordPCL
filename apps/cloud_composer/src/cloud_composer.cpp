@@ -29,26 +29,26 @@ pcl::cloud_composer::ComposerMainWindow::ComposerMainWindow (QWidget *parent)
   qRegisterMetaType<ProjectModel> ("ProjectModel");
   qRegisterMetaType<CloudView> ("CloudView");
   qRegisterMetaType<ConstItemList> ("ConstComposerItemList");
-  
+
   current_model_ = 0;
-  
+
   multiplexer_ = new SignalMultiplexer (this);
-  
+
   initializeCloudBrowser ();
   initializeCloudViewer ();
   initializeItemInspector ();
   initializeToolBox ();
   initializePlugins ();
-  
+
   undo_group_ = new QUndoGroup (this);
   undo_view_->setGroup (undo_group_);
-  
+
   //Auto connect signals and slots
   // QMetaObject::connectSlotsByName(this);
   connectFileActions ();
   connectEditActions ();
   connectViewActions ();
-  
+
 }
 
 pcl::cloud_composer::ComposerMainWindow::~ComposerMainWindow ()
@@ -61,7 +61,7 @@ void
 pcl::cloud_composer::ComposerMainWindow::connectFileActions ()
 {
 
-  
+
 }
 
 void
@@ -73,21 +73,21 @@ pcl::cloud_composer::ComposerMainWindow::connectEditActions ()
   menuEdit->insertAction (action_redo_, action_temp);
   menuEdit->removeAction (action_undo_);
   action_undo_ = action_temp;
-  
+
   action_temp = undo_group_->createRedoAction (this);
   action_temp->setShortcut (action_redo_->shortcut ());
   menuEdit->insertAction (action_redo_, action_temp);
   menuEdit->removeAction (action_redo_);
   action_redo_ = action_temp;
-  
+
   multiplexer_->connect (action_clear_selection_, SIGNAL (triggered ()), SLOT (clearSelection ()));
-  
+
   multiplexer_->connect (action_delete_, SIGNAL (triggered ()), SLOT (deleteSelectedItems ()));
   multiplexer_->connect (SIGNAL (deleteAvailable (bool)), action_delete_, SLOT (setEnabled (bool)));
-  
+
   multiplexer_->connect (this, SIGNAL (insertNewCloudFromFile()), SLOT (insertNewCloudFromFile()));
-  
-  
+
+
   mouse_style_group_ = new QActionGroup (this);
   mouse_style_group_->addAction (action_trackball_camera_style_);
   mouse_style_group_->addAction (action_manipulate_clicked_);
@@ -102,10 +102,10 @@ pcl::cloud_composer::ComposerMainWindow::connectEditActions ()
   action_manipulate_clicked_->setData (QVariant::fromValue (interactor_styles::CLICK_TRACKBALL));
   //multiplexer_->connect (action_manipulate_selected_, SIGNAL (triggered ()), SLOT (selectedTrackballInteractorStyle ()));
 
-  
+
   multiplexer_->connect (action_new_cloud_from_selection_, SIGNAL (triggered ()), SLOT (createNewCloudFromSelection ()));
   multiplexer_->connect (SIGNAL (newCloudFromSelectionAvailable (bool)), action_new_cloud_from_selection_, SLOT (setEnabled (bool)));
-  
+
   multiplexer_->connect (action_select_all_, SIGNAL (triggered ()), SLOT (selectAllItems ()));
 }
 
@@ -116,7 +116,7 @@ pcl::cloud_composer::ComposerMainWindow::setMouseStyleAction (interactor_styles:
   action_rectangular_frustum_select_->setChecked (false);
   action_manipulate_selected_->setChecked (false);
   action_manipulate_clicked_->setChecked (false);
- 
+
   switch (selected_style)
   {
     case interactor_styles::PCL_VISUALIZER :
@@ -133,7 +133,7 @@ pcl::cloud_composer::ComposerMainWindow::setMouseStyleAction (interactor_styles:
       break;
     default :
       action_trackball_camera_style_->setChecked (true);
-    
+
   }
 }
 
@@ -142,16 +142,16 @@ pcl::cloud_composer::ComposerMainWindow::connectViewActions ()
 {
   multiplexer_->connect (action_show_axes_, SIGNAL (toggled (bool)), SLOT (setAxisVisibility (bool)));
   multiplexer_->connect (SIGNAL (axisVisible (bool)), action_show_axes_, SLOT (setChecked (bool)));
-  
+
 }
 
 void
 pcl::cloud_composer::ComposerMainWindow::initializeCloudBrowser ()
 {
   cloud_browser_->setSelectionMode (QAbstractItemView::ExtendedSelection);
-  
+
   cloud_browser_->setStyleSheet("selection-background-color: red;");
-  
+
 }
 
 void
@@ -160,13 +160,13 @@ pcl::cloud_composer::ComposerMainWindow::initializeCloudViewer ()
   //Signal emitted when user selects new tab (ie different project) in the viewer
   connect (cloud_viewer_, SIGNAL (newModelSelected (ProjectModel*)),
            this, SLOT (setCurrentModel (ProjectModel*)));
-  
+
 }
 
 void
 pcl::cloud_composer::ComposerMainWindow::initializeItemInspector ()
 {
-  
+
 }
 
 void
@@ -175,32 +175,32 @@ pcl::cloud_composer::ComposerMainWindow::initializeToolBox ()
   tool_box_model_ = new ToolBoxModel (tool_box_view_, tool_parameter_view_,this);
   tool_selection_model_ = new QItemSelectionModel (tool_box_model_);
   tool_box_model_->setSelectionModel (tool_selection_model_);
-  
+
   tool_box_view_->setModel (tool_box_model_);
   tool_box_view_->setSelectionModel (tool_selection_model_);
   tool_box_view_->setIconSize (QSize (32,32));
   tool_box_view_->setIndentation (10);
-  
+
   connect ( tool_selection_model_, SIGNAL (currentChanged (const QModelIndex&, const QModelIndex&)),
             tool_box_model_, SLOT (selectedToolChanged (const QModelIndex&, const QModelIndex&)));
-  
+
   connect ( tool_box_model_, SIGNAL (enqueueToolAction (AbstractTool*)),
             this, SLOT (enqueueToolAction (AbstractTool*)));
-  
+
   connect (this, SIGNAL (activeProjectChanged (ProjectModel*,ProjectModel*)),
            tool_box_model_, SLOT (activeProjectChanged (ProjectModel*,ProjectModel*)));
-  
+
   //TODO : Remove this, tools should have a better way of being run
   connect ( action_run_tool_, SIGNAL (clicked ()),
             tool_box_model_, SLOT (toolAction ()));
   //tool_box_view_->setStyleSheet("branch:has-siblings:!adjoins-item:image none");
  // tool_box_view_->setStyleSheet("branch:!has-children:!has-siblings:adjoins-item:image: none");
-  
-  
+
+
 }
 
 
-void 
+void
 pcl::cloud_composer::ComposerMainWindow::initializePlugins ()
 {
   QDir plugin_dir = QCoreApplication::applicationDirPath ();
@@ -238,19 +238,19 @@ pcl::cloud_composer::ComposerMainWindow::initializePlugins ()
       qWarning () << "Loaded " << tool_factory->getPluginName ();
       //Create the action button for this tool
       tool_box_model_->addTool (tool_factory);
-      
+
     }
     else{
       qDebug() << "Could not load " << plugin_dir.relativeFilePath (filename);
       qDebug() << loader.errorString ();
     }
-    
+
   }
 }
 
 
 
-void 
+void
 pcl::cloud_composer::ComposerMainWindow::setCurrentModel (ProjectModel* model)
 {
   emit activeProjectChanged (model, current_model_);
@@ -263,7 +263,7 @@ pcl::cloud_composer::ComposerMainWindow::setCurrentModel (ProjectModel* model)
   item_inspector_->setModel (current_model_);
   //qDebug () << "Setting active stack in undo group";
   undo_group_->setActiveStack (current_model_->getUndoStack ());
-  
+
   multiplexer_->setCurrentObject (current_model_);
 }
 
@@ -299,10 +299,10 @@ pcl::cloud_composer::ComposerMainWindow::on_action_new_project__triggered (/*QSt
   undo_group_->addStack (new_project_model->getUndoStack ());
   //qDebug () << "Setting current model";
   cloud_viewer_->addNewProject (new_project_model);
-  
+
   setCurrentModel (new_project_model);
   //qDebug () << "Project " <<name<<" created!";
-  
+
 }
 
 
@@ -342,8 +342,8 @@ pcl::cloud_composer::ComposerMainWindow::on_action_insert_from_file__triggered (
 {
   if (!current_model_)
     action_new_project_->trigger ();
-    
-  emit insertNewCloudFromFile ();   
+
+  emit insertNewCloudFromFile ();
 }
 
 void

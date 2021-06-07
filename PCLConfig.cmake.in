@@ -1,14 +1,14 @@
 # ------------------------------------------------------------------------------------
 # Helper to use PCL from outside project
 #
-# target_link_libraries(my_fabulous_target PCL_XXX_LIBRARIES) where XXX is the 
-# upper cased xxx from : 
+# target_link_libraries(my_fabulous_target PCL_XXX_LIBRARIES) where XXX is the
+# upper cased xxx from :
 # @PCLCONFIG_AVAILABLE_COMPONENTS_LIST@
 #
 # PCL_INCLUDE_DIRS is filled with PCL and available 3rdparty headers
 # PCL_LIBRARY_DIRS is filled with PCL components libraries install directory and
 # 3rdparty libraries paths
-# 
+#
 #                                   www.pointclouds.org
 #------------------------------------------------------------------------------------
 
@@ -114,13 +114,13 @@ macro(find_eigen)
     pkg_check_modules(PC_EIGEN eigen3)
   endif(PKG_CONFIG_FOUND)
   find_path(EIGEN_INCLUDE_DIRS Eigen/Core
-    HINTS ${PC_EIGEN_INCLUDEDIR} ${PC_EIGEN_INCLUDE_DIRS} 
+    HINTS ${PC_EIGEN_INCLUDEDIR} ${PC_EIGEN_INCLUDE_DIRS}
           "${EIGEN_ROOT}" "$ENV{EIGEN_ROOT}"
     PATHS "$ENV{PROGRAMFILES}/Eigen 3.0.0" "$ENV{PROGRAMW6432}/Eigen 3.0.0"
-          "$ENV{PROGRAMFILES}/Eigen" "$ENV{PROGRAMW6432}/Eigen"   
+          "$ENV{PROGRAMFILES}/Eigen" "$ENV{PROGRAMW6432}/Eigen"
     PATH_SUFFIXES eigen3 include/eigen3 include)
   find_package_handle_standard_args(eigen DEFAULT_MSG EIGEN_INCLUDE_DIRS)
-  set(EIGEN_DEFINITIONS ${EIGEN_DEFINITIONS} -DEIGEN_USE_NEW_STDVECTOR 
+  set(EIGEN_DEFINITIONS ${EIGEN_DEFINITIONS} -DEIGEN_USE_NEW_STDVECTOR
       -DEIGEN_YES_I_KNOW_SPARSE_MODULE_IS_NOT_STABLE_YET)
 endmacro(find_eigen)
 
@@ -136,23 +136,23 @@ macro(find_qhull)
   find_path(QHULL_INCLUDE_DIRS
     NAMES libqhull/libqhull.h qhull.h
     HINTS "${QHULL_ROOT}" "$ENV{QHULL_ROOT}"
-    PATHS "$ENV{PROGRAMFILES}/qhull" "$ENV{PROGRAMW6432}/qhull" 
+    PATHS "$ENV{PROGRAMFILES}/qhull" "$ENV{PROGRAMW6432}/qhull"
     PATH_SUFFIXES qhull src/libqhull libqhull include)
 
   # Most likely we are on windows so prefer static libraries over shared ones (Mourad's recommend)
-  find_library(QHULL_LIBRARY 
+  find_library(QHULL_LIBRARY
     NAMES qhullstatic qhull qhull${QHULL_MAJOR_VERSION}
     HINTS "${QHULL_ROOT}" "$ENV{QHULL_ROOT}"
-    PATHS "$ENV{PROGRAMFILES}/qhull" "$ENV{PROGRAMW6432}/qhull" 
+    PATHS "$ENV{PROGRAMFILES}/qhull" "$ENV{PROGRAMW6432}/qhull"
     PATH_SUFFIXES project build bin lib)
-  
-  find_library(QHULL_LIBRARY_DEBUG 
+
+  find_library(QHULL_LIBRARY_DEBUG
     NAMES qhullstatic_d qhull_d qhull${QHULL_MAJOR_VERSION}_d qhull_d${QHULL_MAJOR_VERSION}
           qhull qhull${QHULL_MAJOR_VERSION}
     HINTS "${QHULL_ROOT}" "$ENV{QHULL_ROOT}"
-    PATHS "$ENV{PROGRAMFILES}/qhull" "$ENV{PROGRAMW6432}/qhull" 
+    PATHS "$ENV{PROGRAMFILES}/qhull" "$ENV{PROGRAMW6432}/qhull"
     PATH_SUFFIXES project build bin lib)
-  
+
   find_package_handle_standard_args(qhull DEFAULT_MSG QHULL_LIBRARY QHULL_INCLUDE_DIRS)
 
   if(QHULL_FOUND)
@@ -160,10 +160,10 @@ macro(find_qhull)
     if(QHULL_LIBRARY_DEBUG)
       set(QHULL_LIBRARIES optimized ${QHULL_LIBRARY} debug ${QHULL_LIBRARY_DEBUG})
       get_filename_component(QHULL_LIBRARY_DEBUG_PATH ${QHULL_LIBRARY_DEBUG} PATH)
-      set(QHULL_LIBRARY_DIRS ${QHULL_LIBRARY_PATH} ${QHULL_LIBRARY_DEBUG_PATH}) 
+      set(QHULL_LIBRARY_DIRS ${QHULL_LIBRARY_PATH} ${QHULL_LIBRARY_DEBUG_PATH})
     else(QHULL_LIBRARY_DEBUG)
       set(QHULL_LIBRARIES ${QHULL_LIBRARY})
-      set(QHULL_LIBRARY_DIRS ${QHULL_LIBRARY_PATH}) 
+      set(QHULL_LIBRARY_DIRS ${QHULL_LIBRARY_PATH})
     endif(QHULL_LIBRARY_DEBUG)
     set(QHULL_DEFINITIONS)
     get_filename_component(qhull_lib ${QHULL_LIBRARY} NAME_WE)
@@ -187,7 +187,7 @@ macro(find_openni)
     pkg_check_modules(PC_OPENNI openni-dev)
   endif(PKG_CONFIG_FOUND)
   find_path(OPENNI_INCLUDE_DIRS XnStatus.h
-    HINTS ${PC_OPENNI_INCLUDEDIR} ${PC_OPENNI_INCLUDE_DIRS} 
+    HINTS ${PC_OPENNI_INCLUDEDIR} ${PC_OPENNI_INCLUDE_DIRS}
           "${OPENNI_ROOT}" "$ENV{OPENNI_ROOT}"
     PATHS "$ENV{OPEN_NI_INCLUDE}" "${OPENNI_INCLUDE_DIRS_HINT}"
     PATH_SUFFIXES include/openni Include)
@@ -196,9 +196,9 @@ macro(find_openni)
   if(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
     set(OPENNI_SUFFIX 64)
   endif(WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 8)
-  find_library(OPENNI_LIBRARY 
-    NAMES OpenNI64 OpenNI 
-    HINTS ${PC_OPENNI_LIBDIR} ${PC_OPENNI_LIBRARY_DIRS} 
+  find_library(OPENNI_LIBRARY
+    NAMES OpenNI64 OpenNI
+    HINTS ${PC_OPENNI_LIBDIR} ${PC_OPENNI_LIBRARY_DIRS}
           "${OPENNI_ROOT}" "$ENV{OPENNI_ROOT}"
     PATHS "$ENV{OPEN_NI_LIB${OPENNI_SUFFIX}}" "${OPENNI_LIBRARY_HINT}"
     PATH_SUFFIXES lib Lib Lib64)
@@ -207,7 +207,7 @@ macro(find_openni)
 
   if(OPENNI_FOUND)
     get_filename_component(OPENNI_LIBRARY_PATH ${OPENNI_LIBRARY} PATH)
-    set(OPENNI_LIBRARY_DIRS ${OPENNI_LIBRARY_PATH}) 
+    set(OPENNI_LIBRARY_DIRS ${OPENNI_LIBRARY_PATH})
     set(OPENNI_LIBRARIES "${OPENNI_LIBRARY}")
   endif(OPENNI_FOUND)
 endmacro(find_openni)
@@ -224,7 +224,7 @@ macro(find_flann)
   endif(PKG_CONFIG_FOUND)
 
   find_path(FLANN_INCLUDE_DIRS flann/flann.hpp
-    HINTS ${PC_FLANN_INCLUDEDIR} ${PC_FLANN_INCLUDE_DIRS} 
+    HINTS ${PC_FLANN_INCLUDEDIR} ${PC_FLANN_INCLUDE_DIRS}
           "${FLANN_ROOT}" "$ENV{FLANN_ROOT}"
     PATHS "$ENV{PROGRAMFILES}/flann 1.6.9" "$ENV{PROGRAMW6432}/flann 1.6.9"
           "$ENV{PROGRAMFILES}/flann" "$ENV{PROGRAMW6432}/flann"
@@ -233,14 +233,14 @@ macro(find_flann)
   find_library(FLANN_LIBRARY
     NAMES flann_cpp_s flann_cpp
     HINTS ${PC_FLANN_LIBDIR} ${PC_FLANN_LIBRARY_DIRS} "${FLANN_ROOT}" "$ENV{FLANN_ROOT}"
-    PATHS "$ENV{PROGRAMFILES}/flann 1.6.9" "$ENV{PROGRAMW6432}/flann 1.6.9" 
+    PATHS "$ENV{PROGRAMFILES}/flann 1.6.9" "$ENV{PROGRAMW6432}/flann 1.6.9"
           "$ENV{PROGRAMFILES}/flann" "$ENV{PROGRAMW6432}/flann"
     PATH_SUFFIXES lib)
 
-  find_library(FLANN_LIBRARY_DEBUG 
+  find_library(FLANN_LIBRARY_DEBUG
     NAMES flann_cpp_s-gd flann_cpp-gd flann_cpp_s flann_cpp
     HINTS ${PC_FLANN_LIBDIR} ${PC_FLANN_LIBRARY_DIRS} "${FLANN_ROOT}" "$ENV{FLANN_ROOT}"
-    PATHS "$ENV{PROGRAMFILES}/flann 1.6.9" "$ENV{PROGRAMW6432}/flann 1.6.9" 
+    PATHS "$ENV{PROGRAMFILES}/flann 1.6.9" "$ENV{PROGRAMW6432}/flann 1.6.9"
           "$ENV{PROGRAMFILES}/flann" "$ENV{PROGRAMW6432}/flann"
     PATH_SUFFIXES lib)
 
@@ -249,10 +249,10 @@ macro(find_flann)
     get_filename_component(FLANN_LIBRARY_PATH ${FLANN_LIBRARY} PATH)
     if(FLANN_LIBRARY_DEBUG)
       get_filename_component(FLANN_LIBRARY_DEBUG_PATH ${FLANN_LIBRARY_DEBUG} PATH)
-      set(FLANN_LIBRARY_DIRS ${FLANN_LIBRARY_PATH} ${FLANN_LIBRARY_DEBUG_PATH}) 
+      set(FLANN_LIBRARY_DIRS ${FLANN_LIBRARY_PATH} ${FLANN_LIBRARY_DEBUG_PATH})
       set(FLANN_LIBRARIES optimized ${FLANN_LIBRARY} debug ${FLANN_LIBRARY_DEBUG})
     else(FLANN_LIBRARY_DEBUG)
-      set(FLANN_LIBRARY_DIRS ${FLANN_LIBRARY_PATH}) 
+      set(FLANN_LIBRARY_DIRS ${FLANN_LIBRARY_PATH})
       set(FLANN_LIBRARIES ${FLANN_LIBRARY})
     endif(FLANN_LIBRARY_DEBUG)
     if("${FLANN_LIBRARY}" MATCHES "flann_cpp_s")
@@ -293,7 +293,7 @@ endmacro(find_libusb)
 # |--> _lib found ==> include the headers,
 # |                   link to its library directories or include _lib_USE_FILE
 # `--> _lib not found
-#                   |--> _lib is optional ==> disable it (thanks to the guardians) 
+#                   |--> _lib is optional ==> disable it (thanks to the guardians)
 #                   |                         and warn
 #                   `--> _lib is required
 #                                       |--> component is required explicitely ==> error
@@ -416,7 +416,7 @@ elseif(EXISTS "${PCL_DIR}/include/pcl/pcl_config.h")
   set(PCL_LIBRARY_DIRS "${PCL_DIR}/@LIB_INSTALL_DIR@")
   set(PCL_SOURCES_TREE "@CMAKE_SOURCE_DIR@")
 else(EXISTS "${PCL_ROOT}/include/pcl-${PCL_VERSION_MAJOR}.${PCL_VERSION_MINOR}/pcl/pcl_config.h")
-  pcl_report_not_found("PCL can not be found on this machine")  
+  pcl_report_not_found("PCL can not be found on this machine")
 endif(EXISTS "${PCL_ROOT}/include/pcl-${PCL_VERSION_MAJOR}.${PCL_VERSION_MINOR}/pcl/pcl_config.h")
 
 #set a suffix for debug libraries
@@ -446,7 +446,7 @@ if(PCL_FIND_COMPONENTS)
     set(PCL_TO_FIND_COMPONENTS ${pcl_all_components})
     set(PCL_FIND_ALL 1)
   else(PCL_FIND_COMPONENTS_LENGTH EQUAL PCL_NB_COMPONENTS)
-    set(PCL_TO_FIND_COMPONENTS ${PCL_FIND_COMPONENTS})    
+    set(PCL_TO_FIND_COMPONENTS ${PCL_FIND_COMPONENTS})
   endif(PCL_FIND_COMPONENTS_LENGTH EQUAL PCL_NB_COMPONENTS)
 else(PCL_FIND_COMPONENTS)
   set(PCL_TO_FIND_COMPONENTS ${pcl_all_components})
@@ -462,7 +462,7 @@ foreach(component ${PCL_TO_FIND_COMPONENTS})
     endforeach(opt)
     foreach(ext ${pcl_${component}_ext_dep})
       find_external_library(${component} ${ext} REQUIRED)
-    endforeach(ext) 
+    endforeach(ext)
 endforeach(component)
 
 foreach(component ${PCL_TO_FIND_COMPONENTS})
@@ -472,8 +472,8 @@ foreach(component ${PCL_TO_FIND_COMPONENTS})
   pcl_message(STATUS "looking for PCL_${COMPONENT}")
 
   string(REGEX REPLACE "^cuda_(.*)$" "\\1" cuda_component "${component}")
-  string(REGEX REPLACE "^gpu_(.*)$" "\\1" gpu_component "${component}") 
-  
+  string(REGEX REPLACE "^gpu_(.*)$" "\\1" gpu_component "${component}")
+
   find_path(PCL_${COMPONENT}_INCLUDE_DIR
     NAMES pcl/${component}
           pcl/cuda/${cuda_component} pcl/cuda/${component}
@@ -482,7 +482,7 @@ foreach(component ${PCL_TO_FIND_COMPONENTS})
           "${PCL_SOURCES_TREE}"
     PATH_SUFFIXES
           ${component}/include
-          cuda/${cuda_component}/include 
+          cuda/${cuda_component}/include
           gpu/${gpu_component}/include
     DOC "path to ${component} headers"
     NO_DEFAULT_PATH)
@@ -492,7 +492,7 @@ foreach(component ${PCL_TO_FIND_COMPONENTS})
   else(PCL_${COMPONENT}_INCLUDE_DIR)
     #pcl_message("No include directory found for pcl_${component}.")
   endif(PCL_${COMPONENT}_INCLUDE_DIR)
-  
+
   # Skip find_library for header only modules
   list(FIND pcl_header_only_components ${component} _is_header_only)
   if(_is_header_only EQUAL -1)
@@ -500,7 +500,7 @@ foreach(component ${PCL_TO_FIND_COMPONENTS})
       HINTS ${PCL_LIBRARY_DIRS}
       DOC "path to ${pcl_component} library"
       NO_DEFAULT_PATH)
-    get_filename_component(${component}_library_path 
+    get_filename_component(${component}_library_path
       ${PCL_${COMPONENT}_LIBRARY}
       PATH)
 
@@ -509,7 +509,7 @@ foreach(component ${PCL_TO_FIND_COMPONENTS})
       DOC "path to ${pcl_component} library debug"
       NO_DEFAULT_PATH)
     if(PCL_${COMPONENT}_LIBRARY_DEBUG)
-      get_filename_component(${component}_library_path_debug 
+      get_filename_component(${component}_library_path_debug
         ${PCL_${COMPONENT}_LIBRARY_DEBUG}
         PATH)
     endif(PCL_${COMPONENT}_LIBRARY_DEBUG)
@@ -518,9 +518,9 @@ foreach(component ${PCL_TO_FIND_COMPONENTS})
       PCL_${COMPONENT}_LIBRARY PCL_${COMPONENT}_INCLUDE_DIR)
   else(_is_header_only EQUAL -1)
     find_package_handle_standard_args(PCL_${COMPONENT} DEFAULT_MSG
-      PCL_${COMPONENT}_INCLUDE_DIR)  
+      PCL_${COMPONENT}_INCLUDE_DIR)
   endif(_is_header_only EQUAL -1)
-  
+
   if(PCL_${COMPONENT}_FOUND)
     if(NOT "${PCL_${COMPONENT}_INCLUDE_DIRS}" STREQUAL "")
       list(REMOVE_DUPLICATES PCL_${COMPONENT}_INCLUDE_DIRS)
@@ -538,7 +538,7 @@ foreach(component ${PCL_TO_FIND_COMPONENTS})
       endif(PCL_${COMPONENT}_LIBRARY_DEBUG)
       list(APPEND PCL_LIBRARIES ${PCL_${COMPONENT}_LIBRARIES})
       mark_as_advanced(PCL_${COMPONENT}_LIBRARY PCL_${COMPONENT}_LIBRARY_DEBUG)
-    endif(_is_header_only EQUAL -1)    
+    endif(_is_header_only EQUAL -1)
     # Append internal dependencies
     foreach(int_dep ${pcl_${component}_int_dep})
       string(TOUPPER "${int_dep}" INT_DEP)

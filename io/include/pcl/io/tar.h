@@ -44,8 +44,8 @@ namespace pcl
 {
   namespace io
   {
-    /** \brief A TAR file's header, as described on 
-      * http://en.wikipedia.org/wiki/Tar_%28file_format%29. 
+    /** \brief A TAR file's header, as described on
+      * http://en.wikipedia.org/wiki/Tar_%28file_format%29.
       */
     struct TARHeader
     {
@@ -68,7 +68,7 @@ namespace pcl
       char _padding[12];
 
       /** \brief . */
-      unsigned int 
+      unsigned int
       getFileSize ()
       {
         unsigned int output = 0;
@@ -82,7 +82,7 @@ namespace pcl
       }
     };
 
-    /** \brief Save a PointCloud dataset into a TAR file. 
+    /** \brief Save a PointCloud dataset into a TAR file.
       * Append if the file exists, or create a new one if not.
       *
       * \param[in] tar_filename the name of the TAR file to save the cloud to
@@ -91,8 +91,8 @@ namespace pcl
       * \remark till implemented will return FALSE
       */
     template <typename PointT> bool
-    saveTARPointCloud (const std::string &tar_filename, 
-                       const PointCloud<PointT> &cloud, 
+    saveTARPointCloud (const std::string &tar_filename,
+                       const PointCloud<PointT> &cloud,
                        const std::string &pcd_filename)
     {
       return (false);

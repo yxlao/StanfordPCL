@@ -10,7 +10,7 @@
 #ifndef EIGEN_GENERAL_MATRIX_VECTOR_H
 #define EIGEN_GENERAL_MATRIX_VECTOR_H
 
-namespace Eigen { 
+namespace Eigen {
 
 namespace internal {
 
@@ -82,7 +82,7 @@ EIGEN_DONT_INLINE static void run(
   const Index LhsPacketAlignedMask = LhsPacketSize-1;
   const Index ResPacketAlignedMask = ResPacketSize-1;
   const Index size = rows;
-  
+
   // How many coeffs of the result do we have to skip to be aligned.
   // Here we assume data are at least aligned on the base scalar type.
   Index alignedStart = internal::first_aligned(res,size);
@@ -305,7 +305,7 @@ typedef typename packet_traits<ResScalar>::type  _ResPacket;
 typedef typename conditional<Vectorizable,_LhsPacket,LhsScalar>::type LhsPacket;
 typedef typename conditional<Vectorizable,_RhsPacket,RhsScalar>::type RhsPacket;
 typedef typename conditional<Vectorizable,_ResPacket,ResScalar>::type ResPacket;
-  
+
 EIGEN_DONT_INLINE static void run(
   Index rows, Index cols,
   const LhsScalar* lhs, Index lhsStride,

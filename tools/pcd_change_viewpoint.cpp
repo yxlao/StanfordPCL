@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2012-, Open Perception, Inc.
- *  
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -69,8 +69,8 @@ loadCloud (const std::string &filename, sensor_msgs::PointCloud2 &cloud)
   if (loadPCDFile (filename, cloud, translation, orientation) < 0)
     return (false);
   print_info ("[done, "); print_value ("%g", tt.toc ()); print_info (" ms : "); print_value ("%d", cloud.width * cloud.height); print_info (" points]\n");
-  print_info ("VIEWPOINT information is: "); 
-  print_value ("%.2f %.2f %.2f / %.2f %.2f %.2f %.2f\n", 
+  print_info ("VIEWPOINT information is: ");
+  print_value ("%.2f %.2f %.2f / %.2f %.2f %.2f %.2f\n",
       translation.x (), translation.y (), translation.z (),
       orientation.w (), orientation.x (), orientation.y (), orientation.z ());
 
@@ -78,7 +78,7 @@ loadCloud (const std::string &filename, sensor_msgs::PointCloud2 &cloud)
 }
 
 void
-saveCloud (const std::string &filename, 
+saveCloud (const std::string &filename,
            const Eigen::Vector4f    &translation,
            const Eigen::Quaternionf &orientation,
            const sensor_msgs::PointCloud2 &output)
@@ -90,7 +90,7 @@ saveCloud (const std::string &filename,
 
   PCDWriter w;
   w.writeBinaryCompressed (filename, output, translation, orientation);
-  
+
   print_info ("[done, "); print_value ("%g", tt.toc ()); print_info (" ms : "); print_value ("%d", output.width * output.height); print_info (" points]\n");
 }
 
@@ -136,11 +136,11 @@ main (int argc, char** argv)
 
   // Load the first file
   sensor_msgs::PointCloud2 cloud;
-  if (!loadCloud (argv[p_file_indices[0]], cloud)) 
+  if (!loadCloud (argv[p_file_indices[0]], cloud))
     return (-1);
 
-  print_info ("Saving output PCD file with the following VIEWPOINT information: "); 
-  print_value ("%.2f %.2f %.2f / %.2f %.2f %.2f %.2f\n", 
+  print_info ("Saving output PCD file with the following VIEWPOINT information: ");
+  print_value ("%.2f %.2f %.2f / %.2f %.2f %.2f %.2f\n",
       translation.x (), translation.y (), translation.z (),
       orientation.w (), orientation.x (), orientation.y (), orientation.z ());
 

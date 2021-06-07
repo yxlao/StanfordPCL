@@ -9,15 +9,15 @@ pcl::cloud_composer::CloudComposerItem::CloudComposerItem (QString name)
 {
   //Set up the properties, store pointer locally for convenience
   properties_ = new PropertiesModel (this);
-  
-  QString item_id = name + QString ("%1").arg ((long)this);  
-  
-  
-  this->setData (QVariant::fromValue (properties_), ItemDataRole::PROPERTIES); 
+
+  QString item_id = name + QString ("%1").arg ((long)this);
+
+
+  this->setData (QVariant::fromValue (properties_), ItemDataRole::PROPERTIES);
   this->setData (QVariant (item_id), ItemDataRole::ITEM_ID);
-  
+
   this->setForeground (QBrush (Qt::black));
-  
+
 }
 
 
@@ -31,11 +31,11 @@ pcl::cloud_composer::CloudComposerItem*
 pcl::cloud_composer::CloudComposerItem::clone () const
 {
   CloudComposerItem* new_item = new CloudComposerItem (this->text ());
-  
+
   PropertiesModel* new_item_properties = new_item->getPropertiesModel ();
   new_item_properties->copyProperties (properties_);
-  
-  return new_item;  
+
+  return new_item;
 }
 
 QList <pcl::cloud_composer::CloudComposerItem*>
@@ -49,7 +49,7 @@ pcl::cloud_composer::CloudComposerItem::getChildren (CloudComposerItem::ItemType
         items.append (dynamic_cast <CloudComposerItem*> (this->child (i)));
     }
   }
-  
+
   return items;
 }
 
@@ -83,7 +83,7 @@ pcl::cloud_composer::CloudComposerItem::getCloudPtr () const
     ptr =  cloud_variant.value <CloudPtrT> ();
   else
     qCritical () << "Requested Cloud of incorrect type from "<<this->text ()<<" correct type is "<<cloud_variant.typeName();
-    
+
   return ptr;
 }
 */

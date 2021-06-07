@@ -56,7 +56,7 @@ namespace pcl
                               const pcl::gpu::Octree::Ptr                               &tree,
                               float                                                     tolerance,
                               std::vector<PointIndices>                                 &clusters,
-                              unsigned int                                              min_pts_per_cluster, 
+                              unsigned int                                              min_pts_per_cluster,
                               unsigned int                                max_pts_per_cluster);
 
    /** \brief @b EuclideanClusterExtraction represents a segmentation class for cluster extraction in an Euclidean sense, depending on pcl::gpu::octree
@@ -95,7 +95,7 @@ namespace pcl
           */
         inline void setSearchMethod (GPUTreePtr &tree) { tree_ = tree; }
 
-        /** \brief Get a pointer to the search method used. 
+        /** \brief Get a pointer to the search method used.
           *  @todo fix this for a generic search tree
           */
         inline GPUTreePtr getSearchMethod () { return (tree_); }
@@ -155,10 +155,10 @@ namespace pcl
         /** \brief Class getName method. */
         virtual std::string getClassName () const { return ("gpu::EuclideanClusterExtraction"); }
     };
-    /** \brief Sort clusters method (for std::sort). 
+    /** \brief Sort clusters method (for std::sort).
       * \ingroup segmentation
       */
-    inline bool 
+    inline bool
       comparePointClusters (const pcl::PointIndices &a, const pcl::PointIndices &b)
     {
       return (a.indices.size () < b.indices.size ());

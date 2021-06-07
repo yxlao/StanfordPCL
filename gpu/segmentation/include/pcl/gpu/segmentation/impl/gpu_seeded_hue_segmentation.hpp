@@ -137,7 +137,7 @@ seededHueSegmentation (const boost::shared_ptr<pcl::PointCloud<pcl::PointXYZRGB>
   // @todo: do we need to sort here and remove double points?
 }
 
-void 
+void
 pcl::gpu::SeededHueSegmentation::segment (PointIndices &indices_in, PointIndices &indices_out)
 {
   // Initialize the GPU search tree

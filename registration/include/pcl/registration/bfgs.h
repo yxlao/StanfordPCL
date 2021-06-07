@@ -2,7 +2,7 @@
 #define PCL_FOR_EIGEN_BFGS_H
 
 #if defined __GNUC__
-#  pragma GCC system_header 
+#  pragma GCC system_header
 #endif
 
 #include <pcl/registration/eigen.h>
@@ -15,7 +15,7 @@ namespace Eigen
     public:
       typedef PolynomialSolverBase<_Scalar,2>    PS_Base;
       EIGEN_POLYNOMIAL_SOLVER_BASE_INHERITED_TYPES( PS_Base )
-        
+
     public:
 
       virtual ~PolynomialSolver () {}
@@ -25,7 +25,7 @@ namespace Eigen
       {
         compute( poly, hasRealRoot );
       }
-      
+
       /** Computes the complex roots of a new polynomial. */
       template< typename OtherPolynomial >
       void compute( const OtherPolynomial& poly, bool& hasRealRoot)
@@ -57,7 +57,7 @@ namespace Eigen
           }
         }
       }
-      
+
       template< typename OtherPolynomial >
       void compute( const OtherPolynomial& poly)
       {
@@ -101,13 +101,13 @@ namespace BFGSSpace {
 }
 
 /**
- * BFGS stands for Broyden–Fletcher–Goldfarb–Shanno (BFGS) method for solving 
- * unconstrained nonlinear optimization problems. 
+ * BFGS stands for Broyden–Fletcher–Goldfarb–Shanno (BFGS) method for solving
+ * unconstrained nonlinear optimization problems.
  * For further details please visit: http://en.wikipedia.org/wiki/BFGS_method
  * The method provided here is almost similar to the one provided by GSL.
  * It reproduces Fletcher's original algorithm in Practical Methods of Optimization
- * algorithms : 2.6.2 and 2.6.4 and uses the same politics in GSL with cubic 
- * interpolation whenever it is possible else falls to quadratic interpolation for 
+ * algorithms : 2.6.2 and 2.6.4 and uses the same politics in GSL with cubic
+ * interpolation whenever it is possible else falls to quadratic interpolation for
  * alpha parameter.
  */
 template<typename FunctorType>
@@ -117,7 +117,7 @@ public:
   typedef typename FunctorType::Scalar Scalar;
   typedef typename FunctorType::VectorType FVectorType;
 
-  BFGS(FunctorType &_functor) 
+  BFGS(FunctorType &_functor)
       : pnorm(0), g0norm(0), iter(-1), functor(_functor) {  }
 
   typedef Eigen::DenseIndex Index;
@@ -151,19 +151,19 @@ public:
   BFGSSpace::Status minimizeOneStep(FVectorType &x);
   BFGSSpace::Status testGradient(Scalar epsilon);
   void resetParameters(void) { parameters = Parameters(); }
-  
+
   Parameters parameters;
   Scalar f;
   FVectorType gradient;
 private:
-  
+
   BFGS& operator=(const BFGS&);
-  BFGSSpace::Status lineSearch (Scalar rho, Scalar sigma, 
+  BFGSSpace::Status lineSearch (Scalar rho, Scalar sigma,
                                 Scalar tau1, Scalar tau2, Scalar tau3,
                                 int order, Scalar alpha1, Scalar &alpha_new);
   Scalar interpolate (Scalar a, Scalar fa, Scalar fpa,
                       Scalar b, Scalar fb, Scalar fpb, Scalar xmin, Scalar xmax,
-                      int order);  
+                      int order);
   void checkExtremum (const Eigen::Matrix<Scalar, 4, 1>& coefficients, Scalar x, Scalar& xmin, Scalar& fmin);
   void moveTo (Scalar alpha);
   Scalar slope ();
@@ -172,7 +172,7 @@ private:
   void applyFDF (Scalar alpha, Scalar &f, Scalar &df);
   void updatePosition (Scalar alpha, FVectorType& x, Scalar& f, FVectorType& g);
   void changeDirection ();
-  
+
   Scalar delta_f, fp0;
   FVectorType x0, dx0, dg0, g0, dx, p;
   Scalar pnorm, g0norm;
@@ -181,7 +181,7 @@ private:
   Scalar df_alpha;
   FVectorType x_alpha;
   FVectorType g_alpha;
-  
+
   // cache "keys"
   Scalar f_cache_key;
   Scalar df_cache_key;
@@ -268,15 +268,15 @@ BFGS<FunctorType>::applyFDF(Scalar alpha, Scalar& f, Scalar& df)
 template<typename FunctorType> void
 BFGS<FunctorType>::updatePosition (Scalar alpha, FVectorType &x, Scalar &f, FVectorType &g)
 {
-  { 
-    Scalar f_alpha, df_alpha; 
-    applyFDF (alpha, f_alpha, df_alpha); 
+  {
+    Scalar f_alpha, df_alpha;
+    applyFDF (alpha, f_alpha, df_alpha);
   } ;
 
   f = f_alpha;
   x = x_alpha;
   g = g_alpha;
-}  
+}
 
 template<typename FunctorType> void
 BFGS<FunctorType>::changeDirection ()
@@ -317,11 +317,11 @@ BFGS<FunctorType>::minimizeInit(FVectorType  &x)
 
   {
     x_alpha = x0; x_cache_key = 0;
-    
+
     f_alpha = f; f_cache_key = 0;
-    
+
     g_alpha = g0; g_cache_key = 0;
-    
+
     df_alpha = slope (); df_cache_key = 0;
   }
 
@@ -347,8 +347,8 @@ BFGS<FunctorType>::minimizeOneStep(FVectorType  &x)
   else
     alpha1 = fabs(parameters.step_size);
 
-  BFGSSpace::Status status = lineSearch(parameters.rho, parameters.sigma, 
-                                        parameters.tau1, parameters.tau2, parameters.tau3, 
+  BFGSSpace::Status status = lineSearch(parameters.rho, parameters.sigma,
+                                        parameters.tau1, parameters.tau2, parameters.tau3,
                                         parameters.order, alpha1, alpha);
 
   if(status != BFGSSpace::Success)
@@ -398,7 +398,7 @@ BFGS<FunctorType>::minimizeOneStep(FVectorType  &x)
   x0 = x;
   g0norm = g0.norm ();
   pnorm = p.norm ();
-  
+
   Scalar dir = ((p.dot (gradient)) > 0) ? -1.0 : 1.0;
   p*= dir / pnorm;
   pnorm = p.norm ();
@@ -408,7 +408,7 @@ BFGS<FunctorType>::minimizeOneStep(FVectorType  &x)
   return BFGSSpace::Success;
 }
 
-template<typename FunctorType> typename BFGSSpace::Status 
+template<typename FunctorType> typename BFGSSpace::Status
 BFGS<FunctorType>::testGradient(Scalar epsilon)
 {
   if(epsilon < 0)
@@ -422,9 +422,9 @@ BFGS<FunctorType>::testGradient(Scalar epsilon)
   }
 }
 
-template<typename FunctorType> typename BFGS<FunctorType>::Scalar 
+template<typename FunctorType> typename BFGS<FunctorType>::Scalar
 BFGS<FunctorType>::interpolate (Scalar a, Scalar fa, Scalar fpa,
-                                Scalar b, Scalar fb, Scalar fpb, 
+                                Scalar b, Scalar fb, Scalar fpb,
                                 Scalar xmin, Scalar xmax,
                                 int order)
 {
@@ -433,11 +433,11 @@ BFGS<FunctorType>::interpolate (Scalar a, Scalar fa, Scalar fpa,
 
   ymin = (xmin - a) / (b - a);
   ymax = (xmax - a) / (b - a);
-  
+
   // Ensure ymin <= ymax
   if (ymin > ymax) { Scalar tmp = ymin; ymin = ymax; ymax = tmp; };
 
-  if (order > 2 && !(fpb != fpb) && fpb != std::numeric_limits<Scalar>::infinity ()) 
+  if (order > 2 && !(fpb != fpb) && fpb != std::numeric_limits<Scalar>::infinity ())
   {
     fpa = fpa * (b - a);
     fpb = fpb * (b - a);
@@ -448,8 +448,8 @@ BFGS<FunctorType>::interpolate (Scalar a, Scalar fa, Scalar fpa,
     Scalar y0, y1;
     Eigen::Matrix<Scalar, 4, 1> coefficients;
     coefficients << c0, c1, c2, c3;
-    
-    y = ymin; 
+
+    y = ymin;
     // Evaluate the cubic polyinomial at ymin;
     fmin = Eigen::poly_eval (coefficients, ymin);
     checkExtremum (coefficients, ymax, y, fmin);
@@ -466,30 +466,30 @@ BFGS<FunctorType>::interpolate (Scalar a, Scalar fa, Scalar fpa,
           y0 = std::real (solver.roots () [0]);
           y1 = std::real (solver.roots () [1]);
           if(y0 > y1) { Scalar tmp (y0); y0 = y1; y1 = tmp; }
-          if (y0 > ymin && y0 < ymax) 
+          if (y0 > ymin && y0 < ymax)
             checkExtremum (coefficients, y0, y, fmin);
-          if (y1 > ymin && y1 < ymax) 
+          if (y1 > ymin && y1 < ymax)
             checkExtremum (coefficients, y1, y, fmin);
         }
         else if ((solver.roots ()).size () == 1)  /* found 1 root */
         {
           y0 = std::real (solver.roots () [0]);
-          if (y0 > ymin && y0 < ymax) 
+          if (y0 > ymin && y0 < ymax)
             checkExtremum (coefficients, y0, y, fmin);
         }
       }
     }
-  } 
-  else 
+  }
+  else
   {
     fpa = fpa * (b - a);
     Scalar fl = fa + ymin*(fpa + ymin*(fb - fa -fpa));
     Scalar fh = fa + ymax*(fpa + ymax*(fb - fa -fpa));
     Scalar c = 2 * (fb - fa - fpa);       /* curvature */
     y = ymin; fmin = fl;
-    
-    if (fh < fmin) { y = ymax; fmin = fh; } 
-    
+
+    if (fh < fmin) { y = ymax; fmin = fh; }
+
     if (c > a)  /* positive curvature required for a minimum */
     {
       Scalar z = -fpa / c;      /* location of minimum */
@@ -499,13 +499,13 @@ BFGS<FunctorType>::interpolate (Scalar a, Scalar fa, Scalar fpa,
       }
     }
   }
-  
+
   alpha = a + y * (b - a);
   return alpha;
 }
 
-template<typename FunctorType> BFGSSpace::Status 
-BFGS<FunctorType>::lineSearch(Scalar rho, Scalar sigma, 
+template<typename FunctorType> BFGSSpace::Status
+BFGS<FunctorType>::lineSearch(Scalar rho, Scalar sigma,
                               Scalar tau1, Scalar tau2, Scalar tau3,
                               int order, Scalar alpha1, Scalar &alpha_new)
 {
@@ -524,7 +524,7 @@ BFGS<FunctorType>::lineSearch(Scalar rho, Scalar sigma,
   fa = f0; fb = 0.0;
   fpa = fp0; fpb = 0.0;
 
-  /* Begin bracketing */  
+  /* Begin bracketing */
 
   while (i++ < parameters.bracket_iters)
   {
@@ -535,7 +535,7 @@ BFGS<FunctorType>::lineSearch(Scalar rho, Scalar sigma,
       a = alpha_prev; fa = falpha_prev; fpa = fpalpha_prev;
       b = alpha; fb = falpha; fpb = std::numeric_limits<Scalar>::quiet_NaN ();
       break;
-    } 
+    }
 
     fpalpha = applyDF (alpha);
 
@@ -573,11 +573,11 @@ BFGS<FunctorType>::lineSearch(Scalar rho, Scalar sigma,
   while (i++ < parameters.section_iters)
   {
     delta = b - a;
-      
+
     {
       Scalar lower = a + tau2 * delta;
       Scalar upper = b - tau3 * delta;
-        
+
       alpha = interpolate (a, fa, fpa, b, fb, fpb, lower, upper, order);
     }
     falpha = applyF (alpha);
@@ -594,13 +594,13 @@ BFGS<FunctorType>::lineSearch(Scalar rho, Scalar sigma,
     else
     {
       fpalpha = applyDF (alpha);
-          
+
       if (fabs(fpalpha) <= -sigma * fp0)
       {
         alpha_new = alpha;
         return BFGSSpace::Success;  /* terminate */
       }
-          
+
       if ( ((b-a) >= 0 && fpalpha >= 0) || ((b-a) <=0 && fpalpha <= 0))
       {
         b = a; fb = fa; fpb = fpa;

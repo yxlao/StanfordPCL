@@ -47,7 +47,7 @@
 namespace pcl
 {
   /** \brief PlanarPolygon represents a planar (2D) polygon, potentially in a 3D space.
-    * \author Alex Trevor 
+    * \author Alex Trevor
     */
   template <typename PointT>
   class PlanarPolygon
@@ -56,16 +56,16 @@ namespace pcl
       /** \brief Empty constructor for PlanarPolygon */
       PlanarPolygon () : contour_ (), coefficients_ ()
       {}
-      
+
       /** \brief Constructor for PlanarPolygon
         * \param[in] contour a vector of points bounding the polygon
         * \param[in] coefficients a vector of the plane's coefficients (a,b,c,d)
         */
       PlanarPolygon (typename pcl::PointCloud<PointT>::VectorType &contour,
-                     Eigen::Vector4f& coefficients) 
+                     Eigen::Vector4f& coefficients)
         : contour_ (contour), coefficients_ (coefficients)
       {}
-      
+
       /** \brief Destructor. */
       virtual ~PlanarPolygon () {}
 
@@ -84,7 +84,7 @@ namespace pcl
       {
         return (contour_);
       }
-      
+
       /** \brief Getter for the contour / boundary */
       const typename pcl::PointCloud<PointT>::VectorType&
       getContour () const
@@ -93,7 +93,7 @@ namespace pcl
       }
 
       /** \brief Setr the internal coefficients
-        * \param[in] coefficients the new coefficients to be set 
+        * \param[in] coefficients the new coefficients to be set
         */
       void
       setCoefficients (const Eigen::Vector4f &coefficients)
@@ -102,7 +102,7 @@ namespace pcl
       }
 
       /** \brief Set the internal coefficients
-        * \param[in] coefficients the new coefficients to be set 
+        * \param[in] coefficients the new coefficients to be set
         */
       void
       setCoefficients (const pcl::ModelCoefficients &coefficients)
@@ -124,14 +124,14 @@ namespace pcl
       {
         return (coefficients_);
       }
-      
+
     protected:
       /** \brief A list of points on the boundary/contour of the planar region. */
       typename pcl::PointCloud<PointT>::VectorType contour_;
-      
+
       /** \brief A list of model coefficients (a,b,c,d). */
       Eigen::Vector4f coefficients_;
-    
+
     public:
       EIGEN_MAKE_ALIGNED_OPERATOR_NEW
   };

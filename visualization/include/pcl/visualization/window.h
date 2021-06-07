@@ -177,7 +177,7 @@ namespace pcl
           ExitMainLoopTimerCallback (const ExitMainLoopTimerCallback& src) : vtkCommand (), right_timer_id (src.right_timer_id), window (src.window) {}
           ExitMainLoopTimerCallback& operator = (const ExitMainLoopTimerCallback& src) { right_timer_id = src.right_timer_id; window = src.window; return (*this); }
 
-          virtual void 
+          virtual void
           Execute (vtkObject*, unsigned long event_id, void* call_data)
           {
             if (event_id != vtkCommand::TimerEvent)
@@ -203,8 +203,8 @@ namespace pcl
           ExitCallback () : window () {}
           ExitCallback (const ExitCallback &src) : vtkCommand (), window (src.window) {}
           ExitCallback& operator = (const ExitCallback &src) { window = src.window; return (*this); }
- 
-          virtual void 
+
+          virtual void
           Execute (vtkObject*, unsigned long event_id, void*)
           {
             if (event_id != vtkCommand::ExitEvent)

@@ -282,5 +282,5 @@ pcl::PFHEstimation<PointInT, PointNT, Eigen::MatrixXf>::computeFeatureEigen (pcl
 
 #define PCL_INSTANTIATE_PFHEstimation(T,NT,OutT) template class PCL_EXPORTS pcl::PFHEstimation<T,NT,OutT>;
 
-#endif    // PCL_FEATURES_IMPL_PFH_H_ 
+#endif    // PCL_FEATURES_IMPL_PFH_H_
 

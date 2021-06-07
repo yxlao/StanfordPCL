@@ -61,7 +61,7 @@ public:
 #if defined(ON_DLL_TEMPLATE)
 
 // This stuff is here because of a limitation in the way Microsoft
-// handles templates and DLLs.  See Microsoft's knowledge base 
+// handles templates and DLLs.  See Microsoft's knowledge base
 // article ID Q168958 for details.
 #pragma warning( push )
 #pragma warning( disable : 4231 )

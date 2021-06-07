@@ -4,7 +4,7 @@
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
  *
- *  All rights reserved. 
+ *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -68,16 +68,16 @@ namespace pcl
         * \param[in] model a Sample Consensus model
         * \param[in] random if true set the random seed to the current time, else set to 12345 (default: false)
         */
-      SampleConsensus (const SampleConsensusModelPtr &model, bool random = false) : 
-        sac_model_ (model), 
-        model_ (), 
-        inliers_ (), 
-        model_coefficients_ (), 
-        probability_ (0.99), 
-        iterations_ (0), 
+      SampleConsensus (const SampleConsensusModelPtr &model, bool random = false) :
+        sac_model_ (model),
+        model_ (),
+        inliers_ (),
+        model_coefficients_ (),
+        probability_ (0.99),
+        iterations_ (0),
         threshold_ (std::numeric_limits<double>::max()),
-        max_iterations_ (1000), 
-        rng_alg_ (), 
+        max_iterations_ (1000),
+        rng_alg_ (),
         rng_ (new boost::uniform_01<boost::mt19937> (rng_alg_))
       {
          // Create a random number generator object
@@ -92,16 +92,16 @@ namespace pcl
         * \param[in] threshold distance to model threshol
         * \param[in] random if true set the random seed to the current time, else set to 12345 (default: false)
         */
-      SampleConsensus (const SampleConsensusModelPtr &model, double threshold, bool random = false) : 
-        sac_model_ (model), 
-        model_ (), 
-        inliers_ (), 
-        model_coefficients_ (), 
-        probability_ (0.99), 
-        iterations_ (0), 
-        threshold_ (threshold), 
-        max_iterations_ (1000), 
-        rng_alg_ (), 
+      SampleConsensus (const SampleConsensusModelPtr &model, double threshold, bool random = false) :
+        sac_model_ (model),
+        model_ (),
+        inliers_ (),
+        model_coefficients_ (),
+        probability_ (0.99),
+        iterations_ (0),
+        threshold_ (threshold),
+        max_iterations_ (1000),
+        rng_alg_ (),
         rng_ (new boost::uniform_01<boost::mt19937> (rng_alg_))
       {
          // Create a random number generator object
@@ -117,36 +117,36 @@ namespace pcl
       /** \brief Set the distance to model threshold.
         * \param[in] threshold distance to model threshold
         */
-      inline void 
+      inline void
       setDistanceThreshold (double threshold)  { threshold_ = threshold; }
 
       /** \brief Get the distance to model threshold, as set by the user. */
-      inline double 
+      inline double
       getDistanceThreshold () { return (threshold_); }
 
       /** \brief Set the maximum number of iterations.
         * \param[in] max_iterations maximum number of iterations
         */
-      inline void 
+      inline void
       setMaxIterations (int max_iterations) { max_iterations_ = max_iterations; }
 
       /** \brief Get the maximum number of iterations, as set by the user. */
-      inline int 
+      inline int
       getMaxIterations () { return (max_iterations_); }
 
       /** \brief Set the desired probability of choosing at least one sample free from outliers.
         * \param[in] probability the desired probability of choosing at least one sample free from outliers
         * \note internally, the probability is set to 99% (0.99) by default.
         */
-      inline void 
+      inline void
       setProbability (double probability) { probability_ = probability; }
 
       /** \brief Obtain the probability of choosing at least one sample free from outliers, as set by the user. */
-      inline double 
+      inline double
       getProbability () { return (probability_); }
 
       /** \brief Compute the actual model. Pure virtual. */
-      virtual bool 
+      virtual bool
       computeModel (int debug_verbosity_level = 0) = 0;
 
       /** \brief Get a set of randomly selected indices.
@@ -155,8 +155,8 @@ namespace pcl
         * \param[out] indices_subset the resultant output set of randomly selected indices
         */
       inline void
-      getRandomSamples (const boost::shared_ptr <std::vector<int> > &indices, 
-                        size_t nr_samples, 
+      getRandomSamples (const boost::shared_ptr <std::vector<int> > &indices,
+                        size_t nr_samples,
                         std::set<int> &indices_subset)
       {
         indices_subset.clear ();
@@ -165,22 +165,22 @@ namespace pcl
           indices_subset.insert ((*indices)[static_cast<int> (static_cast<double>(indices->size ()) * rnd ())]);
       }
 
-      /** \brief Return the best model found so far. 
+      /** \brief Return the best model found so far.
         * \param[out] model the resultant model
         */
-      inline void 
+      inline void
       getModel (std::vector<int> &model) { model = model_; }
 
-      /** \brief Return the best set of inliers found so far for this model. 
+      /** \brief Return the best set of inliers found so far for this model.
         * \param[out] inliers the resultant set of inliers
         */
-      inline void 
+      inline void
       getInliers (std::vector<int> &inliers) { inliers = inliers_; }
 
-      /** \brief Return the model coefficients of the best model found so far. 
+      /** \brief Return the model coefficients of the best model found so far.
         * \param[out] model_coefficients the resultant model coefficients
         */
-      inline void 
+      inline void
       getModelCoefficients (Eigen::VectorXf &model_coefficients) { model_coefficients = model_coefficients_; }
 
     protected:
@@ -201,10 +201,10 @@ namespace pcl
 
       /** \brief Total number of internal loop iterations that we've done so far. */
       int iterations_;
-      
+
       /** \brief Distance to model threshold. */
       double threshold_;
-      
+
       /** \brief Maximum number of iterations before giving up. */
       int max_iterations_;
 

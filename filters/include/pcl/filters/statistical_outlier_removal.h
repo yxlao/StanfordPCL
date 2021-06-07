@@ -178,7 +178,7 @@ namespace pcl
       /** \brief The number of points to use for mean distance estimation. */
       int mean_k_;
 
-      /** \brief Standard deviations threshold (i.e., points outside of 
+      /** \brief Standard deviations threshold (i.e., points outside of
         * \f$ \mu \pm \sigma \cdot std\_mul \f$ will be marked as outliers). */
       double std_mul_;
   };
@@ -212,7 +212,7 @@ namespace pcl
     public:
       /** \brief Empty constructor. */
       StatisticalOutlierRemoval (bool extract_removed_indices = false) :
-        Filter<sensor_msgs::PointCloud2>::Filter (extract_removed_indices), mean_k_ (2), 
+        Filter<sensor_msgs::PointCloud2>::Filter (extract_removed_indices), mean_k_ (2),
         std_mul_ (0.0), tree_ (), negative_ (false)
       {
         filter_name_ = "StatisticalOutlierRemoval";
@@ -276,8 +276,8 @@ namespace pcl
       /** \brief The number of points to use for mean distance estimation. */
       int mean_k_;
 
-      /** \brief Standard deviations threshold (i.e., points outside of 
-        * \f$ \mu \pm \sigma \cdot std\_mul \f$ will be marked as outliers). 
+      /** \brief Standard deviations threshold (i.e., points outside of
+        * \f$ \mu \pm \sigma \cdot std\_mul \f$ will be marked as outliers).
         */
       double std_mul_;
 

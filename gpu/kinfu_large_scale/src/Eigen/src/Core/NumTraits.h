@@ -76,7 +76,7 @@ template<typename T> struct GenericNumTraits
   }
   static inline T highest() { return (std::numeric_limits<T>::max)(); }
   static inline T lowest()  { return IsInteger ? (std::numeric_limits<T>::min)() : (-(std::numeric_limits<T>::max)()); }
-  
+
 #ifdef EIGEN2_SUPPORT
   enum {
     HasFloatingPoint = !IsInteger
@@ -130,7 +130,7 @@ struct NumTraits<Array<Scalar, Rows, Cols, Options, MaxRows, MaxCols> >
   typedef typename NumTraits<Scalar>::NonInteger NonIntegerScalar;
   typedef Array<NonIntegerScalar, Rows, Cols, Options, MaxRows, MaxCols> NonInteger;
   typedef ArrayType & Nested;
-  
+
   enum {
     IsComplex = NumTraits<Scalar>::IsComplex,
     IsInteger = NumTraits<Scalar>::IsInteger,

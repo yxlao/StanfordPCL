@@ -73,7 +73,7 @@ pcl::PCDWriter::setLockingPermissions (const std::string &file_name,
 #ifndef WIN32
   // Boost version 1.49 introduced permissions
 #if BOOST_VERSION >= 104900
-  // Attempt to lock the file. 
+  // Attempt to lock the file.
   // For mandatory locking, the filesystem must be mounted with the "mand" option in Linux (see http://www.hackinglinuxexposed.com/articles/20030623.html)
   lock = boost::interprocess::file_lock (file_name.c_str ());
   if (lock.try_lock ())
@@ -107,8 +107,8 @@ pcl::PCDWriter::resetLockingPermissions (const std::string &file_name,
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 int
-pcl::PCDReader::readHeader (const std::string &file_name, sensor_msgs::PointCloud2 &cloud, 
-                            Eigen::Vector4f &origin, Eigen::Quaternionf &orientation, 
+pcl::PCDReader::readHeader (const std::string &file_name, sensor_msgs::PointCloud2 &cloud,
+                            Eigen::Vector4f &origin, Eigen::Quaternionf &orientation,
                             int &pcd_version, int &data_type, unsigned int &data_idx, const int offset)
 {
   // Default values
@@ -135,12 +135,12 @@ pcl::PCDReader::readHeader (const std::string &file_name, sensor_msgs::PointClou
     return (-1);
   }
 
-  // Open file in binary mode to avoid problem of 
+  // Open file in binary mode to avoid problem of
   // std::getline() corrupting the result of ifstream::tellg()
   fs.open (file_name.c_str (), std::ios::binary);
   if (!fs.is_open () || fs.fail ())
   {
-    PCL_ERROR ("[pcl::PCDReader::readHeader] Could not open file '%s'! Error : %s\n", file_name.c_str (), strerror(errno)); 
+    PCL_ERROR ("[pcl::PCDReader::readHeader] Could not open file '%s'! Error : %s\n", file_name.c_str (), strerror(errno));
     fs.close ();
     return (-1);
   }
@@ -354,7 +354,7 @@ pcl::PCDReader::readHeader (const std::string &file_name, sensor_msgs::PointClou
     fs.close ();
     return (-1);
   }
-  
+
   // Compatibility with older PCD file versions
   if (cloud.width == 0 && cloud.height == 0)
   {
@@ -418,12 +418,12 @@ pcl::PCDReader::readHeader (const std::string &file_name, sensor_msgs::PointClou
     return (-1);
   }
 
-  // Open file in binary mode to avoid problem of 
+  // Open file in binary mode to avoid problem of
   // std::getline() corrupting the result of ifstream::tellg()
   fs.open (file_name.c_str (), std::ios::binary);
   if (!fs.is_open () || fs.fail ())
   {
-    PCL_ERROR ("[pcl::PCDReader::readHeader] Could not open file '%s'! Error : %s\n", file_name.c_str (), strerror(errno)); 
+    PCL_ERROR ("[pcl::PCDReader::readHeader] Could not open file '%s'! Error : %s\n", file_name.c_str (), strerror(errno));
     fs.close ();
     return (-1);
   }
@@ -618,7 +618,7 @@ pcl::PCDReader::readHeader (const std::string &file_name, sensor_msgs::PointClou
     fs.close ();
     return (-1);
   }
-  
+
   // Compatibility with older PCD file versions
   if (cloud.width == 0 && cloud.height == 0)
   {
@@ -661,7 +661,7 @@ pcl::PCDReader::readHeader (const std::string &file_name, sensor_msgs::PointClou
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 int
-pcl::PCDReader::readHeaderEigen (const std::string &file_name, pcl::PointCloud<Eigen::MatrixXf> &cloud, 
+pcl::PCDReader::readHeaderEigen (const std::string &file_name, pcl::PointCloud<Eigen::MatrixXf> &cloud,
                                  int &pcd_version, int &data_type, unsigned int &data_idx, const int offset)
 {
   // Default values
@@ -687,13 +687,13 @@ pcl::PCDReader::readHeaderEigen (const std::string &file_name, pcl::PointCloud<E
     PCL_ERROR ("[pcl::PCDReader::readHeader] Could not find file '%s'.\n", file_name.c_str ());
     return (-1);
   }
-  
-  // Open file in binary mode to avoid problem of 
+
+  // Open file in binary mode to avoid problem of
   // std::getline() corrupting the result of ifstream::tellg()
   fs.open (file_name.c_str (), std::ios::binary);
   if (!fs.is_open () || fs.fail ())
   {
-    PCL_ERROR ("[pcl::PCDReader::readHeader] Could not open file '%s'! Error : %s\n", file_name.c_str (), strerror(errno)); 
+    PCL_ERROR ("[pcl::PCDReader::readHeader] Could not open file '%s'! Error : %s\n", file_name.c_str (), strerror(errno));
     return (-1);
   }
 
@@ -809,7 +809,7 @@ pcl::PCDReader::readHeaderEigen (const std::string &file_name, pcl::PointCloud<E
         {
           int col_count;
           sstream >> col_count;
-          total_dimensions += col_count; 
+          total_dimensions += col_count;
           channels[i].count = col_count;
           channels[i].offset = offset;
           offset += col_count * 4;
@@ -925,7 +925,7 @@ pcl::PCDReader::readHeaderEigen (const std::string &file_name, pcl::PointCloud<E
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int
 pcl::PCDReader::read (const std::string &file_name, sensor_msgs::PointCloud2 &cloud,
-                      Eigen::Vector4f &origin, Eigen::Quaternionf &orientation, int &pcd_version, 
+                      Eigen::Vector4f &origin, Eigen::Quaternionf &orientation, int &pcd_version,
                       const int offset)
 {
   int data_type;
@@ -949,7 +949,7 @@ pcl::PCDReader::read (const std::string &file_name, sensor_msgs::PointCloud2 &cl
     PCL_ERROR ("[pcl::PCDReader::read] Could not find file '%s'.\n", file_name.c_str ());
     return (-1);
   }
-  
+
   // if ascii
   if (data_type == 0)
   {
@@ -980,7 +980,7 @@ pcl::PCDReader::read (const std::string &file_name, sensor_msgs::PointCloud2 &cl
         // Tokenize the line
         boost::trim (line);
         boost::split (st, line, boost::is_any_of ("\t\r "), boost::token_compress_on);
-        
+
         if (idx >= nr_points)
         {
           PCL_WARN ("[pcl::PCDReader::read] input file %s has more points (%d) than advertised (%d)!\n", file_name.c_str (), idx, nr_points);
@@ -1069,7 +1069,7 @@ pcl::PCDReader::read (const std::string &file_name, sensor_msgs::PointCloud2 &cl
     // Close file
     fs.close ();
   }
-  else 
+  else
   /// ---[ Binary mode only
   /// We must re-open the file and read with mmap () for binary
   {
@@ -1080,7 +1080,7 @@ pcl::PCDReader::read (const std::string &file_name, sensor_msgs::PointCloud2 &cl
       PCL_ERROR ("[pcl::PCDReader::read] Failure to open file %s\n", file_name.c_str () );
       return (-1);
     }
-    
+
     // Seek at the given offset
     int result = static_cast<int> (pcl_lseek (fd, offset, SEEK_SET));
     if (result < 0)
@@ -1089,7 +1089,7 @@ pcl::PCDReader::read (const std::string &file_name, sensor_msgs::PointCloud2 &cl
       PCL_ERROR ("[pcl::PCDReader::read] Error during lseek ()!\n");
       return (-1);
     }
-    
+
     size_t data_size = data_idx + cloud.data.size ();
     // Prepare the map
 #ifdef _WIN32
@@ -1142,7 +1142,7 @@ pcl::PCDReader::read (const std::string &file_name, sensor_msgs::PointCloud2 &cl
 
       if (uncompressed_size != cloud.data.size ())
       {
-        PCL_WARN ("[pcl::PCDReader::read] The estimated cloud.data size (%u) is different than the saved uncompressed value (%u)! Data corruption?\n", 
+        PCL_WARN ("[pcl::PCDReader::read] The estimated cloud.data size (%u) is different than the saved uncompressed value (%u)! Data corruption?\n",
                   cloud.data.size (), uncompressed_size);
         cloud.data.resize (uncompressed_size);
       }
@@ -1292,7 +1292,7 @@ pcl::PCDReader::read (const std::string &file_name, sensor_msgs::PointCloud2 &cl
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int
-pcl::PCDReader::readEigen (const std::string &file_name, pcl::PointCloud<Eigen::MatrixXf> &cloud, 
+pcl::PCDReader::readEigen (const std::string &file_name, pcl::PointCloud<Eigen::MatrixXf> &cloud,
                            const int offset)
 {
   int data_type;
@@ -1316,7 +1316,7 @@ pcl::PCDReader::readEigen (const std::string &file_name, pcl::PointCloud<Eigen::
     PCL_ERROR ("[pcl::PCDReader::readEigen] Could not find file '%s'.\n", file_name.c_str ());
     return (-1);
   }
-  
+
   // if ascii
   if (data_type == 0)
   {
@@ -1347,7 +1347,7 @@ pcl::PCDReader::readEigen (const std::string &file_name, pcl::PointCloud<Eigen::
         // Tokenize the line
         boost::trim (line);
         boost::split (st, line, boost::is_any_of ("\t\r "), boost::token_compress_on);
-        
+
         std::stringstream sstream (line);
         sstream.imbue (std::locale::classic ());
 
@@ -1373,7 +1373,7 @@ pcl::PCDReader::readEigen (const std::string &file_name, pcl::PointCloud<Eigen::
     fs.close ();
 
   }
-  else 
+  else
   /// ---[ Binary mode only
   /// We must re-open the file and read with mmap () for binary
   {
@@ -1384,7 +1384,7 @@ pcl::PCDReader::readEigen (const std::string &file_name, pcl::PointCloud<Eigen::
       PCL_ERROR ("[pcl::PCDReader::readEigen] Failure to open file %s\n", file_name.c_str () );
       return (-1);
     }
-    
+
 
     // Seek at the given offset
     int result = static_cast<int> (pcl_lseek (fd, offset, SEEK_SET));
@@ -1499,7 +1499,7 @@ pcl::PCDReader::read (const std::string &file_name, sensor_msgs::PointCloud2 &cl
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 std::string
-pcl::PCDWriter::generateHeaderASCII (const sensor_msgs::PointCloud2 &cloud, 
+pcl::PCDWriter::generateHeaderASCII (const sensor_msgs::PointCloud2 &cloud,
                                      const Eigen::Vector4f &origin, const Eigen::Quaternionf &orientation)
 {
   std::ostringstream oss;
@@ -1560,7 +1560,7 @@ pcl::PCDWriter::generateHeaderASCII (const sensor_msgs::PointCloud2 &cloud,
   result = stream.str ();
   boost::trim (result);
   oss << result << "\nCOUNT ";
-  
+
   stream.str ("");
   // Write the TYPE of each field
   for (size_t d = 0; d < cloud.fields.size () - 1; ++d)
@@ -1569,9 +1569,9 @@ pcl::PCDWriter::generateHeaderASCII (const sensor_msgs::PointCloud2 &cloud,
     if (cloud.fields[d].name == "_")
       continue;
     int count = abs (static_cast<int> (cloud.fields[d].count));
-    if (count == 0) 
+    if (count == 0)
       count = 1;          // we simply cannot tolerate 0 counts (coming from older converter code)
-  
+
     stream << count << " ";
   }
   // Ignore invalid padded dimensions that are inherited from binary data
@@ -1589,9 +1589,9 @@ pcl::PCDWriter::generateHeaderASCII (const sensor_msgs::PointCloud2 &cloud,
   boost::trim (result);
   oss << result << "\nWIDTH " << cloud.width << "\nHEIGHT " << cloud.height << "\n";
 
-  oss << "VIEWPOINT " << origin[0] << " " << origin[1] << " " << origin[2] << " " << orientation.w () << " " << 
+  oss << "VIEWPOINT " << origin[0] << " " << origin[1] << " " << origin[2] << " " << orientation.w () << " " <<
                          orientation.x () << " " << orientation.y () << " " << orientation.z () << "\n";
-  
+
   oss << "POINTS " << cloud.width * cloud.height << "\n";
 
   return (oss.str ());
@@ -1599,7 +1599,7 @@ pcl::PCDWriter::generateHeaderASCII (const sensor_msgs::PointCloud2 &cloud,
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 std::string
-pcl::PCDWriter::generateHeaderBinary (const sensor_msgs::PointCloud2 &cloud, 
+pcl::PCDWriter::generateHeaderBinary (const sensor_msgs::PointCloud2 &cloud,
                                       const Eigen::Vector4f &origin, const Eigen::Quaternionf &orientation)
 {
   std::ostringstream oss;
@@ -1613,7 +1613,7 @@ pcl::PCDWriter::generateHeaderBinary (const sensor_msgs::PointCloud2 &cloud,
   unsigned int fsize = 0;
   for (size_t i = 0; i < cloud.fields.size (); ++i)
     fsize += cloud.fields[i].count * getFieldSize (cloud.fields[i].datatype);
- 
+
   // The size of the fields cannot be larger than point_step
   if (fsize > cloud.point_step)
   {
@@ -1630,15 +1630,15 @@ pcl::PCDWriter::generateHeaderBinary (const sensor_msgs::PointCloud2 &cloud,
     if (toffset != cloud.fields[i].offset)
     {
       // If we're at the last "valid" field
-      int fake_offset = (i == 0) ? 
+      int fake_offset = (i == 0) ?
         // Use the current_field offset
         (cloud.fields[i].offset)
         :
         // Else, do cur_field.offset - prev_field.offset + sizeof (prev_field)
-        (cloud.fields[i].offset - 
-        (cloud.fields[i-1].offset + 
+        (cloud.fields[i].offset -
+        (cloud.fields[i-1].offset +
          cloud.fields[i-1].count * getFieldSize (cloud.fields[i].datatype)));
-      
+
       toffset += fake_offset;
 
       field_names << " _";  // By convention, _ is an invalid field name
@@ -1665,14 +1665,14 @@ pcl::PCDWriter::generateHeaderBinary (const sensor_msgs::PointCloud2 &cloud,
     field_counts << " " << (cloud.point_step - toffset);
   }
   oss << field_names.str ();
-  oss << "\nSIZE" << field_sizes.str () 
-      << "\nTYPE" << field_types.str () 
+  oss << "\nSIZE" << field_sizes.str ()
+      << "\nTYPE" << field_types.str ()
       << "\nCOUNT" << field_counts.str ();
   oss << "\nWIDTH " << cloud.width << "\nHEIGHT " << cloud.height << "\n";
 
-  oss << "VIEWPOINT " << origin[0] << " " << origin[1] << " " << origin[2] << " " << orientation.w () << " " << 
+  oss << "VIEWPOINT " << origin[0] << " " << origin[1] << " " << origin[2] << " " << orientation.w () << " " <<
                          orientation.x () << " " << orientation.y () << " " << orientation.z () << "\n";
-  
+
   oss << "POINTS " << cloud.width * cloud.height << "\n";
 
   return (oss.str ());
@@ -1680,8 +1680,8 @@ pcl::PCDWriter::generateHeaderBinary (const sensor_msgs::PointCloud2 &cloud,
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 std::string
-pcl::PCDWriter::generateHeaderBinaryCompressed (const sensor_msgs::PointCloud2 &cloud, 
-                                                const Eigen::Vector4f &origin, 
+pcl::PCDWriter::generateHeaderBinaryCompressed (const sensor_msgs::PointCloud2 &cloud,
+                                                const Eigen::Vector4f &origin,
                                                 const Eigen::Quaternionf &orientation)
 {
   std::ostringstream oss;
@@ -1695,7 +1695,7 @@ pcl::PCDWriter::generateHeaderBinaryCompressed (const sensor_msgs::PointCloud2 &
   unsigned int fsize = 0;
   for (size_t i = 0; i < cloud.fields.size (); ++i)
     fsize += cloud.fields[i].count * getFieldSize (cloud.fields[i].datatype);
- 
+
   // The size of the fields cannot be larger than point_step
   if (fsize > cloud.point_step)
   {
@@ -1718,14 +1718,14 @@ pcl::PCDWriter::generateHeaderBinaryCompressed (const sensor_msgs::PointCloud2 &
     field_counts << " " << count;
   }
   oss << field_names.str ();
-  oss << "\nSIZE" << field_sizes.str () 
-      << "\nTYPE" << field_types.str () 
+  oss << "\nSIZE" << field_sizes.str ()
+      << "\nTYPE" << field_types.str ()
       << "\nCOUNT" << field_counts.str ();
   oss << "\nWIDTH " << cloud.width << "\nHEIGHT " << cloud.height << "\n";
 
-  oss << "VIEWPOINT " << origin[0] << " " << origin[1] << " " << origin[2] << " " << orientation.w () << " " << 
+  oss << "VIEWPOINT " << origin[0] << " " << origin[1] << " " << origin[2] << " " << orientation.w () << " " <<
                          orientation.x () << " " << orientation.y () << " " << orientation.z () << "\n";
-  
+
   oss << "POINTS " << cloud.width * cloud.height << "\n";
 
   return (oss.str ());
@@ -1733,7 +1733,7 @@ pcl::PCDWriter::generateHeaderBinaryCompressed (const sensor_msgs::PointCloud2 &
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int
-pcl::PCDWriter::writeASCII (const std::string &file_name, const sensor_msgs::PointCloud2 &cloud, 
+pcl::PCDWriter::writeASCII (const std::string &file_name, const sensor_msgs::PointCloud2 &cloud,
                             const Eigen::Vector4f &origin, const Eigen::Quaternionf &orientation,
                             const int precision)
 {
@@ -1749,7 +1749,7 @@ pcl::PCDWriter::writeASCII (const std::string &file_name, const sensor_msgs::Poi
   fs.open (file_name.c_str ());      // Open file
   if (!fs.is_open () || fs.fail ())
   {
-    PCL_ERROR("[pcl::PCDWriter::writeASCII] Could not open file '%s' for writing! Error : %s\n", file_name.c_str (), strerror(errno)); 
+    PCL_ERROR("[pcl::PCDWriter::writeASCII] Could not open file '%s' for writing! Error : %s\n", file_name.c_str (), strerror(errno));
     return (-1);
   }
   // Mandatory lock file
@@ -1776,7 +1776,7 @@ pcl::PCDWriter::writeASCII (const std::string &file_name, const sensor_msgs::Poi
         continue;
 
       int count = cloud.fields[d].count;
-      if (count == 0) 
+      if (count == 0)
         count = 1;          // we simply cannot tolerate 0 counts (coming from older converter code)
 
       for (int c = 0; c < count; ++c)
@@ -2000,7 +2000,7 @@ pcl::PCDWriter::writeBinaryCompressed (const std::string &file_name, const senso
   {
     if (cloud.fields[i].name == "_")
       continue;
-    
+
     fields_sizes[nri] = cloud.fields[i].count * pcl::getFieldSize (cloud.fields[i].datatype);
     fsize += fields_sizes[nri];
     fields[nri] = cloud.fields[i];
@@ -2008,13 +2008,13 @@ pcl::PCDWriter::writeBinaryCompressed (const std::string &file_name, const senso
   }
   fields_sizes.resize (nri);
   fields.resize (nri);
- 
+
   // Compute the size of data
   data_size = cloud.width * cloud.height * fsize;
 
   //////////////////////////////////////////////////////////////////////
   // Empty array holding only the valid data
-  // data_size = nr_points * point_size 
+  // data_size = nr_points * point_size
   //           = nr_points * (sizeof_field_1 + sizeof_field_2 + ... sizeof_field_n)
   //           = sizeof_field_1 * nr_points + sizeof_field_2 * nr_points + ... sizeof_field_n * nr_points
   char *only_valid_data = static_cast<char*> (malloc (data_size));
@@ -2034,7 +2034,7 @@ pcl::PCDWriter::writeBinaryCompressed (const std::string &file_name, const senso
     pters[i] = &only_valid_data[toff];
     toff += fields_sizes[i] * cloud.width * cloud.height;
   }
-  
+
   // Go over all the points, and copy the data in the appropriate places
   for (size_t i = 0; i < cloud.width * cloud.height; ++i)
   {
@@ -2048,9 +2048,9 @@ pcl::PCDWriter::writeBinaryCompressed (const std::string &file_name, const senso
 
   char* temp_buf = static_cast<char*> (malloc (static_cast<size_t> (static_cast<float> (data_size) * 1.5f + 8.0f)));
   // Compress the valid data
-  unsigned int compressed_size = pcl::lzfCompress (only_valid_data, 
-                                                   static_cast<unsigned int> (data_size), 
-                                                   &temp_buf[8], 
+  unsigned int compressed_size = pcl::lzfCompress (only_valid_data,
+                                                   static_cast<unsigned int> (data_size),
+                                                   &temp_buf[8],
                                                    static_cast<unsigned int> (static_cast<float> (data_size) * 1.5f));
   unsigned int compressed_final_size = 0;
   // Was the compression successful?
@@ -2148,7 +2148,7 @@ pcl::PCDWriter::writeBinaryCompressed (const std::string &file_name, const senso
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 std::string
-pcl::PCDWriter::generateHeaderEigen (const pcl::PointCloud<Eigen::MatrixXf> &cloud, 
+pcl::PCDWriter::generateHeaderEigen (const pcl::PointCloud<Eigen::MatrixXf> &cloud,
                                      const int nr_points)
 {
   std::ostringstream oss;
@@ -2174,8 +2174,8 @@ pcl::PCDWriter::generateHeaderEigen (const pcl::PointCloud<Eigen::MatrixXf> &clo
     field_counts << " " << count;
   }
   oss << field_names.str ();
-  oss << "\nSIZE" << field_sizes.str () 
-      << "\nTYPE" << field_types.str () 
+  oss << "\nSIZE" << field_sizes.str ()
+      << "\nTYPE" << field_types.str ()
       << "\nCOUNT" << field_counts.str ();
   // If the user passes in a number of points value, use that instead
   if (nr_points != std::numeric_limits<int>::max ())
@@ -2183,14 +2183,14 @@ pcl::PCDWriter::generateHeaderEigen (const pcl::PointCloud<Eigen::MatrixXf> &clo
   else
     oss << "\nWIDTH " << cloud.width << "\nHEIGHT " << cloud.height << "\n";
 
-  oss << "VIEWPOINT " << cloud.properties.sensor_origin[0] << " " << 
-                         cloud.properties.sensor_origin[1] << " " << 
-                         cloud.properties.sensor_origin[2] << " " << 
-                         cloud.properties.sensor_orientation.w () << " " << 
-                         cloud.properties.sensor_orientation.x () << " " << 
-                         cloud.properties.sensor_orientation.y () << " " << 
+  oss << "VIEWPOINT " << cloud.properties.sensor_origin[0] << " " <<
+                         cloud.properties.sensor_origin[1] << " " <<
+                         cloud.properties.sensor_origin[2] << " " <<
+                         cloud.properties.sensor_orientation.w () << " " <<
+                         cloud.properties.sensor_orientation.x () << " " <<
+                         cloud.properties.sensor_orientation.y () << " " <<
                          cloud.properties.sensor_orientation.z () << "\n";
-  
+
   // If the user passes in a number of points value, use that instead
   if (nr_points != std::numeric_limits<int>::max ())
     oss << "POINTS " << nr_points << "\n";
@@ -2202,7 +2202,7 @@ pcl::PCDWriter::generateHeaderEigen (const pcl::PointCloud<Eigen::MatrixXf> &clo
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int
-pcl::PCDWriter::writeASCIIEigen (const std::string &file_name, const pcl::PointCloud<Eigen::MatrixXf> &cloud, 
+pcl::PCDWriter::writeASCIIEigen (const std::string &file_name, const pcl::PointCloud<Eigen::MatrixXf> &cloud,
                                  const int precision)
 {
   if (cloud.empty ())
@@ -2219,7 +2219,7 @@ pcl::PCDWriter::writeASCIIEigen (const std::string &file_name, const pcl::PointC
 
   std::ofstream fs;
   fs.open (file_name.c_str ());      // Open file
-  
+
   if (!fs.is_open () || fs.fail ())
   {
     throw pcl::IOException ("[pcl::PCDWriter::writeASCII] Could not open file for writing!");
@@ -2261,7 +2261,7 @@ pcl::PCDWriter::writeASCIIEigen (const std::string &file_name, const pcl::PointC
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int
-pcl::PCDWriter::writeBinaryEigen (const std::string &file_name, 
+pcl::PCDWriter::writeBinaryEigen (const std::string &file_name,
                                   const pcl::PointCloud<Eigen::MatrixXf> &cloud)
 {
   if (cloud.points.rows () * cloud.points.cols () == 0)
@@ -2375,7 +2375,7 @@ pcl::PCDWriter::writeBinaryEigen (const std::string &file_name,
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int
 pcl::PCDWriter::writeBinaryCompressedEigen (
-    const std::string &file_name, 
+    const std::string &file_name,
     const pcl::PointCloud<Eigen::MatrixXf> &cloud)
 {
   if (cloud.points.rows () * cloud.points.cols () == 0)
@@ -2420,9 +2420,9 @@ pcl::PCDWriter::writeBinaryCompressedEigen (
   size_t data_size = cloud.points.rows () * cloud.points.cols () * sizeof (float);
   char* temp_buf = static_cast<char*> (malloc (static_cast<size_t> (static_cast<float> (data_size) * 1.5f + 8.0f)));
   // Compress the valid data
-  unsigned int compressed_size = pcl::lzfCompress (reinterpret_cast<char*> (pts.data ()), 
-                                                   static_cast<unsigned int> (data_size), 
-                                                   &temp_buf[8], 
+  unsigned int compressed_size = pcl::lzfCompress (reinterpret_cast<char*> (pts.data ()),
+                                                   static_cast<unsigned int> (data_size),
+                                                   &temp_buf[8],
                                                    static_cast<unsigned int> (static_cast<float> (data_size) * 1.5f));
   unsigned int compressed_final_size = 0;
   // Was the compression successful?

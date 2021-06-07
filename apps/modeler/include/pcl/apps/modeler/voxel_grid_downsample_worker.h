@@ -45,7 +45,7 @@ namespace pcl
   {
     class DoubleParameter;
 
-    class VoxelGridDownampleWorker : public AbstractWorker 
+    class VoxelGridDownampleWorker : public AbstractWorker
     {
       public:
         VoxelGridDownampleWorker(const QList<CloudMeshItem*>& cloud_mesh_items, QWidget* parent=0);

@@ -4,7 +4,7 @@
  * Point Cloud Library (PCL) - www.pointclouds.org
  * Copyright (c) 2000-2008 Marc Alexander Lehmann <schmorp@schmorp.de>
  * Copyright (c) 2010-2011, Willow Garage, Inc.
- * 
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -17,7 +17,7 @@
  *     copyright notice, this list of conditions and the following
  *     disclaimer in the documentation and/or other materials provided
  *     with the distribution.
- * 
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -61,7 +61,7 @@ namespace pcl
     * \param[out] out_len the length of the output buffer
     *
     */
-  PCL_EXPORTS unsigned int 
+  PCL_EXPORTS unsigned int
   lzfCompress (const void *const in_data,  unsigned int in_len,
                void             *out_data, unsigned int out_len);
 
@@ -78,12 +78,12 @@ namespace pcl
     * errno is set to EINVAL.
     *
     * This function is very fast, about as fast as a copying loop.
-    * \param[in] in_data the input compressed buffer 
+    * \param[in] in_data the input compressed buffer
     * \param[in] in_len the length of the input buffer
     * \param[out] out_data the output buffer (must be resized to \a out_len)
     * \param[out] out_len the length of the output buffer
     */
-  PCL_EXPORTS unsigned int 
+  PCL_EXPORTS unsigned int
   lzfDecompress (const void *const in_data,  unsigned int in_len,
                  void             *out_data, unsigned int out_len);
 }

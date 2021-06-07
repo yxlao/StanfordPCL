@@ -40,7 +40,7 @@
 namespace pcl
 {
     namespace device
-    {        
+    {
         template <unsigned int CTA_SIZE, typename T, typename BinaryFunction>
         __device__ __forceinline__ void reduce_block(volatile T* data, BinaryFunction op, unsigned int tid = threadIdx.x)
         {
@@ -59,7 +59,7 @@ namespace pcl
                 if (CTA_SIZE >=  8) data[tid] = val = op(val, data[tid +  4]);
                 if (CTA_SIZE >=  4) data[tid] = val = op(val, data[tid +  2]);
                 if (CTA_SIZE >=  2) data[tid] = val = op(val, data[tid +  1]);
-            }            
+            }
         };
     }
 }

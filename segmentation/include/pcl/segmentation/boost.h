@@ -42,14 +42,14 @@
 #define PCL_SEGMENTATION_BOOST_H_
 
 #ifdef __GNUC__
-#pragma GCC system_header 
+#pragma GCC system_header
 #endif
 
 // Marking all Boost headers as system headers to remove warnings
 #include <boost/make_shared.hpp>
-#if (BOOST_VERSION >= 104400) 
-#include <boost/graph/boykov_kolmogorov_max_flow.hpp> 
-#endif 
+#if (BOOST_VERSION >= 104400)
+#include <boost/graph/boykov_kolmogorov_max_flow.hpp>
+#endif
 #include <boost/graph/adjacency_list.hpp>
 #include <boost/shared_ptr.hpp>
 

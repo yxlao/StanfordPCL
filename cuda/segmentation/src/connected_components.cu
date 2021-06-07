@@ -44,7 +44,7 @@
 //struct ConnectedComponentSegmentation
 //{
 //  ConnectedComponentSegmentation () {}
-//  
+//
 //  __device__ __host__ __inline__
 //  void operator () {}
 //};
@@ -55,7 +55,7 @@ namespace pcl
   {
     struct InlierLabeling
     {
-      InlierLabeling (int** stencils, int nr_stencils) 
+      InlierLabeling (int** stencils, int nr_stencils)
         : nr_stencils_(nr_stencils)
         , stencils_(stencils)
       {
@@ -164,11 +164,11 @@ namespace pcl
     }
 
     // createRegionStencils
-    template <template <typename> class Storage> std::vector<typename Storage<int>::type> 
-    createRegionStencils (typename Storage<int>::type &parent, 
-                          typename Storage<int>::type &rank, 
-                          typename Storage<int>::type &size, 
-                          int min_size, 
+    template <template <typename> class Storage> std::vector<typename Storage<int>::type>
+    createRegionStencils (typename Storage<int>::type &parent,
+                          typename Storage<int>::type &rank,
+                          typename Storage<int>::type &size,
+                          int min_size,
                           float percentage)
     {
       return (std::vector<typename Storage<int>::type> ());

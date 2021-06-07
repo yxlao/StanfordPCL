@@ -22,8 +22,8 @@ int
 
   std::cerr << "Cloud before filtering: " << std::endl;
   for (size_t i = 0; i < cloud->points.size (); ++i)
-    std::cerr << "    " << cloud->points[i].x << " " 
-                        << cloud->points[i].y << " " 
+    std::cerr << "    " << cloud->points[i].x << " "
+                        << cloud->points[i].y << " "
                         << cloud->points[i].z << std::endl;
 
   // Create the filtering object
@@ -36,8 +36,8 @@ int
 
   std::cerr << "Cloud after filtering: " << std::endl;
   for (size_t i = 0; i < cloud_filtered->points.size (); ++i)
-    std::cerr << "    " << cloud_filtered->points[i].x << " " 
-                        << cloud_filtered->points[i].y << " " 
+    std::cerr << "    " << cloud_filtered->points[i].x << " "
+                        << cloud_filtered->points[i].y << " "
                         << cloud_filtered->points[i].z << std::endl;
 
   return (0);

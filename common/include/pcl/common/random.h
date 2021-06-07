@@ -42,39 +42,39 @@
 
 #include <pcl/common/boost.h>
 
-namespace pcl 
+namespace pcl
 {
-	namespace common 
+	namespace common
   {
 		/// uniform distribution dummy struct
 		template <typename T> struct uniform_distribution;
 		/// uniform distribution int specialized
-		template<> 
-    struct uniform_distribution<int> 
+		template<>
+    struct uniform_distribution<int>
     {
 			typedef boost::uniform_int<int> type;
 		};
     /// uniform distribution float specialized
-		template<> 
-    struct uniform_distribution<float> 
+		template<>
+    struct uniform_distribution<float>
     {
 			typedef boost::uniform_real<float> type;
 		};
     ///  normal distribution
-		template<typename T> 
+		template<typename T>
     struct normal_distribution
     {
 			typedef boost::normal_distribution<T> type;
 		};
 
     /** \brief UniformGenerator class generates a random number from range [min, max[ at each run picked
-      * according to a uniform distribution i.e eaach number within [min, max[ has almost the same 
+      * according to a uniform distribution i.e eaach number within [min, max[ has almost the same
       * probability of being drawn.
       *
       * \author Nizar Sallem
       */
 		template<typename T>
-		class UniformGenerator 
+		class UniformGenerator
     {
       public:
         struct Parameters
@@ -84,12 +84,12 @@ namespace pcl
             , max (_max)
             , seed (_seed)
           {}
-          
+
           T min;
           T max;
           uint32_t seed;
         };
-        
+
 			  /** Constructor
           * \param min: included lower bound
           * \param max: excluded higher bound
@@ -105,15 +105,15 @@ namespace pcl
 			  /** Change seed value
           * \param[in] seed new generator seed value
           */
-        void 
+        void
         setSeed (uint32_t seed);
-      
+
         /** Set the uniform number generator parameters
           * \param[in] min minimum allowed value
           * \param[in] max maximum allowed value (exclusive)
           * \param[in] seed random number generator seed (applied if != -1)
           */
-        void 
+        void
         setParameters (T min, T max, uint32_t seed = -1);
 
         /** Set generator parameters
@@ -125,9 +125,9 @@ namespace pcl
         /// \return uniform distribution parameters and generator seed
         const Parameters&
         getParameters () { return (parameters_); }
-      
+
 			  /// \return a randomly generated number in the interval [min, max[
-			  inline T 
+			  inline T
         run () { return (generator_ ()); }
 
       private:
@@ -149,7 +149,7 @@ namespace pcl
       * \author Nizar Sallem
       */
 		template<typename T>
-		class NormalGenerator 
+		class NormalGenerator
     {
       public:
         struct Parameters
@@ -159,7 +159,7 @@ namespace pcl
             , sigma (_sigma)
             , seed (_seed)
           {}
-          
+
           T mean;
           T sigma;
           uint32_t seed;
@@ -176,21 +176,21 @@ namespace pcl
           * \param parameters normal distribution parameters and seed
           */
         NormalGenerator(const Parameters& parameters);
-      
+
 			  /** Change seed value
           * \param[in] seed new seed value
           */
-        void 
+        void
         setSeed (uint32_t seed);
-      
+
         /** Set the normal number generator parameters
           * \param[in] mean mean of the normal distribution
           * \param[in] sigma standard variation of the normal distribution
           * \param[in] seed random number generator seed (applied if != -1)
           */
-        void 
+        void
         setParameters (T mean, T sigma, uint32_t seed = -1);
-        
+
         /** Set generator parameters
           * \param parameters normal distribution parameters and seed
           */
@@ -202,7 +202,7 @@ namespace pcl
         getParameters () { return (parameters_); }
 
 			  /// \return a randomly generated number in the normal distribution (mean, sigma)
-			  inline T 
+			  inline T
         run () { return (generator_ ()); }
 
 			  typedef boost::mt19937 EngineType;

@@ -58,7 +58,7 @@ using namespace std;
 
 //TEST(PCL_OctreeGPU, DISABLED_approxNearesSearch)
 TEST(PCL_OctreeGPU, approxNearesSearch)
-{   
+{
     DataGenerator data;
     data.data_size = 871000;
     data.tests_num = 10000;
@@ -71,7 +71,7 @@ TEST(PCL_OctreeGPU, approxNearesSearch)
 
     //generate
     data();
-        
+
     //prepare device cloud
     pcl::gpu::Octree::PointCloud cloud_device;
     cloud_device.upload(data.points);
@@ -81,37 +81,37 @@ TEST(PCL_OctreeGPU, approxNearesSearch)
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_host(new pcl::PointCloud<pcl::PointXYZ>);	
     cloud_host->width = data.points.size();
     cloud_host->height = 1;
-    cloud_host->points.resize (cloud_host->width * cloud_host->height);    
+    cloud_host->points.resize (cloud_host->width * cloud_host->height);
     std::transform(data.points.begin(), data.points.end(), cloud_host->points.begin(), DataGenerator::ConvPoint<pcl::PointXYZ>());
 
-    //gpu build 
-    pcl::gpu::Octree octree_device;                
-    octree_device.setCloud(cloud_device);	    
+    //gpu build
+    pcl::gpu::Octree octree_device;
+    octree_device.setCloud(cloud_device);	
     octree_device.build();
-    
+
     //build host octree
     pcl::octree::OctreePointCloudSearch<pcl::PointXYZ> octree_host(host_octree_resolution);
-    octree_host.setInputCloud (cloud_host);    
+    octree_host.setInputCloud (cloud_host);
     octree_host.addPointsFromInputCloud();
-           
+
     //upload queries
     pcl::gpu::Octree::Queries queries_device;
     queries_device.upload(data.queries);
-    
-        
+
+
     //prepare output buffers on device
     pcl::gpu::NeighborIndices result_device(data.tests_num, 1);
     vector<int> result_host_pcl(data.tests_num);
     vector<int> result_host_gpu(data.tests_num);
     vector<float> dists_pcl(data.tests_num);
     vector<float> dists_gpu(data.tests_num);
-    
+
     //search GPU shared
     octree_device.approxNearestSearch(queries_device, result_device);
 
     vector<int> downloaded;
     result_device.data.download(downloaded);
-                
+
     for(size_t i = 0; i < data.tests_num; ++i)
     {
         octree_host.approxNearestSearch(data.queries[i], result_host_pcl[i], dists_pcl[i]);
@@ -138,6 +138,6 @@ TEST(PCL_OctreeGPU, approxNearesSearch)
 
     cout << "count_gpu_better: " << count_gpu_better << endl;
     cout << "count_pcl_better: " << count_pcl_better << endl;
-    cout << "avg_diff_pcl_better: " << diff_pcl_better << endl;    
+    cout << "avg_diff_pcl_better: " << diff_pcl_better << endl;
 
 }

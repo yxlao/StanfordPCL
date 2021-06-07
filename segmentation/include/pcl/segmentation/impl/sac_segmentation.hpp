@@ -73,7 +73,7 @@ pcl::SACSegmentation<PointT>::segment (PointIndices &inliers, ModelCoefficients 
   // Copy the header information
   inliers.header = model_coefficients.header = input_->header;
 
-  if (!initCompute ()) 
+  if (!initCompute ())
   {
     inliers.indices.clear (); model_coefficients.values.clear ();
     return;
@@ -244,7 +244,7 @@ pcl::SACSegmentation<PointT>::initSACModel (const int model_type)
       return (false);
     }
   }
-  
+
   if (samples_radius_ > 0. )
   {
     PCL_DEBUG ("[pcl::%s::initSAC] Setting the maximum distance to %f\n", getClassName ().c_str (), samples_radius_);

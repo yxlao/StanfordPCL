@@ -4,7 +4,7 @@
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
  *
- *  All rights reserved. 
+ *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -74,7 +74,7 @@ namespace pcl
         return height_;
       }
 
-      /** \brief Resizes the map to the specific width and height and initializes 
+      /** \brief Resizes the map to the specific width and height and initializes
         *        all new elements with the specified value.
         * \param[in] width the width of the resized map.
         * \param[in] height the height of the resized map.
@@ -89,7 +89,7 @@ namespace pcl
         map_.resize (width*height, value);
       }
 
-      /** \brief Operator to access elements of the map. 
+      /** \brief Operator to access elements of the map.
         * \param[in] col_index the column index of the element to access.
         * \param[in] row_index the row index of the element to access.
         */
@@ -99,7 +99,7 @@ namespace pcl
         return map_[row_index * width_ + col_index];
       }
 
-      /** \brief Operator to access elements of the map. 
+      /** \brief Operator to access elements of the map.
         * \param[in] col_index the column index of the element to access.
         * \param[in] row_index the row index of the element to access.
         */
@@ -116,7 +116,7 @@ namespace pcl
       size_t height_;
       /** \brief Storage for the data of the map. */
       std::vector<float> map_;
-  
+
   };
 
   /** \brief Look-up-table for fast surface normal quantization.
@@ -149,17 +149,17 @@ namespace pcl
     unsigned char * lut;
 
     /** \brief Constructor. */
-    QuantizedNormalLookUpTable () : 
-      range_x (-1), range_y (-1), range_z (-1), 
-      offset_x (-1), offset_y (-1), offset_z (-1), 
-      size_x (-1), size_y (-1), size_z (-1), lut (NULL) 
+    QuantizedNormalLookUpTable () :
+      range_x (-1), range_y (-1), range_z (-1),
+      offset_x (-1), offset_y (-1), offset_z (-1),
+      size_x (-1), size_y (-1), size_z (-1), lut (NULL)
     {}
 
     /** \brief Destructor. */
-    ~QuantizedNormalLookUpTable () 
-    { 
-      if (lut != NULL) 
-        delete[] lut; 
+    ~QuantizedNormalLookUpTable ()
+    {
+      if (lut != NULL)
+        delete[] lut;
     }
 
     /** \brief Initializes the LUT.
@@ -167,7 +167,7 @@ namespace pcl
       * \param[in] range_y_arg the range of the LUT in y-direction.
       * \parma[in] range_z_arg the range of the LUT in z-direction.
       */
-    void 
+    void
     initializeLUT (const int range_x_arg, const int range_y_arg, const int range_z_arg)
     {
       range_x = range_x_arg;
@@ -183,13 +183,13 @@ namespace pcl
       //if (lut != NULL) free16(lut);
       //lut = malloc16(size_x*size_y*size_z);
 
-      if (lut != NULL) 
+      if (lut != NULL)
         delete[] lut;
       lut = new unsigned char[size_x*size_y*size_z];
 
       const int nr_normals = 8;
 	    pcl::PointCloud<PointXYZ>::VectorType ref_normals (nr_normals);
-      
+
       const float normal0_angle = 40.0f * 3.14f / 180.0f;
       ref_normals[0].x = cosf (normal0_angle);
       ref_normals[0].y = 0.0f;
@@ -226,8 +226,8 @@ namespace pcl
         {
           for (int x_index = 0; x_index < size_x; ++x_index)
           {
-            PointXYZ normal (static_cast<float> (x_index - range_x/2), 
-                             static_cast<float> (y_index - range_y/2), 
+            PointXYZ normal (static_cast<float> (x_index - range_x/2),
+                             static_cast<float> (y_index - range_y/2),
                              static_cast<float> (z_index - range_z));
             const float length = sqrtf (normal.x*normal.x + normal.y*normal.y + normal.z*normal.z);
             const float inv_length = 1.0f / (length + 0.00001f);
@@ -262,9 +262,9 @@ namespace pcl
     /** \brief Operator to access an element in the LUT.
       * \param[in] x the x-component of the normal.
       * \param[in] y the y-component of the normal.
-      * \param[in] z the z-component of the normal. 
+      * \param[in] z the z-component of the normal.
       */
-    inline unsigned char 
+    inline unsigned char
     operator() (const float x, const float y, const float z) const
     {
       const size_t x_index = static_cast<size_t> (x * static_cast<float> (offset_x) + static_cast<float> (offset_x));
@@ -277,9 +277,9 @@ namespace pcl
     }
 
     /** \brief Operator to access an element in the LUT.
-      * \param[in] index the index of the element. 
+      * \param[in] index the index of the element.
       */
-    inline unsigned char 
+    inline unsigned char
     operator() (const int index) const
     {
       return (lut[index]);
@@ -309,16 +309,16 @@ namespace pcl
 
         /** \brief Quantized value. */
         unsigned char bin_index;
-    
+
         /** \brief x-position of the feature. */
         size_t x;
         /** \brief y-position of the feature. */
         size_t y;	
 
-        /** \brief Compares two candidates based on their distance to the next different quantized value. 
-          * \param[in] rhs the candidate to compare with. 
+        /** \brief Compares two candidates based on their distance to the next different quantized value.
+          * \param[in] rhs the candidate to compare with.
           */
-        bool 
+        bool
         operator< (const Candidate & rhs)
         {
           return (distance > rhs.distance);
@@ -367,16 +367,16 @@ namespace pcl
 
       /** \brief Returns a reference to the internal quantized map. */
       inline QuantizedMap &
-      getQuantizedMap () 
-      { 
-        return (filtered_quantized_surface_normals_); 
+      getQuantizedMap ()
+      {
+        return (filtered_quantized_surface_normals_);
       }
 
       /** \brief Returns a reference to the internal spreaded quantized map. */
       inline QuantizedMap &
-      getSpreadedQuantizedMap () 
-      { 
-        return (spreaded_quantized_surface_normals_); 
+      getSpreadedQuantizedMap ()
+      {
+        return (spreaded_quantized_surface_normals_);
       }
 
       /** \brief Returns a reference to the orientation map. */
@@ -387,32 +387,32 @@ namespace pcl
       }
 
       /** \brief Extracts features from this modality within the specified mask.
-        * \param[in] mask defines the areas where features are searched in. 
-        * \param[in] nr_features defines the number of features to be extracted 
+        * \param[in] mask defines the areas where features are searched in.
+        * \param[in] nr_features defines the number of features to be extracted
         *            (might be less if not sufficient information is present in the modality).
         * \param[in] modality_index the index which is stored in the extracted features.
         * \param[out] features the destination for the extracted features.
         */
-      void 
+      void
       extractFeatures (const MaskMap & mask, size_t nr_features, size_t modality_index,
                        std::vector<QuantizedMultiModFeature> & features) const;
 
       /** \brief Extracts all possible features from the modality within the specified mask.
-        * \param[in] mask defines the areas where features are searched in. 
+        * \param[in] mask defines the areas where features are searched in.
         * \param[in] nr_features IGNORED (TODO: remove this parameter).
         * \param[in] modality_index the index which is stored in the extracted features.
         * \param[out] features the destination for the extracted features.
         */
-      void 
+      void
       extractAllFeatures (const MaskMap & mask, size_t nr_features, size_t modality_index,
                           std::vector<QuantizedMultiModFeature> & features) const;
 
       /** \brief Provide a pointer to the input dataset (overwrites the PCLBase::setInputCloud method)
         * \param[in] cloud the const boost shared pointer to a PointCloud message
         */
-      virtual void 
-      setInputCloud (const typename PointCloudIn::ConstPtr & cloud) 
-      { 
+      virtual void
+      setInputCloud (const typename PointCloudIn::ConstPtr & cloud)
+      {
         input_ = cloud;
       }
 
@@ -420,7 +420,7 @@ namespace pcl
       virtual void
       processInputData ();
 
-      /** \brief Processes the input data assuming that everything up to filtering is already done/available 
+      /** \brief Processes the input data assuming that everything up to filtering is already done/available
         *        (so only spreading is performed). */
       virtual void
       processInputDataFromFiltered ();
@@ -447,9 +447,9 @@ namespace pcl
       void
       filterQuantizedSurfaceNormals ();
 
-      /** \brief Computes a distance map from the supplied input mask. 
+      /** \brief Computes a distance map from the supplied input mask.
         * \param[in] input the mask for which a distance map will be computed.
-        * \param[out] output the destination for the distance map. 
+        * \param[out] output the destination for the distance map.
         */
       void
       computeDistanceMap (const MaskMap & input, DistanceMap & output) const;
@@ -580,13 +580,13 @@ pcl::SurfaceNormalModality<PointInT>::computeAndQuantizeSurfaceNormals ()
 
   // we compute the normals as follows:
   // ----------------------------------
-  // 
+  //
   // for the depth-gradient you can make the following first-order Taylor approximation:
   //   D(x + dx) - D(x) = dx^T \Delta D + h.o.t.
-  //     
+  //
   // build linear system by stacking up equation for 8 neighbor points:
   //   Y = X \Delta D
-  // 
+  //
   // => \Delta D = (X^T X)^{-1} X^T Y
   // => \Delta D = (A)^{-1} b
 
@@ -600,7 +600,7 @@ pcl::SurfaceNormalModality<PointInT>::computeAndQuantizeSurfaceNormals ()
       const float py = input_->points[index].y;
       const float pz = input_->points[index].z;
 
-      if (pcl_isnan(px) || pz > 2.0f) 
+      if (pcl_isnan(px) || pz > 2.0f)
       {
         surface_normals_.points[index].normal_x = bad_point;
         surface_normals_.points[index].normal_y = bad_point;
@@ -1015,7 +1015,7 @@ pcl::SurfaceNormalModality<PointInT>::extractFeatures (const MaskMap & mask,
         //const unsigned char quantized_value = quantized_surface_normals_ (row_index, col_index);
         const unsigned char quantized_value = filtered_quantized_surface_normals_ (col_index, row_index);
 
-        if (quantized_value == 0) 
+        if (quantized_value == 0)
           continue;
         const int dist_map_index = map[quantized_value];
 
@@ -1167,7 +1167,7 @@ pcl::SurfaceNormalModality<PointInT>::extractFeatures (const MaskMap & mask,
           list2.push_back (*iter1);
         }
 
-        //if (list2.size () == nr_features) 
+        //if (list2.size () == nr_features)
         //{
         //  feature_selection_finished = true;
         //  break;
@@ -1286,7 +1286,7 @@ pcl::SurfaceNormalModality<PointInT>::extractAllFeatures (
         //const unsigned char quantized_value = quantized_surface_normals_ (row_index, col_index);
         const unsigned char quantized_value = filtered_quantized_surface_normals_ (col_index, row_index);
 
-        if (quantized_value == 0) 
+        if (quantized_value == 0)
           continue;
         const int dist_map_index = map[quantized_value];
 
@@ -1648,4 +1648,4 @@ pcl::SurfaceNormalModality<PointInT>::computeDistanceMap (const MaskMap & input,
 }
 
 
-#endif 
+#endif

@@ -69,22 +69,22 @@ namespace pcl
         /** \brief Provide a pointer to the vector of the input correspondences.
           * \param[in] correspondences the const boost shared pointer to a correspondence vector
           */
-        virtual inline void 
-        setInputCorrespondences (const CorrespondencesConstPtr &correspondences) 
-        { 
-          input_correspondences_ = correspondences; 
+        virtual inline void
+        setInputCorrespondences (const CorrespondencesConstPtr &correspondences)
+        {
+          input_correspondences_ = correspondences;
         };
 
         /** \brief Get a pointer to the vector of the input correspondences.
           * \return correspondences the const boost shared pointer to a correspondence vector
           */
-        inline CorrespondencesConstPtr 
+        inline CorrespondencesConstPtr
         getInputCorrespondences () { return input_correspondences_; };
 
         /** \brief Run correspondence rejection
           * \param[out] correspondences Vector of correspondences that have not been rejected.
           */
-        inline void 
+        inline void
         getCorrespondences (pcl::Correspondences &correspondences)
         {
           if (!input_correspondences_ || (input_correspondences_->empty ()))
@@ -100,8 +100,8 @@ namespace pcl
           * \param[in] original_correspondences the set of initial correspondences given
           * \param[out] remaining_correspondences the resultant filtered set of remaining correspondences
           */
-        virtual inline void 
-        getRemainingCorrespondences (const pcl::Correspondences& original_correspondences, 
+        virtual inline void
+        getRemainingCorrespondences (const pcl::Correspondences& original_correspondences,
                                      pcl::Correspondences& remaining_correspondences) = 0;
 
         /** \brief Determine the indices of query points of
@@ -112,8 +112,8 @@ namespace pcl
           * \param[out] indices Vector of query point indices of those correspondences
           * that have been rejected.
           */
-        inline void 
-        getRejectedQueryIndices (const pcl::Correspondences &correspondences, 
+        inline void
+        getRejectedQueryIndices (const pcl::Correspondences &correspondences,
                                  std::vector<int>& indices)
         {
           if (!input_correspondences_ || input_correspondences_->empty ())
@@ -134,11 +134,11 @@ namespace pcl
         CorrespondencesConstPtr input_correspondences_;
 
         /** \brief Get a string representation of the name of this class. */
-        inline const std::string& 
+        inline const std::string&
         getClassName () const { return (rejection_name_); }
 
         /** \brief Abstract rejection method. */
-        virtual void 
+        virtual void
         applyRejection (Correspondences &correspondences) = 0;
     };
 
@@ -154,7 +154,7 @@ namespace pcl
         virtual double getCorrespondenceScore (const pcl::Correspondence &) = 0;
     };
 
-    /** @b DataContainer is a container for the input and target point clouds and implements the interface 
+    /** @b DataContainer is a container for the input and target point clouds and implements the interface
       * to compute correspondence scores between correspondent points in the input and target clouds
       * \ingroup registration
       */
@@ -168,7 +168,7 @@ namespace pcl
       public:
 
       /** \brief Empty constructor. */
-      DataContainer () 
+      DataContainer ()
         : input_ ()
         , target_ ()
         , input_normals_ ()
@@ -178,20 +178,20 @@ namespace pcl
       }
 
       /** \brief Provide a source point cloud dataset (must contain XYZ
-        * data!), used to compute the correspondence distance.  
+        * data!), used to compute the correspondence distance.
         * \param[in] cloud a cloud containing XYZ data
         */
-      inline void 
+      inline void
       setInputCloud (const PointCloudConstPtr &cloud)
       {
         input_ = cloud;
       }
 
       /** \brief Provide a target point cloud dataset (must contain XYZ
-        * data!), used to compute the correspondence distance.  
+        * data!), used to compute the correspondence distance.
         * \param[in] target a cloud containing XYZ data
         */
-      inline void 
+      inline void
       setInputTarget (const PointCloudConstPtr &target)
       {
         target_ = target;
@@ -209,7 +209,7 @@ namespace pcl
         */
       inline void
       setTargetNormals (const NormalsPtr &normals) { target_normals_ = normals; }
-      
+
       /** \brief Get the normals computed on the input point cloud */
       inline NormalsPtr
       getInputNormals () { return input_normals_; }
@@ -221,7 +221,7 @@ namespace pcl
       /** \brief Get the correspondence score for a point in the input cloud
         * \param[in] index index of the point in the input cloud
         */
-      inline double 
+      inline double
       getCorrespondenceScore (int index)
       {
         std::vector<int> indices (1);
@@ -237,7 +237,7 @@ namespace pcl
       /** \brief Get the correspondence score for a given pair of correspondent points
         * \param[in] corr Correspondent points
         */
-      inline double 
+      inline double
       getCorrespondenceScore (const pcl::Correspondence &corr)
       {
         // Get the source and the target feature from the list
@@ -246,9 +246,9 @@ namespace pcl
 
         return ((src.getVector4fMap () - tgt.getVector4fMap ()).squaredNorm ());
       }
-      
-      /** \brief Get the correspondence score for a given pair of correspondent points based on 
-        * the angle betweeen the normals. The normmals for the in put and target clouds must be 
+
+      /** \brief Get the correspondence score for a given pair of correspondent points based on
+        * the angle betweeen the normals. The normmals for the in put and target clouds must be
         * set before using this function
         * \param[in] corr Correspondent points
         */

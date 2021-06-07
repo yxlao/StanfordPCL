@@ -195,7 +195,7 @@ template<typename T, int _Options> class DenseStorage<T, Dynamic, Dynamic, Dynam
     inline DenseStorage(internal::constructor_without_unaligned_array_assert)
        : m_data(0), m_rows(0), m_cols(0) {}
     inline DenseStorage(DenseIndex size, DenseIndex rows, DenseIndex cols)
-      : m_data(internal::conditional_aligned_new_auto<T,(_Options&DontAlign)==0>(size)), m_rows(rows), m_cols(cols) 
+      : m_data(internal::conditional_aligned_new_auto<T,(_Options&DontAlign)==0>(size)), m_rows(rows), m_cols(cols)
     { EIGEN_INTERNAL_DENSE_STORAGE_CTOR_PLUGIN }
     inline ~DenseStorage() { internal::conditional_aligned_delete_auto<T,(_Options&DontAlign)==0>(m_data, m_rows*m_cols); }
     inline void swap(DenseStorage& other)

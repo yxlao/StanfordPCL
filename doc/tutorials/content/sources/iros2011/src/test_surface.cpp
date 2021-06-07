@@ -5,10 +5,10 @@
 #include <pcl/io/pcd_io.h>
 #include <pcl/visualization/pcl_visualizer.h>
 
-int 
+int
 main (int argc, char ** argv)
 {
-  if (argc < 2) 
+  if (argc < 2)
   {
     pcl::console::print_info ("Syntax is: %s input.pcd <options>\n", argv[0]);
     pcl::console::print_info ("  where options are:\n");
@@ -29,7 +29,7 @@ main (int argc, char ** argv)
   // Compute surface elements
   SurfaceElementsPtr surfels (new SurfaceElements);
   double mls_radius, polynomial_order;
-  bool compute_surface_elements = 
+  bool compute_surface_elements =
     pcl::console::parse_2x_arguments (argc, argv, "--surfel", mls_radius, polynomial_order) > 0;
   if (compute_surface_elements)
   {
@@ -74,7 +74,7 @@ main (int argc, char ** argv)
     float min_angle = atof(tokens[4].c_str ());
     float max_angle = atof(tokens[5].c_str ());
 
-    greedy_mesh = greedyTriangulation (surfels, radius, max_nearest_neighbors, mu, 
+    greedy_mesh = greedyTriangulation (surfels, radius, max_nearest_neighbors, mu,
                                        max_surface_angle, min_angle, max_angle);
 
     pcl::console::print_info ("Performed greedy surface triangulation\n");
@@ -102,7 +102,7 @@ main (int argc, char ** argv)
     // Save the result
     pcl::io::savePCDFile (output_filename, *cloud);
 
-    pcl::console::print_info ("Saved result as %s\n", output_filename.c_str ());    
+    pcl::console::print_info ("Saved result as %s\n", output_filename.c_str ());
   }
   // Or visualize the result
   else

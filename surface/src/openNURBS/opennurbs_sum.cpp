@@ -53,7 +53,7 @@ void ON_Sum::Begin( double starting_value )
 
 double ON_Sum::SortAndSum( int count, double* a )
 {
-  // note that the arrays passed to ON_Sum::SortAndSum() are all 
+  // note that the arrays passed to ON_Sum::SortAndSum() are all
   // homogeneous in sign
   double s = 0.0;
   if ( count > 0 )

@@ -31,8 +31,8 @@ int
 
   std::cerr << "Point cloud data: " << cloud.points.size () << " points" << std::endl;
   for (size_t i = 0; i < cloud.points.size (); ++i)
-    std::cerr << "    " << cloud.points[i].x << " " 
-                        << cloud.points[i].y << " " 
+    std::cerr << "    " << cloud.points[i].x << " "
+                        << cloud.points[i].y << " "
                         << cloud.points[i].z << std::endl;
 
   pcl::ModelCoefficients::Ptr coefficients (new pcl::ModelCoefficients);
@@ -55,9 +55,9 @@ int
     return (-1);
   }
 
-  std::cerr << "Model coefficients: " << coefficients->values[0] << " " 
+  std::cerr << "Model coefficients: " << coefficients->values[0] << " "
                                       << coefficients->values[1] << " "
-                                      << coefficients->values[2] << " " 
+                                      << coefficients->values[2] << " "
                                       << coefficients->values[3] << std::endl;
 
   std::cerr << "Model inliers: " << inliers->indices.size () << std::endl;

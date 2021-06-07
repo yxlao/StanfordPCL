@@ -42,7 +42,7 @@
 #define PCL_TEST_COMMON_BOOST_H_
 
 #ifdef __GNUC__
-#pragma GCC system_header 
+#pragma GCC system_header
 #endif
 
 // Marking all Boost headers as system headers to remove warnings

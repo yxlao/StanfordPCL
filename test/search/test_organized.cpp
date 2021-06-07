@@ -315,8 +315,8 @@ TEST (PCL, Organized_Neighbor_Pointcloud_Neighbours_Within_Radius_Search)
       ++current;
     }
 
-    for (i = 0; i < cloudSearchBruteforce.size (); i++) 
-      for (j = 0; j < cloudNWRSearch.size (); j++) 
+    for (i = 0; i < cloudSearchBruteforce.size (); i++)
+      for (j = 0; j < cloudNWRSearch.size (); j++)
         if (cloudNWRSearch[i]== cloudSearchBruteforce[j])
           break;
 

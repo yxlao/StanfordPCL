@@ -64,7 +64,7 @@ pcl::MEstimatorSampleConsensus<PointT>::computeModel (int debug_verbosity_level)
   unsigned skipped_count = 0;
   // supress infinite loops by just allowing 10 x maximum allowed iterations for invalid model parameters!
   const unsigned max_skip = max_iterations_ * 10;
-  
+
   // Iterate
   while (iterations_ < k && skipped_count < max_skip)
   {
@@ -84,7 +84,7 @@ pcl::MEstimatorSampleConsensus<PointT>::computeModel (int debug_verbosity_level)
     double d_cur_penalty = 0;
     // Iterate through the 3d points and calculate the distances from them to the model
     sac_model_->getDistancesToModel (model_coefficients, distances);
-    
+
     if (distances.empty () && k > 1.0)
       continue;
 

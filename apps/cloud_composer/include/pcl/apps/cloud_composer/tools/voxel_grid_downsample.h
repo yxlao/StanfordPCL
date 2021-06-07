@@ -52,46 +52,46 @@ namespace pcl
       public:
         VoxelGridDownsampleTool (PropertiesModel* parameter_model, QObject* parent);
         virtual ~VoxelGridDownsampleTool ();
-        
+
         virtual QList <CloudComposerItem*>
         performAction (QList <const CloudComposerItem*> input_data, PointTypeFlags::PointType type = PointTypeFlags::NONE);
-      
+
         inline virtual QString
         getToolName () const { return "Voxel Grid Downsample Tool";}
     };
 
-    
+
     class VoxelGridDownsampleToolFactory : public QObject, public ToolFactory
     {
       Q_OBJECT
       Q_INTERFACES (pcl::cloud_composer::ToolFactory)
       public:
         ModifyItemTool*
-        createTool (PropertiesModel* parameter_model, QObject* parent = 0) 
+        createTool (PropertiesModel* parameter_model, QObject* parent = 0)
         {
             return new VoxelGridDownsampleTool(parameter_model, parent);
         }
-        
+
         PropertiesModel*
         createToolParameterModel (QObject* parent);
-        
-        inline virtual QString 
+
+        inline virtual QString
         getPluginName () const { return "Voxel Grid Downsample";}
-        
-        virtual QString 
+
+        virtual QString
         getToolGroupName () const { return "Filters";}
-        
+
         virtual QString
         getIconName () const { return ":/voxel_grid_downsample.png"; }
-        
+
         inline virtual CloudComposerItem::ItemType
         getInputItemType () const
         {
           return CloudComposerItem::CLOUD_ITEM;
         }
-        
+
         inline virtual QList <CloudComposerItem::ItemType>
-        getRequiredInputChildrenTypes () const 
+        getRequiredInputChildrenTypes () const
         {
           return QList <CloudComposerItem::ItemType> ();
         }

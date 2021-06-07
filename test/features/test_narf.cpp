@@ -34,8 +34,8 @@
  *
  */
 
-#include <iostream> 
-#include <sstream> 
+#include <iostream>
+#include <sstream>
 #include <gtest/gtest.h>
 #include <pcl/features/narf.h>
 #include <pcl/common/eigen.h>
@@ -54,13 +54,13 @@ TEST (PCL, Narf_save_load)
   narf.getSurfacePatchWorldSize() = 0.5f;
   narf.getSurfacePatchRotation() = deg2rad(10.0f);
   narf.extractDescriptor(36);
-  
+
   std::stringstream test_stream;
   narf.saveBinary(test_stream);
-  
+
   Narf narf2;
   narf2.loadBinary(test_stream);
-  
+
   //  EXPECT_EQ (narf.getTransformation().matrix(), narf2.getTransformation().matrix());
   // The above generates http://msdn.microsoft.com/en-us/library/sxe76d9e.aspx in VS2010
   // Therefore we use this:

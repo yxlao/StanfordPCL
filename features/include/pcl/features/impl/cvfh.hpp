@@ -56,7 +56,7 @@ pcl::CVFHEstimation<PointInT, PointNT, PointOutT>::compute (PointCloudOut &outpu
   }
   // Resize the output dataset
   // Important! We should only allocate precisely how many elements we will need, otherwise
-  // we risk at pre-allocating too much memory which could lead to bad_alloc 
+  // we risk at pre-allocating too much memory which could lead to bad_alloc
   // (see http://dev.pointclouds.org/issues/657)
   output.width = output.height = 1;
   output.points.resize (1);
@@ -333,4 +333,4 @@ pcl::CVFHEstimation<PointInT, PointNT, PointOutT>::computeFeature (PointCloudOut
 
 #define PCL_INSTANTIATE_CVFHEstimation(T,NT,OutT) template class PCL_EXPORTS pcl::CVFHEstimation<T,NT,OutT>;
 
-#endif    // PCL_FEATURES_IMPL_VFH_H_ 
+#endif    // PCL_FEATURES_IMPL_VFH_H_

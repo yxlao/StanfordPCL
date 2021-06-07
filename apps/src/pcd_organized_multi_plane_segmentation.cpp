@@ -92,13 +92,13 @@ class PCDOrganizedMultiPlaneSegmentation
               threshold_ -= 0.001f;
             process ();
             break;
-            
+
           case 'n':
           case 'N':
             depth_dependent_ = !depth_dependent_;
             process ();
             break;
-            
+
           case 'm':
           case 'M':
             polygon_refinement_ = !polygon_refinement_;
@@ -107,7 +107,7 @@ class PCDOrganizedMultiPlaneSegmentation
         }
       }
     }
-    
+
     void
     process ()
     {
@@ -121,16 +121,16 @@ class PCDOrganizedMultiPlaneSegmentation
       ne.setNormalEstimationMethod (ne.COVARIANCE_MATRIX);
       ne.setMaxDepthChangeFactor (0.02f);
       ne.setNormalSmoothingSize (20.0f);
-      
+
       typename pcl::PlaneRefinementComparator<PointT, pcl::Normal, pcl::Label>::Ptr refinement_compare (new pcl::PlaneRefinementComparator<PointT, pcl::Normal, pcl::Label> ());
       refinement_compare->setDistanceThreshold (threshold_, depth_dependent_);
-      
+
       pcl::OrganizedMultiPlaneSegmentation<PointT, pcl::Normal, pcl::Label> mps;
       mps.setMinInliers (5000);
       mps.setAngularThreshold (0.017453 * 3.0); //3 degrees
       mps.setDistanceThreshold (0.03); //2cm
       mps.setRefinementComparator (refinement_compare);
-      
+
       std::vector<pcl::PlanarRegion<PointT>, Eigen::aligned_allocator<pcl::PlanarRegion<PointT> > > regions;
       typename pcl::PointCloud<PointT>::Ptr contour (new pcl::PointCloud<PointT>);
       typename pcl::PointCloud<PointT>::Ptr approx_contour (new pcl::PointCloud<PointT>);
@@ -160,7 +160,7 @@ class PCDOrganizedMultiPlaneSegmentation
       viewer.removeAllShapes (0);
       pcl::visualization::PointCloudColorHandlerCustom<PointT> single_color (cloud, 0, 255, 0);
       viewer.addPointCloud<PointT> (cloud, single_color, "cloud");
-      
+
       pcl::PlanarPolygon<PointT> approx_polygon;
       //Draw Visualization
       for (size_t i = 0; i < regions.size (); i++)
@@ -174,7 +174,7 @@ class PCDOrganizedMultiPlaneSegmentation
         sprintf (name, "normal_%d", unsigned (i));
         viewer.addArrow (pt2, pt1, 1.0, 0, 0, std::string (name));
 
-        contour->points = regions[i].getContour ();        
+        contour->points = regions[i].getContour ();
         sprintf (name, "plane_%02d", int (i));
         pcl::visualization::PointCloudColorHandlerCustom <PointT> color (contour, red[i], grn[i], blu[i]);
         viewer.addPointCloud (contour, color, name);
@@ -183,7 +183,7 @@ class PCDOrganizedMultiPlaneSegmentation
         approx_contour->points = approx_polygon.getContour ();
         std::cout << "polygon: " << contour->size () << " -> " << approx_contour->size () << std::endl;
         typename pcl::PointCloud<PointT>::ConstPtr approx_contour_const = approx_contour;
-        
+
 //        sprintf (name, "approx_plane_%02d", int (i));
 //        viewer.addPolygon<PointT> (approx_contour_const, 0.5 * red[i], 0.5 * grn[i], 0.5 * blu[i], name);
         for (unsigned idx = 0; idx < approx_contour->points.size (); ++idx)
@@ -193,13 +193,13 @@ class PCDOrganizedMultiPlaneSegmentation
         }
       }
     }
-    
+
     void
     run ()
     {
       // initial processing
       process ();
-    
+
       while (!viewer.wasStopped ())
         viewer.spinOnce (100);
     }
@@ -209,7 +209,7 @@ int
 main (int argc, char** argv)
 {
   bool refine = pcl::console::find_switch (argc, argv, "-refine");
-  
+
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_xyz (new pcl::PointCloud<pcl::PointXYZ>);
   pcl::io::loadPCDFile (argv[1], *cloud_xyz);
   PCDOrganizedMultiPlaneSegmentation<pcl::PointXYZ> multi_plane_app (cloud_xyz, refine);

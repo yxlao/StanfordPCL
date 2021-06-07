@@ -72,8 +72,8 @@ namespace pcl
         /** \brief Constructor for base SAC.
           * \param model a Sample Consensus model
           */
-        SampleConsensus (const SampleConsensusModelPtr &model) : 
-          sac_model_(model), probability_ (0.99), iterations_ (0), threshold_ (DBL_MAX), 
+        SampleConsensus (const SampleConsensusModelPtr &model) :
+          sac_model_(model), probability_ (0.99), iterations_ (0), threshold_ (DBL_MAX),
           max_iterations_ (1000)
         {};
 
@@ -81,8 +81,8 @@ namespace pcl
           * \param model a Sample Consensus model
           * \param threshold distance to model threshold
           */
-        SampleConsensus (const SampleConsensusModelPtr &model, float threshold) : 
-          sac_model_(model), probability_ (0.99), iterations_ (0), threshold_ (threshold), 
+        SampleConsensus (const SampleConsensusModelPtr &model, float threshold) :
+          sac_model_(model), probability_ (0.99), iterations_ (0), threshold_ (threshold),
           max_iterations_ (1000)
         {};
 
@@ -92,40 +92,40 @@ namespace pcl
         /** \brief Set the distance to model threshold.
           * \param threshold distance to model threshold
           */
-        inline void 
+        inline void
         setDistanceThreshold (float threshold)  { threshold_ = threshold; }
 
         /** \brief Get the distance to model threshold, as set by the user. */
-        inline float 
+        inline float
         getDistanceThreshold () { return (threshold_); }
 
         /** \brief Set the maximum number of iterations.
           * \param max_iterations maximum number of iterations
           */
-        inline void 
+        inline void
         setMaxIterations (int max_iterations) { max_iterations_ = max_iterations; }
 
         /** \brief Get the maximum number of iterations, as set by the user. */
-        inline int 
+        inline int
         getMaxIterations () { return (max_iterations_); }
 
-        /** \brief Set the desired probability of choosing at least one sample free from 
+        /** \brief Set the desired probability of choosing at least one sample free from
           * outliers.
-          * \param probability the desired probability of choosing at least one sample free 
+          * \param probability the desired probability of choosing at least one sample free
           * from outliers
           * \note internally, the probability is set to 99% (0.99) by default.
           */
-        inline void 
+        inline void
         setProbability (float probability) { probability_ = probability; }
 
-        /** \brief Obtain the probability of choosing at least one sample free from outliers, 
-          * as set by the user. 
+        /** \brief Obtain the probability of choosing at least one sample free from outliers,
+          * as set by the user.
           */
-        inline float 
+        inline float
         getProbability () { return (probability_); }
 
         /** \brief Compute the actual model. Pure virtual. */
-        virtual bool 
+        virtual bool
         computeModel (int debug_verbosity_level = 0) = 0;
 
         /** \brief Get a set of randomly selected indices.
@@ -134,7 +134,7 @@ namespace pcl
           * \param indices_subset the resultant output set of randomly selected indices
           */
   /*      inline void
-        getRandomSamples (const IndicesPtr &indices, size_t nr_samples, 
+        getRandomSamples (const IndicesPtr &indices, size_t nr_samples,
                           std::set<int> &indices_subset)
         {
           indices_subset.clear ();
@@ -142,32 +142,32 @@ namespace pcl
             indices_subset.insert ((*indices)[(int) (indices->size () * (rand () / (RAND_MAX + 1.0)))]);
         }*/
 
-        /** \brief Return the best model found so far. 
+        /** \brief Return the best model found so far.
           * \param model the resultant model
           */
-        inline void 
+        inline void
         getModel (Indices &model) { model = model_; }
 
-        /** \brief Return the best set of inliers found so far for this model. 
+        /** \brief Return the best set of inliers found so far for this model.
           * \param inliers the resultant set of inliers
           */
-  //      inline void 
+  //      inline void
   //      getInliers (std::vector<int> &inliers) { inliers = inliers_; }
-        inline IndicesPtr 
+        inline IndicesPtr
         getInliers () { return inliers_; }
 
-  //      inline void 
+  //      inline void
   //      getInliersStencil (Indices &inliers) { inliers = inliers_stencil_; }
         inline IndicesPtr
         getInliersStencil () { return inliers_stencil_; }
 
-        /** \brief Return the model coefficients of the best model found so far. 
+        /** \brief Return the model coefficients of the best model found so far.
           * \param model_coefficients the resultant model coefficients
           */
-        inline void 
-        getModelCoefficients (Coefficients &model_coefficients) 
-        { 
-          model_coefficients = model_coefficients_; 
+        inline void
+        getModelCoefficients (Coefficients &model_coefficients)
+        {
+          model_coefficients = model_coefficients_;
         }
 
       protected:
@@ -189,10 +189,10 @@ namespace pcl
 
         /** \brief Total number of internal loop iterations that we've done so far. */
         int iterations_;
-        
+
         /** \brief Distance to model threshold. */
         float threshold_;
-        
+
         /** \brief Maximum number of iterations before giving up. */
         int max_iterations_;
     };

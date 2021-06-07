@@ -63,7 +63,7 @@ editor, and place the following inside it:
 .. literalinclude:: sources/cluster_extraction/cluster_extraction.cpp
    :language: cpp
    :linenos:
-   
+
 The Explanation
 ---------------
 
@@ -111,7 +111,7 @@ algorithm.
 
 Here we are creating a vector of `PointIndices`, which contain the actual index information in a `vector<int>`. The indices of each detected
 cluster are saved here - please take note of the fact that `cluster_indices` is a
-vector containing one instance of PointIndices for each detected cluster. So 
+vector containing one instance of PointIndices for each detected cluster. So
 `cluster_indices[0]` contains all indices of the first cluster in our point cloud.
 
 .. literalinclude:: sources/cluster_extraction/cluster_extraction.cpp
@@ -131,8 +131,8 @@ We impose that the clusters found must have at least **setMinClusterSize()**
 points and maximum **setMaxClusterSize()** points.
 
 Now we extracted the clusters out of our point cloud and saved the indices in
-**cluster_indices**. To separate each cluster out of the `vector<PointIndices>` 
-we have to iterate through *cluster_indices*, create a new `PointCloud` for 
+**cluster_indices**. To separate each cluster out of the `vector<PointIndices>`
+we have to iterate through *cluster_indices*, create a new `PointCloud` for
 each entry and write all points of the current cluster in the `PointCloud`.
 
 .. literalinclude:: sources/cluster_extraction/cluster_extraction.cpp
@@ -159,7 +159,7 @@ You will see something similar to::
   PointCloud after filtering has: 41049 data points.
   [SACSegmentation::initSACModel] Using a model of type: SACMODEL_PLANE
   [SACSegmentation::initSAC] Using a method of type: SAC_RANSAC with a model threshold of 0.020000
-  [SACSegmentation::initSAC] Setting the maximum number of iterations to 100 
+  [SACSegmentation::initSAC] Setting the maximum number of iterations to 100
   PointCloud representing the planar component: 20522 data points.
   [SACSegmentation::initSACModel] Using a model of type: SACMODEL_PLANE
   [SACSegmentation::initSAC] Using a method of type: SAC_RANSAC with a model threshold of 0.020000

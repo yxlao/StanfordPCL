@@ -57,7 +57,7 @@ pcl::StereoMatching::StereoMatching (void)
   pp_ref_img_ = NULL;
   pp_trg_img_ = NULL;
 
-  width_ = -1; 
+  width_ = -1;
   height_ = -1;
 
   max_disp_ = -1;
@@ -102,7 +102,7 @@ pcl::StereoMatching::~StereoMatching (void)
 }
 
 //////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::StereoMatching::medianFilter (int radius)
 {
 
@@ -151,7 +151,7 @@ pcl::StereoMatching::medianFilter (int radius)
 }
 
 //////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::StereoMatching::getVisualMap (pcl::PointCloud<pcl::RGB>::Ptr vMap)
 {
 
@@ -192,7 +192,7 @@ pcl::StereoMatching::getVisualMap (pcl::PointCloud<pcl::RGB>::Ptr vMap)
 }
 
 //////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::StereoMatching::leftRightCheck ()
 {
   short int p1, p2, p2i;
@@ -204,7 +204,7 @@ pcl::StereoMatching::leftRightCheck ()
       if (disp_map_[y * width_ + x] > 0)
       {
         p1 = disp_map_[y * width_ + x] / 16;
-        
+
         p2i = static_cast<short int> (x - p1 - x_off_);
 
         if (p2i >= 0)
@@ -220,11 +220,11 @@ pcl::StereoMatching::leftRightCheck ()
 }
 
 //////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 pcl::StereoMatching::getPointCloud (
-    float u_c, float v_c, float focal, float baseline, 
-    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, 
-    pcl::PointCloud<pcl::RGB>::Ptr texture) 
+    float u_c, float v_c, float focal, float baseline,
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud,
+    pcl::PointCloud<pcl::RGB>::Ptr texture)
 {
   //disp map has not been computed yet..
   if (disp_map_ == NULL)
@@ -269,11 +269,11 @@ pcl::StereoMatching::getPointCloud (
         temp_point.z = (baseline * focal) / disp_map_[ j*width_ + i];
         temp_point.x = ((static_cast<float> (i) - u_c) * temp_point.z) / focal;
         temp_point.y = ((static_cast<float> (j) - v_c) * temp_point.z) / focal;
-        
+
         //temp_point.intensity = ( texture->at(j*width_+i).r +texture->at(j*width_+i).g + texture->at(j*width_+i).b) / 3.0f;
         temp_point.r = texture->at (j * width_ + i).r;
-        temp_point.g = texture->at (j * width_ + i).g; 
-        temp_point.b = texture->at (j * width_ + i).b; 
+        temp_point.g = texture->at (j * width_ + i).g;
+        temp_point.b = texture->at (j * width_ + i).b;
 
         (*cloud)[j*width_ + i] = temp_point;
       }
@@ -290,12 +290,12 @@ pcl::StereoMatching::getPointCloud (
 
 //////////////////////////////////////////////////////////////////////////////
 //const pcl::PointCloud<pcl::PointXYZRGBA>::Ptr pcl::StereoMatching::getPointCloud(float uC, float vC, float focal, float baseline)
-bool 
+bool
 pcl::StereoMatching::getPointCloud (
-    float u_c, float v_c, float focal, float baseline, 
+    float u_c, float v_c, float focal, float baseline,
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud)
 {
-  
+
   //disp map has not been computed yet..
   if ( disp_map_ == NULL)
   {
@@ -364,7 +364,7 @@ pcl::GrayStereoMatching::~GrayStereoMatching ()
 }
 
 //////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::GrayStereoMatching::preProcessing (unsigned char *img, unsigned char *pp_img)
 {
   int radius = 4;              //default value, could be exported
@@ -372,7 +372,7 @@ pcl::GrayStereoMatching::preProcessing (unsigned char *img, unsigned char *pp_im
   int area = n * n;
   int threshold = 31;
 
-  int sum = 0; 
+  int sum = 0;
   int *v = new int[width_];
   memset (v, 0, sizeof (int) * width_);
 
@@ -434,7 +434,7 @@ pcl::GrayStereoMatching::preProcessing (unsigned char *img, unsigned char *pp_im
 }
 
 //////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::GrayStereoMatching::imgFlip (unsigned char * & img)
 {
   unsigned char *temp_row = new unsigned char[width_];
@@ -452,7 +452,7 @@ pcl::GrayStereoMatching::imgFlip (unsigned char * & img)
 }
 
 //////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::GrayStereoMatching::compute (pcl::PointCloud<pcl::RGB> &ref, pcl::PointCloud<pcl::RGB> &trg)
 {
 
@@ -476,8 +476,8 @@ pcl::GrayStereoMatching::compute (pcl::PointCloud<pcl::RGB> &ref, pcl::PointClou
 
   if ( ref_img_ == NULL)
   {
-    ref_img_ = new unsigned char[ref.width * ref.height];  
-    trg_img_ = new unsigned char[ref.width * ref.height];  
+    ref_img_ = new unsigned char[ref.width * ref.height];
+    trg_img_ = new unsigned char[ref.width * ref.height];
   }
 
   float divider = 1.0f / 3.0f;
@@ -489,7 +489,7 @@ pcl::GrayStereoMatching::compute (pcl::PointCloud<pcl::RGB> &ref, pcl::PointClou
       trg_img_[j*ref.width + i] = static_cast<unsigned char> (static_cast<float> (trg[j*ref.width + i].r + trg[j*ref.width + i].g + trg[j*ref.width + i].b) * divider);
       //ref_img_[ j*ref.width + i] = ( ref(j,i).r + ref(j,i).g + ref(j,i).b) / 3;
       //trg_img_[ j*ref.width + i] = ( trg(j,i).r + trg(j,i).g + trg(j,i).b) / 3;
-      
+
     }
   }
 
@@ -498,10 +498,10 @@ pcl::GrayStereoMatching::compute (pcl::PointCloud<pcl::RGB> &ref, pcl::PointClou
 }
 
 //////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::GrayStereoMatching::compute (unsigned char* ref_img, unsigned char* trg_img, int width, int height)
 {
-    
+
   //Check that a suitable value of max_disp has been selected
   if ( max_disp_ <= 0)
   {
@@ -533,16 +533,16 @@ pcl::GrayStereoMatching::compute (unsigned char* ref_img, unsigned char* trg_img
 
   if ( disp_map_ == NULL)
   {
-    disp_map_ = new short int[width * height];  
-      
+    disp_map_ = new short int[width * height];
+
     width_ = width;
     height_ = height;
   }
-    
+
 
   if ( is_lr_check_ && disp_map_trg_ == NULL)
   {
-    disp_map_trg_ = new short int[width * height];  
+    disp_map_trg_ = new short int[width * height];
   }
 
   if ( !is_lr_check_ && disp_map_trg_ != NULL)

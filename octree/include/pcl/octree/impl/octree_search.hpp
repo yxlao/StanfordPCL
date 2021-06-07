@@ -93,7 +93,7 @@ pcl::octree::OctreePointCloudSearch<PointT, LeafContainerT, BranchContainerT>::n
 
   if (k < 1)
     return 0;
-  
+
   unsigned int i;
   unsigned int resultCount;
 
@@ -112,7 +112,7 @@ pcl::octree::OctreePointCloudSearch<PointT, LeafContainerT, BranchContainerT>::n
 
   k_indices.resize (resultCount);
   k_sqr_distances.resize (resultCount);
-  
+
   for (i = 0; i < resultCount; ++i)
   {
     k_indices [i] = pointCandidates [i].pointIdx_;
@@ -140,7 +140,7 @@ pcl::octree::OctreePointCloudSearch<PointT, LeafContainerT, BranchContainerT>::a
 {
   assert(this->leafCount_>0);
   assert (isFinite (p_q) && "Invalid (NaN, Inf) point coordinates given to nearestKSearch!");
-  
+
   OctreeKey key;
   key.x = key.y = key.z = 0;
 

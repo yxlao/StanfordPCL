@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
- *  
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,7 @@ namespace pcl
     * \code
     * pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
     * // fill in the cloud data here
-    * 
+    *
     * pcl::PointCloud<pcl::Normal>::Ptr normals (new pcl::PointCloud<pcl::Normal>);
     * // estimate normals and fill in \a normals
     *
@@ -65,9 +65,9 @@ namespace pcl
     * est.compute (boundaries);
     * \endcode
     *
-    * \attention 
+    * \attention
     * The convention for Boundary features is:
-    *   - if a query point's nearest neighbors cannot be estimated, the boundary feature will be set to NaN 
+    *   - if a query point's nearest neighbors cannot be estimated, the boundary feature will be set to NaN
     *     (not a number)
     *   - it is impossible to estimate a boundary property for a point that
     *     doesn't have finite 3D coordinates. Therefore, any point that contains
@@ -94,10 +94,10 @@ namespace pcl
       typedef typename Feature<PointInT, PointOutT>::PointCloudOut PointCloudOut;
 
     public:
-      /** \brief Empty constructor. 
+      /** \brief Empty constructor.
         * The angular threshold \a angle_threshold_ is set to M_PI / 2.0
         */
-      BoundaryEstimation () : angle_threshold_ (static_cast<float> (M_PI) / 2.0f) 
+      BoundaryEstimation () : angle_threshold_ (static_cast<float> (M_PI) / 2.0f)
       {
         feature_name_ = "BoundaryEstimation";
       };
@@ -111,9 +111,9 @@ namespace pcl
         * \param[in] v the v direction
         * \param[in] angle_threshold the threshold angle (default \f$\pi / 2.0\f$)
         */
-      bool 
-      isBoundaryPoint (const pcl::PointCloud<PointInT> &cloud, 
-                       int q_idx, const std::vector<int> &indices, 
+      bool
+      isBoundaryPoint (const pcl::PointCloud<PointInT> &cloud,
+                       int q_idx, const std::vector<int> &indices,
                        const Eigen::Vector4f &u, const Eigen::Vector4f &v, const float angle_threshold);
 
       /** \brief Check whether a point is a boundary point in a planar patch of projected points given by indices.
@@ -125,14 +125,14 @@ namespace pcl
         * \param[in] v the v direction
         * \param[in] angle_threshold the threshold angle (default \f$\pi / 2.0\f$)
         */
-      bool 
-      isBoundaryPoint (const pcl::PointCloud<PointInT> &cloud, 
-                       const PointInT &q_point, 
-                       const std::vector<int> &indices, 
+      bool
+      isBoundaryPoint (const pcl::PointCloud<PointInT> &cloud,
+                       const PointInT &q_point,
+                       const std::vector<int> &indices,
                        const Eigen::Vector4f &u, const Eigen::Vector4f &v, const float angle_threshold);
 
-      /** \brief Set the decision boundary (angle threshold) that marks points as boundary or regular. 
-        * (default \f$\pi / 2.0\f$) 
+      /** \brief Set the decision boundary (angle threshold) that marks points as boundary or regular.
+        * (default \f$\pi / 2.0\f$)
         * \param[in] angle the angle threshold
         */
       inline void
@@ -153,8 +153,8 @@ namespace pcl
         * \param[out] u the resultant u direction
         * \param[out] v the resultant v direction
         */
-      inline void 
-      getCoordinateSystemOnPlane (const PointNT &p_coeff, 
+      inline void
+      getCoordinateSystemOnPlane (const PointNT &p_coeff,
                                   Eigen::Vector4f &u, Eigen::Vector4f &v)
       {
         pcl::Vector4fMapConst p_coeff_v = p_coeff.getNormalVector4fMap ();
@@ -168,7 +168,7 @@ namespace pcl
         * setSearchMethod ()
         * \param[out] output the resultant point cloud model dataset that contains boundary point estimates
         */
-      void 
+      void
       computeFeature (PointCloudOut &output);
 
       /** \brief The decision boundary (angle threshold) that marks points as boundary or regular. (default \f$\pi / 2.0\f$) */
@@ -176,16 +176,16 @@ namespace pcl
 
     private:
       /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &) {}
   };
 
   /** \brief BoundaryEstimation estimates whether a set of points is lying on surface boundaries using an angle
     * criterion. The code makes use of the estimated surface normals at each point in the input dataset.
     *
-    * \attention 
+    * \attention
     * The convention for Boundary features is:
     *   - if a query point's nearest neighbors cannot be estimated, the boundary feature property will be set to NaN (not a number)
     *   - it is impossible to estimate a boundary property for a point that
@@ -215,13 +215,13 @@ namespace pcl
         * setSearchMethod ()
         * \param[out] output the resultant point cloud model dataset that contains boundary point estimates
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &output);
 
       /** \brief Make the compute (&PointCloudOut); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       compute (pcl::PointCloud<pcl::Boundary> &) {}
   };
 }

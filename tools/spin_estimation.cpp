@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
- *  
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -63,13 +63,13 @@ printHelp (int, char **argv)
 {
   print_error ("Syntax is: %s input.pcd output.pcd <options>\n", argv[0]);
   print_info ("  where options are:\n");
-  print_info ("                     -radius X     = use a radius of Xm around each point to determine the neighborhood (default: "); 
+  print_info ("                     -radius X     = use a radius of Xm around each point to determine the neighborhood (default: ");
   print_value ("%f", default_radius); print_info (")\n");
-  print_info ("                     -width X      = resolution (width) of a spin-image (default: "); 
+  print_info ("                     -width X      = resolution (width) of a spin-image (default: ");
   print_value ("%d", default_image_width); print_info (")\n");
-  print_info ("                     -suppangle X  = min cosine of support angle for filtering points by normals (default: "); 
+  print_info ("                     -suppangle X  = min cosine of support angle for filtering points by normals (default: ");
   print_value ("%f", default_support_angle); print_info (")\n");
-  print_info ("                     -neigh X      = min number of neighbours to compute a spin-image (default: "); 
+  print_info ("                     -neigh X      = min number of neighbours to compute a spin-image (default: ");
   print_value ("%d", default_min_neigh); print_info (")\n");
 
   print_info ("                     -radial        = toggles radial structure of a spin-image (default: false)\n");
@@ -106,9 +106,9 @@ saveCloud (const std::string &filename, const sensor_msgs::PointCloud2 &output)
   tt.tic ();
 
   print_highlight ("Saving "); print_value ("%s ", filename.c_str ());
-  
+
   io::savePCDFile (filename, output, translation, orientation, false);
-  
+
   print_info ("[done, "); print_value ("%g", tt.toc ()); print_info (" ms : "); print_value ("%d", output.width * output.height); print_info (" points]\n");
 }
 
@@ -146,12 +146,12 @@ main (int argc, char** argv)
 
   // Load the first file
   sensor_msgs::PointCloud2::Ptr cloud (new sensor_msgs::PointCloud2);
-  if (!loadCloud (argv[p_file_indices[0]], *cloud)) 
+  if (!loadCloud (argv[p_file_indices[0]], *cloud))
     return (-1);
 
   // Perform the feature estimation
   sensor_msgs::PointCloud2 output;
-  
+
   // Convert data to PointCloud<T>
   PointCloud<PointNormal>::Ptr xyznormals (new PointCloud<PointNormal>);
   fromROSMsg (*cloud, *xyznormals);
@@ -163,7 +163,7 @@ main (int argc, char** argv)
   print_highlight (stderr, "Computing ");
 
   typedef Histogram<153> SpinImage;
-  SpinImageEstimation<PointNormal, PointNormal, SpinImage> spin_est (image_width, support_angle, min_neigh); 
+  SpinImageEstimation<PointNormal, PointNormal, SpinImage> spin_est (image_width, support_angle, min_neigh);
   //spin_est.setInputWithNormals (xyznormals, xyznormals);
   spin_est.setInputCloud (xyznormals);
   spin_est.setInputNormals (xyznormals);

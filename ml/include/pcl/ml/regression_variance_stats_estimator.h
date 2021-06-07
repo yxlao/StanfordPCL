@@ -34,7 +34,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  */
-  
+
 #ifndef PCL_ML_REGRESSION_VARIANCE_STATS_ESTIMATOR_H_
 #define PCL_ML_REGRESSION_VARIANCE_STATS_ESTIMATOR_H_
 
@@ -50,7 +50,7 @@ namespace pcl
 
   /** \brief Node for a regression trees which optimizes variance. */
   template <class FeatureType, class LabelType>
-  class PCL_EXPORTS RegressionVarianceNode 
+  class PCL_EXPORTS RegressionVarianceNode
   {
     public:
       /** \brief Constructor. */
@@ -61,7 +61,7 @@ namespace pcl
       /** \brief Serializes the node to the specified stream.
         * \param[out] stream The destination for the serialization.
         */
-      inline void 
+      inline void
       serialize (std::ostream & stream) const
       {
         feature.serialize (stream);
@@ -75,14 +75,14 @@ namespace pcl
         stream.write (reinterpret_cast<const char*> (&num_of_sub_nodes), sizeof (num_of_sub_nodes));
         for (int sub_node_index = 0; sub_node_index < num_of_sub_nodes; ++sub_node_index)
         {
-          sub_nodes[sub_node_index].serialize (stream);        
+          sub_nodes[sub_node_index].serialize (stream);
         }
       }
 
       /** \brief Deserializes a node from the specified stream.
         * \param[in] stream The source for the deserialization.
         */
-      inline void 
+      inline void
       deserialize (std::istream & stream)
       {
         feature.deserialize (stream);
@@ -125,27 +125,27 @@ namespace pcl
   class PCL_EXPORTS RegressionVarianceStatsEstimator
     : public pcl::StatsEstimator<LabelDataType, NodeType, DataSet, ExampleIndex>
   {
-  
+
     public:
       /** \brief Constructor. */
-      RegressionVarianceStatsEstimator (BranchEstimator * branch_estimator) 
+      RegressionVarianceStatsEstimator (BranchEstimator * branch_estimator)
         : branch_estimator_ (branch_estimator)
       {}
       /** \brief Destructor. */
       virtual ~RegressionVarianceStatsEstimator () {}
-  
+
       /** \brief Returns the number of branches the corresponding tree has. */
-      inline size_t 
-      getNumOfBranches () const 
-      { 
-        //return 2; 
+      inline size_t
+      getNumOfBranches () const
+      {
+        //return 2;
         return branch_estimator_->getNumOfBranches ();
       }
 
-      /** \brief Returns the label of the specified node. 
+      /** \brief Returns the label of the specified node.
         * \param[in] node The node which label is returned.
         */
-      inline LabelDataType 
+      inline LabelDataType
       getLabelOfNode (
         NodeType & node) const
       {
@@ -160,7 +160,7 @@ namespace pcl
         * \param[in] flags The flags corresponding to the results.
         * \param[in] threshold The threshold for which the information gain is computed.
         */
-      float 
+      float
       computeInformationGain (
         DataSet & data_set,
         std::vector<ExampleIndex> & examples,
@@ -225,7 +225,7 @@ namespace pcl
         * \param[in] threshold The threshold used to compute the branch indices.
         * \param[out] branch_indices The destination for the computed branch indices.
         */
-      void 
+      void
       computeBranchIndices (
         std::vector<float> & results,
         std::vector<unsigned char> & flags,
@@ -250,7 +250,7 @@ namespace pcl
         * \param[in] threshold The threshold used to compute the branch index.
         * \param[out] branch_index The destination for the computed branch index.
         */
-      inline void 
+      inline void
       computeBranchIndex(
         const float result,
         const unsigned char flag,
@@ -267,7 +267,7 @@ namespace pcl
         * \param[in] label_data The label_data corresponding to the examples.
         * \param[out] node The destination node for the statistics.
         */
-      void 
+      void
       computeAndSetNodeStats (
         DataSet & data_set,
         std::vector<ExampleIndex> & examples,
@@ -299,7 +299,7 @@ namespace pcl
         * \param[in] node The node for which code is generated.
         * \param[out] stream The destination for the generated code.
         */
-      void 
+      void
       generateCodeForBranchIndexComputation (
         NodeType & node,
         std::ostream & stream) const
@@ -311,7 +311,7 @@ namespace pcl
         * \param[in] node The node for which code is generated.
         * \param[out] stream The destination for the generated code.
         */
-      void 
+      void
       generateCodeForOutput (
         NodeType & node,
         std::ostream & stream) const

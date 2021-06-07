@@ -50,13 +50,13 @@ namespace pcl
     namespace people
     {
       // Some types for the tree
-      enum 
-      { 
+      enum
+      {
         NO_CHILD  = -3,
         LEAF      = -2,
         ROOT      = -1,
         NO_DATA   = 255  /** \brief We have no depth data for this part of the image **/
-      };  
+      };
 
       enum { NUM_PARTS  = 25 };         /** \brief We have 25 body parts defined **/
       enum { MAX_CHILD  = 4  };         /** \brief a parent node has maximum 4 children **/
@@ -112,10 +112,10 @@ namespace pcl
       typedef DeviceArray2D<uchar4> Image;
 
       typedef DeviceArray2D<unsigned short> Depth;
-      typedef DeviceArray2D<unsigned char>  Labels;      
+      typedef DeviceArray2D<unsigned char>  Labels;
       typedef DeviceArray2D<float>          HueImage;
-      typedef DeviceArray2D<unsigned char>  Mask;      
-      
+      typedef DeviceArray2D<unsigned char>  Mask;
+
       /**
        * @brief This LUT contains the max primary eigenvalue for each part
        * @todo read this from XML file
@@ -152,7 +152,7 @@ namespace pcl
       /**
        *  @brief This LUT contains the ideal lenght between this part and his children
        **/
-      static const float LUT_ideal_length[][4] = 
+      static const float LUT_ideal_length[][4] =
       {
         { -1.0f,  -1.0f,  -1.0f,  -1.0f}, // 0 Lfoot
         {  0.2f,  -1.0f,  -1.0f,  -1.0f}, // 1 Lleg
@@ -184,7 +184,7 @@ namespace pcl
       /**
        * @brief This LUT contains the max lenght between this part and his children
        **/
-      static const float LUT_max_length_offset[][4] = 
+      static const float LUT_max_length_offset[][4] =
       {
         { 0.15f,  0.15f,  0.15f,  0.15f}, // 0 Lfoot
         { 0.15f,  0.15f,  0.15f,  0.15f}, // 1 Lleg
@@ -216,7 +216,7 @@ namespace pcl
       /**
        * @brief This LUT contains the number of children for each parent
        **/
-      static const unsigned int LUT_nr_children[] = 
+      static const unsigned int LUT_nr_children[] =
       {
         0,            // 0 Lfoot
         1,            // 1 Lleg
@@ -243,7 +243,7 @@ namespace pcl
         0,            // 22 FaceRT
         2,            // 23 Rchest
         2             // 24 Lchest
-      };      
+      };
     } // End namespace people
   } // End namespace gpu
 } // End namespace pcl
@@ -261,7 +261,7 @@ namespace pcl
         float probs[pcl::gpu::people::NUM_LABELS];       /** \brief A single float probability for each body part **/
     };
 
-    typedef DeviceArray2D<prob_histogram> LabelProbability;    
+    typedef DeviceArray2D<prob_histogram> LabelProbability;
   }
 }
 

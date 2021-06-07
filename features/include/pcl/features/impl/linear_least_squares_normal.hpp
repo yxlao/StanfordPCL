@@ -64,7 +64,7 @@ pcl::LinearLeastSquaresNormalEstimation<PointInT, PointOutT>::computePointNormal
   const float py = input_->points[index].y;
   const float pz = input_->points[index].z;
 
-  if (pcl_isnan (px)) 
+  if (pcl_isnan (px))
   {
     normal.normal_x = bad_point;
     normal.normal_y = bad_point;
@@ -158,13 +158,13 @@ pcl::LinearLeastSquaresNormalEstimation<PointInT, PointOutT>::computeFeature (Po
 
   // we compute the normals as follows:
   // ----------------------------------
-  // 
+  //
   // for the depth-gradient you can make the following first-order Taylor approximation:
   //   D(x + dx) - D(x) = dx^T \Delta D + h.o.t.
-  //     
+  //
   // build linear system by stacking up equation for 8 neighbor points:
   //   Y = X \Delta D
-  // 
+  //
   // => \Delta D = (X^T X)^{-1} X^T Y
   // => \Delta D = (A)^{-1} b
 

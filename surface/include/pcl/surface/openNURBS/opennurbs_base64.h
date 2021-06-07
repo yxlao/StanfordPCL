@@ -28,33 +28,33 @@ public:
   /*
   Description:
     ON_Base64EncodeStream delivers the base64 encoded stream by
-    calling a base64 encoded stream output handler function. 
+    calling a base64 encoded stream output handler function.
     There are two options for specifying the base64 encoded stream
     output handler function.
       1. Overriding the virtual Out() function.
       2. Providing a callback function.
     SetCallback() is used to specify a callback function to handle
-    the base64 encoded stream and to specify a context pointer to be 
+    the base64 encoded stream and to specify a context pointer to be
     passed to either option of the handler.
   Parameters:
     callback_function - [in]
       Function to handle sections of the base64 encoded stream.
-      If callback_function is null, then the virtual Out() 
-      function will be called. When callback_function 
-      is specified, it must return true if the base64 encoding 
-      calculation should continue and false to cancel the 
+      If callback_function is null, then the virtual Out()
+      function will be called. When callback_function
+      is specified, it must return true if the base64 encoding
+      calculation should continue and false to cancel the
       base64 encoding calculation.
     callback_context - [in]
-      This value is passed as the first argument when calling 
+      This value is passed as the first argument when calling
       callback_function or the virutal Out() function.
   Returns:
     True if successful.
   Remarks:
     Once base64 encoding has started, it would be unusual to
     intentionally change the base64 encoded stream output handler,
-    but you can do this if you need to.    
+    but you can do this if you need to.
   */
-  bool SetCallback( 
+  bool SetCallback(
     ON_StreamCallbackFunction callback_function,
     void* callback_context
     );
@@ -74,11 +74,11 @@ public:
     argument to the base64 encoded stream output handler function.
   */
   void* CallbackContext() const;
-  
+
   /*
   Description:
     Call Begin() one time to initialize the base64 encoding
-    calculation.  Then call In() one or more times 
+    calculation.  Then call In() one or more times
     to submit the unencoded stream to the base64 encoding
     calculation. When you reach the end of the unencoded
     stream, call End().
@@ -92,7 +92,7 @@ public:
   Description:
     Call In() one or more times to base64 encode a stream of bytes.
     After the last call to In(), call End().  Calling In() will
-    result in at least in_buffer_size/57 and at most 
+    result in at least in_buffer_size/57 and at most
     (in_buffer_size+56)/57 calls to to the output stream handler.
   Parameters:
     in_buffer_size - [in]
@@ -109,13 +109,13 @@ public:
   /*
   Description:
     If an explicit base 64 encoded stream output handler is not
-    specified ( CallbackFunction() returns null ), then the 
+    specified ( CallbackFunction() returns null ), then the
     virtual Out() function is called to handle the base 64 encoded
     output stream.  As the input stream is encoded, one or more
     calls to Out() will occur.
 
     With a possible exception of the last call to Out(), when Out()
-    is called, 57 input bytes have been encoded into 76 output 
+    is called, 57 input bytes have been encoded into 76 output
     characters with ASCII codes A-Z, a-z, 0-9, +, /.
   Parameters:
     callback_context - [in]
@@ -129,15 +129,15 @@ public:
       A null terminated ASCII string that is a base 64 encoding.
       out_buffer[0...(out_buffer_size-1)] are ASCII characters with
       values characters with ASCII codes A-Z, a-z, 0-9, +, /
-      and out_buffer[out_buffer_size] = 0.    
+      and out_buffer[out_buffer_size] = 0.
   Returns:
     True to continue base 64 encodeing and false to cancel the
     encoding calculation.
   */
-  virtual bool Out( 
-    void* callback_context, 
-    ON__UINT32 out_buffer_size, 
-    const char* out_buffer 
+  virtual bool Out(
+    void* callback_context,
+    ON__UINT32 out_buffer_size,
+    const char* out_buffer
     );
 
   /*
@@ -149,14 +149,14 @@ public:
     true if successful, false if an error occured.
   */
   bool End();
-  
+
   /*
   Returns:
     Then the returned value is the total number bytes in the input
-    stream. The size is updated every time In() is called before 
-    any calls are made to the output stream handler.  If the 
+    stream. The size is updated every time In() is called before
+    any calls are made to the output stream handler.  If the
     calculation is finished ( End() has been called ), then the
-    returned value is the total number of bytes in the entire 
+    returned value is the total number of bytes in the entire
     input stream.
   */
   ON__UINT64 InSize() const;
@@ -167,7 +167,7 @@ public:
     output stream. The size is incremented immediately after each
     call to the output stream handler.  If the base64 encoding
     calculation is finished ( End() has been called ), then the
-    returned value is the total number of bytes in the entire 
+    returned value is the total number of bytes in the entire
     output stream.
   */
   ON__UINT64 OutSize() const;
@@ -176,7 +176,7 @@ public:
   Returns:
     Then the returned value is the 32-bit crc of the input stream.
     The crc is updated every time In() is called before any calls
-    are made to the output stream handler.  If the base64 encoding 
+    are made to the output stream handler.  If the base64 encoding
     calculation is finished ( End() has been called ), then the
     returned value is the 32-bit crc of the entire input stream.
   */
@@ -186,12 +186,12 @@ public:
   Returns:
     Then the returned value is the 32bit crc of the output stream.
     The crc is updated immediately after each call to the output
-    stream handler.  If the calculation is finished ( End() has 
+    stream handler.  If the calculation is finished ( End() has
     been called ), then the returned value is the 32-bit crc of
     the entire output stream.
   */
   ON__UINT32 OutCRC() const;
-    
+
 private:
   ON_StreamCallbackFunction m_out_callback_function;
   void* m_out_callback_context;
@@ -203,7 +203,7 @@ private:
   void* m_reserved;
 
   void ErrorHandler();
-  
+
 private:
   // prohibit use - no implementation
   ON_Base64EncodeStream(const ON_Base64EncodeStream&);
@@ -245,7 +245,7 @@ public:
   // returns false.
   bool End();
 
-  // Override the virtual Output() callback function to process the 
+  // Override the virtual Output() callback function to process the
   // decoded output.  Each time Output() is called there are m_output_count
   // bytes in the m_output[] array.
   // Every call to Decode() can result in zero, one, or many callbacks
@@ -255,7 +255,7 @@ public:
 
   // m_decode_count = total number of input base64 characters
   // that Decode() has decoded.
-  unsigned int m_decode_count; 
+  unsigned int m_decode_count;
 
   int  m_output_count; // 0 to 512
   unsigned char m_output[512];
@@ -275,7 +275,7 @@ private:
                 // 4: successfully parsed "***="
                 // 5: End() successfully called.
 
-  // cached encoded input from previous call to Decode() 
+  // cached encoded input from previous call to Decode()
   int m_cache_count;
   int m_cache[4];
 
@@ -322,12 +322,12 @@ public:
   int m_encode_count;
 
   // When the virtual Output() is called, there are m_output_count (1 to 76)
-  // characters of base64 encoded output in m_output[].  The remainder of 
+  // characters of base64 encoded output in m_output[].  The remainder of
   // the m_output[] array is zero.  The Output function may modify the
   // contents of m_output[] any way it sees fit.
   int  m_output_count;
   char m_output[80];
-  
+
 private:
   // input waiting to be encoded
   // At most 56 bytes can be waiting to be processed in m_input[].

@@ -47,7 +47,7 @@ namespace pcl
 {
   namespace cloud_composer
   {
-   
+
     /** \brief Tabbed widget for containing CloudView widgets
      * \author Jeremie Papon
      * \ingroup cloud_composer
@@ -57,27 +57,27 @@ namespace pcl
         Q_OBJECT
 
       public:
-        
+
         CloudViewer (QWidget* parent = 0);
         virtual ~CloudViewer();
         ProjectModel* getModel () const;
 
       public slots:
-        void 
+        void
         addModel (ProjectModel* new_model);
-        
-        void 
+
+        void
         modelChanged (int index);
-        
+
         void
         addNewProject (ProjectModel* new_model);
-        
+
       signals:
         void
         newModelSelected (ProjectModel *new_model);
 
       private:
-        
+
         boost::shared_ptr<pcl::visualization::PCLVisualizer> vis_;
         QMap <ProjectModel*, CloudView*> model_view_map_;
     };

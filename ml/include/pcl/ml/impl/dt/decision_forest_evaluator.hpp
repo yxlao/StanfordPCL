@@ -34,7 +34,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  */
-  
+
 #ifndef PCL_ML_DT_DECISION_FOREST_EVALUATOR_HPP_
 #define PCL_ML_DT_DECISION_FOREST_EVALUATOR_HPP_
 
@@ -86,5 +86,5 @@ pcl::DecisionForestEvaluator<FeatureType, DataSet, LabelType, ExampleIndex, Node
     label_data[label_index] *= inv_num_of_trees;
   }
 }
-  
+
 #endif

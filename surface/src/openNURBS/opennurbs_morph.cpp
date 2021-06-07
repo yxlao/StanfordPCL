@@ -110,7 +110,7 @@ bool ON_Localizer::Write(ON_BinaryArchive& archive) const
 
     break;
   }
-  
+
   if ( !archive.EndWrite3dmChunk() )
     rc = false;
 
@@ -185,7 +185,7 @@ bool ON_Localizer::Read(ON_BinaryArchive& archive)
 
     break;
   }
-  
+
   if ( !archive.EndRead3dmChunk() )
     rc = false;
 
@@ -196,11 +196,11 @@ bool ON_Localizer::Read(ON_BinaryArchive& archive)
 bool ON_Localizer::CreateCylinderLocalizer( ON_3dPoint P, ON_3dVector V, double r0, double r1 )
 {
   Destroy();
-  if (    P.IsValid() 
-       && V.IsValid() 
-       && V.Length() > 0.0 
-       && ON_IsValid(r0) 
-       && ON_IsValid(r1) 
+  if (    P.IsValid()
+       && V.IsValid()
+       && V.Length() > 0.0
+       && ON_IsValid(r0)
+       && ON_IsValid(r1)
        && r0 > 0.0
        && r1 > 0.0
        && r0 != r1 )
@@ -429,15 +429,15 @@ ON_SpaceMorph::~ON_SpaceMorph()
 {
 }
 
-ON_3dVector ON_SpaceMorph::MorphVector( 
-          ON_3dPoint tail_point, 
-          ON_3dVector vector 
+ON_3dVector ON_SpaceMorph::MorphVector(
+          ON_3dPoint tail_point,
+          ON_3dVector vector
           ) const
 {
   return (MorphPoint(tail_point+vector) - MorphPoint(tail_point));
 }
 
-ON_4dPoint ON_SpaceMorph::MorphPoint( 
+ON_4dPoint ON_SpaceMorph::MorphPoint(
           ON_4dPoint point
           ) const
 {
@@ -480,7 +480,7 @@ double ON_SpaceMorph::Tolerance() const
 
 void ON_SpaceMorph::SetTolerance(double tolerance)
 {
-  m_tolerance = (ON_IsValid(tolerance) && tolerance > 0.0 ) 
+  m_tolerance = (ON_IsValid(tolerance) && tolerance > 0.0 )
               ? tolerance
               : 0.0;
 }
@@ -511,9 +511,9 @@ void ON_SpaceMorph::SetPreserveStructure( bool bPreserveStructure )
 }
 
 void ON_SpaceMorph::MorphPointList(
-        int dim, 
+        int dim,
         int is_rat,
-        int count, 
+        int count,
         int stride,
         double* point
         ) const
@@ -565,9 +565,9 @@ void ON_SpaceMorph::MorphPointList(
 }
 
 void ON_SpaceMorph::MorphPointList(
-        int dim, 
+        int dim,
         int is_rat,
-        int count, 
+        int count,
         int stride,
         float* point
         ) const
@@ -645,7 +645,7 @@ bool ON_Mesh::EvaluatePoint( const class ON_ObjRef& objref, ON_3dPoint& P ) cons
     break;
 
   case ON_COMPONENT_INDEX::meshtop_edge:
-    if ( 5 == objref.m_evp.m_t_type 
+    if ( 5 == objref.m_evp.m_t_type
          && fabs(objref.m_evp.m_t[0] + objref.m_evp.m_t[1] - 1.0) <= ON_SQRT_EPSILON )
     {
       ON_Line L = m_top.TopEdgeLine(ci.m_index);
@@ -657,7 +657,7 @@ bool ON_Mesh::EvaluatePoint( const class ON_ObjRef& objref, ON_3dPoint& P ) cons
     break;
 
   case ON_COMPONENT_INDEX::mesh_face:
-    if ( 4 == objref.m_evp.m_t_type 
+    if ( 4 == objref.m_evp.m_t_type
          && fabs(objref.m_evp.m_t[0] + objref.m_evp.m_t[1] + objref.m_evp.m_t[2] + objref.m_evp.m_t[3] - 1.0) <= ON_SQRT_EPSILON )
     {
       if ( ci.m_index >= 0 && ci.m_index < m_F.Count() )

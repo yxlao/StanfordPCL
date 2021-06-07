@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
- *  
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -61,9 +61,9 @@ printHelp (int, char **argv)
 {
   print_error ("Syntax is: %s input.pcd output.pcd <options> [optional_arguments]\n", argv[0]);
   print_info ("  where options are:\n");
-  print_info ("                     -radius X = use a radius of Xm around each point to determine the neighborhood (default: "); 
+  print_info ("                     -radius X = use a radius of Xm around each point to determine the neighborhood (default: ");
   print_value ("%f", default_radius); print_info (")\n");
-  print_info ("                     -k X      = use a fixed number of X-nearest neighbors around each point (default: "); 
+  print_info ("                     -k X      = use a fixed number of X-nearest neighbors around each point (default: ");
   print_value ("%f", default_k); print_info (")\n");
   print_info (" For organized datasets, an IntegralImageNormalEstimation approach will be used, with the RADIUS given value as SMOOTHING SIZE.\n");
   print_info ("\nOptional arguments are:\n");
@@ -97,7 +97,7 @@ compute (const sensor_msgs::PointCloud2::ConstPtr &input, sensor_msgs::PointClou
   // Estimate
   TicToc tt;
   tt.tic ();
-  
+
   print_highlight (stderr, "Computing ");
 
   PointCloud<Normal> normals;
@@ -140,7 +140,7 @@ saveCloud (const string &filename, const sensor_msgs::PointCloud2 &output)
 
   PCDWriter w;
   w.writeBinaryCompressed (filename, output, translation, orientation);
-  
+
   print_info ("[done, "); print_value ("%g", tt.toc ()); print_info (" ms : "); print_value ("%d", output.width * output.height); print_info (" points]\n");
 }
 
@@ -152,7 +152,7 @@ batchProcess (const vector<string> &pcd_files, string &output_dir, int k, double
   {
     // Load the first file
     sensor_msgs::PointCloud2::Ptr cloud (new sensor_msgs::PointCloud2);
-    if (!loadCloud (pcd_files[i], *cloud)) 
+    if (!loadCloud (pcd_files[i], *cloud))
       return (-1);
 
     // Perform the feature estimation
@@ -163,7 +163,7 @@ batchProcess (const vector<string> &pcd_files, string &output_dir, int k, double
     string filename = pcd_files[i];
     boost::trim (filename);
     boost::split (st, filename, boost::is_any_of ("/\\"), boost::token_compress_on);
-    
+
     // Save into the second file
     stringstream ss;
     ss << output_dir << "/" << st.at (st.size () - 1);
@@ -216,12 +216,12 @@ main (int argc, char** argv)
       return (-1);
     }
 
-    print_info ("Estimating normals with a radius/k/smoothing size of: "); 
-    print_value ("%d / %f / %f\n", k, radius, radius); 
+    print_info ("Estimating normals with a radius/k/smoothing size of: ");
+    print_value ("%d / %f / %f\n", k, radius, radius);
 
     // Load the first file
     sensor_msgs::PointCloud2::Ptr cloud (new sensor_msgs::PointCloud2);
-    if (!loadCloud (argv[p_file_indices[0]], *cloud)) 
+    if (!loadCloud (argv[p_file_indices[0]], *cloud))
       return (-1);
 
     // Perform the feature estimation

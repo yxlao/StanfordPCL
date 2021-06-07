@@ -144,9 +144,9 @@ double ON_Torus::MinorRadius() const
   return minor_radius;
 }
 
-ON_BOOL32 ON_Torus::ClosestPointTo( 
-         ON_3dPoint test_point, 
-         double* major__angle_radians, 
+ON_BOOL32 ON_Torus::ClosestPointTo(
+         ON_3dPoint test_point,
+         double* major__angle_radians,
          double* minor__angle_radians
        ) const
 {

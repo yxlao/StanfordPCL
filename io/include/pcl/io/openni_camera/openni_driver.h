@@ -113,7 +113,7 @@ namespace openni_wrapper
      * @return shared_ptr to the device, null if no matching device found.
      */
     boost::shared_ptr<OpenNIDevice> getDeviceBySerialNumber (const std::string& serial_number) const;
-    
+
 #ifndef _WIN32
     /**
      * @author Suat Gedikli

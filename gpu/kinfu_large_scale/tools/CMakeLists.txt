@@ -32,15 +32,15 @@ if(OPENNI_FOUND)
 
 #	PCL_ADD_EXECUTABLE(${the_target} ${SUBSYS_NAME} ${srcs} ${hdrs})
 	PCL_ADD_EXECUTABLE_OPT_BUNDLE(${the_target} ${SUBSYS_NAME} ${srcs} ${hdrs})
-	target_link_libraries(${the_target} pcl_common pcl_io ${OPENNI_LIBRARIES} pcl_visualization pcl_gpu_kinfu_large_scale pcl_octree)  
-  
+	target_link_libraries(${the_target} pcl_common pcl_io ${OPENNI_LIBRARIES} pcl_visualization pcl_gpu_kinfu_large_scale pcl_octree)
+
   ## STANDALONE MARCHING CUBES
 	set(the_target pcl_kinfu_largeScale_mesh_output)
 	set(srcs process_kinfu_large_scale_output.cpp)
 
 	PCL_ADD_EXECUTABLE(${the_target} ${SUBSYS_NAME} ${srcs} ${hdrs})
 	target_link_libraries(${the_target} pcl_common pcl_io ${OPENNI_LIBRARIES} pcl_visualization pcl_gpu_kinfu_large_scale pcl_filters)
-        
+
 	## WORLD MODEL TEST
 	#set(the_target world_model_test)
 	#set(srcs world_model_test.cpp)
@@ -48,14 +48,14 @@ if(OPENNI_FOUND)
 	#source_group("Source Files" FILES ${srcs} )
 
 	#PCL_ADD_EXECUTABLE(${the_target} ${SUBSYS_NAME} ${srcs} ${hdrs})
-	#target_link_libraries(${the_target} pcl_common pcl_io ${OPENNI_LIBRARIES} pcl_visualization pcl_gpu_kinfu pcl_octree)  
+	#target_link_libraries(${the_target} pcl_common pcl_io ${OPENNI_LIBRARIES} pcl_visualization pcl_gpu_kinfu pcl_octree)
 
 	## RECORD TSDFVOLUME (disabled)
 	# set(the_target record_tsdfvolume)
 	# set(srcs record_tsdfvolume.cpp capture.cpp)
 	#
 	# PCL_ADD_EXECUTABLE(${the_target} ${SUBSYS_NAME} ${srcs} ${hdrs})
-	# target_link_libraries(${the_target} pcl_common pcl_io ${OPENNI_LIBRARIES} pcl_visualization pcl_gpu_kinfu)  
+	# target_link_libraries(${the_target} pcl_common pcl_io ${OPENNI_LIBRARIES} pcl_visualization pcl_gpu_kinfu)
 
 	## KINECT FUSION SIMULATION - DISABLED FOR NOW
 	#find_package(GLEW)
@@ -69,8 +69,8 @@ if(OPENNI_FOUND)
 	#
 	#		source_group("Source Files" FILES ${srcs} )
 	#		PCL_ADD_EXECUTABLE(${the_target} ${SUBSYS_NAME} ${srcs} ${hdrs})
-	#		target_link_libraries(${the_target}  pcl_common pcl_io 
-  	#			pcl_visualization pcl_kdtree  pcl_simulation  
+	#		target_link_libraries(${the_target}  pcl_common pcl_io
+  	#			pcl_visualization pcl_kdtree  pcl_simulation
 	#	 		${OPENNI_LIBRARIES} pcl_gpu_kinfu
 	#	  		${GLEW_LIBRARIES} ${GLUT_LIBRARIES} ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
  	#

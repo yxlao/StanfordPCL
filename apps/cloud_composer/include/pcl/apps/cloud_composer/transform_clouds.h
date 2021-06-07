@@ -51,16 +51,16 @@ namespace pcl
       public:
         TransformClouds (QMap <QString, vtkSmartPointer<vtkMatrix4x4> > transform_map, QObject* parent = 0);
         virtual ~TransformClouds ();
-        
+
         virtual QList <CloudComposerItem*>
         performAction (QList <const CloudComposerItem*> input_data, PointTypeFlags::PointType type = PointTypeFlags::NONE);
-        
+
         inline virtual QString
         getToolName () const { return "Transform Clouds Tool";}
-       
+
         template <typename PointT> QList <CloudComposerItem*>
         performTemplatedAction (QList <const CloudComposerItem*> input_data);
-        
+
       private:
         QMap <QString, vtkSmartPointer<vtkMatrix4x4> > transform_map_;
     };

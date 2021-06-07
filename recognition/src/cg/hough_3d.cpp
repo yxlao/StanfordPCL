@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2012, Willow Garage, Inc.
- *  
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -92,7 +92,7 @@ pcl::recognition::HoughSpace3D::vote (const Eigen::Vector3d &single_vote_coord, 
     int currentBin = static_cast<int> (floor ((single_vote_coord[i] - min_coord_[i])/bin_size_[i]));
     if (currentBin < 0 || currentBin >= bin_count_[i])
     {
-      //PCL_ERROR("Current Vote goes out of bounds in the Hough Table!\nDimension: %d, Value inserted: %f, Min value: %f, Max value: %f\n", i, 
+      //PCL_ERROR("Current Vote goes out of bounds in the Hough Table!\nDimension: %d, Value inserted: %f, Min value: %f, Max value: %f\n", i,
       //  single_vote_coord[i], min_coord_[i], min_coord_[i] + bin_size_[i]*bin_count_[i]);
       return -1;
     }

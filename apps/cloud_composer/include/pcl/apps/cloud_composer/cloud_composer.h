@@ -57,7 +57,7 @@ namespace pcl
     class ToolFactory;
     class ToolBoxModel;
     class SignalMultiplexer;
-    
+
     /** \brief MainWindow of cloud_composer application
      * \author Jeremie Papon
      * \ingroup cloud_composer
@@ -75,16 +75,16 @@ namespace pcl
       public:
         explicit ComposerMainWindow (QWidget *parent = 0);
         ~ComposerMainWindow ();
-  
+
       signals:
         /** \brief Signal emitted when the active project is switched - ie a different project tab is selected */
         void
         activeProjectChanged (ProjectModel* new_model, ProjectModel* previous_model);
-        
+
         /** \brief This project specific signal gets a slot and signal so we can one-click create project and insert from file */
-        void 
+        void
         insertNewCloudFromFile ();
-        
+
       public slots:
       //Slots for File Menu Actions
         void
@@ -106,55 +106,55 @@ namespace pcl
         void
         on_action_insert_from_openNi_source__triggered ();
 
-          
-        
-        void 
+
+
+        void
         setCurrentModel (ProjectModel* model);
-        
-        void 
+
+        void
         setMouseStyleAction (interactor_styles::INTERACTOR_STYLES selected_style);
-        
+
         void
         enqueueToolAction (AbstractTool* tool);
-       
+
       private:
         void
         connectFileActions ();
         void
         connectEditActions ();
-        
-        void 
+
+        void
         connectViewActions ();
-        
-        void 
+
+        void
         initializeCloudBrowser ();
         void
         initializeCloudViewer ();
-        void 
+        void
         initializeItemInspector ();
-        
-        void 
+
+        void
         initializeToolBox ();
-        void 
+        void
         initializePlugins ();
 
-        
+
         /** \brief Pointer to the model which is currently being viewed  */
         ProjectModel* current_model_;
         QItemSelectionModel* current_selection_model_;
 
         QMap <QString, ProjectModel*> name_model_map_;
-        
+
         QUndoGroup *undo_group_;
-        
+
         QItemSelectionModel* tool_selection_model_;
         ToolBoxModel* tool_box_model_;
-        
+
         SignalMultiplexer* multiplexer_;
-        
+
         QActionGroup* mouse_style_group_;
     };
-    
+
   }
 }
 

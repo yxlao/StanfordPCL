@@ -10,9 +10,9 @@ PCL_SUBSYS_OPTION(build ${SUBSYS_NAME} ${SUBSYS_DESC} OFF)
 PCL_SUBSYS_DEPEND(build ${SUBSYS_NAME} DEPS ${SUBSYS_DEPS} EXT_DEPS opengl glew)
 
 PCL_ADD_DOC(${SUBSYS_NAME})
- 
+
 if(build)
-    set(srcs 
+    set(srcs
          src/camera.cpp
          src/model.cpp
          src/range_likelihood.cpp
@@ -21,7 +21,7 @@ if(build)
          src/sum_reduce.cpp
         )
 
-    set(incs 
+    set(incs
         include/pcl/${SUBSYS_NAME}/camera.h
         include/pcl/${SUBSYS_NAME}/model.h
         include/pcl/${SUBSYS_NAME}/range_likelihood.h
@@ -37,7 +37,7 @@ if(build)
     PCL_ADD_LIBRARY(${LIB_NAME} ${SUBSYS_NAME}
                     ${srcs} ${incs})
 
-    target_link_libraries(${LIB_NAME} pcl_common pcl_io 
+    target_link_libraries(${LIB_NAME} pcl_common pcl_io
                           ${OPENGL_LIBRARIES} ${GLEW_LIBRARIES})
 
     set(EXT_DEPS eigen3)

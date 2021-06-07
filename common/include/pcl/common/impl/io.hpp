@@ -46,8 +46,8 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT> int
-pcl::getFieldIndex (const pcl::PointCloud<PointT> &, 
-                    const std::string &field_name, 
+pcl::getFieldIndex (const pcl::PointCloud<PointT> &,
+                    const std::string &field_name,
                     std::vector<sensor_msgs::PointField> &fields)
 {
   fields.clear ();
@@ -61,7 +61,7 @@ pcl::getFieldIndex (const pcl::PointCloud<PointT> &,
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT> int
-pcl::getFieldIndex (const std::string &field_name, 
+pcl::getFieldIndex (const std::string &field_name,
                     std::vector<sensor_msgs::PointField> &fields)
 {
   fields.clear ();
@@ -112,7 +112,7 @@ pcl::copyPointCloud (const pcl::PointCloud<PointInT> &cloud_in, pcl::PointCloud<
   // Copy all the data fields from the input cloud to the output one
   typedef typename pcl::traits::fieldList<PointInT>::type FieldListInT;
   typedef typename pcl::traits::fieldList<PointOutT>::type FieldListOutT;
-  typedef typename pcl::intersect<FieldListInT, FieldListOutT>::type FieldList; 
+  typedef typename pcl::intersect<FieldListInT, FieldListOutT>::type FieldList;
 
   cloud_out.header   = cloud_in.header;
   cloud_out.width    = cloud_in.width;
@@ -140,7 +140,7 @@ pcl::copyPointCloud (const pcl::PointCloud<PointInT> &cloud_in, pcl::PointCloud<
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT> void
-pcl::copyPointCloud (const pcl::PointCloud<PointT> &cloud_in, 
+pcl::copyPointCloud (const pcl::PointCloud<PointT> &cloud_in,
                      const std::vector<int> &indices,
                      pcl::PointCloud<PointT> &cloud_out)
 {
@@ -167,7 +167,7 @@ pcl::copyPointCloud (const pcl::PointCloud<PointT> &cloud_in,
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT> void
-pcl::copyPointCloud (const pcl::PointCloud<PointT> &cloud_in, 
+pcl::copyPointCloud (const pcl::PointCloud<PointT> &cloud_in,
                      const std::vector<int, Eigen::aligned_allocator<int> > &indices,
                      pcl::PointCloud<PointT> &cloud_out)
 {
@@ -194,7 +194,7 @@ pcl::copyPointCloud (const pcl::PointCloud<PointT> &cloud_in,
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointInT, typename PointOutT> void
-pcl::copyPointCloud (const pcl::PointCloud<PointInT> &cloud_in, 
+pcl::copyPointCloud (const pcl::PointCloud<PointInT> &cloud_in,
                      const std::vector<int> &indices,
                      pcl::PointCloud<PointOutT> &cloud_out)
 {
@@ -210,7 +210,7 @@ pcl::copyPointCloud (const pcl::PointCloud<PointInT> &cloud_in,
   // Copy all the data fields from the input cloud to the output one
   typedef typename pcl::traits::fieldList<PointInT>::type FieldListInT;
   typedef typename pcl::traits::fieldList<PointOutT>::type FieldListOutT;
-  typedef typename pcl::intersect<FieldListInT, FieldListOutT>::type FieldList; 
+  typedef typename pcl::intersect<FieldListInT, FieldListOutT>::type FieldList;
 
   // If the point types are the same, don't copy one by one
   if (isSamePointType<PointInT, PointOutT> ())
@@ -230,7 +230,7 @@ pcl::copyPointCloud (const pcl::PointCloud<PointInT> &cloud_in,
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointInT, typename PointOutT> void
-pcl::copyPointCloud (const pcl::PointCloud<PointInT> &cloud_in, 
+pcl::copyPointCloud (const pcl::PointCloud<PointInT> &cloud_in,
                      const std::vector<int, Eigen::aligned_allocator<int> > &indices,
                      pcl::PointCloud<PointOutT> &cloud_out)
 {
@@ -246,7 +246,7 @@ pcl::copyPointCloud (const pcl::PointCloud<PointInT> &cloud_in,
   // Copy all the data fields from the input cloud to the output one
   typedef typename pcl::traits::fieldList<PointInT>::type FieldListInT;
   typedef typename pcl::traits::fieldList<PointOutT>::type FieldListOutT;
-  typedef typename pcl::intersect<FieldListInT, FieldListOutT>::type FieldList; 
+  typedef typename pcl::intersect<FieldListInT, FieldListOutT>::type FieldList;
 
   // If the point types are the same, don't copy one by one
   if (isSamePointType<PointInT, PointOutT> ())
@@ -266,7 +266,7 @@ pcl::copyPointCloud (const pcl::PointCloud<PointInT> &cloud_in,
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT> void
-pcl::copyPointCloud (const pcl::PointCloud<PointT> &cloud_in, 
+pcl::copyPointCloud (const pcl::PointCloud<PointT> &cloud_in,
                      const pcl::PointIndices &indices,
                      pcl::PointCloud<PointT> &cloud_out)
 {
@@ -293,7 +293,7 @@ pcl::copyPointCloud (const pcl::PointCloud<PointT> &cloud_in,
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointInT, typename PointOutT> void
-pcl::copyPointCloud (const pcl::PointCloud<PointInT> &cloud_in, 
+pcl::copyPointCloud (const pcl::PointCloud<PointInT> &cloud_in,
                      const pcl::PointIndices &indices,
                      pcl::PointCloud<PointOutT> &cloud_out)
 {
@@ -309,7 +309,7 @@ pcl::copyPointCloud (const pcl::PointCloud<PointInT> &cloud_in,
   // Copy all the data fields from the input cloud to the output one
   typedef typename pcl::traits::fieldList<PointInT>::type FieldListInT;
   typedef typename pcl::traits::fieldList<PointOutT>::type FieldListOutT;
-  typedef typename pcl::intersect<FieldListInT, FieldListOutT>::type FieldList; 
+  typedef typename pcl::intersect<FieldListInT, FieldListOutT>::type FieldList;
 
   // If the point types are the same, don't copy one by one
   if (isSamePointType<PointInT, PointOutT> ())
@@ -329,7 +329,7 @@ pcl::copyPointCloud (const pcl::PointCloud<PointInT> &cloud_in,
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT> void
-pcl::copyPointCloud (const pcl::PointCloud<PointT> &cloud_in, 
+pcl::copyPointCloud (const pcl::PointCloud<PointT> &cloud_in,
                      const std::vector<pcl::PointIndices> &indices,
                      pcl::PointCloud<PointT> &cloud_out)
 {
@@ -369,7 +369,7 @@ pcl::copyPointCloud (const pcl::PointCloud<PointT> &cloud_in,
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointInT, typename PointOutT> void
-pcl::copyPointCloud (const pcl::PointCloud<PointInT> &cloud_in, 
+pcl::copyPointCloud (const pcl::PointCloud<PointInT> &cloud_in,
                      const std::vector<pcl::PointIndices> &indices,
                      pcl::PointCloud<PointOutT> &cloud_out)
 {
@@ -396,7 +396,7 @@ pcl::copyPointCloud (const pcl::PointCloud<PointInT> &cloud_in,
   // Copy all the data fields from the input cloud to the output one
   typedef typename pcl::traits::fieldList<PointInT>::type FieldListInT;
   typedef typename pcl::traits::fieldList<PointOutT>::type FieldListOutT;
-  typedef typename pcl::intersect<FieldListInT, FieldListOutT>::type FieldList; 
+  typedef typename pcl::intersect<FieldListInT, FieldListOutT>::type FieldList;
 
   // If the point types are the same, don't copy one by one
   if (isSamePointType<PointInT, PointOutT> ())

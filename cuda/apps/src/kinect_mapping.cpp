@@ -122,9 +122,9 @@ class MultiRansac
       }
     }
 
-    template <template <typename> class Storage> void 
+    template <template <typename> class Storage> void
     cloud_cb (const boost::shared_ptr<openni_wrapper::Image>& image,
-              const boost::shared_ptr<openni_wrapper::DepthImage>& depth_image, 
+              const boost::shared_ptr<openni_wrapper::DepthImage>& depth_image,
               float constant)
     {
       static unsigned count = 0;
@@ -167,7 +167,7 @@ class MultiRansac
           if (use_viewer)
           {
             std::cerr << "getting inliers.. ";
-            
+
             std::vector<typename SampleConsensusModel1PointPlane<Storage>::IndicesPtr> planes;
 //            thrust::host_vector<int> regions_host = region_mask;
 //            std::copy (regions_host.begin (), regions_host.end(), std::ostream_iterator<int>(std::cerr, " "));
@@ -175,13 +175,13 @@ class MultiRansac
               ScopeTime t ("retrieving inliers");
               planes = sac.getAllInliers ();
             }
-            
+
             typename Storage<int>::type region_mask;
             markInliers<Storage> (data, region_mask, planes);
             std::cerr << "image_size: " << data->width << " x " << data->height << " = " << region_mask.size () << std::endl;
-            
+
             typename StoragePointer<Storage,uchar>::type ptr = StorageAllocator<Storage,uchar>::alloc (data->width * data->height);
-              
+
             createIndicesImage<Storage> (ptr, region_mask);
 
             typename ImageType<Storage>::type dst (data->height, data->width, CV_8UC1, thrust::raw_pointer_cast<char4>(ptr), data->width);
@@ -284,8 +284,8 @@ class MultiRansac
       //pcl_cuda::toPCL (*data, *output);
       //viewer.showCloud (output);
     }
-    
-    void 
+
+    void
     run (bool use_device, bool use_viewer)
     {
       this->use_viewer = use_viewer;
@@ -343,14 +343,14 @@ class MultiRansac
     pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr logo_cloud_;
     pcl_cuda::DisparityToCloud d2c;
     pcl::visualization::CloudViewer viewer;
-   
+
     boost::mutex::mutex m_mutex;
     pcl::PointCloud<pcl::PointXYZRGBNormal>::Ptr normal_cloud;
     bool new_cloud;
     bool use_viewer;
 };
 
-int 
+int
 main (int argc, char **argv)
 {
   sleep (1);

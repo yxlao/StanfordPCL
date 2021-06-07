@@ -87,7 +87,7 @@ namespace pcl
         * \param[out] colors output array for colors
         */
       void
-      fetchColors (const DeviceArray<PointType>& cloud, DeviceArray<RGB>& colors, const pcl::gpu::tsdf_buffer* buffer) const; 
+      fetchColors (const DeviceArray<PointType>& cloud, DeviceArray<RGB>& colors, const pcl::gpu::tsdf_buffer* buffer) const;
 
     private:
       /** \brief Volume resolution */
@@ -97,7 +97,7 @@ namespace pcl
       Eigen::Vector3f volume_size_;
 
       /** \brief Length of running average */
-      int max_weight_;     
+      int max_weight_;
 
       /** \brief color volume data */
       DeviceArray2D<int> color_volume_;

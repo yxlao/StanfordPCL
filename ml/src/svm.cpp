@@ -35,7 +35,7 @@
   *  POSSIBILITY OF SUCH DAMAGE.
   *
   */
- 
+
 #ifndef _LIBSVM_HPP_
 #define _LIBSVM_HPP_
 
@@ -73,7 +73,7 @@ template <class T> static inline void swap (T& x, T& y)
   y = t;
 }
 
-template <class S, class T> static inline void 
+template <class S, class T> static inline void
 clone (T*& dst, S* src, int n)
 {
   dst = new T[n];

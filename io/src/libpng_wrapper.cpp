@@ -48,10 +48,10 @@
 
 
 // user defined I/O callback methods for libPNG
-namespace 
+namespace
 {
   /////////////////////////////////////////////////////////////////////////////////////////
-  void 
+  void
   user_read_data (png_structp png_ptr, png_bytep data, png_size_t length)
   {
     uint8_t** input_pointer = reinterpret_cast<uint8_t**>(png_get_io_ptr (png_ptr));
@@ -61,7 +61,7 @@ namespace
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////
-  void 
+  void
   user_write_data (png_structp png_ptr,  png_bytep data, png_size_t length)
   {
     std::vector<uint8_t>* pngVec = reinterpret_cast<std::vector<uint8_t>*>(png_get_io_ptr (png_ptr));
@@ -69,7 +69,7 @@ namespace
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////
-  void 
+  void
   user_flush_data (png_structp)
   {
   }
@@ -134,7 +134,7 @@ namespace pcl
       pngData_arg.reserve (300 * 1024);
 
       // Define I/O methods
-      png_set_write_fn (png_ptr, reinterpret_cast<void*> (&pngData_arg), 
+      png_set_write_fn (png_ptr, reinterpret_cast<void*> (&pngData_arg),
                         user_write_data, user_flush_data);
 
       // Define zlib compression level
@@ -169,7 +169,7 @@ namespace pcl
       if (png_ptr)
         png_destroy_write_struct (&png_ptr, 0);
     }
-    
+
     ///////////////////////////////////////////////////////////////////////////////////////////
     template<typename T> void
     decodePNGImage (typename std::vector<uint8_t>& pngData_arg,

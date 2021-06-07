@@ -30,7 +30,7 @@ namespace pcl
       int y = threadIdx.y + blockIdx.y * blockDim.y;
 
       if (x < labels.cols && y < labels.rows)
-      {        
+      {
         uchar4 c = rgba.ptr(y)[x];
 
         int l = labels.ptr(y)[x];
@@ -47,14 +47,14 @@ void pcl::device::colorLMap(const Labels& labels, const DeviceArray<uchar4>& map
 {
   cmapTex.addressMode[0] = cudaAddressModeClamp;
   TextureBinder binder(map, cmapTex);
-  
+
   dim3 block(32, 8);
   dim3 grid( divUp(labels.cols(), block.x), divUp(labels.rows(), block.y) );
 
   colorKernel<<< grid, block >>>( labels, rgba );
 
   cudaSafeCall( cudaGetLastError() );
-  cudaSafeCall( cudaThreadSynchronize() );  
+  cudaSafeCall( cudaThreadSynchronize() );
 }
 
 void pcl::device::mixedColorMap(const Labels& labels, const DeviceArray<uchar4>& map, const Image& rgba, Image& output)
@@ -74,9 +74,9 @@ void pcl::device::mixedColorMap(const Labels& labels, const DeviceArray<uchar4>&
 /// TODO implement getError string for NPP and move this to the same place with cudaSafeCall
 
 #if defined(__GNUC__)
-  #define nppSafeCall(expr)  pcl::gpu::___nppSafeCall(expr, __FILE__, __LINE__, __func__)    
+  #define nppSafeCall(expr)  pcl::gpu::___nppSafeCall(expr, __FILE__, __LINE__, __func__)
 #else /* defined(__CUDACC__) || defined(__MSVC__) */
-  #define nppSafeCall(expr)  pcl::gpu::___nppSafeCall(expr, __FILE__, __LINE__)    
+  #define nppSafeCall(expr)  pcl::gpu::___nppSafeCall(expr, __FILE__, __LINE__)
 #endif
 
 namespace pcl
@@ -101,7 +101,7 @@ void pcl::device::setZero(Mask& mask)
 {
   NppiSize sz;
   sz.width  = mask.cols();
-  sz.height = mask.rows();   
+  sz.height = mask.rows();
   nppSafeCall( nppiSet_8u_C1R( 0, mask, (int)mask.step(), sz) );
 }
 
@@ -116,12 +116,12 @@ void pcl::device::Dilatation::prepareRect5x5Kernel(DeviceArray<unsigned char>& k
 
 void pcl::device::Dilatation::invoke(const Mask& src, const Kernel& kernel, Mask& dst)
 {
-  dst.create(src.rows(), src.cols());  
+  dst.create(src.rows(), src.cols());
   setZero(dst);
 
   NppiSize sz;
   sz.width  = src.cols() - KSIZE_X;
-  sz.height = src.rows() - KSIZE_Y; 
+  sz.height = src.rows() - KSIZE_Y;
 
   NppiSize ksz;
   ksz.width  = KSIZE_X;
@@ -132,7 +132,7 @@ void pcl::device::Dilatation::invoke(const Mask& src, const Kernel& kernel, Mask
   anchor.y = ANCH_Y;
 
   // This one uses Nvidia performance primitives
-  nppSafeCall( nppiDilate_8u_C1R(src.ptr(ANCH_Y) + ANCH_X, (int)src.step(), 
+  nppSafeCall( nppiDilate_8u_C1R(src.ptr(ANCH_Y) + ANCH_X, (int)src.step(),
                                  dst.ptr(ANCH_Y) + ANCH_X, (int)dst.step(), sz, kernel, ksz, anchor) );
 }
 
@@ -176,7 +176,7 @@ void pcl::device::prepareForeGroundDepth(const Depth& depth1, Mask& inverse_mask
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-/// compute hue functionality 
+/// compute hue functionality
 
 namespace pcl
 {
@@ -200,10 +200,10 @@ namespace pcl
           h = (    (g - b)) * div_inv;
       else if (g == v)
           h = (2 + (b - r)) * div_inv;
-      else 
+      else
           h = (4 + (r - g)) * div_inv;
 
-      h *= 60;    
+      h *= 60;
       if (h < 0)
           h += 360;
 
@@ -213,9 +213,9 @@ namespace pcl
   }
 }
 
-float pcl::device::computeHue(int rgba) 
-{ 
-  return computeHueFunc(rgba); 
+float pcl::device::computeHue(int rgba)
+{
+  return computeHueFunc(rgba);
 }
 
 namespace pcl
@@ -231,8 +231,8 @@ namespace pcl
       {
         const float qnan = numeric_limits<float>::quiet_NaN();
 
-        unsigned short d = depth.ptr(y)[x];            
-        hue.ptr(y)[x] = (d == 0) ? qnan : computeHueFunc(rgba.ptr(y)[x]);           
+        unsigned short d = depth.ptr(y)[x];
+        hue.ptr(y)[x] = (d == 0) ? qnan : computeHueFunc(rgba.ptr(y)[x]);
       }
     }
   }
@@ -278,7 +278,7 @@ namespace pcl
         p.z = z;
 
         cloud.ptr(y)[x] = p;
-      }      
+      }
     }
   }
 }

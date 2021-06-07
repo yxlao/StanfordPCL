@@ -52,13 +52,13 @@ namespace pcl
 
         struct IndsRepack
         {
-            enum 
-            { 
+            enum
+            {
                 CTA_SIZE = 256,
                 WARPS = CTA_SIZE/Warp::WARP_SIZE
             };
 
-            const int *offsets;    
+            const int *offsets;
             PtrStep<int> nindices;
             const int *sizes;
             int work_size;
@@ -73,7 +73,7 @@ namespace pcl
                     return;
 
                 int size = sizes[idx];
-                const int *ninds_beg = nindices.ptr(idx);        
+                const int *ninds_beg = nindices.ptr(idx);
                 const int *ninds_end = ninds_beg + size;
                 const int before = offsets[idx];
 
@@ -84,7 +84,7 @@ namespace pcl
             }
         };
 
-        __global__ void IndsRepackKernel(const IndsRepack irpk) { irpk(); } 
+        __global__ void IndsRepackKernel(const IndsRepack irpk) { irpk(); }
 
         __global__ void createLookupKernel(const int* inds, int total, int* output)
         {
@@ -106,12 +106,12 @@ int pcl::device::computeUniqueIndices(size_t surface_size, const NeighborIndices
     thrust::device_vector<int> scan(neighbours.sizes.size());
     thrust::device_ptr<int> beg((int*)neighbours.sizes.ptr());
     thrust::device_ptr<int> end = beg + neighbours.sizes.size();
-    thrust::exclusive_scan(beg, end, scan.begin());  
+    thrust::exclusive_scan(beg, end, scan.begin());
 
     IndsRepack irpk;
     irpk.offsets = raw_pointer_cast(&scan[0]);
     irpk.sizes = neighbours.sizes;
-    irpk.nindices = neighbours;    
+    irpk.nindices = neighbours;
     irpk.output = unique_indices;
     irpk.work_size = (int)neighbours.sizes.size();
 
@@ -119,7 +119,7 @@ int pcl::device::computeUniqueIndices(size_t surface_size, const NeighborIndices
     int grid = divUp((int)neighbours.sizes.size(), IndsRepack::WARPS);
 
     IndsRepackKernel<<<grid, block>>>(irpk);
-    cudaSafeCall( cudaGetLastError() );        
+    cudaSafeCall( cudaGetLastError() );
     cudaSafeCall(cudaDeviceSynchronize());
 
     int total;
@@ -127,17 +127,17 @@ int pcl::device::computeUniqueIndices(size_t surface_size, const NeighborIndices
     cudaSafeCall(cudaDeviceSynchronize());
 
     thrust::device_ptr<int> begu(unique_indices.ptr());
-    thrust::device_ptr<int> endu = begu + total;    
+    thrust::device_ptr<int> endu = begu + total;
 
     thrust::sort(begu, endu);
-    total = (int)(thrust::unique(begu, endu) - begu);   
+    total = (int)(thrust::unique(begu, endu) - begu);
 
     thrust::device_ptr<int> begl(lookup.ptr());
     thrust::device_ptr<int> endl = begl + lookup.size();
     thrust::fill(begl, endl, 0);
-    
+
     createLookupKernel<<<divUp((int)unique_indices.size(), 256), 256>>>(unique_indices, total, lookup);
-    cudaSafeCall( cudaGetLastError() );        
+    cudaSafeCall( cudaGetLastError() );
     cudaSafeCall(cudaDeviceSynchronize());
 
     return total;

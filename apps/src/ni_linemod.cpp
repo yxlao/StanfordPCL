@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2012, Willow Garage, Inc.
- * 
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -112,7 +112,7 @@ class NILinemod
       search_.setInputCloud (cloud);
 
       // Subsequent frames are segmented by "tracking" the parameters of the previous frame
-      // We do this by using the estimated inliers from previous frames in the current frame, 
+      // We do this by using the estimated inliers from previous frames in the current frame,
       // and refining the coefficients
 
       if (!first_frame_)
@@ -176,7 +176,7 @@ class NILinemod
     }
 
     /////////////////////////////////////////////////////////////////////////
-    void 
+    void
     keyboard_callback (const visualization::KeyboardEvent&, void*)
     {
       //if (event.getKeyCode())
@@ -188,9 +188,9 @@ class NILinemod
       //else
       //  cout << " released" << endl;
     }
-    
+
     /////////////////////////////////////////////////////////////////////////
-    void 
+    void
     mouse_callback (const visualization::MouseEvent&, void*)
     {
       //if (mouse_event.getType() == visualization::MouseEvent::MouseButtonPress && mouse_event.getButton() == visualization::MouseEvent::LeftButton)
@@ -201,19 +201,19 @@ class NILinemod
 
     /////////////////////////////////////////////////////////////////////////
     /** \brief Given a plane, and the set of inlier indices representing it,
-      * segment out the object of intererest supported by it. 
+      * segment out the object of intererest supported by it.
       *
       * \param[in] picked_idx the index of a point on the object
       * \param[in] cloud the full point cloud dataset
       * \param[in] plane_indices a set of indices representing the plane supporting the object of interest
       * \param[in] plane_boundary_indices a set of indices representing the boundary of the plane
-      * \param[out] object the segmented resultant object 
+      * \param[out] object the segmented resultant object
       */
     void
-    segmentObject (int picked_idx, 
-                   const CloudConstPtr &cloud, 
-                   const PointIndices::Ptr &plane_indices, 
-                   const PointIndices::Ptr &plane_boundary_indices, 
+    segmentObject (int picked_idx,
+                   const CloudConstPtr &cloud,
+                   const PointIndices::Ptr &plane_indices,
+                   const PointIndices::Ptr &plane_boundary_indices,
                    Cloud &object)
     {
       CloudPtr plane_hull (new Cloud);
@@ -235,8 +235,8 @@ class NILinemod
       }
       std::vector<int> indices_subset = plane_indices->indices;
       std::sort (indices_subset.begin (), indices_subset.end ());
-      set_difference (indices_fullset_.begin (), indices_fullset_.end (), 
-                      indices_subset.begin (), indices_subset.end (), 
+      set_difference (indices_fullset_.begin (), indices_fullset_.end (),
+                      indices_subset.begin (), indices_subset.end (),
                       inserter (everything_but_the_plane->indices, everything_but_the_plane->indices.begin ()));
 
       // Extract all clusters above the hull
@@ -294,7 +294,7 @@ class NILinemod
 
     /////////////////////////////////////////////////////////////////////////
     void
-    segment (const PointT &picked_point, 
+    segment (const PointT &picked_point,
              int picked_idx,
              PlanarRegion<PointT> &region,
              PointIndices &,
@@ -318,7 +318,7 @@ class NILinemod
       // Use one of the overloaded segmentAndRefine calls to get all the information that we want out
       vector<PlanarRegion<PointT>, Eigen::aligned_allocator<PlanarRegion<PointT> > > regions;
       vector<ModelCoefficients> model_coefficients;
-      vector<PointIndices> inlier_indices;  
+      vector<PointIndices> inlier_indices;
       PointCloud<Label>::Ptr labels (new PointCloud<Label>);
       vector<PointIndices> label_indices;
       vector<PointIndices> boundary_indices;
@@ -330,7 +330,7 @@ class NILinemod
       int idx = -1;
       for (size_t i = 0; i < regions.size (); ++i)
       {
-        double dist = pointToPlaneDistance (picked_point, regions[i].getCoefficients ()); 
+        double dist = pointToPlaneDistance (picked_point, regions[i].getCoefficients ());
         if (dist < max_dist)
         {
           max_dist = dist;
@@ -342,7 +342,7 @@ class NILinemod
       // Get the plane that holds the object of interest
       if (idx != -1)
       {
-        region = regions[idx]; 
+        region = regions[idx];
         plane_indices_.reset (new PointIndices (inlier_indices[idx]));
         plane_boundary_indices.reset (new PointIndices (boundary_indices[idx]));
       }
@@ -365,7 +365,7 @@ class NILinemod
       *
       * \param[in] event the event that triggered the call
       */
-    void 
+    void
     pp_callback (const visualization::PointPickingEvent& event, void*)
     {
       // Check to see if we got a valid point. Early exit.
@@ -465,7 +465,7 @@ class NILinemod
         image_viewer_.addRectangle (search_.getInputCloud (), *object);
       }
     }
-    
+
     /////////////////////////////////////////////////////////////////////////
     void
     init ()
@@ -475,7 +475,7 @@ class NILinemod
       cloud_viewer_.registerPointPickingCallback (&NILinemod::pp_callback, *this);
       boost::function<void (const CloudConstPtr&) > cloud_cb = boost::bind (&NILinemod::cloud_callback, this, _1);
       cloud_connection = grabber_.registerCallback (cloud_cb);
-      
+
       image_viewer_.registerMouseCallback (&NILinemod::mouse_callback, *this);
       image_viewer_.registerKeyboardCallback(&NILinemod::keyboard_callback, *this);
     }
@@ -485,7 +485,7 @@ class NILinemod
     run ()
     {
       grabber_.start ();
-      
+
       bool image_init = false, cloud_init = false;
 
       while (!cloud_viewer_.wasStopped () && !image_viewer_.wasStopped ())
@@ -531,22 +531,22 @@ class NILinemod
       }
 
       grabber_.stop ();
-      
+
       cloud_connection.disconnect ();
     }
-    
+
     visualization::PCLVisualizer cloud_viewer_;
     Grabber& grabber_;
     boost::mutex cloud_mutex_;
     CloudConstPtr cloud_;
-    
+
     visualization::ImageViewer image_viewer_;
 
     search::OrganizedNeighbor<PointT> search_;
   private:
     boost::signals2::connection cloud_connection, image_connection;
     bool first_frame_;
-    
+
     // Segmentation
     std::vector<int> indices_fullset_;
     PointIndices::Ptr plane_indices_;
@@ -566,7 +566,7 @@ main (int, char**)
 
   openni_viewer.init ();
   openni_viewer.run ();
-  
+
   return (0);
 }
 /* ]--- */

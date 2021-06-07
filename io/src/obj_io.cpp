@@ -193,7 +193,7 @@ pcl::io::saveOBJFile (const std::string &file_name,
       size_t j = 0;
       // There's one UV per vertex per face, i.e., the same vertex can have
       // different UV depending on the face.
-      for (j = 0; j < tex_mesh.tex_polygons[m][i].vertices.size (); ++j) 
+      for (j = 0; j < tex_mesh.tex_polygons[m][i].vertices.size (); ++j)
       {
         uint32_t idx = tex_mesh.tex_polygons[m][i].vertices[j] + 1;
         fs << " " << idx
@@ -308,7 +308,7 @@ pcl::io::saveOBJFile (const std::string &file_name,
   fs << "# "<< nr_points <<" vertices" << std::endl;
 
   if(normal_index != -1)
-  {    
+  {
     fs << "# Normals in (x,y,z) form; normals might not be unit." <<  std::endl;
     // Write vertex normals
     for (int i = 0; i < nr_points; ++i)
@@ -326,7 +326,7 @@ pcl::io::saveOBJFile (const std::string &file_name,
           if (mesh.cloud.fields[d].name == "normal_x")
             // write vertices beginning with vn
             fs << "vn ";
-          
+
           float value;
           memcpy (&value, &mesh.cloud.data[i * point_size + mesh.cloud.fields[d].offset + c * sizeof (float)], sizeof (float));
           fs << value;
@@ -353,7 +353,7 @@ pcl::io::saveOBJFile (const std::string &file_name,
     for(unsigned i = 0; i < nr_faces; i++)
     {
       fs << "f ";
-      size_t j = 0;    
+      size_t j = 0;
       for (; j < mesh.polygons[i].vertices.size () - 1; ++j)
         fs << mesh.polygons[i].vertices[j] + 1 << " ";
       fs << mesh.polygons[i].vertices[j] + 1 << std::endl;
@@ -364,7 +364,7 @@ pcl::io::saveOBJFile (const std::string &file_name,
     for(unsigned i = 0; i < nr_faces; i++)
     {
       fs << "f ";
-      size_t j = 0;    
+      size_t j = 0;
       for (; j < mesh.polygons[i].vertices.size () - 1; ++j)
         fs << mesh.polygons[i].vertices[j] + 1 << "//" << mesh.polygons[i].vertices[j] + 1;
       fs << mesh.polygons[i].vertices[j] + 1 << "//" << mesh.polygons[i].vertices[j] + 1 << std::endl;
@@ -373,6 +373,6 @@ pcl::io::saveOBJFile (const std::string &file_name,
   fs << "# End of File" << std::endl;
 
   // Close obj file
-  fs.close ();  
+  fs.close ();
   return 0;
 }

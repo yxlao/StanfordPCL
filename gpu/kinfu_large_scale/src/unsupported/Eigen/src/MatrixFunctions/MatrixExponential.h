@@ -13,7 +13,7 @@
 
 #include "StemFunction.h"
 
-namespace Eigen { 
+namespace Eigen {
 
 #if defined(_MSC_VER) || defined(__FreeBSD__)
   template <typename Scalar> Scalar log2(Scalar v) { using std::log; return log(v)/log(Scalar(2)); }
@@ -31,7 +31,7 @@ class MatrixExponential {
   public:
 
     /** \brief Constructor.
-      * 
+      *
       * The class stores a reference to \p M, so it should not be
       * changed (or destroyed) before compute() is called.
       *
@@ -43,7 +43,7 @@ class MatrixExponential {
       *
       * \param[out] result  the matrix exponential of \p M in the constructor.
       */
-    template <typename ResultType> 
+    template <typename ResultType>
     void compute(ResultType &result);
 
   private:
@@ -128,7 +128,7 @@ class MatrixExponential {
      *  \sa computeUV(double);
      */
     void computeUV(float);
-    
+
     /** \brief Compute Pad&eacute; approximant to the exponential.
      *
      *  \sa computeUV(double);
@@ -179,7 +179,7 @@ MatrixExponential<MatrixType>::MatrixExponential(const MatrixType &M) :
 }
 
 template <typename MatrixType>
-template <typename ResultType> 
+template <typename ResultType>
 void MatrixExponential<MatrixType>::compute(ResultType &result)
 {
 #if LDBL_MANT_DIG > 112 // rarely happens
@@ -384,7 +384,7 @@ void MatrixExponential<MatrixType>::computeUV(long double)
   }
 #else
   // this case should be handled in compute()
-  eigen_assert(false && "Bug in MatrixExponential"); 
+  eigen_assert(false && "Bug in MatrixExponential");
 #endif  // LDBL_MANT_DIG
 }
 

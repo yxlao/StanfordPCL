@@ -40,8 +40,8 @@
 #ifndef PCL_POINT_CLOUD_SPRING_IMPL_HPP_
 #define PCL_POINT_CLOUD_SPRING_IMPL_HPP_
 
-template <typename PointT> void 
-pcl::common::expandColumns (const PointCloud<PointT>& input, PointCloud<PointT>& output, 
+template <typename PointT> void
+pcl::common::expandColumns (const PointCloud<PointT>& input, PointCloud<PointT>& output,
                             const PointT& val, const size_t& amount)
 {
   if (amount <= 0)
@@ -51,7 +51,7 @@ pcl::common::expandColumns (const PointCloud<PointT>& input, PointCloud<PointT>&
 
   if (!input.isOrganized () || amount > (input.width/2))
     PCL_THROW_EXCEPTION (InitFailedException,
-                         "[pcl::common::expandColumns] error: " 
+                         "[pcl::common::expandColumns] error: "
                          << "columns expansion requires organised point cloud");
 
   uint32_t old_height = input.height;
@@ -72,7 +72,7 @@ pcl::common::expandColumns (const PointCloud<PointT>& input, PointCloud<PointT>&
   output.height = old_height;
 }
 
-template <typename PointT> void 
+template <typename PointT> void
 pcl::common::expandRows (const PointCloud<PointT>& input, PointCloud<PointT>& output,
                          const PointT& val, const size_t& amount)
 {
@@ -93,7 +93,7 @@ pcl::common::expandRows (const PointCloud<PointT>& input, PointCloud<PointT>& ou
   output.height = new_height;
 }
 
-template <typename PointT> void 
+template <typename PointT> void
 pcl::common::duplicateColumns (const PointCloud<PointT>& input, PointCloud<PointT>& output,
                                const size_t& amount)
 {
@@ -104,7 +104,7 @@ pcl::common::duplicateColumns (const PointCloud<PointT>& input, PointCloud<Point
 
   if (!input.isOrganized () || amount > (input.width/2))
     PCL_THROW_EXCEPTION (InitFailedException,
-                         "[pcl::common::duplicateColumns] error: " 
+                         "[pcl::common::duplicateColumns] error: "
                          << "columns expansion requires organised point cloud");
 
   size_t old_height = input.height;
@@ -126,13 +126,13 @@ pcl::common::duplicateColumns (const PointCloud<PointT>& input, PointCloud<Point
   output.height = old_height;
 }
 
-template <typename PointT> void 
+template <typename PointT> void
 pcl::common::duplicateRows (const PointCloud<PointT>& input, PointCloud<PointT>& output,
                             const size_t& amount)
 {
   if (amount <= 0 || amount > (input.height/2))
     PCL_THROW_EXCEPTION (InitFailedException,
-                         "[pcl::common::duplicateRows] error: amount must be ]0.." 
+                         "[pcl::common::duplicateRows] error: amount must be ]0.."
                          << (input.height/2) << "] !");
 
   uint32_t old_height = input.height;
@@ -151,7 +151,7 @@ pcl::common::duplicateRows (const PointCloud<PointT>& input, PointCloud<PointT>&
   output.height = new_height;
 }
 
-template <typename PointT> void 
+template <typename PointT> void
 pcl::common::mirrorColumns (const PointCloud<PointT>& input, PointCloud<PointT>& output,
                                   const size_t& amount)
 {
@@ -162,7 +162,7 @@ pcl::common::mirrorColumns (const PointCloud<PointT>& input, PointCloud<PointT>&
 
   if (!input.isOrganized () || amount > (input.width/2))
     PCL_THROW_EXCEPTION (InitFailedException,
-                         "[pcl::common::mirrorColumns] error: " 
+                         "[pcl::common::mirrorColumns] error: "
                          << "columns expansion requires organised point cloud");
 
   size_t old_height = input.height;
@@ -183,13 +183,13 @@ pcl::common::mirrorColumns (const PointCloud<PointT>& input, PointCloud<PointT>&
   output.height = old_height;
 }
 
-template <typename PointT> void 
+template <typename PointT> void
 pcl::common::mirrorRows (const PointCloud<PointT>& input, PointCloud<PointT>& output,
                          const size_t& amount)
 {
   if (amount <= 0 || amount > (input.height/2))
     PCL_THROW_EXCEPTION (InitFailedException,
-                         "[pcl::common::mirrorRows] error: amount must be ]0.." 
+                         "[pcl::common::mirrorRows] error: amount must be ]0.."
                          << (input.height/2) << "] !");
 
   uint32_t old_height = input.height;
@@ -213,13 +213,13 @@ pcl::common::mirrorRows (const PointCloud<PointT>& input, PointCloud<PointT>& ou
   output.height = new_height;
 }
 
-template <typename PointT> void 
+template <typename PointT> void
 pcl::common::deleteRows (const PointCloud<PointT>& input, PointCloud<PointT>& output,
                          const size_t& amount)
 {
   if (amount <= 0 || amount > (input.height/2))
     PCL_THROW_EXCEPTION (InitFailedException,
-                         "[pcl::common::deleteRows] error: amount must be ]0.." 
+                         "[pcl::common::deleteRows] error: amount must be ]0.."
                          << (input.height/2) << "] !");
 
   uint32_t old_height = input.height;
@@ -230,7 +230,7 @@ pcl::common::deleteRows (const PointCloud<PointT>& input, PointCloud<PointT>& ou
   output.width = old_width;
 }
 
-template <typename PointT> void 
+template <typename PointT> void
 pcl::common::deleteCols (const PointCloud<PointT>& input, PointCloud<PointT>& output,
                          const size_t& amount)
 {
@@ -241,7 +241,7 @@ pcl::common::deleteCols (const PointCloud<PointT>& input, PointCloud<PointT>& ou
 
   if (!input.isOrganized ())
     PCL_THROW_EXCEPTION (InitFailedException,
-                         "[pcl::common::deleteCols] error: " 
+                         "[pcl::common::deleteCols] error: "
                          << "columns delete requires organised point cloud");
 
   uint32_t old_height = input.height;
@@ -252,7 +252,7 @@ pcl::common::deleteCols (const PointCloud<PointT>& input, PointCloud<PointT>& ou
     typename PointCloud<PointT>::iterator start = output.begin () + j * new_width;
     output.erase (start, start + amount);
     start = output.begin () + (j+1) * new_width;
-    output.erase (start, start + amount);    
+    output.erase (start, start + amount);
   }
   output.height = old_height;
   output.width = new_width;

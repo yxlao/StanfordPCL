@@ -1,5 +1,5 @@
 //  To use the simple FFT implementation
-//  g++ -o demofft -I.. -Wall -O3 FFT.cpp 
+//  g++ -o demofft -I.. -Wall -O3 FFT.cpp
 
 //  To use the FFTW implementation
 //  g++ -o demofft -I.. -DUSE_FFTW -Wall -O3 FFT.cpp -lfftw3 -lfftw3f -lfftw3l
@@ -52,7 +52,7 @@ template <typename T>
 vector<T> operator-(const vector<T> & a,const vector<T> & b )
 {
     vector<T> c(a);
-    for (size_t k=0;k<b.size();++k) 
+    for (size_t k=0;k<b.size();++k)
         c[k] -= b[k];
     return c;
 }

@@ -51,31 +51,31 @@ using namespace pcl::gpu;
 
 //TEST(PCL_FeaturesGPU, DISABLED_fpfh_low_level)
 TEST(PCL_FeaturesGPU, fpfh_low_level)
-{   
+{
     DataSource source;
 
     source.estimateNormals();
     source.findRadiusNeghbors();
     cout << "max_radius_nn_size: " << source.max_nn_size << endl;
-                   
+
     vector<int> data;
     source.getNeghborsArray(data);
-    vector<PointXYZ> normals_for_gpu(source.normals->points.size());    
+    vector<PointXYZ> normals_for_gpu(source.normals->points.size());
     std::transform(source.normals->points.begin(), source.normals->points.end(), normals_for_gpu.begin(), DataSource::Normal2PointXYZ());
-    
+
     //uploading data to GPU
     pcl::gpu::FPFHEstimation::PointCloud cloud_gpu;
     cloud_gpu.upload(source.cloud->points);
 
     pcl::gpu::FPFHEstimation::Normals normals_gpu;
-    normals_gpu.upload(normals_for_gpu);             
-    
+    normals_gpu.upload(normals_for_gpu);
+
     pcl::gpu::NeighborIndices indices;
     indices.upload(data, source.sizes, source.max_nn_size);
-    
+
     DeviceArray2D<FPFHSignature33> fpfh33_features;
-    
-    gpu::FPFHEstimation fpfh_gpu;            
+
+    gpu::FPFHEstimation fpfh_gpu;
     fpfh_gpu.compute(cloud_gpu, normals_gpu, indices, fpfh33_features);
 
     int stub;
@@ -96,9 +96,9 @@ TEST(PCL_FeaturesGPU, fpfh_low_level)
     {
         FPFHSignature33& gpu = downloaded[i];
         FPFHSignature33& cpu = fpfhs.points[i];
-        
-        size_t FSize = sizeof(FPFHSignature33)/sizeof(gpu.histogram[0]);                                
-        
+
+        size_t FSize = sizeof(FPFHSignature33)/sizeof(gpu.histogram[0]);
+
         float norm = 0, norm_diff = 0;
         for(size_t j = 0; j < FSize; ++j)
         {
@@ -113,25 +113,25 @@ TEST(PCL_FeaturesGPU, fpfh_low_level)
 
 //TEST(PCL_FeaturesGPU, DISABLED_fpfh_high_level1)
 TEST(PCL_FeaturesGPU, fpfh_high_level1)
-{       
+{
     DataSource source;
-    source.estimateNormals();    
-  
+    source.estimateNormals();
+
     //source.generateSurface();
     //source.generateIndices();
     cout << "!indices, !surface" << endl;
 
     PointCloud<Normal>::Ptr& normals = source.normals;
 
-    vector<PointXYZ> normals_for_gpu(source.normals->points.size());    
+    vector<PointXYZ> normals_for_gpu(source.normals->points.size());
     std::transform(normals->points.begin(), normals->points.end(), normals_for_gpu.begin(), DataSource::Normal2PointXYZ());
 
     //uploading data to GPU
     pcl::gpu::FPFHEstimation::PointCloud cloud_gpu;
-    cloud_gpu.upload(source.cloud->points); 
+    cloud_gpu.upload(source.cloud->points);
 
     pcl::gpu::FPFHEstimation::Normals normals_gpu;
-    normals_gpu.upload(normals_for_gpu);                 
+    normals_gpu.upload(normals_for_gpu);
 
     //pcl::gpu::FPFHEstimation::Indices indices_gpu;
     //indices_gpu.upload(*source.indices);
@@ -145,11 +145,11 @@ TEST(PCL_FeaturesGPU, fpfh_high_level1)
     fe_gpu.setInputNormals (normals_gpu);
     fe_gpu.setRadiusSearch (source.radius, source.max_elements);
     //fe_gpu.setIndices(indices_gpu);
-    //fe_gpu.setSearchSurface(surface_gpu);  
+    //fe_gpu.setSearchSurface(surface_gpu);
 
     DeviceArray2D<FPFHSignature33> fpfhs_gpu;
     fe_gpu.compute(fpfhs_gpu);
-                               
+
       // CPU call
     pcl::FPFHEstimation<PointXYZ, Normal, FPFHSignature33> fe;
     fe.setInputCloud (source.cloud);
@@ -171,17 +171,17 @@ TEST(PCL_FeaturesGPU, fpfh_high_level1)
     {
         FPFHSignature33& gpu = downloaded[i];
         FPFHSignature33& cpu = fpfhs.points[i];
-        
-        size_t FSize = sizeof(FPFHSignature33)/sizeof(gpu.histogram[0]);                                
-        
+
+        size_t FSize = sizeof(FPFHSignature33)/sizeof(gpu.histogram[0]);
+
         float norm = 0, norm_diff = 0;
         for(size_t j = 0; j < FSize; ++j)
         {
             norm_diff += (gpu.histogram[j] - cpu.histogram[j]) * (gpu.histogram[j] - cpu.histogram[j]);
-            norm += cpu.histogram[j] * cpu.histogram[j];            
+            norm += cpu.histogram[j] * cpu.histogram[j];
 
             //ASSERT_NEAR(gpu.histogram[j], cpu.histogram[j], 0.03f);
-        }        
+        }
 
         if (norm != 0)
             ASSERT_EQ(norm_diff/norm < 0.01f/FSize, true);
@@ -191,9 +191,9 @@ TEST(PCL_FeaturesGPU, fpfh_high_level1)
 
 //TEST(PCL_FeaturesGPU, DISABLED_fpfh_high_level2)
 TEST(PCL_FeaturesGPU, fpfh_high_level2)
-{       
+{
     DataSource source;
-    source.estimateNormals();          
+    source.estimateNormals();
 
     //source.generateSurface();
     source.generateIndices();
@@ -201,15 +201,15 @@ TEST(PCL_FeaturesGPU, fpfh_high_level2)
 
     PointCloud<Normal>::Ptr& normals = source.normals;
 
-    vector<PointXYZ> normals_for_gpu(source.normals->points.size());    
+    vector<PointXYZ> normals_for_gpu(source.normals->points.size());
     std::transform(normals->points.begin(), normals->points.end(), normals_for_gpu.begin(), DataSource::Normal2PointXYZ());
 
     //uploading data to GPU
     pcl::gpu::FPFHEstimation::PointCloud cloud_gpu;
-    cloud_gpu.upload(source.cloud->points); 
+    cloud_gpu.upload(source.cloud->points);
 
     pcl::gpu::FPFHEstimation::Normals normals_gpu;
-    normals_gpu.upload(normals_for_gpu);                 
+    normals_gpu.upload(normals_for_gpu);
 
     pcl::gpu::FPFHEstimation::Indices indices_gpu;
     indices_gpu.upload(*source.indices);
@@ -223,11 +223,11 @@ TEST(PCL_FeaturesGPU, fpfh_high_level2)
     fe_gpu.setInputNormals (normals_gpu);
     fe_gpu.setRadiusSearch (source.radius, source.max_elements);
     fe_gpu.setIndices(indices_gpu);
-    //fe_gpu.setSearchSurface(surface_gpu);  
+    //fe_gpu.setSearchSurface(surface_gpu);
 
     DeviceArray2D<FPFHSignature33> fpfhs_gpu;
     fe_gpu.compute(fpfhs_gpu);
-                               
+
       // CPU call
     pcl::FPFHEstimation<PointXYZ, Normal, FPFHSignature33> fe;
     fe.setInputCloud (source.cloud);
@@ -249,9 +249,9 @@ TEST(PCL_FeaturesGPU, fpfh_high_level2)
     {
         FPFHSignature33& gpu = downloaded[i];
         FPFHSignature33& cpu = fpfhs.points[i];
-        
-        size_t FSize = sizeof(FPFHSignature33)/sizeof(gpu.histogram[0]);                                
-        
+
+        size_t FSize = sizeof(FPFHSignature33)/sizeof(gpu.histogram[0]);
+
         float norm = 0, norm_diff = 0;
         for(size_t j = 0; j < FSize; ++j)
         {
@@ -268,25 +268,25 @@ TEST(PCL_FeaturesGPU, fpfh_high_level2)
 
 //TEST(PCL_FeaturesGPU, DISABLED_fpfh_high_level3)
 TEST(PCL_FeaturesGPU, fpfh_high_level3)
-{       
+{
     DataSource source;
-    source.estimateNormals();    
-  
+    source.estimateNormals();
+
     source.generateSurface();
     //source.generateIndices();
     cout << "!indices, surface" << endl;
-    
+
     PointCloud<Normal>::Ptr& normals = source.normals_surface;
 
-    vector<PointXYZ> normals_for_gpu(source.normals->points.size());    
+    vector<PointXYZ> normals_for_gpu(source.normals->points.size());
     std::transform(normals->points.begin(), normals->points.end(), normals_for_gpu.begin(), DataSource::Normal2PointXYZ());
 
     //uploading data to GPU
     pcl::gpu::FPFHEstimation::PointCloud cloud_gpu;
-    cloud_gpu.upload(source.cloud->points); 
+    cloud_gpu.upload(source.cloud->points);
 
     pcl::gpu::FPFHEstimation::Normals normals_gpu;
-    normals_gpu.upload(normals_for_gpu);                 
+    normals_gpu.upload(normals_for_gpu);
 
     //pcl::gpu::FPFHEstimation::Indices indices_gpu;
     //indices_gpu.upload(*source.indices);
@@ -300,11 +300,11 @@ TEST(PCL_FeaturesGPU, fpfh_high_level3)
     fe_gpu.setInputNormals (normals_gpu);
     fe_gpu.setRadiusSearch (source.radius, source.max_elements);
     //fe_gpu.setIndices(indices_gpu);
-    fe_gpu.setSearchSurface(surface_gpu);  
+    fe_gpu.setSearchSurface(surface_gpu);
 
     DeviceArray2D<FPFHSignature33> fpfhs_gpu;
     fe_gpu.compute(fpfhs_gpu);
-                               
+
       // CPU call
     pcl::FPFHEstimation<PointXYZ, Normal, FPFHSignature33> fe;
     fe.setInputCloud (source.cloud);
@@ -326,9 +326,9 @@ TEST(PCL_FeaturesGPU, fpfh_high_level3)
     {
         FPFHSignature33& gpu = downloaded[i];
         FPFHSignature33& cpu = fpfhs.points[i];
-        
-        size_t FSize = sizeof(FPFHSignature33)/sizeof(gpu.histogram[0]);                                
-        
+
+        size_t FSize = sizeof(FPFHSignature33)/sizeof(gpu.histogram[0]);
+
         float norm = 0, norm_diff = 0;
         for(size_t j = 0; j < FSize; ++j)
         {
@@ -346,25 +346,25 @@ TEST(PCL_FeaturesGPU, fpfh_high_level3)
 
 //TEST(PCL_FeaturesGPU, DISABLED_fpfh_high_level4)
 TEST(PCL_FeaturesGPU, fpfh_high_level4)
-{       
+{
     DataSource source;
-    source.estimateNormals();    
-  
+    source.estimateNormals();
+
     source.generateSurface();
     source.generateIndices();
     cout << "indices, surface" << endl;
 
     PointCloud<Normal>::Ptr& normals = source.normals_surface;
 
-    vector<PointXYZ> normals_for_gpu(source.normals->points.size());    
+    vector<PointXYZ> normals_for_gpu(source.normals->points.size());
     std::transform(normals->points.begin(), normals->points.end(), normals_for_gpu.begin(), DataSource::Normal2PointXYZ());
 
     //uploading data to GPU
     pcl::gpu::FPFHEstimation::PointCloud cloud_gpu;
-    cloud_gpu.upload(source.cloud->points); 
+    cloud_gpu.upload(source.cloud->points);
 
     pcl::gpu::FPFHEstimation::Normals normals_gpu;
-    normals_gpu.upload(normals_for_gpu);                 
+    normals_gpu.upload(normals_for_gpu);
 
     pcl::gpu::FPFHEstimation::Indices indices_gpu;
     indices_gpu.upload(*source.indices);
@@ -378,11 +378,11 @@ TEST(PCL_FeaturesGPU, fpfh_high_level4)
     fe_gpu.setInputNormals (normals_gpu);
     fe_gpu.setRadiusSearch (source.radius, source.max_elements);
     fe_gpu.setIndices(indices_gpu);
-    fe_gpu.setSearchSurface(surface_gpu);  
+    fe_gpu.setSearchSurface(surface_gpu);
 
     DeviceArray2D<FPFHSignature33> fpfhs_gpu;
     fe_gpu.compute(fpfhs_gpu);
-                               
+
       // CPU call
     pcl::FPFHEstimation<PointXYZ, Normal, FPFHSignature33> fe;
     fe.setInputCloud (source.cloud);
@@ -404,9 +404,9 @@ TEST(PCL_FeaturesGPU, fpfh_high_level4)
     {
         FPFHSignature33& gpu = downloaded[i];
         FPFHSignature33& cpu = fpfhs.points[i];
-        
-        size_t FSize = sizeof(FPFHSignature33)/sizeof(gpu.histogram[0]);                                
-        
+
+        size_t FSize = sizeof(FPFHSignature33)/sizeof(gpu.histogram[0]);
+
         float norm = 0, norm_diff = 0;
         for(size_t j = 0; j < FSize; ++j)
         {
@@ -414,7 +414,7 @@ TEST(PCL_FeaturesGPU, fpfh_high_level4)
             norm += cpu.histogram[j] * cpu.histogram[j];
 
             //ASSERT_NEAR(gpu.histogram[j], cpu.histogram[j], 0.03f);
-        }            
+        }
         if (norm != 0)
             ASSERT_EQ(norm_diff/norm < 0.01f/FSize, true);
     }

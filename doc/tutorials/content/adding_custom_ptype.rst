@@ -6,7 +6,7 @@ Adding your own custom `PointT` type
 The current document explains not only how to add your own `PointT` point type,
 but also what templated point types are in PCL, why do they exist, and how are
 they exposed. If you're already familiar with this information, feel free to
-skip to the last part of the document. 
+skip to the last part of the document.
 
 .. contents::
 
@@ -72,7 +72,7 @@ to understand why the existing types were created they way they were. In
 addition, the type that you want, might already be defined for you.
 
 * `PointXYZ` - Members: float x, y, z;
-  
+
   This is one of the most used data types, as it represents 3D xyz information
   only. The 3 floats are padded with an additional float for SSE alignment. The
   user can either access `points[i].data[0]` or `points[i].x` for accessing
@@ -80,10 +80,10 @@ addition, the type that you want, might already be defined for you.
 
 .. code-block:: cpp
 
-  union 
+  union
   {
     float data[4];
-    struct 
+    struct
     {
       float x;
       float y;
@@ -100,16 +100,16 @@ addition, the type that you want, might already be defined for you.
   `intensity` a member of the same structure, as its contents will be
   overwritten. For example, a dot product between two points will set their 4th
   component to 0, otherwise the dot product doesn't make sense, etc.
-  
+
   Therefore for SSE-alignment, we pad intensity with 3 extra floats.
   Inefficient in terms of storage, but good in terms of memory alignment.
 
 .. code-block:: cpp
 
-  union 
+  union
   {
     float data[4];
-    struct 
+    struct
     {
       float x;
       float y;
@@ -132,10 +132,10 @@ addition, the type that you want, might already be defined for you.
 
 .. code-block:: cpp
 
-  union 
+  union
   {
     float data[4];
-    struct 
+    struct
     {
       float x;
       float y;
@@ -164,10 +164,10 @@ addition, the type that you want, might already be defined for you.
 
 .. code-block:: cpp
 
-  union 
+  union
   {
     float data[4];
-    struct 
+    struct
     {
       float x;
       float y;
@@ -202,10 +202,10 @@ addition, the type that you want, might already be defined for you.
 
 .. code-block:: cpp
 
-  union 
+  union
   {
     float data[4];
-    struct 
+    struct
     {
       float x;
       float y;
@@ -237,20 +237,20 @@ addition, the type that you want, might already be defined for you.
 
 .. code-block:: cpp
 
-  union 
+  union
   {
     float data_n[4];
     float normal[3];
-    struct 
+    struct
     {
       float normal_x;
       float normal_y;
       float normal_z;
     };
   }
-  union 
+  union
   {
-    struct 
+    struct
     {
       float curvature;
     };
@@ -264,30 +264,30 @@ addition, the type that you want, might already be defined for you.
 
 .. code-block:: cpp
 
-  union 
+  union
   {
     float data[4];
-    struct 
+    struct
     {
       float x;
       float y;
       float z;
     };
   };
-  union 
+  union
   {
     float data_n[4];
     float normal[3];
-    struct 
+    struct
     {
       float normal_x;
       float normal_y;
       float normal_z;
     };
   };
-  union 
+  union
   {
-    struct 
+    struct
     {
       float curvature;
     };
@@ -302,30 +302,30 @@ addition, the type that you want, might already be defined for you.
 
 .. code-block:: cpp
 
-  union 
+  union
   {
     float data[4];
-    struct 
+    struct
     {
       float x;
       float y;
       float z;
     };
   };
-  union 
+  union
   {
     float data_n[4];
     float normal[3];
-    struct 
+    struct
     {
       float normal_x;
       float normal_y;
       float normal_z;
     };
   }
-  union 
+  union
   {
-    struct 
+    struct
     {
       float rgb;
       float curvature;
@@ -341,30 +341,30 @@ addition, the type that you want, might already be defined for you.
 
 .. code-block:: cpp
 
-  union 
+  union
   {
     float data[4];
-    struct 
+    struct
     {
       float x;
       float y;
       float z;
     };
   };
-  union 
+  union
   {
     float data_n[4];
     float normal[3];
-    struct 
+    struct
     {
       float normal_x;
       float normal_y;
       float normal_z;
     };
   }
-  union 
+  union
   {
-    struct 
+    struct
     {
       float intensity;
       float curvature;
@@ -379,10 +379,10 @@ addition, the type that you want, might already be defined for you.
 
 .. code-block:: cpp
 
-  union 
+  union
   {
     float data[4];
-    struct 
+    struct
     {
       float x;
       float y;
@@ -406,10 +406,10 @@ addition, the type that you want, might already be defined for you.
 
 .. code-block:: cpp
 
-  union 
+  union
   {
     float data[4];
-    struct 
+    struct
     {
       float x;
       float y;
@@ -431,7 +431,7 @@ addition, the type that you want, might already be defined for you.
 * `MomentInvariants` - float j1, j2, j3;
 
   Simple point type holding the 3 moment invariants at a surface patch. See
-  `MomentInvariantsEstimation` for more information. 
+  `MomentInvariantsEstimation` for more information.
 
 .. code-block:: cpp
 
@@ -443,7 +443,7 @@ addition, the type that you want, might already be defined for you.
 * `PrincipalRadiiRSD` - float r_min, r_max;
 
   Simple point type holding the 2 RSD radii at a surface patch. See
-  `RSDEstimation` for more information. 
+  `RSDEstimation` for more information.
 
 .. code-block:: cpp
 
@@ -455,7 +455,7 @@ addition, the type that you want, might already be defined for you.
 * `Boundary` - uint8_t boundary_point;
 
   Simple point type holding whether the point is lying on a surface boundary or
-  not. See `BoundaryEstimation` for more information. 
+  not. See `BoundaryEstimation` for more information.
 
 .. code-block:: cpp
 
@@ -467,7 +467,7 @@ addition, the type that you want, might already be defined for you.
 * `PrincipalCurvatures` - float principal_curvature[3], pc1, pc2;
 
   Simple point type holding the principal curvatures of a given point. See
-  `PrincipalCurvaturesEstimation` for more information. 
+  `PrincipalCurvaturesEstimation` for more information.
 
 .. code-block:: cpp
 
@@ -490,7 +490,7 @@ addition, the type that you want, might already be defined for you.
 * `PFHSignature125` - float pfh[125];
 
   Simple point type holding the PFH (Point Feature Histogram) of a given point.
-  See `PFHEstimation` for more information. 
+  See `PFHEstimation` for more information.
 
 .. code-block:: cpp
 
@@ -502,7 +502,7 @@ addition, the type that you want, might already be defined for you.
 * `FPFHSignature33` - float fpfh[33];
 
   Simple point type holding the FPFH (Fast Point Feature Histogram) of a given
-  point.  See `FPFHEstimation` for more information. 
+  point.  See `FPFHEstimation` for more information.
 
 .. code-block:: cpp
 
@@ -514,7 +514,7 @@ addition, the type that you want, might already be defined for you.
 * `VFHSignature308` - float vfh[308];
 
   Simple point type holding the VFH (Viewpoint Feature Histogram) of a given
-  point.  See `VFHEstimation` for more information. 
+  point.  See `VFHEstimation` for more information.
 
 .. code-block:: cpp
 
@@ -526,7 +526,7 @@ addition, the type that you want, might already be defined for you.
 * `Narf36` - float x, y, z, roll, pitch, yaw; float descriptor[36];
 
   Simple point type holding the NARF (Normally Aligned Radius Feature) of a given
-  point.  See `NARFEstimation` for more information. 
+  point.  See `NARFEstimation` for more information.
 
 .. code-block:: cpp
 
@@ -539,7 +539,7 @@ addition, the type that you want, might already be defined for you.
 * `BorderDescription` - int x, y; BorderTraits traits;
 
   Simple point type holding the border type of a given point.  See
-  `BorderEstimation` for more information. 
+  `BorderEstimation` for more information.
 
 .. code-block:: cpp
 
@@ -552,12 +552,12 @@ addition, the type that you want, might already be defined for you.
 * `IntensityGradient` - float gradient[3];
 
   Simple point type holding the intensity gradient of a given point.  See
-  `IntensityGradientEstimation` for more information. 
+  `IntensityGradientEstimation` for more information.
 
 .. code-block:: cpp
 
   struct
-  { 
+  {
     union
     {
       float gradient[3];
@@ -567,8 +567,8 @@ addition, the type that you want, might already be defined for you.
         float gradient_y;
         float gradient_z;
       };
-    };  
-  };     
+    };
+  };
 
 * `Histogram` - float histogram[N];
 
@@ -592,10 +592,10 @@ addition, the type that you want, might already be defined for you.
 
   struct
   {
-    union 
+    union
     {
       float data[4];
-      struct 
+      struct
       {
         float x;
         float y;
@@ -612,21 +612,21 @@ addition, the type that you want, might already be defined for you.
 
 .. code-block:: cpp
 
-  union 
+  union
   {
     float data[4];
-    struct 
+    struct
     {
       float x;
       float y;
       float z;
     };
   };
-  union 
+  union
   {
     float data_n[4];
     float normal[3];
-    struct 
+    struct
     {
       float normal_x;
       float normal_y;
@@ -677,7 +677,7 @@ fictitious example:
    {
      public:
        void
-       compute (const pcl::PointCloud<PointT> &input, 
+       compute (const pcl::PointCloud<PointT> &input,
                 pcl::PointCloud<PointT> &output);
    }
 
@@ -698,7 +698,7 @@ anything yet.
    #include "foo.h"
 
    template <typename PointT> void
-   Foo::compute (const pcl::PointCloud<PointT> &input, 
+   Foo::compute (const pcl::PointCloud<PointT> &input,
                  pcl::PointCloud<PointT> &output)
    {
      output = input;
@@ -711,7 +711,7 @@ The above defines the actual template implementation of the method
 
 .. code-block:: cpp
    :linenos:
-   
+
    // foo.cpp
 
    #include "pcl/point_types.h"
@@ -761,7 +761,7 @@ following would do:
 
 .. code-block:: cpp
    :linenos:
-   
+
    // foo.cpp
 
    #include "pcl/point_types.h"
@@ -782,7 +782,7 @@ To add a new point type, you first have to define it. For example:
 
 .. code-block:: cpp
    :linenos:
- 
+
    struct MyPointType
    {
      float test;
@@ -819,7 +819,7 @@ data (SSE padded), together with a test float.
     #include <pcl/io/pcd_io.h>
 
     struct MyPointType
-    { 
+    {
       PCL_ADD_POINT4D;                  // preferred way of adding a XYZ+padding
       float test;
       EIGEN_MAKE_ALIGNED_OPERATOR_NEW   // make sure our new allocators are aligned
@@ -828,23 +828,23 @@ data (SSE padded), together with a test float.
     POINT_CLOUD_REGISTER_POINT_STRUCT (MyPointType,           // here we assume a XYZ + "test" (as fields)
                                        (float, x, x)
                                        (float, y, y)
-                                       (float, z, z) 
+                                       (float, z, z)
                                        (float, test, test)
     )
-          
 
-    int  
+
+    int
     main (int argc, char** argv)
-    { 
+    {
       pcl::PointCloud<MyPointType> cloud;
       cloud.points.resize (2);
       cloud.width = 2;
       cloud.height = 1;
-      
+
       cloud.points[0].test = 1;
       cloud.points[1].test = 2;
       cloud.points[0].x = cloud.points[0].y = cloud.points[0].z = 0;
       cloud.points[1].x = cloud.points[1].y = cloud.points[1].z = 3;
-      
+
       pcl::io::savePCDFile ("test.pcd", cloud);
     }

@@ -36,7 +36,7 @@
 
 #include <gtest/gtest.h>
 
-#include <iostream>  
+#include <iostream>
 
 #include <sensor_msgs/PointCloud2.h>
 #include <pcl/io/pcd_io.h>
@@ -48,22 +48,22 @@ typedef pcl::PointCloud<Point> PointCloud;
 
 PointCloud cloud;
 
-void 
-init () 
+void
+init ()
 {
-  for (int x=-20; x<20; x++) 
-    for (int y=-20; y<20; y++) 
-      for (int z=-20; z<20; z++) 
+  for (int x=-20; x<20; x++)
+    for (int y=-20; y<20; y++)
+      for (int z=-20; z<20; z++)
         cloud.push_back (Point (static_cast<float> (x), static_cast<float> (y), static_cast<float> (z)));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TEST (PCL, Iterators) 
+TEST (PCL, Iterators)
 {
   Point mean (0,0,0);
 
-  for (PointCloud::iterator it = cloud.begin(); it != cloud.end(); ++it) 
+  for (PointCloud::iterator it = cloud.begin(); it != cloud.end(); ++it)
   {
     for (int i=0;i<3;i++) mean.data[i] += it->data[i];
   }

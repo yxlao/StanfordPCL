@@ -65,7 +65,7 @@ typedef pcl::PointCloud<PointT> PointCloud;
 typedef pcl::PointNormal PointNormalT;
 typedef pcl::PointCloud<PointNormalT> PointCloudWithNormals;
 
-// This is a tutorial so we can afford having global variables 
+// This is a tutorial so we can afford having global variables
 	//our visualizer
 	pcl::visualization::PCLVisualizer *p;
 	//its left and right viewports
@@ -231,7 +231,7 @@ void pairAlign (const PointCloud::Ptr cloud_src, const PointCloud::Ptr cloud_tgt
   pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ> ());
   norm_est.setSearchMethod (tree);
   norm_est.setKSearch (30);
-  
+
   norm_est.setInputCloud (src);
   norm_est.compute (*points_with_normals_src);
   pcl::copyPointCloud (*src, *points_with_normals_src);
@@ -253,7 +253,7 @@ void pairAlign (const PointCloud::Ptr cloud_src, const PointCloud::Ptr cloud_tgt
   reg.setTransformationEpsilon (1e-6);
   // Set the maximum distance between two correspondences (src<->tgt) to 10cm
   // Note: adjust this based on the size of your datasets
-  reg.setMaxCorrespondenceDistance (0.1);  
+  reg.setMaxCorrespondenceDistance (0.1);
   // Set the point representation
   reg.setPointRepresentation (boost::make_shared<const MyPointRepresentation> (point_representation));
 
@@ -286,7 +286,7 @@ void pairAlign (const PointCloud::Ptr cloud_src, const PointCloud::Ptr cloud_tgt
 		//the maximal correspondence distance
     if (fabs ((reg.getLastIncrementalTransformation () - prev).sum ()) < reg.getTransformationEpsilon ())
       reg.setMaxCorrespondenceDistance (reg.getMaxCorrespondenceDistance () - 0.001);
-    
+
     prev = reg.getLastIncrementalTransformation ();
 
     // visualize current state
@@ -312,12 +312,12 @@ void pairAlign (const PointCloud::Ptr cloud_src, const PointCloud::Ptr cloud_tgt
 	PCL_INFO ("Press q to continue the registration.\n");
   p->spin ();
 
-  p->removePointCloud ("source"); 
+  p->removePointCloud ("source");
   p->removePointCloud ("target");
 
   //add the source to the transformed target
   *output += *cloud_src;
-  
+
   final_transform = targetToSource;
  }
 
@@ -337,7 +337,7 @@ int main (int argc, char** argv)
     return (-1);
   }
   PCL_INFO ("Loaded %d datasets.", (int)data.size ());
-  
+
   // Create a PCLVisualizer object
   p = new pcl::visualization::PCLVisualizer (argc, argv, "Pairwise Incremental Registration example");
   p->createViewPort (0.0, 0, 0.5, 1.0, vp_1);
@@ -345,7 +345,7 @@ int main (int argc, char** argv)
 
 	PointCloud::Ptr result (new PointCloud), source, target;
   Eigen::Matrix4f GlobalTransform = Eigen::Matrix4f::Identity (), pairTransform;
-  
+
   for (size_t i = 1; i < data.size (); ++i)
   {
     source = data[i-1].cloud;

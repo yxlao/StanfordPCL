@@ -67,7 +67,7 @@ namespace pcl
      */
     class ScopeTimeCPU
     {
-      public: 
+      public:
         inline ScopeTimeCPU (const char* title);
         inline ~ScopeTimeCPU ();
       private:
@@ -109,7 +109,7 @@ if (1) {\
 }  // end namespace
 
 
-inline double 
+inline double
   pcl::cuda::getTime ()
 {
 #ifdef WIN32

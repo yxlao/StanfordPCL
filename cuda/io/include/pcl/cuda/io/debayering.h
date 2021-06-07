@@ -51,19 +51,19 @@ namespace pcl
       downsampleIndices (int width, int height, int stride)
         : width (width), height (height), stride (stride)
       {}
-  
+
       int width, height, stride;
-  
+
       __host__ __device__
       bool operator () (int i)
       {
         int xIdx = i % width;
         int yIdx = i / width;
-  
+
         return ((xIdx % stride == 0) & (yIdx % stride == 0));
       }
     };
-  
+
     template <template <typename> class Storage>
     struct DebayerBilinear
     {
@@ -75,7 +75,7 @@ namespace pcl
   		unsigned char *data;
   		DebayerBilinear (unsigned char *bayer_image, unsigned width, unsigned height);
   		//DebayerBilinear (const boost::shared_ptr<openni_wrapper::Image>& bayer_image);
-  
+
       __inline__ __host__ __device__ OpenNIRGB operator () (int index) const;
     };
   /*
@@ -88,7 +88,7 @@ namespace pcl
   		unsigned char* data;
       DebayerEdgeAware (const boost::shared_ptr<openni_wrapper::Image>& bayer_image);
       ~DebayerEdgeAware ();
-  
+
       __inline__ __host__ __device__ OpenNIRGB operator () (int index) const;
     };
     */
@@ -108,10 +108,10 @@ namespace pcl
   		unsigned height;
   		unsigned char *data;
   		YUV2RGBKernel (unsigned char *yuv_image, unsigned width, unsigned height);
-  
+
       __inline__ __host__ __device__ OpenNIRGB operator () (int index) const;
     };
- 
+
     template<template <typename> class Storage>
     class YUV2RGB
     {
@@ -128,10 +128,10 @@ namespace pcl
         typedef typename Storage<OpenNIRGB>::type RGBImageType;
         void
         computeBilinear (const boost::shared_ptr<openni_wrapper::Image>& bayer_image, RGBImageType& rgb_image) const;
-        
+
         //void
         //computeEdgeAware (const boost::shared_ptr<openni_wrapper::Image>& bayer_image, thrust::host_vector<OpenNIRGB>& rgb_image) const;
-        
+
         //void
         //computeEdgeAware (const boost::shared_ptr<openni_wrapper::Image>& bayer_image, thrust::device_vector<OpenNIRGB>& rgb_image) const;
     };

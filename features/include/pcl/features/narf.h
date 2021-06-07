@@ -40,7 +40,7 @@
 #include <pcl/common/common_headers.h>
 #include <pcl/point_representation.h>
 
-namespace pcl 
+namespace pcl
 {
   // Forward declarations
   class RangeImage;
@@ -64,7 +64,7 @@ namespace pcl
       Narf(const Narf& other);
       //! Destructor
       ~Narf();
-      
+
       // =====Operators=====
       //! Assignment operator
       const Narf& operator=(const Narf& other);
@@ -74,159 +74,159 @@ namespace pcl
       static int max_no_of_threads;
 
       /** Add features extracted at the given interest point and add them to the list */
-      static void 
+      static void
       extractFromRangeImageAndAddToList (const RangeImage& range_image, const Eigen::Vector3f& interest_point, int descriptor_size,
                                          float support_size, bool rotation_invariant, std::vector<Narf*>& feature_list);
       /** Same as above */
-      static void 
+      static void
       extractFromRangeImageAndAddToList (const RangeImage& range_image, float image_x, float image_y, int descriptor_size,
                                          float support_size, bool rotation_invariant, std::vector<Narf*>& feature_list);
       /** Get a list of features from the given interest points. */
-      static void 
+      static void
       extractForInterestPoints (const RangeImage& range_image, const PointCloud<InterestPoint>& interest_points,
                                 int descriptor_size, float support_size, bool rotation_invariant, std::vector<Narf*>& feature_list);
       /** Extract an NARF for every point in the range image. */
-      static void 
+      static void
       extractForEveryRangeImagePointAndAddToList (const RangeImage& range_image, int descriptor_size, float support_size,
                                                   bool rotation_invariant, std::vector<Narf*>& feature_list);
-      
+
       // =====PUBLIC METHODS=====
       /** Method to extract a NARF feature from a certain 3D point using a range image.
        *  pose determines the coordinate system of the feature, whereas it transforms a point from the world into the feature system.
        *  This means the interest point at which the feature is extracted will be the inverse application of pose onto (0,0,0).
        *  descriptor_size_ determines the size of the descriptor,
        *  support_size determines the support size of the feature, meaning the size in the world it covers */
-      bool 
+      bool
       extractFromRangeImage (const RangeImage& range_image, const Eigen::Affine3f& pose, int descriptor_size, float support_size,
                              int surface_patch_world_size=NARF_DEFAULT_SURFACE_PATCH_PIXEL_SIZE);
-      
+
       //! Same as above, but determines the transformation from the surface in the range image
-      bool 
+      bool
       extractFromRangeImage (const RangeImage& range_image, float x, float y, int descriptor_size, float support_size);
 
       //! Same as above
-      bool 
+      bool
       extractFromRangeImage (const RangeImage& range_image, const InterestPoint& interest_point, int descriptor_size, float support_size);
 
       //! Same as above
-      bool 
+      bool
       extractFromRangeImage (const RangeImage& range_image, const Eigen::Vector3f& interest_point, int descriptor_size, float support_size);
 
       /** Same as above, but using the rotational invariant version by choosing the best extracted rotation around the normal.
        *  Use extractFromRangeImageAndAddToList if you want to enable the system to return multiple features with different rotations. */
-      bool 
+      bool
       extractFromRangeImageWithBestRotation (const RangeImage& range_image, const Eigen::Vector3f& interest_point,
                                              int descriptor_size, float support_size);
-      
+
       /* Get the dominant rotations of the current descriptor
        * \param rotations the returned rotations
        * \param strength values describing how pronounced the corresponding rotations are
        */
-      void 
+      void
       getRotations (std::vector<float>& rotations, std::vector<float>& strengths) const;
-      
+
       /* Get the feature with a different rotation around the normal
        * You are responsible for deleting the new features!
        * \param range_image the source from which the feature is extracted
        * \param rotations list of angles (in radians)
        * \param rvps returned features
        */
-      void 
+      void
       getRotatedVersions (const RangeImage& range_image, const std::vector<float>& rotations, std::vector<Narf*>& features) const;
-      
+
       //! Calculate descriptor distance, value in [0,1] with 0 meaning identical and 1 every cell above maximum distance
-      inline float 
+      inline float
       getDescriptorDistance (const Narf& other) const;
-      
+
       //! How many points on each beam of the gradient star are used to calculate the descriptor?
-      inline int 
+      inline int
       getNoOfBeamPoints () const { return (static_cast<int> (pcl_lrint (ceil (0.5f * float (surface_patch_pixel_size_))))); }
-      
+
       //! Copy the descriptor and pose to the point struct Narf36
-      inline void 
+      inline void
       copyToNarf36 (Narf36& narf36) const;
-      
+
       /** Write to file */
-      void 
+      void
       saveBinary (const std::string& filename) const;
       /** Write to output stream */
-      void 
+      void
       saveBinary (std::ostream& file) const;
-      
+
       /** Read from file */
-      void 
+      void
       loadBinary (const std::string& filename);
       /** Read from input stream */
-      void 
+      void
       loadBinary (std::istream& file);
-      
+
       //! Create the descriptor from the already set other members
-      bool 
+      bool
       extractDescriptor (int descriptor_size);
-      
+
       // =====GETTERS=====
       //! Getter (const) for the descriptor
-      inline const float* 
+      inline const float*
       getDescriptor () const { return descriptor_;}
       //! Getter for the descriptor
-      inline float* 
+      inline float*
       getDescriptor () { return descriptor_;}
       //! Getter (const) for the descriptor length
-      inline const int& 
+      inline const int&
       getDescriptorSize () const { return descriptor_size_;}
       //! Getter for the descriptor length
-      inline int& 
+      inline int&
       getDescriptorSize () { return descriptor_size_;}
       //! Getter (const) for the position
-      inline const Eigen::Vector3f& 
+      inline const Eigen::Vector3f&
       getPosition () const { return position_;}
       //! Getter for the position
-      inline Eigen::Vector3f& 
+      inline Eigen::Vector3f&
       getPosition () { return position_;}
       //! Getter (const) for the 6DoF pose
-      inline const Eigen::Affine3f& 
+      inline const Eigen::Affine3f&
       getTransformation () const { return transformation_;}
       //! Getter for the 6DoF pose
-      inline Eigen::Affine3f& 
+      inline Eigen::Affine3f&
       getTransformation () { return transformation_;}
       //! Getter (const) for the pixel size of the surface patch (only one dimension)
-      inline const int& 
+      inline const int&
       getSurfacePatchPixelSize () const { return surface_patch_pixel_size_;}
       //! Getter for the pixel size of the surface patch (only one dimension)
-      inline int& 
+      inline int&
       getSurfacePatchPixelSize () { return surface_patch_pixel_size_;}
       //! Getter (const) for the world size of the surface patch
-      inline const float& 
+      inline const float&
       getSurfacePatchWorldSize () const { return surface_patch_world_size_;}
       //! Getter for the world size of the surface patch
-      inline float& 
+      inline float&
       getSurfacePatchWorldSize () { return surface_patch_world_size_;}
       //! Getter (const) for the rotation of the surface patch
-      inline const float& 
+      inline const float&
       getSurfacePatchRotation () const { return surface_patch_rotation_;}
       //! Getter for the rotation of the surface patch
-      inline float& 
+      inline float&
       getSurfacePatchRotation () { return surface_patch_rotation_;}
       //! Getter (const) for the surface patch
-      inline const float* 
+      inline const float*
       getSurfacePatch () const { return surface_patch_;}
       //! Getter for the surface patch
-      inline float* 
+      inline float*
       getSurfacePatch () { return surface_patch_;}
       //! Method to erase the surface patch and free the memory
-      inline void 
+      inline void
       freeSurfacePatch () { delete[] surface_patch_; surface_patch_=NULL; surface_patch_pixel_size_=0; }
-      
+
       // =====SETTERS=====
       //! Setter for the descriptor
-      inline void 
+      inline void
       setDescriptor (float* descriptor) { descriptor_ = descriptor;}
       //! Setter for the surface patch
-      inline void 
+      inline void
       setSurfacePatch (float* surface_patch) { surface_patch_ = surface_patch;}
-      
+
       // =====PUBLIC MEMBER VARIABLES=====
-      
+
       // =====PUBLIC STRUCTS=====
       struct FeaturePointRepresentation : public PointRepresentation<Narf*>
       {
@@ -234,30 +234,30 @@ namespace pcl
         FeaturePointRepresentation(int nr_dimensions) { this->nr_dimensions_ = nr_dimensions; }
         virtual void copyToFloatArray (const PointT& p, float* out) const { memcpy(out, p->getDescriptor(), sizeof(*p->getDescriptor())*this->nr_dimensions_); }
       };
-      
+
     protected:
       // =====PROTECTED METHODS=====
       //! Reset al members to default values and free allocated memory
-      void 
+      void
       reset ();
       //! Create a deep copy of other
-      void 
+      void
       deepCopy (const Narf& other);
       //! Get the surface patch with a blur on it
-      float* 
+      float*
       getBlurredSurfacePatch (int new_pixel_size, int blur_radius) const;
-      
+
       /** Write header to output stream */
-      void 
+      void
       saveHeader (std::ostream& file) const;
       /** Read header from input stream */
-      int 
+      int
       loadHeader (std::istream& file) const;
-      
+
       // =====PROTECTED STATIC METHODS=====
-      static const std::string 
+      static const std::string
       getHeaderKeyword () { return "NARF"; }
-      
+
       // =====PROTECTED STATIC VARIABLES=====
       const static int VERSION = 1;
 
@@ -272,7 +272,7 @@ namespace pcl
       int descriptor_size_;
 
       // =====STATIC PROTECTED=====
-      
+
     public:
       EIGEN_MAKE_ALIGNED_OPERATOR_NEW
   };

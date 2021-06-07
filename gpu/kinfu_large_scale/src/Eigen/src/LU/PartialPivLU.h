@@ -11,7 +11,7 @@
 #ifndef EIGEN_PARTIALLU_H
 #define EIGEN_PARTIALLU_H
 
-namespace Eigen { 
+namespace Eigen {
 
 /** \ingroup LU_Module
   *
@@ -247,7 +247,7 @@ struct partial_lu_impl
     {
       Index rrows = rows-k-1;
       Index rcols = cols-k-1;
-        
+
       Index row_of_biggest_in_col;
       RealScalar biggest_in_corner
         = lu.col(k).tail(rows-k).cwiseAbs().maxCoeff(&row_of_biggest_in_col);

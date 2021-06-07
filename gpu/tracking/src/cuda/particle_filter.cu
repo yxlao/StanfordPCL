@@ -7,7 +7,7 @@ namespace pcl
 	{
 		struct KernelPolicy
 		{
-			enum 
+			enum
 			{
 				CTA_SIZE = 256,
 				WARP_SIZE = 32,
@@ -93,7 +93,7 @@ namespace pcl
 			// consideration
 			// 1. weight
 			//	- find nearest point
-			// 2. resampling  
+			// 2. resampling
 			//  - build CDF
 
 			__device__ __forceinline__ void
@@ -106,7 +106,7 @@ namespace pcl
 				// 2. weight
 				// transform ref
 				// find nearest correspondences
-				// coherence				 
+				// coherence				
 
 				// 3. weight normalization
 				// 3.1. find min, max - reduction
@@ -122,7 +122,7 @@ namespace pcl
 				// reduction
 
 			}
-		};  
+		};
 		
 		__global__ void
 			ParticleInitializerKernel(ParticleInitializer pi)
@@ -133,7 +133,7 @@ namespace pcl
 	}
 }
 
-void 
+void
 	pcl::device::initParticles ( PtrSz<curandState> rng_states,
 		DeviceArray<float>& initial_noise_mean, DeviceArray<float>& initial_noise_covariance,
 		const StateType& representative_state,
@@ -163,7 +163,7 @@ void
 	cudaSafeCall( cudaDeviceSynchronize() );
 }
 
-void 
+void
 	pcl::device::computeTracking ( const DeviceArray2D<PointType>& ref, const DeviceArray2D<PixelRGB>& ref_color,
 		const DeviceArray2D<PointType>& input, const DeviceArray2D<PixelRGB>& input_color,
 		PtrSz<curandState> rng_states, const DeviceArray<float>& step_noise_covariance,

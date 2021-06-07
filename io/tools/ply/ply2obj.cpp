@@ -58,7 +58,7 @@
   *
   * \author Ares Lagae
   * \ingroup io
-  */ 
+  */
 class ply_to_obj_converter
 {
   public:
@@ -67,7 +67,7 @@ class ply_to_obj_converter
 
     ply_to_obj_converter (flags_type flags = 0);
 
-    bool 
+    bool
     convert (std::istream& istream, const std::string& istream_filename, std::ostream& ostream, const std::string& ostream_filename);
 
   private:
@@ -81,15 +81,15 @@ class ply_to_obj_converter
     void
     error_callback (const std::string& filename, std::size_t line_number, const std::string& message);
 
-    boost::tuple<boost::function<void ()>, boost::function<void ()> > 
+    boost::tuple<boost::function<void ()>, boost::function<void ()> >
     element_definition_callback (const std::string& element_name, std::size_t count);
 
-    template <typename ScalarType> boost::function<void (ScalarType)> 
+    template <typename ScalarType> boost::function<void (ScalarType)>
     scalar_property_definition_callback (const std::string& element_name, const std::string& property_name);
 
-    template <typename SizeType, typename ScalarType> boost::tuple<boost::function<void (SizeType)>, 
-                                                                      boost::function<void (ScalarType)>, 
-                                                                      boost::function<void ()> > 
+    template <typename SizeType, typename ScalarType> boost::tuple<boost::function<void (SizeType)>,
+                                                                      boost::function<void (ScalarType)>,
+                                                                      boost::function<void ()> >
     list_property_definition_callback (const std::string& element_name, const std::string& property_name);
 
     void
@@ -129,43 +129,43 @@ class ply_to_obj_converter
 };
 
 ply_to_obj_converter::ply_to_obj_converter (flags_type flags)
-  : flags_ (flags), ostream_ (), 
+  : flags_ (flags), ostream_ (),
   vertex_x_ (0), vertex_y_ (0), vertex_z_ (0),
-  face_vertex_indices_element_index_ (), 
+  face_vertex_indices_element_index_ (),
   face_vertex_indices_first_element_ (),
   face_vertex_indices_previous_element_ ()
 {
 }
 
-void 
+void
 ply_to_obj_converter::info_callback (const std::string& filename, std::size_t line_number, const std::string& message)
 {
   std::cerr << filename << ":" << line_number << ": " << "info: " << message << std::endl;
 }
 
-void 
+void
 ply_to_obj_converter::warning_callback (const std::string& filename, std::size_t line_number, const std::string& message)
 {
   std::cerr << filename << ":" << line_number << ": " << "warning: " << message << std::endl;
 }
 
-void 
+void
 ply_to_obj_converter::error_callback (const std::string& filename, std::size_t line_number, const std::string& message)
 {
   std::cerr << filename << ":" << line_number << ": " << "error: " << message << std::endl;
 }
 
-boost::tuple<boost::function<void ()>, boost::function<void ()> > 
+boost::tuple<boost::function<void ()>, boost::function<void ()> >
 ply_to_obj_converter::element_definition_callback (const std::string& element_name, std::size_t)
 {
-  if (element_name == "vertex") 
+  if (element_name == "vertex")
   {
     return boost::tuple<boost::function<void ()>, boost::function<void ()> > (
       boost::bind (&ply_to_obj_converter::vertex_begin, this),
       boost::bind (&ply_to_obj_converter::vertex_end, this)
     );
   }
-  else if (element_name == "face") 
+  else if (element_name == "face")
   {
     return boost::tuple<boost::function<void ()>, boost::function<void ()> > (
       boost::bind (&ply_to_obj_converter::face_begin, this),
@@ -177,7 +177,7 @@ ply_to_obj_converter::element_definition_callback (const std::string& element_na
   }
 }
 
-template <> boost::function<void (pcl::io::ply::float32)> 
+template <> boost::function<void (pcl::io::ply::float32)>
 ply_to_obj_converter::scalar_property_definition_callback (const std::string& element_name, const std::string& property_name)
 {
   if (element_name == "vertex") {
@@ -199,7 +199,7 @@ ply_to_obj_converter::scalar_property_definition_callback (const std::string& el
   }
 }
 
-template <> boost::tuple<boost::function<void (pcl::io::ply::uint8)>, boost::function<void (pcl::io::ply::int32)>, boost::function<void ()> > 
+template <> boost::tuple<boost::function<void (pcl::io::ply::uint8)>, boost::function<void (pcl::io::ply::int32)>, boost::function<void ()> >
 ply_to_obj_converter::list_property_definition_callback (const std::string& element_name, const std::string& property_name)
 {
   if ((element_name == "face") && (property_name == "vertex_indices")) {
@@ -214,36 +214,36 @@ ply_to_obj_converter::list_property_definition_callback (const std::string& elem
   }
 }
 
-void 
+void
 ply_to_obj_converter::vertex_begin ()
 {
 }
 
-void 
+void
 ply_to_obj_converter::vertex_x (pcl::io::ply::float32 x)
 {
   vertex_x_ = x;
 }
 
-void 
+void
 ply_to_obj_converter::vertex_y (pcl::io::ply::float32 y)
 {
   vertex_y_ = y;
 }
 
-void 
+void
 ply_to_obj_converter::vertex_z (pcl::io::ply::float32 z)
 {
   vertex_z_ = z;
 }
 
-void 
+void
 ply_to_obj_converter::vertex_end ()
 {
   (*ostream_) << "v " << vertex_x_ << " " << vertex_y_ << " " << vertex_z_ << "\n";
 }
 
-void 
+void
 ply_to_obj_converter::face_begin ()
 {
   if (!(flags_ & triangulate)) {
@@ -251,13 +251,13 @@ ply_to_obj_converter::face_begin ()
   }
 }
 
-void 
+void
 ply_to_obj_converter::face_vertex_indices_begin (pcl::io::ply::uint8)
 {
   face_vertex_indices_element_index_ = 0;
 }
 
-void 
+void
 ply_to_obj_converter::face_vertex_indices_element (pcl::io::ply::int32 vertex_index)
 {
   if (flags_ & triangulate) {
@@ -278,7 +278,7 @@ ply_to_obj_converter::face_vertex_indices_element (pcl::io::ply::int32 vertex_in
   }
 }
 
-void 
+void
 ply_to_obj_converter::face_vertex_indices_end ()
 {
   if (!(flags_ & triangulate)) {
@@ -286,12 +286,12 @@ ply_to_obj_converter::face_vertex_indices_end ()
   }
 }
 
-void 
+void
 ply_to_obj_converter::face_end ()
 {
 }
 
-bool 
+bool
 ply_to_obj_converter::convert (std::istream&, const std::string& istream_filename, std::ostream& ostream, const std::string&)
 {
   pcl::io::ply::ply_parser::flags_type ply_parser_flags = 0;
@@ -299,7 +299,7 @@ ply_to_obj_converter::convert (std::istream&, const std::string& istream_filenam
 
   ply_parser.info_callback (boost::bind (&ply_to_obj_converter::info_callback, this, boost::ref (istream_filename), _1, _2));
   ply_parser.warning_callback (boost::bind (&ply_to_obj_converter::warning_callback, this, boost::ref (istream_filename), _1, _2));
-  ply_parser.error_callback (boost::bind (&ply_to_obj_converter::error_callback, this, boost::ref (istream_filename), _1, _2)); 
+  ply_parser.error_callback (boost::bind (&ply_to_obj_converter::error_callback, this, boost::ref (istream_filename), _1, _2));
 
   ply_parser.element_definition_callback (boost::bind (&ply_to_obj_converter::element_definition_callback, this, _1, _2));
 

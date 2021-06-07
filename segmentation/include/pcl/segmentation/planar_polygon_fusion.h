@@ -54,17 +54,17 @@ namespace pcl
     public:
       /** \brief Constructor */
       PlanarPolygonFusion () : regions_ () {}
-     
+
       /** \brief Destructor */
       virtual ~PlanarPolygonFusion () {}
 
       /** \brief Reset the state (clean the list of planar models). */
-      void 
+      void
       reset ()
       {
         regions_.clear ();
       }
-      
+
       /** \brief Set the list of 2D planar polygons to refine.
         * \param[in] input the list of 2D planar polygons to refine
         */

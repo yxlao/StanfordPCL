@@ -10,12 +10,12 @@ pcl::cloud_composer::TransformClouds::TransformClouds (QMap <QString, vtkSmartPo
   : ModifyItemTool (0, parent)
   , transform_map_ (transform_map)
 {
-  
+
 }
 
 pcl::cloud_composer::TransformClouds::~TransformClouds ()
 {
-  
+
 }
 
 QList <pcl::cloud_composer::CloudComposerItem*>
@@ -33,10 +33,10 @@ pcl::cloud_composer::TransformClouds::performAction (ConstItemList input_data, P
         return this->performTemplatedAction<pcl::PointXYZRGBA> (input_data);
     }
   }
-  
+
   QList <CloudComposerItem*> output;
 
   qCritical () << "Transform requires templated types!";
-  
+
   return output;
 }

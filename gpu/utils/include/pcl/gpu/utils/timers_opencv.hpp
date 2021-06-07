@@ -49,10 +49,10 @@ namespace pcl
             const char* name;
             cv::TickMeter tm;
             ScopeTimerCV(const char *name_) : name(name_) { tm.start(); }
-            ~ScopeTimerCV() 
+            ~ScopeTimerCV()
             {
                 tm.stop();
-                std::cout << "Time(" << name << ") = " << tm.getTimeMilli() << "ms" << std::endl;        
+                std::cout << "Time(" << name << ") = " << tm.getTimeMilli() << "ms" << std::endl;
             }
         };
     }

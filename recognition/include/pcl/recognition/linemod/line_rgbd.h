@@ -4,7 +4,7 @@
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
  *
- *  All rights reserved. 
+ *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -127,7 +127,7 @@ namespace pcl
       bool
       loadTemplates (const std::string &file_name, size_t object_id = 0);
 
-      /** \brief Sets the threshold for the detection responses. Responses are between 0 and 1, where 1 is a best. 
+      /** \brief Sets the threshold for the detection responses. Responses are between 0 and 1, where 1 is a best.
         * \param[in] threshold The threshold used to decide where a template is detected.
         */
       inline void
@@ -136,7 +136,7 @@ namespace pcl
         linemod_.setDetectionThreshold (threshold);
       }
 
-      /** \brief Sets the threshold on the magnitude of color gradients. Color gradients with a magnitude below 
+      /** \brief Sets the threshold on the magnitude of color gradients. Color gradients with a magnitude below
         *        this threshold are not considered in the detection process.
         * \param[in] threshold The threshold on the magnitude of color gradients.
         */
@@ -146,11 +146,11 @@ namespace pcl
         color_gradient_mod_.setGradientMagnitudeThreshold (threshold);
       }
 
-      /** \brief Sets the threshold for the decision whether two detections of the same template are merged or not. 
-        *        If ratio between the intersection of the bounding boxes of two detections and the original bounding 
-        *        boxes is larger than the specified threshold then they are merged. If detection A overlaps with 
+      /** \brief Sets the threshold for the decision whether two detections of the same template are merged or not.
+        *        If ratio between the intersection of the bounding boxes of two detections and the original bounding
+        *        boxes is larger than the specified threshold then they are merged. If detection A overlaps with
         *        detection B and B with C than A, B, and C are merged. Threshold has to be between 0 and 1.
-        * \param[in] threshold The threshold on the ratio between the intersection bounding box and the original 
+        * \param[in] threshold The threshold on the ratio between the intersection bounding box and the original
         *                      bounding box.
         */
       inline void
@@ -159,7 +159,7 @@ namespace pcl
         intersection_volume_threshold_ = threshold;
       }
 
-      /** \brief Sets the input cloud with xyz point coordinates. The cloud has to be organized. 
+      /** \brief Sets the input cloud with xyz point coordinates. The cloud has to be organized.
         * \param[in] cloud The input cloud with xyz point coordinates.
         */
       inline void
@@ -171,7 +171,7 @@ namespace pcl
         surface_normal_mod_.processInputData ();
       }
 
-      /** \brief Sets the input cloud with rgb values. The cloud has to be organized. 
+      /** \brief Sets the input cloud with rgb values. The cloud has to be organized.
         * \param[in] cloud The input cloud with rgb values.
         */
       inline void
@@ -183,10 +183,10 @@ namespace pcl
         color_gradient_mod_.processInputData ();
       }
 
-      /** \brief Applies the detection process and fills the supplied vector with the detection instances. 
+      /** \brief Applies the detection process and fills the supplied vector with the detection instances.
         * \param[out] detections The storage for the detection instances.
         */
-      void 
+      void
       detect (std::vector<typename pcl::LineRGBD<PointXYZT, PointRGBT>::Detection> & detections);
 
       /** \brief Applies the detection process in a semi-scale-invariant manner. This is done by acutally
@@ -198,8 +198,8 @@ namespace pcl
                                 float max_scale = 1.44f,
                                 float scale_multiplier = 1.2f);
 
-      /** \brief Computes and returns the point cloud of the specified detection. This is the template point 
-        *        cloud transformed to the detection coordinates. The detection ID refers to the last call of 
+      /** \brief Computes and returns the point cloud of the specified detection. This is the template point
+        *        cloud transformed to the detection coordinates. The detection ID refers to the last call of
         *        the method detect (...).
         * \param[in] detection_id The ID of the detection (according to the last call of the method detect (...)).
         * \param[out] cloud The storage for the transformed points.
@@ -208,7 +208,7 @@ namespace pcl
       computeTransformedTemplatePoints (const size_t detection_id,
                                         pcl::PointCloud<pcl::PointXYZRGBA> & cloud);
 
-      /** \brief Finds the indices of the points in the input cloud which correspond to the specified detection. 
+      /** \brief Finds the indices of the points in the input cloud which correspond to the specified detection.
         *        The detection ID refers to the last call of the method detect (...).
         * \param[in] detection_id The ID of the detection (according to the last call of the method detect (...)).
         */
@@ -227,8 +227,8 @@ namespace pcl
 
     protected:
 
-      /** \brief Aligns the template points with the points found at the detection position of the specified detection. 
-        *        The detection ID refers to the last call of the method detect (...). 
+      /** \brief Aligns the template points with the points found at the detection position of the specified detection.
+        *        The detection ID refers to the last call of the method detect (...).
         * \param[in] detection_id The ID of the detection (according to the last call of the method detect (...)).
         */
       inline std::vector<size_t>
@@ -264,7 +264,7 @@ namespace pcl
 
     private:
       /** \brief Read another LTM header chunk. */
-      bool 
+      bool
       readLTMHeader (int fd, pcl::io::TARHeader &header);
 
       /** \brief Intersection volume threshold. */
@@ -290,11 +290,11 @@ namespace pcl
       std::vector<size_t> object_ids_;
 
       /** \brief Detections from last call of method detect (...). */
-      std::vector<typename pcl::LineRGBD<PointXYZT, PointRGBT>::Detection> detections_; 
+      std::vector<typename pcl::LineRGBD<PointXYZT, PointRGBT>::Detection> detections_;
   };
 
 }
 
 #include <pcl/recognition/impl/linemod/line_rgbd.hpp>
 
-#endif  
+#endif

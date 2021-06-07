@@ -8,7 +8,7 @@
  * is strictly prohibited.
  *
  */
- 
+
 #ifndef _CUTIL_INLINE_FUNCTIONS_DRVAPI_H_
 #define _CUTIL_INLINE_FUNCTIONS_DRVAPI_H_
 
@@ -106,11 +106,11 @@ inline int cutilDrvGetMaxGflopsDeviceId()
     // Find the best CUDA capable GPU device
 	current_device = 0;
 	while( current_device < device_count ) {
-		cutilDrvSafeCallNoSync( cuDeviceGetAttribute( &multiProcessorCount, 
-                                                            CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT, 
+		cutilDrvSafeCallNoSync( cuDeviceGetAttribute( &multiProcessorCount,
+                                                            CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT,
                                                             current_device ) );
-        cutilDrvSafeCallNoSync( cuDeviceGetAttribute( &clockRate, 
-                                                            CU_DEVICE_ATTRIBUTE_CLOCK_RATE, 
+        cutilDrvSafeCallNoSync( cuDeviceGetAttribute( &clockRate,
+                                                            CU_DEVICE_ATTRIBUTE_CLOCK_RATE,
                                                             current_device ) );
 		cutilDrvSafeCallNoSync( cuDeviceComputeCapability(&major, &minor, current_device ) );
 
@@ -174,11 +174,11 @@ inline int cutilDrvGetMaxGflopsGraphicsDeviceId()
     // Find the best CUDA capable GPU device
 	current_device = 0;
 	while( current_device < device_count ) {
-		cutilDrvSafeCallNoSync( cuDeviceGetAttribute( &multiProcessorCount, 
-                                                            CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT, 
+		cutilDrvSafeCallNoSync( cuDeviceGetAttribute( &multiProcessorCount,
+                                                            CU_DEVICE_ATTRIBUTE_MULTIPROCESSOR_COUNT,
                                                             current_device ) );
-        cutilDrvSafeCallNoSync( cuDeviceGetAttribute( &clockRate, 
-                                                            CU_DEVICE_ATTRIBUTE_CLOCK_RATE, 
+        cutilDrvSafeCallNoSync( cuDeviceGetAttribute( &clockRate,
+                                                            CU_DEVICE_ATTRIBUTE_CLOCK_RATE,
                                                             current_device ) );
 		cutilDrvSafeCallNoSync( cuDeviceComputeCapability(&major, &minor, current_device ) );
 
@@ -231,9 +231,9 @@ inline void __cuCheckMsg( const char * msg, const char *file, const int line )
 
 
 #if __DEVICE_EMULATION__
-    inline int cutilDeviceInitDrv(int ARGC, char **ARGV) { } 
+    inline int cutilDeviceInitDrv(int ARGC, char **ARGV) { }
 #else
-    inline int cutilDeviceInitDrv(int ARGC, char ** ARGV) 
+    inline int cutilDeviceInitDrv(int ARGC, char ** ARGV)
     {
         int cuDevice = 0;
         int deviceCount = 0;
@@ -295,7 +295,7 @@ inline void __cuCheckMsg( const char * msg, const char *file, const int line )
 
 
 //! Check for CUDA context lost
-inline void cutilDrvCudaCheckCtxLost(const char *errorMessage, const char *file, const int line ) 
+inline void cutilDrvCudaCheckCtxLost(const char *errorMessage, const char *file, const int line )
 {
     CUresult err = cuCtxSynchronize();
     if( CUDA_ERROR_INVALID_CONTEXT != err) {
@@ -308,7 +308,7 @@ inline void cutilDrvCudaCheckCtxLost(const char *errorMessage, const char *file,
         fprintf(stderr, "Cuda error: %s in file '%s' in line %i\n",
                 errorMessage, file, line );
         exit(-1);
-    } 
+    }
 }
 
 #ifndef STRCASECMP
@@ -358,7 +358,7 @@ inline bool cutilDrvCudaDevCapabilities(int major_version, int minor_version, in
 
     cutilDrvSafeCallNoSync( cuDeviceGet(&dev, deviceNum) );
     cutilDrvSafeCallNoSync( cuDeviceComputeCapability(&major, &minor, dev));
-    cutilDrvSafeCallNoSync( cuDeviceGetName(device_name, 256, dev) ); 
+    cutilDrvSafeCallNoSync( cuDeviceGetName(device_name, 256, dev) );
 
     if((major > major_version) ||
 	   (major == major_version && minor >= minor_version))

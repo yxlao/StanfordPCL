@@ -63,13 +63,13 @@ namespace pcl
          */
         void PCL_EXPORTS printShortCudaDeviceInfo(int device = -1);
 
-        /** \brief Returns true if pre-Fermi generaton GPU. 
+        /** \brief Returns true if pre-Fermi generaton GPU.
           * \param device: device id to check, if < 0 checks current device.
           */
         bool PCL_EXPORTS checkIfPreFermiGPU(int device = -1);
 
         /** \brief Error handler. All GPU functions call this to report an error. For internal use only */
-        void PCL_EXPORTS error(const char *error_string, const char *file, const int line, const char *func = "");        
+        void PCL_EXPORTS error(const char *error_string, const char *file, const int line, const char *func = "");
     }
 }
 

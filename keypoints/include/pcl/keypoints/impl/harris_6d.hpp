@@ -166,7 +166,7 @@ pcl::HarrisKeypoint6D<PointInT, PointOutT, NormalT>::detectKeypoints (PointCloud
   cloud->resize (surface_->size ());
 #ifdef _OPENMP
   #pragma omp parallel for num_threads(threads_) default(shared)
-#endif  
+#endif
   for (unsigned idx = 0; idx < surface_->size (); ++idx)
   {
     cloud->points [idx].x = surface_->points [idx].x;
@@ -183,10 +183,10 @@ pcl::HarrisKeypoint6D<PointInT, PointOutT, NormalT>::detectKeypoints (PointCloud
   grad_est.setInputNormals (normals_);
   grad_est.setRadiusSearch (search_radius_);
   grad_est.compute (*intensity_gradients_);
-  
+
 #ifdef _OPENMP
   #pragma omp parallel for num_threads(threads_) default (shared)
-#endif    
+#endif
   for (unsigned idx = 0; idx < intensity_gradients_->size (); ++idx)
   {
     float len = intensity_gradients_->points [idx].gradient_x * intensity_gradients_->points [idx].gradient_x +
@@ -223,7 +223,7 @@ pcl::HarrisKeypoint6D<PointInT, PointOutT, NormalT>::detectKeypoints (PointCloud
 
 #ifdef _OPENMP
   #pragma omp parallel for num_threads(threads_) default(shared)
-#endif  
+#endif
     for (size_t idx = 0; idx < response->points.size (); ++idx)
     {
       if (!isFinite (response->points[idx]) || response->points[idx].intensity < threshold_)
@@ -267,7 +267,7 @@ pcl::HarrisKeypoint6D<PointInT, PointOutT, NormalT>::responseTomasi (PointCloudO
 
 #ifdef _OPENMP
   #pragma omp parallel for default (shared) private (pointOut, covar, covariance, solver) num_threads(threads_)
-#endif  
+#endif
   for (unsigned pIdx = 0; pIdx < input_->size (); ++pIdx)
   {
     const PointInT& pointIn = input_->points [pIdx];
@@ -371,7 +371,7 @@ pcl::HarrisKeypoint6D<PointInT, PointOutT, NormalT>::refineCorners (PointCloudOu
       corner.y = cornerIt->y;
       corner.z = cornerIt->z;
 			std::vector<int> nn_indices;
-			std::vector<float> nn_dists;      
+			std::vector<float> nn_dists;
       search.radiusSearch (corner, search_radius_, nn_indices, nn_dists);
       for (std::vector<int>::const_iterator iIt = nn_indices.begin(); iIt != nn_indices.end(); ++iIt)
       {

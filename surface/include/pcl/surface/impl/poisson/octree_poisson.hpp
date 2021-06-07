@@ -64,7 +64,7 @@ namespace pcl
     template<class NodeData, class Real> Allocator<OctNode<NodeData, Real> > OctNode<NodeData, Real>::AllocatorOctNode;
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class NodeData, class Real> void 
+    template<class NodeData, class Real> void
     OctNode<NodeData, Real>::SetAllocator (int blockSize)
     {
       if (blockSize > 0)
@@ -77,7 +77,7 @@ namespace pcl
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class NodeData, class Real> int 
+    template<class NodeData, class Real> int
     OctNode<NodeData, Real>::UseAllocator (void)
     {
       return (UseAlloc);
@@ -105,7 +105,7 @@ namespace pcl
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template <class NodeData, class Real> void 
+    template <class NodeData, class Real> void
     OctNode<NodeData, Real>::setFullDepth (const int& maxDepth)
     {
       if (maxDepth)
@@ -121,7 +121,7 @@ namespace pcl
       }
     }
 
-    template <class NodeData, class Real> int 
+    template <class NodeData, class Real> int
     OctNode<NodeData, Real>::initChildren (void)
     {
       int i, j, k;
@@ -167,7 +167,7 @@ namespace pcl
       return 1;
     }
 
-    template <class NodeData, class Real> inline void 
+    template <class NodeData, class Real> inline void
     OctNode<NodeData, Real>::Index (
         const int& depth, const int offset[3], short& d, short off[3])
     {
@@ -177,7 +177,7 @@ namespace pcl
       off[2] = short((1 << depth) + offset[2] - 1);
     }
 
-    template<class NodeData, class Real> inline void 
+    template<class NodeData, class Real> inline void
     OctNode<NodeData, Real>::depthAndOffset (int& depth, int offset[3]) const
     {
       depth = int(d);
@@ -186,13 +186,13 @@ namespace pcl
       offset[2] = (int(off[2]) + 1)&(~(1 << depth));
     }
 
-    template<class NodeData, class Real> inline int 
+    template<class NodeData, class Real> inline int
     OctNode<NodeData, Real>::depth (void) const
     {
       return int(d);
     }
 
-    template<class NodeData, class Real> inline void 
+    template<class NodeData, class Real> inline void
     OctNode<NodeData, Real>::DepthAndOffset (
         const long long& index, int& depth, int offset[3])
     {
@@ -202,13 +202,13 @@ namespace pcl
       offset[2] = (int((index >> OffsetShift3) & OffsetMask) + 1)&(~(1 << depth));
     }
 
-    template<class NodeData, class Real> inline int 
+    template<class NodeData, class Real> inline int
     OctNode<NodeData, Real>::Depth (const long long& index)
     {
       return int(index & DepthMask);
     }
 
-    template <class NodeData, class Real> void 
+    template <class NodeData, class Real> void
     OctNode<NodeData, Real>::centerAndWidth (Point3D<Real>& center, Real& width) const
     {
       int depth, offset[3];
@@ -223,7 +223,7 @@ namespace pcl
       }
     }
 
-    template <class NodeData, class Real> inline void 
+    template <class NodeData, class Real> inline void
     OctNode<NodeData, Real>::CenterAndWidth (
         const long long& index, Point3D<Real>& center, Real& width)
     {
@@ -239,7 +239,7 @@ namespace pcl
       }
     }
 
-    template <class NodeData, class Real> int 
+    template <class NodeData, class Real> int
     OctNode<NodeData, Real>::maxDepth (void) const
     {
       if (!children)
@@ -261,7 +261,7 @@ namespace pcl
       }
     }
 
-    template <class NodeData, class Real> int 
+    template <class NodeData, class Real> int
     OctNode<NodeData, Real>::nodes (void) const
     {
       if (!children)
@@ -319,7 +319,7 @@ namespace pcl
       }
     }
 
-    template <class NodeData, class Real> const OctNode<NodeData, Real>* 
+    template <class NodeData, class Real> const OctNode<NodeData, Real>*
     OctNode<NodeData, Real>::root (void) const
     {
       const OctNode* temp = this;
@@ -330,7 +330,7 @@ namespace pcl
       return temp;
     }
 
-    template <class NodeData, class Real> const OctNode<NodeData, Real>* 
+    template <class NodeData, class Real> const OctNode<NodeData, Real>*
     OctNode<NodeData, Real>::nextBranch (const OctNode* current) const
     {
       if (!current->parent || current == this)
@@ -347,7 +347,7 @@ namespace pcl
       }
     }
 
-    template <class NodeData, class Real> OctNode<NodeData, Real>* 
+    template <class NodeData, class Real> OctNode<NodeData, Real>*
     OctNode<NodeData, Real>::nextBranch (OctNode* current)
     {
       if (!current->parent || current == this)
@@ -364,7 +364,7 @@ namespace pcl
       }
     }
 
-    template <class NodeData, class Real> const OctNode<NodeData, Real>* 
+    template <class NodeData, class Real> const OctNode<NodeData, Real>*
     OctNode<NodeData, Real>::nextLeaf (const OctNode* current) const
     {
       if (!current)
@@ -391,7 +391,7 @@ namespace pcl
       }
     }
 
-    template <class NodeData, class Real> OctNode<NodeData, Real>* 
+    template <class NodeData, class Real> OctNode<NodeData, Real>*
     OctNode<NodeData, Real>::nextLeaf (OctNode* current)
     {
       if (!current)
@@ -418,7 +418,7 @@ namespace pcl
       }
     }
 
-    template <class NodeData, class Real> const OctNode<NodeData, Real>* 
+    template <class NodeData, class Real> const OctNode<NodeData, Real>*
     OctNode<NodeData, Real>::nextNode (const OctNode* current) const
     {
       if (!current)
@@ -435,7 +435,7 @@ namespace pcl
       }
     }
 
-    template <class NodeData, class Real> OctNode<NodeData, Real>* 
+    template <class NodeData, class Real> OctNode<NodeData, Real>*
     OctNode<NodeData, Real>::nextNode (OctNode* current)
     {
       if (!current)
@@ -452,7 +452,7 @@ namespace pcl
       }
     }
 
-    template <class NodeData, class Real> void 
+    template <class NodeData, class Real> void
     OctNode<NodeData, Real>::printRange (void) const
     {
       Point3D<Real> center;
@@ -469,7 +469,7 @@ namespace pcl
       }
     }
 
-    template <class NodeData, class Real> void 
+    template <class NodeData, class Real> void
     OctNode<NodeData, Real>::AdjacencyCountFunction::Function (
         const OctNode<NodeData, Real>* node1, const OctNode<NodeData, Real>* node2)
     {
@@ -477,7 +477,7 @@ namespace pcl
     }
 
     template <class NodeData, class Real>
-    template<class NodeAdjacencyFunction> void 
+    template<class NodeAdjacencyFunction> void
     OctNode<NodeData, Real>::processNodeNodes (
         OctNode* node, NodeAdjacencyFunction* F, const int& processCurrent)
     {
@@ -492,9 +492,9 @@ namespace pcl
     }
 
     template <class NodeData, class Real>
-    template<class NodeAdjacencyFunction> void 
+    template<class NodeAdjacencyFunction> void
     OctNode<NodeData, Real>::processNodeFaces (
-        OctNode* node, NodeAdjacencyFunction* F, 
+        OctNode* node, NodeAdjacencyFunction* F,
         const int& fIndex, const int& processCurrent)
     {
       if (processCurrent)
@@ -510,9 +510,9 @@ namespace pcl
     }
 
     template <class NodeData, class Real>
-    template<class NodeAdjacencyFunction> void 
+    template<class NodeAdjacencyFunction> void
     OctNode<NodeData, Real>::processNodeEdges (
-        OctNode* node, NodeAdjacencyFunction* F, 
+        OctNode* node, NodeAdjacencyFunction* F,
         const int& eIndex, const int& processCurrent)
     {
       if (processCurrent)
@@ -528,9 +528,9 @@ namespace pcl
     }
 
     template <class NodeData, class Real>
-    template<class NodeAdjacencyFunction> void 
+    template<class NodeAdjacencyFunction> void
     OctNode<NodeData, Real>::processNodeCorners (
-        OctNode* node, NodeAdjacencyFunction* F, 
+        OctNode* node, NodeAdjacencyFunction* F,
         const int& cIndex, const int& processCurrent)
     {
       if (processCurrent)
@@ -546,7 +546,7 @@ namespace pcl
     }
 
     template <class NodeData, class Real>
-    template<class NodeAdjacencyFunction> void 
+    template<class NodeAdjacencyFunction> void
     OctNode<NodeData, Real>::__processNodeNodes (
         OctNode* node, NodeAdjacencyFunction* F)
     {
@@ -593,7 +593,7 @@ namespace pcl
     }
 
     template <class NodeData, class Real>
-    template<class NodeAdjacencyFunction> void 
+    template<class NodeAdjacencyFunction> void
     OctNode<NodeData, Real>::__processNodeEdges (
         OctNode* node, NodeAdjacencyFunction* F, const int& cIndex1, const int& cIndex2)
     {
@@ -610,9 +610,9 @@ namespace pcl
     }
 
     template <class NodeData, class Real>
-    template<class NodeAdjacencyFunction> void 
+    template<class NodeAdjacencyFunction> void
     OctNode<NodeData, Real>::__processNodeFaces (
-        OctNode* node, NodeAdjacencyFunction* F, 
+        OctNode* node, NodeAdjacencyFunction* F,
         const int& cIndex1, const int& cIndex2, const int& cIndex3, const int& cIndex4)
     {
       F->Function (&children[cIndex1], node);
@@ -638,10 +638,10 @@ namespace pcl
     }
 
     template<class NodeData, class Real>
-    template<class NodeAdjacencyFunction> void 
+    template<class NodeAdjacencyFunction> void
     OctNode<NodeData, Real>::ProcessNodeAdjacentNodes (
-        const int& maxDepth, OctNode* node1, 
-        const int& width1, OctNode* node2, 
+        const int& maxDepth, OctNode* node1,
+        const int& width1, OctNode* node2,
         const int& width2, NodeAdjacencyFunction* F, const int& processCurrent)
     {
       int c1[3], c2[3], w1, w2;
@@ -654,7 +654,7 @@ namespace pcl
     }
 
     template<class NodeData, class Real>
-    template<class NodeAdjacencyFunction> void 
+    template<class NodeAdjacencyFunction> void
     OctNode<NodeData, Real>::ProcessNodeAdjacentNodes (
         const int& dx, const int& dy, const int& dz,
         OctNode<NodeData, Real>* node1, const int& radius1,
@@ -677,10 +677,10 @@ namespace pcl
     }
 
     template<class NodeData, class Real>
-    template<class TerminatingNodeAdjacencyFunction> void 
+    template<class TerminatingNodeAdjacencyFunction> void
     OctNode<NodeData, Real>::ProcessTerminatingNodeAdjacentNodes (
-        const int& maxDepth, OctNode* node1, 
-        const int& width1, OctNode* node2, 
+        const int& maxDepth, OctNode* node1,
+        const int& width1, OctNode* node2,
         const int& width2, TerminatingNodeAdjacencyFunction* F, const int& processCurrent)
     {
       int c1[3], c2[3], w1, w2;
@@ -693,7 +693,7 @@ namespace pcl
     }
 
     template<class NodeData, class Real>
-    template<class TerminatingNodeAdjacencyFunction> void 
+    template<class TerminatingNodeAdjacencyFunction> void
     OctNode<NodeData, Real>::ProcessTerminatingNodeAdjacentNodes (
         const int& dx, const int& dy, const int& dz,
         OctNode<NodeData, Real>* node1, const int& radius1,
@@ -716,9 +716,9 @@ namespace pcl
     }
 
     template<class NodeData, class Real>
-    template<class PointAdjacencyFunction> void 
+    template<class PointAdjacencyFunction> void
     OctNode<NodeData, Real>::ProcessPointAdjacentNodes (
-        const int& maxDepth, const int c1[3], OctNode* node2, 
+        const int& maxDepth, const int c1[3], OctNode* node2,
         const int& width2, PointAdjacencyFunction* F, const int& processCurrent)
     {
       int c2[3], w2;
@@ -728,7 +728,7 @@ namespace pcl
     }
 
     template<class NodeData, class Real>
-    template<class PointAdjacencyFunction> void 
+    template<class PointAdjacencyFunction> void
     OctNode<NodeData, Real>::ProcessPointAdjacentNodes (
         const int& dx, const int& dy, const int& dz,
         OctNode<NodeData, Real>* node2, const int& radius2, const int& width2,
@@ -750,11 +750,11 @@ namespace pcl
     }
 
     template<class NodeData, class Real>
-    template<class NodeAdjacencyFunction> void 
+    template<class NodeAdjacencyFunction> void
     OctNode<NodeData, Real>::ProcessFixedDepthNodeAdjacentNodes (
-        const int& maxDepth, OctNode<NodeData, Real>* node1, 
-        const int& width1, OctNode<NodeData, Real>* node2, 
-        const int& width2, const int& depth, NodeAdjacencyFunction* F, 
+        const int& maxDepth, OctNode<NodeData, Real>* node1,
+        const int& width1, OctNode<NodeData, Real>* node2,
+        const int& width2, const int& depth, NodeAdjacencyFunction* F,
         const int& processCurrent)
     {
       int c1[3], c2[3], w1, w2;
@@ -767,7 +767,7 @@ namespace pcl
     }
 
     template<class NodeData, class Real>
-    template<class NodeAdjacencyFunction> void 
+    template<class NodeAdjacencyFunction> void
     OctNode<NodeData, Real>::ProcessFixedDepthNodeAdjacentNodes (
         const int& dx, const int& dy, const int& dz,
         OctNode<NodeData, Real>* node1, const int& radius1,
@@ -793,7 +793,7 @@ namespace pcl
     }
 
     template<class NodeData, class Real>
-    template<class NodeAdjacencyFunction> void 
+    template<class NodeAdjacencyFunction> void
     OctNode<NodeData, Real>::ProcessMaxDepthNodeAdjacentNodes (
         const int& maxDepth,
         OctNode<NodeData, Real>* node1, const int& width1,
@@ -809,7 +809,7 @@ namespace pcl
     }
 
     template<class NodeData, class Real>
-    template<class NodeAdjacencyFunction> void 
+    template<class NodeAdjacencyFunction> void
     OctNode<NodeData, Real>::ProcessMaxDepthNodeAdjacentNodes (
         const int& dx, const int& dy, const int& dz,
         OctNode<NodeData, Real>* node1, const int& radius1,
@@ -828,7 +828,7 @@ namespace pcl
     }
 
     template <class NodeData, class Real>
-    template<class NodeAdjacencyFunction> void 
+    template<class NodeAdjacencyFunction> void
     OctNode<NodeData, Real>::__ProcessNodeAdjacentNodes (
         const int& dx, const int& dy, const int& dz,
         OctNode* node1, const int& radius1,
@@ -898,7 +898,7 @@ namespace pcl
     }
 
     template <class NodeData, class Real>
-    template<class TerminatingNodeAdjacencyFunction> void 
+    template<class TerminatingNodeAdjacencyFunction> void
     OctNode<NodeData, Real>::__ProcessTerminatingNodeAdjacentNodes (
         const int& dx, const int& dy, const int& dz,
         OctNode* node1, const int& radius1,
@@ -1509,13 +1509,13 @@ namespace pcl
       return (*this);
     }
 
-    template <class NodeData, class Real> int 
+    template <class NodeData, class Real> int
     OctNode<NodeData, Real>::CompareForwardDepths (const void* v1, const void* v2)
     {
       return (static_cast<const OctNode<NodeData, Real>*> (v1))->depth - (static_cast<const OctNode<NodeData, Real>*> (v2))->depth;
     }
 
-    template <class NodeData, class Real> int 
+    template <class NodeData, class Real> int
     OctNode<NodeData, Real>::CompareForwardPointerDepths (const void* v1, const void* v2)
     {
       typedef const OctNode<NodeData, Real> Ty;
@@ -1536,11 +1536,11 @@ namespace pcl
 
       if (n1->off[1] != n2->off[1])
         return (int (n1->off[1]) - int(n2->off[1]));
-      
+
       return (int (n1->off[2]) - int(n2->off[2]));
     }
 
-    template <class NodeData, class Real> int 
+    template <class NodeData, class Real> int
     OctNode<NodeData, Real>::CompareBackwardDepths (const void* v1, const void* v2)
     {
       return ((static_cast<const OctNode<NodeData, Real>*> (v2))->depth - (static_cast<const OctNode<NodeData, Real>*>(v1))->depth);
@@ -1943,7 +1943,7 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template <class NodeData, class Real> OctNode<NodeData, Real>* 
+    template <class NodeData, class Real> OctNode<NodeData, Real>*
     OctNode<NodeData, Real> ::cornerNeighbor (const int& cornerIndex, const int& forceChildren)
     {
       int pIndex, aIndex = 0;
@@ -2034,7 +2034,7 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class NodeData, class Real> void 
+    template<class NodeData, class Real> void
     OctNode<NodeData, Real>::Neighbors::clear ()
     {
       for (int i = 0; i < 3; i++)
@@ -2065,7 +2065,7 @@ namespace pcl
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class NodeData, class Real> void 
+    template<class NodeData, class Real> void
     OctNode<NodeData, Real>::NeighborKey::set (const int& d)
     {
       if (neighbors)
@@ -2336,7 +2336,7 @@ namespace pcl
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class NodeData, class Real> void 
+    template<class NodeData, class Real> void
     OctNode<NodeData, Real>::Neighbors2::clear ()
     {
       for (int i = 0; i < 3; i++)
@@ -2369,7 +2369,7 @@ namespace pcl
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<class NodeData, class Real> void 
+    template<class NodeData, class Real> void
     OctNode<NodeData, Real>::NeighborKey2::set (const int& d)
     {
       if (neighbors)

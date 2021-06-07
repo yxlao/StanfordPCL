@@ -48,9 +48,9 @@
 
 #include <pcl/pcl_exports.h>
 
-namespace pcl 
+namespace pcl
 {
-  namespace poisson 
+  namespace poisson
   {
     template<class Real>
     Real Random (void);
@@ -92,13 +92,13 @@ namespace pcl
           return sqrt (d[0]*d[0]+d[1]*d[1]);
         }
     };
-    
+
     class Triangle
     {
       public:
         double p[3][3];
-        
-        double 
+
+        double
         Area (void) const
         {
           double v1[3], v2[3], v[3];
@@ -114,7 +114,7 @@ namespace pcl
           return (sqrt (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]) / 2);
         }
 
-        double 
+        double
         AspectRatio (void) const
         {
           double d=0;
@@ -184,22 +184,22 @@ namespace pcl
         std::vector<TriangulationEdge>     edges;
         std::vector<TriangulationTriangle> triangles;
 
-        int 
+        int
         factor (const int& tIndex, int& p1, int& p2, int& p3);
-        
-        double 
+
+        double
         area (void);
 
-        double 
+        double
         area (const int& tIndex);
 
-        double 
+        double
         area (const int& p1, const int& p2, const int& p3);
 
-        int 
+        int
         flipMinimize (const int& eIndex);
 
-        int 
+        int
         addTriangle (const int& p1, const int& p2, const int& p3);
 
       protected:
@@ -209,13 +209,13 @@ namespace pcl
     };
 
 
-    template<class Real> void 
+    template<class Real> void
     EdgeCollapse (const Real& edgeRatio,
                   std::vector<TriangleIndex>& triangles,
                   std::vector< Point3D<Real> >& positions,
                   std::vector<Point3D<Real> >* normals);
-    
-    template<class Real> void 
+
+    template<class Real> void
     TriangleCollapse (const Real& edgeRatio,
                       std::vector<TriangleIndex>& triangles,
                       std::vector<Point3D<Real> >& positions,
@@ -235,26 +235,26 @@ namespace pcl
         virtual ~CoredMeshData () {}
 
         std::vector<Point3D<float> > inCorePoints;
-        
-        virtual void 
+
+        virtual void
         resetIterator () = 0;
 
-        virtual int 
+        virtual int
         addOutOfCorePoint (const Point3D<float>& p) = 0;
 
-        virtual int 
+        virtual int
         addPolygon (const std::vector< CoredVertexIndex >& vertices) = 0;
 
-        virtual int 
+        virtual int
         nextOutOfCorePoint (Point3D<float>& p) = 0;
-        
-        virtual int 
+
+        virtual int
         nextPolygon (std::vector<CoredVertexIndex >& vertices) = 0;
 
-        virtual int 
+        virtual int
         outOfCorePointCount () = 0;
-        
-        virtual int 
+
+        virtual int
         polygonCount () = 0;
     };
 
@@ -267,7 +267,7 @@ namespace pcl
 
       public:
         CoredVectorMeshData ();
-        
+
         virtual ~CoredVectorMeshData () {}
 
         void resetIterator (void);

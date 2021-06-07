@@ -42,7 +42,7 @@
 #include <pcl/console/print.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointT, typename Dist> void 
+template <typename PointT, typename Dist> void
 pcl::KdTreeFLANN<PointT, Dist>::setInputCloud (const PointCloudConstPtr &cloud, const IndicesConstPtr &indices)
 {
   cleanup ();   // Perform an automatic cleanup of structures
@@ -52,7 +52,7 @@ pcl::KdTreeFLANN<PointT, Dist>::setInputCloud (const PointCloudConstPtr &cloud, 
 
   input_   = cloud;
   indices_ = indices;
-  
+
   // Allocate enough data
   if (!input_)
   {
@@ -75,9 +75,9 @@ pcl::KdTreeFLANN<PointT, Dist>::setInputCloud (const PointCloudConstPtr &cloud, 
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointT, typename Dist> int 
-pcl::KdTreeFLANN<PointT, Dist>::nearestKSearch (const PointT &point, int k, 
-                                                std::vector<int> &k_indices, 
+template <typename PointT, typename Dist> int
+pcl::KdTreeFLANN<PointT, Dist>::nearestKSearch (const PointT &point, int k,
+                                                std::vector<int> &k_indices,
                                                 std::vector<float> &k_distances) const
 {
   assert (point_representation_->isValid (point) && "Invalid (NaN, Inf) point coordinates given to nearestKSearch!");
@@ -94,12 +94,12 @@ pcl::KdTreeFLANN<PointT, Dist>::nearestKSearch (const PointT &point, int k,
   flann::Matrix<int> k_indices_mat (&k_indices[0], 1, k);
   flann::Matrix<float> k_distances_mat (&k_distances[0], 1, k);
   // Wrap the k_indices and k_distances vectors (no data copy)
-  flann_index_->knnSearch (flann::Matrix<float> (&query[0], 1, dim_), 
+  flann_index_->knnSearch (flann::Matrix<float> (&query[0], 1, dim_),
                            k_indices_mat, k_distances_mat,
                            k, param_k_);
 
   // Do mapping to original point cloud
-  if (!identity_mapping_) 
+  if (!identity_mapping_)
   {
     for (size_t i = 0; i < static_cast<size_t> (k); ++i)
     {
@@ -112,7 +112,7 @@ pcl::KdTreeFLANN<PointT, Dist>::nearestKSearch (const PointT &point, int k,
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointT, typename Dist> int 
+template <typename PointT, typename Dist> int
 pcl::KdTreeFLANN<PointT, Dist>::radiusSearch (const PointT &point, double radius, std::vector<int> &k_indices,
                                               std::vector<float> &k_sqr_dists, unsigned int max_nn) const
 {
@@ -137,14 +137,14 @@ pcl::KdTreeFLANN<PointT, Dist>::radiusSearch (const PointT &point, double radius
   int neighbors_in_radius = flann_index_->radiusSearch (flann::Matrix<float> (&query[0], 1, dim_),
       indices,
       dists,
-      static_cast<float> (radius * radius), 
+      static_cast<float> (radius * radius),
       params);
 
   k_indices = indices[0];
   k_sqr_dists = dists[0];
 
   // Do mapping to original point cloud
-  if (!identity_mapping_) 
+  if (!identity_mapping_)
   {
     for (int i = 0; i < neighbors_in_radius; ++i)
     {
@@ -157,7 +157,7 @@ pcl::KdTreeFLANN<PointT, Dist>::radiusSearch (const PointT &point, double radius
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointT, typename Dist> void 
+template <typename PointT, typename Dist> void
 pcl::KdTreeFLANN<PointT, Dist>::cleanup ()
 {
   if (flann_index_)
@@ -176,7 +176,7 @@ pcl::KdTreeFLANN<PointT, Dist>::cleanup ()
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointT, typename Dist> void 
+template <typename PointT, typename Dist> void
 pcl::KdTreeFLANN<PointT, Dist>::convertCloudToArray (const PointCloud &cloud)
 {
   // No point in doing anything if the array is empty
@@ -210,7 +210,7 @@ pcl::KdTreeFLANN<PointT, Dist>::convertCloudToArray (const PointCloud &cloud)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointT, typename Dist> void 
+template <typename PointT, typename Dist> void
 pcl::KdTreeFLANN<PointT, Dist>::convertCloudToArray (const PointCloud &cloud, const std::vector<int> &indices)
 {
   // No point in doing anything if the array is empty
@@ -226,14 +226,14 @@ pcl::KdTreeFLANN<PointT, Dist>::convertCloudToArray (const PointCloud &cloud, co
   float* cloud_ptr = cloud_;
   index_mapping_.reserve (original_no_of_points);
   // its a subcloud -> false
-  // true only identity: 
+  // true only identity:
   //     - indices size equals cloud size
   //     - indices only contain values between 0 and cloud.size - 1
   //     - no index is multiple times in the list
   //     => index is complete
   // But we can not guarantee that => identity_mapping_ = false
   identity_mapping_ = false;
-  
+
   for (std::vector<int>::const_iterator iIt = indices.begin (); iIt != indices.end (); ++iIt)
   {
     // Check if the point is invalid
@@ -242,7 +242,7 @@ pcl::KdTreeFLANN<PointT, Dist>::convertCloudToArray (const PointCloud &cloud, co
 
     // map from 0 - N -> indices [0] - indices [N]
     index_mapping_.push_back (*iIt);  // If the returned index should be for the indices vector
-    
+
     point_representation_->vectorize (cloud.points[*iIt], cloud_ptr);
     cloud_ptr += dim_;
   }

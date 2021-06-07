@@ -8,7 +8,7 @@
  * is strictly prohibited.
  *
  */
- 
+
 #ifndef _CUTIL_INLINE_FUNCTIONS_RUNTIME_H_
 #define _CUTIL_INLINE_FUNCTIONS_RUNTIME_H_
 
@@ -59,7 +59,7 @@ inline cudaError cutilDeviceReset()
 #endif
 }
 
-inline void __cutilCondition(int val, char *file, int line) 
+inline void __cutilCondition(int val, char *file, int line)
 {
     if( CUTFalse == cutCheckCondition( val, file, line ) ) {
         exit(EXIT_FAILURE);
@@ -67,7 +67,7 @@ inline void __cutilCondition(int val, char *file, int line)
 }
 
 inline void __cutilExit(int argc, char **argv)
-{     
+{
     if (!cutCheckCmdLineFlag(argc, (const char**)argv, "noprompt")) {
         printf("\nPress ENTER to exit...\n");
         fflush( stdout);
@@ -89,14 +89,14 @@ inline int _ConvertSMVer2Cores(int major, int minor)
 		int Cores;
 	} sSMtoCores;
 
-	sSMtoCores nGpuArchCoresPerSM[] = 
+	sSMtoCores nGpuArchCoresPerSM[] =
 	{ { 0x10,  8 },
 	  { 0x11,  8 },
 	  { 0x12,  8 },
 	  { 0x13,  8 },
 	  { 0x20, 32 },
 	  { 0x21, 48 },
-	  {   -1, -1 } 
+	  {   -1, -1 }
 	};
 
 	int index = 0;
@@ -358,7 +358,7 @@ inline void __cutilSafeMalloc( void *pointer, const char *file, const int line )
         }
         int dev = 0;
         cutGetCmdLineArgumenti(ARGC, (const char **) ARGV, "device", &dev);
-        if (dev < 0) 
+        if (dev < 0)
             dev = 0;
         if (dev > deviceCount-1) {
 			fprintf(stderr, "\n");
@@ -366,7 +366,7 @@ inline void __cutilSafeMalloc( void *pointer, const char *file, const int line )
             fprintf(stderr, ">> cutilDeviceInit (-device=%d) is not a valid GPU device. <<\n", dev);
 			fprintf(stderr, "\n");
             return -dev;
-        }  
+        }
         cudaDeviceProp deviceProp;
         cutilSafeCallNoSync(cudaGetDeviceProperties(&deviceProp, dev));
         if (deviceProp.major < 1) {
@@ -405,7 +405,7 @@ inline void __cutilSafeMalloc( void *pointer, const char *file, const int line )
 
 
 //! Check for CUDA context lost
-inline void cutilCudaCheckCtxLost(const char *errorMessage, const char *file, const int line ) 
+inline void cutilCudaCheckCtxLost(const char *errorMessage, const char *file, const int line )
 {
     cudaError_t err = cudaGetLastError();
     if( cudaSuccess != err) {

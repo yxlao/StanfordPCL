@@ -5,7 +5,7 @@ namespace pcl
 {
   namespace tracking
   {
-    
+
     template <typename PointInT> double
     PointCoherence<PointInT>::compute (PointInT &source, PointInT &target)
     {
@@ -28,7 +28,7 @@ namespace pcl
       }
       return val;
     }
-    
+
     template <typename PointInT> bool
     PointCloudCoherence<PointInT>::initCompute ()
     {
@@ -39,9 +39,9 @@ namespace pcl
       }
 
       return true;
-      
+
     }
-    
+
     template <typename PointInT> void
     PointCloudCoherence<PointInT>::compute (const PointCloudInConstPtr &cloud, const IndicesConstPtr &indices, float &w)
     {

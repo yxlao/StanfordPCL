@@ -11,7 +11,7 @@
 #ifndef EIGEN_COMMAINITIALIZER_H
 #define EIGEN_COMMAINITIALIZER_H
 
-namespace Eigen { 
+namespace Eigen {
 
 /** \class CommaInitializer
   * \ingroup Core_Module

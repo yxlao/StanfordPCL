@@ -36,9 +36,9 @@ class vtkIntArray;
 class vtkPCLConversions : public vtkObject
 {
 public:
-        
+
   static vtkPCLConversions* New();
-     
+
   vtkTypeMacro(vtkPCLConversions, vtkObject);
 
   void PrintSelf(ostream& os, vtkIndent indent);

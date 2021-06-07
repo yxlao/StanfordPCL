@@ -148,7 +148,7 @@ namespace pcl
     if (vp.dot (normal) < 0)
       normal *= -1;
   }
-  
+
   /** \brief Flip (in place) the estimated normal of a point towards a given viewpoint
     * \param point a given point
     * \param vp_x the X coordinate of the viewpoint
@@ -201,12 +201,12 @@ namespace pcl
       using Feature<PointInT, PointOutT>::k_;
       using Feature<PointInT, PointOutT>::search_radius_;
       using Feature<PointInT, PointOutT>::search_parameter_;
-      
+
       typedef typename Feature<PointInT, PointOutT>::PointCloudOut PointCloudOut;
       typedef typename Feature<PointInT, PointOutT>::PointCloudConstPtr PointCloudConstPtr;
-      
+
       /** \brief Empty constructor. */
-      NormalEstimation () 
+      NormalEstimation ()
       : vpx_ (0)
       , vpy_ (0)
       , vpz_ (0)
@@ -269,7 +269,7 @@ namespace pcl
       /** \brief Provide a pointer to the input dataset
         * \param cloud the const boost shared pointer to a PointCloud message
         */
-      virtual inline void 
+      virtual inline void
       setInputCloud (const PointCloudConstPtr &cloud)
       {
         input_ = cloud;
@@ -280,7 +280,7 @@ namespace pcl
           vpz_ = input_->sensor_origin_.coeff (2);
         }
       }
-      
+
       /** \brief Set the viewpoint.
         * \param vpx the X coordinate of the viewpoint
         * \param vpy the Y coordinate of the viewpoint
@@ -311,7 +311,7 @@ namespace pcl
         vpz = vpz_;
       }
 
-      /** \brief sets whether the sensor origin or a user given viewpoint should be used. After this method, the 
+      /** \brief sets whether the sensor origin or a user given viewpoint should be used. After this method, the
         * normal estimation method uses the sensor origin of the input cloud.
         * to use a user defined view point, use the method setViewPoint
         */
@@ -332,7 +332,7 @@ namespace pcl
           vpz_ = 0;
         }
       }
-      
+
     protected:
       /** \brief Estimate normals for all points given in <setInputCloud (), setIndices ()> using the surface in
         * setSearchSurface () and the spatial locator in setSearchMethod ()
@@ -351,7 +351,7 @@ namespace pcl
 
       /** \brief 16-bytes aligned placeholder for the XYZ centroid of a surface patch. */
       Eigen::Vector4f xyz_centroid_;
-      
+
       /** whether the sensor origin of the input cloud or a user given viewpoint should be used.*/
       bool use_sensor_origin_;
 

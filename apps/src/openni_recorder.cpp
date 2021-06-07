@@ -2,7 +2,7 @@
  * Software License Agreement (BSD License)
  *
  * Copyright (c) 2012 Sudarshan Srinivasan <sudarshan85@gmail.com>
- * 
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -15,7 +15,7 @@
  *     copyright notice, this list of conditions and the following
  *     disclaimer in the documentation and/or other materials provided
  *     with the distribution.
- * 
+ *
  *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -66,13 +66,13 @@ class PCDBuffer
 	public:
     PCDBuffer () {}
 
-    bool 
+    bool
     pushBack (pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr); // thread-save wrapper for push_back() method of ciruclar_buffer
 
-		pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr 
+		pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr
     getFront (); // thread-save wrapper for front() method of ciruclar_buffer
 		
-    inline bool 
+    inline bool
     isFull ()
     {
       boost::mutex::scoped_lock buff_lock (bmutex_);
@@ -86,20 +86,20 @@ class PCDBuffer
     	return (buffer_.empty ());
     }
 		
-    inline int 
+    inline int
     getSize ()
     {
       boost::mutex::scoped_lock buff_lock (bmutex_);
       return (int (buffer_.size ()));
     }
 		
-    inline int 
+    inline int
     getCapacity ()
     {
 	    return (int (buffer_.capacity ()));
     }
 		
-    inline void 
+    inline void
     setCapacity (int buff_size)
     {
       boost::mutex::scoped_lock buff_lock (bmutex_);
@@ -116,7 +116,7 @@ class PCDBuffer
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 PCDBuffer::pushBack (pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr cloud)
 {
 	bool retVal = false;
@@ -131,7 +131,7 @@ PCDBuffer::pushBack (pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr cloud)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr 
+pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr
 PCDBuffer::getFront ()
 {
 	pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr cloud;
@@ -156,7 +156,7 @@ PCDBuffer::getFront ()
 PCDBuffer buff;
 
 //////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 grabberCallBack (const pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr& cloud)
 {
 	if (!buff.pushBack (cloud))
@@ -171,7 +171,7 @@ grabberCallBack (const pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr& cloud)
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // Procuder thread function
-void 
+void
 grabAndSend ()
 {
 	pcl::Grabber* interface = new pcl::OpenNIGrabber ();
@@ -189,7 +189,7 @@ grabAndSend ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 writeToDisk (const pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr& cloud)
 {
 	static int counter = 1;
@@ -206,7 +206,7 @@ writeToDisk (const pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr& cloud)
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // Consumer thread function
-void 
+void
 receiveAndProcess ()
 {
 	while (true)
@@ -227,7 +227,7 @@ receiveAndProcess ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 ctrlC (int)
 {
 	boost::mutex::scoped_lock io_lock (io_mutex);
@@ -236,7 +236,7 @@ ctrlC (int)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-int 
+int
 main (int argc, char** argv)
 {
 	int buff_size = BUFFER_SIZE;

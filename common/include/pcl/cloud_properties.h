@@ -66,7 +66,7 @@ namespace pcl
         */
       CloudProperties () :
         acquisition_time (0),
-        sensor_origin (Eigen::Vector4f::Zero ()), 
+        sensor_origin (Eigen::Vector4f::Zero ()),
         sensor_orientation (Eigen::Quaternionf::Identity ())
       {
       }
@@ -77,7 +77,7 @@ namespace pcl
       /** \brief Sensor acquisition pose (origin/translation in the cloud data coordinate system). */
       Eigen::Vector4f    sensor_origin;
 
-      /** \brief Sensor acquisition pose (rotation in the cloud data coordinate system). 
+      /** \brief Sensor acquisition pose (rotation in the cloud data coordinate system).
         * \note the data is stored in (w, x, y, z) format.
         */
       Eigen::Quaternionf sensor_orientation;

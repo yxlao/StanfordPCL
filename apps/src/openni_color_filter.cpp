@@ -80,14 +80,14 @@ class OpenNIPassthrough
       for (unsigned i = 0; i < (1<<24); ++i)
        if (lookup[i])
         ++set;
-        
+
       cout << "used colors: " << set << endl;
-      
+
       color_filter_.setLookUpTable (lookup);
     }
 
     void fillLookup (std::vector<bool>& lookup, unsigned char red, unsigned char green, unsigned char blue, unsigned radius)
-    {      
+    {
       unsigned radius_sqr = radius * radius;
       pcl::RGB color;
       for (color.rgba = 0; color.rgba < (1<<24); ++color.rgba)
@@ -205,9 +205,9 @@ main (int argc, char ** argv)
     if (bb >= 0 && bb < 256)
       blue = (unsigned char) bb;
   }
-  
+
   pcl::OpenNIGrabber grabber (arg);
-  
+
   if (grabber.providesCallback<pcl::OpenNIGrabber::sig_cb_openni_point_cloud_rgba> ())
   {
     OpenNIPassthrough<pcl::PointXYZRGBA> v (grabber, red, green, blue, radius);

@@ -231,7 +231,7 @@ __device__ Ncv32u d_outMaskPosition;
 __device__ void compactBlockWriteOutAnchorParallel(Ncv32u threadPassFlag, Ncv32u threadElem, Ncv32u *vectorOut)
 {
 #if __CUDA_ARCH__ >= 110
-    
+
     __shared__ Ncv32u shmem[NUM_THREADS_ANCHORSPARALLEL * 2];
     __shared__ Ncv32u numPassed;
     __shared__ Ncv32u outMaskOffset;

@@ -48,8 +48,8 @@ namespace pcl
 {
   namespace registration
   {
-    /** \brief Base warp point class. 
-      * 
+    /** \brief Base warp point class.
+      *
       * \note The class is templated on the source and target point types as well as on the output scalar of the transformation matrix (i.e., float or double). Default: float.
       * \author Radu B. Rusu
       * \ingroup registration
@@ -63,11 +63,11 @@ namespace pcl
 
         WarpPointRigid6D () : WarpPointRigid<PointSourceT, PointTargetT, Scalar> (6) {}
 
-        /** \brief Set warp parameters. 
-          * \note Assumes the quaternion parameters are normalized. 
+        /** \brief Set warp parameters.
+          * \note Assumes the quaternion parameters are normalized.
           * \param[in] p warp parameters (tx ty tz qx qy qz)
           */
-        virtual void 
+        virtual void
         setParam (const VectorX& p)
         {
           assert (p.rows () == this->getDimension ());

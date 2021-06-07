@@ -48,7 +48,7 @@ typedef uint32x4_t  Packet4ui;
   #define EIGEN_INIT_NEON_PACKET2(X, Y)       {X, Y}
   #define EIGEN_INIT_NEON_PACKET4(X, Y, Z, W) {X, Y, Z, W}
 #endif
-    
+
 #ifndef __pld
 #define __pld(x) asm volatile ( "   pld [%[addr]]\n" :: [addr] "r" (x) : "cc" );
 #endif
@@ -60,7 +60,7 @@ template<> struct packet_traits<float>  : default_packet_traits
     Vectorizable = 1,
     AlignedOnScalar = 1,
     size = 4,
-   
+
     HasDiv  = 1,
     // FIXME check the Has*
     HasSin  = 0,
@@ -414,7 +414,7 @@ PALIGN_NEON(0,Packet4i,vextq_s32)
 PALIGN_NEON(1,Packet4i,vextq_s32)
 PALIGN_NEON(2,Packet4i,vextq_s32)
 PALIGN_NEON(3,Packet4i,vextq_s32)
-    
+
 #undef PALIGN_NEON
 
 } // end namespace internal

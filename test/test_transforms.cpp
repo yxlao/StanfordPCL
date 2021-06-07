@@ -55,7 +55,7 @@ const float rho = sqrtf (2.0f) / 2.0f;  // cos(PI/4) == sin(PI/4)
 PointCloud<PointXYZ> cloud;
 sensor_msgs::PointCloud2 cloud_blob;
 
-void 
+void
 init ()
 {
   PointXYZ p0 (0, 0, 0);
@@ -239,28 +239,28 @@ TEST (PCL, Matrix4Affine3Transform)
   PointCloud<PointXYZ> c, ct;
   c.push_back (p);
   pcl::transformPointCloud (c, ct, affine);
-  EXPECT_FLOAT_EQ (pt.x, ct[0].x); 
-  EXPECT_FLOAT_EQ (pt.y, ct[0].y); 
-  EXPECT_FLOAT_EQ (pt.z, ct[0].z); 
+  EXPECT_FLOAT_EQ (pt.x, ct[0].x);
+  EXPECT_FLOAT_EQ (pt.y, ct[0].y);
+  EXPECT_FLOAT_EQ (pt.z, ct[0].z);
 
   pcl::transformPointCloud (c, ct, transformation);
-  EXPECT_FLOAT_EQ (pt.x, ct[0].x); 
-  EXPECT_FLOAT_EQ (pt.y, ct[0].y); 
-  EXPECT_FLOAT_EQ (pt.z, ct[0].z); 
+  EXPECT_FLOAT_EQ (pt.x, ct[0].x);
+  EXPECT_FLOAT_EQ (pt.y, ct[0].y);
+  EXPECT_FLOAT_EQ (pt.z, ct[0].z);
 
   affine = transformation;
 
   std::vector<int> indices (1); indices[0] = 0;
 
   pcl::transformPointCloud (c, indices, ct, affine);
-  EXPECT_FLOAT_EQ (pt.x, ct[0].x); 
-  EXPECT_FLOAT_EQ (pt.y, ct[0].y); 
-  EXPECT_FLOAT_EQ (pt.z, ct[0].z); 
+  EXPECT_FLOAT_EQ (pt.x, ct[0].x);
+  EXPECT_FLOAT_EQ (pt.y, ct[0].y);
+  EXPECT_FLOAT_EQ (pt.z, ct[0].z);
 
   pcl::transformPointCloud (c, indices, ct, transformation);
-  EXPECT_FLOAT_EQ (pt.x, ct[0].x); 
-  EXPECT_FLOAT_EQ (pt.y, ct[0].y); 
-  EXPECT_FLOAT_EQ (pt.z, ct[0].z); 
+  EXPECT_FLOAT_EQ (pt.x, ct[0].x);
+  EXPECT_FLOAT_EQ (pt.y, ct[0].y);
+  EXPECT_FLOAT_EQ (pt.z, ct[0].z);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -273,7 +273,7 @@ TEST (PCL, commonTransform)
   EXPECT_NEAR ((xaxistrans-xaxis).norm(), 0.0f,  1e-6);
   EXPECT_NEAR ((yaxistrans-yaxis).norm(), 0.0f,  1e-6);
   EXPECT_NEAR ((zaxistrans-zaxis).norm(), 0.0f,  1e-6);
-  
+
   trans = pcl::getTransFromUnitVectorsXY (xaxis, yaxis);
   xaxistrans=trans*xaxis, yaxistrans=trans*yaxis, zaxistrans=trans*zaxis;
   //std::cout << xaxistrans<<"\n"<<yaxistrans<<"\n"<<zaxistrans<<"\n";

@@ -81,10 +81,10 @@ namespace pcl
       , function_name_ (function_name)
       , line_number_ (line_number)
       {}
-      
+
       virtual ~PCLException () throw ()
       {}
-      
+
       const std::string&
       getFileName () const throw ()
       {
@@ -103,13 +103,13 @@ namespace pcl
         return line_number_;
       }
 
-      std::string 
+      std::string
       detailedMessage () const throw ()
       {
         std::stringstream sstream;
         if (function_name_ != "")
           sstream << function_name_ << " ";
-        
+
         if (file_name_ != "")
         {
           sstream << "in " << file_name_ << " ";
@@ -117,7 +117,7 @@ namespace pcl
             sstream << "@ " << line_number_ << " ";
         }
         sstream << ":" << what ();
-        
+
         return sstream.str ();
       }
 
@@ -205,7 +205,7 @@ namespace pcl
   class UnorganizedPointCloudException : public PCLException
   {
     public:
-    
+
       UnorganizedPointCloudException (const std::string& error_description,
                                       const std::string& file_name = "",
                                       const std::string& function_name = "" ,
@@ -219,7 +219,7 @@ namespace pcl
   class KernelWidthTooSmallException : public PCLException
   {
     public:
-    
+
     KernelWidthTooSmallException (const std::string& error_description,
                                   const std::string& file_name = "",
                                   const std::string& function_name = "" ,

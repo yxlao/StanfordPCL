@@ -59,7 +59,7 @@ class PCL_EXPORTS NarfKeypoint : public Keypoint<PointWithRange, int>
   public:
     // =====TYPEDEFS=====
     typedef Keypoint<PointWithRange, int> BaseClass;
-    
+
     typedef Keypoint<PointWithRange, int>::PointCloudOut PointCloudOut;
 
     // =====PUBLIC STRUCTS=====
@@ -73,7 +73,7 @@ class PCL_EXPORTS NarfKeypoint : public Keypoint<PointWithRange, int>
                      do_non_maximum_suppression(true), no_of_polynomial_approximations_per_point(0),
                      max_no_of_threads(1), use_recursive_scale_reduction(false),
                      calculate_sparse_interest_image(true) {}
-      
+
       float support_size;  //!< This defines the area 'covered' by an interest point (in meters)
       int max_no_of_interest_points;  //!< The maximum number of interest points that will be returned
       float min_distance_between_interest_points;  /**< Minimum distance between maximas
@@ -108,52 +108,52 @@ class PCL_EXPORTS NarfKeypoint : public Keypoint<PointWithRange, int>
       bool calculate_sparse_interest_image;  /**< Use some heuristics to decide which areas of the interest image
                                                   can be left out to improve the runtime. */
     };
-    
+
     // =====CONSTRUCTOR & DESTRUCTOR=====
     NarfKeypoint (RangeImageBorderExtractor* range_image_border_extractor=NULL, float support_size=-1.0f);
     ~NarfKeypoint ();
-    
+
     // =====PUBLIC METHODS=====
     //! Erase all data calculated for the current range image
     void
       clearData ();
-    
+
     //! Set the RangeImageBorderExtractor member (required)
     void
       setRangeImageBorderExtractor (RangeImageBorderExtractor* range_image_border_extractor);
-    
+
     //! Get the RangeImageBorderExtractor member
     RangeImageBorderExtractor*
       getRangeImageBorderExtractor ()  { return range_image_border_extractor_; }
-    
+
     //! Set the RangeImage member of the RangeImageBorderExtractor
     void
       setRangeImage (const RangeImage* range_image);
-    
+
     /** Extract interest value per image point */
     float*
       getInterestImage () { calculateInterestImage(); return interest_image_;}
-    
+
     //! Extract maxima from an interest image
     const ::pcl::PointCloud<InterestPoint>&
       getInterestPoints () { calculateInterestPoints(); return *interest_points_;}
-    
+
     //! Set all points in the image that are interest points to true, the rest to false
     const std::vector<bool>&
       getIsInterestPointImage () { calculateInterestPoints(); return is_interest_point_image_;}
-    
+
     //! Getter for the parameter struct
     Parameters&
       getParameters () { return parameters_;}
-    
+
     //! Getter for the range image of range_image_border_extractor_
     const RangeImage&
       getRangeImage ();
-    
+
     //! Overwrite the compute function of the base class
     void
       compute (PointCloudOut& output);
-    
+
   protected:
     // =====PROTECTED METHODS=====
     void
@@ -171,7 +171,7 @@ class PCL_EXPORTS NarfKeypoint : public Keypoint<PointWithRange, int>
     //! Detect key points
     virtual void
       detectKeypoints (PointCloudOut& output);
-    
+
     // =====PROTECTED MEMBER VARIABLES=====
     using BaseClass::name_;
     RangeImageBorderExtractor* range_image_border_extractor_;
@@ -184,7 +184,7 @@ class PCL_EXPORTS NarfKeypoint : public Keypoint<PointWithRange, int>
     std::vector<float*> interest_image_scale_space_;
 };
 
-/** 
+/**
   * \ingroup keypoints
   */
 inline std::ostream&

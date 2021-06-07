@@ -194,9 +194,9 @@ pcl::PyramidFeatureHistogram<PointFeature>::initializeHistogram ()
   {
     std::vector<size_t> bins_per_dimension (nr_dimensions);
     std::vector<float> bin_step (nr_dimensions);
-    for (size_t dim_i = 0; dim_i < nr_dimensions; ++dim_i) 
+    for (size_t dim_i = 0; dim_i < nr_dimensions; ++dim_i)
     {
-      bins_per_dimension[dim_i] = 
+      bins_per_dimension[dim_i] =
         static_cast<size_t> (ceilf ((dimension_range_target_[dim_i].second - dimension_range_target_[dim_i].first) / (powf (2.0f, static_cast<float> (level_i)) * sqrtf (static_cast<float> (nr_dimensions)))));
       bin_step[dim_i] = powf (2.0f, static_cast<float> (level_i)) * sqrtf (static_cast<float> (nr_dimensions));
     }

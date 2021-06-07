@@ -52,59 +52,59 @@ namespace pcl
     public:
       SanitizeCloudTool (PropertiesModel* parameter_model, QObject* parent);
       virtual ~SanitizeCloudTool ();
-      
+
       virtual QList <CloudComposerItem*>
       performAction (QList <const CloudComposerItem*> input_data, PointTypeFlags::PointType type = PointTypeFlags::NONE);
-      
+
       inline virtual QString
       getToolName () const { return "Sanitize Cloud Tool";}
       };
-      
-      
+
+
       class SanitizeCloudToolFactory : public QObject, public ToolFactory
       {
         Q_OBJECT
         Q_INTERFACES (pcl::cloud_composer::ToolFactory)
       public:
         ModifyItemTool*
-        createTool (PropertiesModel* parameter_model, QObject* parent = 0) 
+        createTool (PropertiesModel* parameter_model, QObject* parent = 0)
         {
           return new SanitizeCloudTool(parameter_model, parent);
         }
-        
+
         PropertiesModel*
         createToolParameterModel (QObject* parent);
-        
-        inline virtual QString 
+
+        inline virtual QString
         getPluginName () const { return "Sanitize Cloud";}
-        
-        virtual QString 
+
+        virtual QString
         getToolGroupName () const { return "Filters";}
-        
+
         virtual QString
         getIconName () const { return ":/sanitize_cloud.png"; }
-        
+
         inline virtual CloudComposerItem::ItemType
         getInputItemType () const
         {
           return CloudComposerItem::CLOUD_ITEM;
         }
-        
+
         inline virtual QList <CloudComposerItem::ItemType>
-        getRequiredInputChildrenTypes () const 
+        getRequiredInputChildrenTypes () const
         {
           return QList <CloudComposerItem::ItemType> ();
         }
       };
-      
-      
-      
+
+
+
     }
   }
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
   #endif //SANITIZE_CLOUD_H_

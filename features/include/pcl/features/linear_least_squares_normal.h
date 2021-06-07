@@ -76,16 +76,16 @@ namespace pcl
     /** \brief Destructor */
     virtual ~LinearLeastSquaresNormalEstimation ();
 
-    /** \brief Computes the normal at the specified position. 
+    /** \brief Computes the normal at the specified position.
       * \param pos_x x position (pixel)
       * \param pos_y y position (pixel)
-      * \param normal the output estimated normal 
+      * \param normal the output estimated normal
       */
     void
     computePointNormal (const int pos_x, const int pos_y, PointOutT &normal);
 
     /** \brief Set the normal smoothing size
-      * \param normal_smoothing_size factor which influences the size of the area used to smooth normals 
+      * \param normal_smoothing_size factor which influences the size of the area used to smooth normals
       * (depth dependent if useDepthDependentSmoothing is true)
       */
     void
@@ -104,10 +104,10 @@ namespace pcl
     }
 
     /** \brief The depth change threshold for computing object borders
-      * \param max_depth_change_factor the depth change threshold for computing object borders based on 
+      * \param max_depth_change_factor the depth change threshold for computing object borders based on
       * depth changes
       */
-    void 
+    void
     setMaxDepthChangeFactor (float max_depth_change_factor)
     {
       max_depth_change_factor_ = max_depth_change_factor;
@@ -116,18 +116,18 @@ namespace pcl
     /** \brief Provide a pointer to the input dataset (overwrites the PCLBase::setInputCloud method)
       * \param cloud the const boost shared pointer to a PointCloud message
       */
-    virtual inline void 
-    setInputCloud (const typename PointCloudIn::ConstPtr &cloud) 
-    { 
-      input_ = cloud; 
+    virtual inline void
+    setInputCloud (const typename PointCloudIn::ConstPtr &cloud)
+    {
+      input_ = cloud;
     }
 
   protected:
 
-    /** \brief Computes the normal for the complete cloud. 
+    /** \brief Computes the normal for the complete cloud.
       * \param output the resultant normals
       */
-    void 
+    void
     computeFeature (PointCloudOut &output);
 
   private:
@@ -145,12 +145,12 @@ namespace pcl
     float normal_smoothing_size_;
 
     /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from outside the class
-      * \param[out] output the output point cloud 
+      * \param[out] output the output point cloud
       */
-    void 
+    void
     computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &) {}
   };
 }
 
-#endif 
+#endif
 

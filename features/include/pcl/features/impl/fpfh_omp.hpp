@@ -53,9 +53,9 @@ pcl::FPFHEstimationOMP<PointInT, PointNT, PointOutT>::computeFeature (PointCloud
   // (We need an SPFH signature for every point that is a neighbor of any point in input_[indices_])
   if (surface_ != input_ ||
       indices_->size () != surface_->points.size ())
-  { 
+  {
     std::vector<int> nn_indices (k_); // \note These resizes are irrelevant for a radiusSearch ().
-    std::vector<float> nn_dists (k_); 
+    std::vector<float> nn_dists (k_);
 
     std::set<int> spfh_indices_set;
     for (size_t idx = 0; idx < indices_->size (); ++idx)
@@ -63,7 +63,7 @@ pcl::FPFHEstimationOMP<PointInT, PointNT, PointOutT>::computeFeature (PointCloud
       int p_idx = (*indices_)[idx];
       if (this->searchForNeighbors (p_idx, search_parameter_, nn_indices, nn_dists) == 0)
         continue;
-      
+
       spfh_indices_set.insert (nn_indices.begin (), nn_indices.end ());
     }
     spfh_indices_vec.resize (spfh_indices_set.size ());
@@ -84,7 +84,7 @@ pcl::FPFHEstimationOMP<PointInT, PointNT, PointOutT>::computeFeature (PointCloud
   hist_f3_.setZero (data_size, nr_bins_f3_);
 
   std::vector<int> nn_indices (k_); // \note These resizes are irrelevant for a radiusSearch ().
-  std::vector<float> nn_dists (k_); 
+  std::vector<float> nn_dists (k_);
 
   // Compute SPFH signatures for every point that needs them
 
@@ -125,13 +125,13 @@ pcl::FPFHEstimationOMP<PointInT, PointNT, PointOutT>::computeFeature (PointCloud
     {
       for (int d = 0; d < nr_bins; ++d)
         output.points[idx].histogram[d] = std::numeric_limits<float>::quiet_NaN ();
-  
+
       output.is_dense = false;
       continue;
     }
 
 
-    // ... and remap the nn_indices values so that they represent row indices in the spfh_hist_* matrices 
+    // ... and remap the nn_indices values so that they represent row indices in the spfh_hist_* matrices
     // instead of indices into surface_->points
     for (size_t i = 0; i < nn_indices.size (); ++i)
       nn_indices[i] = spfh_hist_lookup[nn_indices[i]];
@@ -149,5 +149,5 @@ pcl::FPFHEstimationOMP<PointInT, PointNT, PointOutT>::computeFeature (PointCloud
 
 #define PCL_INSTANTIATE_FPFHEstimationOMP(T,NT,OutT) template class PCL_EXPORTS pcl::FPFHEstimationOMP<T,NT,OutT>;
 
-#endif    // PCL_FEATURES_IMPL_FPFH_OMP_H_ 
+#endif    // PCL_FEATURES_IMPL_FPFH_OMP_H_
 

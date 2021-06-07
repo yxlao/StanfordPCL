@@ -120,7 +120,7 @@ namespace pcl
     struct OccupiedVoxels : public CubeIndexEstimator
     {
       enum
-      {        
+      {
         CTA_SIZE_X = 32,
         CTA_SIZE_Y = 8,
         CTA_SIZE = CTA_SIZE_X * CTA_SIZE_Y,
@@ -146,8 +146,8 @@ namespace pcl
 #if __CUDA_ARCH__ >= 120
         if (__all (x >= VOLUME_X) || __all (y >= VOLUME_Y))
           return;
-#else        
-        if (Emulation::All(x >= VOLUME_X, cta_buffer) || 
+#else
+        if (Emulation::All(x >= VOLUME_X, cta_buffer) ||
             Emulation::All(y >= VOLUME_Y, cta_buffer))
             return;
 #endif
@@ -186,7 +186,7 @@ namespace pcl
 
 #if __CUDA_ARCH__ >= 200
           int offs = Warp::binaryExclScan (__ballot (numVerts > 0));
-#else          
+#else
           int offs = Warp::binaryExclScan(Emulation::Ballot(numVerts > 0, cta_buffer));
 #endif
 
@@ -218,7 +218,7 @@ namespace pcl
             blocks_done = 0;
             global_count = 0;
           }
-        } 
+        }
       } /* operator () */
     };
     __global__ void getOccupiedVoxelsKernel (const OccupiedVoxels ov) { ov (); }
@@ -305,7 +305,7 @@ namespace pcl
 
       __device__ __forceinline__ float3
       vertex_interp (float3 p0, float3 p1, float f0, float f1) const
-      {        
+      {
         float t = (isoValue() - f0) / (f1 - f0 + 1e-15f);
         float x = p0.x + t * (p1.x - p0.x);
         float y = p0.y + t * (p1.y - p0.y);
@@ -318,7 +318,7 @@ namespace pcl
       {
         int tid = threadIdx.x;
         int idx = (blockIdx.y * MAX_GRID_SIZE_X + blockIdx.x) * CTA_SIZE + tid;
-      
+
 
         if (idx >= voxels_count)
           return;
@@ -391,13 +391,13 @@ namespace pcl
 
 void
 pcl::device::generateTriangles (const PtrStep<short2>& volume, const DeviceArray2D<int>& occupied_voxels, const float3& volume_size, DeviceArray<PointType>& output)
-{   
+{
   int device;
   cudaSafeCall( cudaGetDevice(&device) );
 
   cudaDeviceProp prop;
   cudaSafeCall( cudaGetDeviceProperties(&prop, device) );
-  
+
   int block_size = prop.major < 2 ? 96 : 256; // please see TrianglesGenerator::CTA_SIZE
 
   typedef TrianglesGenerator Tg;

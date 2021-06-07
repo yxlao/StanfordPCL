@@ -39,7 +39,7 @@
 #include <pcl/io/pcd_io.h>
 #include <pcl/apps/vfh_nn_classifier.h>
 
-int 
+int
 main (int, char* argv[])
 {
   // Load input file

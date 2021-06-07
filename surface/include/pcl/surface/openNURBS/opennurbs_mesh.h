@@ -48,7 +48,7 @@ public:
     Parameters that create render meshes where meshing
     speed is prefered over mesh quality.
   */
-  static 
+  static
   const ON_MeshParameters FastRenderMesh;
 
   /*
@@ -56,7 +56,7 @@ public:
     Parameters that create render meshes where mesh quality
     is prefered over meshing speed.
   */
-  static 
+  static
   const ON_MeshParameters QualityRenderMesh;
 
   /*
@@ -64,7 +64,7 @@ public:
     Get a value to use for tolerance based on the relative_tolerance
     and actual size.
   Parameters:
-    relative_tolerance - [in] 
+    relative_tolerance - [in]
       See m_relative_tolerance field
     actual_size - [in]
       Diagonal ov object bounding box or some similar measure of
@@ -81,7 +81,7 @@ public:
     Get a value to use for minimum edge length base on max_edge_length
     and tolerance settings.
   Parameters:
-    max_edge_length - [in] 
+    max_edge_length - [in]
       3d maximum edge length used to create mesh.
     tolerance - [in]
       3d distance tolerance used to create mesh.
@@ -96,17 +96,17 @@ public:
   ~ON_MeshParameters();
   // C++ default works fine // ON_MeshParameters(const ON_MeshParameters& );
   // C++ default works fine // ON_MeshParameters& operator=(const ON_MeshParameters&);
- 
+
   bool operator!=(const ON_MeshParameters&) const;
   bool operator==(const ON_MeshParameters&) const;
 
   // compares with mesh's mesh parameters
   bool operator==(const ON_Mesh&) const;
   bool operator!=(const ON_Mesh&) const;
-  
+
   void Dump( ON_TextLog& test_log ) const;
 
-  void Default(); 
+  void Default();
 
   /*
   Description:
@@ -149,7 +149,7 @@ public:
   /*
   Description:
     Compares all meshing parameters that control mesh geometry.
-    Does not compare m_bCustomSettings, m_bComputeCurvature, 
+    Does not compare m_bCustomSettings, m_bComputeCurvature,
     m_bDoublePrecision, m_min_tolerance, and m_texture_range.
   */
   int CompareGeometrySettings( const ON_MeshParameters& ) const;
@@ -164,7 +164,7 @@ public:
   // rectangular grid.  The second stage refines the grid until
   // the mesh meets all meshing requirements.  The third stage
   // combines coincident vertices if the resulting mesh is a composite.
-  
+
   bool m_bCustomSettings;    // false - if these settings were used to create
                              //         a mesh and the app settings don't match,
                              //         then remesh the object using the app
@@ -185,56 +185,56 @@ public:
   bool m_bRefine;            // false - skip stage 2
                              // true  - (default) do stage 2
 
-  bool m_bJaggedSeams;       // false - (default) edges of meshes of joined 
+  bool m_bJaggedSeams;       // false - (default) edges of meshes of joined
                              //          b-rep faces match with no gaps or
                              //          "T" joints.
                              // true   - faces in b-reps are meshed independently.
                              //          This is faster but results in gaps and
                              //          "T" joints along seams between faces.
 
-  bool m_bDoublePrecision;   // false - (default) the mesh vertices will be 
+  bool m_bDoublePrecision;   // false - (default) the mesh vertices will be
                              //         float precision values in the m_V[] array.
                              // true -  The mesh vertices will be double precision
                              //         values in the DoublePrecisionVertices()
                              //         array.  Float precision values will also
                              //         be returned in the m_V[] array.
   bool m_bCustomSettingsEnabled; // false - if these settings should be ignored
-                             //         when used as per object custom render mesh 
+                             //         when used as per object custom render mesh
                              //         settings.
                              //  true - ignore these settings.
   unsigned char m_mesher;    // 0 = slow mesher, 1 = fast mesher
-    
+
   int m_texture_range;       // 1: normalized
                              //
-                             //          each face has a normalized texture range 
+                             //          each face has a normalized texture range
                              //          [0,1]x[0,1].
                              //
                              // 2: packed normalized (default)
                              //
                              //          each face in a polysurface is assigned
-                             //          a texture range that is a subrectangle 
-                             //          of [0,1]x[0,1].  The subrectangles are 
+                             //          a texture range that is a subrectangle
+                             //          of [0,1]x[0,1].  The subrectangles are
                              //          mutually disjoint and packed into
                              //          into [0,1]x[0,1] in a way that minimizes
                              //          distortion and maximizes the coverage
-                             //          of [0,1]x[0,1].  (This texture style 
-                             //          is suitable for creating texture maps 
+                             //          of [0,1]x[0,1].  (This texture style
+                             //          is suitable for creating texture maps
                              //          with popular 3D painting programs.)
 
 private:
   unsigned int m_reserved2;
 public:
-                           
+
   // These controls are used in both stages
 
   double m_tolerance; // maximum distance from center of edge to surface
 
-        
-  double m_relative_tolerance; // If 0 < m_relative_tolerance < 1, 
+
+  double m_relative_tolerance; // If 0 < m_relative_tolerance < 1,
   double m_min_tolerance;      // then the maximum distance from the
                                // center of an edge to the surface will
                                // be <= T, where T is the larger of
-                               // (m_min_tolerance,d*m_relative_tolerance), 
+                               // (m_min_tolerance,d*m_relative_tolerance),
                                // where d is an esimate of the size of the
                                // object being meshed.
 
@@ -284,7 +284,7 @@ public:
 
   void Destroy();
   void EmergencyDestroy();
-  
+
   bool Set( ON::curvature_style,
             int,           // Kcount,
             const ON_SurfaceCurvature*, // K[]
@@ -296,7 +296,7 @@ public:
   bool Read( ON_BinaryArchive& );
 
   ON::curvature_style m_style;
-  
+
   double m_infinity; // curvature values >= this are considered infinite
                      // and not used to compute the m_average or m_adev
   int    m_count_infinite; // number of "infinte" values
@@ -315,18 +315,18 @@ public:
 
 struct ON_MeshTopologyVertex
 {
-  // m_tope_count = number of topological edges that begin or 
+  // m_tope_count = number of topological edges that begin or
   // end at this topological vertex.
   int m_tope_count;
 
-  // m_topei[] is an array of length m_tope_count with the indices 
+  // m_topei[] is an array of length m_tope_count with the indices
   // of the topological edges that begin or end at this topological
   // vertex.  Generally, these edges are listed in no particular
   // order.  If you want the edges listed "radially", then call
   // ON_MeshTopology::SortVertexEdges.
   const int* m_topei;
 
-  // m_v_count = number of ON_Mesh vertices that correspond to 
+  // m_v_count = number of ON_Mesh vertices that correspond to
   // this topological vertex.
   int m_v_count;
 
@@ -337,7 +337,7 @@ struct ON_MeshTopologyVertex
 
 struct ON_MeshTopologyEdge
 {
-  // m_topvi[] = indices of the topological verteices where the 
+  // m_topvi[] = indices of the topological verteices where the
   // edge begins and ends.
   int m_topvi[2];
 
@@ -355,7 +355,7 @@ struct ON_CLASS ON_MeshTopologyFace
     m_topei[] = indices of the topological edges that bound the face.
     If m_topei[2] = m_topei[3], then the face is a triangle, otherwise
     the face is a quad.
- 
+
     NOTE WELL:
       The topological edge with index m_topei[k] ENDS at the
       vertex corresponding to ON_MeshFace.vi[k]. So, ...
@@ -369,7 +369,7 @@ struct ON_CLASS ON_MeshTopologyFace
       ON_MeshFace.vi[1] and ENDS at ON_MeshFace.vi[2], and
       the topological edge with index m_topei[3] STARTS at
       ON_MeshFace.vi[0] and ENDS at ON_MeshFace.vi[1],
-      
+
       If the face is a triangle, (ON_MeshFace.vi[2]==ON_MeshFace.vi[3]),
       the topological edge with index m_topei[0] STARTS at
       ON_MeshFace.vi[2] and ENDS at ON_MeshFace.vi[0],
@@ -389,8 +389,8 @@ struct ON_CLASS ON_MeshTopologyFace
 
   /*
   Description:
-    A topological mesh face is a valid triangle if m_topei[0], 
-    m_topei[1], m_topei[2] are distinct edges and 
+    A topological mesh face is a valid triangle if m_topei[0],
+    m_topei[1], m_topei[2] are distinct edges and
     m_topei[3]=m_topei[2].
   Returns:
     True if face is a triangle.
@@ -399,7 +399,7 @@ struct ON_CLASS ON_MeshTopologyFace
 
   /*
   Description:
-    A topological mesh face is a valid quad if m_topei[0], 
+    A topological mesh face is a valid quad if m_topei[0],
     m_topei[1], m_topei[2], and m_topei[3] are distinct edges.
   Returns:
     True if face is a quad.
@@ -408,8 +408,8 @@ struct ON_CLASS ON_MeshTopologyFace
 
   /*
   Description:
-    A topological mesh face is valid if m_topei[0], m_topei[1], 
-    and m_topei[2] are mutually distinct, and m_topei[3] is 
+    A topological mesh face is valid if m_topei[0], m_topei[1],
+    and m_topei[2] are mutually distinct, and m_topei[3] is
     either equal to m_topei[2] or mutually distinct from the
     first three indices.
   Returns:
@@ -455,7 +455,7 @@ public:
       The face is not valid. It may be possible to repair the
       face by calling ON_MeshFace::Repair().
   */
-  bool IsValid( 
+  bool IsValid(
         int mesh_vertex_count
         ) const;
   bool IsValid(
@@ -477,7 +477,7 @@ public:
   /*
   Description:
     If IsValid() returns false, then you can use Repair()
-    to attempt to create a valid triangle. 
+    to attempt to create a valid triangle.
   Parameters:
     mesh_vertex_count - [in]
       number of vertices in the mesh
@@ -488,7 +488,7 @@ public:
      repair was successful and v[0], v[1], vi[2] have distinct valid
      values and v[2] == v[3].
     false
-     this face's vi[] values cannot be repaired    
+     this face's vi[] values cannot be repaired
   */
   bool Repair(
         int mesh_vertex_count
@@ -525,9 +525,9 @@ Remarks:
   The function is thread safe.
 */
 ON_DECL
-void ON_SortMeshFaceSidesByVertexIndex( 
-        int sides_count, 
-        struct ON_MeshFaceSide* sides 
+void ON_SortMeshFaceSidesByVertexIndex(
+        int sides_count,
+        struct ON_MeshFaceSide* sides
         );
 
 struct ON_MeshPart
@@ -542,7 +542,7 @@ struct ON_MeshPart
 
 #if defined(ON_DLL_TEMPLATE)
 // This stuff is here because of a limitation in the way Microsoft
-// handles templates and DLLs.  See Microsoft's knowledge base 
+// handles templates and DLLs.  See Microsoft's knowledge base
 // article ID Q168958 for details.
 #pragma warning( push )
 #pragma warning( disable : 4231 )
@@ -577,7 +577,7 @@ public:
   //////////
   // number of topoligical edges
   int TopEdgeCount() const;
-  
+
   //////////
   // number of topoligical faces (same as m_mesh.FaceCount())
   int TopFaceCount() const;
@@ -681,7 +681,7 @@ public:
 
   /*
   Description:
-    Sort the m_topei[] list of every mesh topology vertex so 
+    Sort the m_topei[] list of every mesh topology vertex so
     that the edges are in radial order.  The "const" is a white
     lie to make this function easier to call.
   Remarks:
@@ -693,7 +693,7 @@ public:
 
   /*
   Description:
-    Returns true if the topological vertex is hidden. 
+    Returns true if the topological vertex is hidden.
   Parameters:
     topvi - [in] mesh topology vertex index.
   Returns:
@@ -706,7 +706,7 @@ public:
 
   /*
   Description:
-    Returns true if the topological edge is hidden. 
+    Returns true if the topological edge is hidden.
   Parameters:
     topei - [in] mesh topology edge index.
   Returns:
@@ -719,7 +719,7 @@ public:
 
   /*
   Description:
-    Returns true if the topological face is hidden. 
+    Returns true if the topological face is hidden.
   Parameters:
     topfi - [in] mesh topology face index.
   Returns:
@@ -731,7 +731,7 @@ public:
   bool TopFaceIsHidden( int topfi ) const;
 
   //////////
-  // m_topv_map[] has length m_mesh.VertexCount() and 
+  // m_topv_map[] has length m_mesh.VertexCount() and
   // m_topv[m_topv_map[vi]] is the topological mesh vertex that is assocated
   // the with the mesh vertex m_mesh.m_V[vi].
   ON_SimpleArray<int> m_topv_map;
@@ -750,8 +750,8 @@ public:
   // Array of topological mesh faces.  The topological face
   // m_topf[fi] corresponds to the mesh face ON_Mesh.m_F[fi].
   // See the comments in the definition of ON_MeshTopologyFace
-  // for details. To get the indices of the mesh topology 
-  // vertices at the face corners use 
+  // for details. To get the indices of the mesh topology
+  // vertices at the face corners use
   // topvi = m_topv_map[m_mesh.m_F[fi].vi[n]]
   ON_SimpleArray<ON_MeshTopologyFace> m_topf;
 
@@ -800,7 +800,7 @@ struct ON_MeshNgon
   // An array of N indices into the mesh's m_V[] vertex array.
   // If the ON_MeshNgon is returned by the ON_MeshNgonList::AddNgon()
   // function, then the memory for vi is managed by the ON_MeshNgonList
-  // class.  
+  // class.
   int* vi;
 
   // N-gon face indices
@@ -808,7 +808,7 @@ struct ON_MeshNgon
   // Often, only N-2 indices are used. Unused indices are set to -1.
   // If the ON_MeshNgon is returned by the ON_MeshNgonList::AddNgon()
   // function, then the memory for fi is managed by the ON_MeshNgonList
-  // class.  
+  // class.
   int* fi;
 };
 
@@ -888,10 +888,10 @@ public:
   // maximum number of triangles in a partition (quads count as 2 triangles)
   int m_partition_max_triangle_count;
 
-  // Partition i uses 
-  // vertices m_V[j] where 
+  // Partition i uses
+  // vertices m_V[j] where
   //
-  //   m_part[i].vi[0] <= j < m_part[i].vi[1] 
+  //   m_part[i].vi[0] <= j < m_part[i].vi[1]
   //
   // and uses faces m_F[k] where
   //
@@ -934,14 +934,14 @@ public:
   */
   bool IsDefaultSurfaceParameterMapping() const;
 
-  // Identifies the mapping used to create the texture 
-  // coordinates and records transformations applied 
+  // Identifies the mapping used to create the texture
+  // coordinates and records transformations applied
   // to the mesh after the texture coordinates were
   // calculated.  If the texture mapping does not
-  // change when the mesh is transformed, then set 
+  // change when the mesh is transformed, then set
   // m_mesh_xform to zero so that compares will work right.
   //
-  // 
+  //
   ON_UUID                 m_mapping_id;   // ON_TextureMapping::m_mapping_id
   ON_TextureMapping::TYPE m_mapping_type; // ON_TextureMapping::m_type
   ON__UINT32              m_mapping_crc;  // ON_TextureMapping::MappingCRC()
@@ -961,7 +961,7 @@ public:
 
 #if defined(ON_DLL_TEMPLATE)
 // This stuff is here because of a limitation in the way Microsoft
-// handles templates and DLLs.  See Microsoft's knowledge base 
+// handles templates and DLLs.  See Microsoft's knowledge base
 // article ID Q168958 for details.
 #pragma warning( push )
 #pragma warning( disable : 4231 )
@@ -994,11 +994,11 @@ public:
 
   void Destroy();
   void EmergencyDestroy(); // Call only when memory used by this class's
-                           // members will soon become invalid for reasons 
+                           // members will soon become invalid for reasons
                            // beyond your control. EmergencyDestroy() zeros
                            // anything that could possibly cause
                            // ~ON_Mesh() to crash.  Calling
-                           // EmergencyDestroy() under normal conditions 
+                           // EmergencyDestroy() under normal conditions
                            // will result in ~ON_Mesh() leaking
                            // memory.
 
@@ -1023,9 +1023,9 @@ public:
     text_log - [in] if the object is not valid and text_log
         is not NULL, then a brief englis description of the
         reason the object is not valid is appened to the log.
-        The information appended to text_log is suitable for 
-        low-level debugging purposes by programmers and is 
-        not intended to be useful as a high level user 
+        The information appended to text_log is suitable for
+        low-level debugging purposes by programmers and is
+        not intended to be useful as a high level user
         interface tool.
   Returns:
     @untitled table
@@ -1062,22 +1062,22 @@ public:
 		tight_bbox - [in/out] tight bounding box
 		bGrowBox -[in]	(default=false)			
       If true and the input tight_bbox is valid, then returned
-      tight_bbox is the union of the input tight_bbox and the 
+      tight_bbox is the union of the input tight_bbox and the
       mesh's tight bounding box.
 		xform -[in] (default=NULL)
       If not NULL, the tight bounding box of the transformed
       mesh is calculated.  The mesh is not modified.
 	Returns:
-    True if the returned tight_bbox is set to a valid 
+    True if the returned tight_bbox is set to a valid
     bounding box.
   */
-	bool GetTightBoundingBox( 
-			ON_BoundingBox& tight_bbox, 
+	bool GetTightBoundingBox(
+			ON_BoundingBox& tight_bbox,
       int bGrowBox = false,
 			const ON_Xform* xform = 0
       ) const;
 
-  ON_BOOL32 Transform( 
+  ON_BOOL32 Transform(
          const ON_Xform&
          );
 
@@ -1097,7 +1097,7 @@ public:
 
   /////////////////////////////////////////////////////////////////
   // Interface
-  // 
+  //
 
   // creation
   bool SetVertex(
@@ -1178,7 +1178,7 @@ public:
     ON_Mesh::EdgeRef
     ON_Mesh::FaceRef
   */
-  ON_Geometry* MeshComponent( 
+  ON_Geometry* MeshComponent(
       ON_COMPONENT_INDEX ci
       ) const;
 
@@ -1201,18 +1201,18 @@ public:
   */
   int HiddenVertexCount() const;
 
-  bool GetCurvatureStats( 
-         ON::curvature_style, 
-         ON_MeshCurvatureStats& 
+  bool GetCurvatureStats(
+         ON::curvature_style,
+         ON_MeshCurvatureStats&
          ) const;
 
-  void InvalidateVertexBoundingBox(); // Call if defining geometry is changed by 
+  void InvalidateVertexBoundingBox(); // Call if defining geometry is changed by
                              // directly manipulating the m_V[] array.
-  void InvalidateVertexNormalBoundingBox(); // Call if defining geometry is changed by 
+  void InvalidateVertexNormalBoundingBox(); // Call if defining geometry is changed by
                              // directly manipulating the m_N[] array.
-  void InvalidateTextureCoordinateBoundingBox(); // Call if defining geometry is changed by 
+  void InvalidateTextureCoordinateBoundingBox(); // Call if defining geometry is changed by
                              // directly manipulating the m_T[] array.
-  void InvalidateCurvatureStats(); // Call if defining geometry is changed by 
+  void InvalidateCurvatureStats(); // Call if defining geometry is changed by
                              // directly manipulating the m_T[] array.
   void InvalidateBoundingBoxes(); // Invalidates all cached bounding box information.
 
@@ -1227,7 +1227,7 @@ public:
   const ON_MeshParameters* MeshParameters() const;
   void DeleteMeshParameters();
 
-  
+
   bool UnitizeVertexNormals();
   bool UnitizeFaceNormals();
   bool CountQuads();
@@ -1272,11 +1272,11 @@ public:
       will be appended to the clashing_pairs[] array.
     clashing_pairs - [out]
       The faces indices of clashing pairs are appended
-      to this array. 
+      to this array.
   Returns:
     Number of pairs appended to clashing_pairs[].
   */
-  int GetClashingFacePairs( 
+  int GetClashingFacePairs(
     int max_pair_count,
     ON_SimpleArray< ON_2dex >& clashing_pairs
     ) const;
@@ -1314,7 +1314,7 @@ public:
   bool Compact();
 
   bool ComputeVertexNormals();    // uses face normals to cook up a vertex normal
-  
+
   //////////
   // Scales textures so the texture domains are [0,1] and
   // eliminates any texture rotations.
@@ -1327,7 +1327,7 @@ public:
 	//			true  -  success
 	bool TransposeTextureCoordinates();
 	bool TransposeSurfaceParameters();
- 
+
 	/////////
 	// Description:
 	//		Reverse one coordinate direction of the texture coordinates, within texture domain m_tex_domain
@@ -1338,7 +1338,7 @@ public:
 	//			true  -  success
 	bool ReverseTextureCoordinates( int dir );
 	bool ReverseSurfaceParameters( int dir );
- 
+
 
 
   /*
@@ -1358,7 +1358,7 @@ public:
   See Also:
     ON_TextureMapping::GetTextureCoordinates
   */
-  bool SetTextureCoordinates( 
+  bool SetTextureCoordinates(
           const class ON_TextureMapping& mapping,
 					const class ON_Xform* mesh_xform = 0,
           bool bLazy = true
@@ -1366,11 +1366,11 @@ public:
 
   bool HasCachedTextureCoordinates() const;
 
-  const ON_TextureCoordinates* CachedTextureCoordinates( 
-          const ON_UUID& mapping_id 
+  const ON_TextureCoordinates* CachedTextureCoordinates(
+          const ON_UUID& mapping_id
           ) const;
 
-  const ON_TextureCoordinates* SetCachedTextureCoordinates( 
+  const ON_TextureCoordinates* SetCachedTextureCoordinates(
           const class ON_TextureMapping& mapping,
 					const class ON_Xform* mesh_xform = 0,
           bool bLazy = true
@@ -1380,7 +1380,7 @@ public:
                                                   // to set mesh geometry
 
   // finds all coincident vertices and merges them if break angle is small enough
-  bool CombineCoincidentVertices( 
+  bool CombineCoincidentVertices(
           ON_3fVector, // coordinate tols for considering vertices
                        // to be coincident
           double  // cosine normal angle tolerance in radians
@@ -1421,16 +1421,16 @@ public:
       array of meshes to append.
   */
   void Append( int count, const ON_Mesh* const* meshes );
-  
+
   /*
   Description:
-    Expert user function to set m_is_closed member.  
-    Setting this value correctly after a mesh is constructed 
+    Expert user function to set m_is_closed member.
+    Setting this value correctly after a mesh is constructed
     can save time when IsClosed() is called.
     This function sets the private member variable m_is_closed.
   Paramters:
     closed - [in]
-      0: The mesh is not closed.  There is at least one face with an 
+      0: The mesh is not closed.  There is at least one face with an
          edge that is geometrically distinct (as an unoriented line segment)
          from all other edges.
       1: The mesh is closed.  Every geometrically distict edge is used
@@ -1486,8 +1486,8 @@ public:
 
   /*
   Description:
-    Expert user function to set m_is_solid member.  
-    Setting this value correctly after a mesh is constructed 
+    Expert user function to set m_is_solid member.
+    Setting this value correctly after a mesh is constructed
     can save time when IsSolid() is called.
     This function sets the private member variable m_is_solid.
     If solid is nonzero, it will set m_is_closed to 1.
@@ -1536,7 +1536,7 @@ public:
     tolerance - [in] >= 0.0
       3d distance tolerance used for ray-mesh intersection
       and determining strict inclusion.
-    bStrictlyInside - [in] 
+    bStrictlyInside - [in]
       If bStrictlyInside is true, then test_point must be inside mesh
       by at least tolerance in order for this function to return
       true. If bStrictlyInside is false, then this function will return
@@ -1552,7 +1552,7 @@ public:
     ON_Mesh::IsSolid()
   */
   bool IsPointInside(
-          ON_3dPoint test_point, 
+          ON_3dPoint test_point,
           double tolerance,
           bool bStrictlyInside
           ) const;
@@ -1584,9 +1584,9 @@ public:
   Returns:
     Number of ON_2dex values appended to the edges[] array.
   */
-  int GetVertexEdges( 
+  int GetVertexEdges(
     int vcount,
-    const int* vertex_index, 
+    const int* vertex_index,
     bool bNoDuplicates,
     ON_SimpleArray<ON_2dex>& edges
     ) const;
@@ -1602,7 +1602,7 @@ public:
   Returns:
     Number of ON_2dex values appended to the edges[] array.
   */
-  int GetMeshEdges( 
+  int GetMeshEdges(
     ON_SimpleArray<ON_2dex>& edges
     ) const;
 
@@ -1632,9 +1632,9 @@ public:
     The maximum vertex id is Vid[Vindex[m_V.Count()-1]].  The number of
     unique vertex locations is (Vid[Vindex[m_V.Count()-1]] - first_vid + 1).
   */
-  int* GetVertexLocationIds( 
-    int first_vid, 
-    int* Vid, 
+  int* GetVertexLocationIds(
+    int first_vid,
+    int* Vid,
     int* Vindex
     ) const;
 
@@ -1649,24 +1649,24 @@ public:
       The value Vid[mesh m_V[] index] will be used to set the
       ON_MeshFaceSide::vi[] values.
     sides - [out]
-      If the input value of sides is not null, then sides[] must be long 
+      If the input value of sides is not null, then sides[] must be long
       enough to hold the returned side list.  The maximum posssible length
       is 4*FaceCount() for a mesh contining FaceCount() nondegenerate quads.
       If the input value of sides is null, memory will be allocated using
       onmalloc() and the caller is responsible for calling onfree() at an
       appropriate time.  This function fills in the sides[] array
       with face side information.  The returned list is sorted by sides[].fi
-      and the sides[].side and each element has vi[0] <= vi[1].  
-      The function ON_SortMeshFaceSidesByVertexIndex() can be used to sort the 
+      and the sides[].side and each element has vi[0] <= vi[1].
+      The function ON_SortMeshFaceSidesByVertexIndex() can be used to sort the
       list by the sides[].vi[] values.
   Returns:
     Number of elements added to sides[].
   Remarks:
-    Faces with out of range ON_MeshFace.vi[] values are skipped. 
+    Faces with out of range ON_MeshFace.vi[] values are skipped.
     Degenerate faces are processed, but degenerate sides (equal vertex indices)
     are not added to the list.
   */
-  int GetMeshFaceSideList( 
+  int GetMeshFaceSideList(
       const int* Vid,
       struct ON_MeshFaceSide*& sides
       ) const;
@@ -1677,10 +1677,10 @@ public:
     Get a list of the geometrically uniqued edges in a mesh.
   Parameters:
     edge_list - [out]
-      The edge list for this mesh is appended to edge_list[].  
+      The edge list for this mesh is appended to edge_list[].
       The ON_2dex i and j values are mesh->m_V[] array indices.
       There is exactly one element in edge_list[] for each
-      unoriented 3d line segment in the mesh. The edges are 
+      unoriented 3d line segment in the mesh. The edges are
       oriented the same way the corresponding ON_MeshTopology
       edge is oriented.
     ci_meshtop_edge_map - [out]
@@ -1710,7 +1710,7 @@ public:
       * If edge_type_partition[2] <= ei < edge_type_partition[3], then
         edge_list[ei] is an edge of 3 or more faces. These are also called
         "nonmanifold edges".
-      * If edge_type_partition[3] <= ei < edge_type_partition[4], 
+      * If edge_type_partition[3] <= ei < edge_type_partition[4],
         then edge_list[ei] is a boundary edge of exactly one mesh face.
         These are also called "naked edges".
   Returns:
@@ -1720,22 +1720,22 @@ public:
     m_V or m_F information after calling this function, be sure to
     clear m_is_closed.
   */
-  int GetMeshEdgeList( 
-      ON_SimpleArray<ON_2dex>& edge_list, 
-      int edge_type_partition[5] 
+  int GetMeshEdgeList(
+      ON_SimpleArray<ON_2dex>& edge_list,
+      int edge_type_partition[5]
       ) const;
 
-  int GetMeshEdgeList( 
-      ON_SimpleArray<ON_2dex>& edge_list, 
+  int GetMeshEdgeList(
+      ON_SimpleArray<ON_2dex>& edge_list,
       ON_SimpleArray<int>& ci_meshtop_edge_map,
-      int edge_type_partition[5] 
+      int edge_type_partition[5]
       ) const;
 
-  int GetMeshEdgeList( 
-      ON_SimpleArray<ON_2dex>& edge_list, 
+  int GetMeshEdgeList(
+      ON_SimpleArray<ON_2dex>& edge_list,
       ON_SimpleArray<int>& ci_meshtop_edge_map,
       ON_SimpleArray<int>& ci_meshtop_vertex_map,
-      int edge_type_partition[5] 
+      int edge_type_partition[5]
       ) const;
 
   ///////////////////////////////////////////////////////////////////////
@@ -1852,7 +1852,7 @@ public:
   //
   // In order to keep the mesh facet definition simple and make the mesh
   // definition easily used in common rendering application, if two facets
-  // share a vertex location but have different normals, curvatures, 
+  // share a vertex location but have different normals, curvatures,
   // textures, etc., at that common vertex location, then the vertex is
   // duplicated.  When the topology of the mesh needs to be known,
   // use Topology() to get a class that provides complete topological
@@ -1885,7 +1885,7 @@ public:
   // provided to partition the mesh into subsets of vertices and faces
   // that those renering engines could handle.
   //
-  const ON_MeshPartition* CreatePartition( 
+  const ON_MeshPartition* CreatePartition(
                 int, // maximum number of vertices in a partition
                 int  // maximum number of triangles in a partition
                 );
@@ -1908,9 +1908,9 @@ public:
     then the caller must delete this mesh when it is no longer needed.
     If the input is invalid, then null is returned.
   */
-  ON_Mesh* MeshPart( 
+  ON_Mesh* MeshPart(
     const ON_MeshPart& mesh_part,
-    ON_Mesh* mesh 
+    ON_Mesh* mesh
     ) const;
 
   /*
@@ -1922,17 +1922,17 @@ public:
     then the caller must delete this mesh when it is no longer needed.
     If the input is invalid, then null is returned.
   */
-  ON_Mesh* DuplicateFace( 
+  ON_Mesh* DuplicateFace(
     int face_index,
-    ON_Mesh* mesh 
+    ON_Mesh* mesh
     ) const;
 
   ///////////////////////////////////////////////////////////////////////
   //
-  // mesh N-gon lists.  
+  // mesh N-gon lists.
   //   ON_Mesh objects support faces that are triangle or quads.
   //   When a mesh is created from a format that supports N-gons
-  //   for N larger than 4, an optional N-gon list can be added 
+  //   for N larger than 4, an optional N-gon list can be added
   //   that specifies the vertices and faces that make up the N-gon.
   //
 
@@ -1961,9 +1961,9 @@ public:
   void DestroyNgonList();
 
   /////////////////////////////////////////////////////////////////
-  // 
+  //
   // Double precision vertex support
-  // 
+  //
 
   /*
   Returns:
@@ -1978,12 +1978,12 @@ public:
   Remarks:
     This function returns true if a mesh has double
     precision vertex information, even if it is not
-    updated. 
-    
+    updated.
+
     Use ON_Mesh::DoublePrecisionVerticesAreValid()
-    and ON_Mesh::SinglePrecisionVerticesAreValid() to 
-    check the validity.  
-    
+    and ON_Mesh::SinglePrecisionVerticesAreValid() to
+    check the validity.
+
     Use ON_Mesh::UpdateDoublePrecisionVertices()
     or ON_Mesh::UpdateSinglePrecisionVertices() to synchronize
     values of single and double precision vertices.
@@ -2021,7 +2021,7 @@ public:
   /*
   Description:
     If you have modified the single precision vertices
-    and are certain they are valid, then call this 
+    and are certain they are valid, then call this
     function to update crc information.
   Remarks:
     If double precision vertices are not present, this function
@@ -2032,7 +2032,7 @@ public:
   /*
   Description:
     If you have modified the double precision vertices
-    and are certain they are valid, then call this 
+    and are certain they are valid, then call this
     function to update crc information.
   Remarks:
     If double precision vertices are not present, this function
@@ -2042,8 +2042,8 @@ public:
 
   /*
   Description:
-    The functions UpdateSinglePrecisionVertices(), 
-    UpdateDoublePrecisionVertices(), and 
+    The functions UpdateSinglePrecisionVertices(),
+    UpdateDoublePrecisionVertices(), and
     SetSinglePrecisionVerticesAsValid() save
     the count and crc of the single precision vertex
     array. True is returned if there are no
@@ -2058,8 +2058,8 @@ public:
 
   /*
   Description:
-    The functions UpdateSinglePrecisionVertices(), 
-    UpdateDoublePrecisionVertices(), and 
+    The functions UpdateSinglePrecisionVertices(),
+    UpdateDoublePrecisionVertices(), and
     SetDoublePrecisionVerticesAsValid() save
     the count and crc of the double precision vertex
     array. True is returned if the current
@@ -2095,7 +2095,7 @@ public:
   Returns:
     Array of double precision vertices.  If you modify the
     values in this array, you must make the same modifications
-    to the single precision vertices, or call 
+    to the single precision vertices, or call
     UpdateSinglePrecisonVertices().
   Example:
 
@@ -2109,10 +2109,10 @@ public:
           // in m_V[] and sets all the counts and CRCs that
           // are used in validity checking.
           mesh.UpdateSinglePrecisonVertices();
-    
+
   Remarks:
     Avoid mulitple calls to DoublePrecisionVertices().
-    It is most efficient to make one call, save a local 
+    It is most efficient to make one call, save a local
     reference, and use the local reference as needed.
   */
   ON_3dPointArray& DoublePrecisionVertices();
@@ -2124,7 +2124,7 @@ public:
   Returns:
     Array of float precision vertices.  If you modify the
     values in this array, you must make the same modifications
-    to the double precision vertices, or call 
+    to the double precision vertices, or call
     UpdateSinglePrecisonVertices().
   */
   ON_3fPointArray& SinglePrecisionVertices();
@@ -2156,13 +2156,13 @@ public:
   ON_SimpleArray<ON_MeshFace> m_F;
 
   // m_N[] OPTIONAL vertex unit normals
-  // If m_N[] is empty or m_N.Count() != m_V.Count(), 
+  // If m_N[] is empty or m_N.Count() != m_V.Count(),
   // Either m_N[] has zero count or it m_N[j] is the
   // the unit vertex normal at m_V[j].
   ON_3fVectorArray m_N;
 
   // m_FN[] OPTIONAL face unit normals
-  // If m_FN[] is empty or m_FN.Count() != m_F.Count(), 
+  // If m_FN[] is empty or m_FN.Count() != m_F.Count(),
   // then m_FN is ignored.  Otherwise m_FN[j] is the
   // unit normal for the facet m_F[j].
   ON_3fVectorArray m_FN;
@@ -2181,33 +2181,33 @@ public:
   // RUNTIME ONLY
   //   This array is used to cache texture coordinates used by
   //   rendering applications that require 1d texture coordinates,
-  //   3d texture coordinates, or multiple sets of texture 
+  //   3d texture coordinates, or multiple sets of texture
   //   coordinates (e.g. blended textures with different mappings).
-  //   Users are responsible for verifying 
+  //   Users are responsible for verifying
   //   m_TC[i].m_T.Count() = m_V.Count()
-  ON_ClassArray<ON_TextureCoordinates> m_TC;  
+  ON_ClassArray<ON_TextureCoordinates> m_TC;
 
   // If m_T.Count() == m_V.Count(), then the mesh has texture coordinates
   // and m_T[j] is the texture coordinate for vertex m_V[j].
   //
   // When opennurbs or Rhino meshes an ON_Surface or ON_Brep, the texture
-  // coordinates have a "canonical" linear relationship with the surface 
-  // parameters that is described in the next section.  However, various 
-  // mappings, spherical, planar, cylindrical, etc., can be applied that 
+  // coordinates have a "canonical" linear relationship with the surface
+  // parameters that is described in the next section.  However, various
+  // mappings, spherical, planar, cylindrical, etc., can be applied that
   // change the values of the texture coordinates.
   //
-  // If a texture mapping function was used to set the m_T[] values, 
+  // If a texture mapping function was used to set the m_T[] values,
   // then the id and serial number of the mapping function is saved
   // in m_mapping_id and m_mapping_sn. The intended use of these fields
-  // is to make it easy to avoid unnecessary recalculation.  
-  // If a mesh is modified, then m_mapping_id should be set to nil 
+  // is to make it easy to avoid unnecessary recalculation.
+  // If a mesh is modified, then m_mapping_id should be set to nil
   // and m_mapping_crc should be set to 0.
   //
   /////////////////////////////////////////////////////////////////
 
 
   /////////////////////////////////////////////////////////////////
-  // Implementation - surface parameters and packed texture 
+  // Implementation - surface parameters and packed texture
   // information
   //
   // If m_S.Count() == m_V.Count(), then the mesh is a tesselation
@@ -2215,11 +2215,11 @@ public:
   // m_V[j].  Storing values in m_S[] is OPTIONAL.
   //
   // If m_srf_scale[] has positive values, then they report
-  // the world coordinate size of a rectangle that would 
+  // the world coordinate size of a rectangle that would
   // minimize texture distortion if it were mapped to the
   // mesh using normalized surface evaluation parameters.
-  // This information is used to calculate high quality 
-  // packed texture coordinates.  
+  // This information is used to calculate high quality
+  // packed texture coordinates.
   ON_2dPointArray m_S;
   ON_Interval m_srf_domain[2]; // surface evaluation domain.
   double m_srf_scale[2];
@@ -2227,17 +2227,17 @@ public:
 
   // Packed texture information.
   //
-  // If either of the m_packed_tex_domain[] intervals is a 
-  // proper subinterval of (0,1), then a texture packing 
+  // If either of the m_packed_tex_domain[] intervals is a
+  // proper subinterval of (0,1), then a texture packing
   // calculation assigned this subrectangle to this mesh.
 
   ON_Interval m_packed_tex_domain[2];
 
   // The m_packed_tex_rotate setting is valid only when
-  // m_S, m_srf_domain, m_packed_scale[] and 
+  // m_S, m_srf_domain, m_packed_scale[] and
   // m_packed_tex_domain[] are all valid and the texture
   // coordinates are based on surface evaluation parameters.
-  // In this special situation, this boolean records the 
+  // In this special situation, this boolean records the
   // correspondence between the the surface parameters, (u,v),
   // and the packed texture coordinates, (s,t),
   //
@@ -2294,7 +2294,7 @@ public:
   // Implementation - runtime vertex visibility - not saved in 3dm files.
   ON_SimpleArray<bool> m_H; // OPTIONAL vertex visibility.
                             // If m_H.Count() = m_V.Count(), then
-                            // m_H[vi] is true if the vertex m_V[vi] 
+                            // m_H[vi] is true if the vertex m_V[vi]
                             // is hidden.  Otherwise, all vertices are visible.
   int m_hidden_count;       // number of vertices that are hidden
                             // = number of true values in m_H[] array.
@@ -2320,7 +2320,7 @@ protected:
   int                         m_triangle_count;
 
 private:
-  char m_mesh_is_closed;   // 0 = unset, 1 = all edges have 2 or more faces, 2 = at least one boundary edge 
+  char m_mesh_is_closed;   // 0 = unset, 1 = all edges have 2 or more faces, 2 = at least one boundary edge
   char m_mesh_is_manifold; // 0 = unset, 1 = all edges have 1 or 2 faces, 2 = not manifold
   char m_mesh_is_oriented; // 0 = unset, 1 = faces normals agree across all edges that have 2 faces, 2 = not oriented
   char m_mesh_is_solid;    // 0 = unset, 1 = solid with outward face normals, 2 = solid with inward face normals, 3 = not solid
@@ -2328,7 +2328,7 @@ private:
 protected:
   // The bounding boxes are valid if m_?box[0][0] <= m_?box[0][1];
   float m_vbox[2][3]; // 3d bounding box of all referenced vertices
-  float m_nbox[2][3]; // 3d bounding box of all referenced unit normals 
+  float m_nbox[2][3]; // 3d bounding box of all referenced unit normals
                       // (for estimation of Gauss map bounds)
   float m_tbox[2][2]; // 2d bounding box of all referenced texture coordinates
   ON_MeshCurvatureStats* m_kstat[4]; // gaussian,mean,min,max,sectionx,sectiony,sectionz
@@ -2359,13 +2359,13 @@ public:
 
   // parent mesh
   const ON_Mesh* m_mesh;
-  
+
   // m_mesh->m_V[] index
   // (can be -1 when m_top_vi references a shared vertex location)
-  int m_mesh_vi; 
-  
+  int m_mesh_vi;
+
   // m_mesh->m_top.m_tope[] index
-  int m_top_vi; 
+  int m_top_vi;
 
 
   /*
@@ -2373,8 +2373,8 @@ public:
     Override of the virtual ON_Geometry::ComponentIndex().
   Returns:
     A component index for the vertex.  The type of the returned
-    component index can be 
-    ON_COMPONENT_INDEX::mesh_vertex, 
+    component index can be
+    ON_COMPONENT_INDEX::mesh_vertex,
     ON_COMPONENT_INDEX::meshtop_vertex, or
     ON_COMPONENT_INDEX::invalid_type.
   */
@@ -2382,7 +2382,7 @@ public:
 
   /*
   Returns:
-    The mesh topology associated with this 
+    The mesh topology associated with this
     mesh vertex reference or NULL if it doesn't
     exist.
   */
@@ -2391,14 +2391,14 @@ public:
   /*
   Returns:
     The 3d location of the mesh vertex.  Returns
-    ON_UNSET_POINT is this ON_MeshVertexRef is not 
+    ON_UNSET_POINT is this ON_MeshVertexRef is not
     valid.
   */
   ON_3dPoint Point() const;
 
   /*
   Returns:
-    The mesh topology vertex associated with this 
+    The mesh topology vertex associated with this
     mesh vertex reference.
   */
   const ON_MeshTopologyVertex* MeshTopologyVertex() const;
@@ -2416,7 +2416,7 @@ public:
          double* boxmax,
          int bGrowBox = false
          ) const;
-  ON_BOOL32 Transform( 
+  ON_BOOL32 Transform(
          const ON_Xform& xform
          );
 };
@@ -2431,9 +2431,9 @@ public:
 
   // parent mesh
   const ON_Mesh* m_mesh;
-  
+
   // m_mesh->m_top.m_tope[] index
-  int m_top_ei; 
+  int m_top_ei;
 
   /*
   Description:
@@ -2447,7 +2447,7 @@ public:
 
   /*
   Returns:
-    The mesh topology associated with this 
+    The mesh topology associated with this
     mesh edge reference or NULL if it doesn't
     exist.
   */
@@ -2463,7 +2463,7 @@ public:
 
   /*
   Returns:
-    The mesh topology edge associated with this 
+    The mesh topology edge associated with this
     mesh edge reference.
   */
   const ON_MeshTopologyEdge* MeshTopologyEdge() const;
@@ -2481,7 +2481,7 @@ public:
          double* boxmax,
          int bGrowBox = false
          ) const;
-  ON_BOOL32 Transform( 
+  ON_BOOL32 Transform(
          const ON_Xform& xform
          );
 };
@@ -2498,7 +2498,7 @@ public:
   const ON_Mesh* m_mesh;
 
   // m_mesh->m_F[] and m_mesh->m_top.m_tope[] index.
-  int m_mesh_fi; 
+  int m_mesh_fi;
 
   /*
   Description:
@@ -2512,7 +2512,7 @@ public:
 
   /*
   Returns:
-    The mesh topology associated with this 
+    The mesh topology associated with this
     mesh face reference or NULL if it doesn't
     exist.
   */
@@ -2526,7 +2526,7 @@ public:
 
   /*
   Returns:
-    The mesh topology face associated with this 
+    The mesh topology face associated with this
     mesh face reference.
   */
   const ON_MeshTopologyFace* MeshTopologyFace() const;
@@ -2544,7 +2544,7 @@ public:
          double* boxmax,
          int bGrowBox = false
          ) const;
-  ON_BOOL32 Transform( 
+  ON_BOOL32 Transform(
          const ON_Xform& xform
          );
 };
@@ -2565,8 +2565,8 @@ Returns:
   if the surface could not be meshed.
 */
 ON_DECL
-ON_Mesh* ON_MeshSurface( 
-            const ON_Surface& surface, 
+ON_Mesh* ON_MeshSurface(
+            const ON_Surface& surface,
             int mesh_density = 0,
             ON_Mesh* mesh = 0
             );
@@ -2588,8 +2588,8 @@ Returns:
   if the surface could not be meshed.
 */
 ON_DECL
-ON_Mesh* ON_MeshSurface( 
-            const ON_Surface& surface, 
+ON_Mesh* ON_MeshSurface(
+            const ON_Surface& surface,
             int u_count,
             const double* u,
             int v_count,
@@ -2599,7 +2599,7 @@ ON_Mesh* ON_MeshSurface(
 
 /*
 Description:
-  Finds the barycentric coordinates of the point on a 
+  Finds the barycentric coordinates of the point on a
   triangle that is closest to P.
 Parameters:
   A - [in] triangle corner
@@ -2610,10 +2610,10 @@ Parameters:
   b - [out] barycentric coordinate
   c - [out] barycentric coordinate
         If ON_ClosestPointToTriangle() returns true, then
-        (*a)*A + (*b)*B + (*c)*C is the point on the 
-        triangle's plane that is closest to P.  It is 
+        (*a)*A + (*b)*B + (*c)*C is the point on the
+        triangle's plane that is closest to P.  It is
         always the case that *a + *b + *c = 1, but this
-        function will return negative barycentric 
+        function will return negative barycentric
         coordinate if the point on the plane is not
         inside the triangle.
 Returns:
@@ -2622,7 +2622,7 @@ Returns:
   closest point is the input point that is closest to P.
 */
 ON_DECL
-bool ON_ClosestPointToTriangle( 
+bool ON_ClosestPointToTriangle(
         ON_3dPoint A, ON_3dPoint B, ON_3dPoint C,
         ON_3dPoint P,
         double* a, double* b, double* c
@@ -2630,7 +2630,7 @@ bool ON_ClosestPointToTriangle(
 
 /*
 Description:
-  Finds the barycentric coordinates of the point on a 
+  Finds the barycentric coordinates of the point on a
   triangle that is closest to P.
 Parameters:
   A - [in] triangle corner
@@ -2641,10 +2641,10 @@ Parameters:
   b - [out] barycentric coordinate
   c - [out] barycentric coordinate
         If ON_ClosestPointToTriangle() returns true, then
-        (*a)*A + (*b)*B + (*c)*C is the point on the 
-        triangle's plane that is closest to P.  It is 
+        (*a)*A + (*b)*B + (*c)*C is the point on the
+        triangle's plane that is closest to P.  It is
         always the case that *a + *b + *c = 1, but this
-        function will return negative barycentric 
+        function will return negative barycentric
         coordinate if the point on the plane is not
         inside the triangle.
 Returns:
@@ -2653,10 +2653,10 @@ Returns:
   closest point is the input point that is closest to P.
 */
 ON_DECL
-bool ON_ClosestPointToTriangleFast( 
-          const ON_3dPoint& A, 
-          const ON_3dPoint& B, 
-          const ON_3dPoint& C, 
+bool ON_ClosestPointToTriangleFast(
+          const ON_3dPoint& A,
+          const ON_3dPoint& B,
+          const ON_3dPoint& C,
           ON_3dPoint P,
           double* a, double* b, double* c
           );
@@ -2672,13 +2672,13 @@ Parameters:
   b - [out] barycentric coordinates for triangle B
 
         If ON_ClosestPointBetweenTriangles() returns true, then
-        (a[0])*A[0] + (a[1])*A[1] + (a[2])*A[2] is the point on  
+        (a[0])*A[0] + (a[1])*A[1] + (a[2])*A[2] is the point on
         triangle A and  (b[0])*B[0] + (b[1])*B[1] + (b[2])*B[2] is
-        the point on triangle B.  It is 
+        the point on triangle B.  It is
         always the case that a[0]+a[1]+a[2] = 1, a[0]>=0, a[1]>0, a[2]>0,
         b[0]+b[1]+b[2] = 1, b[0]>=0, b[1]>0, b[2]>0
 Returns:
-  True if successful.  
+  True if successful.
 */
 ON_DECL
 bool ON_ClosestPointBetweenTriangles(const ON_3dPoint A[3],
@@ -2698,16 +2698,16 @@ Parameters:
   q - [out] barycentric coordinates for Quad
 
         If ON_ClosestPointBetweenTriangleAndQuad() returns true, then
-        (t[0])*Tri[0] + (t[1])*Tri[1] + (t[2])*Tri[2] is the point on  
+        (t[0])*Tri[0] + (t[1])*Tri[1] + (t[2])*Tri[2] is the point on
         Tri and  (q[0])*Quad[0] + (q[1])*Quad[1] + (q[2])*Quad[2] + (q[3])*Quad[3] is
-        the point on Quad.  It is 
+        the point on Quad.  It is
         always the case that t[0]+t[1]+t[2] = 1, t[0]>=0, t[1]>0, t[2]>0,
         q[0]+q[1]+q[2]+q[3] = 1, q[0]>=0, q[1]>0, q[2]>0, q[3].
-        The surface of Quad is defined to be the two triangle surfaces, 
+        The surface of Quad is defined to be the two triangle surfaces,
         <Quad[0], Quad[1], Quad[2]> and <Quad[2], Quad[3], Quad[0]>.  It will always be
         the case that either q[1]=0 or q[3]=0.
 Returns:
-  True if successful.  
+  True if successful.
 */
 ON_DECL
 bool ON_ClosestPointBetweenTriangleAndQuad(const ON_3dPoint Tri[3],
@@ -2727,16 +2727,16 @@ Parameters:
   b - [out] barycentric coordinates for quad B
 
         If ON_ClosestPointBetweenQuads() returns true, then
-        (a[0])*A[0] + (a[1])*A[1] + (a[2])*A[2] + (a[3])*A[3] is the point on  
+        (a[0])*A[0] + (a[1])*A[1] + (a[2])*A[2] + (a[3])*A[3] is the point on
         quad A and  (b[0])*B[0] + (b[1])*B[1] + (b[2])*B[2] + (b[3])*B[3] is
-        the point on quad B.  It is 
+        the point on quad B.  It is
         always the case that a[0]+a[1]+a[2]+a[3] = 1, a[0]>=0, a[1]>0, a[2]>0, a[3]>0.
         b[0]+b[1]+b[2]+b[3] = 1, b[0]>=0, b[1]>0, b[2]>0, b[3]>0
-        The surface of Quad is defined to be the two triangle surfaces, 
+        The surface of Quad is defined to be the two triangle surfaces,
         <Quad[0], Quad[1], Quad[2]> and <Quad[2], Quad[3], Quad[0]>.  It will always be
         the case that either q[1]=0 or q[3]=0.
 Returns:
-  True if successful.  
+  True if successful.
 */
 ON_DECL
 bool ON_ClosestPointBetweenQuads(const ON_3dPoint A[4],
@@ -2754,14 +2754,14 @@ Parameters:
                     up to be triangles. Surfaces with singular
                     sides are a common source of degenerate qauds.
   input_mesh - [in] If NULL, then the returned mesh is created
-       by a class to new ON_Mesh().  If not null, then this 
+       by a class to new ON_Mesh().  If not null, then this
        mesh will be used to store the conrol polygon.
 Returns:
   If successful, a pointer to a mesh.
 */
 ON_DECL
-ON_Mesh* ON_ControlPolygonMesh( 
-          const ON_NurbsSurface& nurbs_surface, 
+ON_Mesh* ON_ControlPolygonMesh(
+          const ON_NurbsSurface& nurbs_surface,
           bool bCleanMesh,
           ON_Mesh* input_mesh = NULL
           );
@@ -2775,7 +2775,7 @@ Parameters:
   C - [in] triangle corner
   P - [in] start of line segment
   Q - [in] end of line segment
-  abc - [out] 
+  abc - [out]
      barycentric coordinates of intersection point(s)
   t - [out] line coordinate of intersection point(s)
 Returns:
@@ -2790,7 +2790,7 @@ int ON_LineTriangleIntersect(
         const ON_3dPoint& C,
         const ON_3dPoint& P,
         const ON_3dPoint& Q,
-        double abc[2][3], 
+        double abc[2][3],
         double t[2],
         double tol
         );
@@ -2851,14 +2851,14 @@ Description:
 Parameters:
   point_count - [in] number of points in polygon ( >= 3 )
   point_stride - [in]
-  P - [in] 
+  P - [in]
     i-th point = (P[i*point_stride], P[i*point_stride+1])
   tri_stride - [in]
   triangle - [out]
     array of (point_count-2)*tri_stride integers
 Returns:
-  True if successful.  In this case, the polygon is trianglulated into 
-  point_count-2 triangles.  The indices of the 3 points that are the 
+  True if successful.  In this case, the polygon is trianglulated into
+  point_count-2 triangles.  The indices of the 3 points that are the
   corner of the i-th (0<= i < point_count-2) triangle are
     (triangle[i*tri_stride], triangle[i*tri_stride+1], triangle[i*tri_stride+2]).
 Remarks:
@@ -2866,12 +2866,12 @@ Remarks:
   a point count of 3 and P will specify 3 distinct non-collinear points.
 */
 ON_DECL
-bool ON_Mesh2dPolygon( 
+bool ON_Mesh2dPolygon(
           int point_count,
           int point_stride,
           const double* P,
           int tri_stride,
-          int* triangle 
+          int* triangle
           );
 
 /*
@@ -2894,7 +2894,7 @@ Parameters:
                    triangles.  1 = left side only, 2 = right side only, 3 = both sides
   triangles - [out]  triangles are appended to this list.  The (i,j,k) are
                      vertex indices.
-  new_points - [out] 
+  new_points - [out]
     If this paramter is present and the edges intersect, then a point is
     created at the intersection. The index used in the triangles to
     reference the point new_points[i] is (point_count+i).
@@ -2917,34 +2917,34 @@ int ON_Mesh2dRegion(
 Description:
   Fill in a 2d region with triangles.
 Parameters:
-  point_count - [in] 
+  point_count - [in]
     number of 2d points.
-  point_stride - [in] 
+  point_stride - [in]
     i-th point = (point[j],point[j+1]), where j = i*point_stride.
-  point - [in] 
-    2d point locations.  It is ok to include points that are inside 
-    the region but not at the end of an edge.  
+  point - [in]
+    2d point locations.  It is ok to include points that are inside
+    the region but not at the end of an edge.
     Duplicate points are not permitted.
-  edge_count - [in] 
+  edge_count - [in]
     number of edges (if 0, then the input list of point
     is treated as closed polyline.
-  edge_stride - [in] 
+  edge_stride - [in]
     i-th edge connects points (edge[j],edge[j+1]) where j = i*edge_stride.
-  edge - [in] 
+  edge - [in]
     indices of edge ends. If any edges intersect, then the intersection point is
     returned in new_points[].
   edge_side_stride - [in]
     i-th edge_side value is edge_side[i*edge_side_stride].
-    If the edge_side values are contant, you can set edge_side_stride = 0 
+    If the edge_side values are contant, you can set edge_side_stride = 0
     and pass the address of an unsigned char for edge_side.
-  edge_side - [in] 
+  edge_side - [in]
     If not null, then edge[i] determines which side(s) of the edge needs
     triangles.  1 = left side only, 2 = right side only, 3 = both sides
     If null, then the both sides of interior edges get triangles.
-  triangles - [out]  
+  triangles - [out]
     triangles are appended to this list.  The (i,j,k) are
     vertex indices.
-  new_points - [out] 
+  new_points - [out]
     If this paramter is present and the edges intersect, then a point is
     created at the intersection. The index used in the triangles to
     reference the point new_points[i] is (point_count+i).

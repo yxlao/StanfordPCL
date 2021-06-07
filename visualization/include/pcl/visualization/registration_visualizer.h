@@ -58,7 +58,7 @@ namespace pcl
 
     public:
       /** \brief Empty constructor. */
-      RegistrationVisualizer () : 
+      RegistrationVisualizer () :
         viewer_ (),
         viewer_thread_ (),
         registration_method_name_ (),

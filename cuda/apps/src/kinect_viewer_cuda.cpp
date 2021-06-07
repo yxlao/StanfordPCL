@@ -58,7 +58,7 @@ class KinectViewerCuda
     {
       PointCloudAOS<Device>::Ptr data;
     	{
-        pcl::cuda::ScopeTimeCPU t ("time:");    
+        pcl::cuda::ScopeTimeCPU t ("time:");
         d2c.compute<Device> (depth_image, image, constant, data, downsample_);
       }
 
@@ -68,7 +68,7 @@ class KinectViewerCuda
       viewer.showCloud (output);
 
     }
-    
+
     void run (const std::string& device_id)
     {
       pcl::Grabber* interface = new pcl::OpenNIGrabber(device_id);
@@ -79,7 +79,7 @@ class KinectViewerCuda
       boost::signals2::connection c = interface->registerCallback (f);
 
       interface->start ();
-      
+
       while (true)
       {
         pcl_sleep (1);

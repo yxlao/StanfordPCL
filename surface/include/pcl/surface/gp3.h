@@ -68,8 +68,8 @@ namespace pcl
     * \param R 2D coorddinate of the reference point (defaults to 0,0)
     * \ingroup surface
     */
-  inline bool 
-  isVisible (const Eigen::Vector2f &X, const Eigen::Vector2f &S1, const Eigen::Vector2f &S2, 
+  inline bool
+  isVisible (const Eigen::Vector2f &X, const Eigen::Vector2f &S1, const Eigen::Vector2f &S2,
              const Eigen::Vector2f &R = Eigen::Vector2f::Zero ())
   {
     double a0 = S1[1] - S2[1];
@@ -125,12 +125,12 @@ namespace pcl
         return (x >= S2[0]) || (x <= S1[0]);
       else if (S1[1] > S2[1])
         return (y <= S2[1]) || (y >= S1[1]);
-      else if (S1[1] < S2[1])                                                                                                                     
+      else if (S1[1] < S2[1])
         return (y >= S2[1]) || (y <= S1[1]);
       else
         return false;
     }
-  }  
+  }
 
   /** \brief GreedyProjectionTriangulation is an implementation of a greedy triangulation algorithm for 3D points
     * based on local 2D projections. It assumes locally smooth surfaces and relatively smooth transitions between
@@ -153,26 +153,26 @@ namespace pcl
       typedef typename PointCloudIn::Ptr PointCloudInPtr;
       typedef typename PointCloudIn::ConstPtr PointCloudInConstPtr;
 
-      // FIXME this enum should have a type.  Not be anonymous. 
+      // FIXME this enum should have a type.  Not be anonymous.
       // Otherplaces where consts are used probably should be fixed.
-      enum 
-      { 
+      enum
+      {
         NONE = -1,    // not-defined
-        FREE = 0,    
-        FRINGE = 1,  
+        FREE = 0,
+        FRINGE = 1,
         BOUNDARY = 2,
         COMPLETED = 3
       };
-    
+
       /** \brief Empty constructor. */
-      GreedyProjectionTriangulation () : 
-        mu_ (0), 
+      GreedyProjectionTriangulation () :
+        mu_ (0),
         search_radius_ (0), // must be set by user
         nnn_ (100),
         minimum_angle_ (M_PI/18), // 10 degrees
         maximum_angle_ (2*M_PI/3), // 120 degrees
         eps_angle_(M_PI/4), //45 degrees,
-        consistent_(false), 
+        consistent_(false),
         consistent_ordering_ (false),
         triangle_ (),
         coords_ (),
@@ -208,54 +208,54 @@ namespace pcl
        *  (this will make the algorithm adapt to different point densities in the cloud).
         * \param[in] mu the multiplier
         */
-      inline void 
+      inline void
       setMu (double mu) { mu_ = mu; }
 
       /** \brief Get the nearest neighbor distance multiplier. */
-      inline double 
+      inline double
       getMu () { return (mu_); }
 
       /** \brief Set the maximum number of nearest neighbors to be searched for.
         * \param[in] nnn the maximum number of nearest neighbors
         */
-      inline void 
+      inline void
       setMaximumNearestNeighbors (int nnn) { nnn_ = nnn; }
 
       /** \brief Get the maximum number of nearest neighbors to be searched for. */
-      inline int 
+      inline int
       getMaximumNearestNeighbors () { return (nnn_); }
 
       /** \brief Set the sphere radius that is to be used for determining the k-nearest neighbors used for triangulating.
         * \param[in] radius the sphere radius that is to contain all k-nearest neighbors
         * \note This distance limits the maximum edge length!
         */
-      inline void 
+      inline void
       setSearchRadius (double radius) { search_radius_ = radius; }
 
       /** \brief Get the sphere radius used for determining the k-nearest neighbors. */
-      inline double 
+      inline double
       getSearchRadius () { return (search_radius_); }
 
       /** \brief Set the minimum angle each triangle should have.
         * \param[in] minimum_angle the minimum angle each triangle should have
         * \note As this is a greedy approach, this will have to be violated from time to time
         */
-      inline void 
+      inline void
       setMinimumAngle (double minimum_angle) { minimum_angle_ = minimum_angle; }
 
       /** \brief Get the parameter for distance based weighting of neighbors. */
-      inline double 
+      inline double
       getMinimumAngle () { return (minimum_angle_); }
 
       /** \brief Set the maximum angle each triangle can have.
         * \param[in] maximum_angle the maximum angle each triangle can have
         * \note For best results, its value should be around 120 degrees
         */
-      inline void 
+      inline void
       setMaximumAngle (double maximum_angle) { maximum_angle_ = maximum_angle; }
 
       /** \brief Get the parameter for distance based weighting of neighbors. */
-      inline double 
+      inline double
       getMaximumAngle () { return (maximum_angle_); }
 
       /** \brief Don't consider points for triangulation if their normal deviates more than this value from the query point's normal.
@@ -263,44 +263,44 @@ namespace pcl
         * \note As normal estimation methods usually give smooth transitions at sharp edges, this ensures correct triangulation
         *       by avoiding connecting points from one side to points from the other through forcing the use of the edge points.
         */
-      inline void 
+      inline void
       setMaximumSurfaceAngle (double eps_angle) { eps_angle_ = eps_angle; }
 
       /** \brief Get the maximum surface angle. */
-      inline double 
+      inline double
       getMaximumSurfaceAngle () { return (eps_angle_); }
 
       /** \brief Set the flag if the input normals are oriented consistently.
         * \param[in] consistent set it to true if the normals are consistently oriented
         */
-      inline void 
+      inline void
       setNormalConsistency (bool consistent) { consistent_ = consistent; }
 
       /** \brief Get the flag for consistently oriented normals. */
-      inline bool 
+      inline bool
       getNormalConsistency () { return (consistent_); }
 
       /** \brief Set the flag to order the resulting triangle vertices consistently (positive direction around normal).
         * @note Assumes consistently oriented normals (towards the viewpoint) -- see setNormalConsistency ()
         * \param[in] consistent_ordering set it to true if triangle vertices should be ordered consistently
         */
-      inline void 
+      inline void
       setConsistentVertexOrdering (bool consistent_ordering) { consistent_ordering_ = consistent_ordering; }
 
       /** \brief Get the flag signaling consistently ordered triangle vertices. */
-      inline bool 
+      inline bool
       getConsistentVertexOrdering () { return (consistent_ordering_); }
 
       /** \brief Get the state of each point after reconstruction.
         * \note Options are defined as constants: FREE, FRINGE, COMPLETED, BOUNDARY and NONE
         */
-      inline std::vector<int> 
+      inline std::vector<int>
       getPointStates () { return (state_); }
 
       /** \brief Get the ID of each point after reconstruction.
         * \note parts are numbered from 0, a -1 denotes unconnected points
         */
-      inline std::vector<int> 
+      inline std::vector<int>
       getPartIDs () { return (part_); }
 
 
@@ -333,7 +333,7 @@ namespace pcl
 
       /** \brief Set this to true if the normals of the input are consistently oriented. */
       bool consistent_;
-      
+
       /** \brief Set this to true if the output triangle vertices should be consistently oriented. */
       bool consistent_ordering_;
 
@@ -398,11 +398,11 @@ namespace pcl
       bool changed_2nd_fn_;
       /** \brief New boundary point **/
       int new2boundary_;
-      
+
       /** \brief Flag to set if the next neighbor was already connected in the previous step.
         * To avoid inconsistency it should not be connected again.
         */
-      bool already_connected_; 
+      bool already_connected_;
 
       /** \brief Point coordinates projected onto the plane defined by the point normal **/
       Eigen::Vector3f proj_qp_;
@@ -425,13 +425,13 @@ namespace pcl
       /** \brief The actual surface reconstruction method.
         * \param[out] output the resultant polygonal mesh
         */
-      void 
+      void
       performReconstruction (pcl::PolygonMesh &output);
 
       /** \brief The actual surface reconstruction method.
         * \param[out] polygons the resultant polygons, as a set of vertices. The Vertices structure contains an array of point indices.
         */
-      void 
+      void
       performReconstruction (std::vector<pcl::Vertices> &polygons);
 
       /** \brief The actual surface reconstruction method.
@@ -441,10 +441,10 @@ namespace pcl
       reconstructPolygons (std::vector<pcl::Vertices> &polygons);
 
       /** \brief Class get name method. */
-      std::string 
+      std::string
       getClassName () const { return ("GreedyProjectionTriangulation"); }
 
-      /** \brief Forms a new triangle by connecting the current neighbor to the query point 
+      /** \brief Forms a new triangle by connecting the current neighbor to the query point
         * and the previous neighbor
         * \param[out] polygons the polygon mesh to be updated
         * \param[in] prev_index index of the previous point
@@ -454,20 +454,20 @@ namespace pcl
         * \param[in] uvn_prev 2D coordinates of the previous point
         * \param[in] uvn_next 2D coordinates of the next point
         */
-      void 
-      connectPoint (std::vector<pcl::Vertices> &polygons, 
-                    const int prev_index, 
-                    const int next_index, 
-                    const int next_next_index, 
-                    const Eigen::Vector2f &uvn_current, 
-                    const Eigen::Vector2f &uvn_prev, 
+      void
+      connectPoint (std::vector<pcl::Vertices> &polygons,
+                    const int prev_index,
+                    const int next_index,
+                    const int next_next_index,
+                    const Eigen::Vector2f &uvn_current,
+                    const Eigen::Vector2f &uvn_prev,
                     const Eigen::Vector2f &uvn_next);
 
       /** \brief Whenever a query point is part of a boundary loop containing 3 points, that triangle is created
         * (called if angle constraints make it possible)
         * \param[out] polygons the polygon mesh to be updated
         */
-      void 
+      void
       closeTriangle (std::vector<pcl::Vertices> &polygons);
 
       /** \brief Get the list of containing triangles for each vertex in a PolygonMesh
@@ -531,7 +531,7 @@ namespace pcl
         * \param[in] a1 the first angle
         * \param[in] a2 the second angle
         */
-      static inline bool 
+      static inline bool
       nnAngleSortAsc (const nnAngle& a1, const nnAngle& a2)
       {
         if (a1.visible == a2.visible)

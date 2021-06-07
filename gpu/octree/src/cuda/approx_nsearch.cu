@@ -44,11 +44,11 @@
 
 
 namespace pcl { namespace device { namespace appnearest_search
-{   
+{
     typedef OctreeImpl::PointType PointType;
 	
 	struct Batch
-	{   
+	{
 		const PointType* queries;
 
 		const int *indices;
@@ -56,56 +56,56 @@ namespace pcl { namespace device { namespace appnearest_search
 		int points_step; // elem step
 
 		OctreeGlobalWithBox octree;
-	    
-		int queries_num;                
-		mutable int* output;                
+	
+		int queries_num;
+		mutable int* output;
 	};
 
 	struct KernelPolicy
 	{
-		enum 
+		enum
 		{
 			CTA_SIZE = 512,
 
 			LOG_WARP_SIZE = 5,
 			WARP_SIZE = 1 << LOG_WARP_SIZE,
-			WARPS_COUNT = CTA_SIZE/WARP_SIZE,                    
+			WARPS_COUNT = CTA_SIZE/WARP_SIZE,
 		};	
 	};
 
 	struct Warp_appNearestSearch
-	{   
+	{
 	public:                		
 		const Batch& batch;
 
-		int query_index;        
-		float3 query;  
+		int query_index;
+		float3 query;
 		int result_idx;
 
-		__device__ __forceinline__ Warp_appNearestSearch(const Batch& batch_arg, int query_index_arg) 
+		__device__ __forceinline__ Warp_appNearestSearch(const Batch& batch_arg, int query_index_arg)
 			: batch(batch_arg), query_index(query_index_arg){}
 
 		__device__ __forceinline__ void launch(bool active)
-		{              
+		{
 			int node_idx = -1;
 			if (active)
 			{
 				PointType q = batch.queries[query_index];
-				query = make_float3(q.x, q.y, q.z);                        
+				query = make_float3(q.x, q.y, q.z);
 
 				node_idx = findNode();
-			}           
+			}
 
-			processNode(node_idx);                    
+			processNode(node_idx);
 
 			if (active)
 				batch.output[query_index] = batch.indices[result_idx];
-		}    
+		}
 
 	private:
 
 		__device__ __forceinline__ int findNode()
-		{                                             
+		{
 			float3 minp = batch.octree.minp;
 			float3 maxp = batch.octree.maxp;
 
@@ -127,10 +127,10 @@ namespace pcl { namespace device { namespace appnearest_search
 				int mask = node & 0xFF;
 
 				if(__popc(mask) == 0)  // leaf
-					return node_idx; 
+					return node_idx;
 
 				if ( (mask & mask_pos) == 0) // no child
-					return node_idx;                         
+					return node_idx;
 
 				node_idx = (node >> 8) + __popc(mask & (mask_pos - 1));
 				++level;
@@ -138,24 +138,24 @@ namespace pcl { namespace device { namespace appnearest_search
 		};
 
 		__device__ __forceinline__ void processNode(int node_idx)
-		{   
+		{
             __shared__ volatile int  per_warp_buffer[KernelPolicy::WARPS_COUNT];
 
-			int mask = __ballot(node_idx != -1);                        
+			int mask = __ballot(node_idx != -1);
 
 			while(mask)
-			{                
+			{
 				unsigned int laneId = Warp::laneId();
-				unsigned int warpId = threadIdx.x/warpSize;            
+				unsigned int warpId = threadIdx.x/warpSize;
 
-				int active_lane = __ffs(mask) - 1; //[0..31]                        
-				mask &= ~(1 << active_lane);   
+				int active_lane = __ffs(mask) - 1; //[0..31]
+				mask &= ~(1 << active_lane);
 
 				volatile int* warp_buffer = &per_warp_buffer[warpId];
 
 				//broadcast beg
 				if (active_lane == laneId)
-					*warp_buffer = batch.octree.begs[node_idx];                    
+					*warp_buffer = batch.octree.begs[node_idx];
 				int beg = *warp_buffer;
 
 				//broadcast end
@@ -177,9 +177,9 @@ namespace pcl { namespace device { namespace appnearest_search
 
 				if (active_lane == laneId)
 					*warp_buffer_float = query.z;
-				active_query.z = *warp_buffer_float;                            
+				active_query.z = *warp_buffer_float;
 
-				int offset = NearestWarpKernel<KernelPolicy::CTA_SIZE>(batch.points + beg, batch.points_step, end - beg, active_query);                    
+				int offset = NearestWarpKernel<KernelPolicy::CTA_SIZE>(batch.points + beg, batch.points_step, end - beg, active_query);
 
 				if (active_lane == laneId)
 					result_idx = beg + offset;
@@ -207,7 +207,7 @@ namespace pcl { namespace device { namespace appnearest_search
 				if (dist2[tid] > d2)
 				{
 					dist2[tid] = d2;
-					index[tid] = idx;                            
+					index[tid] = idx;
 				}
 			}
 			//parallel step
@@ -218,68 +218,68 @@ namespace pcl { namespace device { namespace appnearest_search
 			if (lane < 16)
 			{
 				float next = dist2[tid + 16];
-				if (mind2 > next) 
-				{ 
-					dist2[tid] = mind2 = next; 
-					index[tid] = index[tid + 16]; 
-				}                        
+				if (mind2 > next)
+				{
+					dist2[tid] = mind2 = next;
+					index[tid] = index[tid + 16];
+				}
 			}
 
 			if (lane < 8)
 			{
 				float next = dist2[tid + 8];
-				if (mind2 > next) 
-				{ 
-					dist2[tid] = mind2 = next; 
-					index[tid] = index[tid + 8]; 
-				}                        
+				if (mind2 > next)
+				{
+					dist2[tid] = mind2 = next;
+					index[tid] = index[tid + 8];
+				}
 			}
 
 			if (lane < 4)
 			{
 				float next = dist2[tid + 4];
-				if (mind2 > next) 
-				{ 
-					dist2[tid] = mind2 = next; 
-					index[tid] = index[tid + 4]; 
-				}                        
+				if (mind2 > next)
+				{
+					dist2[tid] = mind2 = next;
+					index[tid] = index[tid + 4];
+				}
 			}
 
 			if (lane < 2)
 			{
 				float next = dist2[tid + 2];
-				if (mind2 > next) 
-				{ 
-					dist2[tid] = mind2 = next; 
-					index[tid] = index[tid + 2]; 
-				}                        
+				if (mind2 > next)
+				{
+					dist2[tid] = mind2 = next;
+					index[tid] = index[tid + 2];
+				}
 			}
 
 			if (lane < 1)
 			{
 				float next = dist2[tid + 1];
-				if (mind2 > next) 
-				{ 
-					dist2[tid] = mind2 = next; 
-					index[tid] = index[tid + 1]; 
-				}                        
-			}        
+				if (mind2 > next)
+				{
+					dist2[tid] = mind2 = next;
+					index[tid] = index[tid + 1];
+				}
+			}
 
 			return index[tid - lane];
 		}
 	};
 	
-	__global__ void KernelAN(const Batch batch) 
-	{         
+	__global__ void KernelAN(const Batch batch)
+	{
 		int query_index = blockIdx.x * blockDim.x + threadIdx.x;
 
 		bool active = query_index < batch.queries_num;
 
-		if (__all(active == false)) 
+		if (__all(active == false))
 			return;
 
 		Warp_appNearestSearch search(batch, query_index);
-		search.launch(active); 
+		search.launch(active);
 	}
 
 } } }
@@ -293,15 +293,15 @@ void pcl::device::OctreeImpl::approxNearestSearch(const Queries& queries, Neighb
     batch.indices = indices;
     batch.octree = octreeGlobal;
 
-    batch.queries_num = (int)queries.size();        
-    batch.output = results.data;     
+    batch.queries_num = (int)queries.size();
+    batch.output = results.data;
 
     batch.points = points_sorted;
     batch.points_step = (int)points_sorted.elem_step();
     batch.queries = queries;
 
     int block = pcl::device::appnearest_search::KernelPolicy::CTA_SIZE;
-    int grid = (batch.queries_num + block - 1) / block;    
+    int grid = (batch.queries_num + block - 1) / block;
 
     cudaSafeCall( cudaFuncSetCacheConfig(pcl::device::appnearest_search::KernelAN, cudaFuncCachePreferL1) );
 

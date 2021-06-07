@@ -9,7 +9,7 @@
 #define ZCONF_H
 
 
-/* BEGIN -- OpenNURBS Modification 
+/* BEGIN -- OpenNURBS Modification
 //          OpenNURBS requires zlib to be compiled
 //          with -DZ_PREFIX and -DMY_ZCALLOC.  While
 //          this was done in the makefiles shipped

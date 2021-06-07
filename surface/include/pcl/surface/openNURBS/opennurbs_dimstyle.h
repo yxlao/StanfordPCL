@@ -52,9 +52,9 @@ public:
     text_log - [in] if the object is not valid and text_log
         is not NULL, then a brief englis description of the
         reason the object is not valid is appened to the log.
-        The information appended to text_log is suitable for 
-        low-level debugging purposes by programmers and is 
-        not intended to be useful as a high level user 
+        The information appended to text_log is suitable for
+        low-level debugging purposes by programmers and is
+        not intended to be useful as a high level user
         interface tool.
   Returns:
     @untitled table
@@ -225,9 +225,9 @@ public:
     fn_lengthfactor                = 16,
     fn_bAlternate                  = 17,
     fn_alternate_lengthfactor      = 18,
-    fn_alternate_lengthformat      = 19, 
+    fn_alternate_lengthformat      = 19,
     fn_alternate_lengthresolution  = 20,
-    fn_alternate_angleformat       = 21, 
+    fn_alternate_angleformat       = 21,
     fn_alternate_angleresolution   = 22,
     fn_prefix                      = 23,
     fn_suffix                      = 24,
@@ -239,8 +239,8 @@ public:
     fn_suppressextension1          = 30,
     fn_suppressextension2          = 31,
     fn_last                        = 32, // not used - left here for sdk
-                   
-  // Added for v5 - 5/01/07 LW    
+
+  // Added for v5 - 5/01/07 LW
   // version 1.6
     fn_overall_scale               = 33,
     fn_ext_line_color_source       = 34,
@@ -270,14 +270,14 @@ public:
     fn_tolerance_height_scale      = 58,
     fn_baseline_spacing            = 59,
 
-  // Added for v5 - 12/15/09 LW    
+  // Added for v5 - 12/15/09 LW
   // version 1.7
     fn_draw_mask                   = 60,
     fn_mask_color_source           = 61,
     fn_mask_color                  = 62,
     fn_mask_border                 = 63,
 
-  // Added for v5 - 12/17/09 LW    
+  // Added for v5 - 12/17/09 LW
   // version 1.8
     fn_dimscale                    = 64,
     fn_dimscale_source             = 65,
@@ -312,15 +312,15 @@ public:
   // Test if the dimstyle has any field override flags set
   bool HasOverrides() const;
 
-  // Change the fields in this dimstyle to match the fields of the 
+  // Change the fields in this dimstyle to match the fields of the
   // source dimstyle for all of the fields that are marked overridden in the source
   // and to match the parent for all of the fields not marked overriden.
   // Returns true if any overrides were set.
   bool OverrideFields( const ON_DimStyle& source, const ON_DimStyle& parent);
 
-  // 
-  // Change the fields in this dimstyle to match the fields of the 
-  // parent dimstyle for all of the fields that are not marked overridden in the 
+  //
+  // Change the fields in this dimstyle to match the fields of the
+  // parent dimstyle for all of the fields that are not marked overridden in the
   // target dimstyle.
   // This is the complement of OverrideFields()
   bool InheritFields( const ON_DimStyle& parent);
@@ -359,7 +359,7 @@ public:
   void SetToleranceUpperValue( double upper_value);
   void SetToleranceLowerValue( double lower_value);
   void SetToleranceHeightScale( double scale);
-  
+
   void SetBaselineSpacing( double spacing = false);
 
     // Determines whether or not to draw a Text Mask
@@ -383,7 +383,7 @@ public:
   double DimScale() const;
 
   // Offset for the border around text to the rectangle used to draw the mask
-  // This number * CRhinoAnnotation::TextHeight() for the text is the offset 
+  // This number * CRhinoAnnotation::TextHeight() for the text is the offset
   // on each side of the tight rectangle around the text characters to the mask rectangle.
   double MaskOffsetFactor() const;
 

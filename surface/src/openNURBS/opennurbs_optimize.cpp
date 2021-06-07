@@ -21,7 +21,7 @@
 int ON_FindLocalMinimum(
                 int (*f)(void*,double,double*,double*), void* farg,
                 double ax, double bx, double cx,
-                double rel_stepsize_tol, double abs_stepsize_tol, int max_it, 
+                double rel_stepsize_tol, double abs_stepsize_tol, int max_it,
                 double *t_addr
                 )
 /* Use Brent's algorithm (with derivative) to Find a (local) minimum of a function
@@ -45,8 +45,8 @@ int ON_FindLocalMinimum(
  *      rel_stepsize_tol is a fractional tolerance and abs_stepsize_tol is an absolute tolerance
  *      that determine the minimum step size for a given iteration.
  *        minimum delta t = rel_stepsize_tol*|t| + abs_stepsize_tol.
- *      When in doubt, use 
- *         rel_stepsize_tol = ON_EPSILON 
+ *      When in doubt, use
+ *         rel_stepsize_tol = ON_EPSILON
  *         abs_stepsize_tol = 1/2*(desired absolute precision for *t_addr).
  *   max_it ( >= 2)
  *      maximum number of iterations to permit (when in doubt use 100)
@@ -190,7 +190,7 @@ int ON_FindLocalMinimum(
 }
 
 
-ON_LocalZero1::ON_LocalZero1() 
+ON_LocalZero1::ON_LocalZero1()
                : m_t0(ON_UNSET_VALUE), m_t1(ON_UNSET_VALUE),
                  m_f_tolerance(0.0), m_t_tolerance(0.0),
                  m_k(NULL), m_k_count(0)
@@ -200,7 +200,7 @@ ON_LocalZero1::~ON_LocalZero1()
 {}
 
 ON_BOOL32
-ON_LocalZero1::BracketZero( double s0, double f0, 
+ON_LocalZero1::BracketZero( double s0, double f0,
                              double s1, double f1,
                              int level )
 {
@@ -408,9 +408,9 @@ ON_BOOL32 ON_LocalZero1::NewtonRaphson( double s0, double f0,
   //
   // 2) maxit >= 2
   //
-  // 3) s0 != s1, 
+  // 3) s0 != s1,
   //
-  // 4) f0 = f(s0), f1 = f(s1), 
+  // 4) f0 = f(s0), f1 = f(s1),
   //
   // 5) either f0 < 0.0 and f1 > 0.0, or f0 > 0.0 and f1 < 0.0
   //
@@ -476,7 +476,7 @@ ON_BOOL32 ON_LocalZero1::NewtonRaphson( double s0, double f0,
         }
         *t = s;
         return true;
-      }      
+      }
     }
     else {
       // Newton iterate
@@ -495,7 +495,7 @@ ON_BOOL32 ON_LocalZero1::NewtonRaphson( double s0, double f0,
         }
         *t = s;
         return true;
-      } 
+      }
     }
 
     if ( !Evaluate( s, &f, &d, 0 ) ) {

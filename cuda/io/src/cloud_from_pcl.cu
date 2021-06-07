@@ -63,7 +63,7 @@ fromPCL (const pcl::PointCloud<pcl::PointXYZRGB> &input, PointCloudAOS<Host> &ou
 //  output.is_dense = input.is_dense;
 }
 
-void                                                                                  
+void
 fromPCL (const pcl::PointCloud<pcl::PointXYZRGB> &input, PointCloudAOS<Device> &output)
 {
 //  PointCloudAOS<Host> output_host;

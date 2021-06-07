@@ -57,10 +57,10 @@ namespace pcl
         virtual QSize
         sizeHint() const;
 
-        bool 
+        bool
         openPointCloud(const QString& filename);
 
-        bool 
+        bool
         savePointCloud(const QString& filename);
 
         void
@@ -71,10 +71,10 @@ namespace pcl
 
       public slots:
         // slots for file menu
-        void 
+        void
         slotOpenPointCloud();
 
-        void 
+        void
         slotImportPointCloud();
 
         void

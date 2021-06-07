@@ -40,8 +40,8 @@
 namespace pcl
 {
     namespace device
-    {         
-       
+    {
+
     }
 }
 

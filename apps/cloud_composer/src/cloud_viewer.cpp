@@ -13,7 +13,7 @@ pcl::cloud_composer::CloudViewer::CloudViewer (QWidget* parent)
 
 pcl::cloud_composer::CloudViewer::~CloudViewer ()
 {
-  
+
 }
 
 void
@@ -23,25 +23,25 @@ pcl::cloud_composer::CloudViewer::addModel (ProjectModel* new_model)
   connect (new_model->getSelectionModel (), SIGNAL (selectionChanged (QItemSelection,QItemSelection)),
            new_view, SLOT (selectedItemChanged (QItemSelection,QItemSelection)));
   new_model->setCloudView (new_view);
-  
+
   QStandardItem* title = new_model->horizontalHeaderItem (0);
   this->addTab (new_view, title->text ());
-  
+
   model_view_map_.insert (new_model,new_view);
-  
+
   setCurrentWidget (model_view_map_.value (new_model));
   //Refresh the view
   new_view->refresh ();
 
 }
-  
+
 pcl::cloud_composer::ProjectModel*
 pcl::cloud_composer::CloudViewer::getModel () const
 {
   if (this->count() == 0)
     return 0;
   else
-    return dynamic_cast<CloudView*> (currentWidget ())->getModel (); 
+    return dynamic_cast<CloudView*> (currentWidget ())->getModel ();
 }
 
 void

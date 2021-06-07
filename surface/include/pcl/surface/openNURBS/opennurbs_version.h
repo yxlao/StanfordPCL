@@ -23,8 +23,8 @@
 //   that reads 3DM files not work correctly.
 
 // The YYYYMMDD portion of the Debug and Release
-// version numbers is always the same.  
-// The last digit of a debug build version number is 9. 
+// version numbers is always the same.
+// The last digit of a debug build version number is 9.
 // The last digit of a V4 release build version number is 4.
 // The last digit of a V5 release build version number is 5.
 #if defined(_DEBUG)

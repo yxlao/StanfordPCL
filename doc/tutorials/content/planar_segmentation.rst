@@ -56,11 +56,11 @@ Then, lines:
    :language: cpp
    :lines: 38-50
 
-   
-create the :pcl:`SACSegmentation <pcl::SACSegmentation>` object and set the model and method type.  
-This is also where we specify the "distance threshold", which  determines how close a point must be to the model 
-in order to be considered an inlier. 
-In this tutorial, we will use the RANSAC method (pcl::SAC_RANSAC) as the robust estimator of choice. 
+
+create the :pcl:`SACSegmentation <pcl::SACSegmentation>` object and set the model and method type.
+This is also where we specify the "distance threshold", which  determines how close a point must be to the model
+in order to be considered an inlier.
+In this tutorial, we will use the RANSAC method (pcl::SAC_RANSAC) as the robust estimator of choice.
 Our decision is motivated by RANSAC's simplicity (other robust estimators use it as
 a base and add additional, more complicated concepts). For more information
 about RANSAC, check its `Wikipedia page
@@ -84,7 +84,7 @@ Add the following lines to your CMakeLists.txt file:
    :language: cmake
    :linenos:
 
-   
+
 After you have made the executable, you can run it. Simply do::
 
   $ ./planar_segmentation

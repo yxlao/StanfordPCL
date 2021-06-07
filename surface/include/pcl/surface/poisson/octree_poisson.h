@@ -47,9 +47,9 @@
 
 #define DIMENSION 3
 
-namespace pcl 
+namespace pcl
 {
-  namespace poisson 
+  namespace poisson
   {
 
     template<class NodeData,class Real=float>

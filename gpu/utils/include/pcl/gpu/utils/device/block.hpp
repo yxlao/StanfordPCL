@@ -42,7 +42,7 @@ namespace pcl
 	namespace device
 	{
 		struct Block
-		{            
+		{
 			static __device__ __forceinline__ unsigned int id()
 			{
 				return blockIdx.x;
@@ -55,7 +55,7 @@ namespace pcl
 
 			static __device__ __forceinline__ void sync()
 			{
-				__syncthreads();                
+				__syncthreads();
 			}
 
 			static __device__ __forceinline__ int flattenedThreadId()
@@ -67,7 +67,7 @@ namespace pcl
 			static __device__ __forceinline__ void fill(It beg, It end, const T& value)
 			{
 				int STRIDE = stride();
-				It t = beg + flattenedThreadId(); 
+				It t = beg + flattenedThreadId();
 
 				for(; t < end; t += STRIDE)
 					*t = value;
@@ -77,11 +77,11 @@ namespace pcl
 			static __device__ __forceinline__ void yota(OutIt beg, OutIt end, T value)
 			{
 				int STRIDE = stride();
-				int tid = flattenedThreadId();                                
+				int tid = flattenedThreadId();
 				value += tid;
 
 				for(OutIt t = beg + tid; t < end; t += STRIDE, value += STRIDE)
-					*t = value;                
+					*t = value;
 			}
 
 			template<typename InIt, typename OutIt>

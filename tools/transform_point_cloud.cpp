@@ -56,11 +56,11 @@ printHelp (int, char **argv)
 {
   print_error ("Syntax is: %s input.pcd output.pcd <options>\n", argv[0]);
   print_info ("  where options are:\n");
-  print_info ("           -trans dx,dy,dz           = the translation (default: "); 
+  print_info ("           -trans dx,dy,dz           = the translation (default: ");
   print_value ("%0.1f, %0.1f, %0.1f", 0, 0, 0); print_info (")\n");
-  print_info ("           -quat w,x,y,z             = rotation as quaternion\n"); 
-  print_info ("           -axisangle ax,ay,az,theta = rotation in axis-angle form\n"); 
-  print_info ("           -scale x,y,z              = scale each dimension with these values\n"); 
+  print_info ("           -quat w,x,y,z             = rotation as quaternion\n");
+  print_info ("           -axisangle ax,ay,az,theta = rotation in axis-angle form\n");
+  print_info ("           -scale x,y,z              = scale each dimension with these values\n");
   print_info ("           -matrix v1,v2,...,v8,v9   = a 3x3 affine transform\n");
   print_info ("           -matrix v1,v2,...,v15,v16 = a 4x4 transformation matrix\n");
   print_info ("   Note: If a rotation is not specified, it will default to no rotation.\n");
@@ -71,10 +71,10 @@ printHelp (int, char **argv)
 
 }
 
-void 
+void
 printElapsedTimeAndNumberOfPoints (double t, int w, int h = 1)
 {
-  print_info ("[done, "); print_value ("%g", t); print_info (" ms : "); 
+  print_info ("[done, "); print_value ("%g", t); print_info (" ms : ");
   print_value ("%d", w*h); print_info (" points]\n");
 }
 
@@ -103,15 +103,15 @@ transformPointCloudHelper (PointCloud<PointT> & input, PointCloud<PointT> & outp
 }
 
 template <> void
-transformPointCloudHelper (PointCloud<PointNormal> & input, PointCloud<PointNormal> & output, 
+transformPointCloudHelper (PointCloud<PointNormal> & input, PointCloud<PointNormal> & output,
                            Eigen::Matrix4f &tform)
 {
   transformPointCloudWithNormals (input, output, tform);
 }
 
 template <> void
-transformPointCloudHelper<PointXYZRGBNormal> (PointCloud<PointXYZRGBNormal> & input, 
-                                              PointCloud<PointXYZRGBNormal> & output, 
+transformPointCloudHelper<PointXYZRGBNormal> (PointCloud<PointXYZRGBNormal> & input,
+                                              PointCloud<PointXYZRGBNormal> & output,
                                               Eigen::Matrix4f &tform)
 {
   transformPointCloudWithNormals (input, output, tform);
@@ -160,7 +160,7 @@ compute (const sensor_msgs::PointCloud2::ConstPtr &input, sensor_msgs::PointClou
 {
   TicToc tt;
   tt.tic ();
-  
+
   print_highlight ("Transforming ");
 
   transformPointCloud2 (*input, output, tform);
@@ -175,9 +175,9 @@ saveCloud (const std::string &filename, const sensor_msgs::PointCloud2 &output)
   tt.tic ();
 
   print_highlight ("Saving "); print_value ("%s ", filename.c_str ());
-  
+
   pcl::io::savePCDFile (filename, output);
-  
+
   printElapsedTimeAndNumberOfPoints (tt.toc (), output.width, output.height);
 }
 
@@ -198,7 +198,7 @@ scaleInPlace (sensor_msgs::PointCloud2 &cloud, double* divider)
   int y_idx = pcl::getFieldIndex (cloud, "y");
   int z_idx = pcl::getFieldIndex (cloud, "z");
   Eigen::Array3i xyz_offset (cloud.fields[x_idx].offset, cloud.fields[y_idx].offset, cloud.fields[z_idx].offset);
- 
+
   for (uint32_t cp = 0; cp < cloud.width * cloud.height; ++cp)
   {
     // Assume all 3 fields are the same (XYZ)
@@ -260,7 +260,7 @@ main (int argc, char** argv)
   }
 
   // Initialize the transformation matrix
-  Eigen::Matrix4f tform; 
+  Eigen::Matrix4f tform;
   tform.setIdentity ();
 
   // Command line parsing
@@ -326,7 +326,7 @@ main (int argc, char** argv)
 
   // Load the first file
   sensor_msgs::PointCloud2::Ptr cloud (new sensor_msgs::PointCloud2);
-  if (!loadCloud (argv[p_file_indices[0]], *cloud)) 
+  if (!loadCloud (argv[p_file_indices[0]], *cloud))
     return (-1);
 
   // Apply the transform

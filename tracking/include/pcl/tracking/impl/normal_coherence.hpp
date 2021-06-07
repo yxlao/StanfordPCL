@@ -3,7 +3,7 @@
 
 #include <pcl/common/common.h>
 
-template <typename PointInT> double 
+template <typename PointInT> double
 pcl::tracking::NormalCoherence<PointInT>::computeCoherence (PointInT &source, PointInT &target)
 {
     Eigen::Vector4f n = source.getNormalVector4fMap ();

@@ -52,7 +52,7 @@
 
 #if _MSC_VER >= 1300
 #define ON_COMPILER_MSC1300
-// If you are using VC7/.NET and are having trouble linking 
+// If you are using VC7/.NET and are having trouble linking
 // to functions that have whcar_t types in arguments, then
 // read the documentation about the wchar_t type and
 // the /Zc:wchar_t compiler option.
@@ -125,7 +125,7 @@
 /*
 /////////////////////////////////////////////////////////////////////////
 //
-// Begin Windows system includes - 
+// Begin Windows system includes -
 */
 #if defined(_WIN32) || defined(WIN32) || defined(_WIN64) || defined(WIN64)
 
@@ -148,7 +148,7 @@
 /*
 // From windows.h openNURBS only needs definitions of ON_BOOL32, true,
 // and false, and a declarations of OutputDebugString(), and
-// WideCharToMultiByte().  These 
+// WideCharToMultiByte().  These
 // defines disable the inclusion of most of the Windows garbage.
 */
 
@@ -189,10 +189,10 @@
 #endif
 
 #if defined(_MSC_VER)
-/* 
+/*
   Microsoft's Visual C/C++ requires some functions, including those that
-  use vargs to be declared with __cdecl 
-  Since this code must also compile with non-Micorosoft compilers, 
+  use vargs to be declared with __cdecl
+  Since this code must also compile with non-Micorosoft compilers,
   the ON_MSC_CDECL macro is used to insert __cdecl when needed.
 */
 #define ON_MSC_CDECL __cdecl
@@ -291,10 +291,10 @@
 #endif
 
 #if !defined(_WCHAR_T_DEFINED)
-// If you are using VC7/.NET and are having trouble linking 
+// If you are using VC7/.NET and are having trouble linking
 // to functions that have whcar_t types in arguments, then
 // read the documentation about the wchar_t type and
-// the /Zc:wchar_t compiler option.  Since 
+// the /Zc:wchar_t compiler option.  Since
 
 /* 16-bit wide character ("UNICODE") */
 
@@ -310,10 +310,10 @@ typedef unsigned short wchar_t;
 
 // As 64 bit compilers become more common, the definitions
 // of the next 6 typedefs may need to vary with compiler.
-// As much as possible, the size of runtime types is left 
-// up to the compiler so performance and ease of use can 
-// be maximized.  In the rare cases where it is critical 
-// to use an integer that is exactly 16 bits, 32 bits 
+// As much as possible, the size of runtime types is left
+// up to the compiler so performance and ease of use can
+// be maximized.  In the rare cases where it is critical
+// to use an integer that is exactly 16 bits, 32 bits
 // or 64 bits, the ON__INT16, ON__INT32, and ON__INT64
 // typedefs are used.
 
@@ -407,7 +407,7 @@ typedef unsigned int ON__UINT_PTR;
 
 
 
-// In some functions, performance is slightly increased 
+// In some functions, performance is slightly increased
 // when the endianess of the CPU is known at compile time.
 // If the endianness is not known, it is quickly detected
 // at runtime and all opennurbs code still works.

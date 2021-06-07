@@ -122,7 +122,7 @@ namespace pcl
                 int STRIDE = gridDim.x * CTA_SIZE;
                 int idx = blockIdx.x * CTA_SIZE + threadIdx.x;
 
-                for (; idx < indices.size; idx += STRIDE) 
+                for (; idx < indices.size; idx += STRIDE)
                 {
                     int index = indices.data[idx];
 
@@ -132,17 +132,17 @@ namespace pcl
                     // spfh
                     int h_index;
                     float f1, f2, f3, f4;
-                    
+
                     if (computePairFeatures(centroid_p, centroid_n, p, n, f1, f2, f3, f4))
                     {
                         // Normalize the f1, f2, f3, f4 features and push them in the histogram
                         h_index = floorf(bins1 * ((f1 + M_PI) * (1.f / (2.f * M_PI))));
-                        h_index = min(bins1 - 1, max(0, h_index));  
-                        atomicAdd(shist_b1 + h_index, hist_incr);    
+                        h_index = min(bins1 - 1, max(0, h_index));
+                        atomicAdd(shist_b1 + h_index, hist_incr);
 
                         h_index = floor (bins2 * ((f2 + 1.f) * 0.5f));
-                        h_index = min(bins2 - 1, max (0, h_index));                                            
-                        atomicAdd(shist_b2 + h_index, hist_incr);  
+                        h_index = min(bins2 - 1, max (0, h_index));
+                        atomicAdd(shist_b2 + h_index, hist_incr);
 
                         h_index = floor (bins3 * ((f3 + 1.f) * 0.5f));
                         h_index = min(bins3 - 1, max (0, h_index));
@@ -153,16 +153,16 @@ namespace pcl
                         else
                             h_index = __float2int_rn (f4 * 100);
 
-                        h_index = min(bins4 - 1, max (0, h_index));                    
+                        h_index = min(bins4 - 1, max (0, h_index));
                         atomicAdd(shist_b4 + h_index, hist_incr_size_component);
                     }
 
                     // viewpoint component
-                    float alfa = ((dot(n, d_vp_p) + 1.f) * 0.5f);                    
+                    float alfa = ((dot(n, d_vp_p) + 1.f) * 0.5f);
                     h_index = floorf(bins_vp * alfa);
                     h_index = min(bins_vp - 1, max (0, h_index));
                     atomicAdd(shist_vp + h_index, hist_incr_vp);
-                
+
                 } /* for (; idx < indices.size; idx += STRIDE)  */
 
                 __syncthreads();
@@ -170,14 +170,14 @@ namespace pcl
                 Block::copy(shist, shist + FSize, global_buffer.ptr(blockIdx.x));
 
                 __threadfence();
-                
+
                 if (threadIdx.x == 0)
                 {
-                    unsigned int value = atomicInc(&count, gridDim.x);    
+                    unsigned int value = atomicInc(&count, gridDim.x);
                     lastBlock = (value == (gridDim.x - 1));
                 }
                 __syncthreads();
-                
+
                 if (lastBlock)
                 {
                     int total_rows = gridDim.x;
@@ -214,11 +214,11 @@ void pcl::device::VFHEstimationImpl::compute(DeviceArray<VFHSignature308>& featu
     vfh.normals = normals;
     vfh.normalize_distances = normalize_distances;
 
-    // Compute the direction of view from the viewpoint to the centroid        
-    vfh.d_vp_p = normalized (viewpoint - xyz_centroid);   
+    // Compute the direction of view from the viewpoint to the centroid
+    vfh.d_vp_p = normalized (viewpoint - xyz_centroid);
 
     vfh.distance_normalization_factor_inv = 1.f;
-    if ( normalize_distances ) 
+    if ( normalize_distances )
     {
         float3 max_pt = getMaxDistance (points, indices, xyz_centroid);
         vfh.distance_normalization_factor_inv = 1.f / norm(xyz_centroid - max_pt);
@@ -233,10 +233,10 @@ void pcl::device::VFHEstimationImpl::compute(DeviceArray<VFHSignature308>& featu
 
     int device;
     cudaSafeCall( cudaGetDevice(&device) );
-    
-    cudaDeviceProp prop;    
+
+    cudaDeviceProp prop;
     cudaSafeCall( cudaGetDeviceProperties(&prop, device) );
-    
+
     int total = static_cast<int> (indices.empty() ? points.size() : indices.size());
     int total_lenght_in_blocks = (total + VfhDevice::CTA_SIZE - 1) / VfhDevice::CTA_SIZE;
 
@@ -244,12 +244,12 @@ void pcl::device::VFHEstimationImpl::compute(DeviceArray<VFHSignature308>& featu
     int grid =  min(total_lenght_in_blocks, prop.multiProcessorCount * prop.maxThreadsPerMultiProcessor / VfhDevice::CTA_SIZE);
 
     DeviceArray2D<float> global_buffer(grid, VfhDevice::FSize);
-    
+
     vfh.global_buffer = global_buffer;
-    vfh.output = (float*)feature.ptr();   
+    vfh.output = (float*)feature.ptr();
 
     estimateVfhKernel<<<grid, block>>>(vfh);
     cudaSafeCall( cudaGetLastError() );
-    cudaSafeCall( cudaDeviceSynchronize() );    
+    cudaSafeCall( cudaDeviceSynchronize() );
 }
 

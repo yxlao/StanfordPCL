@@ -83,7 +83,7 @@ namespace pcl
 
     /*
      * \brief Vector of point clouds representing the 3D models after occlusion reasoning
-	 * the 3D models are pruned of occluded points, and only visible points are left. 
+	 * the 3D models are pruned of occluded points, and only visible points are left.
 	 * the coordinate system is that of the scene cloud
      */
     typename std::vector<typename pcl::PointCloud<ModelT>::ConstPtr> visible_models_;

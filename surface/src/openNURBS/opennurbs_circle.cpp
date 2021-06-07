@@ -16,7 +16,7 @@
 
 #include <pcl/surface/openNURBS/opennurbs.h>
 
-ON_Circle::ON_Circle() 
+ON_Circle::ON_Circle()
                   : radius(1.0)
 {
   //m_point[0].Zero();
@@ -86,7 +86,7 @@ ON_BoundingBox ON_Circle::BoundingBox() const
   corners[1] = plane.PointAt( radius,-radius );
   corners[2] = plane.PointAt(-radius, radius );
   corners[3] = plane.PointAt(-radius,-radius );
-  bbox.Set(3,0,4,3,&corners[0].x,false);   
+  bbox.Set(3,0,4,3,&corners[0].x,false);
   return bbox;
 }
 
@@ -174,8 +174,8 @@ bool ON_Circle::Transform( const ON_Xform& xform )
           r2 = 1.0;
       }
     }
-    if (    0.0 == b 
-         && 0.0 == c 
+    if (    0.0 == b
+         && 0.0 == c
          && fabs(r1-r2) <= ON_SQRT_EPSILON*(r1+r2)
        )
     {
@@ -238,7 +238,7 @@ bool ON_Circle::Create( const ON_3dPoint& C, double r )
 
 bool ON_Circle::Create( const ON_Plane& pln,
                           const ON_3dPoint& C,
-                          double r 
+                          double r
                           )
 {
   ON_Plane p = pln;
@@ -273,7 +273,7 @@ bool ON_Circle::Create( // circle through three 3d points
   bool rc = Z.PerpendicularTo( P, Q, R );
 
   // get center as the intersection of 3 planes
-  //  
+  //
   ON_Plane plane0( P, Z );
   ON_Plane plane1( 0.5*(P+Q), P-Q );
   ON_Plane plane2( 0.5*(R+Q), R-Q );
@@ -361,7 +361,7 @@ bool ON_Circle::Create(
 
 bool ON_Circle::IsValid() const
 {
-  bool rc = (    ON_IsValid(radius) 
+  bool rc = (    ON_IsValid(radius)
               && radius > 0.0
               && plane.IsValid()
             );
@@ -385,7 +385,7 @@ ON_3dPoint ON_Circle::PointAt( double t ) const
   return plane.PointAt( cos(t)*radius, sin(t)*radius );
 }
 
-ON_3dVector ON_Circle::DerivativeAt( 
+ON_3dVector ON_Circle::DerivativeAt(
                  int d, // desired derivative ( >= 0 )
                  double t // parameter
                  ) const
@@ -452,7 +452,7 @@ ON_3dPoint ON_Circle::ClosestPointTo( const ON_3dPoint& point ) const
   return P;
 }
 
-double ON_Circle::EquationAt( 
+double ON_Circle::EquationAt(
                  const ON_2dPoint& p // coordinates in plane
                  ) const
 {
@@ -468,7 +468,7 @@ double ON_Circle::EquationAt(
   return e;
 }
 
-ON_2dVector ON_Circle::GradientAt( 
+ON_2dVector ON_Circle::GradientAt(
                  const ON_2dPoint& p // coordinates in plane
                  ) const
 {
@@ -484,24 +484,24 @@ ON_2dVector ON_Circle::GradientAt(
   return g;
 }
 
-bool ON_Circle::Rotate( 
-                          double sin_angle, double cos_angle, 
+bool ON_Circle::Rotate(
+                          double sin_angle, double cos_angle,
                           const ON_3dVector& axis
                           )
 {
   return plane.Rotate( sin_angle, cos_angle, axis );
 }
 
-bool ON_Circle::Rotate( 
-                          double angle, 
+bool ON_Circle::Rotate(
+                          double angle,
                           const ON_3dVector& axis
                           )
 {
   return plane.Rotate( angle, axis );
 }
 
-bool ON_Circle::Rotate( 
-                          double sin_angle, double cos_angle, 
+bool ON_Circle::Rotate(
+                          double sin_angle, double cos_angle,
                           const ON_3dVector& axis,
                           const ON_3dPoint& point
                           )
@@ -509,8 +509,8 @@ bool ON_Circle::Rotate(
   return plane.Rotate( sin_angle, cos_angle, axis, point );
 }
 
-bool ON_Circle::Rotate( 
-                          double angle, 
+bool ON_Circle::Rotate(
+                          double angle,
                           const ON_3dVector& axis,
                           const ON_3dPoint& point
                           )
@@ -561,7 +561,7 @@ int ON_Circle::GetNurbForm( ON_NurbsCurve& nurbscurve ) const
     CV[6] = plane.PointAt(    0.0, -radius);
     CV[7] = plane.PointAt( radius, -radius);
     CV[8] = CV[0];
-    
+
     const double w = 1.0/sqrt(2.0);
     int i;
     for ( i = 1; i < 8; i += 2 ) {
@@ -580,7 +580,7 @@ int ON_Circle::GetNurbForm( ON_NurbsCurve& nurbscurve ) const
 bool ON_Circle::GetRadianFromNurbFormParameter( double NurbParameter, double* RadianParameter ) const
 //returns false unless   0<= NurbParameter,  <= 2*PI*Radius
 {
-	if(!IsValid()) 
+	if(!IsValid())
 		return false;
 
 	ON_Arc arc(*this, 2*ON_PI);
@@ -591,7 +591,7 @@ bool ON_Circle::GetRadianFromNurbFormParameter( double NurbParameter, double* Ra
 
 bool ON_Circle::GetNurbFormParameterFromRadian( double RadianParameter, double* NurbParameter) const
 {
-	if(!IsValid()) 
+	if(!IsValid())
 		return false;
 
 	ON_Arc arc(*this, 2*ON_PI);

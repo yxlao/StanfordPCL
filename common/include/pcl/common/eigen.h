@@ -182,7 +182,7 @@ namespace pcl
       }
       return;
     }
-    
+
     // 0.5 to optimize further calculations
     typename Matrix::Scalar trace = static_cast<typename Matrix::Scalar> (0.5) * (mat.coeff (0) + mat.coeff (3));
     typename Matrix::Scalar determinant = mat.coeff (0) * mat.coeff (3) - mat.coeff (1) * mat.coeff (1);
@@ -193,7 +193,7 @@ namespace pcl
       temp = 0;
 
     eigenvalue = trace - ::std::sqrt (temp);
-    
+
     eigenvector [0] = - mat.coeff (1);
     eigenvector [1] = mat.coeff (0) - eigenvalue;
     eigenvector.normalize ();
@@ -219,7 +219,7 @@ namespace pcl
         eigenvectors.coeffRef (0) = 1.0;
         eigenvectors.coeffRef (1) = 0.0;
         eigenvectors.coeffRef (2) = 0.0;
-        eigenvectors.coeffRef (3) = 1.0;        
+        eigenvectors.coeffRef (3) = 1.0;
       }
       else
       {
@@ -228,7 +228,7 @@ namespace pcl
         eigenvectors.coeffRef (0) = 0.0;
         eigenvectors.coeffRef (1) = 1.0;
         eigenvectors.coeffRef (2) = 1.0;
-        eigenvectors.coeffRef (3) = 0.0;        
+        eigenvectors.coeffRef (3) = 0.0;
       }
       return;
     }
@@ -250,7 +250,7 @@ namespace pcl
     // either this is in a row or column depending on RowMajor or ColumnMajor
     eigenvectors.coeffRef (0) = - mat.coeff (1);
     eigenvectors.coeffRef (2) = mat.coeff (0) - eigenvalues.coeff (0);
-    typename Matrix::Scalar norm = static_cast<typename Matrix::Scalar> (1.0) / 
+    typename Matrix::Scalar norm = static_cast<typename Matrix::Scalar> (1.0) /
                                    static_cast<typename Matrix::Scalar> (::std::sqrt (eigenvectors.coeffRef (0) * eigenvectors.coeffRef (0) + eigenvectors.coeffRef (2) * eigenvectors.coeffRef (2)));
     eigenvectors.coeffRef (0) *= norm;
     eigenvectors.coeffRef (2) *= norm;
@@ -294,7 +294,7 @@ namespace pcl
     else
       eigenvector = vec3 / Eigen::internal::sqrt (len3);
   }
-  
+
   /** \brief determines the eigenvector and eigenvalue of the smallest eigenvalue of the symmetric positive semi definite input matrix
     * \param[in] mat symmetric positive semi definite input matrix
     * \param[out] eigenvalue smallest eigenvalue of the input matrix
@@ -656,7 +656,7 @@ namespace pcl
            matrix.coeff (1) * (matrix.coeff (5) * matrix.coeff (6) - matrix.coeff (3) * matrix.coeff (8)) +
            matrix.coeff (2) * (matrix.coeff (3) * matrix.coeff (7) - matrix.coeff (4) * matrix.coeff (6)) ;
   }
-  
+
   /** \brief Get the unique 3D rotation that will rotate \a z_axis into (0,0,1) and \a y_direction into a vector
     * with x=0 (or into (0,1,0) should \a y_direction be orthogonal to \a z_axis)
     * \param[in] z_axis the z-axis
@@ -665,7 +665,7 @@ namespace pcl
     * \ingroup common
     */
   inline void
-  getTransFromUnitVectorsZY (const Eigen::Vector3f& z_axis, 
+  getTransFromUnitVectorsZY (const Eigen::Vector3f& z_axis,
                              const Eigen::Vector3f& y_direction,
                              Eigen::Affine3f& transformation);
 
@@ -677,7 +677,7 @@ namespace pcl
     * \ingroup common
     */
   inline Eigen::Affine3f
-  getTransFromUnitVectorsZY (const Eigen::Vector3f& z_axis, 
+  getTransFromUnitVectorsZY (const Eigen::Vector3f& z_axis,
                              const Eigen::Vector3f& y_direction);
 
   /** \brief Get the unique 3D rotation that will rotate \a x_axis into (1,0,0) and \a y_direction into a vector
@@ -688,7 +688,7 @@ namespace pcl
     * \ingroup common
     */
   inline void
-  getTransFromUnitVectorsXY (const Eigen::Vector3f& x_axis, 
+  getTransFromUnitVectorsXY (const Eigen::Vector3f& x_axis,
                              const Eigen::Vector3f& y_direction,
                              Eigen::Affine3f& transformation);
 
@@ -700,7 +700,7 @@ namespace pcl
     * \ingroup common
     */
   inline Eigen::Affine3f
-  getTransFromUnitVectorsXY (const Eigen::Vector3f& x_axis, 
+  getTransFromUnitVectorsXY (const Eigen::Vector3f& x_axis,
                              const Eigen::Vector3f& y_direction);
 
   /** \brief Get the unique 3D rotation that will rotate \a z_axis into (0,0,1) and \a y_direction into a vector
@@ -711,7 +711,7 @@ namespace pcl
     * \ingroup common
     */
   inline void
-  getTransformationFromTwoUnitVectors (const Eigen::Vector3f& y_direction, 
+  getTransformationFromTwoUnitVectors (const Eigen::Vector3f& y_direction,
                                        const Eigen::Vector3f& z_axis,
                                        Eigen::Affine3f& transformation);
 
@@ -723,7 +723,7 @@ namespace pcl
     * \ingroup common
     */
   inline Eigen::Affine3f
-  getTransformationFromTwoUnitVectors (const Eigen::Vector3f& y_direction, 
+  getTransformationFromTwoUnitVectors (const Eigen::Vector3f& y_direction,
                                        const Eigen::Vector3f& z_axis);
 
   /** \brief Get the transformation that will translate \a orign to (0,0,0) and rotate \a z_axis into (0,0,1)
@@ -735,9 +735,9 @@ namespace pcl
     * \ingroup common
     */
   inline void
-  getTransformationFromTwoUnitVectorsAndOrigin (const Eigen::Vector3f& y_direction, 
+  getTransformationFromTwoUnitVectorsAndOrigin (const Eigen::Vector3f& y_direction,
                                                 const Eigen::Vector3f& z_axis,
-                                                const Eigen::Vector3f& origin, 
+                                                const Eigen::Vector3f& origin,
                                                 Eigen::Affine3f& transformation);
 
   /** \brief Extract the Euler angles (XYZ-convention) from the given transformation
@@ -761,7 +761,7 @@ namespace pcl
     * \ingroup common
     */
   inline void
-  getTranslationAndEulerAngles (const Eigen::Affine3f& t, 
+  getTranslationAndEulerAngles (const Eigen::Affine3f& t,
                                 float& x, float& y, float& z,
                                 float& roll, float& pitch, float& yaw);
 
@@ -776,18 +776,18 @@ namespace pcl
     * \ingroup common
     */
   template <typename Scalar> inline void
-  getTransformation (Scalar x, Scalar y, Scalar z, Scalar roll, Scalar pitch, Scalar yaw, 
+  getTransformation (Scalar x, Scalar y, Scalar z, Scalar roll, Scalar pitch, Scalar yaw,
                      Eigen::Transform<Scalar, 3, Eigen::Affine> &t);
 
   inline void
-  getTransformation (float x, float y, float z, float roll, float pitch, float yaw, 
+  getTransformation (float x, float y, float z, float roll, float pitch, float yaw,
                      Eigen::Affine3f &t)
   {
     return (getTransformation<float> (x, y, z, roll, pitch, yaw, t));
   }
 
   inline void
-  getTransformation (double x, double y, double z, double roll, double pitch, double yaw, 
+  getTransformation (double x, double y, double z, double roll, double pitch, double yaw,
                      Eigen::Affine3d &t)
   {
     return (getTransformation<double> (x, y, z, roll, pitch, yaw, t));
@@ -830,8 +830,8 @@ namespace pcl
                            : (int (a) == Eigen::Dynamic || int (b) == Eigen::Dynamic) ? Eigen::Dynamic \
                            : (int (a) <= int (b)) ? int (a) : int (b))
 
-  /** \brief Returns the transformation between two point sets. 
-    * The algorithm is based on: 
+  /** \brief Returns the transformation between two point sets.
+    * The algorithm is based on:
     * "Least-squares estimation of transformation parameters between two point patterns",
     * Shinji Umeyama, PAMI 1991, DOI: 10.1109/34.88573
     *
@@ -853,14 +853,14 @@ namespace pcl
     * \param[in] src Source points \f$ \mathbf{x} = \left( x_1, \hdots, x_n \right) \f$
     * \param[in] dst Destination points \f$ \mathbf{y} = \left( y_1, \hdots, y_n \right) \f$.
     * \param[in] with_scaling Sets \f$ c=1 \f$ when <code>false</code> is passed. (default: false)
-    * \return The homogeneous transformation 
+    * \return The homogeneous transformation
     * \f{align*}
     *   T = \begin{bmatrix} c\mathbf{R} & \mathbf{t} \\ \mathbf{0} & 1 \end{bmatrix}
     * \f}
     * minimizing the resudiual above. This transformation is always returned as an
     * Eigen::Matrix.
     */
-  template <typename Derived, typename OtherDerived> 
+  template <typename Derived, typename OtherDerived>
   typename Eigen::internal::umeyama_transform_matrix_type<Derived, OtherDerived>::type
   umeyama (const Eigen::MatrixBase<Derived>& src, const Eigen::MatrixBase<OtherDerived>& dst, bool with_scaling = false);
 }

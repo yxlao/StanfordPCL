@@ -44,7 +44,7 @@ namespace pcl
 
         template<int CTA_SIZE, int STACK_DEPTH>
         struct OctreeIteratorDevice
-        {       
+        {
             typedef int Storage[STACK_DEPTH][CTA_SIZE];
 
             int level;
@@ -53,40 +53,40 @@ namespace pcl
             __device__ __forceinline__ OctreeIteratorDevice(Storage& storage_arg) : storage(storage_arg)
             {
                 level = 0; // root level
-                storage[level][threadIdx.x] = (0 << 8) + 1;                    
+                storage[level][threadIdx.x] = (0 << 8) + 1;
             }
 
-            __device__ __forceinline__ void gotoNextLevel(int first, int len) 
-            {   
+            __device__ __forceinline__ void gotoNextLevel(int first, int len)
+            {
                 ++level;
-                storage[level][threadIdx.x] = (first << 8) + len;                    
-            }       
+                storage[level][threadIdx.x] = (first << 8) + len;
+            }
 
-            __device__ __forceinline__ int operator*() const 
-            { 
-                return storage[level][threadIdx.x] >> 8; 
-            }        
+            __device__ __forceinline__ int operator*() const
+            {
+                return storage[level][threadIdx.x] >> 8;
+            }
 
             __device__ __forceinline__ void operator++()
             {
                 while(level >= 0)
                 {
-                    int data = storage[level][threadIdx.x];            
+                    int data = storage[level][threadIdx.x];
 
                     if ((data & 0xFF) > 1) // there are another siblings, can goto there
-                    {                           
+                    {
                         data += (1 << 8) - 1;  // +1 to first and -1 from len
                         storage[level][threadIdx.x] = data;
                         break;
                     }
                     else
-                        --level; //goto parent;            
-                }        
-            }        
+                        --level; //goto parent;
+                }
+            }
         };
 
         struct OctreeIteratorDeviceNS
-        {       
+        {
             int level;
             int node_idx;
             int lenght;
@@ -99,27 +99,27 @@ namespace pcl
                 lenght = 1;
             }
 
-            __device__ __forceinline__ void gotoNextLevel(int first, int len) 
-            {  
+            __device__ __forceinline__ void gotoNextLevel(int first, int len)
+            {
                 node_idx = first;
                 lenght = len;
                 ++level;
-            }       
+            }
 
-            __device__ __forceinline__ int operator*() const 
-            { 
-                return node_idx; 
-            }        
+            __device__ __forceinline__ int operator*() const
+            {
+                return node_idx;
+            }
 
             __device__ __forceinline__ void operator++()
             {
 #if 1
                 while(level >= 0)
-                {                
+                {
                     if (lenght > 1)
                     {
                         lenght--;
-                        node_idx++;                      
+                        node_idx++;
                         break;
                     }
 
@@ -127,7 +127,7 @@ namespace pcl
                     {
                         level = -1;
                         return;
-                    }                
+                    }
 
                     node_idx = octree.parent[node_idx];
                     --level;

@@ -53,7 +53,7 @@
 
 // Ignore warnings in the above headers
 #ifdef __GNUC__
-#pragma GCC system_header 
+#pragma GCC system_header
 #endif
 
 namespace pcl

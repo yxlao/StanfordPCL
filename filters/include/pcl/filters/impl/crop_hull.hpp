@@ -113,12 +113,12 @@ pcl::CropHull<PointT>::getHullCloudRange ()
       if (pt[i] > cloud_max[i]) cloud_max[i] = pt[i];
     }
   }
-  
+
   return (cloud_max - cloud_min);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template<typename PointT> template<unsigned PlaneDim1, unsigned PlaneDim2> void 
+template<typename PointT> template<unsigned PlaneDim1, unsigned PlaneDim2> void
 pcl::CropHull<PointT>::applyFilter2D (PointCloud &output)
 {
   for (size_t index = 0; index < indices_->size (); index++)
@@ -147,7 +147,7 @@ pcl::CropHull<PointT>::applyFilter2D (PointCloud &output)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template<typename PointT> template<unsigned PlaneDim1, unsigned PlaneDim2> void 
+template<typename PointT> template<unsigned PlaneDim1, unsigned PlaneDim2> void
 pcl::CropHull<PointT>::applyFilter2D (std::vector<int> &indices)
 {
   // see comments in (PointCloud& output) overload
@@ -160,7 +160,7 @@ pcl::CropHull<PointT>::applyFilter2D (std::vector<int> &indices)
               input_->points[(*indices_)[index]], hull_polygons_[poly], *hull_cloud_
          ))
       {
-        if (crop_outside_)      
+        if (crop_outside_)
           indices.push_back ((*indices_)[index]);
         break;
       }
@@ -171,7 +171,7 @@ pcl::CropHull<PointT>::applyFilter2D (std::vector<int> &indices)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template<typename PointT> void 
+template<typename PointT> void
 pcl::CropHull<PointT>::applyFilter3D (PointCloud &output)
 {
   // This algorithm could definitely be sped up using kdtree/octree
@@ -187,7 +187,7 @@ pcl::CropHull<PointT>::applyFilter3D (PointCloud &output)
     // hit the edge between polygons than coordinate-axis aligned rays would
     // be.
     size_t crossings[3] = {0,0,0};
-    Eigen::Vector3f rays[3] = 
+    Eigen::Vector3f rays[3] =
     {
       Eigen::Vector3f (0.264882f,  0.688399f, 0.675237f),
       Eigen::Vector3f (0.0145419f, 0.732901f, 0.68018f),
@@ -207,14 +207,14 @@ pcl::CropHull<PointT>::applyFilter3D (PointCloud &output)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template<typename PointT> void 
+template<typename PointT> void
 pcl::CropHull<PointT>::applyFilter3D (std::vector<int> &indices)
 {
   // see comments in applyFilter3D (PointCloud& output)
   for (size_t index = 0; index < indices_->size (); index++)
   {
     size_t crossings[3] = {0,0,0};
-    Eigen::Vector3f rays[3] = 
+    Eigen::Vector3f rays[3] =
     {
       Eigen::Vector3f(0.264882f,  0.688399f, 0.675237f),
       Eigen::Vector3f(0.0145419f, 0.732901f, 0.68018f),
@@ -320,7 +320,7 @@ pcl::CropHull<PointT>::rayTriangleIntersect (const PointT& point,
   const float t = t_numerator / denominator;
   if (t < 0 || s+t > 1)
     return (false);
-  
+
   return (true);
 }
 

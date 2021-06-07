@@ -80,7 +80,7 @@ namespace pcl
       /** \brief Setting the training features.
         * \param[in] features the training features
         */
-      void 
+      void
       setTrainingFeatures (const typename pcl::PointCloud<PointT>::ConstPtr &features)
       {
         // Do not limit the number of dimensions used in the tree
@@ -94,7 +94,7 @@ namespace pcl
         * \param classes the class labels
         * \param labels_idx the index in the class labels list for each training example
         */
-      void 
+      void
       setTrainingLabelIndicesAndLUT (const std::vector<std::string> &classes, const std::vector<int> &labels_idx)
       {
         // TODO check if min/max index is inside classes?
@@ -108,7 +108,7 @@ namespace pcl
         * \note See the setTrainingLabelIndicesAndLUT method for easily re-labeling.
         * \param labels the class label for each training example
         */
-      void 
+      void
       setTrainingLabels (const std::vector<std::string> &labels)
       {
         // Create a list of unique labels
@@ -134,7 +134,7 @@ namespace pcl
         * \param labels_file_name the class label for each training example
         * \return true on success, false on failure (read error or number of entries don't match)
         */
-      bool 
+      bool
       loadTrainingFeatures(std::string file_name, std::string labels_file_name)
       {
         typename pcl::PointCloud<PointT>::Ptr cloud (new pcl::PointCloud<PointT>);
@@ -158,7 +158,7 @@ namespace pcl
         * \param labels_file_name file name for writing the class label for each training example
         * \return true on success, false on failure (write error or number of entries don't match)
         */
-      bool 
+      bool
       saveTrainingFeatures (std::string file_name, std::string labels_file_name)
       {
         typename pcl::PointCloud<PointT>::ConstPtr training_features = tree_->getInputCloud ();
@@ -181,7 +181,7 @@ namespace pcl
         * \param max_nn if given, bounds the maximum returned neighbors to this value
         * \return pair of label and score for each training class from the neighborhood
         */
-      ResultPtr 
+      ResultPtr
       classify (const PointT &p_q, double radius, float gaussian_param, int max_nn = INT_MAX)
       {
         std::vector<int> k_indices;
@@ -198,7 +198,7 @@ namespace pcl
         * a priori!)
         * \return number of neighbors found
         */
-      int 
+      int
       getKNearestExemplars (const PointT &p_q, int k, std::vector<int> &k_indices, std::vector<float> &k_sqr_distances)
       {
         k_indices.resize (k);
@@ -214,7 +214,7 @@ namespace pcl
         * \param max_nn if given, bounds the maximum returned neighbors to this value
         * \return number of neighbors found in radius
         */
-      int 
+      int
       getSimilarExemplars (const PointT &p_q, double radius, std::vector<int> &k_indices,
                            std::vector<float> &k_sqr_distances, int max_nn = INT_MAX)
       {
@@ -226,7 +226,7 @@ namespace pcl
         * \param k_sqr_distances the resultant squared distances to the neighboring points
         * \return a square distance to each training class
         */
-      boost::shared_ptr<std::vector<float> > 
+      boost::shared_ptr<std::vector<float> >
       getSmallestSquaredDistances (std::vector<int> &k_indices, std::vector<float> &k_sqr_distances)
       {
         // Reserve space for distances
@@ -245,7 +245,7 @@ namespace pcl
         * \param k_sqr_distances the resultant squared distances to the neighboring points
         * \return pair of label and score for each training class from the neighborhood
         */
-      ResultPtr 
+      ResultPtr
       getLinearBestScores (std::vector<int> &k_indices, std::vector<float> &k_sqr_distances)
       {
         // Get smallest squared distances and transform them to a score for each class
@@ -276,7 +276,7 @@ namespace pcl
         * \param[out] k_sqr_distances the resultant squared distances to the neighboring points
         * \return pair of label and score for each training class from the neighborhood
         */
-      ResultPtr 
+      ResultPtr
       getGaussianBestScores (float gaussian_param, std::vector<int> &k_indices, std::vector<float> &k_sqr_distances)
       {
         // Get smallest squared distances and transform them to a score for each class

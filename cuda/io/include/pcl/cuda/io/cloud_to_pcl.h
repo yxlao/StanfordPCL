@@ -57,13 +57,13 @@ namespace pcl
     toPCL (const PointCloudAOS<Host> &input, const thrust::host_vector<float4> &normals, pcl::PointCloud<pcl::PointXYZRGBNormal> &output);
     PCL_EXPORTS void
     toPCL (const PointCloudAOS<Device> &input, const thrust::device_vector<float4> &normals, pcl::PointCloud<pcl::PointXYZRGBNormal> &output);
-  
+
     // convert point cloud with color
     PCL_EXPORTS void
     toPCL (const PointCloudAOS<Host> &input, pcl::PointCloud<pcl::PointXYZRGB> &output);
     PCL_EXPORTS void
     toPCL (const PointCloudAOS<Device> &input, pcl::PointCloud<pcl::PointXYZRGB> &output);
-  
+
     // convert pcl point cloud with color to pcl::cuda cloud
     PCL_EXPORTS void
     fromPCL (const pcl::PointCloud<pcl::PointXYZRGB> &input, PointCloudAOS<Host> &output);

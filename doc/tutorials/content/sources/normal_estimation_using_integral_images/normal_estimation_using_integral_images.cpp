@@ -3,14 +3,14 @@
 #include <pcl/io/io.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/features/integral_image_normal.h>
-    
-int 
+
+int
 main ()
 {
     // load point cloud
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
     pcl::io::loadPCDFile ("table_scene_mug_stereo_textured.pcd", *cloud);
-    
+
     // estimate normals
     pcl::PointCloud<pcl::Normal>::Ptr normals (new pcl::PointCloud<pcl::Normal>);
 
@@ -25,7 +25,7 @@ main ()
     pcl::visualization::PCLVisualizer viewer("PCL Viewer");
     viewer.setBackgroundColor (0.0, 0.0, 0.5);
     viewer.addPointCloudNormals<pcl::PointXYZ,pcl::Normal>(cloud, normals);
-    
+
     while (!viewer.wasStopped ())
     {
       viewer.spinOnce ();

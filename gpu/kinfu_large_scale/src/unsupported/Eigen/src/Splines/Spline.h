@@ -41,13 +41,13 @@ namespace Eigen
 
     /** \brief The point type the spline is representing. */
     typedef typename SplineTraits<Spline>::PointType PointType;
-    
+
     /** \brief The data type used to store knot vectors. */
     typedef typename SplineTraits<Spline>::KnotVectorType KnotVectorType;
-    
+
     /** \brief The data type used to store non-zero basis functions. */
     typedef typename SplineTraits<Spline>::BasisVectorType BasisVectorType;
-    
+
     /** \brief The data type representing the spline's control points. */
     typedef typename SplineTraits<Spline>::ControlPointVectorType ControlPointVectorType;
 
@@ -64,17 +64,17 @@ namespace Eigen
     * \param spline The input spline.
     **/
     template <int OtherDegree>
-    Spline(const Spline<Scalar, Dimension, OtherDegree>& spline) : 
+    Spline(const Spline<Scalar, Dimension, OtherDegree>& spline) :
     m_knots(spline.knots()), m_ctrls(spline.ctrls()) {}
 
     /**
      * \brief Returns the knots of the underlying spline.
      **/
     const KnotVectorType& knots() const { return m_knots; }
-    
+
     /**
      * \brief Returns the knots of the underlying spline.
-     **/    
+     **/
     const ControlPointVectorType& ctrls() const { return m_ctrls; }
 
     /**
@@ -109,7 +109,7 @@ namespace Eigen
      * \copydoc Spline::derivatives
      * Using the template version of this function is more efficieent since
      * temporary objects are allocated on the stack whenever this is possible.
-     **/    
+     **/
     template <int DerivativeOrder>
     typename SplineTraits<Spline,DerivativeOrder>::DerivativeType
       derivatives(Scalar u, DenseIndex order = DerivativeOrder) const;
@@ -127,7 +127,7 @@ namespace Eigen
      *   N_{i,p}(u), \hdots, N_{i+p+1,p}(u)
      * \f}
      *
-     * \param u Parameter \f$u \in [0;1]\f$ at which the non-zero basis functions 
+     * \param u Parameter \f$u \in [0;1]\f$ at which the non-zero basis functions
      *          are computed.
      **/
     typename SplineTraits<Spline>::BasisVectorType
@@ -153,17 +153,17 @@ namespace Eigen
      * \copydoc Spline::basisFunctionDerivatives
      * Using the template version of this function is more efficieent since
      * temporary objects are allocated on the stack whenever this is possible.
-     **/    
+     **/
     template <int DerivativeOrder>
     typename SplineTraits<Spline,DerivativeOrder>::BasisDerivativeType
       basisFunctionDerivatives(Scalar u, DenseIndex order = DerivativeOrder) const;
 
     /**
      * \brief Returns the spline degree.
-     **/ 
+     **/
     DenseIndex degree() const;
 
-    /** 
+    /**
      * \brief Returns the span within the knot vector in which u is falling.
      * \param u The site for which the span is determined.
      **/
@@ -173,7 +173,7 @@ namespace Eigen
      * \brief Computes the spang within the provided knot vector in which u is falling.
      **/
     static DenseIndex Span(typename SplineTraits<Spline>::Scalar u, DenseIndex degree, const typename SplineTraits<Spline>::KnotVectorType& knots);
-    
+
     /**
      * \brief Returns the spline's non-zero basis functions.
      *
@@ -221,7 +221,7 @@ namespace Eigen
     const KnotVectorType& U = knots;
 
     BasisVectorType left(p+1); left(0) = Scalar(0);
-    BasisVectorType right(p+1); right(0) = Scalar(0);        
+    BasisVectorType right(p+1); right(0) = Scalar(0);
 
     VectorBlock<BasisVectorType,Degree>(left,1,p) = u - VectorBlock<const KnotVectorType,Degree>(U,i+1-p,p).reverse();
     VectorBlock<BasisVectorType,Degree>(right,1,p) = VectorBlock<const KnotVectorType,Degree>(U,i+1,p) - u;
@@ -275,7 +275,7 @@ namespace Eigen
 
   template <typename SplineType, typename DerivativeType>
   void derivativesImpl(const SplineType& spline, typename SplineType::Scalar u, DenseIndex order, DerivativeType& der)
-  {    
+  {
     enum { Dimension = SplineTraits<SplineType>::Dimension };
     enum { Order = SplineTraits<SplineType>::OrderAtCompileTime };
     enum { DerivativeOrder = DerivativeType::ColsAtCompileTime };
@@ -286,7 +286,7 @@ namespace Eigen
     typedef typename SplineTraits<SplineType>::ControlPointVectorType ControlPointVectorType;
 
     typedef typename SplineTraits<SplineType,DerivativeOrder>::BasisDerivativeType BasisDerivativeType;
-    typedef typename BasisDerivativeType::ConstRowXpr BasisDerivativeRowXpr;    
+    typedef typename BasisDerivativeType::ConstRowXpr BasisDerivativeRowXpr;
 
     const DenseIndex p = spline.degree();
     const DenseIndex span = spline.span(u);
@@ -295,7 +295,7 @@ namespace Eigen
 
     der.resize(Dimension,n+1);
 
-    // Retrieve the basis function derivatives up to the desired order...    
+    // Retrieve the basis function derivatives up to the desired order...
     const BasisDerivativeType basis_func_ders = spline.template basisFunctionDerivatives<DerivativeOrder>(u, n+1);
 
     // ... and perform the linear combinations of the control points.
@@ -383,7 +383,7 @@ namespace Eigen
       ndu(j,j) = static_cast<Scalar>(saved);
     }
 
-    for (j = p; j>=0; --j) 
+    for (j = p; j>=0; --j)
       N_(0,j) = ndu(j,p);
 
     // Compute the derivatives

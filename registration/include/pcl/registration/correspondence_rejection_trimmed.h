@@ -68,7 +68,7 @@ namespace pcl
       public:
 
         /** \brief Empty constructor. */
-        CorrespondenceRejectorTrimmed () : 
+        CorrespondenceRejectorTrimmed () :
           overlap_ratio_ (0.5f),
           nr_min_correspondences_ (0)
         {
@@ -83,24 +83,24 @@ namespace pcl
           * \param[in] ratio ratio of overlap between 0 (no overlap, no
           * correspondences) and 1 (full overlap, all correspondences)
           */
-        virtual inline void 
+        virtual inline void
         setOverlapRadio (float ratio) { overlap_ratio_ = std::min (1.0f, std::max (0.0f, ratio)); };
 
         /** \brief Get the maximum distance used for thresholding in correspondence rejection. */
-        inline float 
+        inline float
         getOverlapRadio () { return overlap_ratio_; };
 
         /** \brief Set a minimum number of correspondences. If the specified overlap ratio causes to have
           * less correspondences,  \a CorrespondenceRejectorTrimmed will try to return at least
           * \a nr_min_correspondences_ correspondences (or all correspondences in case \a nr_min_correspondences_
-          * is less than the number of given correspondences). 
+          * is less than the number of given correspondences).
           * \param[in] min_correspondences the minimum number of correspondences
           */
-        inline void 
+        inline void
         setMinCorrespondences (unsigned int min_correspondences) { nr_min_correspondences_ = min_correspondences; };
 
         /** \brief Get the minimum number of correspondences. */
-        inline unsigned int 
+        inline unsigned int
         getMinCorrespondences () { return nr_min_correspondences_; };
 
 
@@ -118,7 +118,7 @@ namespace pcl
         /** \brief Apply the rejection algorithm.
           * \param[out] correspondences the set of resultant correspondences.
           */
-        inline void 
+        inline void
         applyRejection (pcl::Correspondences &correspondences)
         {
           getRemainingCorrespondences (*input_correspondences_, correspondences);

@@ -25,7 +25,7 @@ In the following Lines, we define the PointCloud structures, fill in the input c
    :language: cpp
    :lines: 8-27
 
-Then, we create the condition which a given point must satisfy so that it remains in our PointCloud.  To do this we must add two comparisons to the conditon, greater than 0.0, and less than 0.8.  This condition is then used to build the filter. 
+Then, we create the condition which a given point must satisfy so that it remains in our PointCloud.  To do this we must add two comparisons to the conditon, greater than 0.0, and less than 0.8.  This condition is then used to build the filter.
 
 .. literalinclude:: sources/conditional_removal/conditional_removal.cpp
    :language: cpp
@@ -58,7 +58,7 @@ You will see something similar to::
 		-0.731898 0.667105 0.441304
 		-0.734766 0.854581 -0.0361733
 		-0.4607 -0.277468 -0.916762
-  Cloud after filtering: 
+  Cloud after filtering:
 		-0.397406 -0.473106 0.292602
 		-0.731898 0.667105 0.441304
 

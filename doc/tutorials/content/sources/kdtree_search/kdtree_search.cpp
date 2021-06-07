@@ -41,17 +41,17 @@ main (int argc, char** argv)
   std::vector<int> pointIdxNKNSearch(K);
   std::vector<float> pointNKNSquaredDistance(K);
 
-  std::cout << "K nearest neighbor search at (" << searchPoint.x 
-            << " " << searchPoint.y 
+  std::cout << "K nearest neighbor search at (" << searchPoint.x
+            << " " << searchPoint.y
             << " " << searchPoint.z
             << ") with K=" << K << std::endl;
 
   if ( kdtree.nearestKSearch (searchPoint, K, pointIdxNKNSearch, pointNKNSquaredDistance) > 0 )
   {
     for (size_t i = 0; i < pointIdxNKNSearch.size (); ++i)
-      std::cout << "    "  <<   cloud->points[ pointIdxNKNSearch[i] ].x 
-                << " " << cloud->points[ pointIdxNKNSearch[i] ].y 
-                << " " << cloud->points[ pointIdxNKNSearch[i] ].z 
+      std::cout << "    "  <<   cloud->points[ pointIdxNKNSearch[i] ].x
+                << " " << cloud->points[ pointIdxNKNSearch[i] ].y
+                << " " << cloud->points[ pointIdxNKNSearch[i] ].z
                 << " (squared distance: " << pointNKNSquaredDistance[i] << ")" << std::endl;
   }
 
@@ -62,8 +62,8 @@ main (int argc, char** argv)
 
   float radius = 256.0f * rand () / (RAND_MAX + 1.0f);
 
-  std::cout << "Neighbors within radius search at (" << searchPoint.x 
-            << " " << searchPoint.y 
+  std::cout << "Neighbors within radius search at (" << searchPoint.x
+            << " " << searchPoint.y
             << " " << searchPoint.z
             << ") with radius=" << radius << std::endl;
 
@@ -71,9 +71,9 @@ main (int argc, char** argv)
   if ( kdtree.radiusSearch (searchPoint, radius, pointIdxRadiusSearch, pointRadiusSquaredDistance) > 0 )
   {
     for (size_t i = 0; i < pointIdxRadiusSearch.size (); ++i)
-      std::cout << "    "  <<   cloud->points[ pointIdxRadiusSearch[i] ].x 
-                << " " << cloud->points[ pointIdxRadiusSearch[i] ].y 
-                << " " << cloud->points[ pointIdxRadiusSearch[i] ].z 
+      std::cout << "    "  <<   cloud->points[ pointIdxRadiusSearch[i] ].x
+                << " " << cloud->points[ pointIdxRadiusSearch[i] ].y
+                << " " << cloud->points[ pointIdxRadiusSearch[i] ].z
                 << " (squared distance: " << pointRadiusSquaredDistance[i] << ")" << std::endl;
   }
 

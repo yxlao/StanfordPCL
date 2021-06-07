@@ -42,7 +42,7 @@ loadLocalDescriptors (std::string filename)
 
 
 void
-find_feature_correspondences (const LocalDescriptorsPtr & source_descriptors, 
+find_feature_correspondences (const LocalDescriptorsPtr & source_descriptors,
                               const LocalDescriptorsPtr & target_descriptors,
                               std::vector<int> & correspondences_out, std::vector<float> & correspondence_scores_out)
 {
@@ -67,12 +67,12 @@ find_feature_correspondences (const LocalDescriptorsPtr & source_descriptors,
 }
 
 
-void 
+void
 visualize_correspondences (const PointCloudPtr points1, const PointCloudPtr keypoints1,
                            const PointCloudPtr points2, const PointCloudPtr keypoints2,
                            const std::vector<int> &correspondences,
                            const std::vector<float> &correspondence_scores, int max_to_display)
-{ 
+{
   // We want to visualize two clouds side-by-side, so do to this, we'll make copies of the clouds and transform them
   // by shifting one to the left and the other to the right.  Then we'll draw lines between the corresponding points
 
@@ -140,10 +140,10 @@ visualize_correspondences (const PointCloudPtr points1, const PointCloudPtr keyp
   vis.spin ();
 }
 
-int 
+int
 main (int argc, char ** argv)
 {
-  if (argc < 3) 
+  if (argc < 3)
   {
     pcl::console::print_info ("Syntax is: %s source target <options>\n", argv[0]);
     pcl::console::print_info ("  where options are:\n");
@@ -166,8 +166,8 @@ main (int argc, char ** argv)
   std::vector<int> correspondences;
   std::vector<float> correspondence_scores;
   find_feature_correspondences (source_descriptors, target_descriptors, correspondences, correspondence_scores);
-  
-  visualize_correspondences (source_points, source_keypoints, target_points, target_keypoints, 
+
+  visualize_correspondences (source_points, source_keypoints, target_points, target_keypoints,
                              correspondences, correspondence_scores, nr_correspondences);
 
   return (0);

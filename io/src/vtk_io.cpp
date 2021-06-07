@@ -45,7 +45,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 int
-pcl::io::saveVTKFile (const std::string &file_name, 
+pcl::io::saveVTKFile (const std::string &file_name,
                       const pcl::PolygonMesh &triangles, unsigned precision)
 {
   if (triangles.cloud.data.empty ())
@@ -76,8 +76,8 @@ pcl::io::saveVTKFile (const std::string &file_name,
         count = 1;          // we simply cannot tolerate 0 counts (coming from older converter code)
       int c = 0;
       if ((triangles.cloud.fields[d].datatype == sensor_msgs::PointField::FLOAT32) && (
-           triangles.cloud.fields[d].name == "x" || 
-           triangles.cloud.fields[d].name == "y" || 
+           triangles.cloud.fields[d].name == "x" ||
+           triangles.cloud.fields[d].name == "y" ||
            triangles.cloud.fields[d].name == "z"))
       {
         float value;
@@ -148,7 +148,7 @@ pcl::io::saveVTKFile (const std::string &file_name,
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 int
-pcl::io::saveVTKFile (const std::string &file_name, 
+pcl::io::saveVTKFile (const std::string &file_name,
                       const sensor_msgs::PointCloud2 &cloud, unsigned precision)
 {
   if (cloud.data.empty ())
@@ -179,8 +179,8 @@ pcl::io::saveVTKFile (const std::string &file_name,
         count = 1;          // we simply cannot tolerate 0 counts (coming from older converter code)
       int c = 0;
       if ((cloud.fields[d].datatype == sensor_msgs::PointField::FLOAT32) && (
-           cloud.fields[d].name == "x" || 
-           cloud.fields[d].name == "y" || 
+           cloud.fields[d].name == "x" ||
+           cloud.fields[d].name == "y" ||
            cloud.fields[d].name == "z"))
       {
         float value;

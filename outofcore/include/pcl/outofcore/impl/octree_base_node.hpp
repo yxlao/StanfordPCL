@@ -119,7 +119,7 @@ namespace pcl
       if (super == NULL)
       {
         node_metadata_->setDirectoryPathname (directory_path.parent_path ());
-        
+
 //        PCL_THROW_EXCEPTION (PCLException, "[pcl::outofcore::OutofcoreOctreeBaseNode] Case not implemented\n");
 
         node_metadata_->setMetadataFilename (directory_path);
@@ -130,7 +130,7 @@ namespace pcl
           PCL_ERROR ("[pcl::outofcore::OutofcoreOctreeBaseNode] Could not find dir %s\n", node_metadata_->getDirectoryPathname ().c_str ());
           PCL_THROW_EXCEPTION (PCLException, "[pcl::outofcore::OutofcoreOctreeBaseNode] Outofcore Exception: missing directory");
         }
-        
+
         depth_ = 0;
         root_ = this;
       }
@@ -169,7 +169,7 @@ namespace pcl
         }
 
       }
-      
+
 
       loadFromFile (node_metadata_->getMetadataFilename (), super);
 
@@ -178,7 +178,7 @@ namespace pcl
         loadChildren (true);
       }
     }
-//////////////////////////////////////////////////////////////////////////////// 
+////////////////////////////////////////////////////////////////////////////////
 
     template<typename ContainerT, typename PointT> void
     OutofcoreOctreeBaseNode<ContainerT, PointT>::init_root_node (const Eigen::Vector3d& bb_min, const Eigen::Vector3d& bb_max, OutofcoreOctreeBase<ContainerT, PointT> * const tree, const boost::filesystem::path& root_name)
@@ -221,7 +221,7 @@ namespace pcl
       // Create a unique id for node file name
       /** \todo: getRandomUUIDString shouldn't be in class octree_disk_container; also this is pretty slow*/
       std::string uuid;
-      
+
       OutofcoreOctreeDiskContainer<PointT>::getRandomUUIDString (uuid);
 
       std::string node_container_name;
@@ -268,7 +268,7 @@ namespace pcl
     {
       node_metadata_ = boost::shared_ptr<OutofcoreOctreeNodeMetadata> (new OutofcoreOctreeNodeMetadata ());
       node_metadata_->setOutofcoreVersion (3);
-      
+
       init_root_node (bb_min, bb_max, tree, root_name);
 
       // Calculate the max depth but don't create nodes
@@ -414,11 +414,11 @@ namespace pcl
 
         uint8_t box = 0;
         Eigen::Vector3d mid_xyz = node_metadata_->getVoxelCenter ();
-        
+
         box = static_cast<uint8_t>(((pt.z >= mid_xyz[2]) << 2) | ((pt.y >= mid_xyz[1]) << 1) | ((pt.x >= mid_xyz[0]) << 0));
         c[static_cast<size_t>(box)].push_back (&pt);
       }
-      
+
       boost::uint64_t points_added = 0;
       for (int i = 0; i < 8; i++)
       {
@@ -438,7 +438,7 @@ namespace pcl
     OutofcoreOctreeBaseNode<ContainerT, PointT>::addDataToLeaf (const std::vector<const PointT*>& p, const bool skip_bb_check)
     {
       ///\todo deprecate this method
-      
+
       if (p.empty ())
       {
         return (0);
@@ -449,9 +449,9 @@ namespace pcl
         if (skip_bb_check)//trust me, just add the points
         {
           root_->m_tree_->incrementPointsInLOD (this->depth_, p.size ());
-          
+
           payload_->insertRange (p.data (), p.size ());
-          
+
           return (p.size ());
         }
         else//check which points belong to this node, throw away the rest
@@ -470,7 +470,7 @@ namespace pcl
             root_->m_tree_->incrementPointsInLOD (this->depth_, buff.size ());
             payload_->insertRange (buff.data (), buff.size ());
 //            payload_->insertRange ( buff );
-            
+
           }
           return (buff.size ());
         }
@@ -512,7 +512,7 @@ namespace pcl
           //3 bit, 8 octants
           c[box].push_back (p[i]);
         }
-        
+
         boost::uint64_t points_added = 0;
         for (int i = 0; i < 8; i++)
         {
@@ -534,13 +534,13 @@ namespace pcl
     template<typename ContainerT, typename PointT> boost::uint64_t
     OutofcoreOctreeBaseNode<ContainerT, PointT>::addPointCloud (const typename sensor_msgs::PointCloud2::Ptr& input_cloud, const bool skip_bb_check)
     {
-      
+
       if (input_cloud->height*input_cloud->width == 0)
         return (0);
-      
+
       if (this->depth_ == root_->m_tree_->max_depth_)
         return (addDataAtMaxDepth (input_cloud, true));
-      
+
       if( num_child_ < 8 )
         if(hasUnloadedChildren ())
           loadChildren (false);
@@ -552,7 +552,7 @@ namespace pcl
         //these lists will be used to copy data to new point clouds and pass down recursively
         std::vector < std::vector<int> > indices;
         indices.resize (8);
-        
+
         this->sortOctantIndices (input_cloud, indices, node_metadata_->getVoxelCenter ());
 
         for(int k=0; k<indices.size (); k++)
@@ -575,20 +575,20 @@ namespace pcl
           sensor_msgs::PointCloud2::Ptr dst_cloud (new sensor_msgs::PointCloud2 () );
 
 //              PCL_INFO ( "[pcl::outofcore::OutofcoreOctreeBaseNode::%s] Extracting indices to bins\n", __FUNCTION__);
-              
+
           //copy the points from extracted indices from input cloud to destination cloud
           pcl::copyPointCloud ( *input_cloud, indices[i], *dst_cloud ) ;
-          
+
           //recursively add the new cloud to the data
           points_added += children_[i]->addPointCloud (dst_cloud, false);
           indices[i].clear ();
         }
-        
+
         return (points_added);
       }
-      
+
       PCL_ERROR ("[pcl::outofcore::OutofcoreOctreeBaseNode] Skipped bounding box check. Points not inserted\n");
-      
+
       return 0;
     }
 
@@ -657,7 +657,7 @@ namespace pcl
 
         // Insert point data
         payload_->insertRange ( p );
-        
+
         ///\todo this is not a failsafe way to know all the points were written (!!!!)
         return (p.size ());
       }
@@ -676,12 +676,12 @@ namespace pcl
             buff.push_back (p[i]);
           }
         }
-        
+
         if (!buff.empty ())
         {
           root_->m_tree_->incrementPointsInLOD (this->depth_, buff.size ());
           payload_->insertRange ( buff );
-          
+
         }
         return (buff.size ());
       }
@@ -694,10 +694,10 @@ namespace pcl
       if(skip_bb_check == true)
       {
 //            PCL_INFO ("[pcl::outofcore::OutofcoreOctreeBaseNode::%s] Adding %u points at max depth, %u\n",__FUNCTION__, input_cloud->width*input_cloud->height, this->depth_);
-            
+
         this->root_->m_tree_->incrementPointsInLOD (this->depth_, input_cloud->width * input_cloud->height );
 
-        payload_->insertRange (input_cloud);            
+        payload_->insertRange (input_cloud);
 
         return (input_cloud->width * input_cloud->height);
       }
@@ -747,19 +747,19 @@ namespace pcl
     {
       /// \todo reduce number of copies in @addPointCloud_and_genLOD@ here by keeping the cloud on the heap in the first place
       boost::uint64_t points_added = 0;
-      
+
       if ( input_cloud->width * input_cloud->height == 0 )
       {
         return (0);
       }
-      
+
       if ( this->depth_ == root_->m_tree_->max_depth_ || input_cloud->width*input_cloud->height < 8 )
       {
         uint64_t points_added = addDataAtMaxDepth (input_cloud, true);
         assert (points_added > 0);
-        return (points_added);        
+        return (points_added);
       }
-      
+
       if (num_child_ < 8 )
       {
         if ( hasUnloadedChildren () )
@@ -779,7 +779,7 @@ namespace pcl
       //set sample size to 1/8 of total points (12.5%)
       uint64_t sample_size = input_cloud->width*input_cloud->height / 8;
       random_sampler.setSample (static_cast<unsigned int> (sample_size));
-      
+
       //create our destination
       sensor_msgs::PointCloud2::Ptr downsampled_cloud ( new sensor_msgs::PointCloud2 () );
       //create destination for indices
@@ -796,7 +796,7 @@ namespace pcl
       extractor.filter ( *remaining_points );
 
 //      PCL_INFO ( "[pcl::outofcore::OutofcoreOctreeBaseNode::%s] Random sampled: %lu of %lu\n", __FUNCTION__, downsampled_cloud->width * downsampled_cloud->height, input_cloud->width * input_cloud->height );
-      
+
       //insert subsampled data to the node's disk container payload
       if ( downsampled_cloud->width * downsampled_cloud->height != 0 )
       {
@@ -845,7 +845,7 @@ namespace pcl
         return (0);
 
       /// \todo: Why is skip_bb_check set to false when adding points at max depth
-      //  when adding data and generating sampled LOD 
+      //  when adding data and generating sampled LOD
       // If the max depth has been reached
       if (this->depth_ == root_->m_tree_->max_depth_)
         return (addDataAtMaxDepth(p, false));
@@ -866,7 +866,7 @@ namespace pcl
         // Insert sampled point data
 //        payload_->insertRange ( &(insertBuff.front ()), insertBuff.size());
         payload_->insertRange (insertBuff);
-        
+
       }
 
       //subdivide vec to pass data down lower
@@ -967,7 +967,7 @@ namespace pcl
       {
         Eigen::Vector3d start = min_bb;
         Eigen::Vector3d step = (max_bb - min_bb) / static_cast<double> (2.0);
-        
+
         Eigen::Vector3d childbb_min = start;
         Eigen::Vector3d childbb_max = start + step;
 
@@ -985,29 +985,29 @@ namespace pcl
           ((min_bb[2] <= point[2]) && (point[2] < max_bb[2])))
       {
         return (true);
-    
+
       }
       return (false);
     }
-    
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
     template<typename ContainerT, typename PointT> inline bool
     OutofcoreOctreeBaseNode<ContainerT, PointT>::pointInBoundingBox (const PointT& p) const
     {
-      Eigen::Vector3d min; 
+      Eigen::Vector3d min;
       Eigen::Vector3d max;
 
       node_metadata_->getBoundingBox (min, max);
-      
+
       // won't <= lead to points being added to more than one voxel?
       if (((min[0] <= p.x) && (p.x < max[0])) &&
           ((min[1] <= p.y) && (p.y < max[1])) &&
           ((min[2] <= p.z) && (p.z < max[2])))
       {
         return (true);
-    
+
       }
       return (false);
     }
@@ -1094,10 +1094,10 @@ namespace pcl
     template<typename ContainerT, typename PointT> void
     OutofcoreOctreeBaseNode<ContainerT, PointT>::queryBBIntersects (const Eigen::Vector3d& min_bb, const Eigen::Vector3d& max_bb, const boost::uint32_t query_depth, std::list<std::string>& file_names)
     {
-      
+
       Eigen::Vector3d my_min = min_bb;
       Eigen::Vector3d my_max = max_bb;
-      
+
       if (intersectsWithBoundingBox (my_min, my_max))
       {
         if (this->depth_ < query_depth)
@@ -1132,7 +1132,7 @@ namespace pcl
 ////////////////////////////////////////////////////////////////////////////////
 
     template<typename ContainerT, typename PointT> void
-    OutofcoreOctreeBaseNode<ContainerT, PointT>::queryBBIncludes (const Eigen::Vector3d& min_bb, const Eigen::Vector3d& max_bb, size_t query_depth, const sensor_msgs::PointCloud2::Ptr& dst_blob) 
+    OutofcoreOctreeBaseNode<ContainerT, PointT>::queryBBIncludes (const Eigen::Vector3d& min_bb, const Eigen::Vector3d& max_bb, size_t query_depth, const sensor_msgs::PointCloud2::Ptr& dst_blob)
     {
       uint64_t startingSize = dst_blob->width*dst_blob->height;
       PCL_DEBUG ("[pcl::outofcore::OutofcoreOctreeBaseNode::%s] Starting points in destination blob: %ul\n", __FUNCTION__, startingSize );
@@ -1176,7 +1176,7 @@ namespace pcl
           {
             //concatenate all of what was just read into the main dst_blob
             //(is it safe to do in place?)
-            
+
             //if there is already something in the destination blob (remember this method is recursive)
             if( dst_blob->width*dst_blob->height != 0 )
             {
@@ -1191,7 +1191,7 @@ namespace pcl
 //              PCL_INFO ("[pcl::outofocre::OutofcoreOctreeBaseNode::%s] Size of cloud after: %lu\n", __FUNCTION__, dst_blob->width*dst_blob->height );
             }
             //otherwise, just copy the tmp_blob into the dst_blob
-            else 
+            else
             {
 //              PCL_INFO ( "[pcl::outofcore::OutofcoreOctreeBaseNode] Copying point cloud into the destination blob\n");
               pcl::copyPointCloud (*tmp_blob, *dst_blob);
@@ -1206,7 +1206,7 @@ namespace pcl
           else
           {
 //            PCL_INFO ("[pcl::outofcore::OutofcoreOctreeBaseNode::%s] Partial extraction of points in bounding box. Desired: %.2lf %.2lf %2lf, %.2lf %.2lf %.2lf; This node BB: %.2lf %.2lf %.2lf, %.2lf %.2lf %.2lf\n", __FUNCTION__, min_bb[0], min_bb[1], min_bb[2], max_bb[0], max_bb[1], max_bb[2], min_[0], min_[1], min_[2], max_[0], max_[1], max_[2] );
-            
+
             //put the ros message into a pointxyz point cloud (just to get the indices by using getPointsInBox)
             typename pcl::PointCloud<PointT>::Ptr tmp_cloud ( new pcl::PointCloud<PointT> () );
             pcl::fromROSMsg ( *tmp_blob, *tmp_cloud );
@@ -1214,7 +1214,7 @@ namespace pcl
 
             Eigen::Vector4f min_pt ( static_cast<float> ( min_bb[0] ), static_cast<float> ( min_bb[1] ), static_cast<float> ( min_bb[2] ), 1.0f);
             Eigen::Vector4f max_pt ( static_cast<float> ( max_bb[0] ), static_cast<float> ( max_bb[1] ) , static_cast<float>( max_bb[2] ), 1.0f );
-                
+
             std::vector<int> indices;
 
             pcl::getPointsInBox ( *tmp_cloud, min_pt, max_pt, indices );
@@ -1227,7 +1227,7 @@ namespace pcl
               {
                 //need a new tmp destination with extracted points within BB
                 sensor_msgs::PointCloud2::Ptr tmp_blob_within_bb (new sensor_msgs::PointCloud2 ());
-                
+
                 //copy just the points marked in indices
                 pcl::copyPointCloud ( *tmp_blob, indices, *tmp_blob_within_bb );
                 assert ( tmp_blob_within_bb->width*tmp_blob_within_bb->height == indices.size () );
@@ -1303,7 +1303,7 @@ namespace pcl
             //read _all_ the points in from the disk container
             AlignedPointTVector payload_cache;
             payload_->readRange (0, payload_->size (), payload_cache);
-        
+
             uint64_t len = payload_->size ();
             //iterate through each of them
             for (uint64_t i = 0; i < len; i++)
@@ -1320,7 +1320,7 @@ namespace pcl
         }
       }
     }
-    
+
 ////////////////////////////////////////////////////////////////////////////////
 
     template<typename ContainerT, typename PointT> void
@@ -1409,7 +1409,7 @@ namespace pcl
     {
       node_metadata_ = boost::shared_ptr<OutofcoreOctreeNodeMetadata> (new OutofcoreOctreeNodeMetadata ());
       node_metadata_->setOutofcoreVersion (3);
-      
+
       if (super == NULL)
       {
         PCL_ERROR ( "[pc::outofcore::OutofcoreOctreeBaseNode] Super is null - don't make a root node this way!\n" );
@@ -1504,7 +1504,7 @@ namespace pcl
     {
       Eigen::Vector3d min, max;
       node_metadata_->getBoundingBox (min, max);
-      
+
       if (((min[0] <= min_bb[0]) && (min_bb[0] <= max[0])) || ((min_bb[0] <= min[0]) && (min[0] <= max_bb[0])))
       {
         if (((min[1] <= min_bb[1]) && (min_bb[1] <= max[1])) || ((min_bb[1] <= min[1]) && (min[1] <= max_bb[1])))
@@ -1811,7 +1811,7 @@ namespace pcl
       int x_offset = input_cloud->fields[x_idx].offset;
       int y_offset = input_cloud->fields[y_idx].offset;
       int z_offset = input_cloud->fields[z_idx].offset;
-      
+
       for ( size_t point_idx =0; point_idx < input_cloud->data.size (); point_idx +=input_cloud->point_step )
       {
         PointT local_pt;
@@ -1830,7 +1830,7 @@ namespace pcl
         size_t box = 0;
         box = ((local_pt.z >= mid_xyz[2]) << 2) | ((local_pt.y >= mid_xyz[1]) << 1) | ((local_pt.x >= mid_xyz[0]) << 0);
         assert ( box < 8 );
-              
+
         //insert to the vector of indices
         indices[box].push_back ( static_cast<int> ( point_idx / input_cloud->point_step ) );
       }
@@ -1841,7 +1841,7 @@ namespace pcl
     OutofcoreOctreeBaseNode<ContainerT, PointT>::enlargeToCube (Eigen::Vector3d &bb_min, Eigen::Vector3d &bb_max)
     {
       Eigen::Vector3d diff = bb_max - bb_min;
-      
+
       // X is largest, increase y/z in both +/- directions
       if (diff[0] > diff[1] && diff[0] > diff[2])
       {

@@ -8,7 +8,7 @@ pcl::cloud_composer::PropertiesModel::PropertiesModel (QObject* parent)
   setHorizontalHeaderItem (0, new QStandardItem ("Name"));
   setHorizontalHeaderItem (1, new QStandardItem ("Value"));
 
-  
+
 }
 
 pcl::cloud_composer::PropertiesModel::PropertiesModel (CloudComposerItem* parent_item, QObject* parent)
@@ -17,10 +17,10 @@ pcl::cloud_composer::PropertiesModel::PropertiesModel (CloudComposerItem* parent
 {
   setHorizontalHeaderItem (0, new QStandardItem ("Name"));
   setHorizontalHeaderItem (1, new QStandardItem ("Value"));
-  
+
   connect (this, SIGNAL (itemChanged (QStandardItem*)),
            this, SLOT (propertyChanged (QStandardItem*)));
-  
+
 }
 
 pcl::cloud_composer::PropertiesModel::PropertiesModel (const PropertiesModel& to_copy)
@@ -33,7 +33,7 @@ pcl::cloud_composer::PropertiesModel::PropertiesModel (const PropertiesModel& to
     new_row.append (parent->clone ());
     for (int j=0; j < to_copy.columnCount (parent_index); ++j)
     {
-      if (to_copy.item (i,j))      
+      if (to_copy.item (i,j))
         new_row.append (to_copy.item(i,j)->clone ());
     }
     appendRow (new_row);
@@ -42,7 +42,7 @@ pcl::cloud_composer::PropertiesModel::PropertiesModel (const PropertiesModel& to
 
 pcl::cloud_composer::PropertiesModel::~PropertiesModel ()
 {
-  
+
 }
 
 void
@@ -64,12 +64,12 @@ pcl::cloud_composer::PropertiesModel::addProperty (const QString prop_name, QVar
   QStandardItem* new_property = new QStandardItem (prop_name);
   new_property->setFlags (Qt::ItemIsSelectable);
   new_row.append (new_property);
-  
+
   QStandardItem* new_value = new QStandardItem ();
   new_value->setFlags (flags);
   new_value->setData (value, Qt::EditRole);
   new_row.append (new_value);
- 
+
   parent_item->appendRow (new_row);
 }
 
@@ -80,7 +80,7 @@ pcl::cloud_composer::PropertiesModel::addCategory (const QString category_name)
   appendRow (new_category);
 }
 
-QVariant 
+QVariant
 pcl::cloud_composer::PropertiesModel::getProperty (const QString prop_name) const
 {
   //qDebug () << "Searching for property " << prop_name;
@@ -95,7 +95,7 @@ pcl::cloud_composer::PropertiesModel::getProperty (const QString prop_name) cons
     qWarning () << "Multiple properties found with name "<<prop_name<<" in "<<parent_item_->text ();
   }
  // qDebug () << "Found properties size ="<<items.size ();
-  
+
   QStandardItem* property = items.value (0);
  // qDebug () << "Prop name="<<prop_name<<" row="<<property->row ()<<" col="<<property->column();
   int row = property->row ();
@@ -116,13 +116,13 @@ pcl::cloud_composer::PropertiesModel::copyProperties (const PropertiesModel* to_
     new_row.append (parent->clone ());
     for (int j=1; j < to_copy->columnCount (); ++j)
     {
-      if (to_copy->item (i,j))      
+      if (to_copy->item (i,j))
       {
         new_row.append (to_copy->item(i,j)->clone ());
       }
     }
     appendRow (new_row);
-    
+
   }
 }
 
@@ -132,5 +132,5 @@ pcl::cloud_composer::PropertiesModel::propertyChanged (QStandardItem* property_i
 {
   //qDebug () << "Property Changed in properties model";
   parent_item_->propertyChanged ();
-  
+
 }

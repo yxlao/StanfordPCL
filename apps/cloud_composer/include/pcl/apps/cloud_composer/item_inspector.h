@@ -57,22 +57,22 @@ namespace pcl
       public:
         ItemInspector (QWidget* parent = 0);
         virtual ~ItemInspector();
-      
+
       public slots:
-        void 
+        void
         setModel (ProjectModel* new_model);
-        void 
+        void
         selectionChanged (const QModelIndex &current, const QModelIndex &previous);
-        void 
+        void
         itemChanged (QStandardItem* item);
-        
-        
-        
+
+
+
       private:
-        void 
+        void
         createItemWidgets ();
         /** \brief Stores the state of the current tree view in item_treestate_map_  */
-        void 
+        void
         storeTreeState ();
         /** \brief Retores the state of \param model 's view from item_treestate_map_  */
         void
@@ -83,19 +83,19 @@ namespace pcl
         /** \brief Refreshes the data shown in the current displayed view widget */
         void
         updateView ();
-        
-        //! The tree object used to display/edit parameters 
+
+        //! The tree object used to display/edit parameters
         QTreeView* parameter_view_;
-        
-        
+
+
         ProjectModel* current_project_model_;
         PropertiesModel* current_item_properties_model_;
         const QItemSelectionModel *current_selection_model_;
         QMap <QString, QWidget*> itemtype_widget_map;
         QMap <QStandardItemModel*, QList <QPersistentModelIndex> > item_treestate_map_;
     };
-    
-    
+
+
   }
 }
 

@@ -47,7 +47,7 @@
 namespace pcl
 {
   namespace device
-  {   
+  {
     #define INV_DIV 3.051850947599719e-5f
 
     __device__ __forceinline__ static void
@@ -55,12 +55,12 @@ namespace pcl
     {
       ///Shift the pointer by (@origin - @start)
       *value += (buffer.tsdf_rolling_buff_origin - buffer.tsdf_memory_start);
-      
+
       ///If we land outside of the memory, make sure to "modulo" the new value
       if(*value > buffer.tsdf_memory_end)
       {
         *value -= (buffer.tsdf_memory_end - buffer.tsdf_memory_start + 1);
-      }       
+      }
     }
 
 	__device__ __forceinline__ static void
@@ -68,12 +68,12 @@ namespace pcl
 	{
 	  ///Shift the pointer by (@origin - @start)
 	  *value += (buffer.color_rolling_buff_origin - buffer.color_memory_start);
-  
+
 	  ///If we land outside of the memory, make sure to "modulo" the new value
 	  if(*value > buffer.color_memory_end)
 	  {
 		*value -= (buffer.color_memory_end - buffer.color_memory_start + 1);
-	  }       
+	  }
 	}
 
     __device__ __forceinline__ void
@@ -114,7 +114,7 @@ namespace pcl
     __device__ __forceinline__ T
     scan_warp ( volatile T *ptr, const unsigned int idx = threadIdx.x )
     {
-      const unsigned int lane = idx & 31;       // index of thread in warp (0..31) 
+      const unsigned int lane = idx & 31;       // index of thread in warp (0..31)
 
       if (lane >=  1) ptr[idx] = ptr[idx -  1] + ptr[idx];
       if (lane >=  2) ptr[idx] = ptr[idx -  2] + ptr[idx];

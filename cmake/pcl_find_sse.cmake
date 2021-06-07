@@ -75,7 +75,7 @@ macro(PCL_CHECK_FOR_SSE)
       elseif(MSVC AND NOT CMAKE_CL_64)
           set(CMAKE_REQUIRED_FLAGS "/arch:SSE2")
       endif(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
-      
+
       check_cxx_source_runs("
           #include <emmintrin.h>
           int main()
@@ -136,7 +136,7 @@ macro(PCL_CHECK_FOR_SSE)
               message(STATUS "Found SSE extensions, using flags: ${SSE_FLAGS}")
           endif(HAVE_SSE2_EXTENSIONS)
       endif ()
-     
+
     endif()
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${SSE_FLAGS}")
     set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} ${SSE_FLAGS}")

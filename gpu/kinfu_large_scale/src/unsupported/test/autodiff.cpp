@@ -146,7 +146,7 @@ void test_autodiff_vector()
   VectorAD p(AD(1),AD(-1));
   p.x().derivatives() = Vector2f::UnitX();
   p.y().derivatives() = Vector2f::UnitY();
-  
+
   AD res = foo<VectorAD>(p);
   std::cerr << res.value() << " <> "
             << res.derivatives().transpose() << "\n\n";

@@ -58,13 +58,13 @@ namespace pcl
     public:
       // =====TYPEDEFS=====
       typedef Feature<PointWithRange,BorderDescription> BaseClass;
-      
+
       // =====PUBLIC STRUCTS=====
       //! Stores some information extracted from the neighborhood of a point
       struct LocalSurface
       {
-        LocalSurface () : 
-          normal (), neighborhood_mean (), eigen_values (), normal_no_jumps (), 
+        LocalSurface () :
+          normal (), neighborhood_mean (), eigen_values (), normal_no_jumps (),
           neighborhood_mean_no_jumps (), eigen_values_no_jumps (), max_neighbor_distance_squared () {}
 
         Eigen::Vector3f normal;
@@ -75,9 +75,9 @@ namespace pcl
         Eigen::Vector3f eigen_values_no_jumps;
         float max_neighbor_distance_squared;
       };
-      
+
       //! Stores the indices of the shadow border corresponding to obstacle borders
-      struct ShadowBorderIndices 
+      struct ShadowBorderIndices
       {
         ShadowBorderIndices () : left (-1), right (-1), top (-1), bottom (-1) {}
         int left, right, top, bottom;
@@ -86,7 +86,7 @@ namespace pcl
       //! Parameters used in this class
       struct Parameters
       {
-        Parameters () : max_no_of_threads(1), pixel_radius_borders (3), pixel_radius_plane_extraction (2), pixel_radius_border_direction (2), 
+        Parameters () : max_no_of_threads(1), pixel_radius_borders (3), pixel_radius_plane_extraction (2), pixel_radius_border_direction (2),
                        minimum_border_probability (0.8f), pixel_radius_principal_curvature (2) {}
         int max_no_of_threads;
         int pixel_radius_borders;
@@ -95,47 +95,47 @@ namespace pcl
         float minimum_border_probability;
         int pixel_radius_principal_curvature;
       };
-      
+
       // =====STATIC METHODS=====
       /** \brief Take the information from BorderTraits to calculate the local direction of the border
        * \param border_traits contains the information needed to calculate the border angle
        */
       static inline float
       getObstacleBorderAngle (const BorderTraits& border_traits);
-      
+
       // =====CONSTRUCTOR & DESTRUCTOR=====
       /** Constructor */
       RangeImageBorderExtractor (const RangeImage* range_image=NULL);
       /** Destructor */
       ~RangeImageBorderExtractor ();
-      
+
       // =====METHODS=====
       /** \brief Provide a pointer to the range image
         * \param range_image a pointer to the range_image
         */
       void
       setRangeImage (const RangeImage* range_image);
-      
+
       /** \brief Erase all data calculated for the current range image */
       void
       clearData ();
-       
-      /** \brief Get the 2D directions in the range image from the border directions - probably mainly useful for 
-        * visualization 
+
+      /** \brief Get the 2D directions in the range image from the border directions - probably mainly useful for
+        * visualization
         */
       float*
       getAnglesImageForBorderDirections ();
 
-      /** \brief Get the 2D directions in the range image from the surface change directions - probably mainly useful for 
-        * visualization 
+      /** \brief Get the 2D directions in the range image from the surface change directions - probably mainly useful for
+        * visualization
         */
       float*
       getAnglesImageForSurfaceChangeDirections ();
-      
+
       /** Overwrite the compute function of the base class */
       void
       compute (PointCloudOut& output);
-      
+
       // =====GETTER=====
       Parameters&
       getParameters () { return (parameters_); }
@@ -175,8 +175,8 @@ namespace pcl
 
       Eigen::Vector3f*
       getSurfaceChangeDirections () { calculateSurfaceChanges (); return surface_change_directions_; }
-      
-      
+
+
     protected:
       // =====PROTECTED MEMBER VARIABLES=====
       Parameters parameters_;
@@ -187,11 +187,11 @@ namespace pcl
       PointCloudOut* border_descriptions_;
       ShadowBorderIndices** shadow_border_informations_;
       Eigen::Vector3f** border_directions_;
-      
+
       float* surface_change_scores_;
       Eigen::Vector3f* surface_change_directions_;
-      
-      
+
+
       // =====PROTECTED METHODS=====
       /** \brief Calculate a border score based on how distant the neighbor is, compared to the closest neighbors
        * /param local_surface
@@ -203,9 +203,9 @@ namespace pcl
        * /return the resulting border score
        */
       inline float
-      getNeighborDistanceChangeScore (const LocalSurface& local_surface, int x, int y, 
+      getNeighborDistanceChangeScore (const LocalSurface& local_surface, int x, int y,
                                       int offset_x, int offset_y, int pixel_radius=1) const;
-      
+
       /** \brief Calculate a border score based on how much the neighbor is away from the local surface plane
         * \param local_surface
         * \param x
@@ -215,9 +215,9 @@ namespace pcl
         * \return the resulting border score
         */
       inline float
-      getNormalBasedBorderScore (const LocalSurface& local_surface, int x, int y, 
+      getNormalBasedBorderScore (const LocalSurface& local_surface, int x, int y,
                                  int offset_x, int offset_y) const;
-      
+
       /** \brief Find the best corresponding shadow border and lower score according to the shadow borders value
         * \param x
         * \param y
@@ -231,7 +231,7 @@ namespace pcl
       inline bool
       changeScoreAccordingToShadowBorderValue (int x, int y, int offset_x, int offset_y, float* border_scores,
                                                float* border_scores_other_direction, int& shadow_border_idx) const;
-      
+
       /** \brief Returns a new score for the given pixel that is >= the original value, based on the neighbors values
         * \param x the x-coordinate of the input pixel
         * \param y the y-coordinate of the input pixel
@@ -251,7 +251,7 @@ namespace pcl
       /** \brief Replace all border score values with updates according to \a updatedScoreAccordingToNeighborValues */
       void
       updateScoresAccordingToNeighborValues ();
-      
+
       /** \brief Check if a potential border point has a corresponding shadow border
         * \param x the x-coordinate of the input point
         * \param y the y-coordinate of the input point
@@ -277,42 +277,42 @@ namespace pcl
         */
       inline bool
       checkIfMaximum (int x, int y, int offset_x, int offset_y, float* border_scores, int shadow_border_idx) const;
-      
+
       /** \brief Find the best corresponding shadow border and lower score according to the shadow borders value */
       void
       findAndEvaluateShadowBorders ();
-      
+
       /** \brief Extract local plane information in every point (see getSurfaceStructure ()) */
       void
       extractLocalSurfaceStructure ();
-      
-      /** \brief Get images representing the probability that the corresponding pixels are borders in that direction 
+
+      /** \brief Get images representing the probability that the corresponding pixels are borders in that direction
         * (see getBorderScores... ())
         */
       void
       extractBorderScoreImages ();
-      
-      /** \brief Classify the pixels in the range image according to the different classes defined below in 
-        * enum BorderClass. minImpactAngle (in radians) defines how flat the angle at which a surface was seen can be. 
+
+      /** \brief Classify the pixels in the range image according to the different classes defined below in
+        * enum BorderClass. minImpactAngle (in radians) defines how flat the angle at which a surface was seen can be.
         */
       void
       classifyBorders ();
-      
-      /** \brief Calculate the 3D direction of the border just using the border traits at this position (facing away from 
+
+      /** \brief Calculate the 3D direction of the border just using the border traits at this position (facing away from
         * the obstacle)
         * \param x the x-coordinate of the input position
         * \param y the y-coordinate of the input position
         */
       inline void
       calculateBorderDirection (int x, int y);
-      
-      /** \brief Call \a calculateBorderDirection for every point and average the result over 
+
+      /** \brief Call \a calculateBorderDirection for every point and average the result over
         * parameters_.pixel_radius_border_direction
         */
       void
       calculateBorderDirections ();
-      
-      /** \brief Calculate a 3d direction from a border point by projecting the direction in the range image - returns 
+
+      /** \brief Calculate a 3d direction from a border point by projecting the direction in the range image - returns
         * false if direction could not be calculated
         * \param border_description
         * \param direction
@@ -322,8 +322,8 @@ namespace pcl
       inline bool
       get3dDirection (const BorderDescription& border_description, Eigen::Vector3f& direction,
                       const LocalSurface* local_surface=NULL);
-      
-      /** \brief Calculate the main principal curvature (the largest eigenvalue and corresponding eigenvector for the 
+
+      /** \brief Calculate the main principal curvature (the largest eigenvalue and corresponding eigenvector for the
         * normals in the area) in the given point
         * \param x the x-coordinate of the input point
         * \param y the y-coordinate of the input point
@@ -334,8 +334,8 @@ namespace pcl
       inline bool
       calculateMainPrincipalCurvature (int x, int y, int radius, float& magnitude,
                                        Eigen::Vector3f& main_direction) const;
-      
-      /** \brief Uses either the border or principal curvature to define a score how much the surface changes in a point 
+
+      /** \brief Uses either the border or principal curvature to define a score how much the surface changes in a point
           (1 for a border) and what the main direction of that change is */
       void
       calculateSurfaceChanges ();
@@ -343,16 +343,16 @@ namespace pcl
       /** \brief Apply a blur to the surface change images */
       void
       blurSurfaceChanges ();
-      
+
       /** \brief Implementation of abstract derived function */
       virtual void
       computeFeature (PointCloudOut &output);
 
     private:
       /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf>&) {}
   };
 }  // namespace end

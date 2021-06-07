@@ -45,10 +45,10 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointInT, typename PointOutT> void
 pcl::IntensitySpinEstimation<PointInT, PointOutT>::computeIntensitySpinImage (
-      const PointCloudIn &cloud, float radius, float sigma, 
+      const PointCloudIn &cloud, float radius, float sigma,
       int k,
-      const std::vector<int> &indices, 
-      const std::vector<float> &squared_distances, 
+      const std::vector<int> &indices,
+      const std::vector<float> &squared_distances,
       Eigen::MatrixXf &intensity_spin_image)
 {
   // Determine the number of bins to use based on the size of intensity_spin_image
@@ -72,7 +72,7 @@ pcl::IntensitySpinEstimation<PointInT, PointOutT>::computeIntensitySpinImage (
     // Normalize distance and intensity values to: 0.0 <= d,i < nr_distance_bins,nr_intensity_bins
     const float eps = std::numeric_limits<float>::epsilon ();
     float d = static_cast<float> (nr_distance_bins) * sqrtf (squared_distances[idx]) / (radius + eps);
-    float i = static_cast<float> (nr_intensity_bins) * 
+    float i = static_cast<float> (nr_intensity_bins) *
               (cloud.points[indices[idx]].intensity - min_intensity) / (max_intensity - min_intensity + eps);
 
     if (sigma == 0)
@@ -89,9 +89,9 @@ pcl::IntensitySpinEstimation<PointInT, PointOutT>::computeIntensitySpinImage (
       int d_idx_max = (std::min)(static_cast<int> (ceil  (d + 3*sigma)), nr_distance_bins - 1);
       int i_idx_min = (std::max)(static_cast<int> (floor (i - 3*sigma)), 0);
       int i_idx_max = (std::min)(static_cast<int> (ceil  (i + 3*sigma)), nr_intensity_bins - 1);
-   
-      // Update the appropriate bins of the histogram 
-      for (int i_idx = i_idx_min; i_idx <= i_idx_max; ++i_idx)  
+
+      // Update the appropriate bins of the histogram
+      for (int i_idx = i_idx_min; i_idx <= i_idx_max; ++i_idx)
       {
         for (int d_idx = d_idx_min; d_idx <= d_idx_max; ++d_idx)
         {
@@ -140,7 +140,7 @@ pcl::IntensitySpinEstimation<PointInT, PointOutT>::computeFeature (PointCloudOut
   // Allocate enough space to hold the radiusSearch results
   std::vector<int> nn_indices (surface_->points.size ());
   std::vector<float> nn_dist_sqr (surface_->points.size ());
- 
+
   output.is_dense = true;
   // Iterating over the entire index vector
   for (size_t idx = 0; idx < indices_->size (); ++idx)
@@ -207,7 +207,7 @@ pcl::IntensitySpinEstimation<PointInT, Eigen::MatrixXf>::computeFeatureEigen (pc
   // Allocate enough space to hold the radiusSearch results
   std::vector<int> nn_indices;
   std::vector<float> nn_dist_sqr;
- 
+
   output.is_dense = true;
   // Iterating over the entire index vector
   for (size_t idx = 0; idx < indices_->size (); ++idx)
@@ -235,5 +235,5 @@ pcl::IntensitySpinEstimation<PointInT, Eigen::MatrixXf>::computeFeatureEigen (pc
 
 #define PCL_INSTANTIATE_IntensitySpinEstimation(T,NT) template class PCL_EXPORTS pcl::IntensitySpinEstimation<T,NT>;
 
-#endif    // PCL_FEATURES_IMPL_INTENSITY_SPIN_H_ 
+#endif    // PCL_FEATURES_IMPL_INTENSITY_SPIN_H_
 

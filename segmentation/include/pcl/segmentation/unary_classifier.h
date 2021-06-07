@@ -54,7 +54,7 @@
 namespace pcl
 {
   /** \brief
-    * 
+    *
     */
   template <typename PointT>
   class PCL_EXPORTS UnaryClassifier
@@ -65,7 +65,7 @@ namespace pcl
       UnaryClassifier ();
 
       /** \brief This destructor destroys the cloud...
-        * 
+        *
         */
       ~UnaryClassifier ();
 
@@ -75,9 +75,9 @@ namespace pcl
       void
       setInputCloud (typename pcl::PointCloud<PointT>::Ptr input_cloud);
 
-      void 
+      void
       train (pcl::PointCloud<pcl::FPFHSignature33>::Ptr &output);
-      
+
       void
       trainWithLabel (std::vector<pcl::PointCloud<pcl::FPFHSignature33>, Eigen::aligned_allocator<pcl::PointCloud<pcl::FPFHSignature33> > > &output);
 
@@ -99,13 +99,13 @@ namespace pcl
 
       void
       setClusterSize (unsigned int k){cluster_size_ = k;};
-      
+
       void
       setNormalRadiusSearch (float param){normal_radius_search_ = param;};
-      
+
       void
       setFPFHRadiusSearch (float param){fpfh_radius_search_ = param;};
-      
+
       void
       setLabelField (bool l){label_field_ = l;};
 
@@ -139,7 +139,7 @@ namespace pcl
                    pcl::PointCloud<pcl::FPFHSignature33>::Ptr out,
                    float normal_radius_search,
                    float fpfh_radius_search);
-      
+
       void
       kmeansClustering (pcl::PointCloud<pcl::FPFHSignature33>::Ptr in,
                         pcl::PointCloud<pcl::FPFHSignature33>::Ptr out,
@@ -149,16 +149,16 @@ namespace pcl
 
       /** \brief Contains the input cloud */
       typename pcl::PointCloud<PointT>::Ptr input_cloud_;
-      
+
       bool label_field_;
-      
+
       unsigned int cluster_size_;
 
       float normal_radius_search_;
       float fpfh_radius_search_;
       float feature_threshold_;
-      
-      
+
+
       std::vector<pcl::PointCloud<pcl::FPFHSignature33>::Ptr> trained_features_;
 
       /** \brief Contains normals of the points that will be segmented. */

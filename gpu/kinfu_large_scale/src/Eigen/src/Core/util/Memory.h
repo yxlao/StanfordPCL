@@ -183,7 +183,7 @@ inline void check_that_malloc_is_allowed()
 {
   eigen_assert(is_malloc_allowed() && "heap allocation is forbidden (EIGEN_RUNTIME_NO_MALLOC is defined and g_is_malloc_allowed is false)");
 }
-#else 
+#else
 inline void check_that_malloc_is_allowed()
 {}
 #endif
@@ -574,7 +574,7 @@ template<typename T> class aligned_stack_memory_handler
     Eigen::internal::check_size_for_overflow<TYPE>(SIZE); \
     TYPE* NAME = (BUFFER)!=0 ? BUFFER : reinterpret_cast<TYPE*>(Eigen::internal::aligned_malloc(sizeof(TYPE)*SIZE));    \
     Eigen::internal::aligned_stack_memory_handler<TYPE> EIGEN_CAT(NAME,_stack_memory_destructor)((BUFFER)==0 ? NAME : 0,SIZE,true)
-    
+
 #endif
 
 
@@ -635,7 +635,7 @@ template<typename T> class aligned_stack_memory_handler
 * Example:
 * \code
 * // Matrix4f requires 16 bytes alignment:
-* std::map< int, Matrix4f, std::less<int>, 
+* std::map< int, Matrix4f, std::less<int>,
 *           aligned_allocator<std::pair<const int, Matrix4f> > > my_map_mat4;
 * // Vector3f does not require 16 bytes alignment, no need to use Eigen's allocator:
 * std::map< int, Vector3f > my_map_vec3;

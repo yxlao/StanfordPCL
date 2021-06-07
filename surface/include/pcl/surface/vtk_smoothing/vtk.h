@@ -40,7 +40,7 @@
 #define PCL_SURFACE_VTK_H_
 
 #if defined __GNUC__
-#  pragma GCC system_header 
+#  pragma GCC system_header
 #endif
 
 #include <vtkPolyData.h>

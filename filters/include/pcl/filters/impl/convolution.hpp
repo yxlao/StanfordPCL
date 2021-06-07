@@ -396,7 +396,7 @@ namespace pcl
     Convolution<pcl::RGB, pcl::RGB>::makeInfinite (pcl::RGB& p)
     {
       p.r = 0; p.g = 0; p.b = 0;
-    }    
+    }
   }
 }
 

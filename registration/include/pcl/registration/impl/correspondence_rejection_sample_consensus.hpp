@@ -42,9 +42,9 @@
 #include <pcl/registration/boost.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointT> void 
+template <typename PointT> void
 pcl::registration::CorrespondenceRejectorSampleConsensus<PointT>::getRemainingCorrespondences (
-    const pcl::Correspondences& original_correspondences, 
+    const pcl::Correspondences& original_correspondences,
     pcl::Correspondences& remaining_correspondences)
 {
   if (!input_)

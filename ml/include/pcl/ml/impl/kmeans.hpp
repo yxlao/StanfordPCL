@@ -50,7 +50,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT>
-pcl::Kmeans<PointT>::Kmeans () 
+pcl::Kmeans<PointT>::Kmeans ()
   : cluster_field_name_ ("")
 {
 }
@@ -110,30 +110,30 @@ pcl::Kmeans<PointT>::cluster (std::vector<PointIndices> &clusters)
     {
       DataPoint data (3);
       data[0] = input_->points[i].data[0];
-      
+
 
 
     }
 */
 
     std::cout << "x index: " << x_index << std::endl;
-    
+
     float x = 0.0;
     memcpy (&x, &input_->points[0] + fields[x_index].offset, sizeof(float));
-    
+
     std::cout << "xxx: " << x << std::endl;
-    
+
 
     //memcpy (&x, reinterpret_cast<float*> (&input_->points[0]) + x_index, sizeof (float));
-    
+
 
     //int rgba_index = 1;
 
     //pcl::RGB rgb;
     //memcpy (&rgb, reinterpret_cast<const char*> (&input_->points[index_vector[i].cloud_point_index]) + rgba_index, sizeof (RGB));
 
-    
-    
+
+
   }
   // if cluster field name is set, check if field name is valied
   else
@@ -147,9 +147,9 @@ pcl::Kmeans<PointT>::cluster (std::vector<PointIndices> &clusters)
     }
   }
 
-  
-  
-  
+
+
+
 /*
   int xyz_index = -1;
   pcl::PointCloud <PointT> point;
@@ -163,24 +163,24 @@ pcl::Kmeans<PointT>::cluster (std::vector<PointIndices> &clusters)
 
 
   std::cout << "index: " << xyz_index << std::endl;
-  
+
   std::string t = pcl::getFieldsList (point);
   std::cout << "t: " << t << std::endl;
 */
-  
+
   //std::vector <sensor_msgs::PointField> fields;
   //pcl::getFieldIndex (*input_, "xyz", fields);
-  
-  
+
+
   //std::cout << "field: " << fields[xyz_index].count << std::endl;
-  
+
 
 /*
   for (size_t i = 0; i < fields[vfh_idx].count; ++i)
   {
-    
+
     //vfh.second[i] = point.points[0].histogram[i];
-    
+
   }
 */
 

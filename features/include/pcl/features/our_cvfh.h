@@ -175,7 +175,7 @@ namespace pcl
         radius_normals_ = radius_normals;
       }
 
-      /** \brief Get the viewpoint. 
+      /** \brief Get the viewpoint.
        * \param[out] vpx the X coordinate of the viewpoint
        * \param[out] vpy the Y coordinate of the viewpoint
        * \param[out] vpz the Z coordinate of the viewpoint
@@ -208,7 +208,7 @@ namespace pcl
           centroids.push_back (dominant_normals_[i]);
       }
 
-      /** \brief Sets max. Euclidean distance between points to be added to the cluster 
+      /** \brief Sets max. Euclidean distance between points to be added to the cluster
        * \param[in] d the maximum Euclidean distance
        */
 
@@ -316,12 +316,12 @@ namespace pcl
       compute (PointCloudOut &output);
 
     private:
-      /** \brief Values describing the viewpoint ("pinhole" camera model assumed). 
+      /** \brief Values describing the viewpoint ("pinhole" camera model assumed).
        * By default, the viewpoint is set to 0,0,0.
        */
       float vpx_, vpy_, vpz_;
 
-      /** \brief Size of the voxels after voxel gridding. IMPORTANT: Must match the voxel 
+      /** \brief Size of the voxels after voxel gridding. IMPORTANT: Must match the voxel
        * size of the training data or the normalize_bins_ flag must be set to true.
        */
       float leaf_size_;
@@ -365,7 +365,7 @@ namespace pcl
       void
       computeFeature (PointCloudOut &output);
 
-      /** \brief Region growing method using Euclidean distances and neighbors normals to 
+      /** \brief Region growing method using Euclidean distances and neighbors normals to
        * add points to a region.
        * \param[in] cloud point cloud to split into regions
        * \param[in] normals are the normals of cloud

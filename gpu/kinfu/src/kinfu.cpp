@@ -76,12 +76,12 @@ pcl::gpu::KinfuTracker::KinfuTracker (int rows, int cols) : rows_(rows), cols_(c
 {
   const Vector3f volume_size = Vector3f::Constant (VOLUME_SIZE);
   const Vector3i volume_resolution(VOLUME_X, VOLUME_Y, VOLUME_Z);
-   
+
   tsdf_volume_ = TsdfVolume::Ptr( new TsdfVolume(volume_resolution) );
   tsdf_volume_->setSize(volume_size);
-  
+
   setDepthIntrinsics (525.f, 525.f); // default values, can be overwritten
-  
+
   init_Rcam_ = Eigen::Matrix3f::Identity ();// * AngleAxisf(-30.f/180*3.1415926, Vector3f::UnitX());
   init_tcam_ = volume_size * 0.5f - Vector3f (0, 0, volume_size (2) / 2 * 1.2f);
 
@@ -110,7 +110,7 @@ pcl::gpu::KinfuTracker::setDepthIntrinsics (float fx, float fy, float cx, float 
   fx_ = fx;
   fy_ = fy;
   cx_ = (cx == -1) ? cols_/2-0.5f : cx;
-  cy_ = (cy == -1) ? rows_/2-0.5f : cy;  
+  cy_ = (cy == -1) ? rows_/2-0.5f : cy;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -133,7 +133,7 @@ pcl::gpu::KinfuTracker::setDepthTruncationForICP (float max_icp_distance)
 void
 pcl::gpu::KinfuTracker::setCameraMovementThreshold(float threshold)
 {
-  integration_metric_threshold_ = threshold;  
+  integration_metric_threshold_ = threshold;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,15 +173,15 @@ pcl::gpu::KinfuTracker::reset()
   tvecs_.push_back (init_tcam_);
 
   tsdf_volume_->reset();
-    
+
   if (color_volume_) // color integration mode is enabled
-    color_volume_->reset();    
+    color_volume_->reset();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void
 pcl::gpu::KinfuTracker::allocateBufffers (int rows, int cols)
-{    
+{
   depths_curr_.resize (LEVELS);
   vmaps_g_curr_.resize (LEVELS);
   nmaps_g_curr_.resize (LEVELS);
@@ -211,7 +211,7 @@ pcl::gpu::KinfuTracker::allocateBufffers (int rows, int cols)
     nmaps_curr_[i].create (pyr_rows*3, pyr_cols);
 
     coresps_[i].create (pyr_rows, pyr_cols);
-  }  
+  }
   depthRawScaled_.create (rows, cols);
   // see estimate tranform for the magic numbers
   gbuf_.create (27, 20*60);
@@ -221,7 +221,7 @@ pcl::gpu::KinfuTracker::allocateBufffers (int rows, int cols)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool
 pcl::gpu::KinfuTracker::operator() (const DepthMap& depth_raw)
-{  
+{
   device::Intr intr (fx_, fy_, cx_, cy_);
   {
     //ScopeTime time(">>> Bilateral, pyr-down-all, create-maps-all");
@@ -256,7 +256,7 @@ pcl::gpu::KinfuTracker::operator() (const DepthMap& depth_raw)
     Mat33&   device_Rcam_inv = device_cast<Mat33> (init_Rcam_inv);
     float3 device_volume_size = device_cast<const float3>(tsdf_volume_->getSize());
 
-    //integrateTsdfVolume(depth_raw, intr, device_volume_size, device_Rcam_inv, device_tcam, tranc_dist, volume_);    
+    //integrateTsdfVolume(depth_raw, intr, device_volume_size, device_Rcam_inv, device_tcam, tranc_dist, volume_);
     device::integrateTsdfVolume(depth_raw, intr, device_volume_size, device_Rcam_inv, device_tcam, tsdf_volume_->getTsdfTruncDist(), tsdf_volume_->data(), depthRawScaled_);
 
     for (int i = 0; i < LEVELS; ++i)
@@ -346,13 +346,13 @@ pcl::gpu::KinfuTracker::operator() (const DepthMap& depth_raw)
   //save tranform
   rmats_.push_back (Rcurr);
   tvecs_.push_back (tcurr);
-  
+
   ///////////////////////////////////////////////////////////////////////////////////////////
-  // Integration check - We do not integrate volume if camera does not move.  
+  // Integration check - We do not integrate volume if camera does not move.
   float rnorm = rodrigues2(Rcurr.inverse() * Rprev).norm();
-  float tnorm = (tcurr - tprev).norm();  
+  float tnorm = (tcurr - tprev).norm();
   const float alpha = 1.f;
-  bool integrate = (rnorm + alpha * tnorm)/2 >= integration_metric_threshold_;  
+  bool integrate = (rnorm + alpha * tnorm)/2 >= integration_metric_threshold_;
 
   ///////////////////////////////////////////////////////////////////////////////////////////
   // Volume integration
@@ -372,7 +372,7 @@ pcl::gpu::KinfuTracker::operator() (const DepthMap& depth_raw)
   // Ray casting
   Mat33& device_Rcurr = device_cast<Mat33> (Rcurr);
   {
-    //ScopeTime time("ray-cast-all");                
+    //ScopeTime time("ray-cast-all");
     raycast (intr, device_Rcurr, device_tcurr, tsdf_volume_->getTsdfTruncDist(), device_volume_size, tsdf_volume_->data(), vmaps_g_prev_[0], nmaps_g_prev_[0]);
     for (int i = 1; i < LEVELS; ++i)
     {
@@ -408,15 +408,15 @@ pcl::gpu::KinfuTracker::getNumberOfPoses () const
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const TsdfVolume& 
-pcl::gpu::KinfuTracker::volume() const 
-{ 
-  return *tsdf_volume_; 
+const TsdfVolume&
+pcl::gpu::KinfuTracker::volume() const
+{
+  return *tsdf_volume_;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-TsdfVolume& 
+TsdfVolume&
 pcl::gpu::KinfuTracker::volume()
 {
   return *tsdf_volume_;
@@ -424,7 +424,7 @@ pcl::gpu::KinfuTracker::volume()
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const ColorVolume& 
+const ColorVolume&
 pcl::gpu::KinfuTracker::colorVolume() const
 {
   return *color_volume_;
@@ -432,12 +432,12 @@ pcl::gpu::KinfuTracker::colorVolume() const
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ColorVolume& 
+ColorVolume&
 pcl::gpu::KinfuTracker::colorVolume()
 {
   return *color_volume_;
 }
-     
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void
 pcl::gpu::KinfuTracker::getImage (View& view) const
@@ -475,14 +475,14 @@ pcl::gpu::KinfuTracker::getLastFrameNormals (DeviceArray2D<NormalType>& normals)
 
 void
 pcl::gpu::KinfuTracker::initColorIntegration(int max_weight)
-{     
-  color_volume_ = pcl::gpu::ColorVolume::Ptr( new ColorVolume(*tsdf_volume_, max_weight) );  
+{
+  color_volume_ = pcl::gpu::ColorVolume::Ptr( new ColorVolume(*tsdf_volume_, max_weight) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 pcl::gpu::KinfuTracker::operator() (const DepthMap& depth, const View& colors)
-{ 
+{
   bool res = (*this)(depth);
 
   if (res && color_volume_)
@@ -492,11 +492,11 @@ pcl::gpu::KinfuTracker::operator() (const DepthMap& depth, const View& colors)
 
     Matrix3frm R_inv = rmats_.back().inverse();
     Vector3f   t     = tvecs_.back();
-    
+
     Mat33&  device_Rcurr_inv = device_cast<Mat33> (R_inv);
     float3& device_tcurr = device_cast<float3> (t);
-    
-    device::updateColorVolume(intr, tsdf_volume_->getTsdfTruncDist(), device_Rcurr_inv, device_tcurr, vmaps_g_prev_[0], 
+
+    device::updateColorVolume(intr, tsdf_volume_->getTsdfTruncDist(), device_Rcurr_inv, device_tcurr, vmaps_g_prev_[0],
         colors, device_volume_size, color_volume_->data(), color_volume_->getMaxWeight());
   }
 
@@ -509,7 +509,7 @@ namespace pcl
 {
   namespace gpu
   {
-    PCL_EXPORTS void 
+    PCL_EXPORTS void
     paint3DView(const KinfuTracker::View& rgb24, KinfuTracker::View& view, float colors_weight = 0.5f)
     {
       device::paint3DView(rgb24, view, colors_weight);
@@ -524,12 +524,12 @@ namespace pcl
       const DeviceArray<float4>& c = (const DeviceArray<float4>&)cloud;
       const DeviceArray<float8>& n = (const DeviceArray<float8>&)normals;
       const DeviceArray<float12>& o = (const DeviceArray<float12>&)output;
-      device::mergePointNormal(c, n, o);           
+      device::mergePointNormal(c, n, o);
     }
 
     Eigen::Vector3f rodrigues2(const Eigen::Matrix3f& matrix)
     {
-      Eigen::JacobiSVD<Eigen::Matrix3f> svd(matrix, Eigen::ComputeFullV | Eigen::ComputeFullU);    
+      Eigen::JacobiSVD<Eigen::Matrix3f> svd(matrix, Eigen::ComputeFullV | Eigen::ComputeFullU);
       Eigen::Matrix3f R = svd.matrixU() * svd.matrixV().transpose();
 
       double rx = R(2, 1) - R(1, 2);

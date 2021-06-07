@@ -41,13 +41,13 @@ namespace pcl
 {
     namespace device
     {
-        template<typename T>    
+        template<typename T>
         __device__ __forceinline__ void swap(T& a, T& b) { T t = a; a = b; b = t; }
 
         template<typename V, typename K>
         __device__ __forceinline__ void bitonicSortWarp(volatile K* keys, volatile V* vals, unsigned int dir = 1)
         {
-            const unsigned int arrayLength = 64;   
+            const unsigned int arrayLength = 64;
             unsigned int lane = threadIdx.x & 31;
 
             for(unsigned int size = 2; size < arrayLength; size <<= 1)
@@ -56,27 +56,27 @@ namespace pcl
                 unsigned int ddd = dir ^ ( (lane & (size / 2)) != 0 );
 
                 for(unsigned int stride = size / 2; stride > 0; stride >>= 1)
-                {            
+                {
                     unsigned int pos = 2 * lane - (lane & (stride - 1));
 
                     if ( (keys[pos] > keys[pos + stride]) == ddd )
                     {
                         swap(keys[pos], keys[pos + stride]);
                         swap(vals[pos], vals[pos + stride]);
-                    }            
+                    }
                 }
             }
 
             //ddd == dir for the last bitonic merge step
             for(unsigned int stride = arrayLength / 2; stride > 0; stride >>= 1)
-            {        
+            {
                 unsigned int pos = 2 * lane - (lane & (stride - 1));
 
                 if ( (keys[pos] > keys[pos + stride]) == dir )
                 {
                     swap(keys[pos], keys[pos + stride]);
                     swap(vals[pos], vals[pos + stride]);
-                }     
+                }
             }
         }
 

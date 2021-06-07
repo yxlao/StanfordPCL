@@ -76,7 +76,7 @@ pcl::MaximumLikelihoodSampleConsensus<PointT>::computeModel (int debug_verbosity
   unsigned skipped_count = 0;
   // supress infinite loops by just allowing 10 x maximum allowed iterations for invalid model parameters!
   const unsigned max_skip = max_iterations_ * 10;
-  
+
   // Iterate
   while (iterations_ < k && skipped_count < max_skip)
   {
@@ -194,8 +194,8 @@ pcl::MaximumLikelihoodSampleConsensus<PointT>::computeModel (int debug_verbosity
 //////////////////////////////////////////////////////////////////////////
 template <typename PointT> double
 pcl::MaximumLikelihoodSampleConsensus<PointT>::computeMedianAbsoluteDeviation (
-    const PointCloudConstPtr &cloud, 
-    const boost::shared_ptr <std::vector<int> > &indices, 
+    const PointCloudConstPtr &cloud,
+    const boost::shared_ptr <std::vector<int> > &indices,
     double sigma)
 {
   std::vector<double> distances (indices->size ());
@@ -227,9 +227,9 @@ pcl::MaximumLikelihoodSampleConsensus<PointT>::computeMedianAbsoluteDeviation (
 //////////////////////////////////////////////////////////////////////////
 template <typename PointT> void
 pcl::MaximumLikelihoodSampleConsensus<PointT>::getMinMax (
-    const PointCloudConstPtr &cloud, 
-    const boost::shared_ptr <std::vector<int> > &indices, 
-    Eigen::Vector4f &min_p, 
+    const PointCloudConstPtr &cloud,
+    const boost::shared_ptr <std::vector<int> > &indices,
+    Eigen::Vector4f &min_p,
     Eigen::Vector4f &max_p)
 {
   min_p.setConstant (FLT_MAX);
@@ -251,8 +251,8 @@ pcl::MaximumLikelihoodSampleConsensus<PointT>::getMinMax (
 //////////////////////////////////////////////////////////////////////////
 template <typename PointT> void
 pcl::MaximumLikelihoodSampleConsensus<PointT>::computeMedian (
-    const PointCloudConstPtr &cloud, 
-    const boost::shared_ptr <std::vector<int> > &indices, 
+    const PointCloudConstPtr &cloud,
+    const boost::shared_ptr <std::vector<int> > &indices,
     Eigen::Vector4f &median)
 {
   // Copy the values to vectors for faster sorting

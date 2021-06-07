@@ -82,7 +82,7 @@ TEST(MACROS, expect_near_vectors_macro)
   EXPECT_NEAR_VECTORS (ev1, v2, 2*epsilon);
 }
 
-int 
+int
 main (int argc, char** argv)
 {
 #if ((PCL_MAJOR_VERSION == 1) && (PCL_MINOR_VERSION == 4))

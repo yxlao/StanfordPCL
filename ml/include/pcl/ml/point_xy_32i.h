@@ -34,7 +34,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  */
-  
+
 #ifndef PCL_ML_POINT_XY_32I_H_
 #define PCL_ML_POINT_XY_32I_H_
 
@@ -46,7 +46,7 @@
 namespace pcl
 {
 
-  /** \brief 2D point with integer x- and y-coordinates. */ 
+  /** \brief 2D point with integer x- and y-coordinates. */
   class PCL_EXPORTS PointXY32i
   {
     public:
@@ -58,7 +58,7 @@ namespace pcl
       /** \brief Serializes the point to the specified stream.
         * \param[out] The destination for the serialization.
         */
-      inline void 
+      inline void
       serialize (std::ostream & stream) const
       {
         stream.write (reinterpret_cast<const char*> (&x), sizeof (x));
@@ -68,7 +68,7 @@ namespace pcl
       /** \brief Deserializes the point from the specified stream.
         * \param[in] The source for the deserialization.
         */
-      inline void 
+      inline void
       deserialize (std::istream & stream)
       {
         stream.read (reinterpret_cast<char*> (&x), sizeof (x));
@@ -81,7 +81,7 @@ namespace pcl
         * \param[in] min_y The minimum value for the y-coordinate of the point.
         * \param[in] max_y The maximum value for the y-coordinate of the point.
         */
-      static PointXY32i 
+      static PointXY32i
       randomPoint (const int min_x, const int max_x, const int min_y, const int max_y);
 
     public:

@@ -38,7 +38,7 @@
 #define PCL_IMPL_INSTANTIATE_H_
 
 #ifdef __GNUC__
-#pragma GCC system_header 
+#pragma GCC system_header
 #endif
 
 #include <boost/preprocessor/seq/for_each.hpp>
@@ -68,10 +68,10 @@
 //
 // A call to PCL_INSTANTIATE_PRODUCT(T, ((a)(b)) ((d)(e)) ) results in calls
 //
-//   PCL_INSTANTIATE_T(a, d) 
-//   PCL_INSTANTIATE_T(a, e) 
-//   PCL_INSTANTIATE_T(b, d) 
-//   PCL_INSTANTIATE_T(b, e) 
+//   PCL_INSTANTIATE_T(a, d)
+//   PCL_INSTANTIATE_T(a, e)
+//   PCL_INSTANTIATE_T(b, d)
+//   PCL_INSTANTIATE_T(b, e)
 //
 // That is, PCL_INSTANTIATE_T is called for the cartesian product of the sequences seq1 ... seqN
 //
@@ -85,7 +85,7 @@
 #ifdef _MSC_VER
 #define PCL_INSTANTIATE_PRODUCT_IMPL(r, product) \
   BOOST_PP_CAT(PCL_INSTANTIATE_, BOOST_PP_SEQ_HEAD(product)) \
-          BOOST_PP_EXPAND(BOOST_PP_SEQ_TO_TUPLE(BOOST_PP_SEQ_TAIL(product))) 
+          BOOST_PP_EXPAND(BOOST_PP_SEQ_TO_TUPLE(BOOST_PP_SEQ_TAIL(product)))
 #else
 #define PCL_INSTANTIATE_PRODUCT_IMPL(r, product) \
   BOOST_PP_EXPAND(BOOST_PP_CAT(PCL_INSTANTIATE_, BOOST_PP_SEQ_HEAD(product)) \

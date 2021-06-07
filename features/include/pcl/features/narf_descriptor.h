@@ -55,7 +55,7 @@ namespace pcl
     public:
       // =====TYPEDEFS=====
       typedef Feature<PointWithRange,Narf36> BaseClass;
-      
+
       // =====STRUCTS/CLASSES=====
       struct Parameters
       {
@@ -63,41 +63,41 @@ namespace pcl
         float support_size;
         bool rotation_invariant;
       };
-      
+
       // =====CONSTRUCTOR & DESTRUCTOR=====
       /** Constructor */
       NarfDescriptor (const RangeImage* range_image=NULL, const std::vector<int>* indices=NULL);
       /** Destructor */
       ~NarfDescriptor();
-      
+
       // =====METHODS=====
       //! Set input data
-      void 
+      void
       setRangeImage (const RangeImage* range_image, const std::vector<int>* indices=NULL);
-      
+
       //! Overwrite the compute function of the base class
-      void 
+      void
       compute (PointCloudOut& output);
-      
+
       // =====GETTER=====
       //! Get a reference to the parameters struct
-      Parameters& 
+      Parameters&
       getParameters () { return parameters_;}
-      
+
     protected:
       // =====PROTECTED MEMBER VARIABLES=====
       const RangeImage* range_image_;
       Parameters parameters_;
-      
+
       // =====PROTECTED METHODS=====
       /** Implementation of abstract derived function */
-      virtual void 
+      virtual void
       computeFeature (PointCloudOut& output);
     private:
       /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf>&) {}
   };
 

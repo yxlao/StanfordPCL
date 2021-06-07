@@ -118,7 +118,7 @@ namespace pcl
         //        {
         //          // get the depth of this part of the patch
         //          short depth_l = dmap.at<short>(h_l,w_l);
-        //          // evaluate the difference to the centroid 
+        //          // evaluate the difference to the centroid
         //          if(abs(depth - depth_l) < static_cast<int> (depthThres))
         //          {
         //            char label = lmap_in.at<char>(h_l,w_l);
@@ -200,7 +200,7 @@ namespace pcl
         //        {
         //          // get the depth of this part of the patch
         //          short depth_l = dmap.at<short>(h_l,w_l);
-        //          // evaluate the difference to the centroid 
+        //          // evaluate the difference to the centroid
         //          if(abs(depth - depth_l) < static_cast<int> (depthThres))
         //          {
         //            char label = lmap_in.at<char>(h_l,w_l);
@@ -296,7 +296,7 @@ namespace pcl
                 {
                   // get the depth of this part of the patch
                   depth_l = drow_offset[w_l];
-                  // evaluate the difference to the centroid 
+                  // evaluate the difference to the centroid
                   if(abs(depth - depth_l) < static_cast<int> (depthThres))
                   {
                     label = lrow_offset[w_l];
@@ -366,11 +366,11 @@ namespace pcl
                   b.label = static_cast<part_t> (lab);
                   b.lid = lid;
                   lid++;
-                  sorted[lab].push_back(b); 
+                  sorted[lab].push_back(b);
                 }
               }
             }
-          }         
+          }
         }
 
         /**

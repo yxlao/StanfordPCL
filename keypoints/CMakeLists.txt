@@ -43,7 +43,7 @@ if(build)
         include/pcl/${SUBSYS_NAME}/impl/susan.hpp
 	include/pcl/${SUBSYS_NAME}/impl/iss_3d.hpp
         )
-    
+
     PCL_CHECK_FOR_SSE4_1()
     if(HAVE_SSE4_1_EXTENSIONS)
       message(STATUS "[pcl_keypoints] SSE 4.1 status: found. Enabling BriskKeypoint2D.")

@@ -76,7 +76,7 @@ namespace openni_wrapper
       /** \brief method to access the internal data structure from OpenNI. If the data is accessed just read-only, then this method is faster than a fillXXX method
         * \return the actual depth data of type xn::DepthMetaData.
         */
-      inline const xn::DepthMetaData& 
+      inline const xn::DepthMetaData&
       getDepthMetaData () const throw ();
 
       /** \brief fills a user given block of memory with the disparity values with additional nearest-neighbor down-scaling.
@@ -86,7 +86,7 @@ namespace openni_wrapper
         * \param[in] line_step if only a rectangular sub region of the buffer needs to be filled, then line_step is the
         *        width in bytes (not floats) of the original width of the depth buffer.
         */
-      void 
+      void
       fillDisparityImage (unsigned width, unsigned height, float* disparity_buffer, unsigned line_step = 0) const;
 
       /** \brief fills a user given block of memory with the disparity values with additional nearest-neighbor down-scaling.
@@ -96,7 +96,7 @@ namespace openni_wrapper
         * \param[in] line_step if only a rectangular sub region of the buffer needs to be filled, then line_step is the
         *        width in bytes (not floats) of the original width of the depth buffer.
         */
-      void 
+      void
       fillDepthImage (unsigned width, unsigned height, float* depth_buffer, unsigned line_step = 0) const;
 
       /** \brief fills a user given block of memory with the raw values with additional nearest-neighbor down-scaling.
@@ -106,52 +106,52 @@ namespace openni_wrapper
         * \param[in] line_step if only a rectangular sub region of the buffer needs to be filled, then line_step is the
         *        width in bytes (not floats) of the original width of the depth buffer.
         */
-      void 
+      void
       fillDepthImageRaw (unsigned width, unsigned height, unsigned short* depth_buffer, unsigned line_step = 0) const;
 
       /** \brief method to access the baseline of the "stereo" frame that was used to retrieve the depth image.
         * \return baseline in meters
         */
-      inline float 
+      inline float
       getBaseline () const throw ();
 
       /** \brief method to access the focal length of the "stereo" frame that was used to retrieve the depth image.
         * \return focal length in pixels
         */
-      inline float 
+      inline float
       getFocalLength () const throw ();
 
       /** \brief method to access the shadow value, that indicates pixels lying in shadow in the depth image.
         * \return shadow value
         */
-      inline XnUInt64 
+      inline XnUInt64
       getShadowValue () const throw ();
 
       /** \brief method to access the no-sample value, that indicates pixels where no disparity could be determined for the depth image.
         * \return no-sample value
         */
-      inline XnUInt64 
+      inline XnUInt64
       getNoSampleValue () const throw ();
 
       /** \return the width of the depth image */
-      inline unsigned 
+      inline unsigned
       getWidth () const throw ();
 
       /** \return the height of the depth image */
-      inline unsigned 
+      inline unsigned
       getHeight () const throw ();
 
       /** \return an ascending id for the depth frame
         * \attention not necessarily synchronized with other streams
         */
-      inline unsigned 
+      inline unsigned
       getFrameID () const throw ();
 
       /** \return a ascending timestamp for the depth frame
         * \attention its not the system time, thus can not be used directly to synchronize different sensors.
         *            But definitely synchronized with other streams
         */
-      inline unsigned long 
+      inline unsigned long
       getTimeStamp () const throw ();
 
     protected:

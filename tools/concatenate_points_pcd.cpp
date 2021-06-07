@@ -48,9 +48,9 @@
 #include <pcl/point_types.h>
 
 ////////////////////////////////////////////////////////////////////////////////
-/** \brief Parse command line arguments for file names. 
+/** \brief Parse command line arguments for file names.
   * Returns: a vector with file names indices.
-  * \param argc 
+  * \param argc
   * \param argv
   * \param extension
   */
@@ -61,15 +61,15 @@ std::vector<int>
   for (int i = 1; i < argc; ++i)
   {
     std::string fname = std::string (argv[i]);
-    
+
     // Needs to be at least 4: .ext
     if (fname.size () <= 4)
       continue;
-    
+
     // For being case insensitive
     std::transform (fname.begin (), fname.end (), fname.begin (), tolower);
     std::transform (extension.begin (), extension.end (), extension.begin (), tolower);
-    
+
     // Check if found
     std::string::size_type it;
     if ((it = fname.find (extension)) != std::string::npos)
@@ -107,7 +107,7 @@ int
 
   pcl::PCDWriter writer;
   writer.writeBinaryCompressed ("output.pcd", cloud_all);
-  
+
   return (0);
 }
 /* ]--- */

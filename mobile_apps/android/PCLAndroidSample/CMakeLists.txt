@@ -10,7 +10,7 @@ set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -pedantic" )
 find_package(Boost 1.45.0 REQUIRED COMPONENTS date_time system filesystem thread iostreams)
 include_directories(${Boost_INCLUDE_DIRS})
 find_package(PCL 1.3 REQUIRED COMPONENTS common io octree kdtree)
-include_directories(${PCL_INCLUDE_DIRS})  
+include_directories(${PCL_INCLUDE_DIRS})
 
 #IMPORTANT
 link_directories (/Users/alex/Work/Android/android-ndk-r6b/toolchains/arm-linux-androideabi-4.4.3/prebuilt/darwin-x86/user/lib/)

@@ -4,7 +4,7 @@
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
  *
- *  All rights reserved. 
+ *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -50,7 +50,7 @@ pcl::MaskMap::MaskMap (const size_t width, const size_t height)
   : data_ (), width_ (width), height_ (height)
 {
   data_.resize (width*height);
-}  
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 pcl::MaskMap::~MaskMap ()

@@ -87,41 +87,41 @@ namespace pcl
       virtual ~StereoGrabberBase () throw ();
 
       /** \brief Starts playing the list of Stereo images if frames_per_second is > 0. Otherwise it works as a trigger: publishes only the next pair in the list. */
-      virtual void 
+      virtual void
       start ();
-      
+
       /** \brief Stops playing the list of Stereo images if frames_per_second is > 0. Otherwise the method has no effect. */
-      virtual void 
+      virtual void
       stop ();
-      
+
       /** \brief Triggers a callback with new data */
-      virtual void 
+      virtual void
       trigger ();
 
       /** \brief whether the grabber is started (publishing) or not.
         * \return true only if publishing.
         */
-      virtual bool 
+      virtual bool
       isRunning () const;
-      
+
       /** \return The name of the grabber */
-      virtual std::string 
+      virtual std::string
       getName () const;
-      
+
       /** \brief Rewinds to the first pair of files in the list.*/
-      virtual void 
+      virtual void
       rewind ();
 
       /** \brief Returns the frames_per_second. 0 if grabber is trigger-based */
-      virtual float 
+      virtual float
       getFramesPerSecond () const;
 
       /** \brief Returns whether the repeat flag is on */
-      bool 
+      bool
       isRepeatOn () const;
 
     private:
-      virtual void 
+      virtual void
       publish (const sensor_msgs::PointCloud2& blob, const Eigen::Vector4f& origin, const Eigen::Quaternionf& orientation) const = 0;
 
       // to separate and hide the implementation from interface: PIMPL
@@ -137,9 +137,9 @@ namespace pcl
       StereoGrabber (const std::pair<std::string, std::string> & pair_files, float frames_per_second = 0, bool repeat = false);
       StereoGrabber (const std::vector<std::pair<std::string, std::string> >& files, float frames_per_second = 0, bool repeat = false);
     protected:
-      virtual void 
+      virtual void
       publish (const sensor_msgs::PointCloud2& blob, const Eigen::Vector4f& origin, const Eigen::Quaternionf& orientation) const;
-      
+
       boost::signals2::signal<void (const boost::shared_ptr<const pcl::PointCloud<PointT> >&)>* signal_;
   };
 
@@ -160,7 +160,7 @@ namespace pcl
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  template<typename PointT> void 
+  template<typename PointT> void
   StereoGrabber<PointT>::publish (const sensor_msgs::PointCloud2& blob, const Eigen::Vector4f& origin, const Eigen::Quaternionf& orientation) const
   {
     typename pcl::PointCloud<PointT>::Ptr cloud (new pcl::PointCloud<PointT> ());

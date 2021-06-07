@@ -34,7 +34,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  * $Id: $
- * @brief This file is the execution node of the Human Tracking 
+ * @brief This file is the execution node of the Human Tracking
  * @copyright Copyright (2011) Willow Garage
  * @authors Koen Buys, Anatoly Baksheev
  **/
@@ -64,21 +64,21 @@ using namespace std;
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 struct ProjMatrix : public pcl::search::OrganizedNeighbor<pcl::PointXYZRGB>
-{  
+{
   using pcl::search::OrganizedNeighbor<pcl::PointXYZRGB>::projection_matrix_;
 };
 
 float estimateFocalLength(const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr &cloud)
 {
   ProjMatrix proj_matrix;
-  proj_matrix.setInputCloud(cloud);  
-  Eigen::Matrix3f KR = proj_matrix.projection_matrix_.topLeftCorner <3, 3> ();    
+  proj_matrix.setInputCloud(cloud);
+  Eigen::Matrix3f KR = proj_matrix.projection_matrix_.topLeftCorner <3, 3> ();
   return (KR(0,0) + KR(1,1))/KR(2,2)/2;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-string 
+string
 make_name(int counter, const char* suffix)
 {
   char buf[4096];
@@ -94,7 +94,7 @@ make_ext_name(int counter1, int counter2, const char* suffix)
   return buf;
 }
 
-template<typename T> void 
+template<typename T> void
 savePNGFile(const std::string& filename, const pcl::gpu::DeviceArray2D<T>& arr)
 {
   int c;
@@ -126,7 +126,7 @@ class PeoplePCDApp
       //image_view_.setPosition (650, 0);
 
       people::uploadColorMap(color_map_);
-      
+
     }
 
     void cloud_cb (const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr &cloud)
@@ -160,7 +160,7 @@ class PeoplePCDApp
     void
     visualizeAndWrite(const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr &cloud)
     {
-      const PeopleDetector::Labels& labels = people_detector_.rdf_detector_->getLabels();           
+      const PeopleDetector::Labels& labels = people_detector_.rdf_detector_->getLabels();
       people::colorizeLabels(color_map_, labels, cmap_device_);
 
       int c;
@@ -280,8 +280,8 @@ int main(int argc, char** argv)
   PCL_INFO("(I) : Main : People tracking on PCD files version 0.1\n");
   if(find_switch (argc, argv, "--help") || find_switch (argc, argv, "-h"))
     return print_help(), 0;
- 
-  std::string treeFilenames[4] = 
+
+  std::string treeFilenames[4] =
   {
     "d:/TreeData/results/forest1/tree_20.txt",
     "d:/TreeData/results/forest2/tree_20.txt",

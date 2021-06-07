@@ -57,9 +57,9 @@ namespace pcl
     *     In Proceedings of the 22nd IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS),
     *     St. Louis, MO, USA, October 11-15 2009.
     *
-    * \attention 
+    * \attention
     * The convention for FPFH features is:
-    *   - if a query point's nearest neighbors cannot be estimated, the FPFH feature will be set to NaN 
+    *   - if a query point's nearest neighbors cannot be estimated, the FPFH feature will be set to NaN
     *     (not a number)
     *   - it is impossible to estimate a FPFH descriptor for a point that
     *     doesn't have finite 3D coordinates. Therefore, any point that contains
@@ -98,7 +98,7 @@ namespace pcl
       /** \brief Initialize the scheduler and set the number of threads to use.
         * \param[in] nr_threads the number of hardware threads to use (0 sets the value back to automatic)
         */
-      inline void 
+      inline void
       setNumberOfThreads (unsigned int nr_threads = 0) { threads_ = nr_threads; }
 
     private:
@@ -107,7 +107,7 @@ namespace pcl
         * setSearchMethod ()
         * \param[out] output the resultant point cloud model dataset that contains the FPFH feature estimates
         */
-      void 
+      void
       computeFeature (PointCloudOut &output);
 
     public:
@@ -118,9 +118,9 @@ namespace pcl
       unsigned int threads_;
 
       /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &) {}
   };
 }

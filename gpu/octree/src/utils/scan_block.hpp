@@ -44,7 +44,7 @@ namespace pcl
     {
         enum ScanKind { exclusive,  inclusive } ;
 
-        template <ScanKind Kind , class T> 
+        template <ScanKind Kind , class T>
         __device__ __forceinline__ T scan_warp ( volatile T *ptr , const unsigned int idx = threadIdx.x )
         {
             const unsigned int lane = idx & 31; // index of thread in warp (0..31)
@@ -55,45 +55,45 @@ namespace pcl
             if ( lane >=  8) ptr [idx ] = ptr [idx -  8] + ptr [idx];
             if ( lane >= 16) ptr [idx ] = ptr [idx - 16] + ptr [idx];
 
-            if( Kind == inclusive ) 
+            if( Kind == inclusive )
                 return ptr [idx ];
-            else 
+            else
                 return (lane > 0) ? ptr [idx - 1] : 0;
         }
 
         template <ScanKind Kind , class T>
         __device__ __forceinline__ T scan_block( volatile T *ptr , const unsigned int idx = threadIdx.x )
-        {        
+        {
             const unsigned int lane = idx & 31;
             const unsigned int warpid = idx >> 5;
 
             // Step 1: Intra - warp scan in each warp
             T val = scan_warp <Kind>( ptr , idx );
 
-            __syncthreads ();    
+            __syncthreads ();
 
             // Step 2: Collect per - warp partial results
 
-            /*  if( warpid == 0 ) 
-            if( lane == 31 ) 
-            ptr [ warpid ] = ptr [idx ];    
+            /*  if( warpid == 0 )
+            if( lane == 31 )
+            ptr [ warpid ] = ptr [idx ];
 
             __syncthreads ();
 
             if( warpid > 0 ) */
-            if( lane == 31 ) 
-                ptr [ warpid ] = ptr [idx ];    
+            if( lane == 31 )
+                ptr [ warpid ] = ptr [idx ];
 
             __syncthreads ();
 
             // Step 3: Use 1st warp to scan per - warp results
-            if( warpid == 0 ) 
+            if( warpid == 0 )
                 scan_warp<inclusive>( ptr , idx );
 
             __syncthreads ();
 
             // Step 4: Accumulate results from Steps 1 and 3
-            if ( warpid > 0) 
+            if ( warpid > 0)
                 val = ptr [warpid -1] + val;
 
             __syncthreads ();

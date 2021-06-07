@@ -57,7 +57,7 @@ namespace pcl
     */
   class PCL_EXPORTS PCDGrabberBase : public Grabber
   {
-    public:   
+    public:
       /** \brief Constructor taking just one PCD file or one TAR file containing multiple PCD files.
         * \param[in] pcd_file path to the PCD file
         * \param[in] frames_per_second frames per second. If 0, start() functions like a trigger, publishing the next PCD in the list.
@@ -94,41 +94,41 @@ namespace pcl
       virtual ~PCDGrabberBase () throw ();
 
       /** \brief Starts playing the list of PCD files if frames_per_second is > 0. Otherwise it works as a trigger: publishes only the next PCD file in the list. */
-      virtual void 
+      virtual void
       start ();
-      
+
       /** \brief Stops playing the list of PCD files if frames_per_second is > 0. Otherwise the method has no effect. */
-      virtual void 
+      virtual void
       stop ();
-      
+
       /** \brief Triggers a callback with new data */
-      virtual void 
+      virtual void
       trigger ();
 
       /** \brief Indicates whether the grabber is streaming or not.
         * \return true if grabber is started and hasn't run out of PCD files.
         */
-      virtual bool 
+      virtual bool
       isRunning () const;
-      
+
       /** \return The name of the grabber */
-      virtual std::string 
+      virtual std::string
       getName () const;
-      
+
       /** \brief Rewinds to the first PCD file in the list.*/
-      virtual void 
+      virtual void
       rewind ();
 
       /** \brief Returns the frames_per_second. 0 if grabber is trigger-based */
-      virtual float 
+      virtual float
       getFramesPerSecond () const;
 
       /** \brief Returns whether the repeat flag is on */
-      bool 
+      bool
       isRepeatOn () const;
 
     private:
-      virtual void 
+      virtual void
       publish (const sensor_msgs::PointCloud2& blob, const Eigen::Vector4f& origin, const Eigen::Quaternionf& orientation) const = 0;
 
       // to separate and hide the implementation from interface: PIMPL
@@ -144,9 +144,9 @@ namespace pcl
       PCDGrabber (const std::string& pcd_path, float frames_per_second = 0, bool repeat = false);
       PCDGrabber (const std::vector<std::string>& pcd_files, float frames_per_second = 0, bool repeat = false);
     protected:
-      virtual void 
+      virtual void
       publish (const sensor_msgs::PointCloud2& blob, const Eigen::Vector4f& origin, const Eigen::Quaternionf& orientation) const;
-      
+
       boost::signals2::signal<void (const boost::shared_ptr<const pcl::PointCloud<PointT> >&)>* signal_;
 
 #ifdef HAVE_OPENNI
@@ -177,7 +177,7 @@ namespace pcl
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  template<typename PointT> void 
+  template<typename PointT> void
   PCDGrabber<PointT>::publish (const sensor_msgs::PointCloud2& blob, const Eigen::Vector4f& origin, const Eigen::Quaternionf& orientation) const
   {
     typename pcl::PointCloud<PointT>::Ptr cloud (new pcl::PointCloud<PointT> ());

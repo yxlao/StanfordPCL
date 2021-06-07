@@ -5,16 +5,16 @@
 pcl::cloud_composer::WorkQueue::WorkQueue (QObject* parent)
   : QObject (parent)
 {
-    
-    
-    
+
+
+
 }
 
 
 pcl::cloud_composer::WorkQueue::~WorkQueue ( )
 {
-  
-  
+
+
 }
 
 void
@@ -24,7 +24,7 @@ pcl::cloud_composer::WorkQueue::enqueueNewAction (AbstractTool* new_tool, ConstI
   //Create a command which will manage data for the tool
   new_action.command = new_tool->createCommand (input_data);
   new_action.tool = new_tool;
- 
+
   work_queue_.enqueue (new_action);
   checkQueue ();
 }
@@ -32,14 +32,14 @@ pcl::cloud_composer::WorkQueue::enqueueNewAction (AbstractTool* new_tool, ConstI
 void
 pcl::cloud_composer::WorkQueue::actionFinished (ActionPair finished_action)
 {
-  //Signal the project model that the command is done 
+  //Signal the project model that the command is done
   emit commandComplete (finished_action.command);
-  
+
   //Queue the tool for deletion
   finished_action.tool->deleteLater ();
   //Check if there are any remaining commands in queue
   checkQueue ();
-  
+
 }
 
 void
@@ -56,11 +56,11 @@ pcl::cloud_composer::WorkQueue::checkQueue ( )
     else
     {
       qDebug () << "FAILED TO EXECUTE COMMAND";
-     //Failure, what to do with data?? 
+     //Failure, what to do with data??
     }
-      
-      
+
+
   }
-    
-  
+
+
 }

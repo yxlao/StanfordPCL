@@ -53,11 +53,11 @@ namespace pcl
     * \param[in] max_label
     * \ingroup segmentation
     */
-  template <typename PointT> void 
+  template <typename PointT> void
   extractLabeledEuclideanClusters (
-      const PointCloud<PointT> &cloud, const boost::shared_ptr<search::Search<PointT> > &tree, 
-      float tolerance, std::vector<std::vector<PointIndices> > &labeled_clusters, 
-      unsigned int min_pts_per_cluster = 1, unsigned int max_pts_per_cluster = std::numeric_limits<unsigned int>::max (), 
+      const PointCloud<PointT> &cloud, const boost::shared_ptr<search::Search<PointT> > &tree,
+      float tolerance, std::vector<std::vector<PointIndices> > &labeled_clusters,
+      unsigned int min_pts_per_cluster = 1, unsigned int max_pts_per_cluster = std::numeric_limits<unsigned int>::max (),
       unsigned int max_label = std::numeric_limits<unsigned int>::max ());
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,10 +85,10 @@ namespace pcl
 
       //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       /** \brief Empty constructor. */
-      LabeledEuclideanClusterExtraction () : 
-        tree_ (), 
+      LabeledEuclideanClusterExtraction () :
+        tree_ (),
         cluster_tolerance_ (0),
-        min_pts_per_cluster_ (1), 
+        min_pts_per_cluster_ (1),
         max_pts_per_cluster_ (std::numeric_limits<int>::max ()),
         max_label_ (std::numeric_limits<int>::max ())
       {};
@@ -96,57 +96,57 @@ namespace pcl
       /** \brief Provide a pointer to the search object.
         * \param[in] tree a pointer to the spatial search object.
         */
-      inline void 
+      inline void
       setSearchMethod (const KdTreePtr &tree) { tree_ = tree; }
 
       /** \brief Get a pointer to the search method used. */
-      inline KdTreePtr 
+      inline KdTreePtr
       getSearchMethod () const { return (tree_); }
 
       /** \brief Set the spatial cluster tolerance as a measure in the L2 Euclidean space
         * \param[in] tolerance the spatial cluster tolerance as a measure in the L2 Euclidean space
         */
-      inline void 
+      inline void
       setClusterTolerance (double tolerance) { cluster_tolerance_ = tolerance; }
 
       /** \brief Get the spatial cluster tolerance as a measure in the L2 Euclidean space. */
-      inline double 
+      inline double
       getClusterTolerance () const { return (cluster_tolerance_); }
 
       /** \brief Set the minimum number of points that a cluster needs to contain in order to be considered valid.
         * \param[in] min_cluster_size the minimum cluster size
         */
-      inline void 
+      inline void
       setMinClusterSize (int min_cluster_size) { min_pts_per_cluster_ = min_cluster_size; }
 
       /** \brief Get the minimum number of points that a cluster needs to contain in order to be considered valid. */
-      inline int 
+      inline int
       getMinClusterSize () const { return (min_pts_per_cluster_); }
 
       /** \brief Set the maximum number of points that a cluster needs to contain in order to be considered valid.
         * \param[in] max_cluster_size the maximum cluster size
         */
-      inline void 
+      inline void
       setMaxClusterSize (int max_cluster_size) { max_pts_per_cluster_ = max_cluster_size; }
 
       /** \brief Get the maximum number of points that a cluster needs to contain in order to be considered valid. */
-      inline int 
+      inline int
       getMaxClusterSize () const { return (max_pts_per_cluster_); }
 
       /** \brief Set the maximum number of labels in the cloud.
         * \param[in] max_label the maximum
         */
-      inline void 
+      inline void
       setMaxLabels (unsigned int max_label) { max_label_ = max_label; }
 
       /** \brief Get the maximum number of labels */
-      inline unsigned int 
+      inline unsigned int
       getMaxLabels () const { return (max_label_); }
 
       /** \brief Cluster extraction in a PointCloud given by <setInputCloud (), setIndices ()>
         * \param[out] labeled_clusters the resultant point clusters
         */
-      void 
+      void
       extract (std::vector<std::vector<PointIndices> > &labeled_clusters);
 
     protected:
@@ -176,10 +176,10 @@ namespace pcl
 
   };
 
-  /** \brief Sort clusters method (for std::sort). 
+  /** \brief Sort clusters method (for std::sort).
     * \ingroup segmentation
     */
-  inline bool 
+  inline bool
     compareLabeledPointClusters (const pcl::PointIndices &a, const pcl::PointIndices &b)
   {
     return (a.indices.size () < b.indices.size ());

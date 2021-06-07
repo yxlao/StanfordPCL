@@ -4,7 +4,7 @@
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
  *
- *  All rights reserved. 
+ *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -41,7 +41,7 @@
 namespace pcl
 {
 
-  /** \brief Represents a distance map obtained from a distance transformation. 
+  /** \brief Represents a distance map obtained from a distance transformation.
     * \author Stefan Holzer
     */
   class DistanceMap
@@ -53,31 +53,31 @@ namespace pcl
       virtual ~DistanceMap () {}
 
       /** \brief Returns the width of the map. */
-      inline size_t 
+      inline size_t
       getWidth () const
       {
-        return (width_); 
+        return (width_);
       }
 
       /** \brief Returns the height of the map. */
-      inline size_t 
+      inline size_t
       getHeight () const
-      { 
-        return (height_); 
+      {
+        return (height_);
       }
-    
+
       /** \brief Returns a pointer to the beginning of map. */
-      inline float * 
-      getData () 
-      { 
-        return (&data_[0]); 
+      inline float *
+      getData ()
+      {
+        return (&data_[0]);
       }
 
       /** \brief Resizes the map to the specified size.
         * \param[in] width the new width of the map.
         * \param[in] height the new height of the map.
         */
-      void 
+      void
       resize (const size_t width, const size_t height)
       {
         data_.resize (width*height);
@@ -89,7 +89,7 @@ namespace pcl
         * \param[in] col_index the column index of the element to access.
         * \param[in] row_index the row index of the element to access.
         */
-      inline float & 
+      inline float &
       operator() (const size_t col_index, const size_t row_index)
       {
         return (data_[row_index*width_ + col_index]);
@@ -99,7 +99,7 @@ namespace pcl
         * \param[in] col_index the column index of the element to access.
         * \param[in] row_index the row index of the element to access.
         */
-      inline const float & 
+      inline const float &
       operator() (const size_t col_index, const size_t row_index) const
       {
         return (data_[row_index*width_ + col_index]);
@@ -117,4 +117,4 @@ namespace pcl
 }
 
 
-#endif 
+#endif

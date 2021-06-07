@@ -44,11 +44,11 @@
 
 namespace pcl
 {
-  /** \brief RIFTEstimation estimates the Rotation Invariant Feature Transform descriptors for a given point cloud 
+  /** \brief RIFTEstimation estimates the Rotation Invariant Feature Transform descriptors for a given point cloud
     * dataset containing points and intensity.  For more information about the RIFT descriptor, see:
     *
-    *  Svetlana Lazebnik, Cordelia Schmid, and Jean Ponce. 
-    *  A sparse texture representation using local affine regions. 
+    *  Svetlana Lazebnik, Cordelia Schmid, and Jean Ponce.
+    *  A sparse texture representation using local affine regions.
     *  In IEEE Transactions on Pattern Analysis and Machine Intelligence, volume 27, pages 1265-1278, August 2005.
     *
     * \author Michael Dixon
@@ -67,7 +67,7 @@ namespace pcl
 
       using Feature<PointInT, PointOutT>::tree_;
       using Feature<PointInT, PointOutT>::search_radius_;
-      
+
       typedef typename pcl::PointCloud<PointInT> PointCloudIn;
       typedef typename Feature<PointInT, PointOutT>::PointCloudOut PointCloudOut;
 
@@ -88,34 +88,34 @@ namespace pcl
       /** \brief Provide a pointer to the input gradient data
         * \param[in] gradient a pointer to the input gradient data
         */
-      inline void 
+      inline void
       setInputGradient (const PointCloudGradientConstPtr &gradient) { gradient_ = gradient; };
 
       /** \brief Returns a shared pointer to the input gradient data */
-      inline PointCloudGradientConstPtr 
+      inline PointCloudGradientConstPtr
       getInputGradient () const { return (gradient_); };
 
       /** \brief Set the number of bins to use in the distance dimension of the RIFT descriptor
         * \param[in] nr_distance_bins the number of bins to use in the distance dimension of the RIFT descriptor
         */
-      inline void 
+      inline void
       setNrDistanceBins (int nr_distance_bins) { nr_distance_bins_ = nr_distance_bins; };
 
       /** \brief Returns the number of bins in the distance dimension of the RIFT descriptor. */
-      inline int 
+      inline int
       getNrDistanceBins () const { return (nr_distance_bins_); };
 
       /** \brief Set the number of bins to use in the gradient orientation dimension of the RIFT descriptor
         * \param[in] nr_gradient_bins the number of bins to use in the gradient orientation dimension of the RIFT descriptor
         */
-      inline void 
+      inline void
       setNrGradientBins (int nr_gradient_bins) { nr_gradient_bins_ = nr_gradient_bins; };
 
       /** \brief Returns the number of bins in the gradient orientation dimension of the RIFT descriptor. */
-      inline int 
+      inline int
       getNrGradientBins () const { return (nr_gradient_bins_); };
 
-      /** \brief Estimate the Rotation Invariant Feature Transform (RIFT) descriptor for a given point based on its 
+      /** \brief Estimate the Rotation Invariant Feature Transform (RIFT) descriptor for a given point based on its
         * spatial neighborhood of 3D points and the corresponding intensity gradient vector field
         * \param[in] cloud the dataset containing the Cartesian coordinates of the points
         * \param[in] gradient the dataset containing the intensity gradient at each point in \a cloud
@@ -125,19 +125,19 @@ namespace pcl
         * \param[in] squared_distances the squared distances from the query point to each point in the neighborhood
         * \param[out] rift_descriptor the resultant RIFT descriptor
         */
-      void 
+      void
       computeRIFT (const PointCloudIn &cloud, const PointCloudGradient &gradient, int p_idx, float radius,
-                   const std::vector<int> &indices, const std::vector<float> &squared_distances, 
+                   const std::vector<int> &indices, const std::vector<float> &squared_distances,
                    Eigen::MatrixXf &rift_descriptor);
 
     protected:
 
       /** \brief Estimate the Rotation Invariant Feature Transform (RIFT) descriptors at a set of points given by
-        * <setInputCloud (), setIndices ()> using the surface in setSearchSurface (), the gradient in 
+        * <setInputCloud (), setIndices ()> using the surface in setSearchSurface (), the gradient in
         * setInputGradient (), and the spatial locator in setSearchMethod ()
         * \param[out] output the resultant point cloud model dataset that contains the RIFT feature estimates
         */
-      void 
+      void
       computeFeature (PointCloudOut &output);
 
       /** \brief The intensity gradient of the input point cloud data*/
@@ -151,17 +151,17 @@ namespace pcl
 
     private:
       /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf>&) {}
   };
 
-  /** \brief RIFTEstimation estimates the Rotation Invariant Feature Transform descriptors for a given point cloud 
+  /** \brief RIFTEstimation estimates the Rotation Invariant Feature Transform descriptors for a given point cloud
     * dataset containing points and intensity.  For more information about the RIFT descriptor, see:
     *
-    *  Svetlana Lazebnik, Cordelia Schmid, and Jean Ponce. 
-    *  A sparse texture representation using local affine regions. 
+    *  Svetlana Lazebnik, Cordelia Schmid, and Jean Ponce.
+    *  A sparse texture representation using local affine regions.
     *  In IEEE Transactions on Pattern Analysis and Machine Intelligence, volume 27, pages 1265-1278, August 2005.
     *
     * \author Michael Dixon
@@ -181,20 +181,20 @@ namespace pcl
       using RIFTEstimation<PointInT, GradientT, pcl::Histogram<32> >::nr_gradient_bins_;
       using RIFTEstimation<PointInT, GradientT, pcl::Histogram<32> >::nr_distance_bins_;
       using RIFTEstimation<PointInT, GradientT, pcl::Histogram<32> >::compute;
-      
+
     private:
       /** \brief Estimate the Rotation Invariant Feature Transform (RIFT) descriptors at a set of points given by
-        * <setInputCloud (), setIndices ()> using the surface in setSearchSurface (), the gradient in 
+        * <setInputCloud (), setIndices ()> using the surface in setSearchSurface (), the gradient in
         * setInputGradient (), and the spatial locator in setSearchMethod ()
         * \param[out] output the resultant point cloud model dataset that contains the RIFT feature estimates
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &output);
 
       /** \brief Make the compute (&PointCloudOut); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       compute (pcl::PointCloud<pcl::Normal>&) {}
   };
 }

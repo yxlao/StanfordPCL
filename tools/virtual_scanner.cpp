@@ -39,8 +39,8 @@
   * \author Radu Bogdan Rusu
   *
   * @b virtual_scanner takes in a .ply or a .vtk file of an object model, and virtually scans it
-  * in a raytracing fashion, saving the end results as PCD (Point Cloud Data) files. In addition, 
-  * it noisifies the PCD models, and downsamples them. 
+  * in a raytracing fashion, saving the end results as PCD (Point Cloud Data) files. In addition,
+  * it noisifies the PCD models, and downsamples them.
   * The viewpoint can be set to 1 or multiple views on a sphere.
   */
 #include <string>
@@ -186,7 +186,7 @@ main (int argc, char** argv)
   double temp_beam[3], beam[3], p[3];
   double p_coords[3], x[3], t;
   int subId;
- 
+
   // Create a Icosahedron at center in origin and radius of 1
   vtkSmartPointer<vtkPlatonicSolidSource> icosa = vtkSmartPointer<vtkPlatonicSolidSource>::New ();
   icosa->SetSolidTypeToIcosahedron ();
@@ -279,7 +279,7 @@ main (int argc, char** argv)
       up[0] /= up_len;
       up[1] /= up_len;
       up[2] /= up_len;
-    
+
       // Output resulting vectors
       cerr << "Viewray Right Up:" << endl;
       cerr << viewray[0] << " " << viewray[1] << " " << viewray[2] << " " << endl;
@@ -308,7 +308,7 @@ main (int argc, char** argv)
       for (double hor = hor_start; hor <= hor_end; hor += sp.hor_res)
       {
         pid ++;
-      
+
         // Create a beam vector with (lat,long) angles (vert, hor) with the viewray
         tr2->Identity ();
         tr2->RotateWXYZ (hor, up);
@@ -326,11 +326,11 @@ main (int argc, char** argv)
           pcl::PointWithViewpoint pt;
           if (object_coordinates)
           {
-            pt.x = static_cast<float> (x[0]); 
-            pt.y = static_cast<float> (x[1]); 
+            pt.x = static_cast<float> (x[0]);
+            pt.y = static_cast<float> (x[1]);
             pt.z = static_cast<float> (x[2]);
-            pt.vp_x = static_cast<float> (eye[0]); 
-            pt.vp_y = static_cast<float> (eye[1]); 
+            pt.vp_x = static_cast<float> (eye[0]);
+            pt.vp_y = static_cast<float> (eye[1]);
             pt.vp_z = static_cast<float> (eye[2]);
           }
           else

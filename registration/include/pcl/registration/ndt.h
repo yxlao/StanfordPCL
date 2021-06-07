@@ -427,7 +427,7 @@ namespace pcl
 
       /** \brief Precomputed Angular Gradient
         *
-        * The precomputed angular derivatives for the jacobian of a transformation vector, Equation 6.19 [Magnusson 2009]. 
+        * The precomputed angular derivatives for the jacobian of a transformation vector, Equation 6.19 [Magnusson 2009].
         */
       Eigen::Vector3d j_ang_a_, j_ang_b_, j_ang_c_, j_ang_d_, j_ang_e_, j_ang_f_, j_ang_g_, j_ang_h_;
 

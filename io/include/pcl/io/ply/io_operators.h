@@ -32,7 +32,7 @@
  *  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
- *  
+ *
  * $Id: io_operators.h 6459 2012-07-18 07:50:37Z dpb $
  *
  */
@@ -48,14 +48,14 @@ namespace pcl
 {
   namespace io
   {
-    namespace ply 
+    namespace ply
     {
       /** \file io_operators.h
         * defines output operators for int8 and uint8
         * \author Ares Lagae as part of libply, Nizar Sallem
         * \ingroup io
         */
-      namespace io_operators 
+      namespace io_operators
       {
 
         inline std::istream& operator>> (std::istream& istream, int8 &value)

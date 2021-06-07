@@ -48,75 +48,74 @@ namespace pcl
 {
   namespace cloud_composer
   {
-      
+
     class PCL_EXPORTS ClickTrackballStyleInteractor : public vtkInteractorStyleTrackballActor
-    {     
+    {
       public:
         static ClickTrackballStyleInteractor* New();
         vtkTypeMacro(ClickTrackballStyleInteractor,vtkInteractorStyleTrackballActor);
-        
+
         ClickTrackballStyleInteractor ();
-        
+
         virtual ~ClickTrackballStyleInteractor ();
-               
+
         /** \brief Pass a pointer to the actor map
           * \param[in] actors the actor map that will be used with this style
           */
-        inline void 
+        inline void
         setCloudActorMap (const pcl::visualization::CloudActorMapPtr &actors) { actors_ = actors; }
 
         /** \brief Get the cloud actor map pointer. */
-        inline pcl::visualization::CloudActorMapPtr 
+        inline pcl::visualization::CloudActorMapPtr
         getCloudActorMap () const { return (actors_); }
 
-        /** \brief Pass a set of renderers to the interactor style. 
+        /** \brief Pass a set of renderers to the interactor style.
           * \param[in] rens the vtkRendererCollection to use
           */
-        void 
+        void
         setRendererCollection (vtkSmartPointer<vtkRendererCollection> &rens) { renderers_ = rens; }
 
         /** \brief Function called on left mouse button release, ie, end of rectangular drag */
         virtual void
         OnLeftButtonDown ();
-        
+
         /** \brief Function called on left mouse button release, ie, end of rectangular drag */
         virtual void
         OnLeftButtonUp ();
-        
+
         virtual void
         OnRightButtonDown ();
-        
+
         virtual void
         OnRightButtonUp ();
 
         /** \brief Event emitted once a valid selection has been made */
         int manipulation_complete_event_;
-        
-        inline void 
+
+        inline void
         setProjectModel (ProjectModel* model) { model_ = model; }
       private:
 
-        
+
         /** \brief Actor map stored internally. */
         pcl::visualization::CloudActorMapPtr actors_;
-        
+
         /** \brief Collection of vtkRenderers stored internally. */
         vtkSmartPointer<vtkRendererCollection> renderers_;
-        
+
         /** \brief Internal Pointer to Project Model */
         ProjectModel* model_;
-        
+
         vtkSmartPointer<vtkMatrix4x4> start_matrix_;
         vtkSmartPointer<vtkMatrix4x4> end_matrix_;
-        
+
         vtkSmartPointer<vtkTransform> transform_;
-          
+
     };
-    
+
   }
-  
+
 }
 
 #endif // CLICK_TRACKBALL_STYLE_INTERACTOR_H_
-        
-        
+

@@ -8,7 +8,7 @@
  * is strictly prohibited.
  *
  */
- 
+
 #ifndef _CUTIL_INLINE_H_
 #define _CUTIL_INLINE_H_
 

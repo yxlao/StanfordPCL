@@ -60,8 +60,8 @@ main (int argc, char * argv [])
   //display for 2 seconds
   plotter->spinOnce (3000);
   plotter->clearPlots ();
-  
-  
+
+
   //...................plotting implicit functions and custom callbacks....................
 
   //make a fixed axis

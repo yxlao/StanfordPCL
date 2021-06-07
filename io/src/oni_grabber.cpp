@@ -162,7 +162,7 @@ ONIGrabber::~ONIGrabber() throw ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 ONIGrabber::start ()
 {
   if (device_->isStreaming ())
@@ -234,7 +234,7 @@ void ONIGrabber::seekIRFrame( int frame )
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 ONIGrabber::stop ()
 {
   if (device_->isStreaming ())
@@ -260,21 +260,21 @@ ONIGrabber::stop ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 ONIGrabber::isRunning() const
 {
   return (running_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-std::string 
+std::string
 ONIGrabber::getName () const
 {
   return (std::string("ONIGrabber"));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-float 
+float
 ONIGrabber::getFramesPerSecond () const
 {
   if (device_->isStreaming())
@@ -284,7 +284,7 @@ ONIGrabber::getFramesPerSecond () const
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 ONIGrabber::imageCallback(boost::shared_ptr<openni_wrapper::Image> image, void*)
 {
   if (num_slots<sig_cb_openni_point_cloud_rgb> () > 0 ||
@@ -301,7 +301,7 @@ ONIGrabber::imageCallback(boost::shared_ptr<openni_wrapper::Image> image, void*)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 ONIGrabber::depthCallback(boost::shared_ptr<openni_wrapper::DepthImage> depth_image, void*)
 {
   if (num_slots<sig_cb_openni_point_cloud_rgb> () > 0 ||
@@ -325,7 +325,7 @@ ONIGrabber::depthCallback(boost::shared_ptr<openni_wrapper::DepthImage> depth_im
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 ONIGrabber::irCallback(boost::shared_ptr<openni_wrapper::IRImage> ir_image, void*)
 {
   if (num_slots<sig_cb_openni_point_cloud_i > () > 0 ||
@@ -339,7 +339,7 @@ ONIGrabber::irCallback(boost::shared_ptr<openni_wrapper::IRImage> ir_image, void
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 ONIGrabber::imageDepthImageCallback(const boost::shared_ptr<openni_wrapper::Image> &image, const boost::shared_ptr<openni_wrapper::DepthImage> &depth_image)
 {
   // check if we have color point cloud slots
@@ -360,7 +360,7 @@ ONIGrabber::imageDepthImageCallback(const boost::shared_ptr<openni_wrapper::Imag
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 ONIGrabber::irDepthImageCallback(const boost::shared_ptr<openni_wrapper::IRImage> &ir_image, const boost::shared_ptr<openni_wrapper::DepthImage> &depth_image)
 {
   // check if we have color point cloud slots
@@ -375,7 +375,7 @@ ONIGrabber::irDepthImageCallback(const boost::shared_ptr<openni_wrapper::IRImage
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-pcl::PointCloud<pcl::PointXYZ>::Ptr 
+pcl::PointCloud<pcl::PointXYZ>::Ptr
 ONIGrabber::convertToXYZPointCloud(const boost::shared_ptr<openni_wrapper::DepthImage>& depth_image) const
 {
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud <pcl::PointXYZ>);
@@ -440,7 +440,7 @@ ONIGrabber::convertToXYZPointCloud(const boost::shared_ptr<openni_wrapper::Depth
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr ONIGrabber::convertToXYZRGBPointCloud (
-    const boost::shared_ptr<openni_wrapper::Image> &image, 
+    const boost::shared_ptr<openni_wrapper::Image> &image,
     const boost::shared_ptr<openni_wrapper::DepthImage> &depth_image) const
 {
   static unsigned rgb_array_size = 0;
@@ -524,7 +524,7 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr ONIGrabber::convertToXYZRGBPointCloud (
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 pcl::PointCloud<pcl::PointXYZRGBA>::Ptr ONIGrabber::convertToXYZRGBAPointCloud (
-    const boost::shared_ptr<openni_wrapper::Image> &image, 
+    const boost::shared_ptr<openni_wrapper::Image> &image,
     const boost::shared_ptr<openni_wrapper::DepthImage> &depth_image) const
 {
   static unsigned rgb_array_size = 0;

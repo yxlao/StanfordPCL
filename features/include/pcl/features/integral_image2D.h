@@ -117,8 +117,8 @@ namespace pcl
         first_order_integral_image_ (),
         second_order_integral_image_ (),
         finite_values_integral_image_ (),
-        width_ (1), 
-        height_ (1), 
+        width_ (1),
+        height_ (1),
         compute_second_order_integral_images_ (compute_second_order_integral_images)
       {
       }
@@ -130,7 +130,7 @@ namespace pcl
       /** \brief sets the computation for second order integral images on or off.
         * \param compute_second_order_integral_images
         */
-      void 
+      void
       setSecondOrderComputation (bool compute_second_order_integral_images);
 
       /** \brief Set the input data to compute the integral image for
@@ -236,11 +236,11 @@ namespace pcl
       /** \brief Constructor for an Integral Image
         * \param[in] compute_second_order_integral_images set to true if we want to compute a second order image
         */
-      IntegralImage2D (bool compute_second_order_integral_images) : 
+      IntegralImage2D (bool compute_second_order_integral_images) :
         first_order_integral_image_ (),
         second_order_integral_image_ (),
         finite_values_integral_image_ (),
-        width_ (1), height_ (1), 
+        width_ (1), height_ (1),
         compute_second_order_integral_images_ (compute_second_order_integral_images)
       {
       }

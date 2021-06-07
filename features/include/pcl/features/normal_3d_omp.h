@@ -76,7 +76,7 @@ namespace pcl
       /** \brief Initialize the scheduler and set the number of threads to use.
         * \param nr_threads the number of hardware threads to use (0 sets the value back to automatic)
         */
-      inline void 
+      inline void
       setNumberOfThreads (unsigned int nr_threads = 0) { threads_ = nr_threads; }
 
     protected:
@@ -88,13 +88,13 @@ namespace pcl
         * setSearchSurface () and the spatial locator in setSearchMethod ()
         * \param output the resultant point cloud model dataset that contains surface normals and curvatures
         */
-      void 
+      void
       computeFeature (PointCloudOut &output);
 
       /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &) {}
   };
 
@@ -130,13 +130,13 @@ namespace pcl
         * setSearchSurface () and the spatial locator in setSearchMethod ()
         * \param output the resultant point cloud model dataset that contains surface normals and curvatures
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &output);
 
       /** \brief Make the compute (&PointCloudOut); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       compute (pcl::PointCloud<pcl::Normal> &) {}
     };
 }

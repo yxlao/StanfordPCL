@@ -94,7 +94,7 @@ static void ON_shortsort(ON_SORT_TEMPLATE_TYPE *lo, ON_SORT_TEMPLATE_TYPE *hi)
 #if defined(ON_SORT_TEMPLATE_STATIC_FUNCTION)
 static
 #endif
-void 
+void
 ON_QSORT_FNAME (
     ON_SORT_TEMPLATE_TYPE *base,
     size_t num
@@ -127,7 +127,7 @@ recurse:
   size = (hi - lo) + 1;        /* number of el's to sort */
 
   /* below a certain size, it is faster to use a O(n^2) sorting method */
-  if (size <= ON_QSORT_CUTOFF) 
+  if (size <= ON_QSORT_CUTOFF)
   {
       ON_shortsort(lo, hi);
   }
@@ -169,13 +169,13 @@ recurse:
           existing comparison funcs don't work when passed the same
           value for both pointers. */
 
-      if (mid > loguy) 
+      if (mid > loguy)
       {
           do  {
               loguy++;
           } while (loguy < mid && ON_QSORT_LE(loguy,mid));
       }
-      if (mid <= loguy) 
+      if (mid <= loguy)
       {
           do  {
               loguy++;

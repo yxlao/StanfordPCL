@@ -48,7 +48,7 @@
 # define COMMON_LVB_REVERSE_VIDEO 0
 #endif
 
-WORD 
+WORD
 convertAttributesColor (int attribute, int fg, int bg=0)
 {
   static WORD wAttributes[7]  = { 0,                        // TT_RESET
@@ -138,7 +138,7 @@ pcl::console::print_color (FILE *stream, int attr, int fg, const char *format, .
   va_start (ap, format);
   vfprintf (stream, format, ap);
   va_end (ap);
-  
+
   reset_text_color (stream);
 }
 
@@ -146,7 +146,7 @@ pcl::console::print_color (FILE *stream, int attr, int fg, const char *format, .
 void
 pcl::console::print_info (const char *format, ...)
 {
-  if (!isVerbosityLevelEnabled (L_INFO)) return; 
+  if (!isVerbosityLevelEnabled (L_INFO)) return;
 
   reset_text_color (stdout);
 
@@ -218,7 +218,7 @@ pcl::console::print_error (const char *format, ...)
   va_start (ap, format);
   vfprintf (stderr, format, ap);
   va_end (ap);
-  
+
   reset_text_color (stderr);
 }
 
@@ -234,7 +234,7 @@ pcl::console::print_error (FILE *stream, const char *format, ...)
   va_start (ap, format);
   vfprintf (stream, format, ap);
   va_end (ap);
-  
+
   reset_text_color (stream);
 }
 
@@ -250,7 +250,7 @@ pcl::console::print_warn (const char *format, ...)
   va_start (ap, format);
   vfprintf (stderr, format, ap);
   va_end (ap);
-  
+
   reset_text_color (stderr);
 }
 
@@ -266,7 +266,7 @@ pcl::console::print_warn (FILE *stream, const char *format, ...)
   va_start (ap, format);
   vfprintf (stream, format, ap);
   va_end (ap);
-  
+
   reset_text_color (stream);
 }
 
@@ -282,7 +282,7 @@ pcl::console::print_value (const char *format, ...)
   va_start (ap, format);
   vfprintf (stdout, format, ap);
   va_end (ap);
-  
+
   reset_text_color (stdout);
 }
 
@@ -298,7 +298,7 @@ pcl::console::print_value (FILE *stream, const char *format, ...)
   va_start (ap, format);
   vfprintf (stream, format, ap);
   va_end (ap);
-  
+
   reset_text_color (stream);
 }
 
@@ -314,7 +314,7 @@ pcl::console::print_debug (const char *format, ...)
   va_start (ap, format);
   vfprintf (stdout, format, ap);
   va_end (ap);
-  
+
   reset_text_color (stdout);
 }
 
@@ -330,7 +330,7 @@ pcl::console::print_debug (FILE *stream, const char *format, ...)
   va_start (ap, format);
   vfprintf (stream, format, ap);
   va_end (ap);
-  
+
   reset_text_color (stream);
 }
 
@@ -364,11 +364,11 @@ bool
 pcl::console::isVerbosityLevelEnabled (pcl::console::VERBOSITY_LEVEL level)
 {
   if (s_NeedVerbosityInit) pcl::console::initVerbosityLevel ();
-  return level <= s_VerbosityLevel;  
+  return level <= s_VerbosityLevel;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 pcl::console::initVerbosityLevel ()
 {
   s_VerbosityLevel = pcl::console::L_INFO; // Default value
@@ -392,7 +392,7 @@ pcl::console::initVerbosityLevel ()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::console::print (pcl::console::VERBOSITY_LEVEL level, FILE *stream, const char *format, ...)
 {
   if (!isVerbosityLevelEnabled (level)) return;
@@ -419,12 +419,12 @@ pcl::console::print (pcl::console::VERBOSITY_LEVEL level, FILE *stream, const ch
   va_start (ap, format);
   vfprintf (stream, format, ap);
   va_end (ap);
-  
+
   reset_text_color (stream);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::console::print (pcl::console::VERBOSITY_LEVEL level, const char *format, ...)
 {
   if (!isVerbosityLevelEnabled (level)) return;
@@ -446,13 +446,13 @@ pcl::console::print (pcl::console::VERBOSITY_LEVEL level, const char *format, ..
     default:
       break;
   }
-  
+
   va_list ap;
 
   va_start (ap, format);
   vfprintf (stream, format, ap);
   va_end (ap);
-  
+
   reset_text_color (stream);
 
 }

@@ -79,7 +79,7 @@ namespace pcl
 
         /** \brief Constructor
           * \param[in] sorted_results whether the results should be return sorted in ascending order on the distances or not.
-          *        This applies only for radius search, since knn always returns sorted resutls    
+          *        This applies only for radius search, since knn always returns sorted resutls
           * \param[in] eps the threshold for the mean-squared-error of the estimation of the projection matrix.
           *            if the MSE is above this value, the point cloud is considered as not from a projective device,
           *            thus organized neighbor search can not be applied on that cloud.
@@ -100,11 +100,11 @@ namespace pcl
         virtual ~OrganizedNeighbor () {}
 
         /** \brief Test whether this search-object is valid (input is organized AND from projective device)
-          *        User should use this method after setting the input cloud, since setInput just prints an error 
+          *        User should use this method after setting the input cloud, since setInput just prints an error
           *        if input is not organized or a projection matrix could not be determined.
           * \return true if the input data is organized and from a projective device, false otherwise
           */
-        bool 
+        bool
         isValid () const
         {
           // determinant (KR) = determinant (K) * determinant (R) = determinant (K) = f_x * f_y.
@@ -114,13 +114,13 @@ namespace pcl
           //std::cout << "isValid: " << determinant3x3Matrix<Eigen::Matrix3f> (KR_ / sqrt (KR_KRT_.coeff (8))) << " >= " << (min_f * min_f) << std::endl;
           return (determinant3x3Matrix<Eigen::Matrix3f> (KR_ / sqrtf (KR_KRT_.coeff (8))) >= (min_f * min_f));
         }
-        
+
         /** \brief Compute the camera matrix
-          * \param[out] camera_matrix the resultant computed camera matrix 
+          * \param[out] camera_matrix the resultant computed camera matrix
           */
-        void 
+        void
         computeCameraMatrix (Eigen::Matrix3f& camera_matrix) const;
-        
+
         /** \brief Provide a pointer to the input data set, if user has focal length he must set it before calling this
           * \param[in] cloud the const boost shared pointer to a PointCloud message
           * \param[in] indices the const boost shared pointer to PointIndices
@@ -129,7 +129,7 @@ namespace pcl
         setInputCloud (const PointCloudConstPtr& cloud, const IndicesConstPtr &indices = IndicesConstPtr ())
         {
           input_ = cloud;
-          
+
           mask_.resize (input_->size ());
           input_ = cloud;
           indices_ = indices;
@@ -164,7 +164,7 @@ namespace pcl
                       unsigned int max_nn = 0) const;
 
         /** \brief estimated the projection matrix from the input cloud. */
-        void 
+        void
         estimateProjectionMatrix ();
 
          /** \brief Search for the k-nearest neighbors for a given query point.
@@ -188,7 +188,7 @@ namespace pcl
           * @return true if projection is valid, false otherwise
           */
         bool projectPoint (const PointT& p, pcl::PointXY& q) const;
-        
+
       protected:
 
         struct Entry
@@ -197,8 +197,8 @@ namespace pcl
           Entry () : index (0), distance (0) {}
           unsigned index;
           float distance;
-          
-          inline bool 
+
+          inline bool
           operator < (const Entry& other) const
           {
             return (distance < other.distance);
@@ -212,7 +212,7 @@ namespace pcl
           * \param[in] index index on point to be tested
           * \return wheter the top element changed or not.
           */
-        inline bool 
+        inline bool
         testPoint (const PointT& query, unsigned k, std::priority_queue<Entry>& queue, unsigned index) const
         {
           const PointT& point = input_->points [index];
@@ -265,7 +265,7 @@ namespace pcl
 
         /** \brief using only a subsample of points to calculate the projection matrix. pyramid_level_ = use down sampled cloud given by pyramid_level_*/
         const unsigned pyramid_level_;
-        
+
         /** \brief mask, indicating whether the point was in the indices list or not.*/
         std::vector<unsigned char> mask_;
       public:

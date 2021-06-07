@@ -12,7 +12,7 @@
 #ifndef EIGEN_QR_H
 #define EIGEN_QR_H
 
-namespace Eigen { 
+namespace Eigen {
 
 /** \ingroup QR_Module
   *
@@ -24,7 +24,7 @@ namespace Eigen {
   * \param MatrixType the type of the matrix of which we are computing the QR decomposition
   *
   * This class performs a QR decomposition of a matrix \b A into matrices \b Q and \b R
-  * such that 
+  * such that
   * \f[
   *  \mathbf{A} = \mathbf{Q} \, \mathbf{R}
   * \f]

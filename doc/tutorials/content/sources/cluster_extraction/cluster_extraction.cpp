@@ -11,7 +11,7 @@
 #include <pcl/segmentation/extract_clusters.h>
 
 
-int 
+int
 main (int argc, char** argv)
 {
   // Read in the cloud data

@@ -42,7 +42,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 void
 pcl::registration::CorrespondenceRejectorFeatures::getRemainingCorrespondences (
-    const pcl::Correspondences& original_correspondences, 
+    const pcl::Correspondences& original_correspondences,
     pcl::Correspondences& remaining_correspondences)
 {
   unsigned int number_valid_correspondences = 0;
@@ -66,7 +66,7 @@ pcl::registration::CorrespondenceRejectorFeatures::getRemainingCorrespondences (
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-template <typename FeatureT> inline void 
+template <typename FeatureT> inline void
 pcl::registration::CorrespondenceRejectorFeatures::setSourceFeature (
     const typename pcl::PointCloud<FeatureT>::ConstPtr &source_feature, const std::string &key)
 {
@@ -76,7 +76,7 @@ pcl::registration::CorrespondenceRejectorFeatures::setSourceFeature (
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-template <typename FeatureT> inline typename pcl::PointCloud<FeatureT>::ConstPtr 
+template <typename FeatureT> inline typename pcl::PointCloud<FeatureT>::ConstPtr
 pcl::registration::CorrespondenceRejectorFeatures::getSourceFeature (const std::string &key)
 {
   if (features_map_.count (key) == 0)
@@ -86,7 +86,7 @@ pcl::registration::CorrespondenceRejectorFeatures::getSourceFeature (const std::
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-template <typename FeatureT> inline void 
+template <typename FeatureT> inline void
 pcl::registration::CorrespondenceRejectorFeatures::setTargetFeature (
     const typename pcl::PointCloud<FeatureT>::ConstPtr &target_feature, const std::string &key)
 {
@@ -96,7 +96,7 @@ pcl::registration::CorrespondenceRejectorFeatures::setTargetFeature (
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-template <typename FeatureT> inline typename pcl::PointCloud<FeatureT>::ConstPtr 
+template <typename FeatureT> inline typename pcl::PointCloud<FeatureT>::ConstPtr
 pcl::registration::CorrespondenceRejectorFeatures::getTargetFeature (const std::string &key)
 {
   typedef pcl::PointCloud<FeatureT> FeatureCloud;
@@ -109,7 +109,7 @@ pcl::registration::CorrespondenceRejectorFeatures::getTargetFeature (const std::
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-template <typename FeatureT> inline void 
+template <typename FeatureT> inline void
 pcl::registration::CorrespondenceRejectorFeatures::setDistanceThreshold (
     double thresh, const std::string &key)
 {
@@ -132,7 +132,7 @@ pcl::registration::CorrespondenceRejectorFeatures::hasValidFeatures ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-template <typename FeatureT> inline void 
+template <typename FeatureT> inline void
 pcl::registration::CorrespondenceRejectorFeatures::setFeatureRepresentation (
   const typename pcl::PointRepresentation<FeatureT>::ConstPtr &fr,
   const std::string &key)

@@ -57,7 +57,7 @@ namespace pcl {
       static inline Real CornerIndexPosition (int index, int maxDepth)
       {return Real (index)/ (1<<maxDepth);}
       static inline Real Width (int depth)
-      {return Real (1.0/ (1<<depth));}      
+      {return Real (1.0/ (1<<depth));}
 
       // Fix for Bug #717 with Visual Studio that generates wrong code for this function
       // when global optimization is enabled (release mode).

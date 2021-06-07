@@ -43,7 +43,7 @@
 namespace pcl
 {
   /** \brief
-    * 
+    *
     */
   template <typename PointT>
   class PCL_EXPORTS CrfNormalSegmentation

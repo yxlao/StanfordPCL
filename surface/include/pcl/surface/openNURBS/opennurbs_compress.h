@@ -34,27 +34,27 @@ public:
       1. Overriding the virtual Out() function.
       2. Providing a callback function.
     SetCallback() is used to specify a callback function to handle
-    the compressed stream and to specify a context pointer to be 
+    the compressed stream and to specify a context pointer to be
     passed to either option of the handler.
   Parameters:
     callback_function - [in]
       Function to call with sections of the compressed stream.
-      If callback_function is null, then the virtual Out() 
-      function will be called. When callback_function 
-      is specified, it must return true if the compression 
-      calculation should continue and false to cancel the 
+      If callback_function is null, then the virtual Out()
+      function will be called. When callback_function
+      is specified, it must return true if the compression
+      calculation should continue and false to cancel the
       compression calculation.
     callback_context - [in]
-      This value is passed as the first argument when calling 
+      This value is passed as the first argument when calling
       callback_function or the virutal Out() function.
   Returns:
     True if successful.
   Remarks:
     Once compression has started, it would be unusual to
     intentionally change the compressed stream output handler,
-    but you can do this if you need to.    
+    but you can do this if you need to.
   */
-  bool SetCallback( 
+  bool SetCallback(
     ON_StreamCallbackFunction callback_function,
     void* callback_context
     );
@@ -74,13 +74,13 @@ public:
     argument to the compressed stream output handler function.
   */
   void* CallbackContext() const;
-  
+
   /*
   Description:
     Call Begin() one time to initialize the compression
-    calculation.  Then call In() one or more times 
-    to submit the uncompressed stream to the compression calculation.  
-    When you reach the end of the uncompressed stream, call 
+    calculation.  Then call In() one or more times
+    to submit the uncompressed stream to the compression calculation.
+    When you reach the end of the uncompressed stream, call
     End().
   Returns:
     true if successful, false if an error occured.
@@ -99,15 +99,15 @@ public:
   Returns:
     true if successful, false if an error occured.
   */
-  bool In( 
-    ON__UINT64 in_buffer_size, 
-    const void* in_buffer 
+  bool In(
+    ON__UINT64 in_buffer_size,
+    const void* in_buffer
     );
 
   /*
   Description:
     If an explicit compressed stream output handler is not specified
-    ( CallbackFunction() returns null ), then the virtual Out() 
+    ( CallbackFunction() returns null ), then the virtual Out()
     function is called to handle the compressed output stream.
     As the input stream is compressed, one or more calls to Out()
     will occur.
@@ -116,20 +116,20 @@ public:
     calculation.
   Remarks:
     In general, it is probably going to be easier to test and debug
-    your code if you ignore the callback_context parameter and add 
+    your code if you ignore the callback_context parameter and add
     a member variable to your derived class to make additional
     information accessable to your Out function.
   */
-  virtual bool Out( 
-    void* callback_context, 
-    ON__UINT32 out_buffer_size, 
-    const void* out_buffer 
+  virtual bool Out(
+    void* callback_context,
+    ON__UINT32 out_buffer_size,
+    const void* out_buffer
     );
 
   /*
   Description:
-    After the last call to In(), call End().  
-    Calling End() may generate zero or more 
+    After the last call to In(), call End().
+    Calling End() may generate zero or more
     calls to the output stream handler.
   Returns:
     true if successful, false if an error occured.
@@ -139,10 +139,10 @@ public:
   /*
   Returns:
     Then the returned value is the total number bytes in the input
-    stream. The size is updated every time In() is called before 
-    any calls are made to the output stream handler.  If the 
+    stream. The size is updated every time In() is called before
+    any calls are made to the output stream handler.  If the
     calculation is finished ( End() has been called ), then the
-    returned value is the total number of bytes in the entire 
+    returned value is the total number of bytes in the entire
     input stream.
   */
   ON__UINT64 InSize() const;
@@ -151,7 +151,7 @@ public:
   Returns:
     Then the returned value is the total number bytes in the output
     stream. The size is incremented immediately after each call to
-    the output stream handler.  If the compression calculation is 
+    the output stream handler.  If the compression calculation is
     finished ( End() has been called ), then the returned value is
     the total number of bytes in the entire output stream.
   */
@@ -161,7 +161,7 @@ public:
   Returns:
     Then the returned value is the 32-bit crc of the input stream.
     The crc is updated every time In() is called before any calls
-    are made to the output stream handler.  If the compression 
+    are made to the output stream handler.  If the compression
     calculation is finished ( End() has been called ), then the
     returned value is the 32-bit crc of the entire input stream.
   */
@@ -171,7 +171,7 @@ public:
   Returns:
     Then the returned value is the 32bit crc of the output stream.
     The crc is updated immediately after each call to the output
-    stream handler.  If the calculation is finished ( End() has 
+    stream handler.  If the calculation is finished ( End() has
     been called ), then the returned value is the 32-bit crc of
     the entire output stream.
   */
@@ -211,27 +211,27 @@ public:
       1. Overriding the virtual Out() function.
       2. Providing a callback function.
     SetCallback() is used to specify a callback function to handle
-    the uncompressed stream and to specify a context pointer to be 
+    the uncompressed stream and to specify a context pointer to be
     passed to either option of the handler.
   Parameters:
     callback_function - [in]
       Function to call with sections of the uncompressed stream.
-      If callback_function is null, then the virtual Out() 
-      function will be called. When callback_function 
-      is specified, it must return true if the uncompression 
-      calculation should continue and false to cancel the 
+      If callback_function is null, then the virtual Out()
+      function will be called. When callback_function
+      is specified, it must return true if the uncompression
+      calculation should continue and false to cancel the
       uncompression calculation.
     callback_context - [in]
-      This value is passed as the first argument when calling 
+      This value is passed as the first argument when calling
       callback_function or the virutal Out() function.
   Returns:
     True if successful.
   Remarks:
     Once uncompression has started, it would be unusual to
     intentionally change the uncompressed stream output handler,
-    but you can do this if you need to.    
+    but you can do this if you need to.
   */
-  bool SetCallback( 
+  bool SetCallback(
     ON_StreamCallbackFunction callback_function,
     void* callback_context
     );
@@ -251,13 +251,13 @@ public:
     argument to the uncompressed stream output handler function.
   */
   void* CallbackContext() const;
-  
+
   /*
   Description:
     Call BeginUnompressStream() one time to initialize the compression
-    calculation.  Then call In() one or more times 
-    to submit the compressed stream to the uncompression calculation.  
-    When you reach the end of the compressed stream, call 
+    calculation.  Then call In() one or more times
+    to submit the compressed stream to the uncompression calculation.
+    When you reach the end of the compressed stream, call
     End().
   Returns:
     true if successful, false if an error occured.
@@ -284,29 +284,29 @@ public:
   /*
   Description:
     If an explicit uncompressed stream handler is not specified
-    ( CallbackFunction() returns null ), then the virtual Out() 
+    ( CallbackFunction() returns null ), then the virtual Out()
     function is called to handle the uncompressed output stream.
     As the input stream is uncompressed, one or more calls to Out()
     will occur.
   Returns:
-    True to continue uncompressing and false to cancel the 
+    True to continue uncompressing and false to cancel the
     uncompression calculation.
   Remarks:
     In general, it is probably going to be easier to test and debug
-    your code if you ignore the callback_context parameter and add 
+    your code if you ignore the callback_context parameter and add
     a member variable to your derived class to make additional
     information accessable to your Out function.
   */
-  virtual bool Out( 
-    void* callback_context, 
-    ON__UINT32 out_buffer_size, 
-    const void* out_buffer 
+  virtual bool Out(
+    void* callback_context,
+    ON__UINT32 out_buffer_size,
+    const void* out_buffer
     );
 
   /*
   Description:
-    After the last call to In(), call End().  
-    Calling End() may generate zero or more 
+    After the last call to In(), call End().
+    Calling End() may generate zero or more
     calls to the output stream handler.
   Returns:
     true if successful, false if an error occured.
@@ -316,10 +316,10 @@ public:
   /*
   Returns:
     Then the returned value is the total number bytes in the input
-    stream. The size is updated every time In() is called before 
-    any calls are made to the output stream handler.  If the 
+    stream. The size is updated every time In() is called before
+    any calls are made to the output stream handler.  If the
     calculation is finished ( End() has been called ), then the
-    returned value is the total number of bytes in the entire 
+    returned value is the total number of bytes in the entire
     input stream.
   */
   ON__UINT64 InSize() const;
@@ -328,7 +328,7 @@ public:
   Returns:
     Then the returned value is the total number bytes in the output
     stream. The size is incremented immediately after each call to
-    the output stream handler.  If the compression calculation is 
+    the output stream handler.  If the compression calculation is
     finished ( End() has been called ), then the returned value is
     the total number of bytes in the entire output stream.
   */
@@ -338,7 +338,7 @@ public:
   Returns:
     Then the returned value is the 32-bit crc of the input stream.
     The crc is updated every time In() is called before any calls
-    are made to the output stream handler.  If the compression 
+    are made to the output stream handler.  If the compression
     calculation is finished ( End() has been called ), then the
     returned value is the 32-bit crc of the entire input stream.
   */
@@ -348,7 +348,7 @@ public:
   Returns:
     Then the returned value is the 32bit crc of the output stream.
     The crc is updated immediately after each call to the output
-    stream handler.  If the calculation is finished ( End() has 
+    stream handler.  If the calculation is finished ( End() has
     been called ), then the returned value is the 32-bit crc of
     the entire output stream.
   */

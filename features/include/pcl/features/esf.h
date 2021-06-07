@@ -49,7 +49,7 @@ namespace pcl
 {
   /** \brief @b ESFEstimation estimates the ensemble of shape functions descriptors for a given point cloud
     * dataset containing points. Shape functions are D2, D3, A3.  For more information about the ESF descriptor, see:
-    * Walter Wohlkinger and Markus Vincze, "Ensemble of Shape Functions for 3D Object Classification", 
+    * Walter Wohlkinger and Markus Vincze, "Ensemble of Shape Functions for 3D Object Classification",
     * IEEE International Conference on Robotics and Biomimetics (IEEE-ROBIO), 2011
     * \author Walter Wohlkinger
     * \ingroup features
@@ -98,23 +98,23 @@ namespace pcl
         * <setInputCloud (),
         * \param output the resultant point cloud model histogram that contains the ESF feature estimates
         */
-      void 
+      void
       computeFeature (PointCloudOut &output);
 
       /** \brief ... */
       int
-      lci (const int x1, const int y1, const int z1, 
-           const int x2, const int y2, const int z2, 
+      lci (const int x1, const int y1, const int z1,
+           const int x2, const int y2, const int z2,
            float &ratio, int &incnt, int &pointcount);
-     
+
       /** \brief ... */
       void
       computeESF (PointCloudIn &pc, std::vector<float> &hist);
-      
+
       /** \brief ... */
       void
       voxelize9 (PointCloudIn &cluster);
-      
+
       /** \brief ... */
       void
       cleanup9 (PointCloudIn &cluster);
@@ -128,7 +128,7 @@ namespace pcl
       /** \brief ... */
       //boost::multi_array<int, 3> lut_;
       std::vector<std::vector<std::vector<int> > > lut_;
-      
+
       /** \brief ... */
       PointCloudIn local_cloud_;
 

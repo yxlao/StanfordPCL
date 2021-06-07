@@ -177,7 +177,7 @@ class OpenNIOrganizedEdgeDetection
         {
           labels.clear ();
           label_indices.clear ();
-          
+
           double normal_start = pcl::getTime ();
 
           if (oed.getEdgeType () & oed.EDGELABEL_HIGH_CURVATURE)
@@ -212,8 +212,8 @@ class OpenNIOrganizedEdgeDetection
             viewer->addPointCloud (cloud_.makeShared (), "cloud");
 
           // Show edges
-          pcl::PointCloud<PointT>::Ptr occluding_edges (new pcl::PointCloud<PointT>), 
-            occluded_edges (new pcl::PointCloud<PointT>), 
+          pcl::PointCloud<PointT>::Ptr occluding_edges (new pcl::PointCloud<PointT>),
+            occluded_edges (new pcl::PointCloud<PointT>),
             nan_boundary_edges (new pcl::PointCloud<PointT>),
             high_curvature_edges (new pcl::PointCloud<PointT>),
             rgb_edges (new pcl::PointCloud<PointT>);
@@ -229,7 +229,7 @@ class OpenNIOrganizedEdgeDetection
 
           if (!viewer->updatePointCloud<PointT> (occluding_edges, "occluding edges"))
             viewer->addPointCloud<PointT> (occluding_edges, "occluding edges");
-          
+
           if (!viewer->updatePointCloud<PointT> (occluded_edges, "occluded edges"))
             viewer->addPointCloud<PointT> (occluded_edges, "occluded edges");
 
@@ -274,13 +274,13 @@ main (int argc, char ** argv)
   std::string arg;
   if (argc > 1)
     arg = std::string (argv[1]);
-  
+
   if (arg == "--help" || arg == "-h")
   {
     usage (argv);
     return 1;
   }
-  
+
   std::cout << "Press following keys to enable/disable the different edge types:" << std::endl;
   std::cout << "<1> EDGELABEL_NAN_BOUNDARY edge" << std::endl;
   std::cout << "<2> EDGELABEL_OCCLUDING edge" << std::endl;

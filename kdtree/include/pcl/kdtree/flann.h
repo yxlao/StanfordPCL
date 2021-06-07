@@ -41,7 +41,7 @@
 #define PCL_KDTREE_FLANN_H_
 
 #if defined __GNUC__
-#  pragma GCC system_header 
+#  pragma GCC system_header
 #endif
 
 #if defined _MSC_VER

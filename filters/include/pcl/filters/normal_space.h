@@ -1,15 +1,15 @@
 /*
  * Software License Agreement (BSD License)
- * 
+ *
  * Point Cloud Library (PCL) - www.pointclouds.org
  * Copyright (c) 2009-2011, Willow Garage, Inc.
- * 
+ *
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
- * are met: 
- * 
+ * are met:
+ *
  *  * Redistributions of source code must retain the above copyright
  *    notice, this list of conditions and the following disclaimer.
  *  * Redistributions in binary form must reproduce the above
@@ -19,7 +19,7 @@
  *  * Neither the name of Willow Garage, Inc. nor the names of its
  *    contributors may be used to endorse or promote products derived
  *    from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -63,7 +63,7 @@ namespace pcl
 
     public:
       /** \brief Empty constructor. */
-      NormalSpaceSampling () : 
+      NormalSpaceSampling () :
         sample_ (UINT_MAX), seed_ (static_cast<unsigned int> (time (NULL))), binsx_ (), binsy_ (), binsz_ (), input_normals_ ()
       {
         filter_name_ = "NormalSpaceSampling";
@@ -108,7 +108,7 @@ namespace pcl
         * \param[in] binsy number of bins in y direction
         * \param[in] binsz number of bins in z direction
         */
-      inline void 
+      inline void
       setBins (unsigned int binsx, unsigned int binsy, unsigned int binsz)
       {
         binsx_ = binsx;
@@ -121,7 +121,7 @@ namespace pcl
         * \param[out] binsy number of bins in y direction
         * \param[out] binsz number of bins in z direction
         */
-      inline void 
+      inline void
       getBins (unsigned int& binsx, unsigned int& binsy, unsigned int& binsz) const
       {
         binsx = binsx_;
@@ -132,7 +132,7 @@ namespace pcl
       /** \brief Set the normals computed on the input point cloud
         * \param[in] normals the normals computed for the input cloud
         */
-      inline void 
+      inline void
       setNormals (const NormalsPtr &normals) { input_normals_ = normals; }
 
       /** \brief Get the normals computed on the input point cloud */
@@ -151,9 +151,9 @@ namespace pcl
       unsigned int binsy_;
       /** \brief Number of bins in z direction. */
       unsigned int binsz_;
-     
+
       /** \brief The normals computed at each point in the input cloud */
-      NormalsPtr input_normals_; 
+      NormalsPtr input_normals_;
 
       /** \brief Sample of point indices into a separate PointCloud
         * \param[out] output the resultant point cloud
@@ -169,10 +169,10 @@ namespace pcl
 
     private:
       /** \brief Finds the bin number of the input normal, returns the bin number
-        * \param[in] normal the input normal 
+        * \param[in] normal the input normal
         * \param[in] nbins total number of bins
         */
-      unsigned int 
+      unsigned int
       findBin (float *normal, unsigned int nbins);
 
       /** \brief Checks of the entire bin is sampled, returns true or false

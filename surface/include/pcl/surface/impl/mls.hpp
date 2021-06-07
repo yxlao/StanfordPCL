@@ -300,7 +300,7 @@ pcl::MovingLeastSquares<PointInT, PointOutT>::computeMLSPointNormal (int index,
           {
             PointOutT projected_point;
             pcl::Normal projected_normal;
-            projectPointToMLSSurface (u_disp, v_disp, u, v, plane_normal, curvature, point, c_vec, 
+            projectPointToMLSSurface (u_disp, v_disp, u, v, plane_normal, curvature, point, c_vec,
                 static_cast<int> (nn_indices.size ()),
                 projected_point, projected_normal);
 
@@ -359,7 +359,7 @@ pcl::MovingLeastSquares<PointInT, PointOutT>::computeMLSPointNormal (int index,
 
           PointOutT projected_point;
           pcl::Normal projected_normal;
-          projectPointToMLSSurface (u_disp, v_disp, u, v, plane_normal, curvature, point, c_vec, 
+          projectPointToMLSSurface (u_disp, v_disp, u, v, plane_normal, curvature, point, c_vec,
               static_cast<int> (nn_indices.size ()),
               projected_point, projected_normal);
 

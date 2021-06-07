@@ -53,9 +53,9 @@ template<typename PointType>
 class OpenNIGrabFrame
 {
   typedef pcl::PointCloud<PointType> Cloud;
-  typedef typename Cloud::ConstPtr CloudConstPtr;  
+  typedef typename Cloud::ConstPtr CloudConstPtr;
   public:
-    OpenNIGrabFrame () 
+    OpenNIGrabFrame ()
     : visualizer_ (new pcl::visualization::PCLVisualizer ("OpenNI Viewer"))
     , writer_ ()
     , quit_ (false)
@@ -67,22 +67,22 @@ class OpenNIGrabFrame
     {
     }
 
-    void 
+    void
     cloud_cb_ (const CloudConstPtr& cloud)
     {
       if (quit_)
         return;
-      
+
       boost::mutex::scoped_lock lock (cloud_mutex_);
         cloud_ = cloud;
-        
+
       if (continuous_ || trigger_)
         saveCloud ();
-      
+
       trigger_ = false;
     }
-    
-    void 
+
+    void
     keyboard_callback (const pcl::visualization::KeyboardEvent& event, void*)
     {
       if (event.keyUp ())
@@ -98,8 +98,8 @@ class OpenNIGrabFrame
         }
       }
     }
-    
-    void 
+
+    void
     mouse_callback (const pcl::visualization::MouseEvent& mouse_event, void*)
     {
       if (mouse_event.getType() == pcl::visualization::MouseEvent::MouseButtonPress && mouse_event.getButton() == pcl::visualization::MouseEvent::LeftButton)
@@ -107,7 +107,7 @@ class OpenNIGrabFrame
         trigger_ = true;
       }
     }
-    
+
     CloudConstPtr
     getLatestCloud ()
     {
@@ -119,7 +119,7 @@ class OpenNIGrabFrame
       //callback
       return (temp_cloud);
     }
-    
+
     void saveCloud ()
     {
       std::stringstream ss;
@@ -130,27 +130,27 @@ class OpenNIGrabFrame
         writer_.writeBinary<PointType> (ss.str (), *cloud_);
         std::cerr << "Data saved in BINARY format to " << ss.str () << std::endl;
       }
-      
+
       if (format_ & 2)
       {
         writer_.writeBinaryCompressed<PointType> (ss.str (), *cloud_);
         std::cerr << "Data saved in BINARY COMPRESSED format to " << ss.str () << std::endl;
       }
-      
+
       if (format_ & 4)
       {
         writer_.writeBinaryCompressed<PointType> (ss.str (), *cloud_);
         std::cerr << "Data saved in BINARY COMPRESSED format to " << ss.str () << std::endl;
       }
     }
-    
-    void 
+
+    void
     run ()
     {
       // register the keyboard and mouse callback for the visualizer
       visualizer_->registerMouseCallback (&OpenNIGrabFrame::mouse_callback, *this);
       visualizer_->registerKeyboardCallback(&OpenNIGrabFrame::keyboard_callback, *this);
-      
+
       // create a new grabber for OpenNI devices
       pcl::Grabber* interface = new pcl::OpenNIGrabber ();
 
@@ -175,14 +175,14 @@ class OpenNIGrabFrame
           {
             visualizer_->addPointCloud (cloud, "OpenNICloud");
             visualizer_->resetCameraViewpoint ("OpenNICloud");
-          }          
+          }
         }
         boost::this_thread::sleep (boost::posix_time::microseconds (100));
       }
-      
+
       //while (!quit_)
         //boost::this_thread::sleep (boost::posix_time::seconds (1));
-   
+
       // stop the grabber
       interface->stop ();
     }
@@ -200,7 +200,7 @@ class OpenNIGrabFrame
       else
       {
         dir_name_ = path.parent_path ().string ();
-        
+
         if (!dir_name_.empty () && !boost::filesystem::exists (path.parent_path ()))
         {
           std::cerr << "directory \"" << path.parent_path () << "\" does not exist!\n";
@@ -212,21 +212,21 @@ class OpenNIGrabFrame
         file_name_ = path.stem ();
 #endif
       }
-      
+
       std::cout << "dir: " << dir_name_ << " :: " << path.parent_path () << std::endl;
 #if BOOST_FILESYSTEM_VERSION == 3
       std::cout << "file: " << file_name_ << " :: " << path.stem (). string () << std::endl;
 #else
       std::cout << "file: " << file_name_ << " :: " << path.stem () << std::endl;
 #endif
-      
+
       if (pcd_format == "b" || pcd_format == "all")
         format_ |= 1;
       else if (pcd_format == "ascii" || pcd_format == "all")
         format_ |= 2;
       else if (pcd_format == "bc" || pcd_format == "all")
         format_ |= 4;
-    
+
       continuous_ = !paused;
     }
 
@@ -246,7 +246,7 @@ void
 usage (char ** argv)
 {
   std::cout << "usage: " << argv[0] << " <filename> <options>\n\n";
-  
+
   print_info ("  filename: if no filename is provided a generic timestamp will be set as filename\n\n");
   print_info ("  where options are:\n");
   print_info ("                    -format = PCD file format (b=binary; bc=binary compressed; ascii=ascii; all=all) (default: bc)\n");
@@ -255,7 +255,7 @@ usage (char ** argv)
   print_info ("                              or grab single frames by just pressing the left mouse button.\n");
 }
 
-int 
+int
 main (int argc, char** argv)
 {
   std::string arg;
@@ -279,7 +279,7 @@ main (int argc, char** argv)
     p_file_indices = parse_file_extension_argument (argc, argv, ".pcd");
     if (p_file_indices.size () > 0)
       filename = argv[p_file_indices[0]];
-    
+
     std::cout << "fname: " << filename << std::endl;
     // Command line parsing
     parse_argument (argc, argv, "-format", format);
@@ -295,7 +295,7 @@ main (int argc, char** argv)
   }
   else
   {
-    OpenNIGrabFrame<pcl::PointXYZRGBA> grab_frame;    
+    OpenNIGrabFrame<pcl::PointXYZRGBA> grab_frame;
     grab_frame.setOptions (filename, format, paused);
     grab_frame.run ();
   }

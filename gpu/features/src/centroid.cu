@@ -58,18 +58,18 @@ namespace pcl
 
         struct PlusFloat3
         {
-            __device__ __forceinline__ float3 operator()(const float3& e1, const float3& e2) const 
-            { 
-                return make_float3(e1.x + e2.x, e1.y + e2.y, e1.z + e2.z); 
+            __device__ __forceinline__ float3 operator()(const float3& e1, const float3& e2) const
+            {
+                return make_float3(e1.x + e2.x, e1.y + e2.y, e1.z + e2.z);
             }
         };
-        
+
         struct TupleDistCvt
         {
             float3 pivot_;
             TupleDistCvt(const float3& pivot) : pivot_(pivot) {}
-            __device__ __forceinline__ thrust::tuple<float, int> operator()(const thrust::tuple<float4, int>& t) const 
-            { 
+            __device__ __forceinline__ thrust::tuple<float, int> operator()(const thrust::tuple<float4, int>& t) const
+            {
                 float4 point = t.get<0>();
 
                 float dx = pivot_.x - point.x;
@@ -77,7 +77,7 @@ namespace pcl
                 float dz = pivot_.z - point.z;
                 float dist = sqrt(dx*dx + dy*dy + dz*dz);
 
-                return thrust::tuple<float, int>(dist, t.get<1>());                                
+                return thrust::tuple<float, int>(dist, t.get<1>());
             }
         };
 
@@ -89,7 +89,7 @@ void pcl::device::compute3DCentroid(const DeviceArray<PointT>& cloud, float3& ce
 {
     thrust::device_ptr<PointT> src_beg((PointT*)cloud.ptr());
     thrust::device_ptr<PointT> src_end = src_beg + cloud.size();
-                
+
     centroid = transform_reduce(src_beg, src_beg, PointT2float3<PointT>(), make_float3(0.f, 0.f, 0.f), PlusFloat3());
     centroid *= 1.f/cloud.size();
 }
@@ -101,13 +101,13 @@ void pcl::device::compute3DCentroid(const DeviceArray<PointT>& cloud, const Indi
         compute3DCentroid(cloud, centroid);
     else
     {
-        thrust::device_ptr<PointT> src_beg((PointT*)cloud.ptr());    
+        thrust::device_ptr<PointT> src_beg((PointT*)cloud.ptr());
         thrust::device_ptr<int> map_beg((int*)indices.ptr());
         thrust::device_ptr<int> map_end = map_beg + indices.size();
 
 
         centroid = transform_reduce(make_permutation_iterator(src_beg, map_beg),
-            make_permutation_iterator(src_beg, map_end), 
+            make_permutation_iterator(src_beg, map_end),
             PointT2float3<PointT>(), make_float3(0.f, 0.f, 0.f), PlusFloat3());
 
         centroid *= 1.f/indices.size();
@@ -116,7 +116,7 @@ void pcl::device::compute3DCentroid(const DeviceArray<PointT>& cloud, const Indi
 
 template<typename PointT>
 float3 pcl::device::getMaxDistance(const DeviceArray<PointT>& cloud, const float3& pivot)
-{   
+{
     thrust::device_ptr<PointT> src_beg((PointT*)cloud.ptr());
     thrust::device_ptr<PointT> src_end = src_beg + cloud.size();
 
@@ -125,7 +125,7 @@ float3 pcl::device::getMaxDistance(const DeviceArray<PointT>& cloud, const float
 
     thrust::tuple<float, int> init(0.f, 0);
     thrust::maximum< tuple<float, int> > op;
-    
+
     tuple<float, int> res = transform_reduce(
         make_zip_iterator(make_tuple( src_beg, cf )),
         make_zip_iterator(make_tuple( src_beg, ce )),
@@ -139,11 +139,11 @@ float3 pcl::device::getMaxDistance(const DeviceArray<PointT>& cloud, const float
 
 template<typename PointT>
 float3 pcl::device::getMaxDistance(const DeviceArray<PointT>& cloud, const Indices& indices, const float3& pivot)
-{   
+{
     if (indices.empty())
         return getMaxDistance(cloud, pivot);
 
-    thrust::device_ptr<PointT> src_beg((PointT*)cloud.ptr());    
+    thrust::device_ptr<PointT> src_beg((PointT*)cloud.ptr());
     thrust::device_ptr<int> map_beg((int*)indices.ptr());
     thrust::device_ptr<int> map_end = map_beg + indices.size();
 
@@ -152,7 +152,7 @@ float3 pcl::device::getMaxDistance(const DeviceArray<PointT>& cloud, const Indic
 
     thrust::tuple<float, int> init(0.f, 0);
     thrust::maximum< tuple<float, int> > op;
-    
+
     tuple<float, int> res = transform_reduce(
         make_zip_iterator(make_tuple( make_permutation_iterator(src_beg, map_beg), cf )),
         make_zip_iterator(make_tuple( make_permutation_iterator(src_beg, map_end), ce )),

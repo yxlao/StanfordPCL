@@ -45,7 +45,7 @@
 #include <pcl/console/parse.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-OpenNIPassthrough::OpenNIPassthrough (pcl::OpenNIGrabber& grabber) 
+OpenNIPassthrough::OpenNIPassthrough (pcl::OpenNIGrabber& grabber)
   : vis_ ()
   , grabber_(grabber)
   , device_id_ ()
@@ -67,7 +67,7 @@ OpenNIPassthrough::OpenNIPassthrough (pcl::OpenNIGrabber& grabber)
   ui_->qvtk_widget->SetRenderWindow (vis_->getRenderWindow ());
   vis_->setupInteractor (ui_->qvtk_widget->GetInteractor (), ui_->qvtk_widget->GetRenderWindow ());
   vis_->getInteractorStyle ()->setKeyboardModifier (pcl::visualization::INTERACTOR_KB_MOD_SHIFT);
-  ui_->qvtk_widget->update (); 
+  ui_->qvtk_widget->update ();
 
   // Start the OpenNI data acquision
   boost::function<void (const CloudConstPtr&)> f = boost::bind (&OpenNIPassthrough::cloud_cb, this, _1);
@@ -78,7 +78,7 @@ OpenNIPassthrough::OpenNIPassthrough (pcl::OpenNIGrabber& grabber)
   // Set defaults
   pass_.setFilterFieldName ("z");
   pass_.setFilterLimits (0.5, 5.0);
-  
+
   ui_->fieldValueSlider->setRange (5, 50);
   ui_->fieldValueSlider->setValue (50);
   connect (ui_->fieldValueSlider, SIGNAL (valueChanged (int)), this, SLOT (adjustPassThroughValues (int)));
@@ -88,7 +88,7 @@ OpenNIPassthrough::OpenNIPassthrough (pcl::OpenNIGrabber& grabber)
 void
 OpenNIPassthrough::cloud_cb (const CloudConstPtr& cloud)
 {
-  QMutexLocker locker (&mtx_);  
+  QMutexLocker locker (&mtx_);
   FPS_CALC ("computation");
 
   // Computation goes here
@@ -110,7 +110,7 @@ OpenNIPassthrough::timeoutSlot ()
   CloudPtr temp_cloud;
   {
     QMutexLocker locker (&mtx_);
-    temp_cloud.swap (cloud_pass_); 
+    temp_cloud.swap (cloud_pass_);
   }
   // Add to the 3D viewer
   if (!vis_->updatePointCloud (temp_cloud, "cloud_pass"))
@@ -122,11 +122,11 @@ OpenNIPassthrough::timeoutSlot ()
   ui_->qvtk_widget->update ();
 }
 
-int 
+int
 main (int argc, char ** argv)
 {
   // Initialize QT
-  QApplication app (argc, argv); 
+  QApplication app (argc, argv);
 
   // Open the first available camera
   pcl::OpenNIGrabber grabber ("#1");

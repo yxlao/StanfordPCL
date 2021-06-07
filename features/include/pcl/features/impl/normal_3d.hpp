@@ -157,4 +157,4 @@ pcl::NormalEstimation<PointInT, Eigen::MatrixXf>::computeFeatureEigen (pcl::Poin
 
 #define PCL_INSTANTIATE_NormalEstimation(T,NT) template class PCL_EXPORTS pcl::NormalEstimation<T,NT>;
 
-#endif    // PCL_FEATURES_IMPL_NORMAL_3D_H_ 
+#endif    // PCL_FEATURES_IMPL_NORMAL_3D_H_

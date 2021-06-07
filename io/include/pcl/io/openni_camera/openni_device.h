@@ -91,7 +91,7 @@ namespace openni_wrapper
         * \param[out] mode the compatible mode that the device natively supports.
         * \return true, if a compatible mode could be found, false otherwise.
         */
-      bool 
+      bool
       findCompatibleImageMode (const XnMapOutputMode& output_mode, XnMapOutputMode& mode ) const throw ();
 
       /** \brief finds a depth output mode that can be used to retrieve depth images in desired output mode.
@@ -101,101 +101,101 @@ namespace openni_wrapper
         * \param[out] mode the compatible mode that the device natively supports.
         * \return true, if a compatible mode could be found, false otherwise.
         */
-      bool 
+      bool
       findCompatibleDepthMode (const XnMapOutputMode& output_mode, XnMapOutputMode& mode ) const throw ();
 
       /** \brief returns whether a given mode is natively supported by the device or not
         * \param[in] output_mode mode to be checked
         * \return true if mode natively available, false otherwise
         */
-      bool 
+      bool
       isImageModeSupported (const XnMapOutputMode& output_mode) const throw ();
 
       /** \brief returns whether a given mode is natively supported by the device or not
         * \param[in] output_mode mode to be checked
         * \return true if mode natively available, false otherwise
         */
-      bool 
+      bool
       isDepthModeSupported (const XnMapOutputMode& output_mode) const throw ();
 
       /** \brief returns the default image mode, which is simply the first entry in the list of modes
         * \return the default image mode
         */
-      const XnMapOutputMode& 
+      const XnMapOutputMode&
       getDefaultImageMode () const throw ();
 
       /** \brief  returns the default depth mode, which is simply the first entry in the list of modes
         * \return the default depth mode
         */
-      const XnMapOutputMode& 
+      const XnMapOutputMode&
       getDefaultDepthMode () const throw ();
 
       /** \brief  returns the default IR mode, which is simply the first entry in the list of modes
         * \return the default IR mode
         */
-      const XnMapOutputMode& 
+      const XnMapOutputMode&
       getDefaultIRMode () const throw ();
 
       /** \brief sets the output mode of the image stream
         * \param[in] output_mode the desired output mode
         */
-      void 
+      void
       setImageOutputMode (const XnMapOutputMode& output_mode);
 
       /** \brief sets the output mode of the depth stream
         * \param[in] output_mode the desired output mode
         */
-      void 
+      void
       setDepthOutputMode (const XnMapOutputMode& output_mode);
 
       /** \brief sets the output mode of the IR stream
         * \param[in] output_mode the desired output mode
         */
-      void 
+      void
       setIROutputMode (const XnMapOutputMode& output_mode);
 
       /** \return the current output mode of the image stream */
-      XnMapOutputMode 
+      XnMapOutputMode
       getImageOutputMode () const;
 
       /** \return the current output mode of the depth stream */
-      XnMapOutputMode 
+      XnMapOutputMode
       getDepthOutputMode () const;
 
       /** \return the current output mode of the IR stream */
-      XnMapOutputMode 
+      XnMapOutputMode
       getIROutputMode () const;
 
       /** \brief set the depth stream registration on or off
         * \param[in] on_off
         */
-      void 
+      void
       setDepthRegistration (bool on_off);
 
       /** \return whether the depth stream is registered to the RGB camera fram or not. */
-      bool 
+      bool
       isDepthRegistered () const throw ();
 
       /** \return whether a registration of the depth stream to the RGB camera frame is supported or not. */
-      bool 
+      bool
       isDepthRegistrationSupported () const throw ();
 
       /** \brief set the hardware synchronization between Depth and RGB stream on or off.
         * \param[in] on_off
         */
-      void 
+      void
       setSynchronization (bool on_off);
 
       /** \return true if Depth stream is synchronized to RGB stream, false otherwise. */
-      bool 
+      bool
       isSynchronized () const throw ();
 
-      /** \return true if the Device supports hardware synchronization between Depth and RGB streams or not. */ 
-      bool 
+      /** \return true if the Device supports hardware synchronization between Depth and RGB streams or not. */
+      bool
       isSynchronizationSupported () const throw ();
 
       /** \return true if depth stream is a cropped version of the native depth stream, false otherwise. */
-      bool 
+      bool
       isDepthCropped () const;
 
       /** \brief turn on cropping for the depth stream.
@@ -204,75 +204,75 @@ namespace openni_wrapper
         * \param[in] width width of the rectangular subregion.
         * \param[in] height height of the rectangular subregion.
         */
-      void 
+      void
       setDepthCropping (unsigned x, unsigned y, unsigned width, unsigned height);
 
       /** \return true if cropping of the depth stream is supported, false otherwise. */
-      bool 
+      bool
       isDepthCroppingSupported () const throw ();
 
       /** \brief returns the focal length for the color camera in pixels. The pixels are assumed to be square.
         *        Result depends on the output resolution of the image.
         */
-      inline float 
+      inline float
       getImageFocalLength (int output_x_resolution = 0) const throw ();
 
       /** \brief returns the focal length for the IR camera in pixels. The pixels are assumed to be square.
         *        Result depends on the output resolution of the depth image.
         */
-      inline float 
+      inline float
       getDepthFocalLength (int output_x_resolution = 0) const throw ();
 
       /** \return Baseline of the "stereo" frame. i.e. for PSDK compatible devices its the distance between the Projector and the IR camera. */
-      inline float 
+      inline float
       getBaseline () const throw ();
 
       /** \brief starts the image stream. */
-      virtual void 
+      virtual void
       startImageStream ();
 
       /** \brief stops the image stream. */
-      virtual void 
+      virtual void
       stopImageStream ();
 
       /** \brief starts the depth stream. */
-      virtual void 
+      virtual void
       startDepthStream ();
 
       /** \brief stops the depth stream. */
-      virtual void 
+      virtual void
       stopDepthStream ();
 
       /** \brief starts the IR stream. */
-      virtual void 
+      virtual void
       startIRStream ();
 
       /** \brief stops the IR stream. */
-      virtual void 
+      virtual void
       stopIRStream ();
 
       /** \return true if the device supports an image stream, false otherwise. */
-      bool 
+      bool
       hasImageStream () const throw ();
 
       /** \return true if the device supports a depth stream, false otherwise. */
-      bool 
+      bool
       hasDepthStream () const throw ();
 
       /** \return true if the device supports an IR stream, false otherwise. */
-      bool 
+      bool
       hasIRStream () const throw ();
 
       /** \return true if the image stream is running / started, false otherwise. */
-      virtual bool 
+      virtual bool
       isImageStreamRunning () const throw ();
 
       /** \return true if the depth stream is running / started, false otherwise. */
-      virtual bool 
+      virtual bool
       isDepthStreamRunning () const throw ();
 
       /** \return true if the IR stream is running / started, false otherwise. */
-      virtual bool 
+      virtual bool
       isIRStreamRunning () const throw ();
 
       /** \brief registers a callback function of boost::function type for the image stream with an optional user defined parameter.
@@ -281,7 +281,7 @@ namespace openni_wrapper
         * \param[in] cookie the cookie that needs to be passed to the callback together with the new image.
         * \return a callback handler that can be used to remove the user callback from list of image-stream callbacks.
         */
-      CallbackHandle 
+      CallbackHandle
       registerImageCallback (const ImageCallbackFunction& callback, void* cookie = NULL) throw ();
 
       /** \brief registers a callback function for the image stream with an optional user defined parameter.
@@ -291,14 +291,14 @@ namespace openni_wrapper
         * \param[in] cookie the cookie that needs to be passed to the callback together with the new image.
         * \return a callback handler that can be used to remove the user callback from list of image-stream callbacks.
         */
-      template<typename T> CallbackHandle 
+      template<typename T> CallbackHandle
       registerImageCallback (void (T::*callback)(boost::shared_ptr<Image>, void* cookie), T& instance, void* cookie = NULL) throw ();
 
       /** \brief unregisters a callback function. i.e. removes that function from the list of image stream callbacks.
         * \param[in] callbackHandle the handle of the callback to unregister.
         * \return true, if callback was in list and could be unregistered, false otherwise.
         */
-      bool 
+      bool
       unregisterImageCallback (const CallbackHandle& callbackHandle) throw ();
 
 
@@ -308,7 +308,7 @@ namespace openni_wrapper
         * \param[in] cookie the cookie that needs to be passed to the callback together with the new depth image.
         * \return a callback handler that can be used to remove the user callback from list of depth-stream callbacks.
         */
-      CallbackHandle 
+      CallbackHandle
       registerDepthCallback (const DepthImageCallbackFunction& callback, void* cookie = NULL) throw ();
 
       /** \brief registers a callback function for the depth stream with an optional user defined parameter.
@@ -318,14 +318,14 @@ namespace openni_wrapper
         * \param[in] cookie the cookie that needs to be passed to the callback together with the new depth image.
         * \return a callback handler that can be used to remove the user callback from list of depth-stream callbacks.
         */
-      template<typename T> CallbackHandle 
+      template<typename T> CallbackHandle
       registerDepthCallback (void (T::*callback)(boost::shared_ptr<DepthImage>, void* cookie), T& instance, void* cookie = NULL) throw ();
 
       /** \brief unregisters a callback function. i.e. removes that function from the list of depth stream callbacks.
         * \param[in] callbackHandle the handle of the callback to unregister.
         * \return true, if callback was in list and could be unregistered, false otherwise.
         */
-      bool 
+      bool
       unregisterDepthCallback (const CallbackHandle& callbackHandle) throw ();
 
       /** \brief registers a callback function of boost::function type for the IR stream with an optional user defined parameter.
@@ -334,7 +334,7 @@ namespace openni_wrapper
         * \param[in] cookie the cookie that needs to be passed to the callback together with the new IR image.
         * \return a callback handler that can be used to remove the user callback from list of IR-stream callbacks.
         */
-      CallbackHandle 
+      CallbackHandle
       registerIRCallback (const IRImageCallbackFunction& callback, void* cookie = NULL) throw ();
 
       /** \brief registers a callback function for the IR stream with an optional user defined parameter.
@@ -344,48 +344,48 @@ namespace openni_wrapper
         * \param[in] cookie the cookie that needs to be passed to the callback together with the new IR image.
         * \return a callback handler that can be used to remove the user callback from list of IR-stream callbacks.
         */
-      template<typename T> CallbackHandle 
+      template<typename T> CallbackHandle
       registerIRCallback (void (T::*callback)(boost::shared_ptr<IRImage>, void* cookie), T& instance, void* cookie = NULL) throw ();
 
       /** \brief unregisters a callback function. i.e. removes that function from the list of IR stream callbacks.
         * \param[in] callbackHandle the handle of the callback to unregister.
         * \return true, if callback was in list and could be unregistered, false otherwise.
         */
-      bool 
+      bool
       unregisterIRCallback (const CallbackHandle& callbackHandle) throw ();
 
       /** \brief returns the serial number for device.
         * \attention This might be an empty string!!!
         */
-      const char* 
+      const char*
       getSerialNumber () const throw ();
 
       /** \brief returns the connection string for current device, which has following format vendorID/productID\@BusID/DeviceID. */
-      const char* 
+      const char*
       getConnectionString () const throw ();
 
       /** \return the Vendor name of the USB device. */
-      const char* 
+      const char*
       getVendorName () const throw ();
 
       /** \return the product name of the USB device. */
-      const char* 
+      const char*
       getProductName () const throw ();
 
       /** \return the vendor ID of the USB device. */
-      unsigned short 
+      unsigned short
       getVendorID () const throw ();
 
       /** \return the product ID of the USB device. */
-      unsigned short 
+      unsigned short
       getProductID () const throw ();
 
       /** \return the USB bus on which the device is connected. */
-      unsigned char  
+      unsigned char
       getBus () const throw ();
 
       /** \return the USB Address of the device. */
-      unsigned char  
+      unsigned char
       getAddress () const throw ();
 
       /** \brief Set the RGB image focal length.
@@ -413,7 +413,7 @@ namespace openni_wrapper
       setDepthOutputFormat (const DepthMode& depth_mode = OpenNI_12_bit_depth);
 
       /** \brief Get the depth output format as set by the user. */
-      XnUInt64 
+      XnUInt64
       getDepthOutputFormat () const;
 
       xn::Context & getContext() {
@@ -450,25 +450,25 @@ namespace openni_wrapper
 
       // This is a workaround, since in the NewDepthDataAvailable function WaitAndUpdateData leads to a dead-lock behaviour
       // and retrieving image data without WaitAndUpdateData leads to incomplete images!!!
-      void 
+      void
       ImageDataThreadFunction ();
 
-      void 
+      void
       DepthDataThreadFunction ();
 
-      void 
+      void
       IRDataThreadFunction ();
 
-      virtual bool 
+      virtual bool
       isImageResizeSupported (unsigned input_width, unsigned input_height, unsigned output_width, unsigned output_height) const  throw () = 0;
 
-      void 
+      void
       setRegistration (bool on_off);
 
-      virtual boost::shared_ptr<Image> 
+      virtual boost::shared_ptr<Image>
       getCurrentImage (boost::shared_ptr<xn::ImageMetaData> image_data) const throw () = 0;
 
-      void 
+      void
       Init ();
       // holds the callback functions together with custom data
       // since same callback function can be registered multiple times with e.g. different custom data

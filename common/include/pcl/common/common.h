@@ -56,7 +56,7 @@ namespace pcl
     * \return the angle between v1 and v2
     * \ingroup common
     */
-  inline double 
+  inline double
   getAngle3D (const Eigen::Vector4f &v1, const Eigen::Vector4f &v2);
 
   /** \brief Compute both the mean and the standard deviation of an array of values
@@ -65,7 +65,7 @@ namespace pcl
     * \param stddev the resultant standard deviation of the distribution
     * \ingroup common
     */
-  inline void 
+  inline void
   getMeanStd (const std::vector<float> &values, double &mean, double &stddev);
 
   /** \brief Get a set of points residing in a box given its bounds
@@ -75,7 +75,7 @@ namespace pcl
     * \param indices the resultant set of point indices residing in the box
     * \ingroup common
     */
-  template <typename PointT> inline void 
+  template <typename PointT> inline void
   getPointsInBox (const pcl::PointCloud<PointT> &cloud, Eigen::Vector4f &min_pt,
                   Eigen::Vector4f &max_pt, std::vector<int> &indices);
 
@@ -96,7 +96,7 @@ namespace pcl
     * \ingroup common
     */
   template<typename PointT> inline void
-  getMaxDistance (const pcl::PointCloud<PointT> &cloud, const std::vector<int> &indices, 
+  getMaxDistance (const pcl::PointCloud<PointT> &cloud, const std::vector<int> &indices,
                   const Eigen::Vector4f &pivot_pt, Eigen::Vector4f &max_pt);
 
   /** \brief Get the minimum and maximum values on each of the 3 (x-y-z) dimensions in a given pointcloud
@@ -105,17 +105,17 @@ namespace pcl
     * \param max_pt the resultant maximum bounds
     * \ingroup common
     */
-  template <typename PointT> inline void 
+  template <typename PointT> inline void
   getMinMax3D (const pcl::PointCloud<PointT> &cloud, PointT &min_pt, PointT &max_pt);
-  
+
   /** \brief Get the minimum and maximum values on each of the 3 (x-y-z) dimensions in a given pointcloud
     * \param cloud the point cloud data message
     * \param min_pt the resultant minimum bounds
     * \param max_pt the resultant maximum bounds
     * \ingroup common
     */
-  template <typename PointT> inline void 
-  getMinMax3D (const pcl::PointCloud<PointT> &cloud, 
+  template <typename PointT> inline void
+  getMinMax3D (const pcl::PointCloud<PointT> &cloud,
                Eigen::Vector4f &min_pt, Eigen::Vector4f &max_pt);
 
   /** \brief Get the minimum and maximum values on each of the 3 (x-y-z) dimensions in a given pointcloud
@@ -125,8 +125,8 @@ namespace pcl
     * \param max_pt the resultant maximum bounds
     * \ingroup common
     */
-  template <typename PointT> inline void 
-  getMinMax3D (const pcl::PointCloud<PointT> &cloud, const std::vector<int> &indices, 
+  template <typename PointT> inline void
+  getMinMax3D (const pcl::PointCloud<PointT> &cloud, const std::vector<int> &indices,
                Eigen::Vector4f &min_pt, Eigen::Vector4f &max_pt);
 
   /** \brief Get the minimum and maximum values on each of the 3 (x-y-z) dimensions in a given pointcloud
@@ -136,8 +136,8 @@ namespace pcl
     * \param max_pt the resultant maximum bounds
     * \ingroup common
     */
-  template <typename PointT> inline void 
-  getMinMax3D (const pcl::PointCloud<PointT> &cloud, const pcl::PointIndices &indices, 
+  template <typename PointT> inline void
+  getMinMax3D (const pcl::PointCloud<PointT> &cloud, const pcl::PointIndices &indices,
                Eigen::Vector4f &min_pt, Eigen::Vector4f &max_pt);
 
   /** \brief Compute the radius of a circumscribed circle for a triangle formed of three points pa, pb, and pc
@@ -147,29 +147,29 @@ namespace pcl
     * \return the radius of the circumscribed circle
     * \ingroup common
     */
-  template <typename PointT> inline double 
+  template <typename PointT> inline double
   getCircumcircleRadius (const PointT &pa, const PointT &pb, const PointT &pc);
 
   /** \brief Get the minimum and maximum values on a point histogram
     * \param histogram the point representing a multi-dimensional histogram
     * \param len the length of the histogram
-    * \param min_p the resultant minimum 
-    * \param max_p the resultant maximum 
+    * \param min_p the resultant minimum
+    * \param max_p the resultant maximum
     * \ingroup common
     */
-  template <typename PointT> inline void 
+  template <typename PointT> inline void
   getMinMax (const PointT &histogram, int len, float &min_p, float &max_p);
 
   /** \brief Get the minimum and maximum values on a point histogram
     * \param cloud the cloud containing multi-dimensional histograms
     * \param idx point index representing the histogram that we need to compute min/max for
     * \param field_name the field name containing the multi-dimensional histogram
-    * \param min_p the resultant minimum 
-    * \param max_p the resultant maximum 
+    * \param min_p the resultant minimum
+    * \param max_p the resultant maximum
     * \ingroup common
     */
-  PCL_EXPORTS void 
-  getMinMax (const sensor_msgs::PointCloud2 &cloud, int idx, const std::string &field_name, 
+  PCL_EXPORTS void
+  getMinMax (const sensor_msgs::PointCloud2 &cloud, int idx, const std::string &field_name,
              float &min_p, float &max_p);
 
   /** \brief Compute both the mean and the standard deviation of an array of values

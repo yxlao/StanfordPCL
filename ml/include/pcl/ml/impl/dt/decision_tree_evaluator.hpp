@@ -34,7 +34,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  */
-  
+
 #ifndef PCL_ML_DT_DECISION_TREE_EVALUATOR_HPP_
 #define PCL_ML_DT_DECISION_TREE_EVALUATOR_HPP_
 
@@ -91,7 +91,7 @@ pcl::DecisionTreeEvaluator<FeatureType, DataSet, LabelType, ExampleIndex, NodeTy
     label_data[example_index] = stats_estimator.getLabelOfNode (*node);
   }
 }
-  
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <class FeatureType, class DataSet, class LabelType, class ExampleIndex, class NodeType>
 void
@@ -123,7 +123,7 @@ pcl::DecisionTreeEvaluator<FeatureType, DataSet, LabelType, ExampleIndex, NodeTy
     label_data[example_index] += stats_estimator.getLabelOfNode (*node);
   }
 }
-  
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <class FeatureType, class DataSet, class LabelType, class ExampleIndex, class NodeType>
 void

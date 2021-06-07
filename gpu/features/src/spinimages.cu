@@ -53,7 +53,7 @@ namespace pcl
 		//[spinimage][angles] = [0..FSize][..FSize]
 		extern __shared__ float simage_angles[];
 		
-		template<class It> __device__ __forceinline__ float3 fetch(It ptr, int index) { return *(float3*)&ptr[index]; } 
+		template<class It> __device__ __forceinline__ float3 fetch(It ptr, int index) { return *(float3*)&ptr[index]; }
 		//template<class It> __device__ __forceinline__ float3 fetch(It ptr, int index) { return tr(ptr[index]); }
 
 		struct UseCustomAxis
@@ -133,7 +133,7 @@ namespace pcl
 					return;
 
 				//set zeros to spin image
-				Block::fill(simage_angles, simage_angles + FSize, 0.f); 
+				Block::fill(simage_angles, simage_angles + FSize, 0.f);
 				if (angular) //set zeros to angles
 					Block::fill(simage_angles + FSize, simage_angles + FSize + FSize, 0.f);
 
@@ -153,7 +153,7 @@ namespace pcl
 					int neighb_index = ginds[i_neighb];
 
 					// first, skip the points with distant normals
-					float cos_between_normals = -2.f; 
+					float cos_between_normals = -2.f;
 					if (angular || support_angle_cos > 0.f) // not bogus
 					{
 						float3 normal = normalized(fetch(normals, neighb_index));
@@ -171,7 +171,7 @@ namespace pcl
 					float direction_norm = norm (direction);
 
 					// ignore the point itself; it does not contribute really
-					if (direction_norm < 10 * eps)  
+					if (direction_norm < 10 * eps)
 						continue;				
 
 					// the angle between the normal vector and the direction to the point
@@ -218,7 +218,7 @@ namespace pcl
 					}
 					
 					float a = alpha/bin_size     - alpha_bin;
-					float b = beta/beta_bin_size - float(beta_bin-image_width); 
+					float b = beta/beta_bin_size - float(beta_bin-image_width);
 
 					incSpinI(alpha_bin,   beta_bin,   (1-a) * (1-b));
 					incSpinI(alpha_bin+1, beta_bin,      a  * (1-b));
@@ -228,7 +228,7 @@ namespace pcl
 					if (angular)
 					{
 						float anlge_betwwn_normals = acos(cos_between_normals);						
-						incAngle(alpha_bin,   beta_bin,   anlge_betwwn_normals * (1-a) * (1-b)); 
+						incAngle(alpha_bin,   beta_bin,   anlge_betwwn_normals * (1-a) * (1-b));
 						incAngle(alpha_bin+1, beta_bin,   anlge_betwwn_normals *    a  * (1-b));
 						incAngle(alpha_bin,   beta_bin+1, anlge_betwwn_normals * (1-a) *    b );
 						incAngle(alpha_bin+1, beta_bin+1, anlge_betwwn_normals *    a  *    b );
@@ -307,7 +307,7 @@ namespace pcl
 
 		template<bool radial, bool angular>
 		void computeSpinImagesOriginNormalEx(float support_angle_cos, const Indices& indices, const PointCloud& input_cloud, const Normals& input_normals,
-			const PointCloud& surface, const Normals& normals, const NeighborIndices& neighbours, 
+			const PointCloud& surface, const Normals& normals, const NeighborIndices& neighbours,
 			int min_neighb, int image_width, float bin_size, PtrStep<float> output)
 		{
 			SpinImpl<radial, angular, UseOriginNormal> si;
@@ -316,7 +316,7 @@ namespace pcl
 
 		template<bool radial, bool angular>
 		void computeSpinImagesCustomAxesEx(float support_angle_cos, const Indices& indices, const PointCloud& input_cloud, const Normals& input_normals,
-			const PointCloud& surface, const Normals& normals, const NeighborIndices& neighbours, 
+			const PointCloud& surface, const Normals& normals, const NeighborIndices& neighbours,
 			int min_neighb, int image_width, float bin_size, const float3& rotation_axis, PtrStep<float> output)
 		{
 			SpinImpl<radial, angular, UseCustomAxis> si;
@@ -325,8 +325,8 @@ namespace pcl
 		}
 
 		template<bool radial, bool angular>
-		void computeSpinImagesCustomAxesCloudEx(float support_angle_cos, const Indices& indices, const PointCloud& input_cloud, const Normals& input_normals, 
-			const PointCloud& surface, const Normals& normals, const NeighborIndices& neighbours, 
+		void computeSpinImagesCustomAxesCloudEx(float support_angle_cos, const Indices& indices, const PointCloud& input_cloud, const Normals& input_normals,
+			const PointCloud& surface, const Normals& normals, const NeighborIndices& neighbours,
 			int min_neighb, int image_width, float bin_size, const Normals& rotation_axes_cloud, PtrStep<float> output)
 		{
 
@@ -342,7 +342,7 @@ void pcl::device::computeSpinImagesOrigigNormal(bool radial, bool angular, float
 {	
 	typedef void (*originNormal)(float, const Indices&, const PointCloud&, const Normals&, const PointCloud&, const Normals&, const NeighborIndices&, int , int , float, PtrStep<float>);
 
-	const originNormal table[2][2] = 
+	const originNormal table[2][2] =
 	{
 		{ computeSpinImagesOriginNormalEx<false, false>, computeSpinImagesOriginNormalEx<false, true> },
 		{ computeSpinImagesOriginNormalEx<true, false>,  computeSpinImagesOriginNormalEx<true, true> }
@@ -356,7 +356,7 @@ void pcl::device::computeSpinImagesCustomAxes(bool radial, bool angular, float s
 {
 	typedef void (*customAxes)(float, const Indices&, const PointCloud&, const Normals&, const PointCloud&, const Normals&, const NeighborIndices&, int, int, float, const float3&, PtrStep<float>);
 
-	const customAxes table[2][2] = 
+	const customAxes table[2][2] =
 	{
 		{ computeSpinImagesCustomAxesEx<false, false>, computeSpinImagesCustomAxesEx<false, true> },
 		{ computeSpinImagesCustomAxesEx<true, false>,  computeSpinImagesCustomAxesEx<true, true> }
@@ -371,7 +371,7 @@ void pcl::device::computeSpinImagesCustomAxesCloud(bool radial, bool angular, fl
 {
 	typedef void (*customAxesCloud)(float, const Indices&, const PointCloud&, const Normals&, const PointCloud&, const Normals&, const NeighborIndices&, int, int, float, const Normals&, PtrStep<float>);
 
-	const customAxesCloud table[2][2] = 
+	const customAxesCloud table[2][2] =
 	{
 		{ computeSpinImagesCustomAxesCloudEx<false, false>, computeSpinImagesCustomAxesCloudEx<false, true> },
 		{ computeSpinImagesCustomAxesCloudEx<true, false>,  computeSpinImagesCustomAxesCloudEx<true, true> }

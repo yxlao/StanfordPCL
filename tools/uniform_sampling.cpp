@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2012-, Open Perception, Inc.
- *  
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,7 @@ printHelp (int, char **argv)
 {
   print_error ("Syntax is: %s input.pcd output.pcd <options>\n", argv[0]);
   print_info ("  where options are:\n");
-  print_info ("                     -radius X = use a leaf size of X,X,X to uniformly select 1 point per leaf (default: "); 
+  print_info ("                     -radius X = use a leaf size of X,X,X to uniformly select 1 point per leaf (default: ");
   print_value ("%f", default_radius); print_info (")\n");
 }
 
@@ -87,7 +87,7 @@ compute (const sensor_msgs::PointCloud2::ConstPtr &input, sensor_msgs::PointClou
   // Estimate
   TicToc tt;
   tt.tic ();
-  
+
   print_highlight (stderr, "Computing ");
 
   UniformSampling<PointXYZ> us;
@@ -113,7 +113,7 @@ saveCloud (const string &filename, const sensor_msgs::PointCloud2 &output)
 
   PCDWriter w;
   w.writeBinaryCompressed (filename, output, translation, orientation);
-  
+
   print_info ("[done, "); print_value ("%g", tt.toc ()); print_info (" ms : "); print_value ("%d", output.width * output.height); print_info (" points]\n");
 }
 
@@ -141,12 +141,12 @@ main (int argc, char** argv)
   // Command line parsing
   double radius = default_radius;
   parse_argument (argc, argv, "-radius", radius);
-  print_info ("Extracting uniform points with a leaf size of: "); 
-  print_value ("%f\n", radius); 
+  print_info ("Extracting uniform points with a leaf size of: ");
+  print_value ("%f\n", radius);
 
   // Load the first file
   sensor_msgs::PointCloud2::Ptr cloud (new sensor_msgs::PointCloud2);
-  if (!loadCloud (argv[p_file_indices[0]], *cloud)) 
+  if (!loadCloud (argv[p_file_indices[0]], *cloud))
     return (-1);
 
   // Perform the keypoint estimation

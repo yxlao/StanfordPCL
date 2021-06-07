@@ -13,14 +13,14 @@
 
 //=======================================================================
 // Copyright (C) 1997-2001
-// Authors: Andrew Lumsdaine <lums@osl.iu.edu> 
+// Authors: Andrew Lumsdaine <lums@osl.iu.edu>
 //          Lie-Quan Lee     <llee@osl.iu.edu>
 //
 // This file is part of the Iterative Template Library
 //
 // You should have received a copy of the License Agreement for the
 // Iterative Template Library along with the software;  see the
-// file LICENSE.  
+// file LICENSE.
 //
 // Permission to modify the code and to distribute modified code is
 // granted, provided the text of this NOTICE is retained, a notice that
@@ -62,7 +62,7 @@
 #ifndef EIGEN_ITERATION_CONTROLLER_H
 #define EIGEN_ITERATION_CONTROLLER_H
 
-namespace Eigen { 
+namespace Eigen {
 
 /** \ingroup IterativeSolvers_Module
   * \class IterationController
@@ -129,7 +129,7 @@ class IterationController
     bool converged() const { return m_res <= m_rhsn * m_resmax; }
     bool converged(double nr)
     {
-      m_res = internal::abs(nr); 
+      m_res = internal::abs(nr);
       m_resminreach = (std::min)(m_resminreach, m_res);
       return converged();
     }

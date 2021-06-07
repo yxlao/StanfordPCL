@@ -51,13 +51,13 @@ namespace pcl
       * \param[in] fvec the set of doubles
       * \param[in] m the number of doubles in the set
       */
-    inline double 
+    inline double
     computeMedian (double *fvec, int m)
     {
       // Copy the values to vectors for faster sorting
       std::vector<double> data (m);
       memcpy (&data[0], fvec, sizeof (double) * m);
-      
+
       std::nth_element(data.begin(), data.begin() + (data.size () >> 1), data.end());
       return (data[data.size () >> 1]);
     }
@@ -68,7 +68,7 @@ namespace pcl
       * \param[in] sigma the sigma value
       */
     inline double
-    huber (const Eigen::Vector4f &p_src, const Eigen::Vector4f &p_tgt, double sigma) 
+    huber (const Eigen::Vector4f &p_src, const Eigen::Vector4f &p_tgt, double sigma)
     {
       Eigen::Array4f diff = (p_tgt.array () - p_src.array ()).abs ();
       double norm = 0.0;
@@ -87,7 +87,7 @@ namespace pcl
       * \param[in] sigma the sigma value
       */
     inline double
-    huber (double diff, double sigma) 
+    huber (double diff, double sigma)
     {
       double norm = 0.0;
       if (diff < sigma)
@@ -98,13 +98,13 @@ namespace pcl
     }
 
     /** \brief Use a Gedikli kernel to estimate the distance between two vectors
-      * (for more information, see 
+      * (for more information, see
       * \param[in] val the norm difference between two vectors
       * \param[in] clipping the clipping value
       * \param[in] slope the slope. Default: 4
       */
     inline double
-    gedikli (double val, double clipping, double slope = 4) 
+    gedikli (double val, double clipping, double slope = 4)
     {
       return (1.0 / (1.0 + pow (fabs(val) / clipping, slope)));
     }
@@ -114,7 +114,7 @@ namespace pcl
       * \param[in] p_tgt the second eigen vector
       */
     inline double
-    l1 (const Eigen::Vector4f &p_src, const Eigen::Vector4f &p_tgt) 
+    l1 (const Eigen::Vector4f &p_src, const Eigen::Vector4f &p_tgt)
     {
       return ((p_src.array () - p_tgt.array ()).abs ().sum ());
     }
@@ -124,7 +124,7 @@ namespace pcl
       * \param[in] p_tgt the second eigen vector
       */
     inline double
-    l2 (const Eigen::Vector4f &p_src, const Eigen::Vector4f &p_tgt) 
+    l2 (const Eigen::Vector4f &p_src, const Eigen::Vector4f &p_tgt)
     {
       return ((p_src - p_tgt).norm ());
     }
@@ -134,7 +134,7 @@ namespace pcl
       * \param[in] p_tgt the second eigen vector
       */
     inline double
-    l2Sqr (const Eigen::Vector4f &p_src, const Eigen::Vector4f &p_tgt) 
+    l2Sqr (const Eigen::Vector4f &p_src, const Eigen::Vector4f &p_tgt)
     {
       return ((p_src - p_tgt).squaredNorm ());
     }

@@ -21,10 +21,10 @@ void ON_Box::Destroy()
 
 bool ON_Box::IsValid() const
 {
-  return (    dx.IsIncreasing() 
-           && dy.IsIncreasing() 
-           && dz.IsIncreasing() 
-           && plane.IsValid() 
+  return (    dx.IsIncreasing()
+           && dy.IsIncreasing()
+           && dz.IsIncreasing()
+           && plane.IsValid()
          );
 }
 
@@ -111,10 +111,10 @@ ON_BoundingBox ON_Box::BoundingBox() const
   return bbox;
 }
 
-ON_3dPoint ON_Box::PointAt( 
-        double r, 
-        double s, 
-        double t 
+ON_3dPoint ON_Box::PointAt(
+        double r,
+        double s,
+        double t
         ) const
 {
   // Do not validate - it is too slow.

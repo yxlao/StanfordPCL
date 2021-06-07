@@ -53,15 +53,15 @@ ON_HSORT_FNAME( ON_SORT_TEMPLATE_TYPE* base, size_t nel )
   k = nel >> 1;
   i_end = nel-1;
   e_end = base + i_end;
-  for (;;) 
+  for (;;)
   {
     if (k)
     {
       --k;
       ON_HSORT_TO_TMP((base+k));  /* e_tmp = e[k]; */
-    } 
+    }
     else
-    {      
+    {
       ON_HSORT_TO_TMP(e_end);     /* e_tmp = e[i_end]; */
       ON_HSORT_COPY(e_end,base);  /* e[i_end] = e[0];  */
       if (!(--i_end))
@@ -75,7 +75,7 @@ ON_HSORT_FNAME( ON_SORT_TEMPLATE_TYPE* base, size_t nel )
     i = k;
     j = (k<<1) + 1;
     e_i = base + i;
-    while (j <= i_end) 
+    while (j <= i_end)
     {
       e_j = base + j;
       if (j < i_end && ON_HSORT_GT((e_j+1),e_j) /*e[j] < e[j + 1] */)
@@ -83,7 +83,7 @@ ON_HSORT_FNAME( ON_SORT_TEMPLATE_TYPE* base, size_t nel )
         j++;
         e_j++;
       }
-      if (ON_HSORT_GT_TMP(e_j) /* tmp < e[j] */) 
+      if (ON_HSORT_GT_TMP(e_j) /* tmp < e[j] */)
       {
         ON_HSORT_COPY(e_i,e_j);  /* e[i] = e[j]; */
         i = j;

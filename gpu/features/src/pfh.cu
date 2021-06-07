@@ -48,11 +48,11 @@ using namespace pcl::gpu;
 namespace pcl
 {
     namespace device
-    {    
+    {
         template<bool pack_rgb>
         struct Repack
-        {   
-            enum 
+        {
+            enum
             {
                 CTA_SIZE = 256,
                 WARPS = CTA_SIZE/Warp::WARP_SIZE
@@ -62,14 +62,14 @@ namespace pcl
             const NormalType* normals;
             int work_size;
 
-            PtrStep<int> gindices;            
-            const int* sizes;         
+            PtrStep<int> gindices;
+            const int* sizes;
 
             mutable PtrStep<float> output;
             int max_elems;
 
             __device__ void operator()() const
-            {                
+            {
                 int idx = WARPS * blockIdx.x + Warp::id();
 
                 if (idx >= work_size)
@@ -82,9 +82,9 @@ namespace pcl
                 for(int i = Warp::laneId(); i < size; i += Warp::STRIDE)
                 {
                     int cloud_index = nbeg[i];
-                    
+
                     float3 p;
-                    
+
                     if (pack_rgb)
                     {
                         int color;
@@ -97,8 +97,8 @@ namespace pcl
                     output.ptr(0)[i + idx_shift] = p.x;
                     output.ptr(1)[i + idx_shift] = p.y;
                     output.ptr(2)[i + idx_shift] = p.z;
-                    
-                    
+
+
                     float3 n = fetch(normals, cloud_index);
 
                     output.ptr(3)[i + idx_shift] = n.x;
@@ -107,7 +107,7 @@ namespace pcl
                 }
             }
 
-            template<class It> 
+            template<class It>
             __device__ __forceinline__ float3 fetch(It ptr, int index) const
             {
                 //return tr(ptr[index]);
@@ -125,7 +125,7 @@ namespace pcl
         template<bool enable_rgb>
         struct Pfh125
         {
-            enum 
+            enum
             {
                 CTA_SIZE = 256,
 
@@ -141,22 +141,22 @@ namespace pcl
 
             PtrStep<float> rpk;
             int max_elems;
-                       
+
             mutable PtrStep<float> output;
 
             __device__ __forceinline__ void operator()() const
-            {                                
+            {
                 int idx = blockIdx.x;
 
                 if (idx >= work_size)
-                    return;                
+                    return;
 
-                int size = sizes[idx];                
+                int size = sizes[idx];
                 int size2 = size * size;
                 int idx_shift = max_elems * idx;
 
                 float hist_incr = 100.f / (size2 - 1);
-                
+
                 __shared__ float pfh_histogram[FSize];
                 Block::fill(pfh_histogram, pfh_histogram + FSize, 0.f);
                 __syncthreads();
@@ -188,16 +188,16 @@ namespace pcl
                         ni.y = rpk.ptr(4)[i_idx];
                         nj.y = rpk.ptr(4)[j_idx];
 
-                        ni.z = rpk.ptr(5)[i_idx];                
+                        ni.z = rpk.ptr(5)[i_idx];
                         nj.z = rpk.ptr(5)[j_idx];
 
                         float f1, f2, f3, f4;
-                        // Compute the pair NNi to NNj                        
+                        // Compute the pair NNi to NNj
                         computePairFeatures (pi, ni, pj, nj, f1, f2, f3, f4);
                         //if (computePairFeatures (pi, ni, pj, nj, f1, f2, f3, f4))
-                        {                            
+                        {
                             // Normalize the f1, f2, f3 features and push them in the histogram
-                            int find0 = floor( NR_SPLIT * ((f1 + PI) * (1.f / (2.f * PI))) );                            
+                            int find0 = floor( NR_SPLIT * ((f1 + PI) * (1.f / (2.f * PI))) );
                             find0 = min(NR_SPLIT - 1, max(0, find0));
 
                             int find1 = floor( NR_SPLIT * ( (f2 + 1.f) * 0.5f ) );
@@ -229,16 +229,16 @@ namespace pcl
 
                                 // and the colors
                                 h_index = NR_SPLIT_3 + find4 + NR_SPLIT * find5 + NR_SPLIT_2 * find6;
-                                atomicAdd(pfh_histogram + h_index, hist_incr);               
+                                atomicAdd(pfh_histogram + h_index, hist_incr);
                             }
-                        }           
+                        }
                     }
                 }
                 __syncthreads();
                 Block::copy(pfh_histogram, pfh_histogram + FSize, output.ptr(idx));
             }
 
-            template<class It> 
+            template<class It>
             __device__ __forceinline__ float3 fetch(It ptr, int index) const
             {
                 //return tr(ptr[index]);
@@ -248,11 +248,11 @@ namespace pcl
 
         __global__ void repackKernel(const Repack<false> repack) { repack(); }
         __global__ void pfhKernel(const Pfh125<false> pfh125) { pfh125(); }
-    }    
+    }
 }
 
 void pcl::device::repackToAosForPfh(const PointCloud& cloud, const Normals& normals, const NeighborIndices& neighbours, DeviceArray2D<float>& data_rpk, int& max_elems_rpk)
-{   
+{
     max_elems_rpk = (neighbours.max_elems/32 + 1) * 32;
     data_rpk.create(6, (int)neighbours.sizes.size() * max_elems_rpk);
 
@@ -263,13 +263,13 @@ void pcl::device::repackToAosForPfh(const PointCloud& cloud, const Normals& norm
     rpk.cloud = cloud;
     rpk.normals = normals;
     rpk.work_size = (int)neighbours.sizes.size();
-    
-    rpk.output = data_rpk;    
+
+    rpk.output = data_rpk;
     rpk.max_elems = max_elems_rpk;
 
-    int block = Repack<false>::CTA_SIZE;        
+    int block = Repack<false>::CTA_SIZE;
     int grid = divUp(rpk.work_size, Repack<false>::WARPS);
-    
+
     device::repackKernel<<<grid, block>>>(rpk);
     cudaSafeCall( cudaGetLastError() );
     cudaSafeCall( cudaDeviceSynchronize() );
@@ -283,11 +283,11 @@ void pcl::device::computePfh125(const DeviceArray2D<float>& data_rpk, int max_el
     fph.work_size = neighbours.sizes.size();
     fph.sizes = neighbours.sizes;
     fph.rpk = data_rpk;
-    fph.max_elems = max_elems_rpk;                       
+    fph.max_elems = max_elems_rpk;
     fph.output = features;
 
-    int block = Pfh125<false>::CTA_SIZE;        
-    int grid = (int)fph.work_size;    
+    int block = Pfh125<false>::CTA_SIZE;
+    int grid = (int)fph.work_size;
 
     device::pfhKernel<<<grid, block>>>(fph);
     cudaSafeCall( cudaGetLastError() );
@@ -301,7 +301,7 @@ namespace pcl
 {
     namespace device
     {
-           
+
         __global__ void repackRgbKernel(const Repack<true> repack) { repack(); }
         __global__ void pfhRgbKernel(const Pfh125<true> pfhrgb125) { pfhrgb125(); }
     }
@@ -309,7 +309,7 @@ namespace pcl
 
 
 void pcl::device::repackToAosForPfhRgb(const PointCloud& cloud, const Normals& normals, const NeighborIndices& neighbours, DeviceArray2D<float>& data_rpk, int& max_elems_rpk)
-{   
+{
     max_elems_rpk = (neighbours.max_elems/32 + 1) * 32;
     data_rpk.create(7, (int)neighbours.sizes.size() * max_elems_rpk);
 
@@ -320,13 +320,13 @@ void pcl::device::repackToAosForPfhRgb(const PointCloud& cloud, const Normals& n
     rpk.cloud = cloud;
     rpk.normals = normals;
     rpk.work_size = (int)neighbours.sizes.size();
-    
-    rpk.output = data_rpk;    
+
+    rpk.output = data_rpk;
     rpk.max_elems = max_elems_rpk;
 
-    int block = Repack<true>::CTA_SIZE;        
+    int block = Repack<true>::CTA_SIZE;
     int grid = divUp(rpk.work_size, Repack<true>::WARPS);
-    
+
     device::repackRgbKernel<<<grid, block>>>(rpk);
     cudaSafeCall( cudaGetLastError() );
     cudaSafeCall( cudaDeviceSynchronize() );
@@ -341,11 +341,11 @@ void pcl::device::computePfhRgb250(const DeviceArray2D<float>& data_rpk, int max
     pfhrgb.work_size = neighbours.sizes.size();
     pfhrgb.sizes = neighbours.sizes;
     pfhrgb.rpk = data_rpk;
-    pfhrgb.max_elems = max_elems_rpk;                       
+    pfhrgb.max_elems = max_elems_rpk;
     pfhrgb.output = features;
 
-    int block = Pfh125<true>::CTA_SIZE;        
-    int grid = (int)pfhrgb.work_size;    
+    int block = Pfh125<true>::CTA_SIZE;
+    int grid = (int)pfhrgb.work_size;
 
     device::pfhRgbKernel<<<grid, block>>>(pfhrgb);
     cudaSafeCall( cudaGetLastError() );

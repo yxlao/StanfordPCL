@@ -36,7 +36,7 @@
 +if(EXISTS ${PACKAGE_MAKER_PROGRAM})
 +  list(APPEND CPACK_GENERATOR "PackageMaker")
 +endif(EXISTS ${PACKAGE_MAKER_PROGRAM})
-+ 
++
 +if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 +  set(CPACK_NSIS_PROGRAMFILES "$PROGRAMFILES64")
 +else()
@@ -60,8 +60,8 @@
 +++ flann-1.6.8-src/src/cpp/CMakeLists.txt	2011-04-25 08:57:02.015164002 +0200
 @@ -29,6 +30,11 @@
     SOVERSION ${FLANN_SOVERSION}
- ) 
- 
+ )
+
 +add_library(flann_cpp-gd SHARED ${CPP_SOURCES})
 +set_target_properties(flann_cpp-gd PROPERTIES COMPILE_FLAGS ${CMAKE_CXX_FLAGS_DEBUG})
 +add_library(flann_cpp_s-gd STATIC ${CPP_SOURCES})
@@ -71,8 +71,8 @@
      add_library(flann_s STATIC ${C_SOURCES})
      if(CMAKE_COMPILER_IS_GNUCC)
 @@ -61,7 +67,7 @@
- 
- 
+
+
  install (
 -    TARGETS flann_cpp flann_cpp_s
 +    TARGETS flann_cpp flann_cpp_s flann_cpp-gd flann_cpp_s-gd

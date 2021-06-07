@@ -60,7 +60,7 @@ namespace pcl
 void  pcl::device::OctreeImpl::get_gpu_arch_compiled_for(int& bin, int& ptx)
 {
     cudaFuncAttributes attrs;
-    cudaSafeCall( cudaFuncGetAttributes(&attrs, get_cc_kernel) );  
+    cudaSafeCall( cudaFuncGetAttributes(&attrs, get_cc_kernel) );
     bin = attrs.binaryVersion;
     ptx = attrs.ptxVersion;
 }
@@ -73,20 +73,20 @@ void pcl::device::OctreeImpl::setCloud(const PointCloud& input_points)
 void pcl::device::OctreeImpl::internalDownload()
 {
     int number;
-    DeviceArray<int>(octreeGlobal.nodes_num, 1).download(&number); 
+    DeviceArray<int>(octreeGlobal.nodes_num, 1).download(&number);
 
-    DeviceArray<int>(octreeGlobal.begs,  number).download(host_octree.begs);    
-    DeviceArray<int>(octreeGlobal.ends,  number).download(host_octree.ends);    
-    DeviceArray<int>(octreeGlobal.nodes, number).download(host_octree.nodes);    
-    DeviceArray<int>(octreeGlobal.codes, number).download(host_octree.codes); 
+    DeviceArray<int>(octreeGlobal.begs,  number).download(host_octree.begs);
+    DeviceArray<int>(octreeGlobal.ends,  number).download(host_octree.ends);
+    DeviceArray<int>(octreeGlobal.nodes, number).download(host_octree.nodes);
+    DeviceArray<int>(octreeGlobal.codes, number).download(host_octree.codes);
 
-    points_sorted.download(host_octree.points_sorted, host_octree.points_sorted_step);    
-    indices.download(host_octree.indices);    
+    points_sorted.download(host_octree.points_sorted, host_octree.points_sorted_step);
+    indices.download(host_octree.indices);
 
     host_octree.downloaded = true;
 }
 
-namespace 
+namespace
 {
     int getBitsNum(int interger)
     {
@@ -98,30 +98,30 @@ namespace
             interger>>=1;
         }
         return count;
-    } 
+    }
 
     struct OctreeIteratorHost
-    {        
+    {
         const static int MAX_LEVELS_PLUS_ROOT = 11;
-        int paths[MAX_LEVELS_PLUS_ROOT];          
+        int paths[MAX_LEVELS_PLUS_ROOT];
         int level;
 
         OctreeIteratorHost()
         {
             level = 0; // root level
-            paths[level] = (0 << 8) + 1;                    
+            paths[level] = (0 << 8) + 1;
         }
 
-        void gotoNextLevel(int first, int len) 
-        {   
+        void gotoNextLevel(int first, int len)
+        {
             ++level;
-            paths[level] = (first << 8) + len;        
-        }       
+            paths[level] = (first << 8) + len;
+        }
 
-        int operator*() const 
-        { 
-            return paths[level] >> 8; 
-        }        
+        int operator*() const
+        {
+            return paths[level] >> 8;
+        }
 
         void operator++()
         {
@@ -130,46 +130,46 @@ namespace
                 int data = paths[level];
 
                 if ((data & 0xFF) > 1) // there are another siblings, can goto there
-                {                           
+                {
                     data += (1 << 8) - 1;  // +1 to first and -1 from len
                     paths[level] = data;
                     break;
                 }
                 else
-                    --level; //goto parent;            
-            }        
-        }        
+                    --level; //goto parent;
+            }
+        }
     };
 
 }
 
 void pcl::device::OctreeImpl::radiusSearchHost(const PointType& query, float radius, vector<int>& out, int max_nn) const
-{            
-    out.clear();  
+{
+    out.clear();
 
     float3 center = make_float3(query.x, query.y, query.z);
 
     OctreeIteratorHost iterator;
 
     while(iterator.level >= 0)
-    {        
+    {
         int node_idx = *iterator;
         int code = host_octree.codes[node_idx];
 
         float3 node_minp = octreeGlobal.minp;
-        float3 node_maxp = octreeGlobal.maxp;        
+        float3 node_maxp = octreeGlobal.maxp;
         calcBoundingBox(iterator.level, code, node_minp, node_maxp);
 
         //if true, take nothing, and go to next
-        if (checkIfNodeOutsideSphere(node_minp, node_maxp, center, radius))        
-        {                
-            ++iterator;            
+        if (checkIfNodeOutsideSphere(node_minp, node_maxp, center, radius))
+        {
+            ++iterator;
             continue;
         }
 
         //if true, take all, and go to next
         if (checkIfNodeInsideSphere(node_minp, node_maxp, center, radius))
-        {            
+        {
             int beg = host_octree.begs[node_idx];
             int end = host_octree.ends[node_idx];
 
@@ -189,9 +189,9 @@ void pcl::device::OctreeImpl::radiusSearchHost(const PointType& query, float rad
         bool isLeaf = children_mask == 0;
 
         if (isLeaf)
-        {            
+        {
             const int beg = host_octree.begs[node_idx];
-            const int end = host_octree.ends[node_idx];                                    
+            const int end = host_octree.ends[node_idx];
 
             for(int j = beg; j < end; ++j)
             {
@@ -211,13 +211,13 @@ void pcl::device::OctreeImpl::radiusSearchHost(const PointType& query, float rad
 
                 if (out.size() == (size_t)max_nn)
                     return;
-            }               
-            ++iterator;               
+            }
+            ++iterator;
             continue;
         }
 
-        int first  = host_octree.nodes[node_idx] >> 8;        
-        iterator.gotoNextLevel(first, getBitsNum(children_mask));                
+        int first  = host_octree.nodes[node_idx] >> 8;
+        iterator.gotoNextLevel(first, getBitsNum(children_mask));
     }
 }
 
@@ -230,13 +230,13 @@ void  pcl::device::OctreeImpl::approxNearestSearchHost(const PointType& query, i
 
     bool out_of_root = query.x < minp.x || query.y < minp.y ||  query.z < minp.z || query.x > maxp.x || query.y > maxp.y ||  query.z > maxp.z;
 
-    if(!out_of_root)        
+    if(!out_of_root)
     {
         int code = CalcMorton(minp, maxp)(query);
         int level = 0;
 
         for(;;)
-        {            
+        {
             int mask_pos = 1 << Morton::extractLevelCode(code, level);
 
             int node = host_octree.nodes[node_idx];
@@ -275,7 +275,7 @@ void  pcl::device::OctreeImpl::approxNearestSearchHost(const PointType& query, i
             sqr_dist = d2;
             out_index = i;
         }
-    }  
+    }
 
     out_index = host_octree.indices[out_index];
 }

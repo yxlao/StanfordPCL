@@ -45,8 +45,8 @@
 namespace pcl
 {
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /** \brief @b RandomizedMEstimatorSampleConsensus represents an implementation of the RMSAC (Randomized M-estimator 
-    * SAmple Consensus) algorithm, which basically adds a Td,d test (see \a RandomizedRandomSampleConsensus) to an MSAC 
+  /** \brief @b RandomizedMEstimatorSampleConsensus represents an implementation of the RMSAC (Randomized M-estimator
+    * SAmple Consensus) algorithm, which basically adds a Td,d test (see \a RandomizedRandomSampleConsensus) to an MSAC
     * estimator (see \a MEstimatorSampleConsensus).
     * \note RMSAC is useful in situations where most of the data samples belong to the model, and a fast outlier rejection algorithm is needed.
     * \author Radu Bogdan Rusu

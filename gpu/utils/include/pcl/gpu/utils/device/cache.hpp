@@ -16,7 +16,7 @@ namespace pcl
 #if (__CUDA_ARCH__ < 200)
                 return *ptr;
 #else
-                //asm code insertion 
+                //asm code insertion
                 asm(...);
 #endif
             }

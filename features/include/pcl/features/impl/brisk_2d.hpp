@@ -95,7 +95,7 @@ pcl::BRISK2DEstimation<PointInT, PointOutT, KeypointT, IntensityT>::~BRISK2DEsti
 ///////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointInT, typename PointOutT, typename KeypointT, typename IntensityT> void
 pcl::BRISK2DEstimation<PointInT, PointOutT, KeypointT, IntensityT>::generateKernel (
-    std::vector<float> &radius_list, 
+    std::vector<float> &radius_list,
     std::vector<int> &number_list, float d_max, float d_min,
     std::vector<int> index_change)
 {
@@ -132,16 +132,16 @@ pcl::BRISK2DEstimation<PointInT, PointOutT, KeypointT, IntensityT>::generateKern
     for (size_t rot = 0; rot < n_rot_; ++rot)
     {
       // this is the rotation of the feature
-      theta = double (rot) * 2 * M_PI / double (n_rot_); 
+      theta = double (rot) * 2 * M_PI / double (n_rot_);
       for (int ring = 0; ring < rings; ++ring)
       {
         for (int num = 0; num < number_list[ring]; ++num)
         {
           // the actual coordinates on the circle
           alpha = double (num) * 2 * M_PI / double (number_list[ring]);
-          
+
           // feature rotation plus angle of the point
-          pattern_iterator->x = scale_list_[scale] * radius_list[ring] * static_cast<float> (cos (alpha + theta)); 
+          pattern_iterator->x = scale_list_[scale] * radius_list[ring] * static_cast<float> (cos (alpha + theta));
           pattern_iterator->y = scale_list_[scale] * radius_list[ring] * static_cast<float> (sin (alpha + theta));
           // and the gaussian kernel sigma
           if (ring == 0)
@@ -170,7 +170,7 @@ pcl::BRISK2DEstimation<PointInT, PointOutT, KeypointT, IntensityT>::generateKern
 
   // fill index_change with 0..n if empty
   unsigned int ind_size = static_cast<unsigned int> (index_change.size ());
-  if (ind_size == 0) 
+  if (ind_size == 0)
   {
     index_change.resize (points_ * (points_ - 1) / 2);
     ind_size = static_cast<unsigned int> (index_change.size ());
@@ -247,26 +247,26 @@ pcl::BRISK2DEstimation<PointInT, PointOutT, KeypointT, IntensityT>::smoothedInte
     const int r_y   = static_cast<int> ((yf - float (y)) * 1024);
     const int r_x_1 = (1024 - r_x);
     const int r_y_1 = (1024 - r_y);
-    
+
     //+const unsigned char* ptr = static_cast<const unsigned char*> (&image.points[0].r) + x + y * imagecols;
     const unsigned char* ptr = static_cast<const unsigned char*>(&image[0]) + x + y * imagecols;
-    
+
     // just interpolate:
     ret_val = (r_x_1 * r_y_1 * int (*ptr));
-    
+
     //+ptr += sizeof (PointInT);
     ptr++;
 
     ret_val += (r_x * r_y_1 * int (*ptr));
-    
+
     //+ptr += (imagecols * sizeof (PointInT));
     ptr += imagecols;
-    
+
     ret_val += (r_x * r_y * int (*ptr));
-    
+
     //+ptr -= sizeof (PointInT);
     ptr--;
-    
+
     ret_val += (r_x_1 * r_y * int (*ptr));
     return (ret_val + 512) / 1024;
   }
@@ -310,32 +310,32 @@ pcl::BRISK2DEstimation<PointInT, PointOutT, KeypointT, IntensityT>::smoothedInte
   if (dx + dy > 2)
   {
     // now the calculation:
-    
+
     //+const unsigned char* ptr = static_cast<const unsigned char*> (&image.points[0].r) + x_left + imagecols * y_top;
     const unsigned char* ptr = static_cast<const unsigned char*>(&image[0]) + x_left + imagecols * y_top;
 
     // first the corners:
     ret_val = A * int (*ptr);
-  
+
     //+ptr += (dx + 1) * sizeof (PointInT);
     ptr += dx + 1;
-    
+
     ret_val += B * int (*ptr);
-    
+
     //+ptr += (dy * imagecols + 1) * sizeof (PointInT);
     ptr += dy * imagecols + 1;
-    
+
     ret_val += C * int (*ptr);
-    
+
     //+ptr -= (dx + 1) * sizeof (PointInT);
     ptr -= dx + 1;
-    
+
     ret_val += D * int (*ptr);
 
     // next the edges:
     //+int* ptr_integral;// = static_cast<int*> (integral.data) + x_left + integralcols * y_top + 1;
     const int* ptr_integral = static_cast<const int*> (&integral_image[0]) + x_left + integralcols * y_top + 1;
-    
+
     // find a simple path through the different surface corners
     const int tmp1 = (*ptr_integral);
     ptr_integral += dx;
@@ -372,16 +372,16 @@ pcl::BRISK2DEstimation<PointInT, PointOutT, KeypointT, IntensityT>::smoothedInte
   }
 
   // now the calculation:
-  
+
   //const unsigned char* ptr = static_cast<const unsigned char*> (&image.points[0].r) + x_left + imagecols * y_top;
   const unsigned char* ptr = static_cast<const unsigned char*>(&image[0]) + x_left + imagecols * y_top;
-  
+
   // first row:
   ret_val = A * int (*ptr);
-  
+
   //+ptr += sizeof (PointInT);
   ptr++;
-  
+
   //+const unsigned char* end1 = ptr + (dx * sizeof (PointInT));
   const unsigned char* end1 = ptr + dx;
 
@@ -389,25 +389,25 @@ pcl::BRISK2DEstimation<PointInT, PointOutT, KeypointT, IntensityT>::smoothedInte
   for (; ptr < end1; ptr++)
     ret_val += r_y_1_i * int (*ptr);
   ret_val += B * int (*ptr);
-  
+
   // middle ones:
   //+ptr += (imagecols - dx - 1) * sizeof (PointInT);
   ptr += imagecols - dx - 1;
-  
+
   //+const unsigned char* end_j = ptr + (dy * imagecols) * sizeof (PointInT);
   const unsigned char* end_j = ptr + dy * imagecols;
-  
+
   //+for (; ptr < end_j; ptr += (imagecols - dx - 1) * sizeof (PointInT))
   for (; ptr < end_j; ptr += imagecols - dx - 1)
   {
     ret_val += r_x_1_i * int (*ptr);
-    
+
     //+ptr += sizeof (PointInT);
     ptr++;
-    
+
     //+const unsigned char* end2 = ptr + (dx * sizeof (PointInT));
     const unsigned char* end2 = ptr + dx;
-    
+
     //+for (; ptr < end2; ptr += sizeof (PointInT))
     for (; ptr < end2; ptr++)
       ret_val += int (*ptr) * scaling;
@@ -416,10 +416,10 @@ pcl::BRISK2DEstimation<PointInT, PointOutT, KeypointT, IntensityT>::smoothedInte
   }
   // last row:
   ret_val += D * int (*ptr);
-  
+
   //+ptr += sizeof (PointInT);
   ptr++;
-  
+
   //+const unsigned char* end3 = ptr + (dx * sizeof (PointInT));
   const unsigned char* end3 = ptr + dx;
 
@@ -448,7 +448,7 @@ pcl::BRISK2DEstimation<PointInT, PointOutT, KeypointT, IntensityT>::compute (
     PointCloudOutT &output)
 {
   if (!input_cloud_->isOrganized ())
-  {    
+  {
     PCL_ERROR ("[pcl::%s::initCompute] %s doesn't support non organized clouds!\n", name_.c_str ());
     return;
   }
@@ -472,14 +472,14 @@ pcl::BRISK2DEstimation<PointInT, PointOutT, KeypointT, IntensityT>::compute (
   size_t ksize = keypoints_->points.size ();
   std::vector<int> kscales; // remember the scale per keypoint
   kscales.resize (ksize);
- 
+
   // initialize constants
    static const float log2 = 0.693147180559945f;
   static const float lb_scalerange = std::log (scalerange_) / (log2);
 
   typename std::vector<KeypointT, Eigen::aligned_allocator<KeypointT> >::iterator beginning = keypoints_->points.begin ();
   std::vector<int>::iterator beginningkscales = kscales.begin ();
-  
+
   static const float basic_size_06 = basic_size_ * 0.6f;
   unsigned int basicscale = 0;
 
@@ -623,12 +623,12 @@ pcl::BRISK2DEstimation<PointInT, PointOutT, KeypointT, IntensityT>::compute (
     // now iterate through all the pairings
     UINT32_ALIAS* ptr2 = reinterpret_cast<UINT32_ALIAS*> (ptr);
     const BriskShortPair* max = short_pairs_ + no_short_pairs_;
-    
+
     for (BriskShortPair* iter = short_pairs_; iter < max; ++iter)
     {
       t1 = *(values + iter->i);
       t2 = *(values + iter->j);
-      
+
       if (t1 > t2)
         *ptr2 |= ((1) << shifter);
 
@@ -644,7 +644,7 @@ pcl::BRISK2DEstimation<PointInT, PointOutT, KeypointT, IntensityT>::compute (
     }
 
     ptr += strings_;
- 
+
     // Account for the scale + orientation;
     ptr += sizeof (output.points[0].scale);
     ptr += sizeof (output.points[0].orientation);

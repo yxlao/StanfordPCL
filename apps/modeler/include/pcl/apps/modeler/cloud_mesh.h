@@ -60,7 +60,7 @@ namespace pcl
       CloudMesh (PointCloudPtr cloud);
       ~CloudMesh ();
 
-      PointCloudPtr& 
+      PointCloudPtr&
       getCloud() {return cloud_;}
       PointCloudConstPtr
       getCloud() const {return cloud_;}

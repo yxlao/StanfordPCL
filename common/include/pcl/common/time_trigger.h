@@ -75,18 +75,18 @@ namespace pcl
       /** \brief Resets the timer interval
         * \param[in] interval_seconds interval in seconds
         */
-      void 
+      void
       setInterval (double interval_seconds);
 
       /** \brief Start the Trigger. */
-      void 
+      void
       start ();
 
       /** \brief Stop the Trigger. */
-      void 
+      void
       stop ();
     private:
-      void 
+      void
       thread_function ();
       boost::signals2::signal <void() > callbacks_;
 

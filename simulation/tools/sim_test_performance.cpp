@@ -345,10 +345,10 @@ loadPolygonMeshModel (char* polygon_file)
   pcl::PolygonMesh mesh;
   pcl::io::loadPolygonFile (polygon_file, mesh);
   pcl::PolygonMesh::Ptr cloud (new pcl::PolygonMesh (mesh));
-  
+
   TriangleMeshModel::Ptr model = TriangleMeshModel::Ptr (new TriangleMeshModel (cloud));
   scene_->add (model);
-  
+
   std::cout << "Just read " << polygon_file << std::endl;
   std::cout << mesh.polygons.size () << " polygons and "
 	    << mesh.cloud.data.size () << " triangles\n";
@@ -379,21 +379,21 @@ main (int argc, char** argv)
   int rows = 30;
   int col_width = 20;
   int row_height = 15;
-  
+
   print_info ("Range likelihood performance tests using pcl::simulation. For more information, use: %s -h\n", argv[0]);
 
   if (argc < 2)
   {
     printHelp (argc, argv);
     return (-1);
-  }  
-  
+  }
+
   for (int i = 0; i < 2048; ++i)
   {
     float v = static_cast<float> (i / 2048.0);
     v = powf(v, 3)* 6;
     t_gamma[i] = static_cast<uint16_t> (v*6*256);
-  }  
+  }
 
   glutInit (&argc, argv);
   glutInitDisplayMode (GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGB);

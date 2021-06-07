@@ -56,7 +56,7 @@ namespace pcl
     /** \brief TsdfVolume class
       * \author Anatoly Baskeheev, Itseez Ltd, (myname.mysurname@mycompany.com)
       */
-    class PCL_EXPORTS TsdfVolume 
+    class PCL_EXPORTS TsdfVolume
     {
     public:
       typedef boost::shared_ptr<TsdfVolume> Ptr;
@@ -67,32 +67,32 @@ namespace pcl
 
       /** \brief Default buffer size for fetching cloud. It limits max number of points that can be extracted */
       enum { DEFAULT_CLOUD_BUFFER_SIZE = 10 * 1000 * 1000 };
-            
+
       /** \brief Constructor
         * \param[in] resolution volume resolution
         */
-      TsdfVolume(const Eigen::Vector3i& resolution);           
-            
+      TsdfVolume(const Eigen::Vector3i& resolution);
+
       /** \brief Sets Tsdf volume size for each dimention
         * \param[in] size size of tsdf volume in meters
         */
       void
       setSize(const Eigen::Vector3f& size);
-      
+
       /** \brief Sets Tsdf truncation distance. Must be greater than 2 * volume_voxel_size
-        * \param[in] distance TSDF truncation distance 
+        * \param[in] distance TSDF truncation distance
         */
       void
       setTsdfTruncDist (float distance);
 
       /** \brief Returns tsdf volume container that point to data in GPU memroy */
-      DeviceArray2D<int> 
+      DeviceArray2D<int>
       data() const;
 
       /** \brief Returns volume size in meters */
       const Eigen::Vector3f&
       getSize() const;
-            
+
       /** \brief Returns volume resolution */
       const Eigen::Vector3i&
       getResolution() const;
@@ -100,13 +100,13 @@ namespace pcl
       /** \brief Returns volume voxel size in meters */
       const Eigen::Vector3f
       getVoxelSize() const;
-      
+
       /** \brief Returns tsdf truncation distance in meters */
       float
       getTsdfTruncDist () const;
-     
+
       /** \brief Resets tsdf volume data to uninitialized state */
-      void 
+      void
       reset();
 
       /** \brief Generates cloud using CPU (downloads volumetric representation to CPU memory)
@@ -115,7 +115,7 @@ namespace pcl
         */
       void
       fetchCloudHost (PointCloud<PointType>& cloud, bool connected26 = false) const;
-      
+
       /** \brief Generates cloud using CPU (downloads volumetric representation to CPU memory)
         * \param[out] cloud output array for cloud
         * \param[in] connected26 If false point cloud is extracted using 6 neighbor, otherwise 26.
@@ -133,7 +133,7 @@ namespace pcl
         /** \brief Push a point cloud of previously scanned tsdf slice to the TSDF volume
           * \param[in] existingCloud point cloud pointer to the existing data. This data will be pushed to the TSDf volume. The points with indices outside the range [0 ... VOLUME_X - 1][0 ... VOLUME_Y - 1][0 ... VOLUME_Z - 1] will not be added.
           */
-      void 
+      void
       pushSlice (const PointCloud<PointXYZI>::Ptr existing_data_cloud, const pcl::gpu::tsdf_buffer* buffer) const;
 
       /** \brief Generates cloud using GPU in connected6 mode only
@@ -165,7 +165,7 @@ namespace pcl
       void
       fetchNormals(const DeviceArray<PointType>& cloud, DeviceArray<NormalType>& normals) const;
 
-      /** \brief Downloads tsdf volume from GPU memory.           
+      /** \brief Downloads tsdf volume from GPU memory.
         * \param[out] tsdf Array with tsdf values. if volume resolution is 512x512x512, so for voxel (x,y,z) tsdf value can be retrieved as volume[512*512*z + 512*y + x];
         */
       void
@@ -177,16 +177,16 @@ namespace pcl
         */
       void
       downloadTsdfAndWeighs(std::vector<float>& tsdf, std::vector<short>& weights) const;
-      
+
       /** \brief Releases tsdf buffer on GPU */
       void releaseVolume() {volume_.release();}
 
     private:
       /** \brief tsdf volume size in meters */
       Eigen::Vector3f size_;
-      
+
       /** \brief tsdf volume resolution */
-      Eigen::Vector3i resolution_;      
+      Eigen::Vector3i resolution_;
 
       /** \brief tsdf volume data container */
       DeviceArray2D<int> volume_;

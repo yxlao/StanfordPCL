@@ -34,7 +34,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  */
-  
+
 #ifndef PCL_ML_DT_DECISION_TREE
 #define PCL_ML_DT_DECISION_TREE
 
@@ -50,13 +50,13 @@ namespace pcl
   template <class NodeType>
   class PCL_EXPORTS DecisionTree
   {
-  
+
     public:
 
       /** \brief Constructor. */
       DecisionTree () : root_ () {}
       /** \brief Destructor. */
-      virtual 
+      virtual
       ~DecisionTree () {}
 
       /** \brief Sets the root node of the tree.
@@ -75,16 +75,16 @@ namespace pcl
         return root_;
       }
 
-      /** \brief Serializes the decision tree. 
+      /** \brief Serializes the decision tree.
         * \param[out] stream The destination for the serialization.
         */
-      void 
+      void
       serialize (::std::ostream & stream) const
       {
         root_.serialize (stream);
       }
 
-      /** \brief Deserializes the decision tree. 
+      /** \brief Deserializes the decision tree.
         * \param[in] stream The source for the deserialization.
         */
       void deserialize (::std::istream & stream)

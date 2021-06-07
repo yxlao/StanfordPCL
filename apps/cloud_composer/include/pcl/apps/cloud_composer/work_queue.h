@@ -48,38 +48,38 @@ namespace pcl
   {
     class AbstractTool;
     class CloudComposerItem;
-    
+
     struct ActionPair
     {
-      CloudCommand* command;  
+      CloudCommand* command;
       AbstractTool* tool;
     };
-    
+
     class WorkQueue : public QObject
     {
       Q_OBJECT
       public:
-        WorkQueue (QObject* parent = 0);  
-        virtual ~WorkQueue();  
+        WorkQueue (QObject* parent = 0);
+        virtual ~WorkQueue();
       public slots:
         void
         enqueueNewAction (AbstractTool* new_tool, ConstItemList input_data);
-        
-        void 
+
+        void
         actionFinished (ActionPair finished_action);
-        
-        void 
+
+        void
         checkQueue ();
       signals:
-        void 
+        void
         commandProgress (QString command_text, double progress);
 
         void
         commandComplete (CloudCommand* completed_command);
-        
+
       private:
         QQueue <ActionPair> work_queue_;
-        
+
     };
   }
 }

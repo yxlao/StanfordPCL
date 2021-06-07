@@ -170,7 +170,7 @@ pcl::SampleConsensusModelNormalPlane<PointT, PointNT>::getDistancesToModel (
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointT, typename PointNT> bool 
+template <typename PointT, typename PointNT> bool
 pcl::SampleConsensusModelNormalPlane<PointT, PointNT>::isModelValid (const Eigen::VectorXf &model_coefficients)
 {
   // Needs a valid model coefficients

@@ -46,9 +46,9 @@ namespace pcl
 {
   namespace search
   {
-    /** \brief @b search::Octree is a wrapper class which implements nearest neighbor search operations based on the 
-      * pcl::octree::Octree structure. 
-      * 
+    /** \brief @b search::Octree is a wrapper class which implements nearest neighbor search operations based on the
+      * pcl::octree::Octree structure.
+      *
       * The octree pointcloud class needs to be initialized with its voxel
       * resolution. Its bounding box is automatically adjusted according to the
       * pointcloud dimension or it can be predefined. Note: The tree depth
@@ -113,7 +113,7 @@ namespace pcl
 
         /** \brief Provide a pointer to the input dataset.
           * \param[in] cloud the const boost shared pointer to a PointCloud message
-          * \param[in] indices the point indices subset that is to be used from \a cloud 
+          * \param[in] indices the point indices subset that is to be used from \a cloud
           */
         inline void
         setInputCloud (const PointCloudConstPtr &cloud, const IndicesConstPtr& indices)
@@ -183,11 +183,11 @@ namespace pcl
          * \return number of neighbors found in radius
          */
         inline int
-        radiusSearch (const PointCloud &cloud, 
-                      int index, 
+        radiusSearch (const PointCloud &cloud,
+                      int index,
                       double radius,
-                      std::vector<int> &k_indices, 
-                      std::vector<float> &k_sqr_distances, 
+                      std::vector<int> &k_indices,
+                      std::vector<float> &k_sqr_distances,
                       unsigned int max_nn = 0) const
         {
           tree_->radiusSearch (cloud, index, radius, k_indices, k_sqr_distances, max_nn);
@@ -205,10 +205,10 @@ namespace pcl
          * \return number of neighbors found in radius
          */
         inline int
-        radiusSearch (const PointT &p_q, 
-                      double radius, 
+        radiusSearch (const PointT &p_q,
+                      double radius,
                       std::vector<int> &k_indices,
-                      std::vector<float> &k_sqr_distances, 
+                      std::vector<float> &k_sqr_distances,
                       unsigned int max_nn = 0) const
         {
           tree_->radiusSearch (p_q, radius, k_indices, k_sqr_distances, max_nn);

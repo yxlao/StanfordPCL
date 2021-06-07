@@ -79,7 +79,7 @@ namespace pcl
         p.curvature += value;
       }
     };
-    
+
     template<>
     struct IntensityFieldAccessor<pcl::PointXYZ>
     {
@@ -128,7 +128,7 @@ namespace pcl
       {
         intensity = static_cast<float> (299*p.r + 587*p.g + 114*p.b) * 0.001f;
       }
-      
+
       inline void
       set (pcl::PointXYZRGB &p, float intensity) const
       {
@@ -136,7 +136,7 @@ namespace pcl
         p.g = static_cast<uint8_t> (intensity * 1.70357751278f); // 1000 / 587
         p.b = static_cast<uint8_t> (intensity * 8.77192982456f); // 1000 / 114
       }
-      
+
       inline void
       demean (pcl::PointXYZRGB& p, float value) const
       {
@@ -144,7 +144,7 @@ namespace pcl
         intensity -= value;
         set (p, intensity);
       }
-      
+
       inline void
       add (pcl::PointXYZRGB& p, float value) const
       {
@@ -162,7 +162,7 @@ namespace pcl
       {
         return (static_cast<float> (299*p.r + 587*p.g + 114*p.b) * 0.001f);
       }
-      
+
       inline void
       get (const pcl::PointXYZRGBA &p, float& intensity) const
       {
@@ -176,7 +176,7 @@ namespace pcl
         p.g = static_cast<uint8_t> (intensity * 1.70357751278f); // 1000 / 587
         p.b = static_cast<uint8_t> (intensity * 8.77192982456f); // 1000 / 114
       }
-      
+
       inline void
       demean (pcl::PointXYZRGBA& p, float value) const
       {
@@ -184,7 +184,7 @@ namespace pcl
         intensity -= value;
         set (p, intensity);
       }
-      
+
       inline void
       add (pcl::PointXYZRGBA& p, float value) const
       {
@@ -202,7 +202,7 @@ namespace pcl
       {
         return (static_cast<float> (299*p.r + 587*p.g + 114*p.b) * 0.001f);
       }
-      
+
       inline void
       get (const pcl::PointXYZRGBNormal &p, float& intensity) const
       {
@@ -216,7 +216,7 @@ namespace pcl
         p.g = static_cast<uint8_t> (intensity * 1.70357751278f); // 1000 / 587
         p.b = static_cast<uint8_t> (intensity * 8.77192982456f); // 1000 / 114
       }
-      
+
       inline void
       demean (pcl::PointXYZRGBNormal &p, float value) const
       {
@@ -224,7 +224,7 @@ namespace pcl
         intensity -= value;
         set (p, intensity);
       }
-      
+
       inline void
       add (pcl::PointXYZRGBNormal &p, float value) const
       {
@@ -248,7 +248,7 @@ namespace pcl
       {
         intensity = static_cast<float> (299*p.r + 587*p.g + 114*p.b) * 0.001f;
       }
-      
+
       inline void
       set (pcl::PointXYZRGBL &p, float intensity) const
       {
@@ -256,7 +256,7 @@ namespace pcl
         p.g = static_cast<uint8_t> (intensity * 1.70357751278f); // 1000 / 587
         p.b = static_cast<uint8_t> (intensity * 8.77192982456f); // 1000 / 114
       }
-      
+
       inline void
       demean (pcl::PointXYZRGBL& p, float value) const
       {
@@ -264,7 +264,7 @@ namespace pcl
         intensity -= value;
         set (p, intensity);
       }
-      
+
       inline void
       add (pcl::PointXYZRGBL& p, float value) const
       {

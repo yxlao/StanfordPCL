@@ -131,7 +131,7 @@ pcl::MomentInvariantsEstimation<PointInT, PointOutT>::computeFeature (PointCloud
         output.is_dense = false;
         continue;
       }
-     
+
       computePointMomentInvariants (*surface_, nn_indices,
                                     output.points[idx].j1, output.points[idx].j2, output.points[idx].j3);
     }
@@ -207,5 +207,5 @@ pcl::MomentInvariantsEstimation<PointInT, Eigen::MatrixXf>::computeFeatureEigen 
 
 #define PCL_INSTANTIATE_MomentInvariantsEstimation(T,NT) template class PCL_EXPORTS pcl::MomentInvariantsEstimation<T,NT>;
 
-#endif    // PCL_FEATURES_IMPL_MOMENT_INVARIANTS_H_ 
+#endif    // PCL_FEATURES_IMPL_MOMENT_INVARIANTS_H_
 

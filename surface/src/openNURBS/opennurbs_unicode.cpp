@@ -140,7 +140,7 @@ static int ON_DecodeUTF8Helper(
   ON__UINT8 c;
 
   c = sUTF8[0];
-   
+
   if ( 0 == (0x80 & c) )
   {
     // 1 byte ASCII encoding: 0xxxxxxx
@@ -247,7 +247,7 @@ static int ON_DecodeUTF8Helper(
     *value = u;
     return 4;
   }
-  
+
   if ( 0xF8 == ( 0xFC & c) )
   {
     // 5 byte character encoding: 111110xx, 10xxxxxx, 10xxxxxx, 10xxxxxx, 10xxxxxx
@@ -388,7 +388,7 @@ int ON_DecodeUTF8(
     *unicode_code_point = sUTF8[0];
     return 1;
   }
-  
+
   c = sUTF8[0];
   if ( 0xC0 == ( 0xE0 & c) && sUTF8_count >= 2 )
   {
@@ -492,7 +492,7 @@ int ON_DecodeUTF8(
       // skip to next UTF-8 start elemement
       for ( /*empty for initializer*/; i0 < sUTF8_count; i0++ )
       {
-        // Search for the next element of sUTF8[] that is the 
+        // Search for the next element of sUTF8[] that is the
         // start of a UTF-8 encoding sequence.
         c = sUTF8[i0];
         if (    0 == (0x80 & c)     // ASCII 0 - 127
@@ -518,14 +518,14 @@ int ON_DecodeUTF8(
     *unicode_code_point = u0;
     return i0;
   }
-  
-  if ( i0 < sUTF8_count 
-       && u0 >= 0xD800 && u0 <= 0xDBFF 
+
+  if ( i0 < sUTF8_count
+       && u0 >= 0xD800 && u0 <= 0xDBFF
        && (0 == error_status || 8 == error_status)
-       && 0 != (4 & e->m_error_mask) 
+       && 0 != (4 & e->m_error_mask)
      )
   {
-    // See if a UFT-16 surrogate pair was incorrectly encoded 
+    // See if a UFT-16 surrogate pair was incorrectly encoded
     // as two consecutive UTF-8 sequences.
     u1 = 0xFFFFFFFF;
     i1 = ON_DecodeUTF8Helper(sUTF8+i0,sUTF8_count-i0,&u1,&error_status);
@@ -535,8 +535,8 @@ int ON_DecodeUTF8(
       sUTF16[0] = (ON__UINT16)u0;
       sUTF16[1] = (ON__UINT16)u1;
       u0 = 0xFFFFFFFF;
-      if ( 2 == ON_ConvertUTF16ToUTF32(false,sUTF16,2,&u0,1,&error_status,0,0,0) 
-           && 0 == error_status 
+      if ( 2 == ON_ConvertUTF16ToUTF32(false,sUTF16,2,&u0,1,&error_status,0,0,0)
+           && 0 == error_status
            && ON_IsValidUnicodeCodePoint(u0)
          )
       {
@@ -639,7 +639,7 @@ int ON_DecodeUTF16(
     return 0;
   }
 
-  // Search for the next element of sUTF16[] that is a 
+  // Search for the next element of sUTF16[] that is a
   // valid UTF-16 encoding sequence.
   int i;
   for ( i = 1; i < sUTF16_count; i++ )
@@ -649,8 +649,8 @@ int ON_DecodeUTF16(
       // valid single UTF-16 code unit
       break;
     }
-    if ( i+1 < sUTF16_count 
-         && sUTF16[i] >= 0xD800 && sUTF16[i] < 0xDC00 
+    if ( i+1 < sUTF16_count
+         && sUTF16[i] >= 0xD800 && sUTF16[i] < 0xDC00
          && sUTF16[i+1] >= 0xDC00 && sUTF16[i+1] < 0xE000
        )
     {
@@ -726,7 +726,7 @@ int ON_DecodeSwapByteUTF16(
     return 0;
   }
 
-  // Search for the next element of sUTF16[] that is a 
+  // Search for the next element of sUTF16[] that is a
   // valid UTF-16 encoding sequence.
   p1 = (ON__UINT8*)&w1;
   p += sizeof(sUTF16[0]);
@@ -840,7 +840,7 @@ int ON_ConvertUTF8ToUTF16(
     *sNextUTF8 = sUTF8+i;
   if ( error_status )
     *error_status = e.m_error_status;
-  
+
   return output_count;
 }
 
@@ -922,7 +922,7 @@ int ON_ConvertUTF8ToUTF32(
     *sNextUTF8 = sUTF8+i;
   if ( error_status )
     *error_status = e.m_error_status;
-  
+
   return output_count;
 }
 
@@ -1047,7 +1047,7 @@ int ON_ConvertUTF16ToUTF8(
     *sNextUTF16 = sUTF16+i;
   if ( error_status )
     *error_status = e.m_error_status;
-  
+
   return output_count;
 }
 
@@ -1170,7 +1170,7 @@ int ON_ConvertUTF16ToUTF32(
     *sNextUTF16 = sUTF16+i;
   if ( error_status )
     *error_status = e.m_error_status;
-  
+
   return output_count;
 }
 
@@ -1289,7 +1289,7 @@ int ON_ConvertUTF32ToUTF8(
     *sNextUTF32 = sUTF32+i;
   if ( error_status )
     *error_status = e.m_error_status;
-  
+
   return output_count;
 }
 
@@ -1401,7 +1401,7 @@ int ON_ConvertUTF32ToUTF16(
     *sNextUTF32 = sUTF32+i;
   if ( error_status )
     *error_status = e.m_error_status;
-  
+
   return output_count;
 }
 

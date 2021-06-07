@@ -48,7 +48,7 @@
 #      pragma GCC diagnostic ignored "-Weffc++"
 #      pragma GCC diagnostic ignored "-pedantic"
 #    else
-#      pragma GCC system_header 
+#      pragma GCC system_header
 #    endif
 #  elif defined _MSC_VER
 #    pragma warning(push, 1)
@@ -57,7 +57,7 @@
 
 namespace pcl
 {
-  /** \brief Helper functor structure for concatenate. 
+  /** \brief Helper functor structure for concatenate.
     * \ingroup common
     */
   template<typename PointInT, typename PointOutT>
@@ -65,7 +65,7 @@ namespace pcl
   {
     typedef typename traits::POD<PointInT>::type PodIn;
     typedef typename traits::POD<PointOutT>::type PodOut;
-    
+
     NdConcatenateFunctor (const PointInT &p1, PointOutT &p2)
       : p1_ (reinterpret_cast<const PodIn&>(p1)), p2_ (reinterpret_cast<PodOut&>(p2)) { }
 

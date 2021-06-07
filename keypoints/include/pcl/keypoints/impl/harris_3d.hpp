@@ -261,7 +261,7 @@ pcl::HarrisKeypoint3D<PointInT, PointOutT, NormalT>::detectKeypoints (PointCloud
     output.points.reserve (response->points.size());
 
 #ifdef _OPENMP
-#pragma omp parallel for shared (output) num_threads(threads_)   
+#pragma omp parallel for shared (output) num_threads(threads_)
 #endif
     for (int idx = 0; idx < static_cast<int> (response->points.size ()); ++idx)
     {

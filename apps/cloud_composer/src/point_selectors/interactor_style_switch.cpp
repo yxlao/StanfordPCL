@@ -16,26 +16,26 @@ pcl::cloud_composer::InteractorStyleSwitch::InteractorStyleSwitch ()
 {
   pcl_vis_style_ = vtkSmartPointer<pcl::visualization::PCLVisualizerInteractorStyle>::New ();
   name_to_style_map_.insert (interactor_styles::PCL_VISUALIZER, pcl_vis_style_);
-  
+
   rectangular_frustum_selector_ = vtkSmartPointer<RectangularFrustumSelector>::New ();
   name_to_style_map_.insert (interactor_styles::RECTANGULAR_FRUSTUM, rectangular_frustum_selector_);
-  
+
   selected_trackball_interactor_style_ = vtkSmartPointer <SelectedTrackballStyleInteractor>::New ();
   name_to_style_map_.insert (interactor_styles::SELECTED_TRACKBALL, selected_trackball_interactor_style_);
-  
+
   click_trackball_interactor_style_ = vtkSmartPointer <ClickTrackballStyleInteractor>::New ();
   name_to_style_map_.insert (interactor_styles::CLICK_TRACKBALL, click_trackball_interactor_style_);
-  
+
   area_picker_ = vtkSmartPointer<vtkAreaPicker>::New();
   point_picker_ = vtkSmartPointer<vtkPointPicker>::New ();
-  
+
   current_style_ = 0;
-  
+
 }
 
 pcl::cloud_composer::InteractorStyleSwitch::~InteractorStyleSwitch ()
 {
-    
+
 }
 
 void
@@ -44,17 +44,17 @@ pcl::cloud_composer::InteractorStyleSwitch::initializeInteractorStyles (boost::s
   qDebug () << "Initializing Interactor Styles";
   vis_ = vis;
   project_model_ = model;
-  
+
   pcl_vis_style_->Initialize ();
   rens_ = vis_->getRendererCollection ();
   pcl_vis_style_->setRendererCollection (rens_);
   pcl_vis_style_->setCloudActorMap (vis_->getCloudActorMap ());
-  
+
   rectangular_frustum_selector_->setCloudActorMap (vis_->getCloudActorMap ());
-  
+
   selected_trackball_interactor_style_->setCloudActorMap (vis_->getCloudActorMap ());
   selected_trackball_interactor_style_->setProjectModel (project_model_);
-  
+
   click_trackball_interactor_style_->setCloudActorMap (vis_->getCloudActorMap ());
   click_trackball_interactor_style_->setProjectModel (project_model_);
 }
@@ -67,13 +67,13 @@ pcl::cloud_composer::InteractorStyleSwitch::setCurrentInteractorStyle (interacto
   if (current_style_)
     current_style_->SetInteractor (0);
   current_style_= style_ptr;
-  
+
   if (current_style_)
   {
     qDebug () << "Modifying current interactor of style!";
     current_style_->SetInteractor (this->Interactor);
     current_style_->SetTDxStyle (this->TDxStyle);
-    
+
     if (interactor_style == interactor_styles::RECTANGULAR_FRUSTUM)
     {
       vtkInteractorStyleRubberBandPick* rubber_band_style = vtkInteractorStyleRubberBandPick::SafeDownCast (current_style_);
@@ -83,16 +83,16 @@ pcl::cloud_composer::InteractorStyleSwitch::setCurrentInteractorStyle (interacto
         rubber_band_style->StartSelect ();
       }
     }
-    
-    
+
+
   }
-  
-      
- 
+
+
+
 }
 
 //----------------------------------------------------------------------------
-void 
+void
 pcl::cloud_composer::InteractorStyleSwitch::SetInteractor (vtkRenderWindowInteractor *iren)
 {
   if(iren == this->Interactor)
@@ -108,18 +108,18 @@ pcl::cloud_composer::InteractorStyleSwitch::SetInteractor (vtkRenderWindowIntera
   // add observers for each of the events handled in ProcessEvents
   if(iren)
   {
-    iren->AddObserver(vtkCommand::CharEvent, 
+    iren->AddObserver(vtkCommand::CharEvent,
                       this->EventCallbackCommand,
                       this->Priority);
 
-    iren->AddObserver(vtkCommand::DeleteEvent, 
+    iren->AddObserver(vtkCommand::DeleteEvent,
                       this->EventCallbackCommand,
                       this->Priority);
   }
 }
 
 //----------------------------------------------------------------------------
-void 
+void
 pcl::cloud_composer::InteractorStyleSwitch::SetDefaultRenderer (vtkRenderer* renderer)
 {
   vtkInteractorStyle::SetDefaultRenderer(renderer);
@@ -128,7 +128,7 @@ pcl::cloud_composer::InteractorStyleSwitch::SetDefaultRenderer (vtkRenderer* ren
 }
 
 //----------------------------------------------------------------------------
-void 
+void
 pcl::cloud_composer::InteractorStyleSwitch::SetCurrentRenderer (vtkRenderer* renderer)
 {
   this->vtkInteractorStyle::SetCurrentRenderer(renderer);

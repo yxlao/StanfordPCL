@@ -66,7 +66,7 @@ namespace pcl
 			int
 				rows ();
 
-			virtual bool 
+			virtual bool
 				operator() (const DeviceArray2D<PointType>& input, const DeviceArray2D<PixelRGB>& input_colors)
 			{
 
@@ -82,14 +82,14 @@ namespace pcl
     protected:
 			std::string tracker_name_;
 
-			virtual bool 
+			virtual bool
 			initCompute()
 			{
 
 				//pcl::device::initParticles(particle_num_, particle_xyz_, particle_rpy_, particle_weight_ );
 			}
 			
-			virtual void 
+			virtual void
 			computeTracking()
 			{
 
@@ -129,7 +129,7 @@ namespace pcl
 			std::vector<float> step_noise_covariance_;
 
       std::vector<float> initial_noise_covariance_;
-        
+
       std::vector<float> initial_noise_mean_;
 
 			StateType motion_;

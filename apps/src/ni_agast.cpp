@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2012-, Open Perception, Inc.
- * 
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -83,7 +83,7 @@ class AGASTDemo
       FPS_CALC ("cloud callback");
       boost::mutex::scoped_lock lock (cloud_mutex_);
 
-      // Compute AGAST keypoints 
+      // Compute AGAST keypoints
       AgastKeypoint2D<PointT> agast;
       agast.setNonMaxSuppression (true);
       agast.setThreshold (threshold_);
@@ -128,11 +128,11 @@ class AGASTDemo
     }
 
     /////////////////////////////////////////////////////////////////////////
-    void 
+    void
     keyboard_callback (const pcl::visualization::KeyboardEvent& event, void* cookie)
     {
       AGASTDemo* obj = static_cast<AGASTDemo*> (cookie);
-      
+
       if (event.getKeyCode ())
       {
         std::stringstream ss; ss << event.getKeyCode ();
@@ -190,7 +190,7 @@ class AGASTDemo
     init ()
     {
       boost::function<void (const CloudConstPtr&) > cloud_cb = boost::bind (&AGASTDemo::cloud_callback, this, _1);
-      cloud_connection = grabber_.registerCallback (cloud_cb);      
+      cloud_connection = grabber_.registerCallback (cloud_cb);
     }
 
     /////////////////////////////////////////////////////////////////////////
@@ -219,7 +219,7 @@ class AGASTDemo
       int j = 0;
       for (size_t i = 0; i < keypoints->size (); ++i)
       {
-        const PointT &pt = (*cloud)(static_cast<long unsigned int> (keypoints->points[i].u), 
+        const PointT &pt = (*cloud)(static_cast<long unsigned int> (keypoints->points[i].u),
                                     static_cast<long unsigned int> (keypoints->points[i].v));
         if (!pcl_isfinite (pt.x) || !pcl_isfinite (pt.y) || !pcl_isfinite (pt.z))
           continue;
@@ -237,7 +237,7 @@ class AGASTDemo
         keypoints3d.height = 1;
       }
     }
-    
+
     /////////////////////////////////////////////////////////////////////////
     void
     run ()
@@ -246,7 +246,7 @@ class AGASTDemo
       image_viewer_.registerKeyboardCallback (&AGASTDemo::keyboard_callback, *this, static_cast<AGASTDemo*> (this));
 
       grabber_.start ();
-      
+
       bool image_init = false, cloud_init = false;
       bool keypts = true;
 
@@ -261,7 +261,7 @@ class AGASTDemo
         {
           cloud_.swap (cloud);
           keypoints_.swap (keypoints);
-        
+
           cloud_mutex_.unlock ();
         }
 
@@ -317,12 +317,12 @@ class AGASTDemo
       grabber_.stop ();
       cloud_connection.disconnect ();
     }
-    
+
     visualization::PCLVisualizer cloud_viewer_;
     Grabber& grabber_;
     boost::mutex cloud_mutex_;
     CloudConstPtr cloud_;
-    
+
     visualization::ImageViewer image_viewer_;
 
     PointCloud<KeyPointT>::Ptr keypoints_;
@@ -352,7 +352,7 @@ main (int argc, char** argv)
 
   openni_viewer.init ();
   openni_viewer.run ();
-  
+
   return (0);
 }
 /* ]--- */

@@ -80,11 +80,11 @@ namespace pcl
   /** \brief @b SIFTKeypoint detects the Scale Invariant Feature Transform
     * keypoints for a given point cloud dataset containing points and intensity.
     * This implementation adapts the original algorithm from images to point
-    * clouds. 
+    * clouds.
     *
     * For more information about the image-based SIFT interest operator, see:
     *
-    *    David G. Lowe, "Distinctive image features from scale-invariant keypoints," 
+    *    David G. Lowe, "Distinctive image features from scale-invariant keypoints,"
     *    International Journal of Computer Vision, 60, 2 (2004), pp. 91-110.
     *
     * \author Michael Dixon
@@ -103,11 +103,11 @@ namespace pcl
       using Keypoint<PointInT, PointOutT>::indices_;
       using Keypoint<PointInT, PointOutT>::surface_;
       using Keypoint<PointInT, PointOutT>::tree_;
-      using Keypoint<PointInT, PointOutT>::initCompute;    
+      using Keypoint<PointInT, PointOutT>::initCompute;
 
       /** \brief Empty constructor. */
-      SIFTKeypoint () : min_scale_ (0.0), nr_octaves_ (0), nr_scales_per_octave_ (0), 
-        min_contrast_ (-std::numeric_limits<float>::max ()), scale_idx_ (-1), 
+      SIFTKeypoint () : min_scale_ (0.0), nr_octaves_ (0), nr_scales_per_octave_ (0),
+        min_contrast_ (-std::numeric_limits<float>::max ()), scale_idx_ (-1),
         out_fields_ (), getFieldValue_ ()
       {
         name_ = "SIFTKeypoint";
@@ -115,27 +115,27 @@ namespace pcl
 
       /** \brief Specify the range of scales over which to search for keypoints
         * \param min_scale the standard deviation of the smallest scale in the scale space
-        * \param nr_octaves the number of octaves (i.e. doublings of scale) to compute 
+        * \param nr_octaves the number of octaves (i.e. doublings of scale) to compute
         * \param nr_scales_per_octave the number of scales to compute within each octave
         */
-      void 
+      void
       setScales (float min_scale, int nr_octaves, int nr_scales_per_octave);
 
       /** \brief Provide a threshold to limit detection of keypoints without sufficient contrast
         * \param min_contrast the minimum contrast required for detection
         */
-      void 
+      void
       setMinimumContrast (float min_contrast);
 
     protected:
       bool
       initCompute ();
 
-      /** \brief Detect the SIFT keypoints for a set of points given in setInputCloud () using the spatial locator in 
+      /** \brief Detect the SIFT keypoints for a set of points given in setInputCloud () using the spatial locator in
         * setSearchMethod ().
         * \param output the resultant cloud of keypoints
         */
-      void 
+      void
       detectKeypoints (PointCloudOut &output);
 
     private:
@@ -146,9 +146,9 @@ namespace pcl
         * \param nr_scales_per_octave the number of scales to to compute
         * \param output the resultant point cloud containing the SIFT keypoints
         */
-      void 
-      detectKeypointsForOctave (const PointCloudIn &input, KdTree &tree, 
-                                float base_scale, int nr_scales_per_octave, 
+      void
+      detectKeypointsForOctave (const PointCloudIn &input, KdTree &tree,
+                                float base_scale, int nr_scales_per_octave,
                                 PointCloudOut &output);
 
       /** \brief Compute the difference-of-Gaussian (DoG) scale space for the given input and scales
@@ -157,20 +157,20 @@ namespace pcl
         * \param scales a vector containing the scales over which to compute the DoG scale space
         * \param diff_of_gauss the resultant DoG scale space (in a number-of-points by number-of-scales matrix)
         */
-      void 
-      computeScaleSpace (const PointCloudIn &input, KdTree &tree, 
-                         const std::vector<float> &scales, 
+      void
+      computeScaleSpace (const PointCloudIn &input, KdTree &tree,
+                         const std::vector<float> &scales,
                          Eigen::MatrixXf &diff_of_gauss);
 
       /** \brief Find the local minima and maxima in the provided difference-of-Gaussian (DoG) scale space
-        * \param input the input point cloud 
+        * \param input the input point cloud
         * \param tree a k-D tree of the points in \a input
         * \param diff_of_gauss the DoG scale space (in a number-of-points by number-of-scales matrix)
         * \param extrema_indices the resultant vector containing the point indices of each keypoint
         * \param extrema_scales the resultant vector containing the scale indices of each keypoint
         */
-      void 
-      findScaleSpaceExtrema (const PointCloudIn &input, KdTree &tree, 
+      void
+      findScaleSpaceExtrema (const PointCloudIn &input, KdTree &tree,
                              const Eigen::MatrixXf &diff_of_gauss,
                              std::vector<int> &extrema_indices, std::vector<int> &extrema_scales);
 
@@ -187,7 +187,7 @@ namespace pcl
       /** \brief The minimum contrast required for detection.*/
       float min_contrast_;
 
-      /** \brief Set to a value different than -1 if the output cloud has a "scale" field and we have to save 
+      /** \brief Set to a value different than -1 if the output cloud has a "scale" field and we have to save
         * the keypoints scales. */
       int scale_idx_;
 

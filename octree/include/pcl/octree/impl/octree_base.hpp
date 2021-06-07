@@ -87,7 +87,7 @@ namespace pcl
       assert (maxVoxelIndex_arg>0);
 
       // tree depth == amount of bits of maxVoxels
-      treeDepth = std::max ((std::min (static_cast<unsigned int> (OCT_MAXTREEDEPTH), 
+      treeDepth = std::max ((std::min (static_cast<unsigned int> (OCT_MAXTREEDEPTH),
                                        static_cast<unsigned int> (std::ceil (Log2 (maxVoxelIndex_arg))))),
                                        static_cast<unsigned int> (0));
 

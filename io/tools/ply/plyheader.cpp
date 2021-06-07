@@ -44,7 +44,7 @@
 #include <stdlib.h>
 
 /** \file plheader extracts and prints out the header of a PLY file
-  * 
+  *
   * \author Ares Lagae
   * \ingroup io
   */

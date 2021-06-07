@@ -75,7 +75,7 @@ namespace pcl
           * \param[in] cloud_tgt_demean the input target cloud, demeaned, in Eigen format
           * \param[in] centroid_tgt the input target cloud, in Eigen format
           * \param[out] transformation_matrix the resultant 4x4 rigid transformation matrix
-          */ 
+          */
         void
         getTransformationFromCorrelation (const Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> &cloud_src_demean,
                                           const Eigen::Matrix<Scalar, 4, 1> &centroid_src,

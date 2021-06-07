@@ -38,8 +38,8 @@ main (int argc, char** argv)
   octree.switchBuffers ();
 
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloudB (new pcl::PointCloud<pcl::PointXYZ> );
-   
-  // Generate pointcloud data for cloudB 
+
+  // Generate pointcloud data for cloudB
   cloudB->width = 128;
   cloudB->height = 1;
   cloudB->points.resize (cloudB->width * cloudB->height);

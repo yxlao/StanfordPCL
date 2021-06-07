@@ -10,7 +10,7 @@
 #ifndef EIGEN_TRIANGULARMATRIXVECTOR_H
 #define EIGEN_TRIANGULARMATRIXVECTOR_H
 
-namespace Eigen { 
+namespace Eigen {
 
 namespace internal {
 
@@ -37,7 +37,7 @@ struct triangular_matrix_vector_product<Index,Mode,LhsScalar,ConjLhs,RhsScalar,C
     typedef Map<const Matrix<LhsScalar,Dynamic,Dynamic,ColMajor>, 0, OuterStride<> > LhsMap;
     const LhsMap lhs(_lhs,rows,cols,OuterStride<>(lhsStride));
     typename conj_expr_if<ConjLhs,LhsMap>::type cjLhs(lhs);
-    
+
     typedef Map<const Matrix<RhsScalar,Dynamic,1>, 0, InnerStride<> > RhsMap;
     const RhsMap rhs(_rhs,cols,InnerStride<>(rhsIncr));
     typename conj_expr_if<ConjRhs,RhsMap>::type cjRhs(rhs);
@@ -107,7 +107,7 @@ struct triangular_matrix_vector_product<Index,Mode,LhsScalar,ConjLhs,RhsScalar,C
 
     typedef Map<Matrix<ResScalar,Dynamic,1>, 0, InnerStride<> > ResMap;
     ResMap res(_res,rows,InnerStride<>(resIncr));
-    
+
     for (Index pi=0; pi<diagSize; pi+=PanelWidth)
     {
       Index actualPanelWidth = (std::min)(PanelWidth, diagSize-pi);
@@ -174,7 +174,7 @@ struct TriangularProduct<Mode,true,Lhs,false,Rhs,true>
   template<typename Dest> void scaleAndAddTo(Dest& dst, Scalar alpha) const
   {
     eigen_assert(dst.rows()==m_lhs.rows() && dst.cols()==m_rhs.cols());
-  
+
     internal::trmv_selector<(int(internal::traits<Lhs>::Flags)&RowMajorBit) ? RowMajor : ColMajor>::run(*this, dst, alpha);
   }
 };
@@ -201,7 +201,7 @@ struct TriangularProduct<Mode,false,Lhs,true,Rhs,false>
 namespace internal {
 
 // TODO: find a way to factorize this piece of code with gemv_selector since the logic is exactly the same.
-  
+
 template<> struct trmv_selector<ColMajor>
 {
   template<int Mode, typename Lhs, typename Rhs, typename Dest>
@@ -237,7 +237,7 @@ template<> struct trmv_selector<ColMajor>
 
     bool alphaIsCompatible = (!ComplexByReal) || (imag(actualAlpha)==RealScalar(0));
     bool evalToDest = EvalToDestAtCompileTime && alphaIsCompatible;
-    
+
     RhsScalar compatibleAlpha = get_factor<ResScalar,RhsScalar>::run(actualAlpha);
 
     ei_declare_aligned_stack_constructed_variable(ResScalar,actualDestPtr,dest.size(),
@@ -257,7 +257,7 @@ template<> struct trmv_selector<ColMajor>
       else
         MappedDest(actualDestPtr, dest.size()) = dest;
     }
-    
+
     internal::triangular_matrix_vector_product
       <Index,Mode,
        LhsScalar, LhsBlasTraits::NeedToConjugate,
@@ -317,7 +317,7 @@ template<> struct trmv_selector<RowMajor>
       #endif
       Map<typename _ActualRhsType::PlainObject>(actualRhsPtr, actualRhs.size()) = actualRhs;
     }
-    
+
     internal::triangular_matrix_vector_product
       <Index,Mode,
        LhsScalar, LhsBlasTraits::NeedToConjugate,

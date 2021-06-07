@@ -89,7 +89,7 @@ pcl::visualization::ImageViewer::showRGBImage (const pcl::PointCloud<T> &cloud,
 template <typename T> bool
 pcl::visualization::ImageViewer::addMask (
     const typename pcl::PointCloud<T>::ConstPtr &image,
-    const pcl::PointCloud<T> &mask, 
+    const pcl::PointCloud<T> &mask,
     double r, double g, double b,
     const std::string &layer_id, double opacity)
 {
@@ -116,10 +116,10 @@ pcl::visualization::ImageViewer::addMask (
     search.projectPoint (mask.points[i], p_projected);
 
 #if ((VTK_MAJOR_VERSION == 5) && (VTK_MINOR_VERSION < 10))
-    am_it->canvas->DrawPoint (int (p_projected.x), 
+    am_it->canvas->DrawPoint (int (p_projected.x),
                               int (float (image->height) - p_projected.y));
 #else
-    am_it->canvas->DrawPoint (int (p_projected.x), 
+    am_it->canvas->DrawPoint (int (p_projected.x),
                               int (p_projected.y));
 #endif
   }
@@ -131,7 +131,7 @@ pcl::visualization::ImageViewer::addMask (
 template <typename T> bool
 pcl::visualization::ImageViewer::addMask (
     const typename pcl::PointCloud<T>::ConstPtr &image,
-    const pcl::PointCloud<T> &mask, 
+    const pcl::PointCloud<T> &mask,
     const std::string &layer_id, double opacity)
 {
   // We assume that the data passed into image is organized, otherwise this doesn't make sense
@@ -157,10 +157,10 @@ pcl::visualization::ImageViewer::addMask (
     search.projectPoint (mask.points[i], p_projected);
 
 #if ((VTK_MAJOR_VERSION == 5) && (VTK_MINOR_VERSION < 10))
-    am_it->canvas->DrawPoint (int (p_projected.x), 
+    am_it->canvas->DrawPoint (int (p_projected.x),
                               int (float (image->height) - p_projected.y));
 #else
-    am_it->canvas->DrawPoint (int (p_projected.x), 
+    am_it->canvas->DrawPoint (int (p_projected.x),
                               int (p_projected.y));
 #endif
   }
@@ -172,7 +172,7 @@ pcl::visualization::ImageViewer::addMask (
 template <typename T> bool
 pcl::visualization::ImageViewer::addPlanarPolygon (
     const typename pcl::PointCloud<T>::ConstPtr &image,
-    const pcl::PlanarPolygon<T> &polygon, 
+    const pcl::PlanarPolygon<T> &polygon,
     double r, double g, double b,
     const std::string &layer_id, double opacity)
 {
@@ -228,7 +228,7 @@ pcl::visualization::ImageViewer::addPlanarPolygon (
 template <typename T> bool
 pcl::visualization::ImageViewer::addPlanarPolygon (
     const typename pcl::PointCloud<T>::ConstPtr &image,
-    const pcl::PlanarPolygon<T> &polygon, 
+    const pcl::PlanarPolygon<T> &polygon,
     const std::string &layer_id, double opacity)
 {
   // We assume that the data passed into image is organized, otherwise this doesn't make sense
@@ -428,7 +428,7 @@ pcl::visualization::ImageViewer::addRectangle (
 template <typename T> bool
 pcl::visualization::ImageViewer::addRectangle (
     const typename pcl::PointCloud<T>::ConstPtr &image,
-    const pcl::PointCloud<T> &mask, 
+    const pcl::PointCloud<T> &mask,
     double r, double g, double b,
     const std::string &layer_id, double opacity)
 {
@@ -484,7 +484,7 @@ pcl::visualization::ImageViewer::addRectangle (
 template <typename T> bool
 pcl::visualization::ImageViewer::addRectangle (
     const typename pcl::PointCloud<T>::ConstPtr &image,
-    const pcl::PointCloud<T> &mask, 
+    const pcl::PointCloud<T> &mask,
     const std::string &layer_id, double opacity)
 {
   // We assume that the data passed into image is organized, otherwise this doesn't make sense
@@ -557,7 +557,7 @@ pcl::visualization::ImageViewer::showCorrespondences (
     PCL_DEBUG ("[pcl::visualization::ImageViewer::addCorrespondences] No layer with ID='%s' found. Creating new one...\n", layer_id.c_str ());
     am_it = createLayer (layer_id, source_img.width + target_img.width, std::max (source_img.height, target_img.height), 255, false);
   }
- 
+
   int src_size = source_img.width * source_img.height * 3;
   int tgt_size = target_img.width * target_img.height * 3;
 
@@ -609,7 +609,7 @@ pcl::visualization::ImageViewer::showCorrespondences (
   }
 
   void* data = const_cast<void*> (reinterpret_cast<const void*> (data_.get ()));
-  
+
   vtkSmartPointer<vtkImageData> image = vtkSmartPointer<vtkImageData>::New ();
   image->SetDimensions (source_img.width + target_img.width, std::max (source_img.height, target_img.height), 1);
   image->SetScalarTypeToUnsignedChar ();

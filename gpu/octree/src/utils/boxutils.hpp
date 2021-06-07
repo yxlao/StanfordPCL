@@ -99,9 +99,9 @@ namespace pcl
 
         __device__ __host__ __forceinline__
         static void calcBoundingBox(int level, int code, float3& res_minp, float3& res_maxp)
-        {        
+        {
             int cell_x, cell_y, cell_z;
-            Morton::decomposeCode(code, cell_x, cell_y, cell_z);   
+            Morton::decomposeCode(code, cell_x, cell_y, cell_z);
 
             float cell_size_x = (res_maxp.x - res_minp.x) / (1 << level);
             float cell_size_y = (res_maxp.y - res_minp.y) / (1 << level);
@@ -113,7 +113,7 @@ namespace pcl
 
             res_maxp.x = res_minp.x + cell_size_x;
             res_maxp.y = res_minp.y + cell_size_y;
-            res_maxp.z = res_minp.z + cell_size_z;       
+            res_maxp.z = res_minp.z + cell_size_z;
         }
     }
 }

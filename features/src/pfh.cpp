@@ -44,7 +44,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 bool
-pcl::computePairFeatures (const Eigen::Vector4f &p1, const Eigen::Vector4f &n1, 
+pcl::computePairFeatures (const Eigen::Vector4f &p1, const Eigen::Vector4f &n1,
                           const Eigen::Vector4f &p2, const Eigen::Vector4f &n2,
                           float &f1, float &f2, float &f3, float &f4)
 {

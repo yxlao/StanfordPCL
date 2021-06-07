@@ -83,13 +83,13 @@ int main (int argc, char** argv)
     cout << "Setting minimum interest value to "<<min_interest_value<<".\n";
   if (pcl::console::parse (argc, argv, "-t", max_no_of_threads) >= 0)
     cout << "Setting maximum number of threads to "<<max_no_of_threads<<".\n";
-  
+
   pcl::visualization::RangeImageVisualizer range_image_widget ("Range Image");
-  
+
   pcl::visualization::PCLVisualizer viewer ("3D Viewer");
   viewer.addCoordinateSystem (1.0f);
   viewer.setBackgroundColor (1, 1, 1);
-  
+
   viewer.initCameraParameters ();
   viewer.camera_.pos[0] = 0.0;
   viewer.camera_.pos[1] = -0.3;
@@ -101,7 +101,7 @@ int main (int argc, char** argv)
   viewer.camera_.view[1] = -1.0;
   viewer.camera_.view[2] = 0.0;
   viewer.updateCamera ();
-  
+
   openni_wrapper::OpenNIDriver& driver = openni_wrapper::OpenNIDriver::getInstance ();
   if (driver.getNumberDevices () > 0)
   {
@@ -118,21 +118,21 @@ int main (int argc, char** argv)
     cout << "\nNo devices connected.\n\n";
     return 1;
   }
-  
+
   pcl::Grabber* interface = new pcl::OpenNIGrabber (device_id);
   EventHelper event_helper;
-  
+
   boost::function<void (const boost::shared_ptr<openni_wrapper::DepthImage>&) > f_depth_image =
     boost::bind (&EventHelper::depth_image_cb, &event_helper, _1);
   boost::signals2::connection c_depth_image = interface->registerCallback (f_depth_image);
-  
+
   cout << "Starting grabber\n";
   interface->start ();
   cout << "Done\n";
-  
+
   boost::shared_ptr<pcl::RangeImagePlanar> range_image_planar_ptr (new pcl::RangeImagePlanar);
   pcl::RangeImagePlanar& range_image_planar = *range_image_planar_ptr;
-  
+
   pcl::RangeImageBorderExtractor range_image_border_extractor;
   pcl::NarfKeypoint narf_keypoint_detector;
   narf_keypoint_detector.setRangeImageBorderExtractor (&range_image_border_extractor);
@@ -141,21 +141,21 @@ int main (int argc, char** argv)
   narf_keypoint_detector.getParameters ().min_interest_value = min_interest_value;
   //narf_keypoint_detector.getParameters ().calculate_sparse_interest_image = false;
   //narf_keypoint_detector.getParameloadters ().add_points_on_straight_edges = true;
-  
+
   pcl::PointCloud<pcl::PointXYZ>::Ptr keypoints_cloud_ptr (new pcl::PointCloud<pcl::PointXYZ>);
   pcl::PointCloud<pcl::PointXYZ>& keypoints_cloud = *keypoints_cloud_ptr;
-  
+
   while (!viewer.wasStopped ())
   {
     viewer.spinOnce ();
     range_image_widget.spinOnce ();  // process GUI events
     pcl_sleep (0.01);
-    
+
     bool got_new_range_image = false;
     if (received_new_depth_data && depth_image_mutex.try_lock ())
     {
       received_new_depth_data = false;
-      
+
       //unsigned long time_stamp = depth_image_ptr->getTimeStamp ();
       //int frame_id = depth_image_ptr->getFrameID ();
       const unsigned short* depth_map = depth_image_ptr->getDepthMetaData ().Data ();
@@ -169,10 +169,10 @@ int main (int argc, char** argv)
       depth_image_mutex.unlock ();
       got_new_range_image = !range_image_planar.points.empty ();
     }
-    
+
     if (!got_new_range_image)
       continue;
-    
+
     // --------------------------------
     // -----Extract NARF keypoints-----
     // --------------------------------
@@ -185,7 +185,7 @@ int main (int argc, char** argv)
     double keypoint_extraction_time = pcl::getTime()-keypoint_extraction_start_time;
     std::cout << "Found "<<keypoint_indices.points.size ()<<" key points. "
               << "This took "<<1000.0*keypoint_extraction_time<<"ms.\n";
-    
+
     // ----------------------------------------------
     // -----Show keypoints in range image widget-----
     // ----------------------------------------------
@@ -194,7 +194,7 @@ int main (int argc, char** argv)
       //range_image_widget.markPoint (keypoint_indices.points[i]%range_image_planar.width,
                                     //keypoint_indices.points[i]/range_image_planar.width,
                                     //pcl::visualization::Vector3ub (0,255,0));
-    
+
     // -------------------------------------
     // -----Show keypoints in 3D viewer-----
     // -------------------------------------
@@ -202,7 +202,7 @@ int main (int argc, char** argv)
       (range_image_planar_ptr, 0, 0, 0);
     if (!viewer.updatePointCloud<pcl::PointWithRange> (range_image_planar_ptr, color_handler_cloud, "range image"))
       viewer.addPointCloud<pcl::PointWithRange> (range_image_planar_ptr, color_handler_cloud, "range image");
-    
+
     keypoints_cloud.points.resize (keypoint_indices.points.size ());
     for (size_t i=0; i<keypoint_indices.points.size (); ++i)
       keypoints_cloud.points[i].getVector3fMap () =

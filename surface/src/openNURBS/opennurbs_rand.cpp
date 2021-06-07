@@ -16,21 +16,21 @@
 
 #include <pcl/surface/openNURBS/opennurbs.h>
 
-// This source code is from 
+// This source code is from
 // http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/MT2002/emt19937ar.html
 // and its copyright and license are reproduced below.
 // It is included in opennurbs because we need a thread safe and
 // platform independent way to get a decent 32 bit random number.
 
-/* 
+/*
    A C-program for MT19937, with initialization improved 2002/1/26.
    Coded by Takuji Nishimura and Makoto Matsumoto.
 
-   Before using, initialize the state by using init_genrand(seed)  
+   Before using, initialize the state by using init_genrand(seed)
    or init_by_array(init_key, key_length).
 
    Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,
-   All rights reserved.                          
+   All rights reserved.
 
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions
@@ -43,8 +43,8 @@
         notice, this list of conditions and the following disclaimer in the
         documentation and/or other materials provided with the distribution.
 
-     3. The names of its contributors may not be used to endorse or promote 
-        products derived from this software without specific prior written 
+     3. The names of its contributors may not be used to endorse or promote
+        products derived from this software without specific prior written
         permission.
 
    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -65,7 +65,7 @@
    email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)
 */
 
-/* Period parameters */  
+/* Period parameters */
 #define N 624 /* If you change the value of N, update the length of ON_RANDOM_NUMBER_CONTEXT m_t[] to match. */
 #define M 397
 #define MATRIX_A 0x9908b0dfUL   /* constant vector a */
@@ -96,9 +96,9 @@ void on_random_number_seed(ON__UINT32 s,ON_RANDOM_NUMBER_CONTEXT* randcontext)
 #endif
 
   randcontext->mt[0] = u = s & 0xffffffffUL;
-  for (i=1; i<N; i++) 
+  for (i=1; i<N; i++)
   {
-    u = (1812433253UL * (u ^ (u >> 30)) + i); 
+    u = (1812433253UL * (u ^ (u >> 30)) + i);
     /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
     /* In the previous versions, MSBs of the seed affect   */
     /* only MSBs of the array mt[].                        */
@@ -140,7 +140,7 @@ void on_random_number_seed(ON__UINT32 s,ON_RANDOM_NUMBER_CONTEXT* randcontext)
 //        if (i>=N) { mt[0] = mt[N-1]; i=1; }
 //    }
 //
-//    mt[0] = 0x80000000UL; /* MSB is 1; assuring non-zero initial array */ 
+//    mt[0] = 0x80000000UL; /* MSB is 1; assuring non-zero initial array */
 //}
 
 /* generates a random number on [0,0xffffffff]-interval */
@@ -150,7 +150,7 @@ ON__UINT32 on_random_number(struct ON_RANDOM_NUMBER_CONTEXT* randcontext)
   ON__UINT32 kk, y;
   /* mag01[x] = x * MATRIX_A  for x=0,1 */
 
-  if (randcontext->mti >= N) 
+  if (randcontext->mti >= N)
   {
     /* generate N words at one time */
     if (randcontext->mti >= N+1)
@@ -164,7 +164,7 @@ ON__UINT32 on_random_number(struct ON_RANDOM_NUMBER_CONTEXT* randcontext)
       y = (randcontext->mt[kk]&UPPER_MASK)|(randcontext->mt[kk+1]&LOWER_MASK);
       randcontext->mt[kk] = randcontext->mt[kk+M] ^ (y >> 1) ^ mag01[y & 0x1UL];
     }
-    for (;kk<N-1;kk++) 
+    for (;kk<N-1;kk++)
     {
       y = (randcontext->mt[kk]&UPPER_MASK)|(randcontext->mt[kk+1]&LOWER_MASK);
       randcontext->mt[kk] = randcontext->mt[kk+(M-N)] ^ (y >> 1) ^ mag01[y & 0x1UL];
@@ -195,7 +195,7 @@ static struct ON_RANDOM_NUMBER_CONTEXT static_randcontext = {N+1,{0}};
 
 void on_srand(ON__UINT32 s)
 {
-  // This function is not thread safe!  
+  // This function is not thread safe!
   // It initializes a static global which is also used by on_rand().
   struct ON_RANDOM_NUMBER_CONTEXT randcontext;
   on_random_number_seed(s,&randcontext);
@@ -205,7 +205,7 @@ void on_srand(ON__UINT32 s)
 /* generates a random number on [0,0xffffffff]-interval */
 ON__UINT32 on_rand(void)
 {
-  // This function is not thread safe!  
+  // This function is not thread safe!
   // It modifies a static global which is also used by on_srand().
   return on_random_number(&static_randcontext);
 }
@@ -224,30 +224,30 @@ ON__UINT32 on_rand(void)
 ///* generates a random number on [0,1]-real-interval */
 //double genrand_real1(void)
 //{
-//    return on_rand()*(1.0/4294967295.0); 
-//    /* divided by 2^32-1 */ 
+//    return on_rand()*(1.0/4294967295.0);
+//    /* divided by 2^32-1 */
 //}
 //
 ///* generates a random number on [0,1)-real-interval */
 //double genrand_real2(void)
 //{
-//    return on_rand()*(1.0/4294967296.0); 
+//    return on_rand()*(1.0/4294967296.0);
 //    /* divided by 2^32 */
 //}
 //
 ///* generates a random number on (0,1)-real-interval */
 //double genrand_real3(void)
 //{
-//    return (((double)on_rand()) + 0.5)*(1.0/4294967296.0); 
+//    return (((double)on_rand()) + 0.5)*(1.0/4294967296.0);
 //    /* divided by 2^32 */
 //}
 //
 ///* generates a random number on [0,1) with 53-bit resolution*/
-//double genrand_res53(void) 
-//{ 
-//    unsigned long a=genrand_int32()>>5, b=genrand_int32()>>6; 
-//    return(a*67108864.0+b)*(1.0/9007199254740992.0); 
-//} 
+//double genrand_res53(void)
+//{
+//    unsigned long a=genrand_int32()>>5, b=genrand_int32()>>6;
+//    return(a*67108864.0+b)*(1.0/9007199254740992.0);
+//}
 ///* These real versions are due to Isaku Wada, 2002/01/09 added */
 
 
@@ -330,12 +330,12 @@ void ON_RandomNumberGenerator::RandomPermutation(void* base, size_t nel, size_t 
 
   n = (ON__UINT32)nel; // for 64 bit systems, nel is wider than n.
 
-  // References: 
+  // References:
   //  http://en.wikipedia.org/wiki/Random_permutation
   //  http://en.wikipedia.org/wiki/Knuth_shuffle
 
   // Note:
-  //   There is the usual "sloppy bias" in the code below because 
+  //   There is the usual "sloppy bias" in the code below because
   //   (on_random_number(&m_rand_context) % N) is used to get a random
   //   number int the range 0 to N-1 when N is not a factor of 2^32.
   //   As usual, this bias is not worth worrying about

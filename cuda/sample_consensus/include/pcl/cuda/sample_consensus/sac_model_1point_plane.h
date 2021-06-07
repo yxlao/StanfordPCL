@@ -53,8 +53,8 @@ namespace pcl
       float4 coefficients;
       float threshold;
 
-      CountPlanarInlier (float4 coeff, float thresh) : 
-        coefficients(coeff), threshold(thresh) 
+      CountPlanarInlier (float4 coeff, float thresh) :
+        coefficients(coeff), threshold(thresh)
       {}
 
       template <typename Tuple> __inline__ __host__ __device__ bool
@@ -69,7 +69,7 @@ namespace pcl
       float threshold;
       const typename Storage<PointXYZRGB>::type &input_;
 
-      NewCheckPlanarInlier (float4 coeff, float thresh, const typename Storage<PointXYZRGB>::type &input) : 
+      NewCheckPlanarInlier (float4 coeff, float thresh, const typename Storage<PointXYZRGB>::type &input) :
         coefficients(coeff), threshold(thresh), input_(input)
       {}
 
@@ -83,8 +83,8 @@ namespace pcl
       float4 coefficients;
       float threshold;
 
-      CheckPlanarInlier (float4 coeff, float thresh) : 
-        coefficients(coeff), threshold(thresh) 
+      CheckPlanarInlier (float4 coeff, float thresh) :
+        coefficients(coeff), threshold(thresh)
       {}
 
       template <typename Tuple> __inline__ __host__ __device__ int
@@ -97,8 +97,8 @@ namespace pcl
       float4 coefficients;
       float threshold;
 
-      CheckPlanarInlierIndices (float4 coeff, float thresh) : 
-        coefficients(coeff), threshold(thresh) 
+      CheckPlanarInlierIndices (float4 coeff, float thresh) :
+        coefficients(coeff), threshold(thresh)
       {}
 
       __inline__ __host__ __device__ int
@@ -112,7 +112,7 @@ namespace pcl
       float threshold;
       float angle_threshold;
 
-      CheckPlanarInlierKinectNormalIndices (float4 coeff, float thresh, float angle_thresh) : 
+      CheckPlanarInlierKinectNormalIndices (float4 coeff, float thresh, float angle_thresh) :
         coefficients(coeff), threshold(thresh), angle_threshold (angle_thresh)
       {}
 
@@ -127,7 +127,7 @@ namespace pcl
       float threshold;
       float angle_threshold;
 
-      CheckPlanarInlierKinectIndices (float4 coeff, float thresh, float angle_thresh) : 
+      CheckPlanarInlierKinectIndices (float4 coeff, float thresh, float angle_thresh) :
         coefficients(coeff), threshold(thresh), angle_threshold (angle_thresh)
       {}
 
@@ -142,7 +142,7 @@ namespace pcl
       float threshold;
       float angle_threshold;
 
-      CheckPlanarInlierNormalIndices (float4 coeff, float thresh, float angle_thresh) : 
+      CheckPlanarInlierNormalIndices (float4 coeff, float thresh, float angle_thresh) :
         coefficients(coeff), threshold(thresh), angle_threshold (angle_thresh)
       {}
 
@@ -189,7 +189,7 @@ namespace pcl
           * \param samples the resultant model samples
           * \note assumes unique points!
           */
-        void 
+        void
         getSamples (int &iterations, Indices &samples);
 
         /** \brief Check whether the given index samples can form a valid plane model, compute the model coefficients from
@@ -198,24 +198,24 @@ namespace pcl
           * \param samples the point indices found as possible good candidates for creating a valid model
           * \param model_coefficients the resultant model coefficients
           */
-        bool 
+        bool
         computeModelCoefficients (const Indices &samples, Coefficients &model_coefficients);
 
-        bool 
+        bool
         generateModelHypotheses (Hypotheses &h, int max_iterations);
 
-        bool 
+        bool
         generateModelHypotheses (Hypotheses &h, Samples &s, int max_iterations);
 
         /** \brief Select all the points which respect the given model coefficients as inliers.
-          * \param model_coefficients the coefficients of a plane model that we need to 
+          * \param model_coefficients the coefficients of a plane model that we need to
           * compute distances to
-          * \param threshold a maximum admissible distance threshold for determining the 
+          * \param threshold a maximum admissible distance threshold for determining the
           * inliers from the outliers
           * \param inliers the resultant model inliers
           */
         int
-        selectWithinDistance (const Coefficients &model_coefficients, 
+        selectWithinDistance (const Coefficients &model_coefficients,
                               float threshold, IndicesPtr &inliers, IndicesPtr &inliers_stencil);
         int
         selectWithinDistance (const Hypotheses &h, int idx,
@@ -251,11 +251,11 @@ namespace pcl
       int nr_indices;
       float bad_value;
 
-      Create1PointPlaneHypothesis (const PointXYZRGB *_input, const int *_indices, int _nr_indices, float bad) : 
+      Create1PointPlaneHypothesis (const PointXYZRGB *_input, const int *_indices, int _nr_indices, float bad) :
         input(_input), indices(_indices), nr_indices(_nr_indices), bad_value(bad)
       {}
 
-      //template <typename Tuple> 
+      //template <typename Tuple>
       __inline__ __host__ __device__ float4
       //operator () (const Tuple &t);
       operator () (int t);
@@ -279,37 +279,37 @@ namespace pcl
       float bad_value;
       thrust::default_random_engine rng;
 
-      Create1PointPlaneSampleHypothesis (const PointXYZRGB *_input, const float4* normals, const int *_indices, int width, int height, int _nr_indices, float bad) : 
+      Create1PointPlaneSampleHypothesis (const PointXYZRGB *_input, const float4* normals, const int *_indices, int width, int height, int _nr_indices, float bad) :
         input(_input), normals_(normals), indices(_indices), width_(width), height_(height), nr_indices(_nr_indices), bad_value(bad)
       {
       }
 
-      //template <typename Tuple> 
+      //template <typename Tuple>
       __inline__ __host__ __device__ thrust::tuple<int,float4>
       //operator () (const Tuple &t);
       operator () (int t);
     };
 
-    struct parallel_random_generator 
-    { 
-      
-      __inline__ __host__ __device__ 
-      parallel_random_generator(unsigned int seed) 
-      { 
-        m_seed = seed; 
-      } 
+    struct parallel_random_generator
+    {
 
-      __inline__ __host__ __device__ 
-      unsigned int operator()(const unsigned int n) const 
-      { 
-        thrust::default_random_engine rng(m_seed); 
-        // discard n numbers to avoid correlation 
-        rng.discard(n); 
-        // return a random number 
-        return rng(); 
-      } 
-      unsigned int m_seed; 
-    }; 
+      __inline__ __host__ __device__
+      parallel_random_generator(unsigned int seed)
+      {
+        m_seed = seed;
+      }
+
+      __inline__ __host__ __device__
+      unsigned int operator()(const unsigned int n) const
+      {
+        thrust::default_random_engine rng(m_seed);
+        // discard n numbers to avoid correlation
+        rng.discard(n);
+        // return a random number
+        return rng();
+      }
+      unsigned int m_seed;
+    };
 
   } // namespace
 } // namespace

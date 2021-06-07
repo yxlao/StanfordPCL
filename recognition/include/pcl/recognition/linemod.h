@@ -4,7 +4,7 @@
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
  *
- *  All rights reserved. 
+ *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -56,33 +56,33 @@ namespace pcl
   {
     public:
       /** \brief Constructor. */
-      EnergyMaps () : width_ (0), height_ (0), nr_bins_ (0), maps_ () 
+      EnergyMaps () : width_ (0), height_ (0), nr_bins_ (0), maps_ ()
       {
       }
 
       /** \brief Destructor. */
-      virtual ~EnergyMaps () 
+      virtual ~EnergyMaps ()
       {
       }
 
       /** \brief Returns the width of the energy maps. */
-      inline size_t 
-      getWidth () const 
-      { 
-        return (width_); 
+      inline size_t
+      getWidth () const
+      {
+        return (width_);
       }
-      
+
       /** \brief Returns the height of the energy maps. */
-      inline size_t 
-      getHeight () const 
-      { 
-        return (height_); 
+      inline size_t
+      getHeight () const
+      {
+        return (height_);
       }
-      
+
       /** \brief Returns the number of bins used for quantization (which is equal to the number of energy maps). */
-      inline size_t 
+      inline size_t
       getNumOfBins () const
-      { 
+      {
         return (nr_bins_);
       }
 
@@ -91,7 +91,7 @@ namespace pcl
         * \param[in] height the height of the energy maps.
         * \param[in] nr_bins the number of bins used for quantization.
         */
-      void 
+      void
       initialize (const size_t width, const size_t height, const size_t nr_bins)
       {
         maps_.resize(nr_bins, NULL);
@@ -110,7 +110,7 @@ namespace pcl
       }
 
       /** \brief Releases the internal data. */
-      void 
+      void
       releaseAll ()
       {
         for (size_t map_index = 0; map_index < maps_.size (); ++map_index)
@@ -128,7 +128,7 @@ namespace pcl
         * \param[in] col_index the column index within the specified energy map.
         * \param[in] row_index the row index within the specified energy map.
         */
-      inline unsigned char & 
+      inline unsigned char &
       operator() (const size_t bin_index, const size_t col_index, const size_t row_index)
       {
         return (maps_[bin_index][row_index*width_ + col_index]);
@@ -138,7 +138,7 @@ namespace pcl
         * \param[in] bin_index the quantization bin (states which of the energy maps to access).
         * \param[in] index the element index within the specified energy map.
         */
-      inline unsigned char & 
+      inline unsigned char &
       operator() (const size_t bin_index, const size_t index)
       {
         return (maps_[bin_index][index]);
@@ -147,7 +147,7 @@ namespace pcl
       /** \brief Returns a pointer to the data of the specified energy map.
         * \param[in] bin_index the index of the energy map to return (== the quantization bin).
         */
-      inline unsigned char * 
+      inline unsigned char *
       operator() (const size_t bin_index)
       {
         return (maps_[bin_index]);
@@ -158,7 +158,7 @@ namespace pcl
         * \param[in] col_index the column index within the specified energy map.
         * \param[in] row_index the row index within the specified energy map.
         */
-      inline const unsigned char & 
+      inline const unsigned char &
       operator() (const size_t bin_index, const size_t col_index, const size_t row_index) const
       {
         return (maps_[bin_index][row_index*width_ + col_index]);
@@ -168,7 +168,7 @@ namespace pcl
         * \param[in] bin_index the quantization bin (states which of the energy maps to access).
         * \param[in] index the element index within the specified energy map.
         */
-      inline const unsigned char & 
+      inline const unsigned char &
       operator() (const size_t bin_index, const size_t index) const
       {
         return (maps_[bin_index][index]);
@@ -177,7 +177,7 @@ namespace pcl
       /** \brief Returns a pointer to the data of the specified energy map.
         * \param[in] bin_index the index of the energy map to return (== the quantization bin).
         */
-      inline const unsigned char * 
+      inline const unsigned char *
       operator() (const size_t bin_index) const
       {
         return (maps_[bin_index]);
@@ -204,26 +204,26 @@ namespace pcl
       LinearizedMaps () : width_ (0), height_ (0), mem_width_ (0), mem_height_ (0), step_size_ (0), maps_ ()
       {
       }
-      
+
       /** \brief Destructor. */
-      virtual ~LinearizedMaps () 
+      virtual ~LinearizedMaps ()
       {
       }
 
       /** \brief Returns the width of the linearized map. */
-      inline size_t 
+      inline size_t
       getWidth () const { return (width_); }
-      
+
       /** \brief Returns the height of the linearized map. */
-      inline size_t 
+      inline size_t
       getHeight () const { return (height_); }
-      
+
       /** \brief Returns the step-size used to construct the linearized map. */
-      inline size_t 
+      inline size_t
       getStepSize () const { return (step_size_); }
-      
+
       /** \brief Returns the size of the memory map. */
-      inline size_t 
+      inline size_t
       getMapMemorySize () const { return (mem_width_ * mem_height_); }
 
       /** \brief Initializes the linearized map.
@@ -231,7 +231,7 @@ namespace pcl
         * \param[in] height the height of the source map.
         * \param[in] step_size the step-size used to sample the source map.
         */
-      void 
+      void
       initialize (const size_t width, const size_t height, const size_t step_size)
       {
         maps_.resize(step_size*step_size, NULL);
@@ -252,7 +252,7 @@ namespace pcl
       }
 
       /** \brief Releases the internal memory. */
-      void 
+      void
       releaseAll ()
       {
         for (size_t map_index = 0; map_index < maps_.size (); ++map_index)
@@ -271,7 +271,7 @@ namespace pcl
         * \param[in] col_index the column index.
         * \param[in] row_index the row index.
         */
-      inline unsigned char * 
+      inline unsigned char *
       operator() (const size_t col_index, const size_t row_index)
       {
         return (maps_[row_index*step_size_ + col_index]);
@@ -281,7 +281,7 @@ namespace pcl
         * \param[in] col_index the column index at which the returned map starts.
         * \param[in] row_index the row index at which the returned map starts.
         */
-      inline unsigned char * 
+      inline unsigned char *
       getOffsetMap (const size_t col_index, const size_t row_index)
       {
         const size_t map_col = col_index % step_size_;
@@ -341,12 +341,12 @@ namespace pcl
       /** \brief Destructor */
       virtual ~LINEMOD ();
 
-      /** \brief Creates a template from the specified data and adds it to the matching queue. 
+      /** \brief Creates a template from the specified data and adds it to the matching queue.
         * \param[in] modalities the modalities used to create the template.
         * \param[in] masks the masks that determine which parts of the modalities are used for creating the template.
         * \param[in] region the region which will be associated with the template (can be larger than the actual modality-maps).
         */
-      int 
+      int
       createAndAddTemplate (const std::vector<QuantizableModality*> & modalities,
                             const std::vector<MaskMap*> & masks,
                             const RegionXY & region);
@@ -365,7 +365,7 @@ namespace pcl
       detectTemplates (const std::vector<QuantizableModality*> & modalities,
                        std::vector<LINEMODDetection> & detections) const;
 
-      /** \brief Detects the stored templates in a semi scale invariant manner 
+      /** \brief Detects the stored templates in a semi scale invariant manner
         *        by applying the detection to multiple scaled versions of the input data.
         * \param[in] modalities the modalities that will be used for detection.
         * \param[out] detections the destination for the detections.
@@ -388,7 +388,7 @@ namespace pcl
       matchTemplates (const std::vector<QuantizableModality*> & modalities,
                       std::vector<LINEMODDetection> & matches) const;
 
-      /** \brief Sets the detection threshold. 
+      /** \brief Sets the detection threshold.
         * \param[in] threshold the detection threshold.
         */
       inline void
@@ -420,7 +420,7 @@ namespace pcl
         */
       inline const SparseQuantizedMultiModTemplate &
       getTemplate (int template_id) const
-      { 
+      {
         return (templates_[template_id]);
       }
 
@@ -439,13 +439,13 @@ namespace pcl
       /** \brief Serializes the stored templates to the specified stream.
         * \param[in] stream the stream the templates will be written to.
         */
-      void 
+      void
       serialize (std::ostream & stream) const;
 
       /** \brief Deserializes templates from the specified stream.
         * \param[in] stream the stream the templates will be read from.
         */
-      void 
+      void
       deserialize (std::istream & stream);
 
 
@@ -462,4 +462,4 @@ namespace pcl
 
 }
 
-#endif 
+#endif

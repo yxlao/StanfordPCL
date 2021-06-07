@@ -46,7 +46,7 @@ namespace pcl
 
     class ParameterModel: public QStandardItemModel
     {
-      public: 
+      public:
         ParameterModel(QObject * parent = 0) : QStandardItemModel(parent){}
         ParameterModel(int rows, int columns, QObject * parent = 0) : QStandardItemModel(rows, columns, parent){}
         ~ParameterModel() {}

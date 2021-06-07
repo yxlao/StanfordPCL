@@ -13,7 +13,7 @@
 #ifndef EIGEN_LEVENBERGMARQUARDT__H
 #define EIGEN_LEVENBERGMARQUARDT__H
 
-namespace Eigen { 
+namespace Eigen {
 
 namespace LevenbergMarquardtSpace {
     enum Status {
@@ -105,7 +105,7 @@ public:
     Index njev;
     Index iter;
     Scalar fnorm, gnorm;
-    bool useExternalScaling; 
+    bool useExternalScaling;
 
     Scalar lm_param(void) { return par; }
 private:

@@ -51,7 +51,7 @@ pcl::compute3DCentroid (ConstCloudIterator<PointT> &cloud_iterator,
 {
   // Initialize to 0
   centroid.setZero ();
-  
+
   unsigned cp = 0;
 
   // For each point in the cloud
@@ -76,7 +76,7 @@ pcl::compute3DCentroid (ConstCloudIterator<PointT> &cloud_iterator,
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT, typename Scalar> inline unsigned int
-pcl::compute3DCentroid (const pcl::PointCloud<PointT> &cloud, 
+pcl::compute3DCentroid (const pcl::PointCloud<PointT> &cloud,
                         Eigen::Matrix<Scalar, 4, 1> &centroid)
 {
   if (cloud.empty ())
@@ -123,7 +123,7 @@ pcl::compute3DCentroid (const pcl::PointCloud<PointT> &cloud,
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT, typename Scalar> inline unsigned int
-pcl::compute3DCentroid (const pcl::PointCloud<PointT> &cloud, 
+pcl::compute3DCentroid (const pcl::PointCloud<PointT> &cloud,
                         const std::vector<int> &indices,
                         Eigen::Matrix<Scalar, 4, 1> &centroid)
 {
@@ -806,7 +806,7 @@ pcl::demeanPointCloud (const pcl::PointCloud<PointT> &cloud_in,
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT, typename Scalar> inline void
-pcl::computeNDCentroid (const pcl::PointCloud<PointT> &cloud, 
+pcl::computeNDCentroid (const pcl::PointCloud<PointT> &cloud,
                         Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &centroid)
 {
   typedef typename pcl::traits::fieldList<PointT>::type FieldList;
@@ -828,7 +828,7 @@ pcl::computeNDCentroid (const pcl::PointCloud<PointT> &cloud,
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT, typename Scalar> inline void
-pcl::computeNDCentroid (const pcl::PointCloud<PointT> &cloud, 
+pcl::computeNDCentroid (const pcl::PointCloud<PointT> &cloud,
                         const std::vector<int> &indices,
                         Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &centroid)
 {
@@ -852,7 +852,7 @@ pcl::computeNDCentroid (const pcl::PointCloud<PointT> &cloud,
 /////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointT, typename Scalar> inline void
 pcl::computeNDCentroid (const pcl::PointCloud<PointT> &cloud,
-                        const pcl::PointIndices &indices, 
+                        const pcl::PointIndices &indices,
                         Eigen::Matrix<Scalar, Eigen::Dynamic, 1> &centroid)
 {
   return (pcl::computeNDCentroid (cloud, indices.indices, centroid));

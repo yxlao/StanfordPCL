@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2011, Willow Garage, Inc.
- * 
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -108,8 +108,8 @@ namespace pcl
 #if __CUDA_ARCH__ >= 120
         if (__all (x >= VOLUME_X) || __all (y >= VOLUME_Y))
           return;
-#else         
-        if (Emulation::All(x >= VOLUME_X, cta_buffer) || 
+#else
+        if (Emulation::All(x >= VOLUME_X, cta_buffer) ||
             Emulation::All(y >= VOLUME_Y, cta_buffer))
             return;
 #endif
@@ -270,9 +270,9 @@ namespace pcl
         }
       } /* operator() */
 
-      // OPERATOR USED BY EXTRACT_SLICE_AS_CLOUD. 
-      // This operator extracts the cloud as TSDF values and X,Y,Z indices. 
-      // The previous operator generates a regular point cloud in meters. 
+      // OPERATOR USED BY EXTRACT_SLICE_AS_CLOUD.
+      // This operator extracts the cloud as TSDF values and X,Y,Z indices.
+      // The previous operator generates a regular point cloud in meters.
       // This one generates a TSDF Point Cloud in grid indices.
       __device__ __forceinline__ void
       operator () (pcl::gpu::tsdf_buffer buffer, int3 minBounds, int3 maxBounds) const
@@ -288,13 +288,13 @@ namespace pcl
         for (int z = minimum_Z; z < maximum_Z; ++z)
         {
           // The black zone is the name given to the subvolume within the TSDF Volume grid that is shifted out.
-          // In other words, the set of points in the TSDF grid that we want to extract in order to add it to the world model being built in CPU. 
+          // In other words, the set of points in the TSDF grid that we want to extract in order to add it to the world model being built in CPU.
           bool in_black_zone = ( (x >= minBounds.x && x <= maxBounds.x) || (y >= minBounds.y && y <= maxBounds.y) || ( z >= minBounds.z && z <= maxBounds.z) ) ;
 
           float4 points[MAX_LOCAL_POINTS];
           int local_count = 0;
 
-          if (x < buffer.voxels_size.x && y < buffer.voxels_size.y && in_black_zone)    
+          if (x < buffer.voxels_size.x && y < buffer.voxels_size.y && in_black_zone)
           {
             int W;
             float F = fetch (buffer, x, y, z, W);
@@ -313,7 +313,7 @@ namespace pcl
            // local_count counts the number of zero crossing for the current thread. Now we need to merge this knowledge with the other threads
            // not we fulfilled points array at current iteration
            int total_warp = __popc (__ballot (local_count > 0)) + __popc (__ballot (local_count > 1)) + __popc (__ballot (local_count > 2));
-           
+
 
            if (total_warp > 0)  ///more than 0 zero-crossings
            {
@@ -329,7 +329,7 @@ namespace pcl
              int offset = scan_warp<exclusive>(cta_buffer, lane);   //How many crossings did we have before index "lane" ?
 
              // We want to do only 1 operation per warp (not thread) -> because it is faster
-             if (lane == 0) 
+             if (lane == 0)
              {
                int old_global_count = atomicAdd (&global_count, total_warp); ///We use atomicAdd, so that threads do not collide
                cta_buffer[0] = old_global_count;
@@ -383,37 +383,37 @@ namespace pcl
       } /* operator() */
 
       __device__ __forceinline__ void
-      store_point_type (float x, float y, float z, float4* ptr) const 
+      store_point_type (float x, float y, float z, float4* ptr) const
       {
         *ptr = make_float4 (x, y, z, 0);
       }
-      
+
       //INLINE FUNCTION THAT STORES XYZ AND INTENSITY VALUES IN 2 SEPARATE DeviceArrays.
       // ptr_xyz: pointer to the BEGINNING of the XYZ deviceArray
       // ptr_instensity: pointer to the BEGINNING of the Intensity deviceArray
       // offset: offset to apply to both XYZ and Intensity
       __device__ __forceinline__ void
-      store_point_intensity (float x, float y, float z, float i, float4* ptr_xyz, float* ptr_intensity, int offset) const 
+      store_point_intensity (float x, float y, float z, float i, float4* ptr_xyz, float* ptr_intensity, int offset) const
       {
         *(ptr_xyz + offset) = make_float4 (x, y, z, 0);
         *(ptr_intensity + offset) = i;
       }
 
       __device__ __forceinline__ void
-      store_point_type (float x, float y, float z, float3* ptr) const 
+      store_point_type (float x, float y, float z, float3* ptr) const
       {
         *ptr = make_float3 (x, y, z);
       }
     };
 
     __global__ void
-    extractKernel (const FullScan6 fs, pcl::gpu::tsdf_buffer buffer) 
+    extractKernel (const FullScan6 fs, pcl::gpu::tsdf_buffer buffer)
     {
       fs (buffer);
     }
 
     __global__ void
-    extractSliceKernel (const FullScan6 fs, pcl::gpu::tsdf_buffer buffer, int3 minBounds, int3 maxBounds) 
+    extractSliceKernel (const FullScan6 fs, pcl::gpu::tsdf_buffer buffer, int3 minBounds, int3 maxBounds)
     {
       fs (buffer, minBounds, maxBounds);
     }
@@ -447,8 +447,8 @@ pcl::device::extractCloud (const PtrStep<short2>& volume, const pcl::gpu::tsdf_b
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 size_t
-pcl::device::extractSliceAsCloud (const PtrStep<short2>& volume, const float3& volume_size, const pcl::gpu::tsdf_buffer* buffer, 
-                                  const int shiftX, const int shiftY, const int shiftZ, 
+pcl::device::extractSliceAsCloud (const PtrStep<short2>& volume, const float3& volume_size, const pcl::gpu::tsdf_buffer* buffer,
+                                  const int shiftX, const int shiftY, const int shiftZ,
                                   PtrSz<PointType> output_xyz, PtrSz<float> output_intensities)
 {
   FullScan6 fs;
@@ -473,14 +473,14 @@ pcl::device::extractSliceAsCloud (const PtrStep<short2>& volume, const float3& v
   if (newX >= 0)
   {
     minBounds.x = buffer->origin_GRID.x;
-    maxBounds.x = newX;    
+    maxBounds.x = newX;
   }
   else
   {
     minBounds.x = newX + buffer->voxels_size.x - 1;
     maxBounds.x = buffer->origin_GRID.x + buffer->voxels_size.x - 1;
   }
-  
+
   if (minBounds.x > maxBounds.x)
     std::swap (minBounds.x, maxBounds.x);
 
@@ -495,7 +495,7 @@ pcl::device::extractSliceAsCloud (const PtrStep<short2>& volume, const float3& v
     minBounds.y = newY + buffer->voxels_size.y - 1;
     maxBounds.y = buffer->origin_GRID.y + buffer->voxels_size.y - 1;
   }
-  
+
   if(minBounds.y > maxBounds.y)
     std::swap (minBounds.y, maxBounds.y);
 
@@ -548,7 +548,7 @@ pcl::device::extractSliceAsCloud (const PtrStep<short2>& volume, const float3& v
   cudaSafeCall ( cudaDeviceSynchronize () );
 
   int size;
-  cudaSafeCall ( cudaMemcpyFromSymbol (&size, output_xyz_count, sizeof(size)) );  
+  cudaSafeCall ( cudaMemcpyFromSymbol (&size, output_xyz_count, sizeof(size)) );
   return (size_t)size;
 }
 
@@ -676,7 +676,7 @@ namespace pcl
         float b = point.y/ cell_size.y - (g.y + 0.5f); if (b<0) { g.y--; b+=1.0f; };
         float c = point.z/ cell_size.z - (g.z + 0.5f); if (c<0) { g.z--; c+=1.0f; };
 
-        float res = (1 - a) * ( 
+        float res = (1 - a) * (
 						(1 - b) * ( readTsdf (g.x + 0, g.y + 0, g.z + 0) * (1 - c) +
 								    readTsdf (g.x + 0, g.y + 0, g.z + 1) *    c  )
 							+ b * (	readTsdf (g.x + 0, g.y + 1, g.z + 0) * (1 - c) +
@@ -702,7 +702,7 @@ namespace pcl
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template<typename NormalType> void
-pcl::device::extractNormals (const PtrStep<short2>& volume, const float3& volume_size, 
+pcl::device::extractNormals (const PtrStep<short2>& volume, const float3& volume_size,
                              const PtrSz<PointType>& points, NormalType* output)
 {
   ExtractNormals<NormalType> en;
@@ -856,7 +856,7 @@ namespace pcl
         float b = point.y/ cell_size.y - (g.y + 0.5f); if (b<0) { g.y--; b+=1.0f; };
         float c = point.z/ cell_size.z - (g.z + 0.5f); if (c<0) { g.z--; c+=1.0f; };
 
-        float res = (1 - a) * ( 
+        float res = (1 - a) * (
 						(1 - b) * ( readTsdf (buffer, g.x + 0, g.y + 0, g.z + 0) * (1 - c) +
 								    readTsdf (buffer, g.x + 0, g.y + 0, g.z + 1) *    c  )
 							+ b * (	readTsdf (buffer, g.x + 0, g.y + 1, g.z + 0) * (1 - c) +
@@ -881,7 +881,7 @@ namespace pcl
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void
-pcl::device::extractNormalsInSpace (const PtrStep<short2>& volume, const pcl::gpu::tsdf_buffer* buffer, const float3& volume_size, 
+pcl::device::extractNormalsInSpace (const PtrStep<short2>& volume, const pcl::gpu::tsdf_buffer* buffer, const float3& volume_size,
                              const PtrSz<PointType>& points)
 {
   ExtractNormalsInSpace en;

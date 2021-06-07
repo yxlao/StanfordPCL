@@ -17,7 +17,7 @@ main (int argc, char** argv)
   pcl::PCDReader reader;
   pcl::PassThrough<PointT> pass;
   pcl::NormalEstimation<PointT, pcl::Normal> ne;
-  pcl::SACSegmentationFromNormals<PointT, pcl::Normal> seg; 
+  pcl::SACSegmentationFromNormals<PointT, pcl::Normal> seg;
   pcl::PCDWriter writer;
   pcl::ExtractIndices<PointT> extract;
   pcl::ExtractIndices<pcl::Normal> extract_normals;
@@ -102,7 +102,7 @@ main (int argc, char** argv)
   extract.setNegative (false);
   pcl::PointCloud<PointT>::Ptr cloud_cylinder (new pcl::PointCloud<PointT> ());
   extract.filter (*cloud_cylinder);
-  if (cloud_cylinder->points.empty ()) 
+  if (cloud_cylinder->points.empty ())
     std::cerr << "Can't find the cylindrical component." << std::endl;
   else
   {

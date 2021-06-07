@@ -81,7 +81,7 @@ TEST (PCL, lineWithLineIntersection)
   EXPECT_EQ(point_case_1[3], zero[3]);
 
   EXPECT_FALSE(result_case_1);
-  
+
   pcl::ModelCoefficients line_a_mod;
   pcl::ModelCoefficients line_b_mod;
 

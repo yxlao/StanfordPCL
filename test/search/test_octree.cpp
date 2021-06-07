@@ -97,7 +97,7 @@ TEST (PCL, Octree_Pointcloud_Nearest_K_Neighbour_Search)
   for (test_id = 0; test_id < test_runs; test_id++)
   {
     // define a random search point
-    PointXYZ searchPoint (static_cast<float> (10.0 * (rand () / static_cast<double> (RAND_MAX))), 
+    PointXYZ searchPoint (static_cast<float> (10.0 * (rand () / static_cast<double> (RAND_MAX))),
                           static_cast<float> (10.0 * (rand () / static_cast<double> (RAND_MAX))),
                           static_cast<float> (10.0 * (rand () / static_cast<double> (RAND_MAX))));
 
@@ -294,7 +294,7 @@ TEST (PCL, Octree_Pointcloud_Neighbours_Within_Radius_Search)
   for (test_id = 0; test_id < test_runs; test_id++)
   {
     // define a random search point
-    PointXYZ searchPoint (static_cast<float> (10.0 * (rand () / static_cast<double> (RAND_MAX))), 
+    PointXYZ searchPoint (static_cast<float> (10.0 * (rand () / static_cast<double> (RAND_MAX))),
                           static_cast<float> (10.0 * (rand () / static_cast<double> (RAND_MAX))),
                           static_cast<float> (10.0 * (rand () / static_cast<double> (RAND_MAX))));
 
@@ -315,7 +315,7 @@ TEST (PCL, Octree_Pointcloud_Neighbours_Within_Radius_Search)
     // build octree
     double pointDist;
     double searchRadius = 5.0 * rand () / static_cast<double> (RAND_MAX);
-    
+
     // bruteforce radius search
     vector<int> cloudSearchBruteforce;
     for (i = 0; i < cloudIn->points.size (); i++)

@@ -73,24 +73,24 @@ namespace pcl
       {
       };
 
-      /** \brief Compute a concave hull for all points given 
+      /** \brief Compute a concave hull for all points given
         *
-        * \param points the resultant points lying on the concave hull 
+        * \param points the resultant points lying on the concave hull
         * \param polygons the resultant concave hull polygons, as a set of
         * vertices. The Vertices structure contains an array of point indices.
         */
       void
-      reconstruct (PointCloud &points, 
+      reconstruct (PointCloud &points,
                    std::vector<pcl::Vertices> &polygons);
 
-      /** \brief Compute a concave hull for all points given 
+      /** \brief Compute a concave hull for all points given
        * \param output the resultant concave hull vertices
        */
       void
       reconstruct (PointCloud &output);
 
       /** \brief Set the alpha value, which limits the size of the resultant
-        * hull segments (the smaller the more detailed the hull).  
+        * hull segments (the smaller the more detailed the hull).
         *
         * \param alpha positive, non-zero value, defining the maximum length
         * from a vertex to the facet center (center of the voronoi cell).
@@ -144,7 +144,7 @@ namespace pcl
       /** \brief Sets the dimension on the input data, 2D or 3D.
         * \param[in] dimension The dimension of the input data.  If not set, this will be determined automatically.
         */
-      void 
+      void
       setDimension (int dimension)
       {
         if ((dimension == 2) || (dimension == 3))
@@ -163,13 +163,13 @@ namespace pcl
 
     protected:
       /** \brief The actual reconstruction method.
-        * 
-        * \param points the resultant points lying on the concave hull 
+        *
+        * \param points the resultant points lying on the concave hull
         * \param polygons the resultant concave hull polygons, as a set of
         * vertices. The Vertices structure contains an array of point indices.
         */
       void
-      performReconstruction (PointCloud &points, 
+      performReconstruction (PointCloud &points,
                              std::vector<pcl::Vertices> &polygons);
 
       virtual void
@@ -178,19 +178,19 @@ namespace pcl
       virtual void
       performReconstruction (std::vector<pcl::Vertices> &polygons);
 
-      /** \brief The method accepts facets only if the distance from any vertex to the facet->center 
-        * (center of the voronoi cell) is smaller than alpha 
+      /** \brief The method accepts facets only if the distance from any vertex to the facet->center
+        * (center of the voronoi cell) is smaller than alpha
         */
       double alpha_;
 
-      /** \brief If set to true, the reconstructed point cloud describing the hull is obtained from 
-        * the original input cloud by performing a nearest neighbor search from Qhull output. 
+      /** \brief If set to true, the reconstructed point cloud describing the hull is obtained from
+        * the original input cloud by performing a nearest neighbor search from Qhull output.
         */
       bool keep_information_;
 
       /** \brief the centers of the voronoi cells */
       PointCloudPtr voronoi_centers_;
-      
+
       /** \brief the dimensionality of the concave hull */
       int dim_;
   };

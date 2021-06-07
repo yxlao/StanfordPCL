@@ -55,7 +55,7 @@ namespace pcl
 				cta_buffer[tid] = predicate ? (1 << (tid & 31)) : 0;
 				return warp_reduce(cta_buffer);
 #endif
-			}          
+			}
 		};
 	}
 }

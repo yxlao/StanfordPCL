@@ -34,7 +34,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  */
-  
+
 #ifndef PCL_ML_DT_STATS_ESTIMATOR_H_
 #define PCL_ML_DT_STATS_ESTIMATOR_H_
 
@@ -48,38 +48,38 @@ namespace pcl
 
   /** \brief Class interface for gathering statistics for decision tree learning. */
   template <
-    class LabelDataType, 
-    class NodeType, 
+    class LabelDataType,
+    class NodeType,
     class DataSet,
     class ExampleIndex >
   class PCL_EXPORTS StatsEstimator
   {
-  
+
     public:
 
       /** \brief Destructor. */
-      virtual 
+      virtual
       ~StatsEstimator () {};
 
       /** \brief Returns the number of brances a node can have (e.g. a binary tree has 2). */
-      virtual size_t 
+      virtual size_t
       getNumOfBranches () const = 0;
 
-      /** \brief Computes and sets the statistics for a node. 
+      /** \brief Computes and sets the statistics for a node.
         * \param[in] data_set The data set used for training.
         * \param[in] examples The examples used for computing the statistics for the specified node.
         * \param[in] label_data The labels corresponding to the examples.
         * \param[out] node The destination node for the statistics.
         */
-      virtual void 
+      virtual void
       computeAndSetNodeStats (DataSet & data_set,
                               std::vector<ExampleIndex> & examples,
                               std::vector<LabelDataType> & label_data,
                               NodeType & node ) const = 0;
 
-      /** \brief Returns the label of the specified node. 
+      /** \brief Returns the label of the specified node.
         * \param[in] node The node from which the label is extracted. */
-      virtual LabelDataType 
+      virtual LabelDataType
       getLabelOfNode (NodeType & node) const = 0;
 
       /** \brief Computes the information gain obtained by the specified threshold on the supplied feature evaluation results.
@@ -90,7 +90,7 @@ namespace pcl
         * \param[in] flags The flags obtained together with the results.
         * \param[in] threshold The threshold which is used to compute the information gain.
         */
-      virtual float 
+      virtual float
       computeInformationGain (DataSet & data_set,
                               std::vector<ExampleIndex> & examples,
                               std::vector<LabelDataType> & label_data,
@@ -104,7 +104,7 @@ namespace pcl
         * \param[in] threshold The threshold which is used to compute the branch indices.
         * \param[out] branch_indices The destination for the computed branch indices.
         */
-      virtual void 
+      virtual void
       computeBranchIndices (std::vector<float> & results,
                             std::vector<unsigned char> & flags,
                             const float threshold,
@@ -116,7 +116,7 @@ namespace pcl
         * \param[in] threshold The threshold which is used to compute the branch index.
         * \param[out] branch_index The destination for the computed branch index.
         */
-      virtual void 
+      virtual void
       computeBranchIndex (const float result,
                           const unsigned char flag,
                           const float threshold,
@@ -126,7 +126,7 @@ namespace pcl
         * \param[in] node The node for which the branch index estimation code is generated.
         * \param[out] stream The destionation for the code.
         */
-      virtual void 
+      virtual void
       generateCodeForBranchIndexComputation (NodeType & node,
                                              std::ostream & stream) const = 0;
 
@@ -134,7 +134,7 @@ namespace pcl
         * \param[in] node The node for which the output estimation code is generated.
         * \param[out] stream The destionation for the code.
         */
-      virtual void 
+      virtual void
       generateCodeForOutput (NodeType & node,
                              std::ostream & stream ) const = 0;
 

@@ -70,7 +70,7 @@ namespace pcl
 
                 int index_i = idx / points.size; // indices
 
-                int j = idx % points.size; // points            
+                int j = idx % points.size; // points
                 int i = indices.data[index_i];
 
                 PPFSignature out;
@@ -92,7 +92,7 @@ namespace pcl
                 else
                     out.f1 = out.f2 = out.f3 = out.f4 = out.alpha_m = 0.f;
 
-                output[idx] = out;           
+                output[idx] = out;
             }
 
             template<class T> __forceinline__ __device__ float3 fetch(const T* data, int index) const
@@ -130,7 +130,7 @@ namespace pcl
 
                 int index_i = idx / points.size; // indices
 
-                int j = idx % points.size; // points            
+                int j = idx % points.size; // points
                 int i = indices.data[index_i];
 
                 PPFRGBSignature out;
@@ -158,8 +158,8 @@ namespace pcl
                     out.f1 = out.f2 = out.f3 = out.f4 = out.r_ratio = out.g_ratio = out.b_ratio = out.alpha_m = 0.f;
 
 
-                
-                output[idx] = out;           
+
+                output[idx] = out;
             }
 
             template<class T> __forceinline__ __device__ float3 fetch(const T* data, int index) const
@@ -238,22 +238,22 @@ namespace pcl
                 FSizeWithoutAlfaM = FSize - 1
             };
 
-            struct plus 
-            {              
+            struct plus
+            {
                 __forceinline__ __device__ float operator()(const float &lhs, const volatile float& rhs) const { return lhs + rhs; }
-            }; 
+            };
 
             const PointXYZRGB* points;
             const NormalType* normals;
             PtrSz<int> indices;
-            
-            PtrStep<int> gindices;            
-            const int *sizes;         
+
+            PtrStep<int> gindices;
+            const int *sizes;
 
             mutable PPFRGBSignature* output;
 
             __device__ __forceinline__ void operator()() const
-            {        
+            {
                 int tid = threadIdx.x;
                 int warpid = Warp::id();
                 int index_i = blockIdx.x * WARPS + warpid;
@@ -264,33 +264,33 @@ namespace pcl
                 int i = indices[index_i];
                 int size = sizes[index_i];
                 const int* ginds = gindices.ptr(index_i);
-                
+
                 int lane = Warp::laneId();
-                
+
                 __shared__ float3 points_buf[WARPS];
                 __shared__ float3 normasl_buf[WARPS];
                 __shared__ int colors_buf[WARPS];
 
                 if (lane == 0)
-                {                    
-                    points_buf[warpid]  = fetchXYZRGB(points, i, colors_buf[warpid]);                    
+                {
+                    points_buf[warpid]  = fetchXYZRGB(points, i, colors_buf[warpid]);
                     normasl_buf[warpid] = fetch(normals, i);
                 }
 
                 __shared__ float cta_buf[7][CTA_SIZE + 1];
                 cta_buf[0][tid] = cta_buf[1][tid] = cta_buf[2][tid] = cta_buf[3][tid] = 0.f;
                 cta_buf[4][tid] = cta_buf[5][tid] = cta_buf[6][tid] = 0.f;
-  
+
                 for(int c = lane; c < size; c+= Warp::STRIDE)
                 {
                     int j = ginds[c];
-                                                             
+
                     if (i != j)
-                    {                        
+                    {
                         int cj;
                         float3 pj = fetchXYZRGB(points, j, cj);
                         float3 nj = fetch(normals, j);
-                    
+
                         float f1, f2, f3, f4, r_ratio, g_ratio, b_ratio;
                         if (computeRGBPairFeatures(points_buf[warpid], normasl_buf[warpid], colors_buf[warpid], pj, nj, cj, f1, f2, f3, f4, r_ratio, g_ratio, b_ratio))
                         //computeRGBPairFeatures(points_buf[warpid], normasl_buf[warpid], colors_buf[warpid], pj, nj, cj, f1, f2, f3, f4, r_ratio, g_ratio, b_ratio);
@@ -301,11 +301,11 @@ namespace pcl
                             cta_buf[3][tid] += f4;
                             cta_buf[4][tid] += r_ratio;
                             cta_buf[5][tid] += g_ratio;
-                            cta_buf[6][tid] += b_ratio;    
+                            cta_buf[6][tid] += b_ratio;
                         }
                     }
                 }
-                
+
                 Warp::reduce(&cta_buf[0][tid - lane], plus());
                 Warp::reduce(&cta_buf[1][tid - lane], plus());
                 Warp::reduce(&cta_buf[2][tid - lane], plus());
@@ -314,14 +314,14 @@ namespace pcl
                 Warp::reduce(&cta_buf[4][tid - lane], plus());
                 Warp::reduce(&cta_buf[5][tid - lane], plus());
                 Warp::reduce(&cta_buf[6][tid - lane], plus());
-                
+
                 float val = 0.f;
                 if (lane < FSizeWithoutAlfaM)
                     val = cta_buf[lane][tid - lane]/size;
 
                 float *ptr = (float*)&output[index_i];
                 if (lane < FSize)
-                    ptr[lane] = val;                
+                    ptr[lane] = val;
             }
 
             __forceinline__ __device__ float3 fetchXYZRGB(const PointXYZRGB* data, int index, int& color) const
@@ -358,8 +358,8 @@ void pcl::device::computePPFRGBRegion(const PointXYZRGBCloud& cloud, const Norma
 
     estiamtePpfRgbRegionKernel<<<grid, block>>>(impl);
 
-    cudaSafeCall( cudaGetLastError() );        
-    cudaSafeCall(cudaDeviceSynchronize());    
+    cudaSafeCall( cudaGetLastError() );
+    cudaSafeCall(cudaDeviceSynchronize());
 
     //printFuncAttrib(estiamtePpfRgbRegionKernel);
 }

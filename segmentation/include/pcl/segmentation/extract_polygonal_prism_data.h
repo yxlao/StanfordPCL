@@ -44,14 +44,14 @@
 namespace pcl
 {
   /** \brief General purpose method for checking if a 3D point is inside or
-    * outside a given 2D polygon. 
+    * outside a given 2D polygon.
     * \note this method accepts any general 3D point that is projected onto the
-    * 2D polygon, but performs an internal XY projection of both the polygon and the point. 
+    * 2D polygon, but performs an internal XY projection of both the polygon and the point.
     * \param point a 3D point projected onto the same plane as the polygon
     * \param polygon a polygon
     * \ingroup segmentation
     */
-  template <typename PointT> bool 
+  template <typename PointT> bool
   isPointIn2DPolygon (const PointT &point, const pcl::PointCloud<PointT> &polygon);
 
   /** \brief Check if a 2d point (X and Y coordinates considered only!) is
@@ -64,7 +64,7 @@ namespace pcl
     * \param polygon a polygon
     * \ingroup segmentation
     */
-  template <typename PointT> bool 
+  template <typename PointT> bool
   isXYPointIn2DXYPolygon (const PointT &point, const pcl::PointCloud<PointT> &polygon);
 
   ////////////////////////////////////////////////////////////////////////////////////////////
@@ -96,7 +96,7 @@ namespace pcl
       typedef PointIndices::ConstPtr PointIndicesConstPtr;
 
       /** \brief Empty constructor. */
-      ExtractPolygonalPrismData () : planar_hull_ (), min_pts_hull_ (3), 
+      ExtractPolygonalPrismData () : planar_hull_ (), min_pts_hull_ (3),
                                      height_limit_min_ (0), height_limit_max_ (FLT_MAX),
                                      vpx_ (0), vpy_ (0), vpz_ (0)
       {};
@@ -104,11 +104,11 @@ namespace pcl
       /** \brief Provide a pointer to the input planar hull dataset.
         * \param[in] hull the input planar hull dataset
         */
-      inline void 
+      inline void
       setInputPlanarHull (const PointCloudConstPtr &hull) { planar_hull_ = hull; }
 
       /** \brief Get a pointer the input planar hull dataset. */
-      inline PointCloudConstPtr 
+      inline PointCloudConstPtr
       getInputPlanarHull () const { return (planar_hull_); }
 
       /** \brief Set the height limits. All points having distances to the
@@ -125,7 +125,7 @@ namespace pcl
       }
 
       /** \brief Get the height limits (min/max) as set by the user. The
-        * default values are -FLT_MAX, FLT_MAX. 
+        * default values are -FLT_MAX, FLT_MAX.
         * \param[out] height_min the resultant min height limit
         * \param[out] height_max the resultant max height limit
         */
@@ -161,7 +161,7 @@ namespace pcl
       /** \brief Cluster extraction in a PointCloud given by <setInputCloud (), setIndices ()>
         * \param[out] output the resultant point indices that support the model found (inliers)
         */
-      void 
+      void
       segment (PointIndices &output);
 
     protected:
@@ -172,12 +172,12 @@ namespace pcl
       int min_pts_hull_;
 
       /** \brief The minimum allowed height (distance to the model) a point
-        * will be considered from. 
+        * will be considered from.
         */
       double height_limit_min_;
 
       /** \brief The maximum allowed height (distance to the model) a point
-        * will be considered from. 
+        * will be considered from.
         */
       double height_limit_max_;
 
@@ -185,7 +185,7 @@ namespace pcl
       float vpx_, vpy_, vpz_;
 
       /** \brief Class getName method. */
-      virtual std::string 
+      virtual std::string
       getClassName () const { return ("ExtractPolygonalPrismData"); }
   };
 }

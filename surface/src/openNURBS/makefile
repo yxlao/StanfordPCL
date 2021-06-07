@@ -1,11 +1,11 @@
 ###############################################################
 
-# If your make doesn't use .cpp for C++ extensions, 
+# If your make doesn't use .cpp for C++ extensions,
 # then uncomment the suffixes line.
 .SUFFIXES : .c .cpp
 
 RM = /bin/rm
-# If you don't mind the risk of using the -f option and your rm 
+# If you don't mind the risk of using the -f option and your rm
 # asks too many questions, then uncomment the next line.
 # RM = /bin/rm -f
 
@@ -44,7 +44,7 @@ LINKFLAGS =
 #
 #
 
-#OPTIMIZER       = -g 
+#OPTIMIZER       = -g
 #OPTIMIZER       = -O3
 
 #ABIISA          = -n32 -mips3
@@ -52,7 +52,7 @@ LINKFLAGS =
 
 #IRIXDEF 	= -D_WCHAR_T_DEFINED -DON_COMPILER_IRIX -D_GNU_SOURCE
 
-#IRIXFLAGS 	= -woff all -no_prelink -ptused 
+#IRIXFLAGS 	= -woff all -no_prelink -ptused
 
 #CC = cc
 #CFLAGS = $(OPTIMIZER) $(ABIISA) $(IRIXDEF) $(IRIXFLAGS) -DMY_ZCALLOC -DZ_PREFIX -I.
@@ -65,7 +65,7 @@ LINKFLAGS =
 # uncomment for 64 bit linking
 #LINKFLAGS = $CCFLAGS
 
-# 
+#
 ###############################################################
 
 
@@ -461,7 +461,7 @@ EXAMPLES = example_read/example_read \
 
 EXAMPLE_GL_OBJ = example_gl/example_gl.o \
       opennurbs_gl.o
-      
+
 EXAMPLE_GL = example_gl/example_gl
 
 all : $(OPENNURBS_LIB_FILE) $(EXAMPLES)
@@ -478,7 +478,7 @@ $(ZLIB_OBJ) : $(ZLIB_INC)
 
 $(OPENNURBS_LIB_FILE) : $(ON_OBJ) $(ZLIB_OBJ)
 	-$(RM) $@
-	$(AR) $@ $(ON_OBJ) $(ZLIB_OBJ)  
+	$(AR) $@ $(ON_OBJ) $(ZLIB_OBJ)
 	$(RANLIB) $@
 
 

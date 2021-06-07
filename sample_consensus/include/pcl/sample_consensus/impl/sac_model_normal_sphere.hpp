@@ -3,7 +3,7 @@
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2009-2012, Willow Garage, Inc.
- *  
+ *
  *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
@@ -72,14 +72,14 @@ pcl::SampleConsensusModelNormalSphere<PointT, PointNT>::selectWithinDistance (
   {
     // Calculate the distance from the point to the sphere center as the difference between
     // dist(point,sphere_origin) and sphere_radius
-    Eigen::Vector4f p (input_->points[(*indices_)[i]].x, 
+    Eigen::Vector4f p (input_->points[(*indices_)[i]].x,
                        input_->points[(*indices_)[i]].y,
-                       input_->points[(*indices_)[i]].z, 
+                       input_->points[(*indices_)[i]].z,
                        0);
 
-    Eigen::Vector4f n (normals_->points[(*indices_)[i]].normal[0], 
-                       normals_->points[(*indices_)[i]].normal[1], 
-                       normals_->points[(*indices_)[i]].normal[2], 
+    Eigen::Vector4f n (normals_->points[(*indices_)[i]].normal[0],
+                       normals_->points[(*indices_)[i]].normal[1],
+                       normals_->points[(*indices_)[i]].normal[2],
                        0);
 
     Eigen::Vector4f n_dir = p - center;
@@ -126,14 +126,14 @@ pcl::SampleConsensusModelNormalSphere<PointT, PointNT>::countWithinDistance (
   {
     // Calculate the distance from the point to the sphere centroid as the difference between
     // dist(point,sphere_origin) and sphere_radius
-    Eigen::Vector4f p (input_->points[(*indices_)[i]].x, 
-                       input_->points[(*indices_)[i]].y, 
-                       input_->points[(*indices_)[i]].z, 
+    Eigen::Vector4f p (input_->points[(*indices_)[i]].x,
+                       input_->points[(*indices_)[i]].y,
+                       input_->points[(*indices_)[i]].z,
                        0);
 
-    Eigen::Vector4f n (normals_->points[(*indices_)[i]].normal[0], 
-                       normals_->points[(*indices_)[i]].normal[1], 
-                       normals_->points[(*indices_)[i]].normal[2], 
+    Eigen::Vector4f n (normals_->points[(*indices_)[i]].normal[0],
+                       normals_->points[(*indices_)[i]].normal[1],
+                       normals_->points[(*indices_)[i]].normal[2],
                        0);
 
     Eigen::Vector4f n_dir = (p-center);
@@ -178,14 +178,14 @@ pcl::SampleConsensusModelNormalSphere<PointT, PointNT>::getDistancesToModel (
   {
     // Calculate the distance from the point to the sphere as the difference between
     // dist(point,sphere_origin) and sphere_radius
-    Eigen::Vector4f p (input_->points[(*indices_)[i]].x, 
-                       input_->points[(*indices_)[i]].y, 
-                       input_->points[(*indices_)[i]].z, 
+    Eigen::Vector4f p (input_->points[(*indices_)[i]].x,
+                       input_->points[(*indices_)[i]].y,
+                       input_->points[(*indices_)[i]].z,
                        0);
 
-    Eigen::Vector4f n (normals_->points[(*indices_)[i]].normal[0], 
-                       normals_->points[(*indices_)[i]].normal[1], 
-                       normals_->points[(*indices_)[i]].normal[2], 
+    Eigen::Vector4f n (normals_->points[(*indices_)[i]].normal[0],
+                       normals_->points[(*indices_)[i]].normal[1],
+                       normals_->points[(*indices_)[i]].normal[2],
                        0);
 
     Eigen::Vector4f n_dir = (p-center);
@@ -200,7 +200,7 @@ pcl::SampleConsensusModelNormalSphere<PointT, PointNT>::getDistancesToModel (
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointT, typename PointNT> bool 
+template <typename PointT, typename PointNT> bool
 pcl::SampleConsensusModelNormalSphere<PointT, PointNT>::isModelValid (const Eigen::VectorXf &model_coefficients)
 {
   // Needs a valid model coefficients

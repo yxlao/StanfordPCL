@@ -84,7 +84,7 @@ class OpenNIPassthrough : public QMainWindow
       if (grabber_.isRunning ())
         grabber_.stop ();
     }
-    
+
     void
     cloud_cb (const CloudConstPtr& cloud);
 
@@ -107,13 +107,13 @@ class OpenNIPassthrough : public QMainWindow
       pass_.setFilterLimits (0.0f, float (new_value) / 10.0f);
       PCL_INFO ("Changed passthrough maximum value to: %f\n", float (new_value) / 10.0f);
     }
-    
+
   private slots:
     void
     timeoutSlot ();
-    
+
   signals:
-    void 
+    void
     valueChanged (int new_value);
 };
 

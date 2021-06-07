@@ -259,7 +259,7 @@ namespace pcl
   {
     PCL_ADD_RGB;
   };
-  
+
   /** \brief A structure representing RGB color information.
     *
     * The RGBA information is available either as separate r, g, b, or as a

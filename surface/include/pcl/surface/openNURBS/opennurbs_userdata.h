@@ -38,9 +38,9 @@ public:
     text_log - [in] if the object is not valid and text_log
         is not NULL, then a brief englis description of the
         reason the object is not valid is appened to the log.
-        The information appended to text_log is suitable for 
-        low-level debugging purposes by programmers and is 
-        not intended to be useful as a high level user 
+        The information appended to text_log is suitable for
+        low-level debugging purposes by programmers and is
+        not intended to be useful as a high level user
         interface tool.
   Returns:
     @untitled table
@@ -79,9 +79,9 @@ public:
   ON_UserData* Next() const;
 
   ////////
-  // Returns the class id which is not necessarily the 
+  // Returns the class id which is not necessarily the
   // same as m_userdata_uuid.
-  ON_UUID UserDataClassUuid() const; 
+  ON_UUID UserDataClassUuid() const;
 
   //////////
   // Returns true if the user data is anonymous.  This happens
@@ -99,18 +99,18 @@ public:
 
   /*
   Parameters:
-    description - [out] description of user data shown in 
+    description - [out] description of user data shown in
                         object properties dump.
   Returns:
     True if user data class is ready.
   */
-  virtual 
+  virtual
   ON_BOOL32 GetDescription( ON_wString& description );
 
   /*
   Description:
     User will persist in binary archives if Archive() returns
-    true, m_application_uuid is not nil, and the virtual Read() 
+    true, m_application_uuid is not nil, and the virtual Read()
     and Write() are functions are overridden.
 
   Returns:
@@ -119,33 +119,33 @@ public:
 
   Remarks:
     The default implementation returns false.  If you override
-    ON_UserData::Archive so that it returns true, then your 
+    ON_UserData::Archive so that it returns true, then your
     constructor must set m_application_uuid, you must override
     the virtual ON_Object::Read and ON_Object::Write functions and
     you must CAREFULLY TEST your code.
 
     ON_UserData requires expert programming and testing skills.
 
-    YOU SHOULD READ AND UNDERSTAND EVERY COMMENT IN THIS 
+    YOU SHOULD READ AND UNDERSTAND EVERY COMMENT IN THIS
     HEADER FILE IN BEFORE ATTEMPTING TO USE ON_UserData.
   */
-  virtual 
-  ON_BOOL32 Archive() const; 
+  virtual
+  ON_BOOL32 Archive() const;
 
   /*
   Description:
-    If Transform() return false, then the userdata is destroyed when 
-    its parent object is transformed.  The default Transform() 
-    updates m_userdata_xform and returns true. 
+    If Transform() return false, then the userdata is destroyed when
+    its parent object is transformed.  The default Transform()
+    updates m_userdata_xform and returns true.
     Carefully read the comments above m_userdata_xform
   */
-  virtual 
-  ON_BOOL32 Transform( const ON_Xform& ); 
+  virtual
+  ON_BOOL32 Transform( const ON_Xform& );
 
   /*
   Description:
-    This uuid is the value that must be passed to 
-    ON_Object::GetUserData() to retrieve 
+    This uuid is the value that must be passed to
+    ON_Object::GetUserData() to retrieve
     this piece of user data.
   */
   ON_UUID m_userdata_uuid;
@@ -161,22 +161,22 @@ public:
   ON_UUID m_application_uuid;
 
   ////////
-  // If m_userdata_copycount is 0, user data is not copied when 
+  // If m_userdata_copycount is 0, user data is not copied when
   // object is copied.  If > 0, user data is copied and m_copycount
-  // is incremented when parent object is copied. The user data's 
-  // operator=() is used to copy.  
-  // The default ON_UserData::ON_UserData() constructor sets 
+  // is incremented when parent object is copied. The user data's
+  // operator=() is used to copy.
+  // The default ON_UserData::ON_UserData() constructor sets
   // m_userdata_copycount to zero.
-  unsigned int m_userdata_copycount;  
+  unsigned int m_userdata_copycount;
 
   ////////
   // Updated if user data is attached to a piece of geometry that is
-  // transformed and the virtual ON_UserData::Transform() is not 
+  // transformed and the virtual ON_UserData::Transform() is not
   // overridden.  If you override ON_UserData::Transform() and want
-  // m_userdata_xform to be updated, then call the 
+  // m_userdata_xform to be updated, then call the
   // ON_UserData::Transform() in your override.
   // The default constructor sets m_userdata_xform to the identity.
-  ON_Xform m_userdata_xform; 
+  ON_Xform m_userdata_xform;
 
 private: // don't look and don't touch - these may change
   friend int ON_BinaryArchive::ReadObject( ON_Object** );
@@ -184,7 +184,7 @@ private: // don't look and don't touch - these may change
   friend bool ON_BinaryArchive::ReadObjectUserData( ON_Object& );
   friend bool ON_BinaryArchive::WriteObjectUserData( const ON_Object& );
   friend class ON_Object;
-  ON_Object* m_userdata_owner; 
+  ON_Object* m_userdata_owner;
   ON_UserData* m_userdata_next;
 };
 
@@ -209,9 +209,9 @@ public:
     text_log - [in] if the object is not valid and text_log
         is not NULL, then a brief englis description of the
         reason the object is not valid is appened to the log.
-        The information appended to text_log is suitable for 
-        low-level debugging purposes by programmers and is 
-        not intended to be useful as a high level user 
+        The information appended to text_log is suitable for
+        low-level debugging purposes by programmers and is
+        not intended to be useful as a high level user
         interface tool.
   Returns:
     @untitled table
@@ -228,7 +228,7 @@ public:
 
   unsigned int SizeOf() const; // return amount of memory used by user data
   ON_BOOL32 GetDescription( ON_wString& ); // description of user data
-  ON_BOOL32 Archive() const; 
+  ON_BOOL32 Archive() const;
 
   // Convert unknown user data to actual user data.  Useful if
   // definition of actual user data is dynamically linked after
@@ -246,12 +246,12 @@ public:
   void* m_buffer;
 
   // These version numbers are set when unknown user data is read
-  // from a file record the version of the 3dm archive and the 
+  // from a file record the version of the 3dm archive and the
   // version of opennurbs that were used when the plug-in wrote
   // the user data.
   //   This information was added in to V5 opennurbs 200910190.
   // For files written with earlier versions of opennurbs, these
-  // values are set from the archive containing the user data. 
+  // values are set from the archive containing the user data.
   // The purpose of this version information is to have it accompany
   // unknown user data so that if is is eventually read by the plug-in
   // an ON_BinaryArchive with correct version information can be
@@ -288,7 +288,7 @@ public:
   ON_BOOL32 GetDescription( ON_wString& description );
 
   // override virtual ON_UserData::Archive function
-  ON_BOOL32 Archive() const; 
+  ON_BOOL32 Archive() const;
 
   /*
   Description:
@@ -334,8 +334,8 @@ public:
   /*
   Description:
     Transfers the user data from source_object to "this".
-    When MoveUserDataFrom() returns source_object will not 
-    have any user data.  If "this" had user data when 
+    When MoveUserDataFrom() returns source_object will not
+    have any user data.  If "this" had user data when
     MoveUserDataFrom() was called, then that user data is
     destroyed.
   Parameters:
@@ -377,8 +377,8 @@ Description:
   An ON_DocumentUserStringList object is saved in the list of user
   tables.  The Rhino SetDocumentText and GetDocumentText
   commands use the ON_Object SetUserString, GetUserString,
-  GetUserStrings, GetUserStringKeys functions on an 
-  ON_DocumentUserStringList class to manage the tag-value pairs of 
+  GetUserStrings, GetUserStringKeys functions on an
+  ON_DocumentUserStringList class to manage the tag-value pairs of
   strings.
 */
 class ON_CLASS ON_DocumentUserStringList : public ON_Object

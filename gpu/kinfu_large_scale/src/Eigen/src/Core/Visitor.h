@@ -10,7 +10,7 @@
 #ifndef EIGEN_VISITOR_H
 #define EIGEN_VISITOR_H
 
-namespace Eigen { 
+namespace Eigen {
 
 namespace internal {
 

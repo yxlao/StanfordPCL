@@ -209,7 +209,7 @@ namespace pcl
     {
       // Create JSON object
       boost::shared_ptr<cJSON> idx (cJSON_CreateObject (), cJSON_Delete);
-  
+
       cJSON* name = cJSON_CreateString ("test");
       cJSON* version = cJSON_CreateNumber ( OUTOFCORE_VERSION_ );
       cJSON* pointtype = cJSON_CreateString ("urp");
@@ -276,7 +276,7 @@ namespace pcl
       {
         PCL_ERROR ( "index failed to parse!\n",treepath_.c_str ());
         PCL_THROW_EXCEPTION (PCLException, "Outofcore Octree Parse Failure: Incompatible Version of Outofcore Octree\n");
-        
+
       }
       if ((lod->valueint + 1) != cJSON_GetArraySize (numpts))
       {
@@ -302,7 +302,7 @@ namespace pcl
       boost::unique_lock < boost::shared_mutex > lock (read_write_mutex_);
 
       const bool _FORCE_BB_CHECK = true;
-      
+
       uint64_t pt_added = root_->addDataToLeaf (p, _FORCE_BB_CHECK);
 
       assert (p.size () == pt_added);
@@ -316,7 +316,7 @@ namespace pcl
     {
       return addDataToLeaf (point_cloud->points);
     }
-    
+
 ////////////////////////////////////////////////////////////////////////////////
 
     template<typename ContainerT, typename PointT> boost::uint64_t
@@ -327,7 +327,7 @@ namespace pcl
       return (pt_added);
     }
 
-    
+
 ////////////////////////////////////////////////////////////////////////////////
 
     template<typename ContainerT, typename PointT> boost::uint64_t
@@ -346,9 +346,9 @@ namespace pcl
       // Lock the tree while writing
       boost::unique_lock < boost::shared_mutex > lock (read_write_mutex_);
       boost::uint64_t pt_added = root_->addPointCloud_and_genLOD ( input_cloud );
-      
+
 //      PCL_INFO ("[pcl::outofcore::OutofcoreOctreeBase::%s] Points added %lu, points in input cloud, %lu\n",__FUNCTION__, pt_added, input_cloud->width*input_cloud->height );
- 
+
       assert ( input_cloud->width*input_cloud->height == pt_added );
 
       return (pt_added);
@@ -364,7 +364,7 @@ namespace pcl
       boost::unique_lock < boost::shared_mutex > lock (read_write_mutex_);
       root_->addPointToLeaf (src, false);
     }
-#endif    
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -437,7 +437,7 @@ namespace pcl
     OutofcoreOctreeBase<ContainerT, PointT>::getVoxelCenters (AlignedPointTVector &voxel_centers, const size_t query_depth) const
     {
       boost::shared_lock < boost::shared_mutex > lock (read_write_mutex_);
-      if (query_depth > max_depth_) 
+      if (query_depth > max_depth_)
       {
         root_->getVoxelCentersRecursive (voxel_centers, max_depth_);
       }

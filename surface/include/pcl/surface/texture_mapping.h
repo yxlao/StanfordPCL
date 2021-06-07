@@ -49,7 +49,7 @@ namespace pcl
 {
   namespace texture_mapping
   {
-        
+
     /** \brief Structure to store camera pose and focal length. */
     struct Camera
     {
@@ -71,11 +71,11 @@ namespace pcl
       int idx_cloud; // Index of the PointXYZ in the camera's cloud
       int idx_face; // Face corresponding to that projection
     };
-    
+
     typedef std::vector<Camera, Eigen::aligned_allocator<Camera> > CameraVector;
-    
+
   }
-  
+
   /** \brief The texture mapping algorithm
     * \author Khai Tran, Raphael Favier
     * \ingroup surface
@@ -84,7 +84,7 @@ namespace pcl
   class TextureMapping
   {
     public:
-     
+
       typedef boost::shared_ptr< PointInT > Ptr;
       typedef boost::shared_ptr< const PointInT > ConstPtr;
 
@@ -95,7 +95,7 @@ namespace pcl
       typedef pcl::octree::OctreePointCloudSearch<PointInT> Octree;
       typedef typename Octree::Ptr OctreePtr;
       typedef typename Octree::ConstPtr OctreeConstPtr;
-      
+
       typedef pcl::texture_mapping::Camera Camera;
       typedef pcl::texture_mapping::UvIndex UvIndex;
 
@@ -169,7 +169,7 @@ namespace pcl
         * \param[in] cams cameras used for UV mapping
         */
       void
-      mapMultipleTexturesToMeshUV (pcl::TextureMesh &tex_mesh, 
+      mapMultipleTexturesToMeshUV (pcl::TextureMesh &tex_mesh,
                                    pcl::texture_mapping::CameraVector &cams);
 
       /** \brief computes UV coordinates of point, observed by one particular camera
@@ -256,8 +256,8 @@ namespace pcl
         * \param[out] visible_pts cloud containing only visible points
         */
       int
-      sortFacesByCamera (pcl::TextureMesh &tex_mesh, 
-                         pcl::TextureMesh &sorted_mesh, 
+      sortFacesByCamera (pcl::TextureMesh &tex_mesh,
+                         pcl::TextureMesh &sorted_mesh,
                          const pcl::texture_mapping::CameraVector &cameras,
                          const double octree_voxel_size, PointCloud &visible_pts);
 
@@ -272,9 +272,9 @@ namespace pcl
         * \param[in] max_occlusions Limit the number of occlusions per point.
         */
       void
-      showOcclusions (const PointCloudPtr &input_cloud, 
+      showOcclusions (const PointCloudPtr &input_cloud,
                       pcl::PointCloud<pcl::PointXYZI>::Ptr &colored_cloud,
-                      const double octree_voxel_size, 
+                      const double octree_voxel_size,
                       const bool show_nb_occlusions = true,
                       const int max_occlusions = 4);
 
@@ -289,10 +289,10 @@ namespace pcl
         * \param[in] max_occlusions Limit the number of occlusions per point.
         */
       void
-      showOcclusions (pcl::TextureMesh &tex_mesh, 
+      showOcclusions (pcl::TextureMesh &tex_mesh,
                       pcl::PointCloud<pcl::PointXYZI>::Ptr &colored_cloud,
-                      double octree_voxel_size, 
-                      bool show_nb_occlusions = true, 
+                      double octree_voxel_size,
+                      bool show_nb_occlusions = true,
                       int max_occlusions = 4);
 
       /** \brief Segment and texture faces by camera visibility. Face-based segmentation.
@@ -301,8 +301,8 @@ namespace pcl
         * \param[in/out] tex_mesh input mesh that needs sorting. Should contain only 1 sub-mesh.
         * \param[in] cameras vector containing the cameras used for texture mapping.
         */
-      void 
-      textureMeshwithMultipleCameras (pcl::TextureMesh &mesh, 
+      void
+      textureMeshwithMultipleCameras (pcl::TextureMesh &mesh,
                                       const pcl::texture_mapping::CameraVector &cameras);
 
     protected:
@@ -356,8 +356,8 @@ namespace pcl
         * \param[out] proj3 UV coordinates corresponding to p3.
         */
       inline bool
-      isFaceProjected (const Camera &camera, 
-                       const pcl::PointXYZ &p1, const pcl::PointXYZ &p2, const pcl::PointXYZ &p3, 
+      isFaceProjected (const Camera &camera,
+                       const pcl::PointXYZ &p1, const pcl::PointXYZ &p2, const pcl::PointXYZ &p3,
                        pcl::PointXY &proj1, pcl::PointXY &proj2, pcl::PointXY &proj3);
 
       /** \brief Returns True if a point lays within a triangle

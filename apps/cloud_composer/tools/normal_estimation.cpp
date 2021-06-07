@@ -12,12 +12,12 @@ pcl::cloud_composer::NormalEstimationTool::NormalEstimationTool (PropertiesModel
   : NewItemTool (parameter_model, parent)
 {
 
-  
+
 }
 
 pcl::cloud_composer::NormalEstimationTool::~NormalEstimationTool ()
 {
-  
+
 }
 
 QList <pcl::cloud_composer::CloudComposerItem*>
@@ -36,7 +36,7 @@ pcl::cloud_composer::NormalEstimationTool::performAction (ConstItemList input_da
     qWarning () << "Input vector has more than one item in Normal Estimation!";
   }
   input_item = input_data.value (0);
-    
+
   sensor_msgs::PointCloud2::ConstPtr input_cloud;
   if (input_item->type () == CloudComposerItem::CLOUD_ITEM)
   {
@@ -46,7 +46,7 @@ pcl::cloud_composer::NormalEstimationTool::performAction (ConstItemList input_da
     qDebug () << "Got cloud size = "<<input_cloud->width;
     //////////////// THE WORK - COMPUTING NORMALS ///////////////////
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
-    pcl::fromROSMsg (*input_cloud, *cloud); 
+    pcl::fromROSMsg (*input_cloud, *cloud);
     // Create the normal estimation class, and pass the input dataset to it
     pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne;
     ne.setInputCloud (cloud);
@@ -73,8 +73,8 @@ pcl::cloud_composer::NormalEstimationTool::performAction (ConstItemList input_da
   {
     qDebug () << "Input item in Normal Estimation is not a cloud!!!";
   }
-  
-  
+
+
   return output;
 }
 
@@ -83,8 +83,8 @@ pcl::cloud_composer::PropertiesModel*
 pcl::cloud_composer::NormalEstimationToolFactory::createToolParameterModel (QObject* parent)
 {
   PropertiesModel* parameter_model = new PropertiesModel(parent);
-  
+
   parameter_model->addProperty ("Radius", 0.02,  Qt::ItemIsEditable | Qt::ItemIsEnabled);
-  
+
   return parameter_model;
 }

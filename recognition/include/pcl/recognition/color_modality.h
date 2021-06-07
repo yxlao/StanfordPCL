@@ -4,7 +4,7 @@
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
  *
- *  All rights reserved. 
+ *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -64,11 +64,11 @@ namespace pcl
         float distance;
 
         unsigned char bin_index;
-    
+
         size_t x;
         size_t y;	
 
-        bool 
+        bool
         operator< (const Candidate & rhs)
         {
           return (distance > rhs.distance);
@@ -79,31 +79,31 @@ namespace pcl
       typedef typename pcl::PointCloud<PointInT> PointCloudIn;
 
       ColorModality ();
-  
+
       virtual ~ColorModality ();
-  
+
       inline QuantizedMap &
-      getQuantizedMap () 
-      { 
+      getQuantizedMap ()
+      {
         return (filtered_quantized_colors_);
       }
-  
+
       inline QuantizedMap &
-      getSpreadedQuantizedMap () 
-      { 
+      getSpreadedQuantizedMap ()
+      {
         return (spreaded_filtered_quantized_colors_);
       }
-  
+
       void
       extractFeatures (const MaskMap & mask, size_t nr_features, size_t modalityIndex,
                        std::vector<QuantizedMultiModFeature> & features) const;
-  
+
       /** \brief Provide a pointer to the input dataset (overwrites the PCLBase::setInputCloud method)
         * \param cloud the const boost shared pointer to a PointCloud message
         */
-      virtual void 
-      setInputCloud (const typename PointCloudIn::ConstPtr & cloud) 
-      { 
+      virtual void
+      setInputCloud (const typename PointCloudIn::ConstPtr & cloud)
+      {
         input_ = cloud;
       }
 
@@ -114,7 +114,7 @@ namespace pcl
 
       void
       quantizeColors ();
-  
+
       void
       filterQuantizedColors ();
 
@@ -122,17 +122,17 @@ namespace pcl
       quantizeColorOnRGBExtrema (const float r,
                                  const float g,
                                  const float b);
-  
+
       void
       computeDistanceMap (const MaskMap & input, DistanceMap & output) const;
 
     private:
       float feature_distance_threshold_;
-      
+
       pcl::QuantizedMap quantized_colors_;
       pcl::QuantizedMap filtered_quantized_colors_;
       pcl::QuantizedMap spreaded_filtered_quantized_colors_;
-  
+
   };
 
 }
@@ -170,8 +170,8 @@ pcl::ColorModality<PointInT>::processInputData ()
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointInT>
-void pcl::ColorModality<PointInT>::extractFeatures (const MaskMap & mask, 
-                                                    const size_t nr_features, 
+void pcl::ColorModality<PointInT>::extractFeatures (const MaskMap & mask,
+                                                    const size_t nr_features,
                                                     const size_t modality_index,
                                                     std::vector<QuantizedMultiModFeature> & features) const
 {
@@ -206,7 +206,7 @@ void pcl::ColorModality<PointInT>::extractFeatures (const MaskMap & mask,
         //const unsigned char quantized_value = quantized_surface_normals_ (row_index, col_index);
         const unsigned char quantized_value = filtered_quantized_colors_ (col_index, row_index);
 
-        if (quantized_value == 0) 
+        if (quantized_value == 0)
           continue;
         const int dist_map_index = map[quantized_value];
 
@@ -372,8 +372,8 @@ pcl::ColorModality<PointInT>::filterQuantizedColors ()
 
       {
         const unsigned char * data_ptr = quantized_colors_.getData () + (row_index-1)*width+col_index-1;
-        assert (0 <= data_ptr[0] && data_ptr[0] < 9 && 
-                0 <= data_ptr[1] && data_ptr[1] < 9 && 
+        assert (0 <= data_ptr[0] && data_ptr[0] < 9 &&
+                0 <= data_ptr[1] && data_ptr[1] < 9 &&
                 0 <= data_ptr[2] && data_ptr[2] < 9);
         ++histogram[data_ptr[0]];
         ++histogram[data_ptr[1]];
@@ -381,8 +381,8 @@ pcl::ColorModality<PointInT>::filterQuantizedColors ()
       }
       {
         const unsigned char * data_ptr = quantized_colors_.getData () + row_index*width+col_index-1;
-        assert (0 <= data_ptr[0] && data_ptr[0] < 9 && 
-                0 <= data_ptr[1] && data_ptr[1] < 9 && 
+        assert (0 <= data_ptr[0] && data_ptr[0] < 9 &&
+                0 <= data_ptr[1] && data_ptr[1] < 9 &&
                 0 <= data_ptr[2] && data_ptr[2] < 9);
         ++histogram[data_ptr[0]];
         ++histogram[data_ptr[1]];
@@ -390,8 +390,8 @@ pcl::ColorModality<PointInT>::filterQuantizedColors ()
       }
       {
         const unsigned char * data_ptr = quantized_colors_.getData () + (row_index+1)*width+col_index-1;
-        assert (0 <= data_ptr[0] && data_ptr[0] < 9 && 
-                0 <= data_ptr[1] && data_ptr[1] < 9 && 
+        assert (0 <= data_ptr[0] && data_ptr[0] < 9 &&
+                0 <= data_ptr[1] && data_ptr[1] < 9 &&
                 0 <= data_ptr[2] && data_ptr[2] < 9);
         ++histogram[data_ptr[0]];
         ++histogram[data_ptr[1]];
@@ -483,7 +483,7 @@ pcl::ColorModality<PointInT>::quantizeColorOnRGBExtrema (const float r,
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 template <typename PointInT> void
-pcl::ColorModality<PointInT>::computeDistanceMap (const MaskMap & input, 
+pcl::ColorModality<PointInT>::computeDistanceMap (const MaskMap & input,
                                                   DistanceMap & output) const
 {
   const size_t width = input.getWidth ();
@@ -549,4 +549,4 @@ pcl::ColorModality<PointInT>::computeDistanceMap (const MaskMap & input,
 }
 
 
-#endif 
+#endif

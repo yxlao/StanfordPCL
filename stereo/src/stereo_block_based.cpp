@@ -53,7 +53,7 @@ pcl::BlockBasedStereoMatching::BlockBasedStereoMatching ()
 }
 
 //////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::BlockBasedStereoMatching::compute_impl (unsigned char* ref_img, unsigned char* trg_img)
 {
   int n = radius_ * 2 + 1;
@@ -109,7 +109,7 @@ pcl::BlockBasedStereoMatching::compute_impl (unsigned char* ref_img, unsigned ch
       for (int x = max_disp_ + x_off_; x < max_disp_ + x_off_ + n; x++)
       {
         v[x][d] = v[x][d] + abs( ref_img[ (y+radius_)*width_+x] - trg_img[ (y+radius_)*width_+x -d-x_off_] ) - abs( ref_img[ (y-radius_-1)*width_+x] - trg_img[ (y-radius_-1)*width_ +x -d-x_off_] );
-        
+
         acc[d] += v[x][d];
       }
     }
@@ -134,7 +134,7 @@ pcl::BlockBasedStereoMatching::compute_impl (unsigned char* ref_img, unsigned ch
         v[x+radius_][d] = v[x+radius_][d] + abs( *lp - *rp ) - abs( *lpp - *rpp );
         rp--;
         rpp--;
-        
+
         acc[d] = acc[d] + v[x+radius_][d] - v[x-radius_-1][d];
 
         if (acc[d] < sad_min)
@@ -143,7 +143,7 @@ pcl::BlockBasedStereoMatching::compute_impl (unsigned char* ref_img, unsigned ch
           dbest = static_cast<short int> (d);
         }
       }
-      
+
       rp += max_disp_;
       rpp += max_disp_;
 

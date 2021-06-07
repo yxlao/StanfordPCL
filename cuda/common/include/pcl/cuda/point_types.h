@@ -49,7 +49,7 @@ namespace cuda
   struct /*__align__(16)*/ PointXYZRGB
   {
     inline __host__ __device__ PointXYZRGB () {}
-    inline __host__ __device__ PointXYZRGB (float _x, float _y, float _z, int _rgb) : 
+    inline __host__ __device__ PointXYZRGB (float _x, float _y, float _z, int _rgb) :
                                      x(_x), y(_y), z(_z), rgb(_rgb) {}
 
     // Declare a union for XYZ
@@ -64,7 +64,7 @@ namespace cuda
       };
     };
     RGB rgb;
-    
+
     inline __host__ __device__ bool operator == (const PointXYZRGB &rhs)
     {
       return (x == rhs.x && y == rhs.y && z == rhs.z && rgb == rhs.rgb);
@@ -119,7 +119,7 @@ namespace cuda
   struct __align__(16) PointXYZRGBNormal
   {
     inline __host__ __device__ PointXYZRGBNormal () {}
-    inline __host__ __device__ PointXYZRGBNormal (float _x, float _y, float _z, int _rgb) : 
+    inline __host__ __device__ PointXYZRGBNormal (float _x, float _y, float _z, int _rgb) :
                                      x(_x), y(_y), z(_z), rgb(_rgb) {}
 
     // Declare a union for XYZ
@@ -145,7 +145,7 @@ namespace cuda
         float curvature;
       };
     };
-    
+
     inline __host__ __device__ bool operator == (const PointXYZRGBNormal &rhs)
     {
       return (x == rhs.x && y == rhs.y && z == rhs.z && rgb == rhs.rgb && normal_x == rhs.normal_x && normal_y == rhs.normal_y && normal_z == rhs.normal_z);

@@ -43,12 +43,12 @@
 namespace pcl
 {
     namespace gpu
-    {              
+    {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /** \brief @b DeviceMemory class
-          * 
-          * \note This is a BLOB container class with reference counting for GPU memory.          
-          *          
+          *
+          * \note This is a BLOB container class with reference counting for GPU memory.
+          *
           * \author Anatoly Baksheev
           */
 
@@ -59,7 +59,7 @@ namespace pcl
             DeviceMemory();
 
             /** \brief Destructor. */
-            ~DeviceMemory();            
+            ~DeviceMemory();
 
             /** \brief Allocates internal buffer in GPU memory
               * \param sizeBytes_arg: amount of memory to allocate
@@ -78,7 +78,7 @@ namespace pcl
             /** \brief Assigment operator. Just increments reference counter. */
             DeviceMemory& operator=(const DeviceMemory& other_arg);
 
-             /** \brief Allocates internal buffer in GPU memory. If internal buffer was created before the function recreates it with new size. If new and old sizes are equal it does nothing.               
+             /** \brief Allocates internal buffer in GPU memory. If internal buffer was created before the function recreates it with new size. If new and old sizes are equal it does nothing.
                * \param sizeBytes_arg: buffer size
                * */
             void create(size_t sizeBytes_arg);
@@ -92,51 +92,51 @@ namespace pcl
             void copyTo(DeviceMemory& other) const;
 
             /** \brief Uploads data to internal buffer in GPU memory. It calls create() inside to ensure that intenal buffer size is enough.
-              * \param host_ptr_arg: pointer to buffer to upload               
+              * \param host_ptr_arg: pointer to buffer to upload
               * \param sizeBytes_arg: buffer size
               * */
             void upload(const void *host_ptr_arg, size_t sizeBytes_arg);
-            
+
             /** \brief Downloads data from internal buffer to CPU memory
-              * \param host_ptr_arg: pointer to buffer to download               
+              * \param host_ptr_arg: pointer to buffer to download
               * */
             void download(void *host_ptr_arg) const;
 
-            /** \brief Performs swap of data pointed with another device memory. 
-              * \param other: device memory to swap with   
+            /** \brief Performs swap of data pointed with another device memory.
+              * \param other: device memory to swap with
               * */
             void swap(DeviceMemory& other_arg);
-            
+
             /** \brief Returns pointer for internal buffer in GPU memory. */
             template<class T> T* ptr();
 
-            /** \brief Returns constant pointer for internal buffer in GPU memory. */            
+            /** \brief Returns constant pointer for internal buffer in GPU memory. */
             template<class T> const T* ptr() const;
 
             /** \brief Conversion to PtrSz for passing to kernel functions. */
-            template <class U> operator PtrSz<U>() const;            
-           
+            template <class U> operator PtrSz<U>() const;
+
             /** \brief Returns true if unallocated otherwise false. */
             bool empty() const;
-            
+
             size_t sizeBytes() const;
-        
+
         private:
             /** \brief Device pointer. */
             void *data_;
 
             /** \brief Allocated size in bytes. */
             size_t sizeBytes_;
-        
+
             /** \brief Pointer to reference counter in CPU memory. */
             int* refcount_;
         };
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /** \brief @b DeviceMemory2D class
-          * 
-          * \note This is a BLOB container class with reference counting for pitched GPU memory.          
-          *          
+          *
+          * \note This is a BLOB container class with reference counting for pitched GPU memory.
+          *
           * \author Anatoly Baksheev
           */
 
@@ -147,7 +147,7 @@ namespace pcl
             DeviceMemory2D();
 
             /** \brief Destructor. */
-            ~DeviceMemory2D();            
+            ~DeviceMemory2D();
 
             /** \brief Allocates internal buffer in GPU memory
               * \param rows_arg: number of rows to allocate
@@ -185,7 +185,7 @@ namespace pcl
             void copyTo(DeviceMemory2D& other) const;
 
             /** \brief Uploads data to internal buffer in GPU memory. It calls create() inside to ensure that intenal buffer size is enough.
-              * \param host_ptr_arg: pointer to host buffer to upload               
+              * \param host_ptr_arg: pointer to host buffer to upload
               * \param host_step_arg: stride between two consecutive rows in bytes for host buffer
               * \param rows_arg: number of rows to upload
               * \param sizeBytes_arg: width of host buffer in bytes
@@ -193,28 +193,28 @@ namespace pcl
             void upload(const void *host_ptr_arg, size_t host_step_arg, int rows_arg, int colsBytes_arg);
 
             /** \brief Downloads data from internal buffer to CPU memory. User is resposible for correct host buffer size.
-              * \param host_ptr_arg: pointer to host buffer to download               
-              * \param host_step_arg: stride between two consecutive rows in bytes for host buffer             
+              * \param host_ptr_arg: pointer to host buffer to download
+              * \param host_step_arg: stride between two consecutive rows in bytes for host buffer
               * */
             void download(void *host_ptr_arg, size_t host_step_arg) const;
 
-            /** \brief Performs swap of data pointed with another device memory. 
-              * \param other: device memory to swap with   
+            /** \brief Performs swap of data pointed with another device memory.
+              * \param other: device memory to swap with
               * */
             void swap(DeviceMemory2D& other_arg);
-            
-            /** \brief Returns pointer to given row in internal buffer. 
-              * \param y_arg: row index   
+
+            /** \brief Returns pointer to given row in internal buffer.
+              * \param y_arg: row index
               * */
             template<class T> T* ptr(int y_arg = 0);
 
-            /** \brief Returns constant pointer to given row in internal buffer. 
-              * \param y_arg: row index   
+            /** \brief Returns constant pointer to given row in internal buffer.
+              * \param y_arg: row index
               * */
             template<class T> const T* ptr(int y_arg = 0) const;
 
              /** \brief Conversion to PtrStep for passing to kernel functions. */
-            template <class U> operator PtrStep<U>() const;            
+            template <class U> operator PtrStep<U>() const;
 
             /** \brief Conversion to PtrStepSz for passing to kernel functions. */
             template <class U> operator PtrStepSz<U>() const;
@@ -245,7 +245,7 @@ namespace pcl
 
             /** \brief Pointer to reference counter in CPU memory. */
             int* refcount_;
-        };      
+        };
     }
 
     namespace device

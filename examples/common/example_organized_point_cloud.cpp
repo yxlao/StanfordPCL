@@ -44,14 +44,14 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 
-int 
+int
 main ()
 {
   // Setup the cloud
   typedef pcl::PointXYZ PointType;
   typedef pcl::PointCloud<PointType> CloudType;
   CloudType::Ptr cloud (new CloudType);
-  
+
   // Make the cloud a 10x10 grid
   cloud->height = 10;
   cloud->width = 10;

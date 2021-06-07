@@ -40,9 +40,9 @@
 namespace pcl
 {
     namespace device
-    {       
+    {
         struct OctreePriorityIteratorDevice
-        {       
+        {
             int level;
             int node_idx;
             int lenght;
@@ -55,27 +55,27 @@ namespace pcl
                 lenght = 1;
             }
 
-            __device__ __forceinline__ void gotoNextLevel(int first, int len) 
-            {  
+            __device__ __forceinline__ void gotoNextLevel(int first, int len)
+            {
                 node_idx = first;
                 lenght = len;
                 ++level;
-            }       
+            }
 
-            __device__ __forceinline__ int operator*() const 
-            { 
-                return node_idx; 
-            }        
+            __device__ __forceinline__ int operator*() const
+            {
+                return node_idx;
+            }
 
             __device__ __forceinline__ void operator++()
             {
 #if 1
                 while(level >= 0)
-                {                
+                {
                     if (lenght > 1)
                     {
                         lenght--;
-                        node_idx++;                      
+                        node_idx++;
                         break;
                     }
 
@@ -83,7 +83,7 @@ namespace pcl
                     {
                         level = -1;
                         return;
-                    }                
+                    }
 
                     node_idx = octree.parent[node_idx];
                     --level;

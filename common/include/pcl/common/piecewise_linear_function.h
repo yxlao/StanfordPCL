@@ -40,7 +40,7 @@
 
 #include <vector>
 
-namespace pcl 
+namespace pcl
 {
   /**
     * \brief This provides functionalities to efficiently return values for piecewise linear function
@@ -52,21 +52,21 @@ namespace pcl
       // =====CONSTRUCTOR & DESTRUCTOR=====
       //! Constructor
       PiecewiseLinearFunction (float factor, float offset);
-      
+
       // =====PUBLIC METHODS=====
       //! Get the list of known data points
-      std::vector<float>& 
-      getDataPoints () 
-      { 
+      std::vector<float>&
+      getDataPoints ()
+      {
         return data_points_;
       }
-      
+
       //! Get the value of the function at the given point
-      inline float 
+      inline float
       getValue (float point) const;
-      
+
       // =====PUBLIC MEMBER VARIABLES=====
-      
+
     protected:
       // =====PROTECTED MEMBER VARIABLES=====
       std::vector<float> data_points_;

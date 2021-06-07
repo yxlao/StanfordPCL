@@ -77,7 +77,7 @@ pcl::registration::TransformationValidationEuclidean<PointSource, PointTarget, S
   {
     // Find its nearest neighbor in the target
     tree_->nearestKSearch (input_transformed.points[i], 1, nn_indices, nn_dists);
-    
+
     // Deal with occlusions (incomplete targets)
     if (nn_dists[0] > max_range_)
       continue;

@@ -67,7 +67,7 @@ namespace pcl
     */
   template <typename FloatVectorT> inline float
   L1_Norm (FloatVectorT A, FloatVectorT B, int dim);
-  
+
   /** \brief Compute the squared L2 norm of the vector between two points
     * \param A the first point
     * \param B the second point
@@ -77,7 +77,7 @@ namespace pcl
     */
   template <typename FloatVectorT> inline float
   L2_Norm_SQR (FloatVectorT A, FloatVectorT B, int dim);
-  
+
   /** \brief Compute the L2 norm of the vector between two points
     * \param A the first point
     * \param B the second point
@@ -94,7 +94,7 @@ namespace pcl
     * \param dim the number of dimensions in \a A and \a B (dimensions must match)
     * \note FloatVectorT is any type of vector with its values accessible via [ ]
     * \ingroup common
-    */  
+    */
   template <typename FloatVectorT> inline float
   Linf_Norm (FloatVectorT A, FloatVectorT B, int dim);
 

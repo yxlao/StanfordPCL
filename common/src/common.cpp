@@ -39,8 +39,8 @@
 #include <pcl/common/common.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-void 
-pcl::getMinMax (const sensor_msgs::PointCloud2 &cloud, int, 
+void
+pcl::getMinMax (const sensor_msgs::PointCloud2 &cloud, int,
                 const std::string &field_name, float &min_p, float &max_p)
 {
   min_p = FLT_MAX;
@@ -62,8 +62,8 @@ pcl::getMinMax (const sensor_msgs::PointCloud2 &cloud, int,
     float data;
     // TODO: replace float with the real data type
     memcpy (&data, &cloud.data[cloud.fields[field_idx].offset + i * sizeof (float)], sizeof (float));
-    min_p = (data > min_p) ? min_p : data; 
-    max_p = (data < max_p) ? max_p : data; 
+    min_p = (data > min_p) ? min_p : data;
+    max_p = (data < max_p) ? max_p : data;
   }
 }
 

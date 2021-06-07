@@ -5,10 +5,10 @@
 #include <pcl/io/pcd_io.h>
 #include <pcl/visualization/pcl_visualizer.h>
 
-int 
+int
 main (int argc, char ** argv)
 {
-  if (argc < 2) 
+  if (argc < 2)
   {
     pcl::console::print_info ("Syntax is: %s input.pcd <options>\n", argv[0]);
     pcl::console::print_info ("  where options are:\n");

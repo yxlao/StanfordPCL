@@ -67,7 +67,7 @@ class OpenNIVoxelGrid
     typedef typename Cloud::Ptr CloudPtr;
     typedef typename Cloud::ConstPtr CloudConstPtr;
 
-    OpenNIVoxelGrid (const std::string& device_id = "", 
+    OpenNIVoxelGrid (const std::string& device_id = "",
                      const std::string& = "z", float = 0, float = 5.0,
                      float leaf_size_x = 0.01, float leaf_size_y = 0.01, float leaf_size_z = 0.01)
     : viewer ("PCL OpenNI VoxelGrid Viewer")
@@ -77,8 +77,8 @@ class OpenNIVoxelGrid
       //grid_.setFilterFieldName (field_name);
       //grid_.setFilterLimits (min_v, max_v);
     }
-    
-    void 
+
+    void
     cloud_cb_ (const CloudConstPtr& cloud)
     {
       set (cloud);
@@ -98,7 +98,7 @@ class OpenNIVoxelGrid
       //lock while we swap our cloud and reset it.
       boost::mutex::scoped_lock lock (mtx_);
       CloudPtr temp_cloud (new Cloud);
-     
+
       grid_.setInputCloud (cloud_);
       grid_.filter (*temp_cloud);
 
@@ -112,9 +112,9 @@ class OpenNIVoxelGrid
 
       boost::function<void (const CloudConstPtr&)> f = boost::bind (&OpenNIVoxelGrid::cloud_cb_, this, _1);
       boost::signals2::connection c = interface->registerCallback (f);
-      
+
       interface->start ();
-      
+
       while (!viewer.wasStopped ())
       {
         if (cloud_)
@@ -160,7 +160,7 @@ usage (char ** argv)
     cout << "No devices connected." << endl;
 }
 
-int 
+int
 main (int argc, char ** argv)
 {
   if (pcl::console::find_argument (argc, argv, "-h") != -1)

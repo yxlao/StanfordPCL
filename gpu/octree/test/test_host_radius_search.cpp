@@ -80,10 +80,10 @@ TEST(PCL_OctreeGPU, hostRadiusSearch)
     cloud_host->height = 1;
     cloud_host->points.resize (cloud_host->width * cloud_host->height);
     std::transform(data.points.begin(), data.points.end(),  cloud_host->points.begin(), DataGenerator::ConvPoint<pcl::PointXYZ>());
-    
+
     // build device octree
-    pcl::gpu::Octree octree_device;                
-    octree_device.setCloud(cloud_device);	    
+    pcl::gpu::Octree octree_device;
+    octree_device.setCloud(cloud_device);	
     octree_device.build();
 
 
@@ -95,36 +95,36 @@ TEST(PCL_OctreeGPU, hostRadiusSearch)
     octree_host.setInputCloud (cloud_host);
     octree_host.addPointsFromInputCloud ();
 
-    //perform bruteForceSearch    
-    data.bruteForceSearch(true);    
-    
+    //perform bruteForceSearch
+    data.bruteForceSearch(true);
+
     vector<int> sizes;
     sizes.reserve(data.tests_num);
     octree_device.internalDownload();
-             
+
     for(size_t i = 0; i < data.tests_num; ++i)
     {
         //search host on octree tha was built on device
         vector<int> results_host_gpu; //host search
-        octree_device.radiusSearchHost(data.queries[i], data.radiuses[i], results_host_gpu);                        
-        
+        octree_device.radiusSearchHost(data.queries[i], data.radiuses[i], results_host_gpu);
+
         //search host
         vector<float> dists;
-        vector<int> results_host;                
-        octree_host.radiusSearch(pcl::PointXYZ(data.queries[i].x, data.queries[i].y, data.queries[i].z), data.radiuses[i], results_host, dists);                        
-        
+        vector<int> results_host;
+        octree_host.radiusSearch(pcl::PointXYZ(data.queries[i].x, data.queries[i].y, data.queries[i].z), data.radiuses[i], results_host, dists);
+
         std::sort(results_host_gpu.begin(), results_host_gpu.end());
         std::sort(results_host.begin(), results_host.end());
 
         ASSERT_EQ ( (results_host_gpu == results_host     ), true );
-        ASSERT_EQ ( (results_host_gpu == data.bfresutls[i]), true );                
-        sizes.push_back(results_host.size());      
-    }    
+        ASSERT_EQ ( (results_host_gpu == data.bfresutls[i]), true );
+        sizes.push_back(results_host.size());
+    }
 
     float avg_size = std::accumulate(sizes.begin(), sizes.end(), 0) * (1.f/sizes.size());;
 
     cout << "avg_result_size = " << avg_size << endl;
-    ASSERT_GT(avg_size, 5);    
+    ASSERT_GT(avg_size, 5);
 }
 
 
@@ -132,7 +132,7 @@ int main (int argc, char** argv)
 {
     const int device = 0;
     pcl::gpu::setDevice(device);
-    pcl::gpu::printShortCudaDeviceInfo(device);        
+    pcl::gpu::printShortCudaDeviceInfo(device);
     testing::InitGoogleTest (&argc, argv);
     return (RUN_ALL_TESTS ());
 }

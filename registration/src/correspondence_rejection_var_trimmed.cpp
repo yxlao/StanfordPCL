@@ -34,7 +34,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  * $Id: correspondence_rejection_var_trimmed.cpp 7153 2012-09-16 22:24:29Z aichim $
- * 
+ *
  */
 
 #include <pcl/registration/correspondence_rejection_var_trimmed.h>

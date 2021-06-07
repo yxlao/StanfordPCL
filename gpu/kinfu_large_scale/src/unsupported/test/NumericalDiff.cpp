@@ -7,7 +7,7 @@
 
 #include "main.h"
 #include <unsupported/Eigen/NumericalDiff>
-    
+
 // Generic functor
 template<typename _Scalar, int NX=Dynamic, int NY=Dynamic>
 struct Functor
@@ -20,12 +20,12 @@ struct Functor
   typedef Matrix<Scalar,InputsAtCompileTime,1> InputType;
   typedef Matrix<Scalar,ValuesAtCompileTime,1> ValueType;
   typedef Matrix<Scalar,ValuesAtCompileTime,InputsAtCompileTime> JacobianType;
-  
+
   int m_inputs, m_values;
-  
+
   Functor() : m_inputs(InputsAtCompileTime), m_values(ValuesAtCompileTime) {}
   Functor(int inputs, int values) : m_inputs(inputs), m_values(values) {}
-  
+
   int inputs() const { return m_inputs; }
   int values() const { return m_values; }
 
@@ -76,7 +76,7 @@ void test_forward()
 
     x << 0.082, 1.13, 2.35;
 
-    // real one 
+    // real one
     functor.actual_df(x, actual_jac);
 //    std::cout << actual_jac << std::endl << std::endl;
 
@@ -97,7 +97,7 @@ void test_central()
 
     x << 0.082, 1.13, 2.35;
 
-    // real one 
+    // real one
     functor.actual_df(x, actual_jac);
 
     // using NumericalDiff

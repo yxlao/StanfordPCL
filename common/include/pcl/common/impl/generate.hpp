@@ -76,7 +76,7 @@ pcl::common::CloudGenerator<PointT, GeneratorT>::setParameters (const GeneratorP
   z_params.seed += 1;
   x_generator_.setParameters (params);
   y_generator_.setParameters (y_params);
-  z_generator_.setParameters (z_params);  
+  z_generator_.setParameters (z_params);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,21 +101,21 @@ pcl::common::CloudGenerator<PointT, GeneratorT>::setParametersForZ (const Genera
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointT, typename GeneratorT> const typename pcl::common::CloudGenerator<PointT, GeneratorT>::GeneratorParameters& 
+template <typename PointT, typename GeneratorT> const typename pcl::common::CloudGenerator<PointT, GeneratorT>::GeneratorParameters&
 pcl::common::CloudGenerator<PointT, GeneratorT>::getParametersForX () const
 {
   x_generator_.getParameters ();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointT, typename GeneratorT> const typename pcl::common::CloudGenerator<PointT, GeneratorT>::GeneratorParameters& 
+template <typename PointT, typename GeneratorT> const typename pcl::common::CloudGenerator<PointT, GeneratorT>::GeneratorParameters&
 pcl::common::CloudGenerator<PointT, GeneratorT>::getParametersForY () const
 {
   y_generator_.getParameters ();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointT, typename GeneratorT> const typename pcl::common::CloudGenerator<PointT, GeneratorT>::GeneratorParameters& 
+template <typename PointT, typename GeneratorT> const typename pcl::common::CloudGenerator<PointT, GeneratorT>::GeneratorParameters&
 pcl::common::CloudGenerator<PointT, GeneratorT>::getParametersForZ () const
 {
   z_generator_.getParameters ();
@@ -148,18 +148,18 @@ pcl::common::CloudGenerator<PointT, GeneratorT>::fill (int width, int height, pc
     PCL_ERROR ("[pcl::common::CloudGenerator] Cloud width must be >= 1!\n");
     return (-1);
   }
-  
+
   if (height < 1)
   {
     PCL_ERROR ("[pcl::common::CloudGenerator] Cloud height must be >= 1!\n");
     return (-1);
   }
-  
+
   if (!cloud.empty ())
   {
     PCL_WARN ("[pcl::common::CloudGenerator] Cloud data will be erased with new data!\n");
   }
-  
+
   cloud.width = width;
   cloud.height = height;
   cloud.resize (cloud.width * cloud.height);
@@ -222,14 +222,14 @@ pcl::common::CloudGenerator<pcl::PointXY, GeneratorT>::setParametersForY (const 
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename GeneratorT> const typename pcl::common::CloudGenerator<pcl::PointXY, GeneratorT>::GeneratorParameters& 
+template <typename GeneratorT> const typename pcl::common::CloudGenerator<pcl::PointXY, GeneratorT>::GeneratorParameters&
 pcl::common::CloudGenerator<pcl::PointXY, GeneratorT>::getParametersForX () const
 {
   x_generator_.getParameters ();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename GeneratorT> const typename pcl::common::CloudGenerator<pcl::PointXY, GeneratorT>::GeneratorParameters& 
+template <typename GeneratorT> const typename pcl::common::CloudGenerator<pcl::PointXY, GeneratorT>::GeneratorParameters&
 pcl::common::CloudGenerator<pcl::PointXY, GeneratorT>::getParametersForY () const
 {
   y_generator_.getParameters ();
@@ -261,13 +261,13 @@ pcl::common::CloudGenerator<pcl::PointXY, GeneratorT>::fill (int width, int heig
     PCL_ERROR ("[pcl::common::CloudGenerator] Cloud width must be >= 1\n!");
     return (-1);
   }
-  
+
   if (height < 1)
   {
     PCL_ERROR ("[pcl::common::CloudGenerator] Cloud height must be >= 1\n!");
     return (-1);
   }
-  
+
   if (!cloud.empty ())
     PCL_WARN ("[pcl::common::CloudGenerator] Cloud data will be erased with new data\n!");
 

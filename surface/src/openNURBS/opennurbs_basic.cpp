@@ -47,8 +47,8 @@ double ON_PlaneEquation::MaximumValueAt(const class ON_CurveLeafBox& crvleafbox)
   return 0.0;
 }
 
-bool ON_Curve::GetTightBoundingBox( 
-		ON_BoundingBox& tight_bbox, 
+bool ON_Curve::GetTightBoundingBox(
+		ON_BoundingBox& tight_bbox,
     int bGrowBox,
 		const ON_Xform* xform
     ) const

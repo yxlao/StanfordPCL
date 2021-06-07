@@ -41,8 +41,8 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 void
-pcl::visualization::getCorrespondingPointCloud (vtkPolyData *src, 
-                                                const pcl::PointCloud<pcl::PointXYZ> &tgt, 
+pcl::visualization::getCorrespondingPointCloud (vtkPolyData *src,
+                                                const pcl::PointCloud<pcl::PointXYZ> &tgt,
                                                 std::vector<int> &indices)
 {
   // Iterate through the points and copy the data in a pcl::PointCloud
@@ -54,8 +54,8 @@ pcl::visualization::getCorrespondingPointCloud (vtkPolyData *src,
   {
     double p[3];
     src->GetPoint (i, p);
-    cloud.points[i].x = static_cast<float> (p[0]); 
-    cloud.points[i].y = static_cast<float> (p[1]); 
+    cloud.points[i].x = static_cast<float> (p[0]);
+    cloud.points[i].y = static_cast<float> (p[1]);
     cloud.points[i].z = static_cast<float> (p[2]);
   }
 
@@ -74,11 +74,11 @@ pcl::visualization::getCorrespondingPointCloud (vtkPolyData *src,
   }
   // Sort and remove duplicate indices
   std::sort (indices.begin (), indices.end ());
-  indices.erase (std::unique (indices.begin (), indices.end ()), indices.end ()); 
+  indices.erase (std::unique (indices.begin (), indices.end ()), indices.end ());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 pcl::visualization::savePointData (vtkPolyData* data, const std::string &out_file, const boost::shared_ptr<CloudActorMap> &actors)
 {
   // Clean the data (no duplicates!)
@@ -123,7 +123,7 @@ pcl::visualization::savePointData (vtkPolyData* data, const std::string &out_fil
     }
     else
       pcl::console::print_debug ("[success]\n");
- 
+
     pcl::PointCloud<pcl::PointXYZ> cloud_xyz;
     pcl::fromROSMsg (cloud, cloud_xyz);
     // Get the corresponding indices that we need to save from this point cloud

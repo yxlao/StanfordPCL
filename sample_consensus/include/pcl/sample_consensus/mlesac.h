@@ -44,8 +44,8 @@
 namespace pcl
 {
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /** \brief @b MaximumLikelihoodSampleConsensus represents an implementation of the MLESAC (Maximum Likelihood 
-    * Estimator SAmple Consensus) algorithm, as described in: "MLESAC: A new robust estimator with application to 
+  /** \brief @b MaximumLikelihoodSampleConsensus represents an implementation of the MLESAC (Maximum Likelihood
+    * Estimator SAmple Consensus) algorithm, as described in: "MLESAC: A new robust estimator with application to
     * estimating image geometry", P.H.S. Torr and A. Zisserman, Computer Vision and Image Understanding, vol 78, 2000.
     * \note MLESAC is useful in situations where most of the data samples belong to the model, and a fast outlier rejection algorithm is needed.
     * \author Radu Bogdan Rusu
@@ -64,13 +64,13 @@ namespace pcl
     using SampleConsensus<PointT>::probability_;
 
     typedef typename SampleConsensusModel<PointT>::Ptr SampleConsensusModelPtr;
-    typedef typename SampleConsensusModel<PointT>::PointCloudConstPtr PointCloudConstPtr; 
+    typedef typename SampleConsensusModel<PointT>::PointCloudConstPtr PointCloudConstPtr;
 
     public:
       /** \brief MLESAC (Maximum Likelihood Estimator SAmple Consensus) main constructor
         * \param[in] model a Sample Consensus model
         */
-      MaximumLikelihoodSampleConsensus (const SampleConsensusModelPtr &model) : 
+      MaximumLikelihoodSampleConsensus (const SampleConsensusModelPtr &model) :
         SampleConsensus<PointT> (model),
         iterations_EM_ (3),      // Max number of EM (Expectation Maximization) iterations
         sigma_ (0)
@@ -82,7 +82,7 @@ namespace pcl
         * \param[in] model a Sample Consensus model
         * \param[in] threshold distance to model threshold
         */
-      MaximumLikelihoodSampleConsensus (const SampleConsensusModelPtr &model, double threshold) : 
+      MaximumLikelihoodSampleConsensus (const SampleConsensusModelPtr &model, double threshold) :
         SampleConsensus<PointT> (model, threshold),
         iterations_EM_ (3),      // Max number of EM (Expectation Maximization) iterations
         sigma_ (0)
@@ -93,17 +93,17 @@ namespace pcl
       /** \brief Compute the actual model and find the inliers
         * \param[in] debug_verbosity_level enable/disable on-screen debug information and set the verbosity level
         */
-      bool 
+      bool
       computeModel (int debug_verbosity_level = 0);
 
       /** \brief Set the number of EM iterations.
         * \param[in] iterations the number of EM iterations
         */
-      inline void 
+      inline void
       setEMIterations (int iterations) { iterations_EM_ = iterations; }
 
       /** \brief Get the number of EM iterations. */
-      inline int 
+      inline int
       getEMIterations () const { return (iterations_EM_); }
 
 
@@ -117,9 +117,9 @@ namespace pcl
         * \param[in] indices the set of point indices to use
         * \param[in] sigma the sigma value
         */
-      double 
-      computeMedianAbsoluteDeviation (const PointCloudConstPtr &cloud, 
-                                      const boost::shared_ptr <std::vector<int> > &indices, 
+      double
+      computeMedianAbsoluteDeviation (const PointCloudConstPtr &cloud,
+                                      const boost::shared_ptr <std::vector<int> > &indices,
                                       double sigma);
 
       /** \brief Determine the minimum and maximum 3D bounding box coordinates for a given set of points
@@ -128,10 +128,10 @@ namespace pcl
         * \param[out] min_p the resultant minimum bounding box coordinates
         * \param[out] max_p the resultant maximum bounding box coordinates
         */
-      void 
-      getMinMax (const PointCloudConstPtr &cloud, 
-                 const boost::shared_ptr <std::vector<int> > &indices, 
-                 Eigen::Vector4f &min_p, 
+      void
+      getMinMax (const PointCloudConstPtr &cloud,
+                 const boost::shared_ptr <std::vector<int> > &indices,
+                 Eigen::Vector4f &min_p,
                  Eigen::Vector4f &max_p);
 
       /** \brief Compute the median value of a 3D point cloud using a given set point indices and return it as a Point32.
@@ -139,9 +139,9 @@ namespace pcl
         * \param[in] indices the point indices
         * \param[out] median the resultant median value
         */
-      void 
-      computeMedian (const PointCloudConstPtr &cloud, 
-                     const boost::shared_ptr <std::vector<int> > &indices, 
+      void
+      computeMedian (const PointCloudConstPtr &cloud,
+                     const boost::shared_ptr <std::vector<int> > &indices,
                      Eigen::Vector4f &median);
 
     private:

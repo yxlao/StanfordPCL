@@ -18,7 +18,7 @@ public:
       last = now;
     }
   }
-  
+
   void run ()
   {
     // create a new grabber for OpenNI devices

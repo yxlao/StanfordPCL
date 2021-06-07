@@ -31,7 +31,7 @@ Before continuing, make sure your code compiles and tests carefully, and follows
       cd pcl/branches/pcl-1.x      # change directory to where the branch is
       patch -p0 < /tmp/a.patch     # apply the patch
 
-     
+
     One problem that we will have to deal with now is adding new files that have been added by your patch::
 
       svn st                       # check to see which files have "?" in the branch but should have "A" instead

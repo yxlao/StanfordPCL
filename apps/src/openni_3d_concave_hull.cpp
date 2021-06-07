@@ -71,15 +71,15 @@ class OpenNI3DConcaveHull
     typedef typename Cloud::ConstPtr CloudConstPtr;
 
     OpenNI3DConcaveHull (const std::string& device_id = "")
-      : viewer ("PCL OpenNI 3D Concave Hull Viewer") 
+      : viewer ("PCL OpenNI 3D Concave Hull Viewer")
     , device_id_(device_id)
     {
       grid.setFilterFieldName ("z");
       grid.setFilterLimits (0.0, 1.0);
       grid.setLeafSize (0.01f, 0.01f, 0.01f);
     }
-    
-    void 
+
+    void
     cloud_cb (const CloudConstPtr& cloud)
     {
       boost::mutex::scoped_lock lock (mtx_);
@@ -121,7 +121,7 @@ class OpenNI3DConcaveHull
           viz.addPointCloud (temp_cloud, "OpenNICloud");
           viz.resetCameraViewpoint ("OpenNICloud");
         }
-        // Render the data 
+        // Render the data
         if (new_cloud_ && cloud_hull_)
         {
           viz.removePointCloud ("hull");
@@ -138,11 +138,11 @@ class OpenNI3DConcaveHull
 
       boost::function<void (const CloudConstPtr&)> f = boost::bind (&OpenNI3DConcaveHull::cloud_cb, this, _1);
       boost::signals2::connection c = interface->registerCallback (f);
-     
+
       viewer.runOnVisualizationThread (boost::bind(&OpenNI3DConcaveHull::viz_cb, this, _1), "viz_cb");
 
       interface->start ();
-      
+
       while (!viewer.wasStopped ())
       {
         boost::this_thread::sleep(boost::posix_time::milliseconds(1));
@@ -190,7 +190,7 @@ main (int argc, char ** argv)
   std::string arg;
   if (argc > 1)
     arg = std::string (argv[1]);
-  
+
   if (arg == "--help" || arg == "-h")
   {
     usage (argv);

@@ -21,7 +21,7 @@
 // you may make calls to the same zlib that opennurbs uses.  This
 // zlib is compiled with z_ symbol projectection.  All the necessary
 // header files are included by opennurbs.h.
-// 
+//
 // If you are using opennurbs as a DLL or writing a Rhino plug-in
 // and you want to use the same zlib that opennurbs uses, then
 // compile opennurbs_zlib_memory.cpp into your application
@@ -66,7 +66,7 @@ public:
        This parameter only matters if the buffer will be compressed,
        and decompressed on CPUs with different endianness.  If this
        is the case, then the types in the buffer need to have the
-       same size (2,4, or 8).  
+       same size (2,4, or 8).
   Returns:
     True if inbuffer is successfully compressed.
   */
@@ -91,7 +91,7 @@ public:
        If the function returns true, then the uncopressed information
        is stored in this buffer.
     bFailedCRC - [out]
-       If not null, then this boolean is set to true if the CRC 
+       If not null, then this boolean is set to true if the CRC
        of the uncompressed information has changed.
   Returns:
     True if uncompressed information is returned in outbuffer.
@@ -103,7 +103,7 @@ public:
 
   /*
   Description:
-    Destroy the current informtion in the ON_CompressedBuffer 
+    Destroy the current informtion in the ON_CompressedBuffer
     so the class can be reused.
   */
   void Destroy();
@@ -127,9 +127,9 @@ public:
         size_t sizeof___outbuffer,  // sizeof uncompressed data
         void* out___buffer          // buffer for uncompressed data
         ) const;
-  bool WriteChar( 
-        size_t count, 
-        const void* buffer 
+  bool WriteChar(
+        size_t count,
+        const void* buffer
         );
 
   size_t     m_sizeof_uncompressed;

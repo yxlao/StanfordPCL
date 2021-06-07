@@ -61,7 +61,7 @@ RangeImagePlanar::createFromPointCloudWithFixedSize (const PointCloudType& point
   focal_length_y_reciprocal_ = 1 / focal_length_y_;
 
   is_dense = false;
-  
+
   getCoordinateFrameTransformation (coordinate_frame, to_world_system_);
   to_world_system_ = sensor_pose * to_world_system_;
 
@@ -95,12 +95,12 @@ RangeImagePlanar::calculate3DPoint (float image_x, float image_y, float range, E
 }
 
 /////////////////////////////////////////////////////////////////////////
-inline void 
-RangeImagePlanar::getImagePoint (const Eigen::Vector3f& point, float& image_x, float& image_y, float& range) const 
+inline void
+RangeImagePlanar::getImagePoint (const Eigen::Vector3f& point, float& image_x, float& image_y, float& range) const
 {
   Eigen::Vector3f transformedPoint = to_range_image_system_ * point;
   range = transformedPoint.norm ();
-  
+
   image_x = center_x_ + focal_length_x_*transformedPoint[0]/transformedPoint[2];
   image_y = center_y_ + focal_length_y_*transformedPoint[1]/transformedPoint[2];
 }

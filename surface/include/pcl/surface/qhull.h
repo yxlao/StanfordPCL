@@ -44,7 +44,7 @@
 #define PCL_QHULL_H
 
 #if defined __GNUC__
-#  pragma GCC system_header 
+#  pragma GCC system_header
 #endif
 
 extern "C"

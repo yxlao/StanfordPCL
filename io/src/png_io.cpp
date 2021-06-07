@@ -43,7 +43,7 @@
 #include <vtkSmartPointer.h>
 #include <vtkImageFlip.h>
 
-namespace 
+namespace
 {
   void flipAndWritePng(const std::string &file_name, vtkSmartPointer<vtkImageImport>& importer)
   {
@@ -62,7 +62,7 @@ namespace
 
 
 
-void 
+void
 pcl::io::saveCharPNGFile (const std::string &file_name, const unsigned char *char_data, int width, int height, int channels)
 {
   vtkSmartPointer<vtkImageImport> importer = vtkSmartPointer<vtkImageImport>::New ();
@@ -78,7 +78,7 @@ pcl::io::saveCharPNGFile (const std::string &file_name, const unsigned char *cha
   flipAndWritePng(file_name, importer);
 }
 
-void 
+void
 pcl::io::saveShortPNGFile (const std::string &file_name, const unsigned short *short_image, int width, int height, int channels)
 {
   vtkSmartPointer<vtkImageImport> importer = vtkSmartPointer<vtkImageImport>::New ();

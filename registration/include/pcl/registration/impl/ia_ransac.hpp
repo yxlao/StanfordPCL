@@ -43,7 +43,7 @@
 #include <pcl/common/distances.h>
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointSource, typename PointTarget, typename FeatureT> void 
+template <typename PointSource, typename PointTarget, typename FeatureT> void
 pcl::SampleConsensusInitialAlignment<PointSource, PointTarget, FeatureT>::setSourceFeatures (const FeatureCloudConstPtr &features)
 {
   if (features == NULL || features->empty ())
@@ -55,7 +55,7 @@ pcl::SampleConsensusInitialAlignment<PointSource, PointTarget, FeatureT>::setSou
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointSource, typename PointTarget, typename FeatureT> void 
+template <typename PointSource, typename PointTarget, typename FeatureT> void
 pcl::SampleConsensusInitialAlignment<PointSource, PointTarget, FeatureT>::setTargetFeatures (const FeatureCloudConstPtr &features)
 {
   if (features == NULL || features->empty ())
@@ -68,9 +68,9 @@ pcl::SampleConsensusInitialAlignment<PointSource, PointTarget, FeatureT>::setTar
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointSource, typename PointTarget, typename FeatureT> void 
+template <typename PointSource, typename PointTarget, typename FeatureT> void
 pcl::SampleConsensusInitialAlignment<PointSource, PointTarget, FeatureT>::selectSamples (
-    const PointCloudSource &cloud, int nr_samples, float min_sample_distance, 
+    const PointCloudSource &cloud, int nr_samples, float min_sample_distance,
     std::vector<int> &sample_indices)
 {
   if (nr_samples > static_cast<int> (cloud.points.size ()))
@@ -130,9 +130,9 @@ pcl::SampleConsensusInitialAlignment<PointSource, PointTarget, FeatureT>::select
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointSource, typename PointTarget, typename FeatureT> void 
+template <typename PointSource, typename PointTarget, typename FeatureT> void
 pcl::SampleConsensusInitialAlignment<PointSource, PointTarget, FeatureT>::findSimilarFeatures (
-    const FeatureCloud &input_features, const std::vector<int> &sample_indices, 
+    const FeatureCloud &input_features, const std::vector<int> &sample_indices,
     std::vector<int> &corresponding_indices)
 {
   std::vector<int> nn_indices (k_correspondences_);
@@ -151,7 +151,7 @@ pcl::SampleConsensusInitialAlignment<PointSource, PointTarget, FeatureT>::findSi
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointSource, typename PointTarget, typename FeatureT> float 
+template <typename PointSource, typename PointTarget, typename FeatureT> float
 pcl::SampleConsensusInitialAlignment<PointSource, PointTarget, FeatureT>::computeErrorMetric (
     const PointCloudSource &cloud, float)
 {
@@ -173,7 +173,7 @@ pcl::SampleConsensusInitialAlignment<PointSource, PointTarget, FeatureT>::comput
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-template <typename PointSource, typename PointTarget, typename FeatureT> void 
+template <typename PointSource, typename PointTarget, typename FeatureT> void
 pcl::SampleConsensusInitialAlignment<PointSource, PointTarget, FeatureT>::computeTransformation (PointCloudSource &output, const Eigen::Matrix4f& guess)
 {
   if (!input_features_)
@@ -201,7 +201,7 @@ pcl::SampleConsensusInitialAlignment<PointSource, PointTarget, FeatureT>::comput
 
   final_transformation_ = guess;
   int i_iter = 0;
-  if (!guess.isApprox(Eigen::Matrix4f::Identity (), 0.01f)) 
+  if (!guess.isApprox(Eigen::Matrix4f::Identity (), 0.01f))
   { //If guess is not the Identity matrix we check it.
 	  transformPointCloud (*input_, input_transformed, final_transformation_);
 	  lowest_error = computeErrorMetric (input_transformed, static_cast<float> (corr_dist_threshold_));

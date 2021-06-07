@@ -41,7 +41,7 @@
 #define PCL_POINT_TRAITS_H_
 
 #ifdef __GNUC__
-#pragma GCC system_header 
+#pragma GCC system_header
 #endif
 
 #include <sensor_msgs/PointField.h>

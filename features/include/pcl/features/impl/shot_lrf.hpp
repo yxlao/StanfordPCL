@@ -134,7 +134,7 @@ pcl::SHOTLocalReferenceFrameEstimation<PointInT, PointOutT>::getLocalRF (const i
 
 		if (plusTangentDirection1 < points/2+1)
 			v1 *= - 1;
-	} 
+	}
   else if (plusTangentDirection1 < 0)
     v1 *= - 1;
 

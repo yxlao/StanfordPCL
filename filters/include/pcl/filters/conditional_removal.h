@@ -45,7 +45,7 @@ namespace pcl
   //////////////////////////////////////////////////////////////////////////////////////////
   namespace ComparisonOps
   {
-    /** \brief The kind of comparison operations that are possible within a 
+    /** \brief The kind of comparison operations that are possible within a
       * comparison object
       */
     typedef enum
@@ -66,7 +66,7 @@ namespace pcl
       {
       }
 
-      /** \brief Compare function. 
+      /** \brief Compare function.
         * \param p the point to compare
         * \param val the value to compare the point to
         */
@@ -145,7 +145,7 @@ namespace pcl
       /** \brief Copy constructor.
         * \param[in] src the field comparison object to copy into this
         */
-      FieldComparison (const FieldComparison &src) 
+      FieldComparison (const FieldComparison &src)
         : ComparisonBase<PointT> ()
         , compare_val_ (src.compare_val_), point_data_ (src.point_data_)
       {
@@ -165,7 +165,7 @@ namespace pcl
       /** \brief Destructor. */
       virtual ~FieldComparison ();
 
-      /** \brief Determine the result of this comparison.  
+      /** \brief Determine the result of this comparison.
         * \param point the point to evaluate
         * \return the result of this comparison.
         */
@@ -205,7 +205,7 @@ namespace pcl
       /** \brief Destructor. */
       virtual ~PackedRGBComparison () {}
 
-      /** \brief Determine the result of this comparison.  
+      /** \brief Determine the result of this comparison.
         * \param point the point to evaluate
         * \return the result of this comparison.
         */
@@ -239,7 +239,7 @@ namespace pcl
     using ComparisonBase<PointT>::op_;
 
     public:
-      /** \brief Construct a PackedHSIComparison 
+      /** \brief Construct a PackedHSIComparison
         * \param component_name either "h", "s" or "i"
         * \param op the operator to use when making the comparison
         * \param compare_val the constant value to compare the component value too
@@ -249,7 +249,7 @@ namespace pcl
       /** \brief Destructor. */
       virtual ~PackedHSIComparison () {}
 
-      /** \brief Determine the result of this comparison.  
+      /** \brief Determine the result of this comparison.
         * \param point the point to evaluate
         * \return the result of this comparison.
         */
@@ -282,12 +282,12 @@ namespace pcl
       {
       } // not allowed
   };
-  
+
   //////////////////////////////////////////////////////////////////////////////////////////
   /**\brief A comparison whether the (x,y,z) components of a given point satisfy (p'Ap + 2v'p + c [OP] 0).
    * Here [OP] stands for the defined pcl::ComparisonOps, i.e. for GT, GE, LT, LE or EQ;
    * p = (x,y,z) is a point of the point cloud; A is 3x3 matrix; v is the 3x1 vector; c is a scalar.
-   *  
+   *
    * One can also use TfQuadraticXYZComparison for simpler geometric shapes by defining the
    * quadratic parts (i.e. the matrix A) to be zero. By combining different instances of
    * TfQuadraticXYZComparison one can get more complex shapes. For example, to have a simple
@@ -428,7 +428,7 @@ namespace pcl
       Eigen::Matrix4f tf_comp_matr_;
       Eigen::Vector4f tf_comp_vect_;
   };
-  
+
   //////////////////////////////////////////////////////////////////////////////////////////
   /** \brief Base condition class. */
   template<typename PointT>
@@ -463,7 +463,7 @@ namespace pcl
       void
       addComparison (ComparisonBaseConstPtr comparison);
 
-      /** \brief Add a nested condition to this condition.  
+      /** \brief Add a nested condition to this condition.
         * \param condition the nested condition to be added
         */
       void
@@ -476,7 +476,7 @@ namespace pcl
         return (capable_);
       }
 
-      /** \brief Determine if a point meets this condition.  
+      /** \brief Determine if a point meets this condition.
         * \return whether the point meets this condition.
         */
       virtual bool
@@ -511,7 +511,7 @@ namespace pcl
       {
       }
 
-      /** \brief Determine if a point meets this condition.  
+      /** \brief Determine if a point meets this condition.
         * \return whether the point meets this condition.
         *
         * The ConditionAnd evaluates to true when ALL
@@ -539,7 +539,7 @@ namespace pcl
       {
       }
 
-      /** \brief Determine if a point meets this condition.  
+      /** \brief Determine if a point meets this condition.
         * \return whether the point meets this condition.
         *
         * The ConditionOr evaluates to true when ANY
@@ -599,7 +599,7 @@ namespace pcl
       typedef typename ConditionBase::Ptr ConditionBasePtr;
       typedef typename ConditionBase::ConstPtr ConditionBaseConstPtr;
 
-      /** \brief the default constructor.  
+      /** \brief the default constructor.
         *
         * All ConditionalRemovals require a condition which can be set
         * using the setCondition method
@@ -612,7 +612,7 @@ namespace pcl
         filter_name_ = "ConditionalRemoval";
       }
 
-      /** \brief a constructor that includes the condition.  
+      /** \brief a constructor that includes the condition.
         * \param condition the condition that each point must satisfy to avoid
         * being removed by the filter
         * \param extract_removed_indices extract filtered indices from indices vector
@@ -656,7 +656,7 @@ namespace pcl
         user_filter_value_ = val;
       }
 
-      /** \brief Set the condition that the filter will use.  
+      /** \brief Set the condition that the filter will use.
         * \param condition each point must satisfy this condition to avoid
         * being removed by the filter
         *
@@ -686,10 +686,10 @@ namespace pcl
       ConditionBasePtr condition_;
 
       /** \brief User given value to be set to any filtered point. Casted to
-        * the correct field type. 
+        * the correct field type.
         */
       float user_filter_value_;
   };
 }
 
-#endif 
+#endif

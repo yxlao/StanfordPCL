@@ -51,7 +51,7 @@ namespace pcl
     * the FLANN (Fast Library for Approximate Nearest Neighbor) project by Marius Muja and David Lowe.
     *
     * \author Radu B. Rusu, Marius Muja
-    * \ingroup kdtree 
+    * \ingroup kdtree
     */
   template <typename PointT, typename Dist = ::flann::L2_Simple<float> >
   class KdTreeFLANN : public pcl::KdTree<PointT>
@@ -78,13 +78,13 @@ namespace pcl
       typedef boost::shared_ptr<const KdTreeFLANN<PointT> > ConstPtr;
 
       /** \brief Default Constructor for KdTreeFLANN.
-        * \param[in] sorted set to true if the application that the tree will be used for requires sorted nearest neighbor indices (default). False otherwise. 
+        * \param[in] sorted set to true if the application that the tree will be used for requires sorted nearest neighbor indices (default). False otherwise.
         *
         * By setting sorted to false, the \ref radiusSearch operations will be faster.
         */
-      KdTreeFLANN (bool sorted = true) : 
-        pcl::KdTree<PointT> (sorted), 
-        flann_index_ (NULL), cloud_ (NULL), 
+      KdTreeFLANN (bool sorted = true) :
+        pcl::KdTree<PointT> (sorted),
+        flann_index_ (NULL), cloud_ (NULL),
         index_mapping_ (), identity_mapping_ (false),
         dim_ (0), total_nr_points_ (0),
         param_k_ (::flann::SearchParams (-1 , epsilon_)),
@@ -95,9 +95,9 @@ namespace pcl
       /** \brief Copy constructor
         * \param[in] tree the tree to copy into this
         */
-      KdTreeFLANN (const KdTreeFLANN<PointT> &k) : 
-        pcl::KdTree<PointT> (false), 
-        flann_index_ (NULL), cloud_ (NULL), 
+      KdTreeFLANN (const KdTreeFLANN<PointT> &k) :
+        pcl::KdTree<PointT> (false),
+        flann_index_ (NULL), cloud_ (NULL),
         index_mapping_ (), identity_mapping_ (false),
         dim_ (0), total_nr_points_ (0),
         param_k_ (::flann::SearchParams (-1 , epsilon_)),
@@ -108,7 +108,7 @@ namespace pcl
 
       /** \brief Copy operator
         * \param[in] tree the tree to copy into this
-        */ 
+        */
       inline KdTreeFLANN<PointT>&
       operator = (const KdTreeFLANN<PointT>& k)
       {
@@ -135,18 +135,18 @@ namespace pcl
         param_radius_ = ::flann::SearchParams (-1 , epsilon_, sorted_);
       }
 
-      inline void 
+      inline void
       setSortedResults (bool sorted)
       {
         sorted_ = sorted;
         param_k_ = ::flann::SearchParams (-1, epsilon_);
         param_radius_ = ::flann::SearchParams (-1, epsilon_, sorted_);
       }
-      
-      inline Ptr makeShared () { return Ptr (new KdTreeFLANN<PointT> (*this)); } 
 
-      /** \brief Destructor for KdTreeFLANN. 
-        * Deletes all allocated data arrays and destroys the kd-tree structures. 
+      inline Ptr makeShared () { return Ptr (new KdTreeFLANN<PointT> (*this)); }
+
+      /** \brief Destructor for KdTreeFLANN.
+        * Deletes all allocated data arrays and destroys the kd-tree structures.
         */
       virtual ~KdTreeFLANN ()
       {
@@ -157,32 +157,32 @@ namespace pcl
         * \param[in] cloud the const boost shared pointer to a PointCloud message
         * \param[in] indices the point indices subset that is to be used from \a cloud - if NULL the whole cloud is used
         */
-      void 
+      void
       setInputCloud (const PointCloudConstPtr &cloud, const IndicesConstPtr &indices = IndicesConstPtr ());
 
       /** \brief Search for k-nearest neighbors for the given query point.
-        * 
+        *
         * \attention This method does not do any bounds checking for the input index
         * (i.e., index >= cloud.points.size () || index < 0), and assumes valid (i.e., finite) data.
-        * 
+        *
         * \param[in] point a given \a valid (i.e., finite) query point
         * \param[in] k the number of neighbors to search for
         * \param[out] k_indices the resultant indices of the neighboring points (must be resized to \a k a priori!)
-        * \param[out] k_sqr_distances the resultant squared distances to the neighboring points (must be resized to \a k 
+        * \param[out] k_sqr_distances the resultant squared distances to the neighboring points (must be resized to \a k
         * a priori!)
         * \return number of neighbors found
-        * 
+        *
         * \exception asserts in debug mode if the index is not between 0 and the maximum number of points
         */
-      int 
-      nearestKSearch (const PointT &point, int k, 
+      int
+      nearestKSearch (const PointT &point, int k,
                       std::vector<int> &k_indices, std::vector<float> &k_sqr_distances) const;
 
       /** \brief Search for all the nearest neighbors of the query point in a given radius.
-        * 
+        *
         * \attention This method does not do any bounds checking for the input index
         * (i.e., index >= cloud.points.size () || index < 0), and assumes valid (i.e., finite) data.
-        * 
+        *
         * \param[in] point a given \a valid (i.e., finite) query point
         * \param[in] radius the radius of the sphere bounding all of p_q's neighbors
         * \param[out] k_indices the resultant indices of the neighboring points
@@ -194,20 +194,20 @@ namespace pcl
         *
         * \exception asserts in debug mode if the index is not between 0 and the maximum number of points
         */
-      int 
+      int
       radiusSearch (const PointT &point, double radius, std::vector<int> &k_indices,
                     std::vector<float> &k_sqr_distances, unsigned int max_nn = 0) const;
 
     private:
       /** \brief Internal cleanup method. */
-      void 
+      void
       cleanup ();
 
       /** \brief Converts a PointCloud to the internal FLANN point array representation. Returns the number
         * of points.
-        * \param cloud the PointCloud 
+        * \param cloud the PointCloud
         */
-      void 
+      void
       convertCloudToArray (const PointCloud &cloud);
 
       /** \brief Converts a PointCloud with a given set of indices to the internal FLANN point array
@@ -215,12 +215,12 @@ namespace pcl
         * \param[in] cloud the PointCloud data
         * \param[in] indices the point cloud indices
        */
-      void 
+      void
       convertCloudToArray (const PointCloud &cloud, const std::vector<int> &indices);
 
     private:
       /** \brief Class getName method. */
-      virtual std::string 
+      virtual std::string
       getName () const { return ("KdTreeFLANN"); }
 
       /** \brief A FLANN index object. */
@@ -228,10 +228,10 @@ namespace pcl
 
       /** \brief Internal pointer to data. */
       float* cloud_;
-      
+
       /** \brief mapping between internal and external indices. */
       std::vector<int> index_mapping_;
-      
+
       /** \brief whether the mapping bwwteen internal and external indices is identity */
       bool identity_mapping_;
 
@@ -252,7 +252,7 @@ namespace pcl
     * the FLANN (Fast Library for Approximate Nearest Neighbor) project by Marius Muja and David Lowe.
     *
     * \author Radu B. Rusu, Marius Muja
-    * \ingroup kdtree 
+    * \ingroup kdtree
     */
   template <>
   class KdTreeFLANN <Eigen::MatrixXf>
@@ -274,13 +274,13 @@ namespace pcl
       typedef boost::shared_ptr<const KdTreeFLANN<Eigen::MatrixXf> > ConstPtr;
 
       /** \brief Default Constructor for KdTreeFLANN.
-        * \param[in] sorted set to true if the application that the tree will be used for requires sorted nearest neighbor indices (default). False otherwise. 
+        * \param[in] sorted set to true if the application that the tree will be used for requires sorted nearest neighbor indices (default). False otherwise.
         *
         * By setting sorted to false, the \ref radiusSearch operations will be faster.
         */
-      KdTreeFLANN (bool sorted = true) : 
+      KdTreeFLANN (bool sorted = true) :
         input_(), indices_(), epsilon_(0.0f), sorted_(sorted), flann_index_(NULL), cloud_(NULL),
-        index_mapping_ (), identity_mapping_ (false), dim_ (0), 
+        index_mapping_ (), identity_mapping_ (false), dim_ (0),
         param_k_ (::flann::SearchParams (-1, epsilon_)),
         param_radius_ (::flann::SearchParams (-1, epsilon_, sorted)),
         total_nr_points_ (0)
@@ -291,9 +291,9 @@ namespace pcl
       /** \brief Copy constructor
         * \param[in] tree the tree to copy into this
         */
-      KdTreeFLANN (const KdTreeFLANN<Eigen::MatrixXf> &k) : 
+      KdTreeFLANN (const KdTreeFLANN<Eigen::MatrixXf> &k) :
         input_(), indices_(), epsilon_(0.0f), sorted_(false), flann_index_(NULL), cloud_(NULL),
-        index_mapping_ (), identity_mapping_ (false), dim_ (0), 
+        index_mapping_ (), identity_mapping_ (false), dim_ (0),
         param_k_ (::flann::SearchParams (-1, epsilon_)),
         param_radius_ (::flann::SearchParams (-1, epsilon_, sorted_)),
         total_nr_points_ (0)
@@ -303,7 +303,7 @@ namespace pcl
 
       /** \brief Copy operator
         * \param[in] tree the tree to copy into this
-        */ 
+        */
       inline KdTreeFLANN&
       operator = (const KdTreeFLANN<Eigen::MatrixXf>& k)
       {
@@ -333,11 +333,11 @@ namespace pcl
         param_radius_ = ::flann::SearchParams (-1, epsilon_, sorted_);
       }
 
-      inline Ptr 
-      makeShared () { return Ptr (new KdTreeFLANN<Eigen::MatrixXf> (*this)); } 
+      inline Ptr
+      makeShared () { return Ptr (new KdTreeFLANN<Eigen::MatrixXf> (*this)); }
 
-      /** \brief Destructor for KdTreeFLANN. 
-        * Deletes all allocated data arrays and destroys the kd-tree structures. 
+      /** \brief Destructor for KdTreeFLANN.
+        * Deletes all allocated data arrays and destroys the kd-tree structures.
         */
       virtual ~KdTreeFLANN ()
       {
@@ -348,7 +348,7 @@ namespace pcl
         * \param[in] cloud the const boost shared pointer to a PointCloud message
         * \param[in] indices the point indices subset that is to be used from \a cloud - if NULL the whole cloud is used
         */
-      void 
+      void
       setInputCloud (const PointCloudConstPtr &cloud, const IndicesConstPtr &indices = IndicesConstPtr ())
       {
         cleanup ();   // Perform an automatic cleanup of structures
@@ -360,7 +360,7 @@ namespace pcl
         input_   = cloud;
         indices_ = indices;
         dim_ = static_cast<int> (cloud->points.cols ()); // Number of dimensions = number of columns in the eigen matrix
-        
+
         // Allocate enough data
         if (indices != NULL)
         {
@@ -397,12 +397,12 @@ namespace pcl
         * \param[in] point the given query point
         * \param[in] k the number of neighbors to search for
         * \param[out] k_indices the resultant indices of the neighboring points (must be resized to \a k a priori!)
-        * \param[out] k_sqr_distances the resultant squared distances to the neighboring points (must be resized to \a k 
+        * \param[out] k_sqr_distances the resultant squared distances to the neighboring points (must be resized to \a k
         * a priori!)
         * \return number of neighbors found
         */
-      template <typename T> int 
-      nearestKSearch (const T &point, int k, 
+      template <typename T> int
+      nearestKSearch (const T &point, int k,
                       std::vector<int> &k_indices, std::vector<float> &k_sqr_distances) const
       {
         assert (isRowValid (point) && "Invalid (NaN, Inf) point coordinates given to nearestKSearch!");
@@ -424,12 +424,12 @@ namespace pcl
         ::flann::Matrix<int> k_indices_mat (&k_indices[0], 1, k);
         ::flann::Matrix<float> k_distances_mat (&k_sqr_distances[0], 1, k);
         // Wrap the k_indices and k_distances vectors (no data copy)
-        flann_index_->knnSearch (::flann::Matrix<float> (&query[0], 1, dim), 
+        flann_index_->knnSearch (::flann::Matrix<float> (&query[0], 1, dim),
                                  k_indices_mat, k_distances_mat,
                                  k, param_k_);
 
         // Do mapping to original point cloud
-        if (!identity_mapping_) 
+        if (!identity_mapping_)
         {
           for (size_t i = 0; i < static_cast<size_t> (k); ++i)
           {
@@ -446,12 +446,12 @@ namespace pcl
         * \param[in] index the index in \a cloud representing the query point
         * \param[in] k the number of neighbors to search for
         * \param[out] k_indices the resultant indices of the neighboring points (must be resized to \a k a priori!)
-        * \param[out] k_sqr_distances the resultant squared distances to the neighboring points (must be resized to \a k 
+        * \param[out] k_sqr_distances the resultant squared distances to the neighboring points (must be resized to \a k
         * a priori!)
         * \return number of neighbors found
         */
-      inline int 
-      nearestKSearch (const PointCloud &cloud, int index, int k, 
+      inline int
+      nearestKSearch (const PointCloud &cloud, int index, int k,
                       std::vector<int> &k_indices, std::vector<float> &k_sqr_distances) const
       {
         assert (index >= 0 && index < static_cast<int> (cloud.size ()) && "Out-of-bounds error in nearestKSearch!");
@@ -463,12 +463,12 @@ namespace pcl
         *        if indices were given in setInputCloud, index will be the position in the indices vector
         * \param[in] k the number of neighbors to search for
         * \param[out] k_indices the resultant indices of the neighboring points (must be resized to \a k a priori!)
-        * \param[out] k_sqr_distances the resultant squared distances to the neighboring points (must be resized to \a k 
+        * \param[out] k_sqr_distances the resultant squared distances to the neighboring points (must be resized to \a k
         * a priori!)
         * \return number of neighbors found
         */
-      inline int 
-      nearestKSearch (int index, int k, 
+      inline int
+      nearestKSearch (int index, int k,
                       std::vector<int> &k_indices, std::vector<float> &k_sqr_distances) const
       {
         if (indices_ == NULL)
@@ -493,7 +493,7 @@ namespace pcl
         * returned.
         * \return number of neighbors found in radius
         */
-      template <typename T> int 
+      template <typename T> int
       radiusSearch (const T &point, double radius, std::vector<int> &k_indices,
             std::vector<float> &k_sqr_dists, unsigned int max_nn = 0) const
       {
@@ -520,14 +520,14 @@ namespace pcl
         int neighbors_in_radius = flann_index_->radiusSearch (::flann::Matrix<float> (&query[0], 1, dim_),
             indices,
             dists,
-            static_cast<float> (radius * radius), 
+            static_cast<float> (radius * radius),
             params);
 
         k_indices = indices[0];
         k_sqr_dists = dists[0];
 
         // Do mapping to original point cloud
-        if (!identity_mapping_) 
+        if (!identity_mapping_)
         {
           for (int i = 0; i < neighbors_in_radius; ++i)
           {
@@ -550,9 +550,9 @@ namespace pcl
         * returned.
         * \return number of neighbors found in radius
         */
-      inline int 
-      radiusSearch (const PointCloud &cloud, int index, double radius, 
-                    std::vector<int> &k_indices, std::vector<float> &k_sqr_distances, 
+      inline int
+      radiusSearch (const PointCloud &cloud, int index, double radius,
+                    std::vector<int> &k_indices, std::vector<float> &k_sqr_distances,
                     unsigned int max_nn = 0) const
       {
         assert (index >= 0 && index < static_cast<int> (cloud.size ()) && "Out-of-bounds error in radiusSearch!");
@@ -570,7 +570,7 @@ namespace pcl
         * returned.
         * \return number of neighbors found in radius
         */
-      inline int 
+      inline int
       radiusSearch (int index, double radius, std::vector<int> &k_indices,
                     std::vector<float> &k_sqr_distances, unsigned int max_nn = 0) const
       {
@@ -595,7 +595,7 @@ namespace pcl
 
     private:
       /** \brief Internal cleanup method. */
-      void 
+      void
       cleanup ()
       {
         if (flann_index_)
@@ -628,9 +628,9 @@ namespace pcl
 
       /** \brief Converts a PointCloud to the internal FLANN point array representation. Returns the number
         * of points.
-        * \param cloud the PointCloud 
+        * \param cloud the PointCloud
         */
-      void 
+      void
       convertCloudToArray (const PointCloud &cloud)
       {
         // No point in doing anything if the array is empty
@@ -671,7 +671,7 @@ namespace pcl
         * \param[in] cloud the PointCloud data
         * \param[in] indices the point cloud indices
        */
-      void 
+      void
       convertCloudToArray (const PointCloud &cloud, const std::vector<int> &indices)
       {
         // No point in doing anything if the array is empty
@@ -723,7 +723,7 @@ namespace pcl
 
     private:
       /** \brief Class getName method. */
-      std::string 
+      std::string
       getName () const { return ("KdTreeFLANN"); }
 
       /** \brief A FLANN index object. */
@@ -731,10 +731,10 @@ namespace pcl
 
       /** \brief Internal pointer to data. */
       float* cloud_;
-      
+
       /** \brief mapping between internal and external indices. */
       std::vector<int> index_mapping_;
-      
+
       /** \brief whether the mapping bwwteen internal and external indices is identity */
       bool identity_mapping_;
 

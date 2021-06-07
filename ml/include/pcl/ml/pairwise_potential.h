@@ -47,7 +47,7 @@
 namespace pcl
 {
   /** \brief
-   * 
+   *
    */
   class PairwisePotential
   {

@@ -62,9 +62,9 @@ namespace pcl
     * \note For efficiency reasons, we assume that the point data passed to the method is finite.
     * \ingroup features
     */
-  PCL_EXPORTS bool 
-  computePairFeatures (const Eigen::Vector4f &p1, const Eigen::Vector4f &n1, 
-                       const Eigen::Vector4f &p2, const Eigen::Vector4f &n2, 
+  PCL_EXPORTS bool
+  computePairFeatures (const Eigen::Vector4f &p1, const Eigen::Vector4f &n1,
+                       const Eigen::Vector4f &p2, const Eigen::Vector4f &n2,
                        float &f1, float &f2, float &f3, float &f4);
 
   /** \brief PFHEstimation estimates the Point Feature Histogram (PFH) descriptor for a given point cloud dataset
@@ -83,9 +83,9 @@ namespace pcl
     *     In Proceedings of the 10th International Conference on Control, Automation, Robotics and Vision (ICARCV),
     *     Hanoi, Vietnam, December 17-20 2008.
     *
-    * \attention 
+    * \attention
     * The convention for PFH features is:
-    *   - if a query point's nearest neighbors cannot be estimated, the PFH feature will be set to NaN 
+    *   - if a query point's nearest neighbors cannot be estimated, the PFH feature will be set to NaN
     *     (not a number)
     *   - it is impossible to estimate a PFH descriptor for a point that
     *     doesn't have finite 3D coordinates. Therefore, any point that contains
@@ -113,14 +113,14 @@ namespace pcl
       typedef typename Feature<PointInT, PointOutT>::PointCloudOut PointCloudOut;
       typedef typename Feature<PointInT, PointOutT>::PointCloudIn  PointCloudIn;
 
-      /** \brief Empty constructor. 
+      /** \brief Empty constructor.
         * Sets \a use_cache_ to false, \a nr_subdiv_ to 5, and the internal maximum cache size to 1GB.
         */
-      PFHEstimation () : 
-        nr_subdiv_ (5), 
+      PFHEstimation () :
+        nr_subdiv_ (5),
         pfh_histogram_ (),
         pfh_tuple_ (),
-        d_pi_ (1.0f / (2.0f * static_cast<float> (M_PI))), 
+        d_pi_ (1.0f / (2.0f * static_cast<float> (M_PI))),
         feature_map_ (),
         key_list_ (),
         // Default 1GB memory size. Need to set it to something more conservative.
@@ -131,7 +131,7 @@ namespace pcl
       };
 
       /** \brief Set the maximum internal cache size. Defaults to 2GB worth of entries.
-        * \param[in] cache_size maximum cache size 
+        * \param[in] cache_size maximum cache size
         */
       inline void
       setMaximumCacheSize (unsigned int cache_size)
@@ -140,13 +140,13 @@ namespace pcl
       }
 
       /** \brief Get the maximum internal cache size. */
-      inline unsigned int 
+      inline unsigned int
       getMaximumCacheSize ()
       {
         return (max_cache_size_);
       }
 
-      /** \brief Set whether to use an internal cache mechanism for removing redundant calculations or not. 
+      /** \brief Set whether to use an internal cache mechanism for removing redundant calculations or not.
         *
         * \note Depending on how the point cloud is ordered and how the nearest
         * neighbors are estimated, using a cache could have a positive or a
@@ -184,8 +184,8 @@ namespace pcl
         * \param[out] f4 the distance feature (p_idx - q_idx)
         * \note For efficiency reasons, we assume that the point data passed to the method is finite.
         */
-      bool 
-      computePairFeatures (const pcl::PointCloud<PointInT> &cloud, const pcl::PointCloud<PointNT> &normals, 
+      bool
+      computePairFeatures (const pcl::PointCloud<PointInT> &cloud, const pcl::PointCloud<PointNT> &normals,
                            int p_idx, int q_idx, float &f1, float &f2, float &f3, float &f4);
 
       /** \brief Estimate the PFH (Point Feature Histograms) individual signatures of the three angular (f1, f2, f3)
@@ -196,8 +196,8 @@ namespace pcl
         * \param[in] nr_split the number of subdivisions for each angular feature interval
         * \param[out] pfh_histogram the resultant (combinatorial) PFH histogram representing the feature at the query point
         */
-      void 
-      computePointPFHSignature (const pcl::PointCloud<PointInT> &cloud, const pcl::PointCloud<PointNT> &normals, 
+      void
+      computePointPFHSignature (const pcl::PointCloud<PointInT> &cloud, const pcl::PointCloud<PointNT> &normals,
                                 const std::vector<int> &indices, int nr_split, Eigen::VectorXf &pfh_histogram);
 
     protected:
@@ -206,7 +206,7 @@ namespace pcl
         * setSearchMethod ()
         * \param[out] output the resultant point cloud model dataset that contains the PFH feature estimates
         */
-      void 
+      void
       computeFeature (PointCloudOut &output);
 
       /** \brief The number of subdivisions for each angular feature interval. */
@@ -222,7 +222,7 @@ namespace pcl
       int f_index_[3];
 
       /** \brief Float constant = 1.0 / (2.0 * M_PI) */
-      float d_pi_; 
+      float d_pi_;
 
       /** \brief Internal hashmap, used to optimize efficiency of redundant computations. */
       std::map<std::pair<int, int>, Eigen::Vector4f, std::less<std::pair<int, int> >, Eigen::aligned_allocator<Eigen::Vector4f> > feature_map_;
@@ -237,9 +237,9 @@ namespace pcl
       bool use_cache_;
     private:
       /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &) {}
   };
 
@@ -257,9 +257,9 @@ namespace pcl
     *     In Proceedings of the 10th International Conference on Control, Automation, Robotics and Vision (ICARCV),
     *     Hanoi, Vietnam, December 17-20 2008.
     *
-    * \attention 
+    * \attention
     * The convention for PFH features is:
-    *   - if a query point's nearest neighbors cannot be estimated, the PFH feature will be set to NaN 
+    *   - if a query point's nearest neighbors cannot be estimated, the PFH feature will be set to NaN
     *     (not a number)
     *   - it is impossible to estimate a PFH descriptor for a point that
     *     doesn't have finite 3D coordinates. Therefore, any point that contains
@@ -294,13 +294,13 @@ namespace pcl
         * setSearchMethod ()
         * \param[out] output the resultant point cloud model dataset that contains the PFH feature estimates
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &output);
 
       /** \brief Make the compute (&PointCloudOut); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       compute (pcl::PointCloud<pcl::PFHSignature125> &) {}
    };
 }

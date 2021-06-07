@@ -52,8 +52,8 @@ namespace pcl
       float4 coefficients;
       float threshold;
 
-      CountPlanarInlier (float4 coeff, float thresh) : 
-        coefficients(coeff), threshold(thresh) 
+      CountPlanarInlier (float4 coeff, float thresh) :
+        coefficients(coeff), threshold(thresh)
       {}
 
       template <typename Tuple> __inline__ __host__ __device__ bool
@@ -66,8 +66,8 @@ namespace pcl
       float4 coefficients;
       float threshold;
 
-      CheckPlanarInlier (float4 coeff, float thresh) : 
-        coefficients(coeff), threshold(thresh) 
+      CheckPlanarInlier (float4 coeff, float thresh) :
+        coefficients(coeff), threshold(thresh)
       {}
 
       template <typename Tuple> __inline__ __host__ __device__ int
@@ -115,7 +115,7 @@ namespace pcl
           * \param samples the resultant model samples
           * \note assumes unique points!
           */
-        void 
+        void
         getSamples (int &iterations, Indices &samples);
 
         /** \brief Check whether the given index samples can form a valid plane model, compute the model coefficients from
@@ -124,13 +124,13 @@ namespace pcl
           * \param samples the point indices found as possible good candidates for creating a valid model
           * \param model_coefficients the resultant model coefficients
           */
-        bool 
+        bool
         computeModelCoefficients (const Indices &samples, Coefficients &model_coefficients);
 
-        bool 
+        bool
         generateModelHypotheses (Hypotheses &h, int max_iterations);
 
-        virtual bool 
+        virtual bool
         generateModelHypotheses (Hypotheses &h, Samples &s, int max_iterations)
         {
           // TODO: hack.. Samples should be vector<int>, not int..
@@ -141,18 +141,18 @@ namespace pcl
   //        * \param model_coefficients the coefficients of a plane model that we need to compute distances to
   //        * \param distances the resultant estimated distances
   //        */
-  //      void 
+  //      void
   //      getDistancesToModel (const Eigen::VectorXf &model_coefficients, std::vector<float> &distances);
 
         /** \brief Select all the points which respect the given model coefficients as inliers.
-          * \param model_coefficients the coefficients of a plane model that we need to 
+          * \param model_coefficients the coefficients of a plane model that we need to
           * compute distances to
-          * \param threshold a maximum admissible distance threshold for determining the 
+          * \param threshold a maximum admissible distance threshold for determining the
           * inliers from the outliers
           * \param inliers the resultant model inliers
           */
-        int 
-        selectWithinDistance (const Coefficients &model_coefficients, 
+        int
+        selectWithinDistance (const Coefficients &model_coefficients,
                               float threshold, IndicesPtr &inliers, IndicesPtr &inliers_stencil);
         int
         selectWithinDistance (const Hypotheses &h, int idx,
@@ -176,7 +176,7 @@ namespace pcl
   //        * \param model_coefficients the initial guess for the model coefficients
   //        * \param optimized_coefficients the resultant recomputed coefficients after non-linear optimization
   //        */
-  //      void 
+  //      void
   //      optimizeModelCoefficients (const std::vector<int> &inliers, const Eigen::VectorXf &model_coefficients, Eigen::VectorXf &optimized_coefficients);
   //
   //      /** \brief Create a new point cloud with inliers projected onto the plane model.
@@ -185,7 +185,7 @@ namespace pcl
   //        * \param projected_points the resultant projected points
   //        * \param copy_data_fields set to true if we need to copy the other data fields
   //        */
-  //      void 
+  //      void
   //      projectPoints (const std::vector<int> &inliers, const Eigen::VectorXf &model_coefficients, PointCloud &projected_points, bool copy_data_fields = true);
   //
   //      /** \brief Verify whether a subset of indices verifies the given plane model coefficients.
@@ -193,7 +193,7 @@ namespace pcl
   //        * \param model_coefficients the plane model coefficients
   //        * \param threshold a maximum admissible distance threshold for determining the inliers from the outliers
   //        */
-  //      bool 
+  //      bool
   //      doSamplesVerifyModel (const std::set<int> &indices, const Eigen::VectorXf &model_coefficients, float threshold);
   //
   //      /** \brief Return an unique id for this model (SACMODEL_PLANE). */
@@ -203,7 +203,7 @@ namespace pcl
   //      /** \brief Check whether a model is valid given the user constraints.
   //        * \param model_coefficients the set of model coefficients
   //        */
-  ///*      inline bool 
+  ///*      inline bool
   //      isModelValid (const Eigen::VectorXf &model_coefficients)
   //      {
   //        // Needs a valid model coefficients
@@ -236,37 +236,37 @@ namespace pcl
       int nr_indices;
       float bad_value;
 
-      CreatePlaneHypothesis (const PointXYZRGB *_input, const int *_indices, int _nr_indices, float bad) : 
+      CreatePlaneHypothesis (const PointXYZRGB *_input, const int *_indices, int _nr_indices, float bad) :
         input(_input), indices(_indices), nr_indices(_nr_indices), bad_value(bad)
       {}
 
-      //template <typename Tuple> 
+      //template <typename Tuple>
       __inline__ __host__ __device__ float4
       //operator () (const Tuple &t);
       operator () (int t);
     };
 
 
-    struct parallel_random_generator 
-    { 
-      
-      __inline__ __host__ __device__ 
-      parallel_random_generator(unsigned int seed) 
-      { 
-        m_seed = seed; 
-      } 
+    struct parallel_random_generator
+    {
 
-      __inline__ __host__ __device__ 
-      unsigned int operator()(const unsigned int n) const 
-      { 
-        thrust::default_random_engine rng(m_seed); 
-        // discard n numbers to avoid correlation 
-        rng.discard(n); 
-        // return a random number 
-        return rng(); 
-      } 
-      unsigned int m_seed; 
-    }; 
+      __inline__ __host__ __device__
+      parallel_random_generator(unsigned int seed)
+      {
+        m_seed = seed;
+      }
+
+      __inline__ __host__ __device__
+      unsigned int operator()(const unsigned int n) const
+      {
+        thrust::default_random_engine rng(m_seed);
+        // discard n numbers to avoid correlation
+        rng.discard(n);
+        // return a random number
+        return rng();
+      }
+      unsigned int m_seed;
+    };
 
   } // namespace
 } // namespace

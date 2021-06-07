@@ -73,9 +73,9 @@ namespace pcl
       typedef pcl::PointCloud<PointInT> PointCloudIn;
 
       /** \brief Empty constructor. */
-      PrincipalCurvaturesEstimation () : 
-        projected_normals_ (), 
-        xyz_centroid_ (Eigen::Vector3f::Zero ()), 
+      PrincipalCurvaturesEstimation () :
+        projected_normals_ (),
+        xyz_centroid_ (Eigen::Vector3f::Zero ()),
         demean_ (Eigen::Vector3f::Zero ()),
         covariance_matrix_ (Eigen::Matrix3f::Zero ()),
         eigenvector_ (Eigen::Vector3f::Zero ()),

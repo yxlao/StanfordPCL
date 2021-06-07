@@ -69,7 +69,7 @@ namespace pcl
       /** \brief Constructor for base SampleConsensusModelRegistration.
         * \param[in] cloud the input point cloud dataset
         */
-      SampleConsensusModelRegistration (const PointCloudConstPtr &cloud) : 
+      SampleConsensusModelRegistration (const PointCloudConstPtr &cloud) :
         SampleConsensusModel<PointT> (cloud),
         target_ (),
         indices_tgt_ (),

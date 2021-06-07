@@ -46,11 +46,11 @@ namespace pcl
     //////////////////////////////////////////////////////////////////////////////////////////////
     template<typename DataT, typename LeafContainerT, typename BranchContainerT>
     Octree2BufBase<DataT, LeafContainerT, BranchContainerT>::Octree2BufBase () :
-      leafCount_ (0), 
+      leafCount_ (0),
       branchCount_ (1),
-      objectCount_ (0), 
+      objectCount_ (0),
       rootNode_ (new BranchNode ()),
-      depthMask_ (0), 
+      depthMask_ (0),
       maxKey_ (),
       branchNodePool_ (),
       leafNodePool_ (),
@@ -79,7 +79,7 @@ namespace pcl
       assert (maxVoxelIndex_arg > 0);
 
       // tree depth == amount of bits of maxVoxels
-      treeDepth = std::max ((std::min (static_cast<unsigned int> (OCT_MAXTREEDEPTH), 
+      treeDepth = std::max ((std::min (static_cast<unsigned int> (OCT_MAXTREEDEPTH),
                                        static_cast<unsigned int> (std::ceil (Log2 (maxVoxelIndex_arg))))),
                                        static_cast<unsigned int> (0));
 
@@ -169,7 +169,7 @@ namespace pcl
         leafCount_ = 0;
         branchCount_ = 1;
         objectCount_ = 0;
-        
+
         treeDirtyFlag_ = false;
         depthMask_ = 0;
         octreeDepth_ = 0;
@@ -212,7 +212,7 @@ namespace pcl
     Octree2BufBase<DataT, LeafContainerT, BranchContainerT>::serializeTree (std::vector<char>& binaryTreeOut_arg, bool doXOREncoding_arg)
     {
       OctreeKey newKey;
-      
+
       // clear binary vector
       binaryTreeOut_arg.clear ();
       binaryTreeOut_arg.reserve (this->branchCount_);
@@ -394,7 +394,7 @@ namespace pcl
         // required branch node already exists - use it
         else
           childBranch = static_cast<BranchNode*> (branch_arg->getChildPtr(bufferSelector_,childIdx));
-        
+
         // recursively proceed with indexed child branch
         createLeafRecursive (key_arg, depthMask_arg / 2, childBranch, doNodeReset, returnLeaf_arg);
       }
@@ -405,7 +405,7 @@ namespace pcl
         if (!branch_arg->hasChild(bufferSelector_, childIdx))
         {
           // leaf node at childIdx does not exist
-          
+
           // check if we can take copy a reference from previous buffer
           if (branch_arg->hasChild(!bufferSelector_, childIdx))
           {
@@ -421,7 +421,7 @@ namespace pcl
               deleteBranchChild (*branch_arg, !bufferSelector_, childIdx);
               createLeafChild (*branch_arg, childIdx, childLeaf);
             }
-            leafCount_++;  
+            leafCount_++;
           }
           else
           {
@@ -429,7 +429,7 @@ namespace pcl
             createLeafChild (*branch_arg, childIdx, childLeaf);
             leafCount_++;
           }
-          
+
           // return leaf node
           returnLeaf_arg = childLeaf;
         }
@@ -437,7 +437,7 @@ namespace pcl
         {
           // leaf node already exist
           childLeaf = static_cast<LeafNode*> (branch_arg->getChildPtr(bufferSelector_,childIdx));
-          
+
           // return leaf node
           returnLeaf_arg = childLeaf;
         }
@@ -460,7 +460,7 @@ namespace pcl
         // we have not reached maximum tree depth
         BranchNode* childBranch;
         childBranch = static_cast<BranchNode*> (branch_arg->getChildPtr(bufferSelector_,childIdx));
-        
+
         if (childBranch)
           // recursively proceed with indexed child branch
           findLeafRecursive (key_arg, depthMask_arg / 2, childBranch, result_arg);
@@ -473,7 +473,7 @@ namespace pcl
           // return existing leaf node
           result_arg = static_cast<LeafNode*> (branch_arg->getChildPtr(bufferSelector_,childIdx));
         }
-      }    
+      }
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////
@@ -494,15 +494,15 @@ namespace pcl
         // we have not reached maximum tree depth
         BranchNode* childBranch;
         bool bBranchOccupied;
-        
+
         // next branch child on our path through the tree
         childBranch = static_cast<BranchNode*> (branch_arg->getChildPtr(bufferSelector_,childIdx));
-        
+
         if (childBranch)
         {
           // recursively explore the indexed child branch
           bBranchOccupied = deleteLeafRecursive (key_arg, depthMask_arg / 2, childBranch);
-          
+
           if (!bBranchOccupied)
           {
             // child branch does not own any sub-child nodes anymore -> delete child branch
@@ -574,9 +574,9 @@ namespace pcl
         {
           // add current branch voxel to key
           key_arg.pushBranch(childIdx);
-          
+
           OctreeNode *childNode = branch_arg->getChildPtr(bufferSelector_,childIdx);
-          
+
           switch (childNode->getNodeType ())
           {
             case BRANCH_NODE:
@@ -657,7 +657,7 @@ namespace pcl
         for (childIdx = 0; childIdx < 8; childIdx++)
         {
           branch_arg->setChildPtr(bufferSelector_, childIdx, 0);
-        }  
+        }
       }
 
       if (binaryTreeIT_arg!=binaryTreeIT_End_arg) {
@@ -685,9 +685,9 @@ namespace pcl
             key_arg.pushBranch(childIdx);
 
             bool doNodeReset;
-            
+
             doNodeReset = false;
-            
+
             if (depthMask_arg > 1)
             {
               // we have not reached maximum tree depth
@@ -740,7 +740,7 @@ namespace pcl
             {
               // branch childs are leaf nodes
               LeafNode* childLeaf;
-              
+
               // check if we can take copy a reference pointer from previous buffer
               if (branch_arg->hasChild(!bufferSelector_, childIdx))
               {
@@ -761,9 +761,9 @@ namespace pcl
                 // if required leaf does not exist -> create it
                 createLeafChild (*branch_arg, childIdx, childLeaf);
               }
-              
+
               leafCount_++;
-              
+
               OctreeKey dataKey;
               bool bKeyBasedEncoding = false;
 
@@ -800,7 +800,7 @@ namespace pcl
           {
             // remove old branch pointer information in current branch
             branch_arg->setChildPtr(bufferSelector_, childIdx, 0);
-            
+
             // remove unused branches in previous buffer
             deleteBranchChild (*branch_arg, !bufferSelector_, childIdx);
           }
@@ -808,7 +808,7 @@ namespace pcl
       }
 
     }
-    
+
     //////////////////////////////////////////////////////////////////////////////////////////////
     template<typename DataT, typename LeafContainerT, typename BranchContainerT> void
     Octree2BufBase<DataT, LeafContainerT, BranchContainerT>::treeCleanUpRecursive (BranchNode* branch_arg)
@@ -836,7 +836,7 @@ namespace pcl
         if (branch_arg->hasChild(bufferSelector_, childIdx))
         {
           OctreeNode *childNode = branch_arg->getChildPtr(bufferSelector_,childIdx);
-          
+
           switch (childNode->getNodeType ())
           {
             case BRANCH_NODE:
@@ -858,7 +858,7 @@ namespace pcl
         {
           // delete branch, free memory
           deleteBranchChild (*branch_arg, !bufferSelector_, childIdx);
-        }  
+        }
       }
     }
   }

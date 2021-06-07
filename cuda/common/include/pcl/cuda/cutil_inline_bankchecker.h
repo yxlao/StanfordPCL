@@ -8,7 +8,7 @@
  * is strictly prohibited.
  *
  */
- 
+
  #ifndef _CUTIL_INLINE_BANKCHECKER_H_
 #define _CUTIL_INLINE_BANKCHECKER_H_
 
@@ -20,7 +20,7 @@
                                                                array[idx])
 
    #else
-      #define cutilBankChecker(array, idx) array[idx] 
+      #define cutilBankChecker(array, idx) array[idx]
    #endif
 #else
       #define cutilBankChecker(array, idx) array[idx]
@@ -29,7 +29,7 @@
     // Interface for bank conflict checker
 inline void __cutilBankChecker(unsigned int tidx, unsigned int tidy, unsigned int tidz,
                             unsigned int bdimx, unsigned int bdimy, unsigned int bdimz,
-                            char *aname, int index, char *file, int line) 
+                            char *aname, int index, char *file, int line)
 {
     cutCheckBankAccess( tidx, tidy, tidz, bdimx, bdimy, bdimz, file, line, aname, index);
 }

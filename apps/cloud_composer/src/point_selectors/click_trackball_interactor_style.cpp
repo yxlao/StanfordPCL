@@ -22,29 +22,29 @@ pcl::cloud_composer::ClickTrackballStyleInteractor::ClickTrackballStyleInteracto
 
 pcl::cloud_composer::ClickTrackballStyleInteractor::~ClickTrackballStyleInteractor ()
 {
-  
+
 }
 
 void
 pcl::cloud_composer::ClickTrackballStyleInteractor::OnLeftButtonDown ()
 {
   vtkInteractorStyleTrackballActor::OnLeftButtonDown();
-  
+
   vtkActor* selected_actor = vtkActor::SafeDownCast(this->InteractionProp);
   if (selected_actor)
     selected_actor->GetMatrix (start_matrix_);
-  
+
 }
 
 void
 pcl::cloud_composer::ClickTrackballStyleInteractor::OnRightButtonDown ()
 {
   vtkInteractorStyleTrackballActor::OnRightButtonDown();
-  
+
   vtkActor* selected_actor = vtkActor::SafeDownCast(this->InteractionProp);
   if (selected_actor)
     selected_actor->GetMatrix (start_matrix_);
-  
+
 }
 
 void
@@ -56,7 +56,7 @@ pcl::cloud_composer::ClickTrackballStyleInteractor::OnLeftButtonUp ()
   {
     ManipulationEvent* manip_event = new ManipulationEvent ();
     //Fetch the actor we manipulated
-    
+
     selected_actor->GetMatrix (end_matrix_);
     // Find the id of the actor we manipulated
     pcl::visualization::CloudActorMap::const_iterator end = actors_->end ();
@@ -67,7 +67,7 @@ pcl::cloud_composer::ClickTrackballStyleInteractor::OnLeftButtonUp ()
       if ( (itr->second).actor == selected_actor)
       {
         manipulated_id = (QString::fromStdString (itr->first));
-        
+
       }
     }
     if ( !manipulated_id.isEmpty() )
@@ -91,7 +91,7 @@ pcl::cloud_composer::ClickTrackballStyleInteractor::OnRightButtonUp ()
   {
     ManipulationEvent* manip_event = new ManipulationEvent ();
     //Fetch the actor we manipulated
-    
+
     selected_actor->GetMatrix (end_matrix_);
     // Find the id of the actor we manipulated
     pcl::visualization::CloudActorMap::const_iterator end = actors_->end ();
@@ -102,7 +102,7 @@ pcl::cloud_composer::ClickTrackballStyleInteractor::OnRightButtonUp ()
       if ( (itr->second).actor == selected_actor)
       {
         manipulated_id = (QString::fromStdString (itr->first));
-        
+
       }
     }
     if ( !manipulated_id.isEmpty() )
@@ -115,7 +115,7 @@ pcl::cloud_composer::ClickTrackballStyleInteractor::OnRightButtonUp ()
       qWarning () << "Could not find actor which matches manipulated actor in ClickTrackballStyleInteractor::OnRightButtonUp!!!";
     }
   }
-   
+
 }
 
 

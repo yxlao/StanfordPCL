@@ -44,7 +44,7 @@
 
 namespace pcl
 {
-  /** \brief Correspondence represents a match between two entities (e.g., points, descriptors, etc). This is 
+  /** \brief Correspondence represents a match between two entities (e.g., points, descriptors, etc). This is
     * represesented via the indices of a \a source point and a \a target point, and the distance between them.
     *
     * \author Dirk Holz, Radu B. Rusu, Bastian Steder
@@ -62,27 +62,27 @@ namespace pcl
       float distance;
       float weight;
     };
-    
-    /** \brief Standard constructor. 
+
+    /** \brief Standard constructor.
       * Sets \ref index_query to 0, \ref index_match to -1, and \ref distance to FLT_MAX.
       */
-    inline Correspondence () : index_query (0), index_match (-1), 
+    inline Correspondence () : index_query (0), index_match (-1),
                                distance (std::numeric_limits<float>::max ())
     {}
 
     /** \brief Constructor. */
-    inline Correspondence (int _index_query, int _index_match, float _distance) : 
+    inline Correspondence (int _index_query, int _index_match, float _distance) :
       index_query (_index_query), index_match (_index_match), distance (_distance)
     {}
 
     /** \brief Empty destructor. */
     virtual ~Correspondence () {}
-    
+
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
   };
-  
+
   /** \brief overloaded << operator */
-  inline std::ostream& 
+  inline std::ostream&
   operator << (std::ostream& os, const Correspondence& c)
   {
     os << c.index_query << " " << c.index_match << " " << c.distance;
@@ -127,7 +127,7 @@ namespace pcl
 
     /** \brief Empty destructor. */
     virtual ~PointCorrespondence3D () {}
-    
+
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
   };
   typedef std::vector<PointCorrespondence3D, Eigen::aligned_allocator<PointCorrespondence3D> > PointCorrespondences3DVector;

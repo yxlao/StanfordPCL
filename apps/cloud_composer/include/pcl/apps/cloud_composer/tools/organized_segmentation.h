@@ -34,14 +34,14 @@
   *  POSSIBILITY OF SUCH DAMAGE.
   *
   */
- 
+
  #ifndef ORGANIZED_SEGMENTATION_H_
  #define ORGANIZED_SEGMENTATION_H_
- 
+
  #include <pcl/apps/cloud_composer/tool_interface/abstract_tool.h>
  #include <pcl/apps/cloud_composer/tool_interface/tool_factory.h>
- 
- 
+
+
  namespace pcl
  {
    namespace cloud_composer
@@ -52,63 +52,63 @@
      public:
        OrganizedSegmentationTool (PropertiesModel* parameter_model, QObject* parent);
        virtual ~OrganizedSegmentationTool ();
-       
+
        virtual QList <CloudComposerItem*>
        performAction (QList <const CloudComposerItem*> input_data, PointTypeFlags::PointType type = PointTypeFlags::NONE);
-       
+
        template <typename PointT> QList <CloudComposerItem*>
        performTemplatedAction (QList <const CloudComposerItem*> input_data);
-       
+
        inline virtual QString
        getToolName () const { return "Organized Segmenation Tool";}
      };
-     
-     
+
+
      class OrganizedSegmentationToolFactory : public QObject, public ToolFactory
      {
        Q_OBJECT
        Q_INTERFACES (pcl::cloud_composer::ToolFactory)
      public:
        SplitItemTool*
-       createTool (PropertiesModel* parameter_model, QObject* parent = 0) 
+       createTool (PropertiesModel* parameter_model, QObject* parent = 0)
        {
          return new OrganizedSegmentationTool(parameter_model, parent);
        }
-       
+
        PropertiesModel*
        createToolParameterModel (QObject* parent);
-       
-       inline virtual QString 
+
+       inline virtual QString
        getPluginName () const { return "Organized Segmentation";}
-       
-       inline virtual QString 
+
+       inline virtual QString
        getToolGroupName () const { return "Segmentation";}
-       
+
        inline virtual QString
        getIconName () const { return ":/organized_segmentation.png"; }
-       
+
        inline virtual CloudComposerItem::ItemType
        getInputItemType () const
        {
          return CloudComposerItem::CLOUD_ITEM;
        }
-       
+
        inline virtual QList <CloudComposerItem::ItemType>
-       getRequiredInputChildrenTypes () const 
+       getRequiredInputChildrenTypes () const
        {
          QList <CloudComposerItem::ItemType> input_types;
          return (input_types << CloudComposerItem::NORMALS_ITEM);
        }
      };
-     
-     
-     
+
+
+
    }
  }
- 
- 
- 
- 
- 
- 
+
+
+
+
+
+
  #endif //ORGANIZED_SEGMENTATION_H_

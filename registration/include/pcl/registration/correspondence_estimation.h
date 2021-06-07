@@ -54,7 +54,7 @@ namespace pcl
 {
   namespace registration
   {
-    /** \brief Abstract @b CorrespondenceEstimationBase class. 
+    /** \brief Abstract @b CorrespondenceEstimationBase class.
       * All correspondence estimation methods should inherit from this.
       * \author Radu B. Rusu
       * \ingroup registration
@@ -86,7 +86,7 @@ namespace pcl
         typedef typename KdTree::PointRepresentationConstPtr PointRepresentationConstPtr;
 
         /** \brief Empty constructor. */
-        CorrespondenceEstimationBase () 
+        CorrespondenceEstimationBase ()
           : corr_name_ ("CorrespondenceEstimationBase")
           , tree_ (new pcl::KdTreeFLANN<PointTarget>)
           , target_ ()
@@ -95,35 +95,35 @@ namespace pcl
         {
         }
 
-        /** \brief Provide a pointer to the input source 
+        /** \brief Provide a pointer to the input source
           * (e.g., the point cloud that we want to align to the target)
           *
           * \param[in] cloud the input point cloud source
           */
-        inline void 
+        inline void
         setInputSource (const PointCloudSourceConstPtr &cloud)
         {
           PCLBase<PointSource>::setInputCloud (cloud);
         }
 
         /** \brief Get a pointer to the input point cloud dataset target. */
-        inline PointCloudSourceConstPtr const 
+        inline PointCloudSourceConstPtr const
         getInputSource () { return (input_ ); }
 
-        /** \brief Provide a pointer to the input target 
+        /** \brief Provide a pointer to the input target
           * (e.g., the point cloud that we want to align the input source to)
           * \param[in] cloud the input point cloud target
           */
-        inline void 
+        inline void
         setInputTarget (const PointCloudTargetConstPtr &cloud);
 
         /** \brief Get a pointer to the input point cloud dataset target. */
-        inline PointCloudTargetConstPtr const 
+        inline PointCloudTargetConstPtr const
         getInputTarget () { return (target_ ); }
 
-        /** \brief Provide a pointer to the vector of indices that represent the 
+        /** \brief Provide a pointer to the vector of indices that represent the
           * input source point cloud.
-          * \param[in] indices a pointer to the vector of indices 
+          * \param[in] indices a pointer to the vector of indices
           */
         inline void
         setIndicesSource (const IndicesPtr &indices)
@@ -132,12 +132,12 @@ namespace pcl
         }
 
         /** \brief Get a pointer to the vector of indices used for the source dataset. */
-        inline IndicesPtr const 
+        inline IndicesPtr const
         getIndicesSource () { return (indices_); }
 
-        /** \brief Provide a pointer to the vector of indices that represent the 
+        /** \brief Provide a pointer to the vector of indices that represent the
           * input target point cloud.
-          * \param[in] indices a pointer to the vector of indices 
+          * \param[in] indices a pointer to the vector of indices
           */
         inline void
         setIndicesTarget (const IndicesPtr &indices)
@@ -146,32 +146,32 @@ namespace pcl
         }
 
         /** \brief Get a pointer to the vector of indices used for the target dataset. */
-        inline IndicesPtr const 
+        inline IndicesPtr const
         getIndicesTarget () { return (target_indices_); }
 
         /** \brief Determine the correspondences between input and target cloud.
           * \param[out] correspondences the found correspondences (index of query point, index of target point, distance)
           * \param[in] max_distance maximum allowed distance between correspondences
           */
-        virtual void 
+        virtual void
         determineCorrespondences (pcl::Correspondences &correspondences,
                                   double max_distance = std::numeric_limits<double>::max ()) = 0;
 
         /** \brief Determine the reciprocal correspondences between input and target cloud.
-          * A correspondence is considered reciprocal if both Src_i has Tgt_i as a 
+          * A correspondence is considered reciprocal if both Src_i has Tgt_i as a
           * correspondence, and Tgt_i has Src_i as one.
           *
           * \param[out] correspondences the found correspondences (index of query and target point, distance)
           * \param[in] max_distance maximum allowed distance between correspondences
           */
-        virtual void 
+        virtual void
         determineReciprocalCorrespondences (pcl::Correspondences &correspondences,
                                             double max_distance = std::numeric_limits<double>::max ()) = 0;
 
-        /** \brief Provide a boost shared pointer to the PointRepresentation to be used 
+        /** \brief Provide a boost shared pointer to the PointRepresentation to be used
           * when searching for nearest neighbors.
           *
-          * \param[in] point_representation the PointRepresentation to be used by the 
+          * \param[in] point_representation the PointRepresentation to be used by the
           * k-D tree for nearest neighbor search
           */
         inline void
@@ -205,7 +205,7 @@ namespace pcl
         PointRepresentationConstPtr point_representation_;
 
         /** \brief Abstract class get name method. */
-        inline const std::string& 
+        inline const std::string&
         getClassName () const { return (corr_name_); }
 
         /** \brief Internal computation initalization. */
@@ -266,7 +266,7 @@ namespace pcl
         typedef typename KdTree::PointRepresentationConstPtr PointRepresentationConstPtr;
 
         /** \brief Empty constructor. */
-        CorrespondenceEstimation () 
+        CorrespondenceEstimation ()
         {
           corr_name_  = "CorrespondenceEstimation";
         }
@@ -275,18 +275,18 @@ namespace pcl
           * \param[out] correspondences the found correspondences (index of query point, index of target point, distance)
           * \param[in] max_distance maximum allowed distance between correspondences
           */
-        virtual void 
+        virtual void
         determineCorrespondences (pcl::Correspondences &correspondences,
                                   double max_distance = std::numeric_limits<double>::max ());
 
         /** \brief Determine the reciprocal correspondences between input and target cloud.
-          * A correspondence is considered reciprocal if both Src_i has Tgt_i as a 
+          * A correspondence is considered reciprocal if both Src_i has Tgt_i as a
           * correspondence, and Tgt_i has Src_i as one.
           *
           * \param[out] correspondences the found correspondences (index of query and target point, distance)
           * \param[in] max_distance maximum allowed distance between correspondences
           */
-        virtual void 
+        virtual void
         determineReciprocalCorrespondences (pcl::Correspondences &correspondences,
                                             double max_distance = std::numeric_limits<double>::max ());
 

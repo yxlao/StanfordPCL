@@ -34,7 +34,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  */
-  
+
 #ifndef PCL_ML_FERNS_FERN
 #define PCL_ML_FERNS_FERN
 
@@ -61,7 +61,7 @@ namespace pcl
       {}
 
       /** \brief Destructor. */
-      virtual 
+      virtual
       ~Fern () {}
 
       /** \brief Initializes the fern.
@@ -90,10 +90,10 @@ namespace pcl
         return num_of_decisions_;
       }
 
-      /** \brief Serializes the fern. 
+      /** \brief Serializes the fern.
         * \param[out] stream The destination for the serialization.
         */
-      void 
+      void
       serialize (::std::ostream & stream) const
       {
         //const int tmp_value = static_cast<int> (num_of_decisions_);
@@ -116,7 +116,7 @@ namespace pcl
         }
       }
 
-      /** \brief Deserializes the fern. 
+      /** \brief Deserializes the fern.
         * \param[in] stream The source for the deserialization.
         */
       void deserialize (::std::istream & stream)
@@ -174,7 +174,7 @@ namespace pcl
         * \param feature_index The index of the feature to access.
         */
       inline const FeatureType &
-      accessFeature (const size_t feature_index) const 
+      accessFeature (const size_t feature_index) const
       {
         return features_[feature_index];
       }

@@ -51,10 +51,10 @@
 
 namespace pcl
 {
-  /** \brief MovingLeastSquares represent an implementation of the MLS (Moving Least Squares) algorithm 
-    * for data smoothing and improved normal estimation. It also contains methods for upsampling the 
+  /** \brief MovingLeastSquares represent an implementation of the MLS (Moving Least Squares) algorithm
+    * for data smoothing and improved normal estimation. It also contains methods for upsampling the
     * resulting cloud based on the parametric fit.
-    * Reference paper: "Computing and Rendering Point Set Surfaces" by Marc Alexa, Johannes Behr, 
+    * Reference paper: "Computing and Rendering Point Set Surfaces" by Marc Alexa, Johannes Behr,
     * Daniel Cohen-Or, Shachar Fleishman, David Levin and Claudio T. Silva
     * www.sci.utah.edu/~shachar/Publications/crpss.pdf
     * \author Zoltan Csaba Marton, Radu B. Rusu, Alexandru E. Ichim, Suat Gedikli
@@ -129,49 +129,49 @@ namespace pcl
       }
 
       /** \brief Get a pointer to the search method used. */
-      inline KdTreePtr 
+      inline KdTreePtr
       getSearchMethod () { return (tree_); }
 
       /** \brief Set the order of the polynomial to be fit.
         * \param[in] order the order of the polynomial
         */
-      inline void 
+      inline void
       setPolynomialOrder (int order) { order_ = order; }
 
       /** \brief Get the order of the polynomial to be fit. */
-      inline int 
+      inline int
       getPolynomialOrder () { return (order_); }
 
       /** \brief Sets whether the surface and normal are approximated using a polynomial, or only via tangent estimation.
         * \param[in] polynomial_fit set to true for polynomial fit
         */
-      inline void 
+      inline void
       setPolynomialFit (bool polynomial_fit) { polynomial_fit_ = polynomial_fit; }
 
       /** \brief Get the polynomial_fit value (true if the surface and normal are approximated using a polynomial). */
-      inline bool 
+      inline bool
       getPolynomialFit () { return (polynomial_fit_); }
 
       /** \brief Set the sphere radius that is to be used for determining the k-nearest neighbors used for fitting.
         * \param[in] radius the sphere radius that is to contain all k-nearest neighbors
         * \note Calling this method resets the squared Gaussian parameter to radius * radius !
         */
-      inline void 
+      inline void
       setSearchRadius (double radius) { search_radius_ = radius; sqr_gauss_param_ = search_radius_ * search_radius_; }
 
       /** \brief Get the sphere radius used for determining the k-nearest neighbors. */
-      inline double 
+      inline double
       getSearchRadius () { return (search_radius_); }
 
       /** \brief Set the parameter used for distance based weighting of neighbors (the square of the search radius works
         * best in general).
         * \param[in] sqr_gauss_param the squared Gaussian parameter
         */
-      inline void 
+      inline void
       setSqrGaussParam (double sqr_gauss_param) { sqr_gauss_param_ = sqr_gauss_param; }
 
       /** \brief Get the parameter for distance based weighting of neighbors. */
-      inline double 
+      inline double
       getSqrGaussParam () const { return (sqr_gauss_param_); }
 
       /** \brief Set the upsampling method to be used
@@ -276,7 +276,7 @@ namespace pcl
       /** \brief Base method for surface reconstruction for all points given in <setInputCloud (), setIndices ()>
         * \param[out] output the resultant reconstructed surface model
         */
-      void 
+      void
       process (PointCloudOut &output);
 
     protected:
@@ -330,7 +330,7 @@ namespace pcl
         */
       int desired_num_points_in_radius_;
 
-      
+
       /** \brief Data structure used to store the results of the MLS fitting
         * \note Used only in the case of VOXEL_GRID_DILATION upsampling
         */
@@ -357,7 +357,7 @@ namespace pcl
         */
       std::vector<MLSResult> mls_results_;
 
-      
+
       /** \brief A minimalistic implementation of a voxel grid, necessary for the point cloud upsampling
         * \note Used only in the case of VOXEL_GRID_DILATION upsampling
         */
@@ -418,7 +418,7 @@ namespace pcl
       float voxel_size_;
 
       /** \brief Number of dilation steps for the VOXEL_GRID_DILATION upsampling method */
-      int dilation_iteration_num_; 
+      int dilation_iteration_num_;
 
       /** \brief Number of coefficients, to be computed from the requested order.*/
       int nr_coeff_;
@@ -478,14 +478,14 @@ namespace pcl
                                 pcl::Normal &result_normal);
 
     private:
-      /** \brief Abstract surface reconstruction method. 
-        * \param[out] output the result of the reconstruction 
+      /** \brief Abstract surface reconstruction method.
+        * \param[out] output the result of the reconstruction
         */
       virtual void performProcessing (PointCloudOut &output);
 
       /** \brief Abstract class get name method. */
       std::string getClassName () const { return ("MovingLeastSquares"); }
-      
+
     public:
         EIGEN_MAKE_ALIGNED_OPERATOR_NEW
   };

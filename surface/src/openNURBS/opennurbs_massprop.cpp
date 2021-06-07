@@ -144,8 +144,8 @@ void ON_MassProperties::Dump( ON_TextLog& dump ) const
 
 /*
 Description:
-	QL Algorithm with implict shifts, to determine the eigenvalues and eigenvectors of a 
-	symmetric, tridiagonal matrix. 
+	QL Algorithm with implict shifts, to determine the eigenvalues and eigenvectors of a
+	symmetric, tridiagonal matrix.
 
 Parametrers:
 	d - [in/out]	On input d[0] to d[n-1] are the diagonal entries of the matrix.
@@ -154,7 +154,7 @@ Parametrers:
 								with e[n-1] not used, but must be allocated.
 								on output e is unpredictable.
 	n - [in]      matrix is n by n
-	pV - [out]		If not NULL the it should be an n by n matix. 
+	pV - [out]		If not NULL the it should be an n by n matix.
 								The kth column will be a normalized eigenvector of d[k]
 */
 static bool TriDiagonalQLImplicit( double* d, double* e, int n, ON_Matrix* pV)
@@ -222,7 +222,7 @@ static bool TriDiagonalQLImplicit( double* d, double* e, int n, ON_Matrix* pV)
 						V[k][i] =   c* V[k][i]-s*f;
 					}
 				}
-				if( r==0.0 && i>=l) 
+				if( r==0.0 && i>=l)
 					continue;
 				d[l] -= p;
 				e[l] = g;
@@ -266,7 +266,7 @@ bool ON_SymTriDiag3x3EigenSolver( double A, double B, double C,
                            double* e3, ON_3dVector& E3
                            )
 {
- 
+
 	double d[3]={A,B,C};
 	double e[3]={D,E,0};
 
@@ -350,7 +350,7 @@ bool ON_Sym3x3EigenSolver( double A, double B, double C,
     }
     else
       cos_phi = 1.0/sqrt(1.0 + t*t);
-    
+
     sin_phi = t*cos_phi;
 
     double tau = sin_phi/(1.0 + cos_phi);
@@ -455,7 +455,7 @@ ON_3dVector ON_MassProperties::WorldCoordSecondMoments() const
   return v;
 }
 
-ON_Matrix* ON_MassProperties::WorldCoordIntertiaMatrix( 
+ON_Matrix* ON_MassProperties::WorldCoordIntertiaMatrix(
               ON_Matrix* matrix
               ) const
 {
@@ -487,7 +487,7 @@ ON_Matrix* ON_MassProperties::WorldCoordIntertiaMatrix(
   return matrix;
 }
 
-bool ON_MassProperties::WorldCoordPrincipalMoments( 
+bool ON_MassProperties::WorldCoordPrincipalMoments(
               double* pxx, ON_3dVector& Ax,
               double* pyy, ON_3dVector& Ay,
               double* pzz, ON_3dVector& Az
@@ -586,7 +586,7 @@ ON_3dVector ON_MassProperties::CentroidCoordRadiiOfGyration() const
 
 
 
-ON_Matrix* ON_MassProperties::CentroidCoordIntertiaMatrix( 
+ON_Matrix* ON_MassProperties::CentroidCoordIntertiaMatrix(
               ON_Matrix* matrix
               ) const
 {
@@ -618,7 +618,7 @@ ON_Matrix* ON_MassProperties::CentroidCoordIntertiaMatrix(
   return matrix;
 }
 
-bool ON_MassProperties::CentroidCoordPrincipalMoments( 
+bool ON_MassProperties::CentroidCoordPrincipalMoments(
               double* pxx, ON_3dVector& Ax,
               double* pyy, ON_3dVector& Ay,
               double* pzz, ON_3dVector& Az
@@ -690,7 +690,7 @@ bool ON_MassProperties::Sum(
   //GBA 13-June-08  TRR#35220
   //  Cleaned up error handling.  ON_MassProperties::m_mass_type==0 is treated as an empty record not an error.
   //  If m_bValidMass==false for any of the summands then m_bValidMass==false for the result ( and similary for
-  //  m_bValidFirstMoments, m_bValidSecondMoments and m_bValidProductMoments). 
+  //  m_bValidFirstMoments, m_bValidSecondMoments and m_bValidProductMoments).
 
   m_bValidMass = true;
   for ( i = 0; i < count; i++ )
@@ -709,9 +709,9 @@ bool ON_MassProperties::Sum(
       x.Plus(summands[i].m_mass);
       ex.Plus(summands[i].m_mass_err);
     }
-    else 
+    else
       m_bValidMass = false;
-    
+
   }
 
   const int c = x.SummandCount();
@@ -741,14 +741,14 @@ bool ON_MassProperties::Sum(
   ey.Begin();
   z.Begin();
   ez.Begin();
-  
+
   m_bValidFirstMoments = true;
 
   for ( i = 0; i < count; i++ )
   {
     if ( 0 == summands[i].m_mass_type )
       continue;
-    
+
     if( summands[i].m_bValidMass
         && summands[i].m_bValidFirstMoments
        )
@@ -804,14 +804,14 @@ bool ON_MassProperties::Sum(
   ey.Begin();
   z.Begin();
   ez.Begin();
-  
+
   m_bValidSecondMoments = true;
 
   for ( i = 0; i < count; i++ )
   {
     if ( 0 == summands[i].m_mass_type )
       continue;
-    
+
     if( summands[i].m_bValidMass
         && summands[i].m_bValidCentroid
         && summands[i].m_bValidSecondMoments
@@ -835,7 +835,7 @@ bool ON_MassProperties::Sum(
     }
     else
       m_bValidSecondMoments = false;
-    
+
   }
 
   if ( x.SummandCount() > 0 )
@@ -857,7 +857,7 @@ bool ON_MassProperties::Sum(
       m_world_yy_err = m_ccs_yy_err + 2.0*m_y0_err*fabs(m_y0)*m_mass + m_y0*m_y0*m_mass_err;
       m_world_zz = m_ccs_zz + m_z0*m_z0*m_mass;
       m_world_zz_err = m_ccs_zz_err + 2.0*m_z0_err*fabs(m_z0)*m_mass + m_z0*m_z0*m_mass_err;
-    }  
+    }
   }
 
   // product moments
@@ -867,14 +867,14 @@ bool ON_MassProperties::Sum(
   ey.Begin();
   z.Begin();
   ez.Begin();
-  
+
   m_bValidProductMoments = true;
 
   for ( i = 0; i < count; i++ )
   {
     if ( 0 == summands[i].m_mass_type )
       continue;
-    
+
     if( summands[i].m_bValidMass
         && summands[i].m_bValidCentroid
         && summands[i].m_bValidSecondMoments
@@ -898,7 +898,7 @@ bool ON_MassProperties::Sum(
     }
     else
       m_bValidProductMoments = false;
-    
+
   }
 
   if ( x.SummandCount() > 0 )
@@ -920,7 +920,7 @@ bool ON_MassProperties::Sum(
       m_world_yz_err = m_ccs_yz_err + fabs(m_y0_err*m_z0*m_mass) + fabs(m_z0_err*m_y0*m_mass) + fabs(m_y0*m_z0*m_mass_err);
       m_world_zx = m_ccs_zx + m_z0*m_x0*m_mass;
       m_world_zx_err = m_ccs_zx_err + fabs(m_z0_err*m_x0*m_mass) + fabs(m_x0_err*m_z0*m_mass) + fabs(m_z0*m_x0*m_mass_err);
-    } 
+    }
   }
 
   return true;

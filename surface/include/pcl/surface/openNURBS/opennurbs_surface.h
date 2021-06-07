@@ -54,7 +54,7 @@ public:
   // note: odd values are all "x" = constant
   // and even values > 0 are all "y" = constant
   // ON_BrepTrim::m_iso uses these flags
-  enum ISO 
+  enum ISO
   {
     not_iso = 0, // curve is not an isoparameteric curve
     x_iso   = 1, // curve is a "x" = constant (vertical) isoparametric
@@ -88,12 +88,12 @@ public:
   Description:
     Get a duplicate of the surface.
   Returns:
-    A duplicate of the surface.  
+    A duplicate of the surface.
   Remarks:
     The caller must delete the returned surface.
     For non-ON_SurfaceProxy objects, this simply duplicates the surface using
     ON_Object::Duplicate.
-    For ON_SurfaceProxy objects, this duplicates the actual proxy surface 
+    For ON_SurfaceProxy objects, this duplicates the actual proxy surface
     geometry and, if necessary, transposes the result to that
     the returned surfaces's parameterization and locus match the proxy surface's.
   */
@@ -122,7 +122,7 @@ public:
 
   /*
   Description:
-    Overrides virtual ON_Geometry::HasBrepForm.  
+    Overrides virtual ON_Geometry::HasBrepForm.
     Uses ON_Brep::Create( ON_Surface&* ) to create a brep
     form.  The surface is copied for use in the returned
     brep.
@@ -144,7 +144,7 @@ public:
 
   /*
   Description:
-    Computes a polygon mesh approximation of the surface.    
+    Computes a polygon mesh approximation of the surface.
   Parameters:
     mp - [in] meshing parameters
     mesh - [in] if not NULL, the surface mesh will be put
@@ -153,26 +153,26 @@ public:
     A polygon mesh of the surface.
   Remarks:
     This virtual function works in the openNURBS that is
-    part of the Rhino SDK.  The source code for this 
+    part of the Rhino SDK.  The source code for this
     functionallity is not provided in the free openNURBS
     toolkit.
   */
 
-  ON_BOOL32 GetDomain( 
+  ON_BOOL32 GetDomain(
          int dir,              // 0 gets first parameter, 1 gets second parameter
          double* t0,
          double* t1
          ) const;
 
-  bool SetDomain( 
+  bool SetDomain(
     int dir, // 0 sets first parameter's domain, 1 gets second parameter's domain
     ON_Interval domain
     );
 
   virtual
-  ON_BOOL32 SetDomain( 
+  ON_BOOL32 SetDomain(
     int dir, // 0 sets first parameter's domain, 1 gets second parameter's domain
-    double t0, 
+    double t0,
     double t1
     );
 
@@ -181,19 +181,19 @@ public:
     int dir // 0 gets first parameter's domain, 1 gets second parameter's domain
     ) const = 0;
 
-  virtual 
+  virtual
   int SpanCount(
     int dir // 0 gets first parameter's domain, 1 gets second parameter's domain
     ) const = 0; // number of smooth nonempty spans in the parameter direction
 
   virtual
-  ON_BOOL32 GetSpanVector( // span "knots" 
+  ON_BOOL32 GetSpanVector( // span "knots"
         int dir, // 0 gets first parameter's domain, 1 gets second parameter's domain
-        double* span_vector // array of length SpanCount() + 1 
-        ) const = 0; // 
+        double* span_vector // array of length SpanCount() + 1
+        ) const = 0; //
 
   //////////
-  // If t is in the domain of the surface, GetSpanVectorIndex() returns the 
+  // If t is in the domain of the surface, GetSpanVectorIndex() returns the
   // span vector index "i" such that span_vector[i] <= t <= span_vector[i+1].
   // The "side" parameter determines which span is selected when t is at the
   // end of a span.
@@ -206,11 +206,11 @@ public:
         ON_Interval* span_interval // [OUT] domain of the span containing "t"
         ) const;
 
-  virtual 
-  int Degree( // returns maximum algebraic degree of any span 
+  virtual
+  int Degree( // returns maximum algebraic degree of any span
                   // ( or a good estimate if curve spans are not algebraic )
     int dir // 0 gets first parameter's domain, 1 gets second parameter's domain
-    ) const = 0; 
+    ) const = 0;
 
   virtual ON_BOOL32 GetParameterTolerance( // returns tminus < tplus: parameters tminus <= s <= tplus
          int dir,        // 0 gets first parameter, 1 gets second parameter
@@ -283,7 +283,7 @@ public:
     tolerance - [in]
       tolerance to use when checking
   Returns:
-    True if the surface is a portion of a sphere.                   
+    True if the surface is a portion of a sphere.
   */
   bool IsSphere(
         ON_Sphere* sphere = NULL,
@@ -294,12 +294,12 @@ public:
   Description:
     Determine if the surface is a portion of a cylinder.
   Parameters:
-    cylinder - [out] if not NULL and true is returned, 
+    cylinder - [out] if not NULL and true is returned,
       then the cylinder definition is returned.
     tolerance - [in]
       tolerance to use when checking
   Returns:
-    True if the surface is a portion of a cylinder.                   
+    True if the surface is a portion of a cylinder.
   */
   bool IsCylinder(
         ON_Cylinder* cylinder = NULL,
@@ -310,12 +310,12 @@ public:
   Description:
     Determine if the surface is a portion of a cone.
   Parameters:
-    cone - [out] if not NULL and true is returned, 
+    cone - [out] if not NULL and true is returned,
       then the cone definition is returned.
     tolerance - [in]
       tolerance to use when checking
   Returns:
-    True if the surface is a portion of a cone.                   
+    True if the surface is a portion of a cone.
   */
   bool IsCone(
         ON_Cone* cone = NULL,
@@ -331,19 +331,19 @@ public:
     tolerance - [in]
       tolerance to use when checking
   Returns:
-    True if the surface is a portion of a torus.                   
+    True if the surface is a portion of a torus.
   */
   bool IsTorus(
         ON_Torus* torus = NULL,
         double tolerance = ON_ZERO_TOLERANCE
         ) const;
 
-  virtual 
+  virtual
   ON_BOOL32 IsClosed(   // true if surface is closed in direction
         int        // dir  0 = "s", 1 = "t"
         ) const;
 
-  virtual 
+  virtual
   ON_BOOL32 IsPeriodic( // true if surface is periodic in direction (default is false)
         int        // dir  0 = "s", 1 = "t"
         ) const;
@@ -373,8 +373,8 @@ public:
     true if surface is singular at (s,t)
   */
   bool IsAtSingularity(
-    double s, 
-    double t, 
+    double s,
+    double t,
     bool bExact = true
     ) const;
 
@@ -394,48 +394,48 @@ public:
     double s,
     double t
     ) const;
-  
+
   /*
   Description:
-    Search for a derivatitive, tangent, or curvature 
+    Search for a derivatitive, tangent, or curvature
     discontinuity.
   Parameters:
     dir - [in] If 0, then "u" parameter is checked.  If 1, then
                the "v" parameter is checked.
     c - [in] type of continity to test for.
     t0 - [in] Search begins at t0. If there is a discontinuity
-              at t0, it will be ignored.  This makes it 
+              at t0, it will be ignored.  This makes it
               possible to repeatedly call GetNextDiscontinuity
               and step through the discontinuities.
-    t1 - [in] (t0 != t1)  If there is a discontinuity at t1 is 
+    t1 - [in] (t0 != t1)  If there is a discontinuity at t1 is
               will be ingored unless c is a locus discontinuity
               type and t1 is at the start or end of the curve.
     t - [out] if a discontinuity is found, then *t reports the
           parameter at the discontinuity.
-    hint - [in/out] if GetNextDiscontinuity will be called 
+    hint - [in/out] if GetNextDiscontinuity will be called
        repeatedly, passing a "hint" with initial value *hint=0
-       will increase the speed of the search.       
-    dtype - [out] if not NULL, *dtype reports the kind of 
-        discontinuity found at *t.  A value of 1 means the first 
-        derivative or unit tangent was discontinuous.  A value 
-        of 2 means the second derivative or curvature was 
+       will increase the speed of the search.
+    dtype - [out] if not NULL, *dtype reports the kind of
+        discontinuity found at *t.  A value of 1 means the first
+        derivative or unit tangent was discontinuous.  A value
+        of 2 means the second derivative or curvature was
         discontinuous.  A value of 0 means teh curve is not
         closed, a locus discontinuity test was applied, and
         t1 is at the start of end of the curve.
     cos_angle_tolerance - [in] default = cos(1 degree) Used only
         when c is ON::G1_continuous or ON::G2_continuous.  If the
-        cosine of the angle between two tangent vectors is 
+        cosine of the angle between two tangent vectors is
         <= cos_angle_tolerance, then a G1 discontinuity is reported.
-    curvature_tolerance - [in] (default = ON_SQRT_EPSILON) Used 
-        only when c is ON::G2_continuous.  If K0 and K1 are 
-        curvatures evaluated from above and below and 
-        |K0 - K1| > curvature_tolerance, then a curvature 
+    curvature_tolerance - [in] (default = ON_SQRT_EPSILON) Used
+        only when c is ON::G2_continuous.  If K0 and K1 are
+        curvatures evaluated from above and below and
+        |K0 - K1| > curvature_tolerance, then a curvature
         discontinuity is reported.
   Returns:
     Parametric continuity tests c = (C0_continuous, ..., G2_continuous):
 
-      true if a parametric discontinuity was found strictly 
-      between t0 and t1. Note well that all curves are 
+      true if a parametric discontinuity was found strictly
+      between t0 and t1. Note well that all curves are
       parametrically continuous at the ends of their domains.
 
     Locus continuity tests c = (C0_locus_continuous, ...,G2_locus_continuous):
@@ -443,12 +443,12 @@ public:
       true if a locus discontinuity was found strictly between
       t0 and t1 or at t1 is the at the end of a curve.
       Note well that all open curves (IsClosed()=false) are locus
-      discontinuous at the ends of their domains.  All closed 
-      curves (IsClosed()=true) are at least C0_locus_continuous at 
+      discontinuous at the ends of their domains.  All closed
+      curves (IsClosed()=true) are at least C0_locus_continuous at
       the ends of their domains.
   */
   virtual
-  bool GetNextDiscontinuity( 
+  bool GetNextDiscontinuity(
                   int dir,
                   ON::continuity c,
                   double t0,
@@ -476,7 +476,7 @@ public:
         greater than d2_tolerance, then the surface is not C2.
     cos_angle_tolerance - [in] default = cos(1 degree) Used only when
         c is ON::G1_continuous or ON::G2_continuous.  If the cosine
-        of the angle between two normal vectors 
+        of the angle between two normal vectors
         is <= cos_angle_tolerance, then a G1 discontinuity is reported.
     curvature_tolerance - [in] (default = ON_SQRT_EPSILON) Used only when
         c is ON::G2_continuous.  If K0 and K1 are curvatures evaluated
@@ -488,8 +488,8 @@ public:
   virtual
   bool IsContinuous(
     ON::continuity c,
-    double s, 
-    double t, 
+    double s,
+    double t,
     int* hint = NULL,
     double point_tolerance=ON_ZERO_TOLERANCE,
     double d1_tolerance=ON_ZERO_TOLERANCE,
@@ -498,12 +498,12 @@ public:
     double curvature_tolerance=ON_SQRT_EPSILON
     ) const;
 
-  virtual 
+  virtual
   ON_BOOL32 Reverse(  // reverse parameterizatrion, Domain changes from [a,b] to [-b,-a]
     int // dir  0 = "s", 1 = "t"
     ) = 0;
 
-  virtual 
+  virtual
   ON_BOOL32 Transpose() = 0; // transpose surface parameterization (swap "s" and "t")
 
   // simple evaluation interface - no error handling
@@ -601,7 +601,7 @@ public:
          ) const;
 
   // work horse evaluator
-  virtual 
+  virtual
   ON_BOOL32 Evaluate( // returns false if unable to evaluate
          double u, double v,   // evaluation parameters
          int num_der,          // number of derivatives (>=0)
@@ -628,7 +628,7 @@ public:
                  e.g., point on IsoCurve(1,c) at t is srf(c,t
                  This is a vertical line from bottom to top
 
-    c - [in] value of constant parameter 
+    c - [in] value of constant parameter
   Returns:
     Isoparametric curve.
   Remarks:
@@ -656,7 +656,7 @@ public:
         the portions of the surface with parameters (s,t) satisfying
         s < Domain(0).Min() or s > Domain(0).Max() are trimmed away.
         If dir is 1, then the portions of the surface with parameters
-        (s,t) satisfying t < Domain(1).Min() or t > Domain(1).Max() 
+        (s,t) satisfying t < Domain(1).Min() or t > Domain(1).Max()
         are trimmed away.
   */
   virtual
@@ -674,11 +674,11 @@ public:
                    (the first surface parameter).
                 1  new Domain(1) will include domain.
                    (the second surface parameter).
-     domain - [in] if domain is not included in surface domain, 
-     surface will be extended so that its domain includes domain.  
-     Will not work if surface is closed in direction dir. 
+     domain - [in] if domain is not included in surface domain,
+     surface will be extended so that its domain includes domain.
+     Will not work if surface is closed in direction dir.
      Original surface is identical to the restriction of the
-     resulting surface to the original surface domain, 
+     resulting surface to the original surface domain,
    Returns:
      true if successful.
      */
@@ -691,7 +691,7 @@ public:
 
   /*
   Description:
-    Splits (divides) the surface into two parts at the 
+    Splits (divides) the surface into two parts at the
     specified parameter.
 
   Parameters:
@@ -743,7 +743,7 @@ public:
         the surface's to the desired accuracy and the
         domain of the NURBS surface is correct.  On
         However, This surface's parameterization and
-        the NURBS surface parameterization may not 
+        the NURBS surface parameterization may not
         match to the desired accuracy.  This situation
         happens when getting NURBS representations of
         surfaces that have a transendental parameterization
@@ -773,15 +773,15 @@ public:
         matches the surface's
     2   success - NURBS point locus matches
         the surface's and the
-        domain of the NURBS surface is correct.  
+        domain of the NURBS surface is correct.
         However, This surface's parameterization and
-        the NURBS surface parameterization may not 
+        the NURBS surface parameterization may not
         match.  This situation
         happens when getting NURBS representations of
         surfaces that have a transendental parameterization
         like spheres, cylinders, and cones.
   Remarks:
-    This is a low-level virtual function. 
+    This is a low-level virtual function.
   See Also:
     ON_Surface::GetNurbForm
     ON_Surface::NurbsSurface
@@ -831,7 +831,7 @@ public:
 
 #if defined(ON_DLL_TEMPLATE)
 // This stuff is here because of a limitation in the way Microsoft
-// handles templates and DLLs.  See Microsoft's knowledge base 
+// handles templates and DLLs.  See Microsoft's knowledge base
 // article ID Q168958 for details.
 #pragma warning( push )
 #pragma warning( disable : 4231 )

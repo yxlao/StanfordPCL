@@ -40,9 +40,9 @@
  */
 
 
-namespace pcl 
+namespace pcl
 {
-  namespace poisson 
+  namespace poisson
   {
     template<int Degree, class Real>
     const int FunctionData<Degree, Real>::DOT_FLAG  =  1;
@@ -58,7 +58,7 @@ namespace pcl
     //////////////////////////////////////////////////////////////////////////////////////////////
     template<int Degree, class Real>
     FunctionData<Degree, Real>::FunctionData () :
-      useDotRatios (), normalize (), depth (), res (0), res2 (), 
+      useDotRatios (), normalize (), depth (), res (0), res2 (),
       dotTable (NULL), dDotTable (NULL), d2DotTable (NULL),
       valueTables (NULL), dValueTables (NULL),
       baseFunction (), dBaseFunction (), baseFunctions ()
@@ -89,7 +89,7 @@ namespace pcl
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////
-    template<int Degree, class Real> void 
+    template<int Degree, class Real> void
     FunctionData<Degree, Real>::set (
         const int& maxDepth,
         const PPolynomial<Degree>& F,

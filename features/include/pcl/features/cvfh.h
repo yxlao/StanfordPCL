@@ -49,12 +49,12 @@
 
 namespace pcl
 {
-  /** \brief CVFHEstimation estimates the Clustered Viewpoint Feature Histogram (CVFH) descriptor for a given 
-    * point cloud dataset containing XYZ data and normals, as presented in: 
+  /** \brief CVFHEstimation estimates the Clustered Viewpoint Feature Histogram (CVFH) descriptor for a given
+    * point cloud dataset containing XYZ data and normals, as presented in:
     *   - CAD-Model Recognition and 6 DOF Pose Estimation
     *     A. Aldoma, N. Blodow, D. Gossow, S. Gedikli, R.B. Rusu, M. Vincze and G. Bradski
     *     ICCV 2011, 3D Representation and Recognition (3dRR11) workshop
-    *     Barcelona, Spain, (2011) 
+    *     Barcelona, Spain, (2011)
     *
     * The suggested PointOutT is pcl::VFHSignature308.
     *
@@ -80,12 +80,12 @@ namespace pcl
 
       /** \brief Empty constructor. */
       CVFHEstimation () :
-        vpx_ (0), vpy_ (0), vpz_ (0), 
-        leaf_size_ (0.005f), 
+        vpx_ (0), vpy_ (0), vpz_ (0),
+        leaf_size_ (0.005f),
         normalize_bins_ (false),
-        curv_threshold_ (0.03f), 
-        cluster_tolerance_ (leaf_size_ * 3), 
-        eps_angle_threshold_ (0.125f), 
+        curv_threshold_ (0.03f),
+        cluster_tolerance_ (leaf_size_ * 3),
+        eps_angle_threshold_ (0.125f),
         min_points_ (50),
         radius_normals_ (leaf_size_ * 3),
         centroids_dominant_orientations_ (),
@@ -129,7 +129,7 @@ namespace pcl
         radius_normals_ = radius_normals;
       }
 
-      /** \brief Get the viewpoint. 
+      /** \brief Get the viewpoint.
         * \param[out] vpx the X coordinate of the viewpoint
         * \param[out] vpy the Y coordinate of the viewpoint
         * \param[out] vpz the Z coordinate of the viewpoint
@@ -162,8 +162,8 @@ namespace pcl
           centroids.push_back (dominant_normals_[i]);
       }
 
-      /** \brief Sets max. Euclidean distance between points to be added to the cluster 
-        * \param[in] d the maximum Euclidean distance 
+      /** \brief Sets max. Euclidean distance between points to be added to the cluster
+        * \param[in] d the maximum Euclidean distance
         */
 
       inline void
@@ -173,7 +173,7 @@ namespace pcl
       }
 
       /** \brief Sets max. deviation of the normals between two points so they can be clustered together
-        * \param[in] d the maximum deviation 
+        * \param[in] d the maximum deviation
         */
       inline void
       setEPSAngleThreshold (float d)
@@ -182,7 +182,7 @@ namespace pcl
       }
 
       /** \brief Sets curvature threshold for removing normals
-        * \param[in] d the curvature threshold 
+        * \param[in] d the curvature threshold
         */
       inline void
       setCurvatureThreshold (float d)
@@ -191,7 +191,7 @@ namespace pcl
       }
 
       /** \brief Set minimum amount of points for a cluster to be considered
-        * \param[in] min the minimum amount of points to be set 
+        * \param[in] min the minimum amount of points to be set
         */
       inline void
       setMinPoints (size_t min)
@@ -200,7 +200,7 @@ namespace pcl
       }
 
       /** \brief Sets wether if the CVFH signatures should be normalized or not
-        * \param[in] normalize true if normalization is required, false otherwise 
+        * \param[in] normalize true if normalization is required, false otherwise
         */
       inline void
       setNormalizeBins (bool normalize)
@@ -215,12 +215,12 @@ namespace pcl
       compute (PointCloudOut &output);
 
     private:
-      /** \brief Values describing the viewpoint ("pinhole" camera model assumed). 
+      /** \brief Values describing the viewpoint ("pinhole" camera model assumed).
         * By default, the viewpoint is set to 0,0,0.
         */
       float vpx_, vpy_, vpz_;
 
-      /** \brief Size of the voxels after voxel gridding. IMPORTANT: Must match the voxel 
+      /** \brief Size of the voxels after voxel gridding. IMPORTANT: Must match the voxel
         * size of the training data or the normalize_bins_ flag must be set to true.
         */
       float leaf_size_;
@@ -245,7 +245,7 @@ namespace pcl
       /** \brief Radius for the normals computation. */
       float radius_normals_;
 
-      /** \brief Estimate the Clustered Viewpoint Feature Histograms (CVFH) descriptors at 
+      /** \brief Estimate the Clustered Viewpoint Feature Histograms (CVFH) descriptors at
         * a set of points given by <setInputCloud (), setIndices ()> using the surface in
         * setSearchSurface ()
         *
@@ -255,7 +255,7 @@ namespace pcl
       void
       computeFeature (PointCloudOut &output);
 
-      /** \brief Region growing method using Euclidean distances and neighbors normals to 
+      /** \brief Region growing method using Euclidean distances and neighbors normals to
         * add points to a region.
         * \param[in] cloud point cloud to split into regions
         * \param[in] normals are the normals of cloud
@@ -284,9 +284,9 @@ namespace pcl
 
     private:
       /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &) {}
   };
 

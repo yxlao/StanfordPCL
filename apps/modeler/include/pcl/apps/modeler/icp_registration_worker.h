@@ -47,7 +47,7 @@ namespace pcl
     class IntParameter;
     class DoubleParameter;
 
-    class ICPRegistrationWorker : public AbstractWorker 
+    class ICPRegistrationWorker : public AbstractWorker
     {
       public:
         ICPRegistrationWorker(CloudMesh::PointCloudPtr cloud, const QList<CloudMeshItem*>& cloud_mesh_items, QWidget* parent=0);

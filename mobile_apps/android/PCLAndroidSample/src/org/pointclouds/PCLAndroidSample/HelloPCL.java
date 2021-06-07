@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.widget.TextView;
 import android.os.Bundle;
 
- 
+
 public class HelloPCL extends Activity {
 	
 	@Override

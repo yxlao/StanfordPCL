@@ -74,7 +74,7 @@ class OpenNIIntegralImageNormalEstimation
     typedef Cloud::ConstPtr CloudConstPtr;
 
     OpenNIIntegralImageNormalEstimation (const std::string& device_id = "")
-      : viewer ("PCL OpenNI NormalEstimation Viewer") 
+      : viewer ("PCL OpenNI NormalEstimation Viewer")
     , device_id_(device_id)
     {
       ne_.setNormalEstimationMethod (ne_.AVERAGE_3D_GRADIENT);
@@ -89,8 +89,8 @@ class OpenNIIntegralImageNormalEstimation
       be_.setRadiusSearch (0.02);
       be_.setSearchMethod (tree);
     }
-    
-    void 
+
+    void
     cloud_cb (const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud)
     {
       boost::mutex::scoped_lock lock (mtx_);
@@ -127,7 +127,7 @@ class OpenNIIntegralImageNormalEstimation
         return;
       }
 
-      // Render the data 
+      // Render the data
       if (new_cloud_ && cloud_ && boundaries_)
       {
         CloudPtr temp_cloud;
@@ -156,11 +156,11 @@ class OpenNIIntegralImageNormalEstimation
 
       boost::function<void (const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr &)> f = boost::bind (&OpenNIIntegralImageNormalEstimation::cloud_cb, this, _1);
       boost::signals2::connection c = interface->registerCallback (f);
-     
+
       viewer.runOnVisualizationThread (boost::bind(&OpenNIIntegralImageNormalEstimation::viz_cb, this, _1), "viz_cb");
 
       interface->start ();
-      
+
       while (!viewer.wasStopped ())
       {
         boost::this_thread::sleep(boost::posix_time::seconds(1));
@@ -202,13 +202,13 @@ usage (char ** argv)
     cout << "No devices connected." << endl;
 }
 
-int 
+int
 main (int argc, char ** argv)
 {
   std::string arg;
   if (argc > 1)
     arg = std::string (argv[1]);
-  
+
   if (arg == "--help" || arg == "-h")
   {
     usage (argv);

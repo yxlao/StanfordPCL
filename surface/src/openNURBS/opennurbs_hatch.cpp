@@ -48,7 +48,7 @@ public:
   ON_BOOL32 GetDescription( ON_wString& description );
 
   // override virtual ON_UserData::Archive function
-  ON_BOOL32 Archive() const; 
+  ON_BOOL32 Archive() const;
 
   // Get and set a 2d point in the hatch's ECS coordinates
   void SetBasePoint(ON_2dPoint& basepoint);
@@ -56,7 +56,7 @@ public:
 
   ON_UUID    m_parent_hatch; // Hatch this extends or ON_nil_uuid
   ON_2dPoint m_basepoint;    // Base point in hatch's ECS
-  
+
 };
 
 ON_OBJECT_IMPLEMENT(ON_HatchExtra,ON_UserData,"3FF7007C-3D04-463f-84E3-132ACEB91062");
@@ -77,7 +77,7 @@ ON_HatchExtra* ON_HatchExtra::HatchExtension(ON_Hatch* pHatch, bool bCreate)
           delete pExtra;
           pExtra = 0;
         }
-      }  
+      }
     }
   }
   return pExtra;
@@ -94,7 +94,7 @@ ON_HatchExtra::ON_HatchExtra()
   m_application_uuid = ON_opennurbs5_id; // opennurbs.dll reads/writes this userdata
                                          // The id must be the version 5 id because
                                          // V6 SaveAs V5 needs to work, but SaveAs
-                                         // V4 should not write this userdata.   
+                                         // V4 should not write this userdata.
   m_userdata_copycount = 1;
   SetDefaults();
 }
@@ -183,8 +183,8 @@ ON_HatchLine::ON_HatchLine()
 {
 }
 
-ON_HatchLine::ON_HatchLine(double angle, 
-                           const ON_2dPoint& base, 
+ON_HatchLine::ON_HatchLine(double angle,
+                           const ON_2dPoint& base,
                            const ON_2dVector& offset,
                            const ON_SimpleArray<double> dashes)
 : m_angle( angle), m_base( base), m_offset( offset), m_dashes( dashes)
@@ -193,9 +193,9 @@ ON_HatchLine::ON_HatchLine(double angle,
 
 bool ON_HatchLine::operator==(const ON_HatchLine& src) const
 {
-  return( m_angle == src.m_angle && 
+  return( m_angle == src.m_angle &&
           m_base == src.m_base &&
-          m_offset == src.m_offset && 
+          m_offset == src.m_offset &&
           m_dashes == src.m_dashes);
 }
 
@@ -246,7 +246,7 @@ ON_BOOL32 ON_HatchLine::IsValid( ON_TextLog* text_log) const
 
 void ON_HatchLine::Dump( ON_TextLog& dump) const
 {
-  dump.Print( "ON_HatchLine: angle = %lf radians ( %lf degrees) ", 
+  dump.Print( "ON_HatchLine: angle = %lf radians ( %lf degrees) ",
     Angle(), ON_RADIANS_TO_DEGREES * Angle());
   dump.Print( " base = ");
   dump.Print( m_base);
@@ -284,7 +284,7 @@ ON_BOOL32 ON_HatchLine::Read( ON_BinaryArchive& ar)
   int major_version = 0;
   int minor_version = 0;
   ON_BOOL32 rc = ar.Read3dmChunkVersion( &major_version, &minor_version);
-  if ( major_version == 1 ) 
+  if ( major_version == 1 )
   {
     if ( rc) rc = ar.ReadDouble( &m_angle);
     if ( rc) rc = ar.ReadPoint( m_base);
@@ -355,9 +355,9 @@ void ON_HatchLine::SetPattern( const ON_SimpleArray<double>& dashes)
   m_dashes = dashes;
 }
 
-void ON_HatchLine::GetLineData( double& angle, 
-                                ON_2dPoint& base, 
-                                ON_2dVector& offset, 
+void ON_HatchLine::GetLineData( double& angle,
+                                ON_2dPoint& base,
+                                ON_2dVector& offset,
                                 ON_SimpleArray<double>& dashes) const
 {
   angle = m_angle;
@@ -505,12 +505,12 @@ ON_BOOL32 ON_HatchPattern::Read( ON_BinaryArchive& ar)
   int major_version = 0;
   int minor_version = 0;
   ON_BOOL32 rc = ar.Read3dmChunkVersion( &major_version, &minor_version);
-  if ( major_version == 1 ) 
+  if ( major_version == 1 )
   {
     if( rc) rc = ar.ReadInt( &m_hatchpattern_index);
     i = 0;
     if( rc) rc = ar.ReadInt( &i);
-    if( rc) 
+    if( rc)
     {
       switch( i)
       {
@@ -529,7 +529,7 @@ ON_BOOL32 ON_HatchPattern::Read( ON_BinaryArchive& ar)
         m_lines.Empty();
         int count = 0;
         rc = ar.ReadInt( &count);
-        if( rc && count > 0 ) 
+        if( rc && count > 0 )
         {
           m_lines.SetCapacity( count);
           int i;
@@ -723,7 +723,7 @@ ON_HatchLoop::ON_HatchLoop( ON_Curve* pCurve2d, eLoopType type)
 
 ON_HatchLoop::ON_HatchLoop( const ON_HatchLoop& src)
 : m_type( src.m_type), m_p2dCurve( NULL)
-{ 
+{
   if( src.m_p2dCurve)
     m_p2dCurve = src.m_p2dCurve->DuplicateCurve();
 }
@@ -816,11 +816,11 @@ ON_BOOL32 ON_HatchLoop::Read( ON_BinaryArchive& ar)
   int major_version = 0;
   int minor_version = 0;
   ON_BOOL32 rc = ar.Read3dmChunkVersion( &major_version, &minor_version);
-  if ( major_version == 1 ) 
+  if ( major_version == 1 )
   {
     int type = 0;
     if( rc) rc = ar.ReadInt( &type);
-    if( rc) 
+    if( rc)
     {
       switch( type)
       {
@@ -887,7 +887,7 @@ ON_Hatch::ON_Hatch()
 
 ON_Hatch::ON_Hatch( const ON_Hatch& src)
 :  ON_Geometry(src),
-   m_plane( src.m_plane), 
+   m_plane( src.m_plane),
    m_pattern_scale( src.m_pattern_scale),
    m_pattern_rotation( src.m_pattern_rotation),
    m_pattern_index( src.m_pattern_index)
@@ -1016,7 +1016,7 @@ ON_BOOL32 ON_Hatch::Read( ON_BinaryArchive& ar)
   int major_version = 0;
   int minor_version = 0;
   ON_BOOL32 rc = ar.Read3dmChunkVersion( &major_version, &minor_version);
-  if ( major_version == 1 ) 
+  if ( major_version == 1 )
   {
     if( rc) rc = ar.ReadPlane( m_plane);
     if( rc) rc = ar.ReadDouble( &m_pattern_scale);
@@ -1055,7 +1055,7 @@ int ON_Hatch::Dimension() const
   return 3;
 }
 
-// Copy the 2d curve, make it 3d, and transform it 
+// Copy the 2d curve, make it 3d, and transform it
 // to the 3d plane position
 ON_Curve* ON_Hatch::LoopCurve3d( int index) const
 {
@@ -1138,7 +1138,7 @@ ON_BOOL32 ON_Hatch::Transform( const ON_Xform& xform)
     // kill translation and z-scaling
     T[0][2] = T[0][3] = 0.0;
     T[1][2] = T[1][3] = 0.0;
-    T[2][0] = T[2][1] = 0.0; T[2][2] = 1.0; T[2][3] = 0.0; 
+    T[2][0] = T[2][1] = 0.0; T[2][2] = 1.0; T[2][3] = 0.0;
     T[3][0] = T[3][1] = T[3][2] = 0.0; T[3][3] = 1.0;
 
     for( int i = 0; i < LoopCount(); i++)
@@ -1152,9 +1152,9 @@ ON_BOOL32 ON_Hatch::Transform( const ON_Xform& xform)
 }
 
 bool ON_Hatch::Create( const ON_Plane& plane,
-                       const ON_SimpleArray<const ON_Curve*> loops, 
-                       int pattern_index, 
-                       double pattern_rotation, 
+                       const ON_SimpleArray<const ON_Curve*> loops,
+                       int pattern_index,
+                       double pattern_rotation,
                        double pattern_scale)
 {
   if( loops.Count() < 1)
@@ -1235,7 +1235,7 @@ bool ON_Hatch::RemoveLoop( int index)
     m_loops.Remove(index);
     return true;
   }
-  
+
   return false;
 }
 
@@ -1307,7 +1307,7 @@ const ON_HatchLoop* ON_Hatch::Loop( int index) const
 {
   if( index >= 0 && index < m_loops.Count())
     return m_loops[index];
-  
+
   return NULL;
 }
 

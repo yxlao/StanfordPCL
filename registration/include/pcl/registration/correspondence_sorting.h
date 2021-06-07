@@ -66,7 +66,7 @@ namespace pcl
       */
     struct sortCorrespondencesByMatchIndex : public std::binary_function<pcl::Correspondence, pcl::Correspondence, bool>
     {
-      bool 
+      bool
       operator()( pcl::Correspondence a, pcl::Correspondence b)
       {
         return (a.index_match < b.index_match);
@@ -79,7 +79,7 @@ namespace pcl
       */
     struct sortCorrespondencesByDistance : public std::binary_function<pcl::Correspondence, pcl::Correspondence, bool>
     {
-      bool 
+      bool
       operator()( pcl::Correspondence a, pcl::Correspondence b)
       {
         return (a.distance < b.distance);
@@ -92,7 +92,7 @@ namespace pcl
       */
     struct sortCorrespondencesByQueryIndexAndDistance : public std::binary_function<pcl::Correspondence, pcl::Correspondence, bool>
     {
-      inline bool 
+      inline bool
       operator()( pcl::Correspondence a, pcl::Correspondence b)
       {
         if (a.index_query < b.index_query)
@@ -109,7 +109,7 @@ namespace pcl
       */
     struct sortCorrespondencesByMatchIndexAndDistance : public std::binary_function<pcl::Correspondence, pcl::Correspondence, bool>
     {
-      inline bool 
+      inline bool
       operator()( pcl::Correspondence a, pcl::Correspondence b)
       {
         if (a.index_match < b.index_match)

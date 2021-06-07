@@ -63,7 +63,7 @@ struct pcl::PCDGrabberBase::PCDGrabberImpl
   PCDGrabberImpl (pcl::PCDGrabberBase& grabber, const std::vector<std::string>& pcd_files, float frames_per_second, bool repeat);
   void trigger ();
   void readAhead ();
-  
+
   // TAR reading I/O
   int openTARFile (const std::string &file_name);
   void closeTARFile ();
@@ -88,7 +88,7 @@ struct pcl::PCDGrabberBase::PCDGrabberImpl
   std::string tar_file_;
   pcl::io::TARHeader tar_header_;
 
-  EIGEN_MAKE_ALIGNED_OPERATOR_NEW 
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -136,7 +136,7 @@ pcl::PCDGrabberBase::PCDGrabberImpl::PCDGrabberImpl (pcl::PCDGrabberBase& grabbe
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::PCDGrabberBase::PCDGrabberImpl::readAhead ()
 {
   PCDReader reader;
@@ -202,8 +202,8 @@ pcl::PCDGrabberBase::PCDGrabberImpl::readTARHeader ()
     return (false);
   }
 
-  // We only support regular files for now. 
-  // Addional file types in TAR include: hard links, symbolic links, device/special files, block devices, 
+  // We only support regular files for now.
+  // Addional file types in TAR include: hard links, symbolic links, device/special files, block devices,
   // directories, and named pipes.
   if (tar_header_.file_type[0] != '0' && tar_header_.file_type[0] != '\0')
   {
@@ -251,7 +251,7 @@ pcl::PCDGrabberBase::PCDGrabberImpl::openTARFile (const std::string &file_name)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::PCDGrabberBase::PCDGrabberImpl::trigger ()
 {
   if (valid_)
@@ -282,7 +282,7 @@ pcl::PCDGrabberBase::~PCDGrabberBase () throw ()
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::PCDGrabberBase::start ()
 {
   if (impl_->frames_per_second_ > 0)
@@ -295,7 +295,7 @@ pcl::PCDGrabberBase::start ()
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::PCDGrabberBase::stop ()
 {
   if (impl_->frames_per_second_ > 0)
@@ -315,35 +315,35 @@ pcl::PCDGrabberBase::trigger ()
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 pcl::PCDGrabberBase::isRunning () const
 {
   return (impl_->running_ && (impl_->pcd_iterator_ != impl_->pcd_files_.end()));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-std::string 
+std::string
 pcl::PCDGrabberBase::getName () const
 {
   return ("PCDGrabber");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::PCDGrabberBase::rewind ()
 {
   impl_->pcd_iterator_ = impl_->pcd_files_.begin ();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-float 
+float
 pcl::PCDGrabberBase::getFramesPerSecond () const
 {
   return (impl_->frames_per_second_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 pcl::PCDGrabberBase::isRepeatOn () const
 {
   return (impl_->repeat_);

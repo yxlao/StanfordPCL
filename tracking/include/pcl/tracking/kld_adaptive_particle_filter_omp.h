@@ -46,7 +46,7 @@ namespace pcl
       using KLDAdaptiveParticleFilterTracker<PointInT, StateT>::calcBoundingBox;
 
       typedef Tracker<PointInT, StateT> BaseClass;
-      
+
       typedef typename Tracker<PointInT, StateT>::PointCloudIn PointCloudIn;
       typedef typename PointCloudIn::Ptr PointCloudInPtr;
       typedef typename PointCloudIn::ConstPtr PointCloudInConstPtr;
@@ -65,7 +65,7 @@ namespace pcl
 
       /** \brief Initialize the scheduler and set the number of threads to use.
         * \param nr_threads the number of hardware threads to use (0 sets the value back to automatic)
-        */      
+        */
       KLDAdaptiveParticleFilterOMPTracker (unsigned int nr_threads = 0)
       : KLDAdaptiveParticleFilterTracker<PointInT, StateT> ()
       , threads_ (nr_threads)

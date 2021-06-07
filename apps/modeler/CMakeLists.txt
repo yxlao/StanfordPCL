@@ -30,7 +30,7 @@ if(build)
   include_directories (${CMAKE_CURRENT_BINARY_DIR})
   include_directories (${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-  # Set Qt files and resources here  
+  # Set Qt files and resources here
   set(uis main_window.ui)
   set(moc_incs include/pcl/apps/${SUBSYS_NAME}/main_window.h
            include/pcl/apps/${SUBSYS_NAME}/scene_tree.h

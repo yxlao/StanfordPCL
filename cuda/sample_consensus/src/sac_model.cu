@@ -52,17 +52,17 @@
 
 namespace pcl
 {
-  namespace cuda 
+  namespace cuda
   {
 
     template <template <typename> class Storage>
     __inline__ __host__
     void create_scatter_stencil (int new_w, int new_h, int skip, int width, int height, typename Storage<int>::type &stencil)
-    { 
+    {
       for (unsigned int i = 0; i < new_w * new_h; ++i)
-      { 
+      {
         int xIdx = i % new_w;
-        int yIdx = i / new_w; 
+        int yIdx = i / new_w;
         stencil [i] = (xIdx * skip) + width * (yIdx * skip);
       }
     }
@@ -84,7 +84,7 @@ namespace pcl
       //
       //input_->points.resize (stencil.size ());
       //thrust::gather (stencil.begin (), stencil.end (), cloud->points.begin (), input_->points.begin ());
-      // TODO pcl_cuda::ScopeTime t ("setInputCloud"); 
+      // TODO pcl_cuda::ScopeTime t ("setInputCloud");
       input_ = cloud;
 
       //// first, we create an inlier stencil that has -1 set for all nan points
@@ -113,7 +113,7 @@ namespace pcl
 
 
     // ------ got moved to inline function def in sac_model.h
-    //template <template <typename> class Storage> typename SampleConsensusModel<Storage>::IndicesPtr 
+    //template <template <typename> class Storage> typename SampleConsensusModel<Storage>::IndicesPtr
     //SampleConsensusModel<Storage>::getIndices () const
     //{
     //  if (nr_indices_in_stencil_ != indices_->size())

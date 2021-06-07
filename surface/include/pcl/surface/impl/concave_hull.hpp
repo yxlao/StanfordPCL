@@ -144,7 +144,7 @@ pcl::ConcaveHull<PointInT>::performReconstruction (PointCloud &alpha_shape, std:
       dim_ = 2;
     else
       dim_ = 3;
-  } 
+  }
 
   if (dim_ == 2)
   {
@@ -166,7 +166,7 @@ pcl::ConcaveHull<PointInT>::performReconstruction (PointCloud &alpha_shape, std:
   {
     transform1.setIdentity ();
   }
-  
+
   PointCloud cloud_transformed;
   pcl::demeanPointCloud (*input_, *indices_, xyz_centroid, cloud_transformed);
   pcl::transformPointCloud (cloud_transformed, cloud_transformed, transform1);

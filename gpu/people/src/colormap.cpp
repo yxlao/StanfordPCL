@@ -59,7 +59,7 @@ pcl::RGB pcl::gpu::people::getLColor (pcl::Label l)
 void pcl::gpu::people::colorLMap ( int W, int H, const trees::Label* l, unsigned char* c )
 {
   int numPix = W * H;
-  for(int pi = 0; pi < numPix; ++pi) 
+  for(int pi = 0; pi < numPix; ++pi)
   {
     const unsigned char* color = LUT_COLOR_LABEL + 3 * l[pi];
     c[3*pi+0] = color[0];
@@ -98,11 +98,11 @@ void pcl::gpu::people::colorizeLabels(const DeviceArray<pcl::RGB>& color_map, co
   color_labels.create(labels.rows(), labels.cols());
 
   const DeviceArray<uchar4>& map = (const DeviceArray<uchar4>&)color_map;
-  device::Image& img = (device::Image&)color_labels;  
+  device::Image& img = (device::Image&)color_labels;
   device::colorLMap(labels, map, img);
 }
 
-void pcl::gpu::people::colorizeMixedLabels(const DeviceArray<pcl::RGB>& color_map, const DeviceArray2D<unsigned char>& labels, 
+void pcl::gpu::people::colorizeMixedLabels(const DeviceArray<pcl::RGB>& color_map, const DeviceArray2D<unsigned char>& labels,
                                            const DeviceArray2D<pcl::RGB>& image, DeviceArray2D<pcl::RGB>& color_labels)
 {
   color_labels.create(labels.rows(), labels.cols());
@@ -115,7 +115,7 @@ void pcl::gpu::people::colorizeMixedLabels(const DeviceArray<pcl::RGB>& color_ma
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const unsigned char pcl::gpu::people::LUT_COLOR_LABEL[] = 
+const unsigned char pcl::gpu::people::LUT_COLOR_LABEL[] =
 {
      50, 34, 22,
      24,247,196,
@@ -148,7 +148,7 @@ const unsigned char pcl::gpu::people::LUT_COLOR_LABEL[] =
      82, 47,144,
     140, 69,139,
     189,115,117,
-     80, 57,150 
+     80, 57,150
 };
-        
+
 const int pcl::gpu::people::LUT_COLOR_LABEL_LENGTH = sizeof(LUT_COLOR_LABEL)/(sizeof(LUT_COLOR_LABEL[0]) * 3);

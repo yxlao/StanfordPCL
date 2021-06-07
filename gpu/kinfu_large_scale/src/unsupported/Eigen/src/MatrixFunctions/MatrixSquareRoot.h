@@ -10,7 +10,7 @@
 #ifndef EIGEN_MATRIX_SQUARE_ROOT
 #define EIGEN_MATRIX_SQUARE_ROOT
 
-namespace Eigen { 
+namespace Eigen {
 
 /** \ingroup MatrixFunctions_Module
   * \brief Class for computing matrix square roots of upper quasi-triangular matrices.
@@ -28,20 +28,20 @@ class MatrixSquareRootQuasiTriangular
 {
   public:
 
-    /** \brief Constructor. 
+    /** \brief Constructor.
       *
-      * \param[in]  A  upper quasi-triangular matrix whose square root 
+      * \param[in]  A  upper quasi-triangular matrix whose square root
       *                is to be computed.
       *
       * The class stores a reference to \p A, so it should not be
       * changed (or destroyed) before compute() is called.
       */
-    MatrixSquareRootQuasiTriangular(const MatrixType& A) 
-      : m_A(A) 
+    MatrixSquareRootQuasiTriangular(const MatrixType& A)
+      : m_A(A)
     {
       eigen_assert(A.rows() == A.cols());
     }
-    
+
     /** \brief Compute the matrix square root
       *
       * \param[out] result  square root of \p A, as specified in the constructor.
@@ -50,37 +50,37 @@ class MatrixSquareRootQuasiTriangular
       * rest is not touched.  See MatrixBase::sqrt() for details on
       * how this computation is implemented.
       */
-    template <typename ResultType> void compute(ResultType &result);    
-    
+    template <typename ResultType> void compute(ResultType &result);
+
   private:
     typedef typename MatrixType::Index Index;
     typedef typename MatrixType::Scalar Scalar;
-    
+
     void computeDiagonalPartOfSqrt(MatrixType& sqrtT, const MatrixType& T);
     void computeOffDiagonalPartOfSqrt(MatrixType& sqrtT, const MatrixType& T);
     void compute2x2diagonalBlock(MatrixType& sqrtT, const MatrixType& T, typename MatrixType::Index i);
-    void compute1x1offDiagonalBlock(MatrixType& sqrtT, const MatrixType& T, 
+    void compute1x1offDiagonalBlock(MatrixType& sqrtT, const MatrixType& T,
   				  typename MatrixType::Index i, typename MatrixType::Index j);
-    void compute1x2offDiagonalBlock(MatrixType& sqrtT, const MatrixType& T, 
+    void compute1x2offDiagonalBlock(MatrixType& sqrtT, const MatrixType& T,
   				  typename MatrixType::Index i, typename MatrixType::Index j);
-    void compute2x1offDiagonalBlock(MatrixType& sqrtT, const MatrixType& T, 
+    void compute2x1offDiagonalBlock(MatrixType& sqrtT, const MatrixType& T,
   				  typename MatrixType::Index i, typename MatrixType::Index j);
-    void compute2x2offDiagonalBlock(MatrixType& sqrtT, const MatrixType& T, 
+    void compute2x2offDiagonalBlock(MatrixType& sqrtT, const MatrixType& T,
   				  typename MatrixType::Index i, typename MatrixType::Index j);
-  
+
     template <typename SmallMatrixType>
-    static void solveAuxiliaryEquation(SmallMatrixType& X, const SmallMatrixType& A, 
+    static void solveAuxiliaryEquation(SmallMatrixType& X, const SmallMatrixType& A,
   				     const SmallMatrixType& B, const SmallMatrixType& C);
-  
+
     const MatrixType& m_A;
 };
 
 template <typename MatrixType>
-template <typename ResultType> 
+template <typename ResultType>
 void MatrixSquareRootQuasiTriangular<MatrixType>::compute(ResultType &result)
 {
   // Compute Schur decomposition of m_A
-  const RealSchur<MatrixType> schurOfA(m_A);  
+  const RealSchur<MatrixType> schurOfA(m_A);
   const MatrixType& T = schurOfA.matrixT();
   const MatrixType& U = schurOfA.matrixU();
 
@@ -96,7 +96,7 @@ void MatrixSquareRootQuasiTriangular<MatrixType>::compute(ResultType &result)
 // pre:  T is quasi-upper-triangular and sqrtT is a zero matrix of the same size
 // post: the diagonal blocks of sqrtT are the square roots of the diagonal blocks of T
 template <typename MatrixType>
-void MatrixSquareRootQuasiTriangular<MatrixType>::computeDiagonalPartOfSqrt(MatrixType& sqrtT, 
+void MatrixSquareRootQuasiTriangular<MatrixType>::computeDiagonalPartOfSqrt(MatrixType& sqrtT,
 									  const MatrixType& T)
 {
   const Index size = m_A.rows();
@@ -115,7 +115,7 @@ void MatrixSquareRootQuasiTriangular<MatrixType>::computeDiagonalPartOfSqrt(Matr
 // pre:  T is quasi-upper-triangular and diagonal blocks of sqrtT are square root of diagonal blocks of T.
 // post: sqrtT is the square root of T.
 template <typename MatrixType>
-void MatrixSquareRootQuasiTriangular<MatrixType>::computeOffDiagonalPartOfSqrt(MatrixType& sqrtT, 
+void MatrixSquareRootQuasiTriangular<MatrixType>::computeOffDiagonalPartOfSqrt(MatrixType& sqrtT,
 									     const MatrixType& T)
 {
   const Index size = m_A.rows();
@@ -127,13 +127,13 @@ void MatrixSquareRootQuasiTriangular<MatrixType>::computeOffDiagonalPartOfSqrt(M
 	continue;
       bool iBlockIs2x2 = (i < size - 1) && (T.coeff(i+1, i) != 0);
       bool jBlockIs2x2 = (j < size - 1) && (T.coeff(j+1, j) != 0);
-      if (iBlockIs2x2 && jBlockIs2x2) 
+      if (iBlockIs2x2 && jBlockIs2x2)
 	compute2x2offDiagonalBlock(sqrtT, T, i, j);
-      else if (iBlockIs2x2 && !jBlockIs2x2) 
+      else if (iBlockIs2x2 && !jBlockIs2x2)
 	compute2x1offDiagonalBlock(sqrtT, T, i, j);
-      else if (!iBlockIs2x2 && jBlockIs2x2) 
+      else if (!iBlockIs2x2 && jBlockIs2x2)
 	compute1x2offDiagonalBlock(sqrtT, T, i, j);
-      else if (!iBlockIs2x2 && !jBlockIs2x2) 
+      else if (!iBlockIs2x2 && !jBlockIs2x2)
 	compute1x1offDiagonalBlock(sqrtT, T, i, j);
     }
   }
@@ -158,7 +158,7 @@ void MatrixSquareRootQuasiTriangular<MatrixType>
 // post: sqrtT(i,j) has the correct value
 template <typename MatrixType>
 void MatrixSquareRootQuasiTriangular<MatrixType>
-     ::compute1x1offDiagonalBlock(MatrixType& sqrtT, const MatrixType& T, 
+     ::compute1x1offDiagonalBlock(MatrixType& sqrtT, const MatrixType& T,
 				  typename MatrixType::Index i, typename MatrixType::Index j)
 {
   Scalar tmp = (sqrtT.row(i).segment(i+1,j-i-1) * sqrtT.col(j).segment(i+1,j-i-1)).value();
@@ -168,7 +168,7 @@ void MatrixSquareRootQuasiTriangular<MatrixType>
 // similar to compute1x1offDiagonalBlock()
 template <typename MatrixType>
 void MatrixSquareRootQuasiTriangular<MatrixType>
-     ::compute1x2offDiagonalBlock(MatrixType& sqrtT, const MatrixType& T, 
+     ::compute1x2offDiagonalBlock(MatrixType& sqrtT, const MatrixType& T,
 				  typename MatrixType::Index i, typename MatrixType::Index j)
 {
   Matrix<Scalar,1,2> rhs = T.template block<1,2>(i,j);
@@ -182,7 +182,7 @@ void MatrixSquareRootQuasiTriangular<MatrixType>
 // similar to compute1x1offDiagonalBlock()
 template <typename MatrixType>
 void MatrixSquareRootQuasiTriangular<MatrixType>
-     ::compute2x1offDiagonalBlock(MatrixType& sqrtT, const MatrixType& T, 
+     ::compute2x1offDiagonalBlock(MatrixType& sqrtT, const MatrixType& T,
 				  typename MatrixType::Index i, typename MatrixType::Index j)
 {
   Matrix<Scalar,2,1> rhs = T.template block<2,1>(i,j);
@@ -196,7 +196,7 @@ void MatrixSquareRootQuasiTriangular<MatrixType>
 // similar to compute1x1offDiagonalBlock()
 template <typename MatrixType>
 void MatrixSquareRootQuasiTriangular<MatrixType>
-     ::compute2x2offDiagonalBlock(MatrixType& sqrtT, const MatrixType& T, 
+     ::compute2x2offDiagonalBlock(MatrixType& sqrtT, const MatrixType& T,
 				  typename MatrixType::Index i, typename MatrixType::Index j)
 {
   Matrix<Scalar,2,2> A = sqrtT.template block<2,2>(i,i);
@@ -232,13 +232,13 @@ void MatrixSquareRootQuasiTriangular<MatrixType>
   coeffMatrix.coeffRef(2,3) = B.coeff(1,0);
   coeffMatrix.coeffRef(3,1) = A.coeff(1,0);
   coeffMatrix.coeffRef(3,2) = B.coeff(0,1);
-  
+
   Matrix<Scalar,4,1> rhs;
   rhs.coeffRef(0) = C.coeff(0,0);
   rhs.coeffRef(1) = C.coeff(0,1);
   rhs.coeffRef(2) = C.coeff(1,0);
   rhs.coeffRef(3) = C.coeff(1,1);
-  
+
   Matrix<Scalar,4,1> result;
   result = coeffMatrix.fullPivLu().solve(rhs);
 
@@ -264,8 +264,8 @@ template <typename MatrixType>
 class MatrixSquareRootTriangular
 {
   public:
-    MatrixSquareRootTriangular(const MatrixType& A) 
-      : m_A(A) 
+    MatrixSquareRootTriangular(const MatrixType& A)
+      : m_A(A)
     {
       eigen_assert(A.rows() == A.cols());
     }
@@ -274,23 +274,23 @@ class MatrixSquareRootTriangular
       *
       * \param[out] result  square root of \p A, as specified in the constructor.
       *
-      * Only the upper triangular part (including the diagonal) of 
+      * Only the upper triangular part (including the diagonal) of
       * \p result is updated, the rest is not touched.  See
       * MatrixBase::sqrt() for details on how this computation is
       * implemented.
       */
-    template <typename ResultType> void compute(ResultType &result);    
+    template <typename ResultType> void compute(ResultType &result);
 
  private:
     const MatrixType& m_A;
 };
 
 template <typename MatrixType>
-template <typename ResultType> 
+template <typename ResultType>
 void MatrixSquareRootTriangular<MatrixType>::compute(ResultType &result)
 {
   // Compute Schur decomposition of m_A
-  const ComplexSchur<MatrixType> schurOfA(m_A);  
+  const ComplexSchur<MatrixType> schurOfA(m_A);
   const MatrixType& T = schurOfA.matrixT();
   const MatrixType& U = schurOfA.matrixU();
 
@@ -330,15 +330,15 @@ class MatrixSquareRoot
 {
   public:
 
-    /** \brief Constructor. 
+    /** \brief Constructor.
       *
       * \param[in]  A  matrix whose square root is to be computed.
       *
       * The class stores a reference to \p A, so it should not be
       * changed (or destroyed) before compute() is called.
       */
-    MatrixSquareRoot(const MatrixType& A); 
-    
+    MatrixSquareRoot(const MatrixType& A);
+
     /** \brief Compute the matrix square root
       *
       * \param[out] result  square root of \p A, as specified in the constructor.
@@ -346,7 +346,7 @@ class MatrixSquareRoot
       * See MatrixBase::sqrt() for details on how this computation is
       * implemented.
       */
-    template <typename ResultType> void compute(ResultType &result);    
+    template <typename ResultType> void compute(ResultType &result);
 };
 
 
@@ -357,28 +357,28 @@ class MatrixSquareRoot<MatrixType, 0>
 {
   public:
 
-    MatrixSquareRoot(const MatrixType& A) 
-      : m_A(A) 
-    {  
+    MatrixSquareRoot(const MatrixType& A)
+      : m_A(A)
+    {
       eigen_assert(A.rows() == A.cols());
     }
-  
+
     template <typename ResultType> void compute(ResultType &result)
     {
       // Compute Schur decomposition of m_A
-      const RealSchur<MatrixType> schurOfA(m_A);  
+      const RealSchur<MatrixType> schurOfA(m_A);
       const MatrixType& T = schurOfA.matrixT();
       const MatrixType& U = schurOfA.matrixU();
-    
+
       // Compute square root of T
       MatrixSquareRootQuasiTriangular<MatrixType> tmp(T);
       MatrixType sqrtT = MatrixType::Zero(m_A.rows(), m_A.rows());
       tmp.compute(sqrtT);
-    
+
       // Compute square root of m_A
       result = U * sqrtT * U.adjoint();
     }
-    
+
   private:
     const MatrixType& m_A;
 };
@@ -391,28 +391,28 @@ class MatrixSquareRoot<MatrixType, 1>
 {
   public:
 
-    MatrixSquareRoot(const MatrixType& A) 
-      : m_A(A) 
-    {  
+    MatrixSquareRoot(const MatrixType& A)
+      : m_A(A)
+    {
       eigen_assert(A.rows() == A.cols());
     }
-  
+
     template <typename ResultType> void compute(ResultType &result)
     {
       // Compute Schur decomposition of m_A
-      const ComplexSchur<MatrixType> schurOfA(m_A);  
+      const ComplexSchur<MatrixType> schurOfA(m_A);
       const MatrixType& T = schurOfA.matrixT();
       const MatrixType& U = schurOfA.matrixU();
-    
+
       // Compute square root of T
       MatrixSquareRootTriangular<MatrixType> tmp(T);
       MatrixType sqrtT = MatrixType::Zero(m_A.rows(), m_A.rows());
       tmp.compute(sqrtT);
-    
+
       // Compute square root of m_A
       result = U * sqrtT * U.adjoint();
     }
-    
+
   private:
     const MatrixType& m_A;
 };

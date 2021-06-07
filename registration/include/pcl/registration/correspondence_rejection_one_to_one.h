@@ -72,15 +72,15 @@ namespace pcl
           * \param[in] original_correspondences the set of initial correspondences given
           * \param[out] remaining_correspondences the resultant filtered set of remaining correspondences
           */
-        inline void 
-        getRemainingCorrespondences (const pcl::Correspondences& original_correspondences, 
+        inline void
+        getRemainingCorrespondences (const pcl::Correspondences& original_correspondences,
                                      pcl::Correspondences& remaining_correspondences);
 
       protected:
         /** \brief Apply the rejection algorithm.
           * \param[out] correspondences the set of resultant correspondences.
           */
-        inline void 
+        inline void
         applyRejection (pcl::Correspondences &correspondences)
         {
           getRemainingCorrespondences (*input_correspondences_, correspondences);

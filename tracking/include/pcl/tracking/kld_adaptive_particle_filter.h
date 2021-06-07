@@ -43,7 +43,7 @@ namespace pcl
       using ParticleFilterTracker<PointInT, StateT>::sampleWithReplacement;
 
       typedef Tracker<PointInT, StateT> BaseClass;
-      
+
       typedef typename Tracker<PointInT, StateT>::PointCloudIn PointCloudIn;
       typedef typename PointCloudIn::Ptr PointCloudInPtr;
       typedef typename PointCloudIn::ConstPtr PointCloudInConstPtr;
@@ -75,7 +75,7 @@ namespace pcl
         * \param bin_size the size of a bin
         */
       inline void setBinSize (const StateT& bin_size) { bin_size_ = bin_size; }
-      
+
       /** \brief get the bin size. */
       inline StateT getBinSize () const { return (bin_size_); }
 
@@ -102,14 +102,14 @@ namespace pcl
 
       /** \brief get delta to be used in chi-squared distribution.*/
       inline double getDelta () const { return (delta_); }
-      
+
     protected:
 
       /** \brief return true if the two bins are equal.
         * \param a index of the bin
         * \param b index of the bin
         */
-      virtual bool 
+      virtual bool
       equalBin (std::vector<int> a, std::vector<int> b)
       {
         int dimension = StateT::stateDimension ();
@@ -122,7 +122,7 @@ namespace pcl
       /** \brief return upper quantile of standard normal distribution.
         * \param[in] u ratio of quantile.
         */
-      double 
+      double
       normalQuantile (double u)
       {
         const double a[9] = {  1.24818987e-4, -1.075204047e-3, 5.198775019e-3,
@@ -169,7 +169,7 @@ namespace pcl
       /** \brief calculate K-L boundary. K-L boundary follows 1/2e*chi(k-1, 1-d)^2.
         * \param[in] k the number of bins and the first parameter of chi distribution.
         */
-      virtual 
+      virtual
       double calcKLBound (int k)
       {
         double z = normalQuantile (delta_);
@@ -182,18 +182,18 @@ namespace pcl
         * \param bin a bin to be inserted.
         * \param B a set of the bins
         */
-      virtual bool 
+      virtual bool
       insertIntoBins (std::vector<int> bin, std::vector<std::vector<int> > &B);
-            
+
       /** \brief This method should get called before starting the actual computation. */
-      virtual bool 
+      virtual bool
       initCompute ();
 
       /** \brief resampling phase of particle filter method.
           sampling the particles according to the weights calculated in weight method.
           in particular, "sample with replacement" is archieved by walker's alias method.
         */
-      virtual void 
+      virtual void
       resample ();
 
       /** \brief the maximum number of the particles. */

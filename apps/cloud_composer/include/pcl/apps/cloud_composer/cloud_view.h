@@ -55,95 +55,95 @@ namespace pcl
     class CloudView : public QWidget
     {
       Q_OBJECT
-      
+
     public:
       CloudView (QWidget* parent = 0);
       CloudView (const CloudView& to_copy);
       CloudView (ProjectModel* model, QWidget* parent = 0);
       virtual ~CloudView ();
-      
-      void 
+
+      void
       setModel (ProjectModel* new_model);
-      ProjectModel* 
+      ProjectModel*
       getModel () const { return model_; }
-      
-      QVTKWidget* 
+
+      QVTKWidget*
       getQVTK() const {return qvtk_; }
-      
+
       boost::shared_ptr<pcl::visualization::PCLVisualizer>
       getPCLVisualizer () const { return vis_; }
-      
-      void 
+
+      void
       setAxisVisibility (bool visible);
-      
-      void 
+
+      void
       setInteractorStyle (interactor_styles::INTERACTOR_STYLES style);
     public slots:
-      void 
+      void
       refresh ();
-      
+
       /** \brief Slot called when the item selected in cloud browser changes */
-      void 
+      void
       selectedItemChanged (const QItemSelection & selected, const QItemSelection & deselected);
-      
+
       /** \brief Slot called when the data in model changes */
-      void 
+      void
       dataChanged ( const QModelIndex & topLeft, const QModelIndex & bottomRight );
-      
+
     protected slots:
       /** \brief Slot called when an item in the model changes
-       * \param topLeft 
+       * \param topLeft
        * \param bottomRight
        */
       void
       itemChanged (QStandardItem* item);
-      
+
       /** \brief Slot called when rows inserted to model
        * \param start Start of new rows (inclusive)
        * \param end End of new rows (inclusive)
        */
       void
       rowsInserted (const QModelIndex& parent, int start, int end);
-      
+
       void
       rowsAboutToBeRemoved (const QModelIndex& parent, int start, int end);
-      
+
       void
       selectionCompleted (vtkObject* caller, unsigned long event_id, void* client_data, void* call_data);
-      
+
       void
       manipulationCompleted (vtkObject* caller, unsigned long event_id, void* client_data, void* call_data);
-      
+
     protected:
       void
       paintEvent (QPaintEvent* event);
-      void 
+      void
       resizeEvent (QResizeEvent* event);
       //   void scrollContentsBy (int dx, int dy);
-      
-      
-      
+
+
+
     private:
       void
       connectSignalsAndSlots ();
-      
+
       /** \brief Internal function for setting up the style_switch_ */
-      void 
+      void
       initializeInteractorSwitch ();
-      
+
       void
       addOrientationMarkerWidgetAxes ();
       void
       removeOrientationMarkerWidgetAxes ();
-      
+
       boost::shared_ptr<pcl::visualization::PCLVisualizer> vis_;
       ProjectModel* model_;
       QVTKWidget* qvtk_;
       vtkSmartPointer<InteractorStyleSwitch> style_switch_;
-      
+
       vtkSmartPointer<vtkOrientationMarkerWidget> axes_widget_;
       vtkSmartPointer<vtkAxesActor> axes_;
-      
+
       /** \brief Manages VTK events by connecting them to QT slots */
       vtkSmartPointer<vtkEventQtSlotConnect> connections_;
     };

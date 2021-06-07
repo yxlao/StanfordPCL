@@ -11,12 +11,12 @@ Q_EXPORT_PLUGIN2(cloud_composer_euclidean_clustering_tool, pcl::cloud_composer::
 pcl::cloud_composer::EuclideanClusteringTool::EuclideanClusteringTool (PropertiesModel* parameter_model, QObject* parent)
   : SplitItemTool (parameter_model, parent)
 {
-  
+
 }
 
 pcl::cloud_composer::EuclideanClusteringTool::~EuclideanClusteringTool ()
 {
-  
+
 }
 
 QList <pcl::cloud_composer::CloudComposerItem*>
@@ -35,7 +35,7 @@ pcl::cloud_composer::EuclideanClusteringTool::performAction (ConstItemList input
     qWarning () << "Input vector has more than one item in Euclidean Clustering!";
   }
   input_item = input_data.value (0);
-  
+
   if (input_item->type () == CloudComposerItem::CLOUD_ITEM)
   {
     const CloudItem* cloud_item = dynamic_cast <const CloudItem*> (input_item);
@@ -44,20 +44,20 @@ pcl::cloud_composer::EuclideanClusteringTool::performAction (ConstItemList input
       double cluster_tolerance = parameter_model_->getProperty ("Cluster Tolerance").toDouble();
       int min_cluster_size = parameter_model_->getProperty ("Min Cluster Size").toInt();
       int max_cluster_size = parameter_model_->getProperty ("Max Cluster Size").toInt();
-    
+
       sensor_msgs::PointCloud2::ConstPtr input_cloud = input_item->data (ItemDataRole::CLOUD_BLOB).value <sensor_msgs::PointCloud2::ConstPtr> ();
       //Get the cloud in template form
       pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
-      pcl::fromROSMsg (*input_cloud, *cloud); 
-      
+      pcl::fromROSMsg (*input_cloud, *cloud);
+
       //////////////// THE WORK - COMPUTING CLUSTERS ///////////////////
       // Creating the KdTree object for the search method of the extraction
       pcl::search::KdTree<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ>);
       tree->setInputCloud (cloud);
-    
+
       std::vector<pcl::PointIndices> cluster_indices;
       pcl::EuclideanClusterExtraction<pcl::PointXYZ> ec;
-      ec.setClusterTolerance (cluster_tolerance); 
+      ec.setClusterTolerance (cluster_tolerance);
       ec.setMinClusterSize (min_cluster_size);
       ec.setMaxClusterSize (max_cluster_size);
       ec.setSearchMethod (tree);
@@ -84,7 +84,7 @@ pcl::cloud_composer::EuclideanClusteringTool::performAction (ConstItemList input
         filter.setKeepOrganized (false);
         sensor_msgs::PointCloud2::Ptr cloud_filtered (new sensor_msgs::PointCloud2);
         filter.filter (*cloud_filtered);
-      
+
         qDebug() << "Cluster has " << cloud_filtered->width << " data points.";
         CloudItem* cloud_item = new CloudItem (input_item->text ()+tr("-Clstr %1").arg(cluster_count)
                                               , cloud_filtered
@@ -92,7 +92,7 @@ pcl::cloud_composer::EuclideanClusteringTool::performAction (ConstItemList input
                                               , source_orientation);
         output.append (cloud_item);
         ++cluster_count;
-      } 
+      }
       //We copy input cloud over for special case that no clusters found, since ExtractIndices doesn't work for 0 length vectors
       sensor_msgs::PointCloud2::Ptr remainder_cloud (new sensor_msgs::PointCloud2(*input_cloud));
       if (cluster_indices.size () > 0)
@@ -116,8 +116,8 @@ pcl::cloud_composer::EuclideanClusteringTool::performAction (ConstItemList input
   {
     qCritical () << "Input item in Clustering is not a cloud!!!";
   }
-  
-  
+
+
   return output;
 }
 
@@ -126,11 +126,11 @@ pcl::cloud_composer::PropertiesModel*
 pcl::cloud_composer::EuclideanClusteringToolFactory::createToolParameterModel (QObject* parent)
 {
   PropertiesModel* parameter_model = new PropertiesModel(parent);
-  
+
   parameter_model->addProperty ("Cluster Tolerance", 0.02,  Qt::ItemIsEditable | Qt::ItemIsEnabled);
   parameter_model->addProperty ("Min Cluster Size", 100,  Qt::ItemIsEditable | Qt::ItemIsEnabled);
   parameter_model->addProperty ("Max Cluster Size", 25000,  Qt::ItemIsEditable | Qt::ItemIsEnabled);
-    
+
 
   return parameter_model;
 }

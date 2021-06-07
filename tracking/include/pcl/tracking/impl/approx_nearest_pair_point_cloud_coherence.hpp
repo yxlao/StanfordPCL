@@ -26,7 +26,7 @@ namespace pcl
           double coherence_val = 1.0;
           for (size_t i = 0; i < point_coherences_.size (); i++)
           {
-            PointCoherencePtr coherence = point_coherences_[i];  
+            PointCoherencePtr coherence = point_coherences_[i];
             double w = coherence->compute (input_point, target_point);
             coherence_val *= w;
           }
@@ -45,20 +45,20 @@ namespace pcl
         //deinitCompute ();
         return (false);
       }
-      
+
       // initialize tree
       if (!search_)
         search_.reset (new pcl::search::Octree<PointInT> (0.01));
-      
+
       if (new_target_ && target_input_)
       {
         search_->setInputCloud (target_input_);
         new_target_ = false;
       }
-      
+
       return true;
     }
-    
+
   }
 }
 

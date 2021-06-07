@@ -92,9 +92,9 @@ namespace pcl
       /** \brief Set the 3D grid leaf size.
         * \param radius the 3D grid leaf size
         */
-      virtual inline void 
-      setRadiusSearch (double radius) 
-      { 
+      virtual inline void
+      setRadiusSearch (double radius)
+      {
         leaf_size_[0] = leaf_size_[1] = leaf_size_[2] = static_cast<float> (radius);
         // Avoid division errors
         if (leaf_size_[3] == 0)
@@ -118,7 +118,7 @@ namespace pcl
       /** \brief The size of a leaf. */
       Eigen::Vector4f leaf_size_;
 
-      /** \brief Internal leaf sizes stored as 1/leaf_size_ for efficiency reasons. */ 
+      /** \brief Internal leaf sizes stored as 1/leaf_size_ for efficiency reasons. */
       Eigen::Array4f inverse_leaf_size_;
 
       /** \brief The minimum and maximum bin coordinates, the number of divisions, and the division multiplier. */
@@ -127,7 +127,7 @@ namespace pcl
       /** \brief Downsample a Point Cloud using a voxelized grid approach
         * \param output the resultant point cloud message
         */
-      void 
+      void
       detectKeypoints (PointCloudOut &output);
   };
 }

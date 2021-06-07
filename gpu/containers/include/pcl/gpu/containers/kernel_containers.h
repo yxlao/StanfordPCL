@@ -39,11 +39,11 @@
 #define PCL_GPU_CONTAINERS_KERNEL_CONTAINERS_HPP_
 
 
-#if defined(__CUDACC__) 
-    #define __PCL_GPU_HOST_DEVICE__ __host__ __device__ __forceinline__ 
+#if defined(__CUDACC__)
+    #define __PCL_GPU_HOST_DEVICE__ __host__ __device__ __forceinline__
 #else
     #define __PCL_GPU_HOST_DEVICE__
-#endif  
+#endif
 
 #include <cstddef>
 
@@ -67,7 +67,7 @@ namespace pcl
         };
 
         template<typename T> struct PtrSz : public DevPtr<T>
-        {                     
+        {
             __PCL_GPU_HOST_DEVICE__ PtrSz() : size(0) {}
             __PCL_GPU_HOST_DEVICE__ PtrSz(T* data_arg, size_t size_arg) : DevPtr<T>(data_arg), size(size_arg) {}
 
@@ -75,12 +75,12 @@ namespace pcl
         };
 
         template<typename T>  struct PtrStep : public DevPtr<T>
-        {   
+        {
             __PCL_GPU_HOST_DEVICE__ PtrStep() : step(0) {}
             __PCL_GPU_HOST_DEVICE__ PtrStep(T* data_arg, size_t step_arg) : DevPtr<T>(data_arg), step(step_arg) {}
 
             /** \brief stride between two consecutive rows in bytes. Step is stored always and everywhere in bytes!!! */
-            size_t step;            
+            size_t step;
 
             __PCL_GPU_HOST_DEVICE__       T* ptr(int y = 0)       { return (      T*)( (      char*)DevPtr<T>::data + y * step); }
             __PCL_GPU_HOST_DEVICE__ const T* ptr(int y = 0) const { return (const T*)( (const char*)DevPtr<T>::data + y * step); }
@@ -90,13 +90,13 @@ namespace pcl
         };
 
         template <typename T> struct PtrStepSz : public PtrStep<T>
-        {   
+        {
             __PCL_GPU_HOST_DEVICE__ PtrStepSz() : cols(0), rows(0) {}
-            __PCL_GPU_HOST_DEVICE__ PtrStepSz(int rows_arg, int cols_arg, T* data_arg, size_t step_arg) 
+            __PCL_GPU_HOST_DEVICE__ PtrStepSz(int rows_arg, int cols_arg, T* data_arg, size_t step_arg)
                 : PtrStep<T>(data_arg, step_arg), cols(cols_arg), rows(rows_arg) {}
 
             int cols;
-            int rows;                                                                              
+            int rows;
         };
     }
 

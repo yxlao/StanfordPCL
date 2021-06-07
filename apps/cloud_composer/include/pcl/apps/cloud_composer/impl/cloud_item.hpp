@@ -49,7 +49,7 @@ pcl::cloud_composer::CloudItem::printNumPoints () const
   QVariant variant = this->data (ItemDataRole::CLOUD_TEMPLATED);
   typename PointCloud<PointT>::Ptr cloud;
   if ( variant.canConvert <typename PointCloud<PointT>::Ptr> () )
-  {  
+  {
     cloud = variant.value <typename PointCloud<PointT>::Ptr> ();
   }
   else
@@ -59,12 +59,12 @@ pcl::cloud_composer::CloudItem::printNumPoints () const
   }
 
   qDebug () << "CLOUD HAS WIDTH = "<< cloud->width;
-  
+
 }
 
 
 
-template <typename PointT> pcl::cloud_composer::CloudItem* 
+template <typename PointT> pcl::cloud_composer::CloudItem*
 pcl::cloud_composer::CloudItem::createCloudItemFromTemplate (const QString name, typename PointCloud<PointT>::Ptr cloud_ptr)
 {
   sensor_msgs::PointCloud2::Ptr cloud_blob = boost::make_shared <sensor_msgs::PointCloud2> ();

@@ -34,7 +34,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  */
-  
+
 #ifndef PCL_ML_FERNS_FERN_EVALUATOR_HPP_
 #define PCL_ML_FERNS_FERN_EVALUATOR_HPP_
 
@@ -102,7 +102,7 @@ pcl::FernEvaluator<FeatureType, DataSet, LabelType, ExampleIndex, NodeType>::eva
     label_data[example_index] = stats_estimator.getLabelOfNode (fern[node_index]);
   }
 }
-  
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <class FeatureType, class DataSet, class LabelType, class ExampleIndex, class NodeType>
 void
@@ -144,7 +144,7 @@ pcl::FernEvaluator<FeatureType, DataSet, LabelType, ExampleIndex, NodeType>::eva
     label_data[example_index] = stats_estimator.getLabelOfNode (fern[node_index]);
   }
 }
-  
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <class FeatureType, class DataSet, class LabelType, class ExampleIndex, class NodeType>
 void

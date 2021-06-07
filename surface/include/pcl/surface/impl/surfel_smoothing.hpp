@@ -98,7 +98,7 @@ pcl::SurfelSmoothing<PointT, PointNT>::smoothCloudIteration (PointCloudInPtr &ou
   for (size_t i = 0; i < interm_cloud_->points.size (); ++i)
   {
     Eigen::Vector4f smoothed_point  = Eigen::Vector4f::Zero ();
-    Eigen::Vector4f smoothed_normal = Eigen::Vector4f::Zero (); 
+    Eigen::Vector4f smoothed_normal = Eigen::Vector4f::Zero ();
 
     // get neighbors
     // @todo using 5x the scale for searching instead of all the points to avoid O(N^2)
@@ -274,7 +274,7 @@ pcl::SurfelSmoothing<PointT, PointNT>::extractSalientFeaturesBetweenScales (Poin
                                                                             NormalCloudPtr &cloud2_normals,
                                                                             boost::shared_ptr<std::vector<int> > &output_features)
 {
-  if (interm_cloud_->points.size () != cloud2->points.size () || 
+  if (interm_cloud_->points.size () != cloud2->points.size () ||
       cloud2->points.size () != cloud2_normals->points.size ())
   {
     PCL_ERROR ("[pcl::SurfelSmoothing::extractSalientFeaturesBetweenScales]: Number of points in the clouds does not match.\n");
@@ -283,7 +283,7 @@ pcl::SurfelSmoothing<PointT, PointNT>::extractSalientFeaturesBetweenScales (Poin
 
   std::vector<float> diffs (cloud2->points.size ());
   for (size_t i = 0; i < cloud2->points.size (); ++i)
-    diffs[i] = cloud2_normals->points[i].getNormalVector4fMap ().dot (cloud2->points[i].getVector4fMap () - 
+    diffs[i] = cloud2_normals->points[i].getNormalVector4fMap ().dot (cloud2->points[i].getVector4fMap () -
                                                                       interm_cloud_->points[i].getVector4fMap ());
 
   std::vector<int> nn_indices;
@@ -301,7 +301,7 @@ pcl::SurfelSmoothing<PointT, PointNT>::extractSalientFeaturesBetweenScales (Poin
     {
       if (diffs[point_i] < diffs[*nn_index_it])
         largest = false;
-      else 
+      else
         smallest = false;
     }
 

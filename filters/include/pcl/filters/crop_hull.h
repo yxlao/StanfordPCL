@@ -55,7 +55,7 @@ namespace pcl
     using Filter<PointT>::filter_name_;
     using Filter<PointT>::indices_;
     using Filter<PointT>::input_;
-    
+
     typedef typename Filter<PointT>::PointCloud PointCloud;
     typedef typename PointCloud::Ptr PointCloudPtr;
     typedef typename PointCloud::ConstPtr PointCloudConstPtr;
@@ -88,7 +88,7 @@ namespace pcl
       {
         return (hull_polygons_);
       }
-      
+
       /** \brief Set the point cloud that the hull indices refer to
         * \param[in] points the point cloud that the hull indices refer to
         */
@@ -104,7 +104,7 @@ namespace pcl
       {
         return (hull_cloud_);
       }
-    
+
       /** \brief Set the dimensionality of the hull to be used.
         * This should be set to correspond to the dimensionality of the
         * convex/concave hull produced by the pcl::ConvexHull and
@@ -116,7 +116,7 @@ namespace pcl
       {
         dim_ = dim;
       }
-      
+
       /** \brief Remove points outside the hull (default), or those inside the hull.
         * \param[in] crop_outside If true, the filter will remove points
         * outside the hull. If false, those inside will be removed.
@@ -137,17 +137,17 @@ namespace pcl
       /** \brief Filter the input points using the 2D or 3D polygon hull.
         * \param[out] indices the indices of the set of points that passed the filter.
         */
-      void        
+      void
       applyFilter (std::vector<int> &indices);
 
-    private:  
+    private:
       /** \brief Return the size of the hull point cloud in line with coordinate axes.
         * This is used to choose the 2D projection to use when cropping to a 2d
         * polygon.
         */
       Eigen::Vector3f
       getHullCloudRange ();
-      
+
       /** \brief Apply the two-dimensional hull filter.
         * All points are assumed to lie in the same plane as the 2D hull, an
         * axis-aligned 2D coordinate system using the two dimensions specified
@@ -155,7 +155,7 @@ namespace pcl
         * \param[out] output The set of points that pass the 2D polygon filter.
         */
       template<unsigned PlaneDim1, unsigned PlaneDim2> void
-      applyFilter2D (PointCloud &output); 
+      applyFilter2D (PointCloud &output);
 
       /** \brief Apply the two-dimensional hull filter.
         * All points are assumed to lie in the same plane as the 2D hull, an

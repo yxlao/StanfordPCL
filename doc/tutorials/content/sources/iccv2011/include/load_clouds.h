@@ -4,7 +4,7 @@
 #include "typedefs.h"
 
 #include <pcl/io/pcd_io.h>
-  
+
 template <typename PointT>
 boost::shared_ptr<pcl::PointCloud<PointT> >
 loadPointCloud (std::string filename, std::string suffix)

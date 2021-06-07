@@ -140,20 +140,20 @@ void testGonioFunctions(const MatrixType& A)
   typedef typename MatrixType::Scalar Scalar;
   typedef typename NumTraits<Scalar>::Real RealScalar;
   typedef std::complex<RealScalar> ComplexScalar;
-  typedef Matrix<ComplexScalar, MatrixType::RowsAtCompileTime, 
+  typedef Matrix<ComplexScalar, MatrixType::RowsAtCompileTime,
                  MatrixType::ColsAtCompileTime, MatrixType::Options> ComplexMatrix;
 
   ComplexScalar imagUnit(0,1);
   ComplexScalar two(2,0);
 
   ComplexMatrix Ac = A.template cast<ComplexScalar>();
-  
+
   ComplexMatrix exp_iA = (imagUnit * Ac).exp();
   ComplexMatrix exp_miA = (-imagUnit * Ac).exp();
-  
+
   ComplexMatrix sinAc = A.sin().template cast<ComplexScalar>();
   VERIFY_IS_APPROX_ABS(sinAc, (exp_iA - exp_miA) / (two*imagUnit));
-  
+
   ComplexMatrix cosAc = A.cos().template cast<ComplexScalar>();
   VERIFY_IS_APPROX_ABS(cosAc, (exp_iA + exp_miA) / 2);
 }

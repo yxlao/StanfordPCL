@@ -42,15 +42,15 @@
 #include <pcl/pcl_macros.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////
-void 
-pcl::getTransFromUnitVectorsZY (const Eigen::Vector3f& z_axis, 
-                                const Eigen::Vector3f& y_direction, 
+void
+pcl::getTransFromUnitVectorsZY (const Eigen::Vector3f& z_axis,
+                                const Eigen::Vector3f& y_direction,
                                 Eigen::Affine3f& transformation)
 {
   Eigen::Vector3f tmp0 = (y_direction.cross(z_axis)).normalized();
   Eigen::Vector3f tmp1 = (z_axis.cross(tmp0)).normalized();
   Eigen::Vector3f tmp2 = z_axis.normalized();
-  
+
   transformation(0,0)=tmp0[0]; transformation(0,1)=tmp0[1]; transformation(0,2)=tmp0[2]; transformation(0,3)=0.0f;
   transformation(1,0)=tmp1[0]; transformation(1,1)=tmp1[1]; transformation(1,2)=tmp1[2]; transformation(1,3)=0.0f;
   transformation(2,0)=tmp2[0]; transformation(2,1)=tmp2[1]; transformation(2,2)=tmp2[2]; transformation(2,3)=0.0f;
@@ -58,8 +58,8 @@ pcl::getTransFromUnitVectorsZY (const Eigen::Vector3f& z_axis,
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-Eigen::Affine3f 
-pcl::getTransFromUnitVectorsZY (const Eigen::Vector3f& z_axis, 
+Eigen::Affine3f
+pcl::getTransFromUnitVectorsZY (const Eigen::Vector3f& z_axis,
                                 const Eigen::Vector3f& y_direction)
 {
   Eigen::Affine3f transformation;
@@ -68,15 +68,15 @@ pcl::getTransFromUnitVectorsZY (const Eigen::Vector3f& z_axis,
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-void 
-pcl::getTransFromUnitVectorsXY (const Eigen::Vector3f& x_axis, 
-                                const Eigen::Vector3f& y_direction, 
+void
+pcl::getTransFromUnitVectorsXY (const Eigen::Vector3f& x_axis,
+                                const Eigen::Vector3f& y_direction,
                                 Eigen::Affine3f& transformation)
 {
   Eigen::Vector3f tmp2 = (x_axis.cross(y_direction)).normalized();
   Eigen::Vector3f tmp1 = (tmp2.cross(x_axis)).normalized();
   Eigen::Vector3f tmp0 = x_axis.normalized();
-  
+
   transformation(0,0)=tmp0[0]; transformation(0,1)=tmp0[1]; transformation(0,2)=tmp0[2]; transformation(0,3)=0.0f;
   transformation(1,0)=tmp1[0]; transformation(1,1)=tmp1[1]; transformation(1,2)=tmp1[2]; transformation(1,3)=0.0f;
   transformation(2,0)=tmp2[0]; transformation(2,1)=tmp2[1]; transformation(2,2)=tmp2[2]; transformation(2,3)=0.0f;
@@ -84,8 +84,8 @@ pcl::getTransFromUnitVectorsXY (const Eigen::Vector3f& x_axis,
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-Eigen::Affine3f 
-pcl::getTransFromUnitVectorsXY (const Eigen::Vector3f& x_axis, 
+Eigen::Affine3f
+pcl::getTransFromUnitVectorsXY (const Eigen::Vector3f& x_axis,
                                 const Eigen::Vector3f& y_direction)
 {
   Eigen::Affine3f transformation;
@@ -94,17 +94,17 @@ pcl::getTransFromUnitVectorsXY (const Eigen::Vector3f& x_axis,
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-void 
-pcl::getTransformationFromTwoUnitVectors (const Eigen::Vector3f& y_direction, 
-                                          const Eigen::Vector3f& z_axis, 
+void
+pcl::getTransformationFromTwoUnitVectors (const Eigen::Vector3f& y_direction,
+                                          const Eigen::Vector3f& z_axis,
                                           Eigen::Affine3f& transformation)
 {
   getTransFromUnitVectorsZY (z_axis, y_direction, transformation);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-Eigen::Affine3f 
-pcl::getTransformationFromTwoUnitVectors (const Eigen::Vector3f& y_direction, 
+Eigen::Affine3f
+pcl::getTransformationFromTwoUnitVectors (const Eigen::Vector3f& y_direction,
                                           const Eigen::Vector3f& z_axis)
 {
   Eigen::Affine3f transformation;
@@ -112,10 +112,10 @@ pcl::getTransformationFromTwoUnitVectors (const Eigen::Vector3f& y_direction,
   return (transformation);
 }
 
-void 
-pcl::getTransformationFromTwoUnitVectorsAndOrigin (const Eigen::Vector3f& y_direction, 
+void
+pcl::getTransformationFromTwoUnitVectorsAndOrigin (const Eigen::Vector3f& y_direction,
                                                    const Eigen::Vector3f& z_axis,
-                                                   const Eigen::Vector3f& origin, 
+                                                   const Eigen::Vector3f& origin,
                                                    Eigen::Affine3f& transformation)
 {
   getTransformationFromTwoUnitVectors(y_direction, z_axis, transformation);
@@ -124,7 +124,7 @@ pcl::getTransformationFromTwoUnitVectorsAndOrigin (const Eigen::Vector3f& y_dire
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 pcl::getEulerAngles (const Eigen::Affine3f& t, float& roll, float& pitch, float& yaw)
 {
   roll  = atan2f(t(2,1), t(2,2));
@@ -133,9 +133,9 @@ pcl::getEulerAngles (const Eigen::Affine3f& t, float& roll, float& pitch, float&
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-void 
-pcl::getTranslationAndEulerAngles (const Eigen::Affine3f& t, 
-                                   float& x, float& y, float& z, 
+void
+pcl::getTranslationAndEulerAngles (const Eigen::Affine3f& t,
+                                   float& x, float& y, float& z,
                                    float& roll, float& pitch, float& yaw)
 {
   x = t(0,3);
@@ -147,9 +147,9 @@ pcl::getTranslationAndEulerAngles (const Eigen::Affine3f& t,
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-template <typename Scalar> void 
-pcl::getTransformation (Scalar x, Scalar y, Scalar z, 
-                        Scalar roll, Scalar pitch, Scalar yaw, 
+template <typename Scalar> void
+pcl::getTransformation (Scalar x, Scalar y, Scalar z,
+                        Scalar roll, Scalar pitch, Scalar yaw,
                         Eigen::Transform<Scalar, 3, Eigen::Affine> &t)
 {
   Scalar A = cos (yaw),  B = sin (yaw),  C  = cos (pitch), D  = sin (pitch),
@@ -162,7 +162,7 @@ pcl::getTransformation (Scalar x, Scalar y, Scalar z,
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-Eigen::Affine3f 
+Eigen::Affine3f
 pcl::getTransformation (float x, float y, float z, float roll, float pitch, float yaw)
 {
   Eigen::Affine3f t;
@@ -171,7 +171,7 @@ pcl::getTransformation (float x, float y, float z, float roll, float pitch, floa
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-template <typename Derived> void 
+template <typename Derived> void
 pcl::saveBinary (const Eigen::MatrixBase<Derived>& matrix, std::ostream& file)
 {
   uint32_t rows = static_cast<uint32_t> (matrix.rows ()), cols = static_cast<uint32_t> (matrix.cols ());
@@ -186,7 +186,7 @@ pcl::saveBinary (const Eigen::MatrixBase<Derived>& matrix, std::ostream& file)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-template <typename Derived> void 
+template <typename Derived> void
 pcl::loadBinary (Eigen::MatrixBase<Derived> const & matrix_, std::istream& file)
 {
   Eigen::MatrixBase<Derived> &matrix = const_cast<Eigen::MatrixBase<Derived> &> (matrix_);
@@ -196,7 +196,7 @@ pcl::loadBinary (Eigen::MatrixBase<Derived> const & matrix_, std::istream& file)
   file.read (reinterpret_cast<char*> (&cols), sizeof (cols));
   if (matrix.rows () != static_cast<int>(rows) || matrix.cols () != static_cast<int>(cols))
     matrix.derived().resize(rows, cols);
-  
+
   for (uint32_t i = 0; i < rows; ++i)
     for (uint32_t j = 0; j < cols; ++j)
     {
@@ -207,7 +207,7 @@ pcl::loadBinary (Eigen::MatrixBase<Derived> const & matrix_, std::istream& file)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-template <typename Derived, typename OtherDerived> 
+template <typename Derived, typename OtherDerived>
 typename Eigen::internal::umeyama_transform_matrix_type<Derived, OtherDerived>::type
 pcl::umeyama (const Eigen::MatrixBase<Derived>& src, const Eigen::MatrixBase<OtherDerived>& dst, bool with_scaling)
 {
@@ -253,28 +253,28 @@ pcl::umeyama (const Eigen::MatrixBase<Derived>& src, const Eigen::MatrixBase<Oth
 
   // Eq. (39)
   VectorType S = VectorType::Ones (m);
-  if (sigma.determinant () < 0) 
+  if (sigma.determinant () < 0)
     S (m - 1) = -1;
 
   // Eq. (40) and (43)
   const VectorType& d = svd.singularValues ();
-  Index rank = 0; 
-  for (Index i = 0; i < m; ++i) 
-    if (!Eigen::internal::isMuchSmallerThan (d.coeff (i), d.coeff (0))) 
+  Index rank = 0;
+  for (Index i = 0; i < m; ++i)
+    if (!Eigen::internal::isMuchSmallerThan (d.coeff (i), d.coeff (0)))
       ++rank;
-  if (rank == m - 1) 
+  if (rank == m - 1)
   {
-    if (svd.matrixU ().determinant () * svd.matrixV ().determinant () > 0) 
+    if (svd.matrixU ().determinant () * svd.matrixV ().determinant () > 0)
       Rt.block (0, 0, m, m).noalias () = svd.matrixU () * svd.matrixV ().transpose ();
-    else 
+    else
     {
-      const Scalar s = S (m - 1); 
+      const Scalar s = S (m - 1);
       S (m - 1) = -1;
       Rt.block (0, 0, m, m).noalias () = svd.matrixU () * S.asDiagonal () * svd.matrixV ().transpose ();
       S (m - 1) = s;
     }
-  } 
-  else 
+  }
+  else
   {
     Rt.block (0, 0, m, m).noalias () = svd.matrixU () * S.asDiagonal () * svd.matrixV ().transpose ();
   }

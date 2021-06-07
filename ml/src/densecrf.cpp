@@ -94,7 +94,7 @@ pcl::DenseCrf::addPairwiseGaussian (float sx, float sy, float sz, float w)
   std::vector<float> feature;
   // reserve space for the three-dimensional Gaussian kernel
   feature.resize (N_ * 3);
-  
+
   // fill the feature vector
   for (size_t i = 0; i < data_.size (); i++)
   {
@@ -108,7 +108,7 @@ pcl::DenseCrf::addPairwiseGaussian (float sx, float sy, float sz, float w)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void
-pcl::DenseCrf::addPairwiseBilateral (float sx, float sy, float sz, 
+pcl::DenseCrf::addPairwiseBilateral (float sx, float sy, float sz,
                                      float sr, float sg, float sb,
                                      float w)
 {
@@ -135,7 +135,7 @@ pcl::DenseCrf::addPairwiseBilateral (float sx, float sy, float sz,
 void
 pcl::DenseCrf::addPairwiseNormals (std::vector<Eigen::Vector3i> &coord,
                                    std::vector<Eigen::Vector3f> &normals,
-                                   float sx, float sy, float sz, 
+                                   float sx, float sy, float sz,
                                    float snx, float sny, float snz,
                                    float w)
 {
@@ -160,7 +160,7 @@ pcl::DenseCrf::addPairwiseNormals (std::vector<Eigen::Vector3i> &coord,
       }
 
       //std::cout << "NaN" << std::endl;
-      
+
     }
 
     feature[i * 6    ] = static_cast<float> (coord[i].x ()) / sx;
@@ -171,7 +171,7 @@ pcl::DenseCrf::addPairwiseNormals (std::vector<Eigen::Vector3i> &coord,
     feature[i * 6 + 5] = static_cast<float> (normals[i].z ()) / snz;
   }
   // add kernel
-  
+
   std::cout << "TEEEEST" << std::endl;
 
   addPairwiseEnergy (feature, 6, w);
@@ -196,7 +196,7 @@ pcl::DenseCrf::inference (int n_iterations, std::vector<float> &result, float re
     runInference (relax);
     std::cout << "iteration: " << i+1 << " - DONE" << std::endl;
   }
-  
+
   // Copy the data into the result vector
   result = current_;
 }
@@ -222,8 +222,8 @@ pcl::DenseCrf::mapInference (int n_iterations, std::vector<int> &result, float r
     // Find the max
     float p_label = current_[prob_idx];
     int idx = 0;
-    for (int j = 1; j < M_; j++) 
-    { 
+    for (int j = 1; j < M_; j++)
+    {
       if (p_label < current_[prob_idx + j])
       {
         p_label = current_[prob_idx + j];
@@ -232,7 +232,7 @@ pcl::DenseCrf::mapInference (int n_iterations, std::vector<int> &result, float r
     }
     result[i] = idx;
   }
-  
+
 
 
 /*

@@ -44,11 +44,11 @@ template<typename Derived> class DenseBase
 
     typedef typename internal::traits<Derived>::StorageKind StorageKind;
 
-    /** \brief The type of indices 
+    /** \brief The type of indices
       * \details To change this, \c \#define the preprocessor symbol \c EIGEN_DEFAULT_DENSE_INDEX_TYPE.
       * \sa \ref TopicPreprocessorDirectives.
       */
-    typedef typename internal::traits<Derived>::Index Index; 
+    typedef typename internal::traits<Derived>::Index Index;
 
     typedef typename internal::traits<Derived>::Scalar Scalar;
     typedef typename internal::packet_traits<Scalar>::type PacketScalar;
@@ -192,7 +192,7 @@ template<typename Derived> class DenseBase
     /** \returns the inner size.
       *
       * \note For a vector, this is just the size. For a matrix (non-vector), this is the minor dimension
-      * with respect to the \ref TopicStorageOrders "storage order", i.e., the number of rows for a 
+      * with respect to the \ref TopicStorageOrders "storage order", i.e., the number of rows for a
       * column-major matrix, and the number of columns for a row-major matrix. */
     Index innerSize() const
     {
@@ -285,7 +285,7 @@ template<typename Derived> class DenseBase
     typedef const VectorBlock<const Derived> ConstSegmentReturnType;
     template<int Size> struct FixedSegmentReturnType { typedef VectorBlock<Derived, Size> Type; };
     template<int Size> struct ConstFixedSegmentReturnType { typedef const VectorBlock<const Derived, Size> Type; };
-    
+
     // Note: The "DenseBase::" prefixes are added to help MSVC9 to match these declarations with the later implementations.
     SegmentReturnType segment(Index start, Index size);
     typename DenseBase::ConstSegmentReturnType segment(Index start, Index size) const;

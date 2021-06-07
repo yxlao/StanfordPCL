@@ -4,7 +4,7 @@
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *  Copyright (c) 2010-2011, Willow Garage, Inc.
  *
- *  All rights reserved. 
+ *  All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions
@@ -47,9 +47,9 @@
 
 namespace pcl
 {
-  /** Class GaussianKernel assembles all the method for computing, 
+  /** Class GaussianKernel assembles all the method for computing,
     * convolving, smoothing, gradients computing an image using
-    * a gaussian kernel. The image is stored in point cloud elements 
+    * a gaussian kernel. The image is stored in point cloud elements
     * intensity member or rgb or...
     * \author Nizar Sallem
     * \ingroup common
@@ -69,7 +69,7 @@ namespace pcl
         * \throws pcl::KernelWidthTooSmallException
         */
       void
-      compute (float sigma, 
+      compute (float sigma,
                Eigen::VectorXf &kernel,
                unsigned kernel_width = MAX_KERNEL_WIDTH) const;
 
@@ -82,9 +82,9 @@ namespace pcl
         * \throws pcl::KernelWidthTooSmallException
         */
       void
-      compute (float sigma, 
-               Eigen::VectorXf &kernel, 
-               Eigen::VectorXf &derivative, 
+      compute (float sigma,
+               Eigen::VectorXf &kernel,
+               Eigen::VectorXf &derivative,
                unsigned kernel_width = MAX_KERNEL_WIDTH) const;
 
       /** Convolve a float image rows by a given kernel.
@@ -155,7 +155,7 @@ namespace pcl
       {
         std::cout << ">>> convolve cpp" << std::endl;
         pcl::PointCloud<float> tmp (input.width, input.height) ;
-        convolveRows (input, horiz_kernel, tmp);        
+        convolveRows (input, horiz_kernel, tmp);
         convolveCols (tmp, vert_kernel, output);
         std::cout << "<<< convolve cpp" << std::endl;
       }
@@ -182,7 +182,7 @@ namespace pcl
         convolveCols(tmp, vert_kernel, output);
         std::cout << "<<< convolve hpp" << std::endl;
       }
-      
+
       /** Computes float image gradients using a gaussian kernel and gaussian kernel
         * derivative.
         * \param[in] input image to compute gardients for
@@ -226,7 +226,7 @@ namespace pcl
         convolve<PointT> (input, field_accessor, gaussian_kernel_derivative, gaussian_kernel, grad_x);
         convolve<PointT> (input, field_accessor, gaussian_kernel, gaussian_kernel_derivative, grad_y);
       }
-      
+
       /** Smooth image using a gaussian kernel.
         * \param[in] input image
         * \param[in] gaussian_kernel the gaussian kernel to be used

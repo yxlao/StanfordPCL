@@ -43,8 +43,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 template<typename PointInT> std::vector<Eigen::Vector2f>
 pcl::TextureMapping<PointInT>::mapTexture2Face (
-    const Eigen::Vector3f &p1, 
-    const Eigen::Vector3f &p2, 
+    const Eigen::Vector3f &p1,
+    const Eigen::Vector3f &p2,
     const Eigen::Vector3f &p3)
 {
   std::vector<Eigen::Vector2f> tex_coordinates;
@@ -754,7 +754,7 @@ pcl::TextureMapping<PointInT>::textureMeshwithMultipleCameras (pcl::TextureMesh 
   for (int current_cam = 0; current_cam < static_cast<int> (cameras.size ()); ++current_cam)
   {
     PCL_INFO ("Processing camera %d of %d.\n", current_cam+1, cameras.size ());
-    
+
     // transform mesh into camera's frame
     pcl::PointCloud<pcl::PointXYZ>::Ptr camera_cloud (new pcl::PointCloud<pcl::PointXYZ>);
     pcl::transformPointCloud (*mesh_cloud, *camera_cloud, cameras[current_cam].pose.inverse ());
@@ -881,7 +881,7 @@ pcl::TextureMapping<PointInT>::textureMeshwithMultipleCameras (pcl::TextureMesh 
                 for (size_t i = 0; i < idxNeighbors.size (); ++i)
                 {
                   if (std::max (camera_cloud->points[mesh.tex_polygons[idx_pcam][idx_face].vertices[0]].z,
-                                std::max (camera_cloud->points[mesh.tex_polygons[idx_pcam][idx_face].vertices[1]].z, 
+                                std::max (camera_cloud->points[mesh.tex_polygons[idx_pcam][idx_face].vertices[1]].z,
                                           camera_cloud->points[mesh.tex_polygons[idx_pcam][idx_face].vertices[2]].z))
                      < camera_cloud->points[indexes_uv_to_points[idxNeighbors[i]].idx_cloud].z)
                   {

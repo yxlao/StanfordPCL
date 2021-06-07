@@ -77,7 +77,7 @@ namespace pcl
       typedef typename Feature<PointInT, PointOutT>::PointCloudIn  PointCloudIn;
 
       /** \brief Empty constructor. */
-      GFPFHEstimation () : 
+      GFPFHEstimation () :
         octree_leaf_size_ (0.01),
         number_of_classes_ (16),
         descriptor_size_ (PointOutT::descriptorSize ())
@@ -125,7 +125,7 @@ namespace pcl
         * setSearchMethod ()
         * \param output the resultant point cloud model dataset that contains the PFH feature estimates
         */
-      void 
+      void
       computeFeature (PointCloudOut &output);
 
       /** \brief Return the dominant label of a set of points. */
@@ -167,9 +167,9 @@ namespace pcl
       int descriptor_size_;
 
       /** \brief Make the computeFeature (&Eigen::MatrixXf); inaccessible from outside the class
-        * \param[out] output the output point cloud 
+        * \param[out] output the output point cloud
         */
-      void 
+      void
       computeFeatureEigen (pcl::PointCloud<Eigen::MatrixXf> &) {}
    };
 }

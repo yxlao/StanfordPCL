@@ -50,7 +50,7 @@ class SimpleOpenNIProcessor
 
     SimpleOpenNIProcessor (openni_wrapper::OpenNIDevice::DepthMode depth_mode = openni_wrapper::OpenNIDevice::OpenNI_12_bit_depth) : mode (depth_mode) {}
 
-    void 
+    void
     imageDepthImageCallback (const boost::shared_ptr<openni_wrapper::DepthImage>& d_img)
     {
       static unsigned count = 0;
@@ -65,7 +65,7 @@ class SimpleOpenNIProcessor
       }
     }
 
-    void 
+    void
     run ()
     {
       save = false;

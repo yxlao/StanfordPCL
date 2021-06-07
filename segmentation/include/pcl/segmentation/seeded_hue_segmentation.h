@@ -52,17 +52,17 @@ namespace pcl
     * \note the tree has to be created as a spatial locator on \a cloud
     * \param[in] tolerance the spatial cluster tolerance as a measure in L2 Euclidean space
     * \param[in] indices_in the cluster containing the seed point indices (as a vector of PointIndices)
-    * \param[out] indices_out 
+    * \param[out] indices_out
     * \param[in] delta_hue
     * \todo look how to make this templated!
     * \ingroup segmentation
     */
-  void 
-  seededHueSegmentation (const PointCloud<PointXYZRGB>                           &cloud, 
-                         const boost::shared_ptr<search::Search<PointXYZRGB> >   &tree, 
-                         float                                                   tolerance, 
-                         PointIndices                                            &indices_in, 
-                         PointIndices                                            &indices_out, 
+  void
+  seededHueSegmentation (const PointCloud<PointXYZRGB>                           &cloud,
+                         const boost::shared_ptr<search::Search<PointXYZRGB> >   &tree,
+                         float                                                   tolerance,
+                         PointIndices                                            &indices_in,
+                         PointIndices                                            &indices_out,
                          float                                                   delta_hue = 0.0);
 
   /** \brief Decompose a region of space into clusters based on the Euclidean distance between points
@@ -71,23 +71,23 @@ namespace pcl
     * \note the tree has to be created as a spatial locator on \a cloud
     * \param[in] tolerance the spatial cluster tolerance as a measure in L2 Euclidean space
     * \param[in] indices_in the cluster containing the seed point indices (as a vector of PointIndices)
-    * \param[out] indices_out 
+    * \param[out] indices_out
     * \param[in] delta_hue
     * \todo look how to make this templated!
     * \ingroup segmentation
     */
-  void 
-  seededHueSegmentation (const PointCloud<PointXYZRGB>                           &cloud, 
-                         const boost::shared_ptr<search::Search<PointXYZRGBL> >  &tree, 
-                         float                                                   tolerance, 
-                         PointIndices                                            &indices_in, 
-                         PointIndices                                            &indices_out, 
+  void
+  seededHueSegmentation (const PointCloud<PointXYZRGB>                           &cloud,
+                         const boost::shared_ptr<search::Search<PointXYZRGBL> >  &tree,
+                         float                                                   tolerance,
+                         PointIndices                                            &indices_in,
+                         PointIndices                                            &indices_out,
                          float                                                   delta_hue = 0.0);
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /** \brief SeededHueSegmentation 
+  /** \brief SeededHueSegmentation
     * \author Koen Buys
     * \ingroup segmentation
     */
@@ -114,38 +114,38 @@ namespace pcl
       /** \brief Provide a pointer to the search object.
         * \param[in] tree a pointer to the spatial search object.
         */
-      inline void 
+      inline void
       setSearchMethod (const KdTreePtr &tree) { tree_ = tree; }
 
       /** \brief Get a pointer to the search method used. */
-      inline KdTreePtr 
+      inline KdTreePtr
       getSearchMethod () const { return (tree_); }
 
       /** \brief Set the spatial cluster tolerance as a measure in the L2 Euclidean space
         * \param[in] tolerance the spatial cluster tolerance as a measure in the L2 Euclidean space
         */
-      inline void 
+      inline void
       setClusterTolerance (double tolerance) { cluster_tolerance_ = tolerance; }
 
       /** \brief Get the spatial cluster tolerance as a measure in the L2 Euclidean space. */
-      inline double 
+      inline double
       getClusterTolerance () const { return (cluster_tolerance_); }
 
       /** \brief Set the tollerance on the hue
         * \param[in] delta_hue the new delta hue
         */
-      inline void 
+      inline void
       setDeltaHue (float delta_hue) { delta_hue_ = delta_hue; }
 
       /** \brief Get the tolerance on the hue */
-      inline float 
+      inline float
       getDeltaHue () const { return (delta_hue_); }
 
       /** \brief Cluster extraction in a PointCloud given by <setInputCloud (), setIndices ()>
         * \param[in] indices_in
         * \param[out] indices_out
         */
-      void 
+      void
       segment (PointIndices &indices_in, PointIndices &indices_out);
 
     protected:

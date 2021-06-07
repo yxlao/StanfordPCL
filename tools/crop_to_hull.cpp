@@ -34,7 +34,7 @@
   *  POSSIBILITY OF SUCH DAMAGE.
   *
   */
-  
+
 #include <pcl/filters/crop_hull.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/console/print.h>
@@ -116,7 +116,7 @@ cropToHull (CloudT::Ptr output, CloudT::Ptr input, CloudT::Ptr hull_cloud, std::
   crop_filter.setHullCloud (hull_cloud);
   crop_filter.setHullIndices (polygons);
   crop_filter.setDim (dim);
-  
+
   crop_filter.filter (*output);
 
   print_info ("[done, ");
@@ -134,7 +134,7 @@ calculateHull (std::vector<pcl::Vertices>& polygons, int& dim, CloudT::Ptr cloud
   hull_calculator.setInputCloud (cloud);
   hull_calculator.setAlpha (alpha);
   hull_calculator.reconstruct (*hull, polygons);
-  
+
   dim = hull_calculator.getDim();
   return hull;
 }
@@ -169,18 +169,18 @@ main (int argc, char** argv)
   CloudT::Ptr input_cloud (new CloudT);
   CloudT::Ptr output_cloud (new CloudT);
   std::vector<pcl::Vertices> hull_polygons;
-  int dim = 0;  
+  int dim = 0;
 
   if (!loadCloud (argv[p_file_indices[0]], *hull_cloud))
     return (-1);
-    
+
   if (!loadCloud (argv[p_file_indices[1]], *input_cloud))
     return (-1);
-  
+
   hull_points = calculateHull (hull_polygons, dim, hull_cloud, alpha);
 
   cropToHull (output_cloud, input_cloud, hull_points, hull_polygons, dim);
-  
+
   /*
   boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer (new pcl::visualization::PCLVisualizer ("Crop Viewer"));
   viewer->setBackgroundColor (0, 0, 0);
@@ -194,7 +194,7 @@ main (int argc, char** argv)
   viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_COLOR, 0.1,1.0,0.3, "hull cloud");
   //viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_COLOR, 0.5,0.8,0.4, "hull surface");
   viewer->setPointCloudRenderingProperties (pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 8, "cropped");
-  
+
   while(!viewer->wasStopped())
     viewer->spinOnce (100);
   */

@@ -56,7 +56,7 @@ namespace pcl
       PosesFromMatches();
       //! Destructor
       ~PosesFromMatches();
-      
+
       // =====STRUCTS=====
       //! Parameters used in this class
       struct PCL_EXPORTS Parameters
@@ -68,57 +68,57 @@ namespace pcl
       //! A result of the pose estimation process
       struct PoseEstimate
       {
-        PoseEstimate () : 
+        PoseEstimate () :
           transformation (Eigen::Affine3f::Identity ()),
           score (0),
-          correspondence_indices (0) 
+          correspondence_indices (0)
         {}
 
         Eigen::Affine3f transformation;   //!< The estimated transformation between the two coordinate systems
-        float score;                         //!< An estimate in [0,1], how good the estimated pose is 
+        float score;                         //!< An estimate in [0,1], how good the estimated pose is
         std::vector<int> correspondence_indices;  //!< The indices of the used correspondences
 
-        struct IsBetter 
+        struct IsBetter
         {
           bool operator()(const PoseEstimate& pe1, const PoseEstimate& pe2) const { return pe1.score>pe2.score;}
         };
         public:
           EIGEN_MAKE_ALIGNED_OPERATOR_NEW
       };
-      
+
       // =====TYPEDEFS=====
       typedef std::vector<PoseEstimate, Eigen::aligned_allocator<PoseEstimate> > PoseEstimatesVector;
 
-      
+
       // =====STATIC METHODS=====
-      
+
       // =====PUBLIC METHODS=====
       /** Use single 6DOF correspondences to estimate transformations between the coordinate systems.
        *  Use max_no_of_results=-1 to use all.
        *  It is assumed, that the correspondences are sorted from good to bad. */
-      void 
+      void
       estimatePosesUsing1Correspondence (
           const PointCorrespondences6DVector& correspondences,
           int max_no_of_results, PoseEstimatesVector& pose_estimates) const;
 
       /** Use pairs of 6DOF correspondences to estimate transformations between the coordinate systems.
        *  It is assumed, that the correspondences are sorted from good to bad. */
-      void 
+      void
       estimatePosesUsing2Correspondences (
           const PointCorrespondences6DVector& correspondences,
           int max_no_of_tested_combinations, int max_no_of_results,
           PoseEstimatesVector& pose_estimates) const;
-      
+
       /** Use triples of 6DOF correspondences to estimate transformations between the coordinate systems.
        *  It is assumed, that the correspondences are sorted from good to bad. */
-      void 
+      void
       estimatePosesUsing3Correspondences (
           const PointCorrespondences6DVector& correspondences,
           int max_no_of_tested_combinations, int max_no_of_results,
           PoseEstimatesVector& pose_estimates) const;
 
       /// Get a reference to the parameters struct
-      Parameters& 
+      Parameters&
       getParameters () { return parameters_; }
 
     protected:

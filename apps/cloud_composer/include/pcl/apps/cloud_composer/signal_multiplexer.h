@@ -1,12 +1,12 @@
 /*
  * Software License Agreement (BSD License)
  *
- * 
+ *
  *  Class to multiplex signal and slot connections. Qt 3 code from:
  *  http://doc.trolltech.com/qq/qq08-action-multiplexer.html.
  *  Converted to Qt 4 by a.somers@rathenau.nl.
- *  Modified for use in cloud_composer by jpapon@gmail.com  
- * 
+ *  Modified for use in cloud_composer by jpapon@gmail.com
+ *
  *  Point Cloud Library (PCL) - www.pointclouds.org
  *
  *  All rights reserved.
@@ -68,7 +68,7 @@ namespace pcl
                 @see connect(const char *signal, QObject *receiver, const char *slot)
                 @see disconnect(QObject *sender, const char *signal, const char *slot)
         */
-        void 
+        void
         connect (QObject *sender, const char *signal, const char *slot);
 
         /**
@@ -76,7 +76,7 @@ namespace pcl
                 receiving object.
                 @see connect(const char *signal, QObject *receiver, const char *slot)
         */
-        bool 
+        bool
         disconnect (QObject *sender, const char *signal, const char *slot);
 
         /**
@@ -91,7 +91,7 @@ namespace pcl
                 @see connect(QObject *sender, const char *signal, const char *slot)
                 @see disconnect(const char *signal, QObject *receiver, const char *slot)
         */
-        void 
+        void
         connect (const char *signal, QObject *receiver, const char *slot);
 
         /**
@@ -99,13 +99,13 @@ namespace pcl
                 object.
                 @see connect(const char *signal, QObject *receiver, const char *slot)
         */
-        bool 
+        bool
         disconnect (const char *signal, QObject *receiver, const char *slot);
 
         /**
                 @returns the object the connections are currently made with.
         */
-        QObject 
+        QObject
         *currentObject () const { return object; }
 
       public slots:
@@ -118,7 +118,7 @@ namespace pcl
 
                 @param newObject the new object that the signals should be connected to
         */
-        void 
+        void
         setCurrentObject (QObject *newObject);
 
       signals:
@@ -126,7 +126,7 @@ namespace pcl
                 Emitted when a new object is set to receive the signals managed by
                 this SignalMultiplexer instance.
         */
-        void 
+        void
         currentObjectChanged (QObject* newObject);
 
       private:
@@ -138,9 +138,9 @@ namespace pcl
                 const char *slot;
         };
 
-        void 
+        void
         connect (const Connection &conn);
-        void 
+        void
         disconnect (const Connection &conn);
 
         QPointer<QObject> object;

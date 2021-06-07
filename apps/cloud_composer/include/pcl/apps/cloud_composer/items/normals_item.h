@@ -48,37 +48,37 @@ namespace pcl
 {
   namespace cloud_composer
   {
-    
+
     class PCL_EXPORTS NormalsItem : public CloudComposerItem
     {
       public:
 
-        NormalsItem (QString name, 
+        NormalsItem (QString name,
                      pcl::PointCloud<pcl::Normal>::Ptr normals_ptr,
                      double radius);
         NormalsItem (const NormalsItem& to_copy);
         virtual ~NormalsItem ();
-        
-        inline virtual int 
+
+        inline virtual int
         type () const { return NORMALS_ITEM; }
 
         virtual NormalsItem*
         clone () const;
-        
-        virtual void 
+
+        virtual void
         paintView (boost::shared_ptr<pcl::visualization::PCLVisualizer> vis) const;
-        
+
         /** \brief Remove from View function - removes the normal cloud from a PCLVisualizer object*/
         virtual void
         removeFromView (boost::shared_ptr<pcl::visualization::PCLVisualizer> vis) const;
-        
+
       private:
         pcl::PointCloud<pcl::Normal>::Ptr normals_ptr_;
 
     };
-    
-    
-    
+
+
+
   }
 }
 

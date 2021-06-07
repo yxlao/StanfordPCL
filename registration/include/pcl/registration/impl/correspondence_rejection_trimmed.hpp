@@ -42,7 +42,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 void
 pcl::registration::CorrespondenceRejectorTrimmed::getRemainingCorrespondences (
-    const pcl::Correspondences& original_correspondences, 
+    const pcl::Correspondences& original_correspondences,
     pcl::Correspondences& remaining_correspondences)
 {
   /* not really an efficient implementation */
@@ -52,7 +52,7 @@ pcl::registration::CorrespondenceRejectorTrimmed::getRemainingCorrespondences (
 
   if (number_valid_correspondences < remaining_correspondences.size ())
   {
-    std::sort (remaining_correspondences.begin (), remaining_correspondences.end (), 
+    std::sort (remaining_correspondences.begin (), remaining_correspondences.end (),
                pcl::registration::sortCorrespondencesByDistance ());
     remaining_correspondences.resize (number_valid_correspondences);
   }

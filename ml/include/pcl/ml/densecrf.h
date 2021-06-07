@@ -48,7 +48,7 @@
 namespace pcl
 {
   /** \brief
-   * 
+   *
    */
   class PCL_EXPORTS DenseCrf
   {
@@ -59,7 +59,7 @@ namespace pcl
 
       /** \brief Deconstructor for DenseCrf class */
       ~DenseCrf ();
-      
+
       /** \brief set the input data vector.
        * The input data vector holds the measurements
        * coordinates as ijk of the voxel grid
@@ -74,23 +74,23 @@ namespace pcl
 
       void
       setUnaryEnergy (const std::vector<float> unary);
- 
+
       /** \brief      */
       void
       addPairwiseEnergy (const std::vector<float> &feature, const int feature_dimension, const float w);
-      
-      
+
+
       /** \brief Add a pairwise gaussian kernel
-       * 
+       *
        */
       void
       addPairwiseGaussian (float sx, float sy, float sz, float w);
-      
+
       /** \brief Add a bilateral gaussian kernel
-       * 
+       *
        */
       void
-      addPairwiseBilateral (float sx, float sy, float sz, 
+      addPairwiseBilateral (float sx, float sy, float sz,
                             float sr, float sg, float sb,
                             float w);
 
@@ -98,28 +98,28 @@ namespace pcl
       void
       addPairwiseNormals (std::vector<Eigen::Vector3i> &coord,
                           std::vector<Eigen::Vector3f> &normals,
-                          float sx, float sy, float sz, 
+                          float sx, float sy, float sz,
                           float snx, float sny, float snz,
                           float w);
-      
+
 
       void
       inference (int n_iterations, std::vector<float> &result, float relax = 1.0f);
- 
+
       void
       mapInference (int n_iterations, std::vector<int> &result, float relax = 1.0f);
-      
+
       void
       expAndNormalize (std::vector<float> &out, const std::vector<float> &in,
                        float scale, float relax = 1.0f);
- 
+
       void
       expAndNormalizeORI ( float* out, const float* in, float scale=1.0f, float relax=1.0f );
       void map ( int n_iterations, std::vector<int> result, float relax=1.0f );
       std::vector<float> runInference( int n_iterations, float relax );
       void startInference();
       void stepInference( float relax );
-      
+
 
       void
       runInference (float relax);
@@ -130,7 +130,7 @@ namespace pcl
 
       void
       getFeatures (int idx, std::vector<float> &features);
-      
+
 
 
     protected:
@@ -154,7 +154,7 @@ namespace pcl
 
       /** \brief pairwise potentials */
       std::vector<PairwisePotential*> pairwise_potential_;
-          
+
       /** \brief input types */
       bool xyz_, rgb_, normal_;
 

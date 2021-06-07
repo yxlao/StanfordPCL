@@ -43,7 +43,7 @@
 
 #ifdef BUILD_Maintainer
 #  if defined __GNUC__
-#      pragma GCC system_header 
+#      pragma GCC system_header
 #  elif defined _MSC_VER
 #    pragma warning(push, 1)
 #  endif
@@ -73,15 +73,15 @@ namespace pcl
       * \param[out] fh the output Hue component
       * \param[out] fs the output Saturation component
       * \param[out] fv the output Value component
-      */ 
-    void 
+      */
+    void
     RGB2HSV (int r, int g, int b, float& fh, float& fs, float& fv)
     {
       // mostly copied from opencv-svn/modules/imgproc/src/color.cpp
       // revision is 4351
       const int hsv_shift = 12;
-        
-      static const int div_table[] = 
+
+      static const int div_table[] =
       {
         0, 1044480, 522240, 348160, 261120, 208896, 174080, 149211,
         130560, 116053, 104448, 94953, 87040, 80345, 74606, 69632,
@@ -120,29 +120,29 @@ namespace pcl
       int h, s, v = b;
       int vmin = b, diff;
       int vr, vg;
-                    
+
       v = std::max<int> (v, g);
       v = std::max<int> (v, r);
       vmin = std::min<int> (vmin, g);
       vmin = std::min<int> (vmin, r);
-                
+
       diff = v - vmin;
       vr = v == r ? -1 : 0;
       vg = v == g ? -1 : 0;
-                    
+
       s = diff * div_table[v] >> hsv_shift;
       h = (vr & (g - b)) +
           (~vr & ((vg & (b - r + 2 * diff))
           + ((~vg) & (r - g + 4 * diff))));
       h = (h * div_table[diff] * hscale +
           (1 << (hsv_shift + 6))) >> (7 + hsv_shift);
-                
+
       h += h < 0 ? hr : 0;
       fh = static_cast<float> (h) / 180.0f;
       fs = static_cast<float> (s) / 255.0f;
       fv = static_cast<float> (v) / 255.0f;
     }
-   
+
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     template <typename PointInT> double
     HSVColorCoherence<PointInT>::computeCoherence (PointInT &source, PointInT &target)
@@ -168,7 +168,7 @@ namespace pcl
       const float s_diff = static_cast<float> (s_weight_) * (source_s - target_s) * (source_s - target_s);
       const float v_diff = static_cast<float> (v_weight_) * (source_v - target_v) * (source_v - target_v);
       const float diff2 = h_diff + s_diff + v_diff;
-      
+
       return (1.0 / (1.0 + weight_ * diff2));
     }
   }

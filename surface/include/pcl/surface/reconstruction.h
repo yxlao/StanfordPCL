@@ -77,14 +77,14 @@ namespace pcl
       }
 
       /** \brief Get a pointer to the search method used. */
-      inline KdTreePtr 
+      inline KdTreePtr
       getSearchMethod () { return (tree_); }
 
       /** \brief Base method for surface reconstruction for all points given in
-        * <setInputCloud (), setIndices ()> 
+        * <setInputCloud (), setIndices ()>
         * \param[out] output the resultant reconstructed surface model
         */
-      virtual void 
+      virtual void
       reconstruct (pcl::PolygonMesh &output) = 0;
 
     protected:
@@ -92,7 +92,7 @@ namespace pcl
       KdTreePtr tree_;
 
       /** \brief Abstract class get name method. */
-      virtual std::string 
+      virtual std::string
       getClassName () const { return (""); }
   };
 
@@ -127,19 +127,19 @@ namespace pcl
       virtual ~SurfaceReconstruction () {}
 
        /** \brief Base method for surface reconstruction for all points given in
-        * <setInputCloud (), setIndices ()> 
+        * <setInputCloud (), setIndices ()>
         * \param[out] output the resultant reconstructed surface model
         */
-      virtual void 
+      virtual void
       reconstruct (pcl::PolygonMesh &output);
 
       /** \brief Base method for surface reconstruction for all points given in
-        * <setInputCloud (), setIndices ()> 
+        * <setInputCloud (), setIndices ()>
         * \param[out] points the resultant points lying on the new surface
         * \param[out] polygons the resultant polygons, as a set of
         * vertices. The Vertices structure contains an array of point indices.
         */
-      virtual void 
+      virtual void
       reconstruct (pcl::PointCloud<PointInT> &points,
                    std::vector<pcl::Vertices> &polygons);
 
@@ -148,18 +148,18 @@ namespace pcl
         * algorithm needs the search object \a tree.*/
       bool check_tree_;
 
-      /** \brief Abstract surface reconstruction method. 
-        * \param[out] output the output polygonal mesh 
+      /** \brief Abstract surface reconstruction method.
+        * \param[out] output the output polygonal mesh
         */
-      virtual void 
+      virtual void
       performReconstruction (pcl::PolygonMesh &output) = 0;
 
-      /** \brief Abstract surface reconstruction method. 
+      /** \brief Abstract surface reconstruction method.
         * \param[out] points the resultant points lying on the surface
         * \param[out] polygons the resultant polygons, as a set of vertices. The Vertices structure contains an array of point indices.
         */
-      virtual void 
-      performReconstruction (pcl::PointCloud<PointInT> &points, 
+      virtual void
+      performReconstruction (pcl::PointCloud<PointInT> &points,
                              std::vector<pcl::Vertices> &polygons) = 0;
   };
 
@@ -193,7 +193,7 @@ namespace pcl
       virtual ~MeshConstruction () {}
 
       /** \brief Base method for surface reconstruction for all points given in
-        * <setInputCloud (), setIndices ()> 
+        * <setInputCloud (), setIndices ()>
         * \param[out] output the resultant reconstructed surface model
         *
         * \note This method copies the input point cloud data from
@@ -201,15 +201,15 @@ namespace pcl
         * compatibility only!
         *
         */
-      virtual void 
+      virtual void
       reconstruct (pcl::PolygonMesh &output);
 
       /** \brief Base method for mesh construction for all points given in
-        * <setInputCloud (), setIndices ()> 
+        * <setInputCloud (), setIndices ()>
         * \param[out] polygons the resultant polygons, as a set of
         * vertices. The Vertices structure contains an array of point indices.
         */
-      virtual void 
+      virtual void
       reconstruct (std::vector<pcl::Vertices> &polygons);
 
     protected:
@@ -217,16 +217,16 @@ namespace pcl
         * algorithm needs the search object \a tree.*/
       bool check_tree_;
 
-      /** \brief Abstract surface reconstruction method. 
-        * \param[out] output the output polygonal mesh 
+      /** \brief Abstract surface reconstruction method.
+        * \param[out] output the output polygonal mesh
         */
-      virtual void 
+      virtual void
       performReconstruction (pcl::PolygonMesh &output) = 0;
 
-      /** \brief Abstract surface reconstruction method. 
+      /** \brief Abstract surface reconstruction method.
         * \param[out] polygons the resultant polygons, as a set of vertices. The Vertices structure contains an array of point indices.
         */
-      virtual void 
+      virtual void
       performReconstruction (std::vector<pcl::Vertices> &polygons) = 0;
   };
 }

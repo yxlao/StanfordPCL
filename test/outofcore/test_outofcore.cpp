@@ -67,7 +67,7 @@ using namespace pcl::outofcore;
 #include <boost/random/normal_distribution.hpp>
 #include <boost/foreach.hpp>
 
-/** \brief Unit tests for UR out of core octree code which test public interface of OutofcoreOctreeBase 
+/** \brief Unit tests for UR out of core octree code which test public interface of OutofcoreOctreeBase
  */
 
 // For doing exhaustive checks this is set low remove those, and this can be
@@ -100,12 +100,12 @@ AlignedPointTVector points;
 
 
 /** \brief helper function to compare two points. is there a templated function in pcl to do this for arbitrary point types?*/
-bool 
+bool
 compPt (const PointT &p1, const PointT &p2)
 {
   if (p1.x != p2.x || p1.y != p2.y || p1.z != p2.z)
     return false;
-  
+
   return true;
 }
 
@@ -117,7 +117,7 @@ TEST (PCL, Outofcore_Octree_Build)
 
   Eigen::Vector3d min (-32.0, -32.0, -32.0);
   Eigen::Vector3d max (32.0, 32.0, 32.0);
-  
+
   // Build two trees using each constructor
   // depth of treeA will be same as B because 1/2^3 > .1 and 1/2^4 < .1
   // depth really affects performance
@@ -127,7 +127,7 @@ TEST (PCL, Outofcore_Octree_Build)
   // Equidistributed uniform pseudo-random number generator
   boost::mt19937 rng(rngseed);
 
-  // For testing sparse 
+  // For testing sparse
   //boost::uniform_real<double> dist(0,1);
 
   // For testing less sparse
@@ -170,7 +170,7 @@ TEST (PCL, Outofcore_Octree_Build_LOD)
 
   Eigen::Vector3d min (0.0, 0.0, 0.0);
   Eigen::Vector3d max (1.0, 1.0, 1.0);
-  
+
   // Build two trees using each constructor
   octree_disk treeA (min, max, .1, filename_otreeA_LOD, "ECEF");
   octree_disk treeB (4, min, max, filename_otreeB_LOD, "ECEF");
@@ -200,7 +200,7 @@ TEST (PCL, Outofcore_Octree_Build_LOD)
     p.x = dist (rng);
     p.y = dist (rng);
     p.z = dist (rng);
-    
+
     points[i] = p;
   }
 
@@ -216,7 +216,7 @@ TEST(PCL, Outofcore_Bounding_Box)
 
   Eigen::Vector3d min (-32.0,-32.0,-32.0);
   Eigen::Vector3d max (32.0, 32.0, 32.0);
-  
+
   octree_disk treeA (filename_otreeA, false);
   octree_disk treeB (filename_otreeB, false);
 
@@ -233,7 +233,7 @@ TEST(PCL, Outofcore_Bounding_Box)
     //octree adds an epsilon to bounding box
     EXPECT_LE (min_otreeA[i], min[i]);
     EXPECT_NEAR (min_otreeA[i], min[i], 1e4);
-    
+
     EXPECT_GE (max_otreeA[i], max[i]);
     EXPECT_NEAR (max_otreeA[i], max[i], 1e4);
 
@@ -245,7 +245,7 @@ TEST(PCL, Outofcore_Bounding_Box)
   }
 }
 
-void 
+void
 point_test (octree_disk& t)
 {
   boost::mt19937 rng (rngseed);
@@ -452,7 +452,7 @@ TEST_F (OutofcoreTest, Outofcore_Constructors)
 
   for (unsigned int i=0; i< numPts; i++)
     some_points.push_back (PointT (static_cast<float>(rand () % 1024), static_cast<float>(rand () % 1024), static_cast<float>(rand () % 1024)));
-  
+
 
   //(Case 1)
   //Create Octree based on resolution of smallest voxel, automatically computing depth
@@ -461,13 +461,13 @@ TEST_F (OutofcoreTest, Outofcore_Constructors)
   EXPECT_EQ (some_points.size (), octreeA.addDataToLeaf (some_points)) << "Dropped points in voxel resolution constructor\n";
 
   EXPECT_EQ (some_points.size (), octreeA.getNumPointsAtDepth (octreeA.getDepth ()));
-  
+
   //(Case 2)
   //create Octree by prespecified depth in constructor
   int depth = 2;
   octree_disk octreeB (depth, min, max, filename_otreeB, "ECEF");
   EXPECT_EQ (some_points.size (), octreeB.addDataToLeaf (some_points)) << "Dropped points in fixed-depth constructor\n";
-  
+
   EXPECT_EQ (some_points.size (), octreeB.getNumPointsAtDepth (octreeB.getDepth ()));
 }
 
@@ -477,9 +477,9 @@ TEST_F (OutofcoreTest, Outofcore_ConstructorSafety)
   const Eigen::Vector3d min (-1024, -1024, -1024);
   //Specify the upper corner of the axis-aligned bounding box
   const Eigen::Vector3d max (1024, 1024, 1024);
-  
+
   int depth = 2;
-  
+
   //(Case 3) Constructor Safety. These should throw OCT_CHILD_EXISTS exceptions and write an error
   //message of conflicting file path
   ASSERT_TRUE (boost::filesystem::exists (filename_otreeA)) << "No tree detected on disk. This test will fail. Perhaps this test was run out of order.\n";
@@ -513,7 +513,7 @@ TEST_F (OutofcoreTest, Outofcore_ConstructorBadPaths)
 TEST_F (OutofcoreTest, Outofcore_PointcloudConstructor)
 {
   cleanUpFilesystem ();
-  
+
   //Specify the lower corner of the axis-aligned bounding box
   const Eigen::Vector3d min (-1,-1,-1);
   //Specify the upper corner of the axis-aligned bounding box
@@ -521,51 +521,51 @@ TEST_F (OutofcoreTest, Outofcore_PointcloudConstructor)
 
   //create a point cloud
   PointCloud<PointT>::Ptr test_cloud (new PointCloud<PointT> ());
-  
+
   test_cloud->width = numPts;
   test_cloud->height = 1;
   test_cloud->reserve (numPts);
-  
+
   //generate some random points
   for (size_t i=0; i < numPts; i++)
   {
-    PointT tmp (static_cast<float> (i % 1024), 
-                 static_cast<float> (i % 1024), 
+    PointT tmp (static_cast<float> (i % 1024),
+                 static_cast<float> (i % 1024),
                  static_cast<float> (i % 1024));
-    
+
     test_cloud->points.push_back (tmp);
   }
 
   EXPECT_EQ (numPts, test_cloud->points.size ());
-  
+
   octree_disk pcl_cloud (min, max, 4, outofcore_path, "ECEF");
 
   pcl_cloud.addPointCloud (test_cloud);
-  
+
   EXPECT_EQ (test_cloud->points.size (), pcl_cloud.getNumPointsAtDepth (pcl_cloud.getDepth ()));
-  
+
   cleanUpFilesystem ();
 }
 
 TEST_F (OutofcoreTest, Outofcore_PointsOnBoundaries)
 {
   cleanUpFilesystem ();
-  
+
   const Eigen::Vector3d min (-1,-1,-1);
   const Eigen::Vector3d max (1,1,1);
-  
+
   PointCloud<PointT>::Ptr cloud (new PointCloud<PointT> ());
   cloud->width = 8;
   cloud->height =1;
   cloud->reserve (8);
-  
+
   for (int i=0; i<8; i++)
   {
     PointT tmp;
     tmp.x = static_cast<float> (pow (-1.0, i)) * 1.0f;
     tmp.y = static_cast<float> (pow (-1.0, i+1)) * 1.0f;
     tmp.z = static_cast<float> (pow (-1.0, 3*i)) * 1.0f;
-    
+
     cloud->points.push_back (tmp);
   }
 
@@ -581,7 +581,7 @@ TEST_F (OutofcoreTest, Outofcore_PointsOnBoundaries)
 TEST_F (OutofcoreTest, Outofcore_PointCloud2Basic)
 {
   cleanUpFilesystem ();
-  
+
   const double min[3] = { -1.0, -1.0, -1.0 };
   const double max[3] = { 1.0, 1.0, 1.0 };
 
@@ -596,10 +596,10 @@ TEST_F (OutofcoreTest, Outofcore_MultiplePointClouds)
 
   //Specify the lower corner of the axis-aligned bounding box
   const Eigen::Vector3d min (-1024,-1024,-1024);
-  
+
   //Specify the upper corner of the axis-aligned bounding box
   const Eigen::Vector3d max (1024,1024,1024);
-  
+
   //create a point cloud
   PointCloud<PointT>::Ptr test_cloud (new PointCloud<PointT> ());
   PointCloud<PointT>::Ptr second_cloud (new PointCloud<PointT> ());
@@ -611,23 +611,23 @@ TEST_F (OutofcoreTest, Outofcore_MultiplePointClouds)
   second_cloud->width = numPts;
   second_cloud->height = 1;
   second_cloud->reserve (numPts);
-  
+
   //generate some random points
   for (size_t i=0; i < numPts; i++)
   {
-    PointT tmp (static_cast<float> (i % 1024), 
-                 static_cast<float> (i % 1024), 
+    PointT tmp (static_cast<float> (i % 1024),
+                 static_cast<float> (i % 1024),
                  static_cast<float> (i % 1024));
-    
+
     test_cloud->points.push_back (tmp);
   }
 
   for (size_t i=0; i < numPts; i++)
   {
-    PointT tmp (static_cast<float> (i % 1024), 
-                 static_cast<float> (i % 1024), 
+    PointT tmp (static_cast<float> (i % 1024),
+                 static_cast<float> (i % 1024),
                  static_cast<float> (i % 1024));
-    
+
     second_cloud->points.push_back (tmp);
   }
 
@@ -650,10 +650,10 @@ TEST_F (OutofcoreTest, Outofcore_PointCloudInput_LOD)
 
   //Specify the lower corner of the axis-aligned bounding box
   const Eigen::Vector3d min (-1024,-1024,-1024);
-  
+
   //Specify the upper corner of the axis-aligned bounding box
   const Eigen::Vector3d max (1024,1024,1024);
-  
+
   //create a point cloud
   PointCloud<PointT>::Ptr test_cloud (new PointCloud<PointT> ());
   PointCloud<PointT>::Ptr second_cloud (new PointCloud<PointT> ());
@@ -665,23 +665,23 @@ TEST_F (OutofcoreTest, Outofcore_PointCloudInput_LOD)
   second_cloud->width = numPts;
   second_cloud->height = 1;
   second_cloud->reserve (numPts);
-  
+
   //generate some random points
   for (size_t i=0; i < numPts; i++)
   {
-    PointT tmp (static_cast<float> (i % 1024), 
-                 static_cast<float> (i % 1024), 
+    PointT tmp (static_cast<float> (i % 1024),
+                 static_cast<float> (i % 1024),
                  static_cast<float> (i % 1024));
-    
+
     test_cloud->points.push_back (tmp);
   }
 
   for (size_t i=0; i < numPts; i++)
   {
-    PointT tmp (static_cast<float> (i % 1024), 
-                 static_cast<float> (i % 1024), 
+    PointT tmp (static_cast<float> (i % 1024),
+                 static_cast<float> (i % 1024),
                  static_cast<float> (i % 1024));
-    
+
     second_cloud->points.push_back (tmp);
   }
 
@@ -696,13 +696,13 @@ TEST_F (OutofcoreTest, Outofcore_PointCloudInput_LOD)
 TEST_F (OutofcoreTest, PointCloud2_Constructors)
 {
   cleanUpFilesystem ();
-  
+
   //Specify the bounding box of the point clouds
   const Eigen::Vector3d min (-100.1, -100.1, -100.1);
   const Eigen::Vector3d max (100.1, 100.1, 100.1);
-  
+
   const boost::uint64_t depth = 2;
-  
+
   //create a point cloud
   PointCloud<PointT>::Ptr test_cloud (new PointCloud<PointT> ());
 
@@ -713,15 +713,15 @@ TEST_F (OutofcoreTest, PointCloud2_Constructors)
   //generate some random points
   for (size_t i=0; i < numPts; i++)
   {
-    PointT tmp (static_cast<float> (i % 200) - 99 , 
-                 static_cast<float> (i % 200) - 99, 
+    PointT tmp (static_cast<float> (i % 200) - 99 ,
+                 static_cast<float> (i % 200) - 99,
                  static_cast<float> (i % 200) - 99);
-    
+
     test_cloud->points.push_back (tmp);
   }
 
   boost::shared_ptr<sensor_msgs::PointCloud2> point_cloud (new sensor_msgs::PointCloud2 ());
-  
+
   pcl::toROSMsg (*test_cloud, *point_cloud);
 
   octree_disk octreeA (depth, min, max, filename_otreeA, "ECEF");
@@ -735,7 +735,7 @@ TEST_F (OutofcoreTest, PointCloud2_Constructors)
 TEST_F (OutofcoreTest, PointCloud2_Insertion)
 {
   cleanUpFilesystem ();
-  
+
   const Eigen::Vector3d min (-11, -11, -11);
   const Eigen::Vector3d max (11,11,11);
 
@@ -767,7 +767,7 @@ TEST_F (OutofcoreTest, PointCloud2_MultiplePointCloud)
 {
 
   cleanUpFilesystem ();
-  
+
   //Specify the bounding box of the point clouds
   const Eigen::Vector3d min (-100.1, -100.1, -100.1);
   const Eigen::Vector3d max (100.1, 100.1, 100.1);
@@ -783,41 +783,41 @@ TEST_F (OutofcoreTest, PointCloud2_MultiplePointCloud)
   second_cloud->width = numPts;
   second_cloud->height = 1;
   second_cloud->reserve (numPts);
-  
+
   //generate some random points
   for (size_t i=0; i < numPts; i++)
   {
-    PointT tmp (static_cast<float> (i % 50), 
+    PointT tmp (static_cast<float> (i % 50),
                 static_cast<float> (i % 50),
                  static_cast<float> (i % 50));
-    
+
     first_cloud->points.push_back (tmp);
   }
 
   for (size_t i=0; i < numPts; i++)
   {
-    PointT tmp (static_cast<float> (i % 50), 
-                 static_cast<float> (i % 50), 
+    PointT tmp (static_cast<float> (i % 50),
+                 static_cast<float> (i % 50),
                  static_cast<float> (i % 50));
-    
+
     second_cloud->points.push_back (tmp);
   }
 
   sensor_msgs::PointCloud2::Ptr first_cloud_ptr (new sensor_msgs::PointCloud2 ());
   sensor_msgs::PointCloud2::Ptr second_cloud_ptr (new sensor_msgs::PointCloud2 ());
-  
+
   toROSMsg<PointT> (*first_cloud, *first_cloud_ptr);
   toROSMsg<PointT> (*second_cloud, *second_cloud_ptr);
 
   //Create an outofcore tree which just concatenates the two clouds into a single PCD in the root node. Check that the number of points is correct.
   octree_disk shallow_outofcore (0/*depth*/, min, max, filename_otreeB, "ECEF");
-  
+
   shallow_outofcore.addPointCloud (first_cloud);
   shallow_outofcore.addPointCloud (second_cloud);
-  
+
   sensor_msgs::PointCloud2::Ptr result (new sensor_msgs::PointCloud2 ());
   shallow_outofcore.queryBBIncludes (min, max, 0, result);
-  
+
   size_t num_points_queried = result->width*result->height;
   size_t num_points_inserted = first_cloud->width*first_cloud->height + second_cloud->width*second_cloud->height;
 
@@ -835,9 +835,9 @@ TEST_F (OutofcoreTest, PointCloud2_Query)
   //Specify the bounding box of the point clouds
   const Eigen::Vector3d min (-100.1, -100.1, -100.1);
   const Eigen::Vector3d max (100.1, 100.1, 100.1);
-  
+
   const boost::uint64_t depth = 2;
-  
+
   //create a point cloud
   PointCloud<PointT>::Ptr test_cloud (new PointCloud<PointT> ());
 
@@ -848,15 +848,15 @@ TEST_F (OutofcoreTest, PointCloud2_Query)
   //generate some random points
   for (size_t i=0; i < numPts; i++)
   {
-    PointT tmp (static_cast<float> (i % 50) - 50 , 
-                 static_cast<float> (i % 50) - 50, 
+    PointT tmp (static_cast<float> (i % 50) - 50 ,
+                 static_cast<float> (i % 50) - 50,
                  static_cast<float> (i % 50) - 50);
-    
+
     test_cloud->points.push_back (tmp);
   }
 
   sensor_msgs::PointCloud2::Ptr dst_blob (new sensor_msgs::PointCloud2 ());
-  
+
   pcl::toROSMsg (*test_cloud, *dst_blob);
 
   octree_disk octreeA (depth, min, max, filename_otreeA, "ECEF");
@@ -872,11 +872,11 @@ TEST_F (OutofcoreTest, PointCloud2_Query)
   sensor_msgs::PointCloud2::Ptr query_result_b (new sensor_msgs::PointCloud2 ());
 
   octreeA.queryBBIncludes (min, max, int (octreeA.getDepth ()), query_result_a);
-  
+
   EXPECT_EQ (test_cloud->width*test_cloud->height, query_result_a->width*query_result_a->height) << "PointCloud2 Query number of points returned failed\n";
 
   uint64_t total_octreeB_LOD_query = 0;
-  
+
   for (int i=0; i <= octreeB.getDepth (); i++)
   {
     octreeB.queryBBIncludes (min, max, i, query_result_b);
@@ -885,7 +885,7 @@ TEST_F (OutofcoreTest, PointCloud2_Query)
     query_result_b->width =0;
     query_result_b->height =0;
   }
-  
+
   EXPECT_EQ (test_cloud->width*test_cloud->height, total_octreeB_LOD_query) << "PointCloud2 Query number of points returned failed\n";
 
   cleanUpFilesystem ();

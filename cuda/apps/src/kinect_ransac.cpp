@@ -59,8 +59,8 @@ class SimpleKinectTool
   public:
     SimpleKinectTool () : /*viewer ("KinectGrabber"),*/ go_on(true) {}
 
-    template <template <typename> class Storage> void 
-    file_cloud_cb (const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud) 
+    template <template <typename> class Storage> void
+    file_cloud_cb (const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud)
     {
       pcl::ScopeTime ttt ("all");
       pcl::PointCloud<pcl::PointXYZRGB>::Ptr output (new pcl::PointCloud<pcl::PointXYZRGB>);
@@ -103,7 +103,7 @@ class SimpleKinectTool
       //    colorIndices<Storage> (data, inliers_stencil, color);
         }
       }
-     
+
       go_on = false;
       //std::cerr << "got here" << std::endl;
       //pcl_cuda::toPCL (*data, *output);
@@ -111,9 +111,9 @@ class SimpleKinectTool
       //viewer.showCloud (output);
     }
 
-    template <template <typename> class Storage> void 
+    template <template <typename> class Storage> void
     cloud_cb (const boost::shared_ptr<openni_wrapper::Image>& image,
-              const boost::shared_ptr<openni_wrapper::DepthImage>& depth_image, 
+              const boost::shared_ptr<openni_wrapper::DepthImage>& depth_image,
               float constant)
     {
       pcl::PointCloud<pcl::PointXYZRGB>::Ptr output (new pcl::PointCloud<pcl::PointXYZRGB>);
@@ -149,8 +149,8 @@ class SimpleKinectTool
       pcl_cuda::toPCL (*data, *output);
       //viewer.showCloud (output);
     }
-    
-    void 
+
+    void
     run (bool use_device)
     {
 #if 1
@@ -161,7 +161,7 @@ class SimpleKinectTool
 
       std::string path = "./frame_0.pcd";
       filegrabber = new pcl::PCDGrabber<pcl::PointXYZRGB > (path, frames_per_second, repeat);
-      
+
       if (use_device)
       {
         std::cerr << "[RANSAC] Using GPU..." << std::endl;
@@ -182,7 +182,7 @@ class SimpleKinectTool
       }
       filegrabber->stop ();
 
-      
+
       //------- END --------- load pcl logo file
 #else
 
@@ -211,7 +211,7 @@ class SimpleKinectTool
       }
 
       interface->stop ();
-#endif 
+#endif
     }
 
     pcl_cuda::DisparityToCloud d2c;
@@ -220,7 +220,7 @@ class SimpleKinectTool
     bool go_on;
 };
 
-int 
+int
 main (int argc, char **argv)
 {
   bool use_device = false;

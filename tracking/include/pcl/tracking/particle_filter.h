@@ -24,16 +24,16 @@ namespace pcl
     {
       protected:
         using Tracker<PointInT, StateT>::deinitCompute;
-        
+
       public:
         using Tracker<PointInT, StateT>::tracker_name_;
         using Tracker<PointInT, StateT>::search_;
         using Tracker<PointInT, StateT>::input_;
         using Tracker<PointInT, StateT>::indices_;
         using Tracker<PointInT, StateT>::getClassName;
-        
+
         typedef Tracker<PointInT, StateT> BaseClass;
-        
+
         typedef typename Tracker<PointInT, StateT>::PointCloudIn PointCloudIn;
         typedef typename PointCloudIn::Ptr PointCloudInPtr;
         typedef typename PointCloudIn::ConstPtr PointCloudInConstPtr;
@@ -49,7 +49,7 @@ namespace pcl
         typedef PointCloudCoherence<PointInT> CloudCoherence;
         typedef boost::shared_ptr< CloudCoherence > CloudCoherencePtr;
         typedef boost::shared_ptr< const CloudCoherence > CloudCoherenceConstPtr;
-        
+
         /** \brief Empty constructor. */
         ParticleFilterTracker ()
         : iteration_num_ (1)
@@ -89,7 +89,7 @@ namespace pcl
           pass_y_.setKeepOrganized (false);
           pass_z_.setKeepOrganized (false);
         }
-        
+
         /** \brief set the number of iteration.
           * \param iteration_num the number of iteration.
           */
@@ -125,11 +125,11 @@ namespace pcl
           */
         inline void
         setCloudCoherence (const CloudCoherencePtr &coherence) { coherence_ = coherence; }
-        
+
         /** \brief get the PointCloudCoherence to compute likelihood. */
         inline CloudCoherencePtr
         getCloudCoherence () const { return coherence_; }
-        
+
 
         /** \brief set the covariance of step noise.
           * \param step_noise_covariance the diagonal elements of covariance matrix of step noise.
@@ -168,10 +168,10 @@ namespace pcl
         {
           resample_likelihood_thr_ = resample_likelihood_thr;
         }
-        
+
         /** \brief set the threshold of angle to be considered occlusion (default: pi/2).
             ParticleFilterTracker does not take the occluded points into account according to the angle
-            between the normal and the position. 
+            between the normal and the position.
           * \param occlusion_angle_thr threshold of angle to be considered occlusion.
           */
         inline void
@@ -179,7 +179,7 @@ namespace pcl
         {
           occlusion_angle_thr_ = occlusion_angle_thr;
         }
-        
+
         /** \brief set the minimum number of indices (default: 1).
             ParticleFilterTracker does not take into account the hypothesis
             whose the number of points is smaller than the minimum indices.
@@ -192,17 +192,17 @@ namespace pcl
           * \param trans Affine transformation from the worldcoordinates to the frame of the particles.
           */
         inline void setTrans (const Eigen::Affine3f &trans) { trans_ = trans; }
-        
+
         /** \brief get the transformation from the world coordinates to the frame of the particles. */
         inline Eigen::Affine3f getTrans () const { return trans_; }
-        
+
 	/** \brief Get an instance of the result of tracking.
 	    This function returns the particle that represents the transform between the reference
 	    point cloud at the beginning and the best guess about its location in the most recent
 	    frame.
 	  */
         virtual inline StateT getResult () const { return representative_state_; }
-        
+
         /** \brief convert a state to affine transformation from the world coordinates frame.
           * \param particle an instance of StateT.
           */
@@ -230,7 +230,7 @@ namespace pcl
          *  \param alpha the value of alpha
          */
         inline void setAlpha (double alpha) { alpha_ = alpha; }
-        
+
         /** \brief get the value of alpha.*/
         inline double getAlpha () { return alpha_; }
 
@@ -287,17 +287,17 @@ namespace pcl
 
         /** \brief get the resolution of change detection. */
         inline double getResolutionOfChangeDetection () { return change_detector_resolution_; }
-        
+
         /** \brief get the minimum amount of points required within leaf node to become serialized in change detection */
         inline unsigned int getMinPointsOfChangeDetection ()
         {
           return change_detector_filter_;
         }
-        
+
         /** \brief get the adjustment ratio. */
         inline double
         getFitRatio() const { return fit_ratio_; }
-        
+
         /** \brief reset the particles to restart tracking*/
         virtual inline void resetTracking ()
         {
@@ -307,7 +307,7 @@ namespace pcl
 
       protected:
 
-        /** \brief compute the parameters for the bounding box of 
+        /** \brief compute the parameters for the bounding box of
             hypothesis pointclouds.
           * \param x_min the minimum value of x axis.
           * \param x_max the maximum value of x axis.
@@ -326,9 +326,9 @@ namespace pcl
           * \param output a pointer to be assigned the cropped pointcloud.
           */
         void cropInputPointCloud (const PointCloudInConstPtr &cloud, PointCloudIn &output);
-                                  
-        
-        
+
+
+
         /** \brief compute a reference pointcloud transformed to the pose that
             hypothesis represents.
           * \param hypothesis a particle which represents a hypothesis.
@@ -362,21 +362,21 @@ namespace pcl
         void computeTransformedPointCloudWithoutNormal (const StateT& hypothesis,
                                                         PointCloudIn &cloud);
 
-        
+
         /** \brief This method should get called before starting the actual computation. */
         virtual bool initCompute ();
-        
+
         /** \brief weighting phase of particle filter method.
             calculate the likelihood of all of the particles and set the weights.
           */
         virtual void weight ();
-        
+
         /** \brief resampling phase of particle filter method.
             sampling the particles according to the weights calculated in weight method.
             in particular, "sample with replacement" is archieved by walker's alias method.
           */
         virtual void resample ();
-        
+
         /** \brief calculate the weighted mean of the particles and set it as the result */
         virtual void update ();
 
@@ -387,11 +387,11 @@ namespace pcl
             used for gausiaan sampling.
           */
         void initParticles (bool reset);
-        
+
         /** \brief track the pointcloud using particle filter method.
           */
         virtual void computeTracking ();
-        
+
         /** \brief implementation of "sample with replacement" using Walker's alias method.
             about Walker's alias method, you can check the paper below:
             @article{355749,
@@ -412,24 +412,24 @@ namespace pcl
              \param q a table of weight, which generated by genAliasTable.
          */
         int sampleWithReplacement (const std::vector<int>& a, const std::vector<double>& q);
-        
+
         /** \brief generate the tables for walker's alias method */
         void genAliasTable (std::vector<int> &a, std::vector<double> &q, const PointCloudStateConstPtr &particles);
 
         /** \brief resampling the particle with replacement*/
-        void 
+        void
         resampleWithReplacement ();
-        
+
         /** \brief resampling the particle in deterministic way*/
-        void 
+        void
         resampleDeterministic ();
 
         /** \brief run change detection and return true if there is a change.
           * \param input a pointer to the input pointcloud.
           */
-        bool 
+        bool
         testChangeDetection (const PointCloudInConstPtr &input);
-        
+
         /** \brief the number of iteration of particlefilter. */
         int iteration_num_;
 
@@ -460,7 +460,7 @@ namespace pcl
             when initialize the particles.
           */
         std::vector<double> initial_noise_covariance_;
-        
+
         /** \brief the mean values of initial noise.*/
         std::vector<double> initial_noise_mean_;
 
@@ -473,7 +473,7 @@ namespace pcl
         /**\brief the weight to be used in normalization
                   of the weights of the particles */
         double alpha_;
-        
+
         /** \brief the result of tracking. */
         StateT representative_state_;
 
@@ -507,7 +507,7 @@ namespace pcl
 
         /** \brief a counter to skip change detection*/
         unsigned int change_counter_;
-        
+
         /** \brief minimum points in a leaf when calling change detector. defaults to 10 */
         unsigned int change_detector_filter_;
 
@@ -516,7 +516,7 @@ namespace pcl
 
         /** \brief resolution of change detector. defaults to 0.01.*/
         double change_detector_resolution_;
-        
+
         /** \brief the flag which will be true if using change detection*/
         bool use_change_detector_;
     };

@@ -66,7 +66,7 @@ namespace pcl
     float penalty_threshold_;
     float support_threshold_;
 
-    class RecognitionModel 
+    class RecognitionModel
     {
       public:
         std::vector<int> explained_; //indices vector referencing explained_by_RM_

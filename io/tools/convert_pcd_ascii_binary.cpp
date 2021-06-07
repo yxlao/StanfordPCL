@@ -70,8 +70,8 @@ main (int argc, char** argv)
 
   int type = atoi (argv[3]);
 
-  std::cerr << "Loaded a point cloud with " << cloud.width * cloud.height << 
-               " points (total size is " << cloud.data.size () << 
+  std::cerr << "Loaded a point cloud with " << cloud.width * cloud.height <<
+               " points (total size is " << cloud.data.size () <<
                ") and the following channels: " << pcl::getFieldsList (cloud) << std::endl;
 
   pcl::PCDWriter w;

@@ -11,7 +11,7 @@
 #ifndef EIGEN_GENERAL_PRODUCT_H
 #define EIGEN_GENERAL_PRODUCT_H
 
-namespace Eigen { 
+namespace Eigen {
 
 /** \class GeneralProduct
   * \ingroup Core_Module
@@ -415,12 +415,12 @@ template<> struct gemv_selector<OnTheRight,ColMajor,true>
 
     bool alphaIsCompatible = (!ComplexByReal) || (imag(actualAlpha)==RealScalar(0));
     bool evalToDest = EvalToDestAtCompileTime && alphaIsCompatible;
-    
+
     RhsScalar compatibleAlpha = get_factor<ResScalar,RhsScalar>::run(actualAlpha);
 
     ei_declare_aligned_stack_constructed_variable(ResScalar,actualDestPtr,dest.size(),
                                                   evalToDest ? dest.data() : static_dest.data());
-    
+
     if(!evalToDest)
     {
       #ifdef EIGEN_DENSE_STORAGE_CTOR_PLUGIN

@@ -54,7 +54,7 @@ class Product : public ProductImpl<Lhs,Rhs,typename internal::promote_storage_ty
                                                                             typename internal::traits<Rhs>::StorageKind>::ret>
 {
   public:
-    
+
     typedef typename ProductImpl<
         Lhs, Rhs,
         typename internal::promote_storage_type<typename Lhs::StorageKind,

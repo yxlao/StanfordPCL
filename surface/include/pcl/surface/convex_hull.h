@@ -85,7 +85,7 @@ namespace pcl
       typedef typename PointCloud::ConstPtr PointCloudConstPtr;
 
       /** \brief Empty constructor. */
-      ConvexHull () : compute_area_ (false), total_area_ (0), total_volume_ (0), dimension_ (0), 
+      ConvexHull () : compute_area_ (false), total_area_ (0), total_volume_ (0), dimension_ (0),
                       projection_angle_thresh_ (cos (0.174532925) ), qhull_flags ("qhull "),
                       x_axis_ (1.0, 0.0, 0.0), y_axis_ (0.0, 1.0, 0.0), z_axis_ (0.0, 0.0, 1.0)
       {
@@ -133,7 +133,7 @@ namespace pcl
       }
 
       /** \brief Returns the total volume of the convex hull. Only valid for 3-dimensional sets.
-        *  For 2D-sets volume is zero. 
+        *  For 2D-sets volume is zero.
         */
       double
       getTotalVolume () const
@@ -144,7 +144,7 @@ namespace pcl
       /** \brief Sets the dimension on the input data, 2D or 3D.
         * \param[in] dimension The dimension of the input data.  If not set, this will be determined automatically.
         */
-      void 
+      void
       setDimension (int dimension)
       {
         if ((dimension == 2) || (dimension == 3))
@@ -161,49 +161,49 @@ namespace pcl
       }
 
     protected:
-      /** \brief The actual reconstruction method. 
-        * 
-        * \param[out] points the resultant points lying on the convex hull 
+      /** \brief The actual reconstruction method.
+        *
+        * \param[out] points the resultant points lying on the convex hull
         * \param[out] polygons the resultant convex hull polygons, as a set of
         * vertices. The Vertices structure contains an array of point indices.
         * \param[in] fill_polygon_data true if polygons should be filled, false otherwise
         */
       void
-      performReconstruction (PointCloud &points, 
-                             std::vector<pcl::Vertices> &polygons, 
+      performReconstruction (PointCloud &points,
+                             std::vector<pcl::Vertices> &polygons,
                              bool fill_polygon_data = false);
-      
-      /** \brief The reconstruction method for 2D data.  Does not require dimension to be set. 
-        * 
-        * \param[out] points the resultant points lying on the convex hull 
+
+      /** \brief The reconstruction method for 2D data.  Does not require dimension to be set.
+        *
+        * \param[out] points the resultant points lying on the convex hull
         * \param[out] polygons the resultant convex hull polygons, as a set of
         * vertices. The Vertices structure contains an array of point indices.
         * \param[in] fill_polygon_data true if polygons should be filled, false otherwise
         */
       void
-      performReconstruction2D (PointCloud &points, 
-                               std::vector<pcl::Vertices> &polygons, 
+      performReconstruction2D (PointCloud &points,
+                               std::vector<pcl::Vertices> &polygons,
                                bool fill_polygon_data = false);
-      
-      /** \brief The reconstruction method for 3D data.  Does not require dimension to be set. 
-        * 
-        * \param[out] points the resultant points lying on the convex hull 
+
+      /** \brief The reconstruction method for 3D data.  Does not require dimension to be set.
+        *
+        * \param[out] points the resultant points lying on the convex hull
         * \param[out] polygons the resultant convex hull polygons, as a set of
         * vertices. The Vertices structure contains an array of point indices.
         * \param[in] fill_polygon_data true if polygons should be filled, false otherwise
         */
       void
-      performReconstruction3D (PointCloud &points, 
-                               std::vector<pcl::Vertices> &polygons, 
+      performReconstruction3D (PointCloud &points,
+                               std::vector<pcl::Vertices> &polygons,
                                bool fill_polygon_data = false);
-      
+
       /** \brief A reconstruction method that returns a polygonmesh.
         *
         * \param[out] output a PolygonMesh representing the convex hull of the input data.
         */
       virtual void
       performReconstruction (PolygonMesh &output);
-      
+
       /** \brief A reconstruction method that returns the polygon of the convex hull.
         *
         * \param[out] polygons the polygon(s) representing the convex hull of the input data.
@@ -212,7 +212,7 @@ namespace pcl
       performReconstruction (std::vector<pcl::Vertices> &polygons);
 
       /** \brief Automatically determines the dimension of input data - 2D or 3D. */
-      void 
+      void
       calculateInputDimension ();
 
       /** \brief Class get name method. */
@@ -230,7 +230,7 @@ namespace pcl
 
       /* \brief The volume of the convex hull (only for 3D hulls, zero for 2D). */
       double total_volume_;
-      
+
       /** \brief The dimensionality of the concave hull (2D or 3D). */
       int dimension_;
 

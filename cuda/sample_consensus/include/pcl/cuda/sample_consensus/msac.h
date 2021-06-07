@@ -66,7 +66,7 @@ namespace pcl_cuda
       /** \brief MEstimatorSampleConsensus main constructor
         * \param model a Sample Consensus model
         */
-      MEstimatorSampleConsensus (const SampleConsensusModelPtr &model) : 
+      MEstimatorSampleConsensus (const SampleConsensusModelPtr &model) :
         SampleConsensus<Storage> (model)
       {
         // Maximum number of trials before we give up.
@@ -77,7 +77,7 @@ namespace pcl_cuda
         * \param model a Sample Consensus model
         * \param threshold distance to model threshold
         */
-      MEstimatorSampleConsensus (const SampleConsensusModelPtr &model, float threshold) : 
+      MEstimatorSampleConsensus (const SampleConsensusModelPtr &model, float threshold) :
         SampleConsensus<Storage> (model, threshold)
       {
         // Maximum number of trials before we give up.
@@ -88,7 +88,7 @@ namespace pcl_cuda
         * \param debug_verbosity_level enable/disable on-screen debug
         * information and set the verbosity level
         */
-      bool 
+      bool
       computeModel (int debug_verbosity_level = 0);
   };
 }

@@ -108,7 +108,7 @@ openni_wrapper::DeviceONI::~DeviceONI() throw ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 openni_wrapper::DeviceONI::startImageStream ()
 {
   if (hasImageStream() && !image_stream_running_)
@@ -116,7 +116,7 @@ openni_wrapper::DeviceONI::startImageStream ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 openni_wrapper::DeviceONI::stopImageStream ()
 {
   if (hasImageStream() && image_stream_running_)
@@ -124,7 +124,7 @@ openni_wrapper::DeviceONI::stopImageStream ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 openni_wrapper::DeviceONI::startDepthStream ()
 {
   if (hasDepthStream() && !depth_stream_running_)
@@ -132,7 +132,7 @@ openni_wrapper::DeviceONI::startDepthStream ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 openni_wrapper::DeviceONI::stopDepthStream ()
 {
   if (hasDepthStream() && depth_stream_running_)
@@ -140,7 +140,7 @@ openni_wrapper::DeviceONI::stopDepthStream ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 openni_wrapper::DeviceONI::startIRStream ()
 {
   if (hasIRStream() && !ir_stream_running_)
@@ -148,7 +148,7 @@ openni_wrapper::DeviceONI::startIRStream ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 openni_wrapper::DeviceONI::stopIRStream ()
 {
   if (hasIRStream() && ir_stream_running_)
@@ -156,28 +156,28 @@ openni_wrapper::DeviceONI::stopIRStream ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 openni_wrapper::DeviceONI::isImageStreamRunning () const throw ()
 {
  return (image_stream_running_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 openni_wrapper::DeviceONI::isDepthStreamRunning () const throw ()
 {
   return (depth_stream_running_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 openni_wrapper::DeviceONI::isIRStreamRunning () const throw ()
 {
   return (ir_stream_running_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 openni_wrapper::DeviceONI::trigger ()
 {
   if (player_.IsEOF ())
@@ -191,14 +191,14 @@ openni_wrapper::DeviceONI::trigger ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 openni_wrapper::DeviceONI::isStreaming () const throw ()
 {
   return (streaming_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 openni_wrapper::DeviceONI::PlayerThreadFunction ()
 {
   quit_ = false;
@@ -243,7 +243,7 @@ openni_wrapper::DeviceONI::seekIRFrame( int frame )
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void __stdcall 
+void __stdcall
 openni_wrapper::DeviceONI::NewONIDepthDataAvailable (xn::ProductionNode&, void* cookie) throw ()
 {
   DeviceONI* device = reinterpret_cast<DeviceONI*>(cookie);
@@ -252,7 +252,7 @@ openni_wrapper::DeviceONI::NewONIDepthDataAvailable (xn::ProductionNode&, void* 
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void __stdcall 
+void __stdcall
 openni_wrapper::DeviceONI::NewONIImageDataAvailable (xn::ProductionNode&, void* cookie) throw ()
 {
   DeviceONI* device = reinterpret_cast<DeviceONI*> (cookie);
@@ -261,7 +261,7 @@ openni_wrapper::DeviceONI::NewONIImageDataAvailable (xn::ProductionNode&, void* 
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void __stdcall 
+void __stdcall
 openni_wrapper::DeviceONI::NewONIIRDataAvailable (xn::ProductionNode&, void* cookie) throw ()
 {
   DeviceONI* device = reinterpret_cast<DeviceONI*> (cookie);
@@ -270,14 +270,14 @@ openni_wrapper::DeviceONI::NewONIIRDataAvailable (xn::ProductionNode&, void* coo
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-boost::shared_ptr<openni_wrapper::Image> 
+boost::shared_ptr<openni_wrapper::Image>
 openni_wrapper::DeviceONI::getCurrentImage(boost::shared_ptr<xn::ImageMetaData> image_meta_data) const throw ()
 {
   return (boost::shared_ptr<openni_wrapper::Image> (new openni_wrapper::ImageRGB24 (image_meta_data)));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 openni_wrapper::DeviceONI::isImageResizeSupported(unsigned input_width, unsigned input_height, unsigned output_width, unsigned output_height) const throw ()
 {
   return (openni_wrapper::ImageRGB24::resizingSupported (input_width, input_height, output_width, output_height));

@@ -13,7 +13,7 @@
 #define KRONECKER_TENSOR_PRODUCT_H
 
 
-namespace Eigen { 
+namespace Eigen {
 
 namespace internal {
 

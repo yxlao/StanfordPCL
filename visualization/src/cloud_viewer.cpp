@@ -48,7 +48,7 @@ namespace pcl
     typedef boost::shared_ptr<cloud_show_base> Ptr;
   };
 
-  template <typename CloudT> 
+  template <typename CloudT>
   struct cloud_show : cloud_show_base
   {
     cloud_show (const std::string &cloud_name, typename CloudT::ConstPtr cloud,
@@ -78,19 +78,19 @@ namespace pcl
     }
 
     virtual void pop ();
-    
+
     virtual bool
     popped () const
     {
       return popped_;
     }
-    
+
     std::string cloud_name;
     typename CloudT::ConstPtr cloud;
     boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer;
     bool popped_;
   };
-  
+
   typedef pcl::PointCloud<pcl::PointXYZRGBA> cca;
   typedef pcl::PointCloud<pcl::PointXYZRGB> cc;
   typedef pcl::PointCloud<pcl::PointXYZI> gc;
@@ -102,21 +102,21 @@ namespace pcl
     pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGBA> handler (cloud);
     pop (handler);
   }
-  
+
   template <> void
   cloud_show<cc>::pop ()
   {
     pcl::visualization::PointCloudColorHandlerRGBField<pcl::PointXYZRGB> handler (cloud);
     pop (handler);
   }
-  
+
   template <> void
   cloud_show<gc>::pop ()
   {
     pcl::visualization::PointCloudColorHandlerGenericField<pcl::PointXYZI> handler (cloud, "intensity");
     pop (handler);
   }
-  
+
   template <> void
   cloud_show<mc>::pop ()
   {

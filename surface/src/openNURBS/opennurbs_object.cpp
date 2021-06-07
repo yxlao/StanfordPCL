@@ -103,24 +103,24 @@ Exceptions:
   or double e = 11111111111 binary = 2047 decimal) and the fraction
   bits are all zero, the number is infinity.  The sign bit
   determines the sign of infinity.
-  
+
   If all exponent bits are 1 and at least one fraction bit is
   not zero, the number is a "NaN" (not a number).  If the most
   significant fraction bit is 1, the number is a quiet NaN or
   "QNaN".  If the most significan fraction bit is 0, the number
   is a signalling NaN or "SNaN".
-  
+
   Some authors (SH)   QNaNs are used to indicate
   indeterminant operations, like sqrt(-1.0).  SNaNs are used
   to indicate invalid operations.
 
   SH - http://steve.hollasch.net/cgindex/coding/ieeefloat.html
-  Intel - 
+  Intel -
 */
 static double ON__dblinithelper(int i)
 {
   // called twice - performance is not important
-  union 
+  union
   {
     double x;
     unsigned char b[8];
@@ -132,7 +132,7 @@ static double ON__dblinithelper(int i)
 
   if ( 0x40 == u.b[7] && 0 == u.b[0]
        && 0 == u.b[1] && 0 == u.b[2] && 0 == u.b[3]
-       && 0 == u.b[4] && 0 == u.b[5] && 0 == u.b[6] 
+       && 0 == u.b[4] && 0 == u.b[5] && 0 == u.b[6]
      )
   {
     // little endian doubles
@@ -140,7 +140,7 @@ static double ON__dblinithelper(int i)
   }
   else if ( 0x40 == u.b[0]  && 0 == u.b[7]
             && 0 == u.b[1] && 0 == u.b[2] && 0 == u.b[3]
-            && 0 == u.b[4] && 0 == u.b[5] && 0 == u.b[6] 
+            && 0 == u.b[4] && 0 == u.b[5] && 0 == u.b[6]
           )
   {
     // big endian doubles
@@ -184,7 +184,7 @@ static double ON__dblinithelper(int i)
   }
   else
   {
-    // invalid input 
+    // invalid input
     u.b[0] = 0xFF;
     u.b[1] = 0xFF;
     u.b[2] = 0xFF;
@@ -202,7 +202,7 @@ static double ON__dblinithelper(int i)
 static float ON__fltinithelper(int i)
 {
   // called twice - performance is not important
-  union 
+  union
   {
     float x;
     unsigned char b[4];
@@ -251,7 +251,7 @@ static float ON__fltinithelper(int i)
   }
   else
   {
-    // invalid input 
+    // invalid input
     u.b[0] = 0xFF;
     u.b[1] = 0xFF;
     u.b[2] = 0xFF;
@@ -271,7 +271,7 @@ const float  ON_FLT_NINF = -ON__fltinithelper(2);
 
 void ON_DBL_SNAN( double* x)
 {
-  union 
+  union
   {
     double x;
     unsigned char b[8];
@@ -290,7 +290,7 @@ void ON_DBL_SNAN( double* x)
 
   if ( 0x40 == u.b[7] && 0 == u.b[0]
        && 0 == u.b[1] && 0 == u.b[2] && 0 == u.b[3]
-       && 0 == u.b[4] && 0 == u.b[5] && 0 == u.b[6] 
+       && 0 == u.b[4] && 0 == u.b[5] && 0 == u.b[6]
      )
   {
     // little endian doubles
@@ -298,7 +298,7 @@ void ON_DBL_SNAN( double* x)
   }
   else if ( 0x40 == u.b[0]  && 0 == u.b[7]
             && 0 == u.b[1] && 0 == u.b[2] && 0 == u.b[3]
-            && 0 == u.b[4] && 0 == u.b[5] && 0 == u.b[6] 
+            && 0 == u.b[4] && 0 == u.b[5] && 0 == u.b[6]
           )
   {
     // big endian doubles
@@ -333,14 +333,14 @@ void ON_DBL_SNAN( double* x)
 #endif
 
 
-  // must use memcpy().  On Intel FPU, assignment using x = u.x 
+  // must use memcpy().  On Intel FPU, assignment using x = u.x
   // will set x to qnan and invalid op exception occures.
   memcpy(x,&u.x,sizeof(*x));
 }
 
 void ON_FLT_SNAN( float* x)
 {
-  union 
+  union
   {
     float x;
     unsigned char b[4];
@@ -389,7 +389,7 @@ void ON_FLT_SNAN( float* x)
 #undef i2
 #endif
 
-  // must use memcpy().  On Intel FPU, assignment using x = u.x 
+  // must use memcpy().  On Intel FPU, assignment using x = u.x
   // will set x to qnan and invalid op exception occures.
   memcpy(x,&u.x,sizeof(*x));
 }
@@ -647,7 +647,7 @@ bool ON_ClassId::PurgeAfter(const ON_ClassId* pClassId)
 {
   // If you crash in on the p=p->m_pNext iterator in
   // the for() loop, it is because somebody incorrectly
-  // unloaded a dll that contains an ON_OBJECT_IMPLEMENT 
+  // unloaded a dll that contains an ON_OBJECT_IMPLEMENT
   // macro.
   for (ON_ClassId* p = m_p0; p; p = p->m_pNext)
   {
@@ -702,12 +702,12 @@ static void IntToString( int i, char s[7] )
   s[6] = 0;
 }
 
-ON_ClassId::ON_ClassId( const char* sClassName, 
-                        const char* sBaseClassName, 
+ON_ClassId::ON_ClassId( const char* sClassName,
+                        const char* sBaseClassName,
                         ON_Object* (*create)(),
                         bool (*copy)( const ON_Object*, ON_Object* ),
                         const char* sUUID // UUID in registry format from guidgen
-                        ) 
+                        )
                         : m_pNext(0),
                           m_pBaseClassId(0),
                           m_create(create),
@@ -724,16 +724,16 @@ ON_ClassId::ON_ClassId( const char* sClassName,
 {
   // code compiled on or after opennurbs 200703060 calls this constructor
   ConstructorHelper(sClassName,sBaseClassName,sUUID);
-  m_mark |= 0x80000000; // This bit of m_mark is a flag that indicates 
+  m_mark |= 0x80000000; // This bit of m_mark is a flag that indicates
                         // the new constructor was called.
 }
 
 
-ON_ClassId::ON_ClassId( const char* sClassName, 
-                        const char* sBaseClassName, 
+ON_ClassId::ON_ClassId( const char* sClassName,
+                        const char* sBaseClassName,
                         ON_Object* (*create)(),
                         const char* sUUID // UUID in registry format from guidgen
-                        ) 
+                        )
                         : m_pNext(0),
                           m_pBaseClassId(0),
                           m_create(create),
@@ -741,15 +741,15 @@ ON_ClassId::ON_ClassId( const char* sClassName,
 {
   // Code COMPILED before opennurbs 200703060 calls this constructor.
   // DO NOT INITIALIZE m_class_id_version or any ON_ClassId fields
-  // after m_class_id_version because the executable calling this 
+  // after m_class_id_version because the executable calling this
   // constructor did not allocate room for this these members.
   ConstructorHelper(sClassName,sBaseClassName,sUUID);
 }
 
-void ON_ClassId::ConstructorHelper( const char* sClassName, 
-                        const char* sBaseClassName, 
+void ON_ClassId::ConstructorHelper( const char* sClassName,
+                        const char* sBaseClassName,
                         const char* sUUID // UUID in registry format from guidgen
-                        ) 
+                        )
 {
   // Do not initialize "m_class_id_version" or any fields
   // after it in this helper.  See comments in the constructors
@@ -806,7 +806,7 @@ void ON_ClassId::ConstructorHelper( const char* sClassName,
        || m_sClassName[7] != 'c'
        || m_sClassName[8] != 't'
        || m_sClassName[9] != 0 ) {
-    if ( !m_sBaseClassName[0] ) 
+    if ( !m_sBaseClassName[0] )
     {
       ON_ERROR("ON_ClassId::ON_ClassId() - missing baseclass name.");
       return;
@@ -814,7 +814,7 @@ void ON_ClassId::ConstructorHelper( const char* sClassName,
   }
 
   g_bDisableDemotion = true;
-  if ( ClassId( m_uuid ) ) 
+  if ( ClassId( m_uuid ) )
   {
     g_bDisableDemotion = false;
     ON_ERROR("ON_ClassId::ON_ClassId() - class uuid already in use.");
@@ -829,7 +829,7 @@ void ON_ClassId::ConstructorHelper( const char* sClassName,
 
   // see if any derived classes need to be updated because their static
   // members got initialized first
-  if ( m_sClassName[0] ) 
+  if ( m_sClassName[0] )
   {
     for ( ON_ClassId* p = m_p0; p; p = p->m_pNext )
     {
@@ -906,13 +906,13 @@ const ON_ClassId* ON_ClassId::ClassId( ON_UUID uuid )
   // static member function
   // search list of class ids for one with a matching typecode
   const ON_ClassId* p;
-  for(p = m_p0; p; p = p->m_pNext) 
+  for(p = m_p0; p; p = p->m_pNext)
   {
     if ( !ON_UuidCompare(&p->m_uuid,&uuid) )
       break;
   }
 
-  if ( !p && !g_bDisableDemotion) 
+  if ( !p && !g_bDisableDemotion)
   {
     // enable OpenNURBS toolkit to read files that contain old uuids even when
     // old class definitions are not loaded.
@@ -979,14 +979,14 @@ public:
   bool Dump( int depth, ON_TextLog& text_log );
 };
 
-ON__ClassIdDumpNode::ON__ClassIdDumpNode() 
+ON__ClassIdDumpNode::ON__ClassIdDumpNode()
 {
   m_class_id=0;
   m_parent_node=0;
   m_depth=0;
 };
 
-ON__ClassIdDumpNode::~ON__ClassIdDumpNode() 
+ON__ClassIdDumpNode::~ON__ClassIdDumpNode()
 {
 }
 
@@ -1149,7 +1149,7 @@ void ON_ClassId::Dump( ON_TextLog& dump )
 {
   int i, j, count = 0;
   const ON_ClassId* p;
-  for(p = m_p0; p && count < 1000000; p = p->m_pNext) 
+  for(p = m_p0; p && count < 1000000; p = p->m_pNext)
   {
     count++;
   }
@@ -1161,7 +1161,7 @@ void ON_ClassId::Dump( ON_TextLog& dump )
   {
     ON__ClassIdDumpNode tmp_node;
     ON_ClassArray<ON__ClassIdDumpNode> nodes(count);
-    for(p = m_p0; p; p = p->m_pNext) 
+    for(p = m_p0; p; p = p->m_pNext)
     {
       ON__ClassIdDumpNode& node = nodes.AppendNew();
       node.m_class_id = p;
@@ -1185,7 +1185,7 @@ void ON_ClassId::Dump( ON_TextLog& dump )
           node.m_parent_node = &base_node;
           base_node.m_child_nodes.Append(&node);
         }
-      }      
+      }
     }
 
     // print class tree
@@ -1206,7 +1206,7 @@ void ON_ClassId::Dump( ON_TextLog& dump )
     if (!rc)
     {
       // should never happen
-      for(p = m_p0; p; p = p->m_pNext) 
+      for(p = m_p0; p; p = p->m_pNext)
       {
         dump.Print("%s::ClassId: ",p->m_sClassName);
         dump.Print( "mark=%d ",p->m_mark );
@@ -1327,11 +1327,11 @@ void ON_Object::EmergencyDestroy()
 
 void ON_Object::PurgeUserData()
 {
-  if ( m_userdata_list ) 
+  if ( m_userdata_list )
   {
     ON_UserData* p = m_userdata_list;
     ON_UserData* next;
-    while(p) 
+    while(p)
     {
       next = p->m_userdata_next;
       p->m_userdata_owner = 0;
@@ -1347,13 +1347,13 @@ void ON_Object::PurgeUserData()
 ON_BOOL32 ON_Object::AttachUserData( ON_UserData* p )
 {
   ON_BOOL32 rc = false;
-  if ( p 
+  if ( p
        && NULL == p->m_userdata_owner
-       && ON_UuidCompare( &ON_nil_uuid, &p->m_userdata_uuid) 
+       && ON_UuidCompare( &ON_nil_uuid, &p->m_userdata_uuid)
        && NULL == GetUserData( p->m_userdata_uuid )
        ) {
     if ( p->IsUnknownUserData() ) {
-      // make sure we have valid user data - the first beta release of Rhino 2.0 
+      // make sure we have valid user data - the first beta release of Rhino 2.0
       // created empty user data.
       ON_UnknownUserData* uud = ON_UnknownUserData::Cast(p);
       if (uud)
@@ -1364,7 +1364,7 @@ ON_BOOL32 ON_Object::AttachUserData( ON_UserData* p )
     }
     else
       rc = true;
-    if (rc) 
+    if (rc)
     {
       p->m_userdata_owner = this;
       p->m_userdata_next = m_userdata_list;
@@ -1377,13 +1377,13 @@ ON_BOOL32 ON_Object::AttachUserData( ON_UserData* p )
 ON_BOOL32 ON_Object::DetachUserData( ON_UserData* p )
 {
   ON_BOOL32 rc = false;
-  if ( p && p->m_userdata_owner == this ) 
+  if ( p && p->m_userdata_owner == this )
   {
     ON_UserData* prev = 0;
     ON_UserData* ud = m_userdata_list;
-    while ( ud ) 
+    while ( ud )
     {
-      if ( ud == p ) 
+      if ( ud == p )
       {
         if ( prev )
           prev->m_userdata_next = ud->m_userdata_next;
@@ -1406,11 +1406,11 @@ ON_UserData* ON_Object::GetUserData( const ON_UUID& userdata_uuid ) const
 {
   ON_UserData* prev = NULL;
   ON_UserData* p;
-  for ( p = m_userdata_list; p; prev = p, p = p->m_userdata_next ) 
+  for ( p = m_userdata_list; p; prev = p, p = p->m_userdata_next )
   {
-    if ( !ON_UuidCompare( &p->m_userdata_uuid, &userdata_uuid ) ) 
+    if ( !ON_UuidCompare( &p->m_userdata_uuid, &userdata_uuid ) )
     {
-      if ( p->IsUnknownUserData() ) 
+      if ( p->IsUnknownUserData() )
       {
         // See if we can convert this unknown user data into something useful.
         // Unknown user data is created when a 3dm archive is read and
@@ -1421,19 +1421,19 @@ ON_UserData* ON_Object::GetUserData( const ON_UUID& userdata_uuid ) const
         ON_UnknownUserData* uud = ON_UnknownUserData::Cast(p);
         if ( uud ) {
           ON_UserData* realp = uud->Convert();
-          if ( realp ) 
+          if ( realp )
           {
             // replace unknown user data with the real thing
             if ( prev )
               prev->m_userdata_next = realp;
-            else if ( p == m_userdata_list ) 
+            else if ( p == m_userdata_list )
             {
               // little white lie to attach the "real" user
               // data to the object in place of the unknown
               // user data.
               ON_Object* pNotConst = const_cast<ON_Object*>(this);
               pNotConst->m_userdata_list = realp;
-              realp->m_userdata_owner = pNotConst; // Dale Lear added 22 Jan 2004 to fix I/O bug 
+              realp->m_userdata_owner = pNotConst; // Dale Lear added 22 Jan 2004 to fix I/O bug
             }
             realp->m_userdata_next = p->m_userdata_next;
             p->m_userdata_next = 0;
@@ -1446,7 +1446,7 @@ ON_UserData* ON_Object::GetUserData( const ON_UUID& userdata_uuid ) const
       break;
     }
   }
-  return p; 
+  return p;
 }
 
 ON_UserData* ON_Object::FirstUserData() const
@@ -1498,7 +1498,7 @@ void ON_Object::MoveUserData( ON_Object& src )
     }
   }
   else
-  {    
+  {
     // Carefully move userdata an item at a time to
     // avoid conflicts with existing items on "this".
 
@@ -1516,9 +1516,9 @@ void ON_Object::MoveUserData( ON_Object& src )
       p->m_userdata_owner = this;
     }
 
-    if ( !m_userdata_list ) 
+    if ( !m_userdata_list )
       m_userdata_list = next;
-    else 
+    else
     {
       p = m_userdata_list;
       while ( p->m_userdata_next )
@@ -1632,17 +1632,17 @@ ON__UINT32 ON_Object::DataCRC(ON__UINT32 current_remainder) const
 void ON_Object::Dump( ON_TextLog& dump ) const
 {
   const ON_ClassId* p = ClassId();
-  if ( p ) 
+  if ( p )
   {
     const char* class_name = p->ClassName();
-    if ( 0 == class_name ) 
+    if ( 0 == class_name )
       class_name = "unknown";
     dump.Print("class name: %s\n",class_name);
     dump.Print("class uuid: ");
     dump.Print(p->Uuid());
     dump.Print("\n");
   }
-  else 
+  else
   {
     dump.Print("ON_Object::ClassId() FAILED\n");
   }

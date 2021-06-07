@@ -42,7 +42,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 void
 pcl::registration::CorrespondenceRejectorDistance::getRemainingCorrespondences (
-    const pcl::Correspondences& original_correspondences, 
+    const pcl::Correspondences& original_correspondences,
     pcl::Correspondences& remaining_correspondences)
 {
   unsigned int number_valid_correspondences = 0;

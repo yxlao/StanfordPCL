@@ -2,7 +2,7 @@
  *
  * Copyright (2011) Willow Garage
  *
- * Author : Cedric Cagniart 
+ * Author : Cedric Cagniart
  * ************************************************* */
 
 #ifndef PCL_GPU_PEOPLE_TREE_TRAIN_H_
@@ -134,7 +134,7 @@ namespace pcl
           double Nfalse = numElements(hp.h_false());
           double Ntotal = Ntrue + Nfalse;
 
-          // lets avoid division by 0 
+          // lets avoid division by 0
           if( Ntotal == 0 ) return 0.;
           return e0 - (Ntrue/Ntotal)*etrue - (Nfalse/Ntotal)*efalse;
         }

@@ -43,7 +43,7 @@ namespace pcl
 namespace cuda
 {
   ///////////////////////////////////////////////////////////////////////////////////////////
-  /** \brief PCL base class. Implements methods that are used by all PCL objects. 
+  /** \brief PCL base class. Implements methods that are used by all PCL objects.
     */
   template <typename CloudT>
   class PCLCUDABase
@@ -59,17 +59,17 @@ namespace cuda
       /** \brief Provide a pointer to the input dataset
         * \param cloud the const boost shared pointer to a PointCloud message
         */
-      virtual inline void 
-      setInputCloud (const PointCloudConstPtr &cloud) 
-      { 
-        input_ = cloud; 
+      virtual inline void
+      setInputCloud (const PointCloudConstPtr &cloud)
+      {
+        input_ = cloud;
       }
 
       /** \brief Get a pointer to the input host point cloud dataset. */
-      inline PointCloudConstPtr const 
-      getInputCloud () 
-      { 
-        return (input_); 
+      inline PointCloudConstPtr const
+      getInputCloud ()
+      {
+        return (input_);
       }
 
     protected:

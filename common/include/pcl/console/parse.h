@@ -124,7 +124,7 @@ namespace pcl
       */
     PCL_EXPORTS int
     parse_argument (int argc, char** argv, const char* str, float &val);
-    
+
     /** \brief Parse for a specific given command line argument. Returns the value
       * sent as a double.
       * \param[in] argc the number of command line arguments
@@ -320,8 +320,8 @@ namespace pcl
       * \param[out] values_s the second vector of output values
       */
     PCL_EXPORTS bool
-    parse_multiple_2x_arguments (int argc, char** argv, const char* str, 
-                                 std::vector<double> &values_f, 
+    parse_multiple_2x_arguments (int argc, char** argv, const char* str,
+                                 std::vector<double> &values_f,
                                  std::vector<double> &values_s);
 
     /** \brief Parse for specific given command line arguments (multiple occurances
@@ -335,9 +335,9 @@ namespace pcl
       * \param[out] values_t the third vector of output values
       */
     PCL_EXPORTS bool
-    parse_multiple_3x_arguments (int argc, char** argv, const char* str, 
-                                 std::vector<double> &values_f, 
-                                 std::vector<double> &values_s, 
+    parse_multiple_3x_arguments (int argc, char** argv, const char* str,
+                                 std::vector<double> &values_f,
+                                 std::vector<double> &values_s,
                                  std::vector<double> &values_t);
 
     /** \brief Parse command line arguments for file names. Returns a vector with

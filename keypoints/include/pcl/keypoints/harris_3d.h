@@ -92,40 +92,40 @@ namespace pcl
       /** \brief Set the method of the response to be calculated.
         * \param[in] type
         */
-      void 
+      void
       setMethod (ResponseMethod type);
 
       /** \brief Set the radius for normal estimation and non maxima supression.
         * \param[in] radius
         */
-      void 
+      void
       setRadius (float radius);
 
       /** \brief Set the threshold value for detecting corners. This is only evaluated if non maxima suppression is turned on.
         * \brief note non maxima suppression needs to be activated in order to use this feature.
         * \param[in] threshold
         */
-      void 
+      void
       setThreshold (float threshold);
 
       /** \brief Whether non maxima suppression should be applied or the response for each point should be returned
         * \note this value needs to be turned on in order to apply thresholding and refinement
         * \param[in] nonmax default is false
         */
-      void 
+      void
       setNonMaxSupression (bool = false);
 
       /** \brief Whether the detected key points should be refined or not. If turned of, the key points are a subset of the original point cloud. Otherwise the key points may be arbitrary.
         * \brief note non maxima supression needs to be on in order to use this feature.
         * \param[in] do_refine
         */
-      void 
+      void
       setRefine (bool do_refine);
 
       /** \brief Set normals if precalculated normals are available.
         * \param normals
         */
-      void 
+      void
       setNormals (const PointCloudNConstPtr &normals);
 
       /** \brief Provide a pointer to a dataset to add additional information

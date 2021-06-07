@@ -45,13 +45,13 @@
 template <typename PointT> QList <pcl::cloud_composer::CloudComposerItem*>
 pcl::cloud_composer::MergeSelection::performTemplatedAction (QList <const CloudComposerItem*> input_data)
 {
-  QList <CloudComposerItem*> output;  
-  
+  QList <CloudComposerItem*> output;
+
   foreach (const CloudComposerItem* input_item, input_data)
   {
     QVariant variant = input_item->data (ItemDataRole::CLOUD_TEMPLATED);
     if ( ! variant.canConvert <typename PointCloud<PointT>::Ptr> () )
-    {  
+    {
       qWarning () << "Attempted to cast to template type which does not exist in this item! (input list)";
       return output;
     }
@@ -60,11 +60,11 @@ pcl::cloud_composer::MergeSelection::performTemplatedAction (QList <const CloudC
   {
     QVariant variant = input_item->data (ItemDataRole::CLOUD_TEMPLATED);
     if ( ! variant.canConvert <typename PointCloud<PointT>::Ptr> () )
-    {  
+    {
       qWarning () << "Attempted to cast to template type which does not exist in this item! (selected list)";
       return output;
     }
-  }  
+  }
 
   pcl::ExtractIndices<PointT> filter;
   typename PointCloud<PointT>::Ptr merged_cloud = boost::make_shared<PointCloud<PointT> > ();
@@ -72,7 +72,7 @@ pcl::cloud_composer::MergeSelection::performTemplatedAction (QList <const CloudC
   foreach (const CloudItem* input_cloud_item, selected_item_index_map_.keys ())
   {
     input_cloud_item->printNumPoints <PointT> ();
-    //If this cloud hasn't been completely selected 
+    //If this cloud hasn't been completely selected
     if (!input_data.contains (input_cloud_item))
     {
       typename PointCloud<PointT>::Ptr input_cloud = input_cloud_item->data (ItemDataRole::CLOUD_TEMPLATED).value <typename PointCloud<PointT>::Ptr> ();
@@ -85,9 +85,9 @@ pcl::cloud_composer::MergeSelection::performTemplatedAction (QList <const CloudC
       filter.setNegative (false);
       typename PointCloud<PointT>::Ptr selected_points = boost::make_shared<PointCloud<PointT> > ();
       filter.filter (*selected_points);
-      
+
       qDebug () << "Original minus indices is "<<original_minus_indices->width;
-      
+
       //Eigen::Vector4f source_origin = input_cloud_item->data (ItemDataRole::ORIGIN).value<Eigen::Vector4f> ();
       //Eigen::Quaternionf source_orientation =  input_cloud_item->data (ItemDataRole::ORIENTATION).value<Eigen::Quaternionf> ();
       //sensor_msgs::PointCloud2::Ptr cloud_blob = boost::make_shared <sensor_msgs::PointCloud2> ();;
@@ -96,9 +96,9 @@ pcl::cloud_composer::MergeSelection::performTemplatedAction (QList <const CloudC
                                                   //, cloud_blob
                                             //      , source_origin
                                             //      , source_orientation);
-      
+
       CloudItem*  new_cloud_item = CloudItem::createCloudItemFromTemplate<PointT>(input_cloud_item->text (),original_minus_indices);
-      
+
       output.append (new_cloud_item);
       *merged_cloud += *selected_points;
     }
@@ -112,11 +112,11 @@ pcl::cloud_composer::MergeSelection::performTemplatedAction (QList <const CloudC
     *merged_cloud += *input_cloud;
   }
   CloudItem* cloud_item = CloudItem::createCloudItemFromTemplate<PointT>("Cloud from Selection",merged_cloud);
-      
+
   output.append (cloud_item);
-    
+
   return output;
-  
+
 }
 
 

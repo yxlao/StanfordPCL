@@ -94,7 +94,7 @@ getCloudFromFile (boost::filesystem::path pcd_path)
 }
 
 int
-outofcoreProcess (std::vector<boost::filesystem::path> pcd_paths, boost::filesystem::path root_dir, 
+outofcoreProcess (std::vector<boost::filesystem::path> pcd_paths, boost::filesystem::path root_dir,
                   int depth, double resolution, int build_octree_with, bool gen_lod, bool overwrite)
 {
   // Bounding box min/max pts
@@ -185,7 +185,7 @@ outofcoreProcess (std::vector<boost::filesystem::path> pcd_paths, boost::filesys
     PointCloud2::Ptr cloud = getCloudFromFile (pcd_paths[i]);
 
     boost::uint64_t pts = 0;
-    
+
     // LOD not currently supported
     //load the points into the outofcore octree
     if (gen_lod)
@@ -200,12 +200,12 @@ outofcoreProcess (std::vector<boost::filesystem::path> pcd_paths, boost::filesys
 
     print_info ("Successfully added %lu points\n", pts);
     assert ( pts == cloud->width * cloud->height );
-    
+
     total_pts += pts;
   }
 
   print_info ("Added a total of %lu from %d clouds\n",total_pts, pcd_paths.size ());
-  
+
 
   double x, y;
   outofcore_octree->getBinDimension (x, y);
@@ -259,7 +259,7 @@ main (int argc, char* argv[])
   {
     pcl::console::setVerbosityLevel ( pcl::console::L_DEBUG );
   }
-  
+
   // Defaults
   int depth = 4;
   double resolution = .1;

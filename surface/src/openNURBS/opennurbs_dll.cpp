@@ -21,13 +21,13 @@
 
 #if defined(ON_OS_WINDOWS) && defined(ON_DLL_EXPORTS)
 
-BOOL APIENTRY DllMain( HANDLE hModule, 
-                       DWORD  ul_reason_for_call, 
+BOOL APIENTRY DllMain( HANDLE hModule,
+                       DWORD  ul_reason_for_call,
                        LPVOID lpReserved
 					 )
 {
   static int bRunning = 0;
-  if ( !bRunning ) 
+  if ( !bRunning )
   {
     ON_MemoryManagerBegin();
     bRunning = true;
@@ -37,7 +37,7 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 
   case DLL_PROCESS_ATTACH:
     ::OutputDebugStringA("OpenNURBS DllMain() ul_reason_for_call = DLL_PROCESS_ATTACH\n");
-    ON_ClassId::IncrementMark(); // make sure each DLL that each process that 
+    ON_ClassId::IncrementMark(); // make sure each DLL that each process that
                                  // uses OpenNURBS has a unique mark.
     break;
 

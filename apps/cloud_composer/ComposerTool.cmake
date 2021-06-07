@@ -1,6 +1,6 @@
 # Template to make a tool
 function(define_composer_tool TOOL_NAME TOOL_SOURCES TOOL_HEADERS DEPS)
-    
+
   project(pcl_cc_tool_${TOOL_NAME})
 
   #MESSAGE ("Making plugin " pcl_cc_tool_${TOOL_NAME})
@@ -18,8 +18,8 @@ function(define_composer_tool TOOL_NAME TOOL_SOURCES TOOL_HEADERS DEPS)
   ADD_DEFINITIONS(-DQT_PLUGIN)
   ADD_DEFINITIONS(-DQT_NO_DEBUG)
   ADD_DEFINITIONS(-DQT_SHARED)
-   
+
   add_dependencies(${TOOL_TARGET} pcl_cc_tool_interface ${DEPS})
-  target_link_libraries(${TOOL_TARGET} pcl_cc_tool_interface pcl_common pcl_io ${DEPS} ${QT_LIBRARIES}) 
-   
+  target_link_libraries(${TOOL_TARGET} pcl_cc_tool_interface pcl_common pcl_io ${DEPS} ${QT_LIBRARIES})
+
 endfunction(define_composer_tool TOOL_NAME TOOL_SOURCES TOOL_HEADERS DEPS)

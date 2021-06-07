@@ -40,9 +40,9 @@ public:
     text_log - [in] if the object is not valid and text_log
         is not NULL, then a brief englis description of the
         reason the object is not valid is appened to the log.
-        The information appended to text_log is suitable for 
-        low-level debugging purposes by programmers and is 
-        not intended to be useful as a high level user 
+        The information appended to text_log is suitable for
+        low-level debugging purposes by programmers and is
+        not intended to be useful as a high level user
         interface tool.
   Returns:
     @untitled table
@@ -80,12 +80,12 @@ public:
   /*
   Description:
     The string returned by ON_Layer::LayerNameReferenceDelimiter()
-    is used to separate the name of a reference file from the name of 
+    is used to separate the name of a reference file from the name of
     the layer in the file.
   Example:
     If a layer named "electrical" is in a file named "house plan.3dm"
     and "house plan.3dm" is a reference file in a Rhino worksession,
-    then Rhino's user interface will use the string 
+    then Rhino's user interface will use the string
     "house plan : electrical" to identify the layer.
   Returns:
     " : " (null terminated string space,colon,space)
@@ -113,9 +113,9 @@ public:
   Description:
     Get a layer name's "leaf" level name.
   Example:
-    If a layer name is "refernce file : alpha::beta::gamma", 
+    If a layer name is "refernce file : alpha::beta::gamma",
     then ON_Layer::GetLeafName() returns "gamma"
-  Returns:    
+  Returns:
     True if the layer has a valid non-empty leaf name.
   */
   static bool GetLeafName( const wchar_t* layer_name, ON_wString& leaf_name);
@@ -126,7 +126,7 @@ public:
   Example:
     If a layer name is "refenence file : alpha::beta::gamma", then
     ON_Layer::GetParentPathName() returns "alpha::beta"
-  Returns:    
+  Returns:
     True if the layer has a valid non-empty parent path name.
   */
   static bool GetParentName( const wchar_t* layer_name, ON_wString& parent_path_name );
@@ -141,7 +141,7 @@ public:
   Example:
     If a layer name is "refenence file : alpha::beta::gamma", then
     ON_Layer::RemoveReferenceName() returns "alpha::beta::gamma"
-  Returns:    
+  Returns:
     True if layer_path_name is non-empty. If no reference prefix was present,
     then the returned layer_path_name is identical to the input layer_name.
   */
@@ -153,7 +153,7 @@ public:
   Example:
     If a layer name is "refenence file : alpha::beta::gamma", then
     ON_Layer::GetReferenceFileName() returns "refenence file"
-  Returns:    
+  Returns:
     True if the layer has a valid non-empty reference file name.
   */
   static bool GetReferenceName( const wchar_t* layer_name, ON_wString& reference_name );
@@ -194,8 +194,8 @@ public:
       viewport are deleted.  If viewport_id is nil, then all
       per viewport settings are deleted.
   */
-  void DeletePerViewportSettings( 
-    const ON_UUID& viewport_id 
+  void DeletePerViewportSettings(
+    const ON_UUID& viewport_id
     ) const;
 
   /*
@@ -207,8 +207,8 @@ public:
       Settings for any viewports NOT in the viewport_id_list[]
       are culled.
   */
-  void CullPerViewportSettings( 
-    int viewport_id_count, 
+  void CullPerViewportSettings(
+    int viewport_id_count,
     const ON_UUID* viewport_id_list
     );
 
@@ -339,7 +339,7 @@ public:
   Description:
     Controls layer visibility
   Parameters:
-    bVisible - [in] true to make layer visible, 
+    bVisible - [in] true to make layer visible,
                     false to make layer invisible
     viewport_id - [in]
       If viewport_id is not nil, then the setting applies only
@@ -450,18 +450,18 @@ public:
   Returns:
     Number of viewport ids that were updated.
   */
-  int UpdateViewportIds( 
-    const ON_UuidPairList& viewport_id_map 
+  int UpdateViewportIds(
+    const ON_UuidPairList& viewport_id_map
     );
 
 public:
 
   int m_layer_index;       // index of this layer
   ON_UUID m_layer_id;
-  ON_UUID m_parent_layer_id; // Layers are origanized in a hierarchical 
+  ON_UUID m_parent_layer_id; // Layers are origanized in a hierarchical
                              // structure (like file folders).
-                             // If a layer is in a parent layer, 
-                             // then m_parent_layer_id is the id of 
+                             // If a layer is in a parent layer,
+                             // then m_parent_layer_id is the id of
                              // the parent layer.
 
   int m_iges_level;        // IGES level number if this layer was made during IGES import
@@ -469,24 +469,24 @@ public:
 
 
   // Rendering material:
-  //   If you want something simple and fast, set 
-  //   m_material_index to the index of your rendering material 
+  //   If you want something simple and fast, set
+  //   m_material_index to the index of your rendering material
   //   and ignore m_rendering_attributes.
   //   If you are developing a fancy plug-in renderer, and a user is
   //   assigning one of your fabulous rendering materials to this
-  //   layer, then add rendering material information to the 
-  //   m_rendering_attributes.m_materials[] array. 
+  //   layer, then add rendering material information to the
+  //   m_rendering_attributes.m_materials[] array.
   //
   // Developers:
   //   As soon as m_rendering_attributes.m_materials[] is not empty,
   //   rendering material queries slow down.  Do not populate
-  //   m_rendering_attributes.m_materials[] when setting 
+  //   m_rendering_attributes.m_materials[] when setting
   //   m_material_index will take care of your needs.
-  int m_material_index; 
+  int m_material_index;
   ON_RenderingAttributes m_rendering_attributes;
-  
+
   int m_linetype_index;    // index of linetype
-  
+
   // Layer display attributes.
   //   If m_display_material_id is nil, then m_color is the layer color
   //   and defaults are used for all other display attributes.
@@ -533,7 +533,7 @@ public:
   /*
   Returns:
     Bits in the returned value indicate if there are differences
-    between layer0 and layer1.  For example, if the layers have 
+    between layer0 and layer1.  For example, if the layers have
     difference color, then the returned value would have the
     "color" bit set.
   */
@@ -541,7 +541,7 @@ public:
 
   /*
   Description:
-    Use settings_values and settings to set the specified values 
+    Use settings_values and settings to set the specified values
     on this layer.
   Parameters:
     settings_values - [in]
@@ -570,8 +570,8 @@ public:
   Returns:
     0 if the layer does not have saved settings.
     Nonzero value with LAYER_SETTINGS bits specifying which settings
-    are saved.  The saved that can be retrieved by calling 
-    GetSavedSettings().    
+    are saved.  The saved that can be retrieved by calling
+    GetSavedSettings().
   */
   unsigned int SavedSettings() const;
 
@@ -589,10 +589,10 @@ public:
     True if there were saved settings.
   */
   bool GetSavedSettings( ON_Layer& layer, unsigned int& settings ) const;
-  
+
 private:
   // The m__runtime_flags are used to speed queries that require
-  // checking user data.  This field is not saved in persistent 
+  // checking user data.  This field is not saved in persistent
   // archives and its interpretation is subject to change.
   unsigned char m__runtime_flags;
 };

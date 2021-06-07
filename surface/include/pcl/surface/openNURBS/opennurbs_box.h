@@ -20,7 +20,7 @@
 class ON_CLASS ON_Box
 {
 public:
-  ON_Plane plane; 
+  ON_Plane plane;
   // intervals are finite and increasing when the box is valid
   ON_Interval dx;
   ON_Interval dy;
@@ -42,21 +42,21 @@ public:
 
   ON_BoundingBox BoundingBox() const;
 
-  ON_3dPoint PointAt( 
-          double r, 
-          double s, 
-          double t 
+  ON_3dPoint PointAt(
+          double r,
+          double s,
+          double t
           ) const;
 
-  bool ClosestPointTo( 
-          ON_3dPoint point, 
-          double* r, 
-          double* s, 
-          double* t 
+  bool ClosestPointTo(
+          ON_3dPoint point,
+          double* r,
+          double* s,
+          double* t
           ) const;
 
   // returns point on box that is closest to given point
-  ON_3dPoint ClosestPointTo( 
+  ON_3dPoint ClosestPointTo(
          ON_3dPoint test_point
          ) const;
 
@@ -108,7 +108,7 @@ public:
     3     box is a point (degenerate in three directions)
     4     box is not valid
   */
-  int IsDegenerate( 
+  int IsDegenerate(
     double tolerance = ON_UNSET_VALUE
     ) const;
 

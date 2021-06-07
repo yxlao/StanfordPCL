@@ -44,8 +44,8 @@
 //////////////////////////////////////////////////////////////////////////
 template <typename PointT> void
 pcl::getPointCloudDifference (
-    const pcl::PointCloud<PointT> &src, 
-    const pcl::PointCloud<PointT> &, 
+    const pcl::PointCloud<PointT> &src,
+    const pcl::PointCloud<PointT> &,
     double threshold, const boost::shared_ptr<pcl::search::Search<PointT> > &tree,
     pcl::PointCloud<PointT> &output)
 {
@@ -71,7 +71,7 @@ pcl::getPointCloudDifference (
     if (nn_distances[0] > threshold)
       src_indices.push_back (i);
   }
- 
+
   // Allocate enough space and copy the basics
   output.points.resize (src_indices.size ());
   output.header   = src.header;
@@ -95,12 +95,12 @@ pcl::getPointCloudDifference (
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
-template <typename PointT> void 
+template <typename PointT> void
 pcl::SegmentDifferences<PointT>::segment (PointCloud &output)
 {
   output.header = input_->header;
 
-  if (!initCompute ()) 
+  if (!initCompute ())
   {
     output.width = output.height = 0;
     output.points.clear ();

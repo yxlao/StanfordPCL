@@ -127,7 +127,7 @@ public:
            -d -c  b  a
 
     which has the same arithmetic properties in as the
-    quaternion. 
+    quaternion.
   Remarks:
     Do not confuse this with the rotation defined
     by the quaternion. This function will only be interesting
@@ -148,7 +148,7 @@ public:
 
   /*
   Description:
-    Sets the quaternion to 
+    Sets the quaternion to
 
        cos(angle/2), sin(angle/2)*x, sin(angle/2)*y, sin(angle/2)*z
 
@@ -167,7 +167,7 @@ public:
     angle - [in] in radians
     axis - [in] axis of rotation
   Returns:
-    The unit quaternion 
+    The unit quaternion
 
        cos(angle/2), sin(angle/2)*x, sin(angle/2)*y, sin(angle/2)*z
 
@@ -180,7 +180,7 @@ public:
   Descriptin:
     Sets the quaternion to the unit quaternion which rotates
     plane0.xaxis to plane1.xaxis,
-    plane0.yaxis to plane1.yaxis, and 
+    plane0.yaxis to plane1.yaxis, and
     plane0.zaxis to plane1.zaxis.
   Parameters:
     plane0 - [in]
@@ -197,7 +197,7 @@ public:
   Returns:
     The unit quaternion that represents the the rotation that maps
     plane0.xaxis to plane1.xaxis,
-    plane0.yaxis to plane1.yaxis, and 
+    plane0.yaxis to plane1.yaxis, and
     plane0.zaxis to plane1.zaxis.
   Remarks:
     The plane origins are ignored.
@@ -225,7 +225,7 @@ public:
   Parameters:
     xform - [out]
   Returns:
-    A transformation matrix that performs the rotation defined 
+    A transformation matrix that performs the rotation defined
     by the quaternion.
   Remarks:
     If the quaternion is not unitized, the rotation of its
@@ -249,7 +249,7 @@ public:
   Description
     Rotate a 3d vector.  This operation is also called
     conjugation, because the result is the same as
-    
+
     (q.Conjugate()*(0,x,y,x)*q/q.LengthSquared()).Vector()
 
   Parameters:
@@ -301,7 +301,7 @@ public:
   Returns:
     True if a = 0 and at least one of b, c, or d is not zero.
   */
-  bool IsVector() const; 
+  bool IsVector() const;
 
 
   /*

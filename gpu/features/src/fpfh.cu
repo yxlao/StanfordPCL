@@ -56,28 +56,28 @@ using namespace std;
 namespace pcl
 {
     namespace device
-    {        
+    {
         struct KernelBase
         {
-            enum 
-            { 
-                CTA_SIZE = 256,                
+            enum
+            {
+                CTA_SIZE = 256,
                 WAPRS = CTA_SIZE/Warp::WARP_SIZE,
 
                 bins1 = 11,
                 bins2 = 11,
-                bins3 = 11, 
+                bins3 = 11,
 
                 FSize = bins1 + bins2 + bins3
             };
 
-            const PointType* point_cloud;                           
+            const PointType* point_cloud;
             size_t work_size;
 
-            PtrStep<int> gindices;            
-            const int* sizes;            
+            PtrStep<int> gindices;
+            const int* sizes;
 
-            template<class It> 
+            template<class It>
             __device__ __forceinline__ float3 fetch(It ptr, int index) const
             {
                 //return tr(ptr[index]);
@@ -86,7 +86,7 @@ namespace pcl
         };
 
         struct Spfh : public KernelBase
-        {                    
+        {
             const NormalType* normals;
             mutable PtrStep<float> output;
             const int *indices;
@@ -95,16 +95,16 @@ namespace pcl
             {
                 __shared__ float shists[WAPRS * FSize];
 
-                __shared__ float3 current_point[WAPRS];                            
+                __shared__ float3 current_point[WAPRS];
                 __shared__ float3 current_nomal[WAPRS];
 
                 int lane = Warp::laneId();
-                int warp_idx = Warp::id();    
+                int warp_idx = Warp::id();
                 int idx = WAPRS * blockIdx.x + warp_idx;
 
                 if (idx >= work_size)
                     return;
-                
+
                 int point_idx = indices ? indices[idx] : idx;
 
                 float* shist = shists + warp_idx * FSize;
@@ -126,40 +126,40 @@ namespace pcl
                 float hist_incr = 100.f / (float)(size - 1); // or 100/(size - 1) ???
 
                 //now [inds, inds + size) contains indices of neighb points for idx-th point in cloud
-                //this list also contains idx itseelf.               
+                //this list also contains idx itseelf.
 
                 for(int i = lane; i < size; i += Warp::STRIDE)
                 {
                     int point_index = ginds[i];
                     if (point_index != point_idx) // skip itself
-                    {                        
+                    {
                         float3 p = fetch(point_cloud, point_index);
                         float3 n = fetch(normals, point_index);
 
                         int h_index;
                         float f1, f2, f3, f4;
                         if (computePairFeatures (current_point[warp_idx], current_nomal[warp_idx], p, n, f1, f2, f3, f4))
-                        {                                                          
+                        {
                             // Normalize the f1, f2, f3 features and push them in the histogram
                             h_index = floorf (bins1 * ((f1 + M_PI) * (1.0f / (2.0f * M_PI))));
-                            h_index = min(bins1 - 1, max(0, h_index));                                                       
-                            atomicAdd(shist_b1 + h_index, hist_incr);                            
+                            h_index = min(bins1 - 1, max(0, h_index));
+                            atomicAdd(shist_b1 + h_index, hist_incr);
 
                             h_index = floorf (bins2 * ((f2 + 1.0f) * 0.5f));
                             h_index = min(bins2 - 1, max (0, h_index));
-                            atomicAdd(shist_b2 + h_index, hist_incr);                          
+                            atomicAdd(shist_b2 + h_index, hist_incr);
 
                             h_index = floorf (bins3 * ((f3 + 1.0f) * 0.5f));
                             h_index = min(bins3 - 1, max (0, h_index));
 
-                            atomicAdd(shist_b3 + h_index, hist_incr); 
+                            atomicAdd(shist_b3 + h_index, hist_incr);
                         }
                     }
-                }                
+                }
                 float *out = output.ptr(idx);
                 Warp::copy(shist, shist + FSize, out);
             }
-        };   
+        };
 
         __global__ void SpfhKernel(const Spfh spfh33) { spfh33(); }
     }
@@ -179,7 +179,7 @@ void pcl::device::computeSPFH(const PointCloud& surface, const Normals& normals,
     spfh.work_size = spfh33.rows();
 
     spfh.sizes    = neighbours.sizes;
-    spfh.gindices = neighbours;    
+    spfh.gindices = neighbours;
     spfh.output = spfh33;
 
     int block = KernelBase::CTA_SIZE;
@@ -187,7 +187,7 @@ void pcl::device::computeSPFH(const PointCloud& surface, const Normals& normals,
 
     SpfhKernel<<<grid, block>>>(spfh);
 
-    cudaSafeCall( cudaGetLastError() );        
+    cudaSafeCall( cudaGetLastError() );
     cudaSafeCall(cudaDeviceSynchronize());
 }
 
@@ -196,25 +196,25 @@ namespace pcl
     namespace device
     {
         struct Fpfh : public KernelBase
-        {   
+        {
             const   PtrStep<float> spfh;
             const PointType* surface;
             const int* indices;
             const int* lookup;
-            mutable PtrStep<float> fpfh;            
-            
+            mutable PtrStep<float> fpfh;
+
             Fpfh(PtrStep<float> spfh_arg) : spfh(spfh_arg) {}
 
             __device__ __forceinline__ void operator()() const
-            {                                
-                int lane = Warp::laneId();                
-                int warp_idx = Warp::id();    
+            {
+                int lane = Warp::laneId();
+                int warp_idx = Warp::id();
                 int idx = WAPRS * blockIdx.x + warp_idx; // "index in neighbours" == "index in output" == "index in indices".
 
                 if (idx >= work_size)
                     return;
 
-                __shared__ float3 current_point[WAPRS];                            
+                __shared__ float3 current_point[WAPRS];
                 __shared__ float features[WAPRS * FSize];
                 __shared__ int sindices[CTA_SIZE];
 
@@ -232,7 +232,7 @@ namespace pcl
                 int *sinds = sindices + Warp::WARP_SIZE * warp_idx;
                 int size = sizes[idx];
 
-                for(int i = lane; __any(i < size); i += Warp::STRIDE)                
+                for(int i = lane; __any(i < size); i += Warp::STRIDE)
                 {
                     if (i < size)
                         sinds[lane] = ginds[i];
@@ -242,12 +242,12 @@ namespace pcl
                     for(int j = 0; j < inds_num; ++j)
                     {
                         int point_index = sinds[j]; // index in surface
-                        
+
                         if (surface == point_cloud)
                         {
                             if(point_index != point_idx) //surface == cloud -> point_index and idx are indeces both for the same array.
-                            {                            
-                                float3 p = fetch(point_cloud, point_index);                        
+                            {
+                                float3 p = fetch(point_cloud, point_index);
                                 //float dist = norm(p, current_point[warp_idx]);
 
                                 float dx = p.x - current_point[warp_idx].x;
@@ -275,13 +275,13 @@ namespace pcl
                             if (dist == 0)
                                 continue;
 
-                            float weight = 1.f / dist;       
+                            float weight = 1.f / dist;
 
                             const float *spfh_ptr = spfh.ptr( lookup[point_index] );
 
                             Warp::transform(feature_beg, feature_end, spfh_ptr, feature_beg, plusWeighted<volatile float, float>(weight));
                         }
-                    }                    
+                    }
                 }
 
                 float *buffer = (float*)&sindices[threadIdx.x - lane];
@@ -291,13 +291,13 @@ namespace pcl
                 normalizeFeature<bins3>(feature_beg + bins1 + bins2, buffer, lane);
 
                 Warp::copy(feature_beg, feature_end, fpfh.ptr(idx));
-            }            
+            }
 
             template<int bins>
             __device__ __forceinline__ void normalizeFeature(volatile float *feature, volatile float *buffer, int lane) const
-            {                                
+            {
                 //nomalize buns
-                float value = (lane < bins) ? feature[lane] : 0.f;                
+                float value = (lane < bins) ? feature[lane] : 0.f;
                 float sum = Warp::reduce(buffer, value, plus<volatile float>());
 
                 if (sum != 0)
@@ -308,15 +308,15 @@ namespace pcl
             }
         };
 
-        __global__ void FpfhKernel(const Fpfh fpfh33) { fpfh33(); }        
+        __global__ void FpfhKernel(const Fpfh fpfh33) { fpfh33(); }
     }
 }
 
 
 void pcl::device::computeFPFH(const PointCloud& cloud, const NeighborIndices& neighbours, const DeviceArray2D<FPFHSignature33>& spfh, DeviceArray2D<FPFHSignature33>& features)
-{   
+{
     Fpfh fpfh(spfh);
-    fpfh.point_cloud = cloud;    
+    fpfh.point_cloud = cloud;
     fpfh.surface = cloud;
     fpfh.work_size = neighbours.sizes.size();
     fpfh.lookup = 0;
@@ -324,22 +324,22 @@ void pcl::device::computeFPFH(const PointCloud& cloud, const NeighborIndices& ne
 
     fpfh.sizes    = neighbours.sizes;
     fpfh.gindices = neighbours;
-    fpfh.fpfh = features;    
+    fpfh.fpfh = features;
 
     int block = KernelBase::CTA_SIZE;
     int grid  = divUp((int)fpfh.work_size, KernelBase::WAPRS);
 
     FpfhKernel<<<grid, block>>>(fpfh);
 
-    cudaSafeCall( cudaGetLastError() );        
-    cudaSafeCall(cudaDeviceSynchronize());    
+    cudaSafeCall( cudaGetLastError() );
+    cudaSafeCall(cudaDeviceSynchronize());
 }
 
-void pcl::device::computeFPFH(const PointCloud& cloud, const Indices& indices, const PointCloud& surface, 
+void pcl::device::computeFPFH(const PointCloud& cloud, const Indices& indices, const PointCloud& surface,
                               const NeighborIndices& neighbours, DeviceArray<int>& lookup, const DeviceArray2D<FPFHSignature33>& spfh, DeviceArray2D<FPFHSignature33>& features)
 {
     Fpfh fpfh(spfh);
-    fpfh.point_cloud = cloud;    
+    fpfh.point_cloud = cloud;
     fpfh.surface = surface;
     fpfh.work_size = neighbours.sizes.size();
     fpfh.indices = indices;
@@ -347,15 +347,15 @@ void pcl::device::computeFPFH(const PointCloud& cloud, const Indices& indices, c
 
     fpfh.sizes    = neighbours.sizes;
     fpfh.gindices = neighbours;
-    fpfh.fpfh = features;    
+    fpfh.fpfh = features;
 
     int block = KernelBase::CTA_SIZE;
     int grid  = divUp((int)fpfh.work_size, KernelBase::WAPRS);
 
     FpfhKernel<<<grid, block>>>(fpfh);
 
-    cudaSafeCall( cudaGetLastError() );        
-    cudaSafeCall(cudaDeviceSynchronize());    
+    cudaSafeCall( cudaGetLastError() );
+    cudaSafeCall(cudaDeviceSynchronize());
 
 }
 

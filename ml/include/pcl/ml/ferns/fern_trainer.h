@@ -34,7 +34,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  */
-  
+
 #ifndef PCL_ML_FERNS_FERN_TRAINER_H_
 #define PCL_ML_FERNS_FERN_TRAINER_H_
 
@@ -53,16 +53,16 @@ namespace pcl
   template <class FeatureType, class DataSet, class LabelType, class ExampleIndex, class NodeType>
   class PCL_EXPORTS FernTrainer
   {
-  
+
     public:
 
       /** \brief Constructor. */
       FernTrainer ();
       /** \brief Destructor. */
-      virtual 
+      virtual
       ~FernTrainer ();
 
-      /** \brief Sets the feature handler used to create and evaluate features. 
+      /** \brief Sets the feature handler used to create and evaluate features.
         * \param[in] feature_handler The feature handler.
         */
       inline void
@@ -172,7 +172,7 @@ namespace pcl
       std::vector<LabelType> label_data_;
       /** \brief The example data. */
       std::vector<ExampleIndex> examples_;
-  
+
   };
 
 }

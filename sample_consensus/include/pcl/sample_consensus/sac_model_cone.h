@@ -81,9 +81,9 @@ namespace pcl
       /** \brief Constructor for base SampleConsensusModelCone.
         * \param[in] cloud the input point cloud dataset
         */
-      SampleConsensusModelCone (const PointCloudConstPtr &cloud) : 
-        SampleConsensusModel<PointT> (cloud), 
-        SampleConsensusModelFromNormals<PointT, PointNT> (), 
+      SampleConsensusModelCone (const PointCloudConstPtr &cloud) :
+        SampleConsensusModel<PointT> (cloud),
+        SampleConsensusModelFromNormals<PointT, PointNT> (),
         axis_ (Eigen::Vector3f::Zero ()), eps_angle_ (0), min_angle_ (-std::numeric_limits<double>::max()), max_angle_ (std::numeric_limits<double>::max()),
         tmp_inliers_ ()
       {
@@ -93,7 +93,7 @@ namespace pcl
         * \param[in] cloud the input point cloud dataset
         * \param[in] indices a vector of point indices to be used from \a cloud
         */
-      SampleConsensusModelCone (const PointCloudConstPtr &cloud, const std::vector<int> &indices) : 
+      SampleConsensusModelCone (const PointCloudConstPtr &cloud, const std::vector<int> &indices) :
         SampleConsensusModel<PointT> (cloud, indices),
         SampleConsensusModelFromNormals<PointT, PointNT> (),
         axis_ (Eigen::Vector3f::Zero ()), eps_angle_ (0), min_angle_ (-std::numeric_limits<double>::max()), max_angle_ (std::numeric_limits<double>::max()),
@@ -105,7 +105,7 @@ namespace pcl
         * \param[in] source the model to copy into this
         */
       SampleConsensusModelCone (const SampleConsensusModelCone &source) :
-        SampleConsensusModel<PointT> (), 
+        SampleConsensusModel<PointT> (),
         SampleConsensusModelFromNormals<PointT, PointNT> (),
         axis_ (), eps_angle_ (), min_angle_ (), max_angle_ (), tmp_inliers_ ()
       {
@@ -130,21 +130,21 @@ namespace pcl
       /** \brief Set the angle epsilon (delta) threshold.
         * \param[in] ea the maximum allowed difference between the cone's axis and the given axis.
         */
-      inline void 
+      inline void
       setEpsAngle (double ea) { eps_angle_ = ea; }
 
       /** \brief Get the angle epsilon (delta) threshold. */
-      inline double 
+      inline double
       getEpsAngle () const { return (eps_angle_); }
 
       /** \brief Set the axis along which we need to search for a cone direction.
         * \param[in] ax the axis along which we need to search for a cone direction
         */
-      inline void 
+      inline void
       setAxis (const Eigen::Vector3f &ax) { axis_ = ax; }
 
       /** \brief Get the axis along which we need to search for a cone direction. */
-      inline Eigen::Vector3f 
+      inline Eigen::Vector3f
       getAxis () const { return (axis_); }
 
       /** \brief Set the minimum and maximum allowable opening angle for a cone model
@@ -176,16 +176,16 @@ namespace pcl
         * \param[in] samples the point indices found as possible good candidates for creating a valid model
         * \param[out] model_coefficients the resultant model coefficients
         */
-      bool 
-      computeModelCoefficients (const std::vector<int> &samples, 
+      bool
+      computeModelCoefficients (const std::vector<int> &samples,
                                 Eigen::VectorXf &model_coefficients);
 
       /** \brief Compute all distances from the cloud data to a given cone model.
         * \param[in] model_coefficients the coefficients of a cone model that we need to compute distances to
         * \param[out] distances the resultant estimated distances
         */
-      void 
-      getDistancesToModel (const Eigen::VectorXf &model_coefficients,  
+      void
+      getDistancesToModel (const Eigen::VectorXf &model_coefficients,
                            std::vector<double> &distances);
 
       /** \brief Select all the points which respect the given model coefficients as inliers.
@@ -193,19 +193,19 @@ namespace pcl
         * \param[in] threshold a maximum admissible distance threshold for determining the inliers from the outliers
         * \param[out] inliers the resultant model inliers
         */
-      void 
-      selectWithinDistance (const Eigen::VectorXf &model_coefficients, 
-                            const double threshold, 
+      void
+      selectWithinDistance (const Eigen::VectorXf &model_coefficients,
+                            const double threshold,
                             std::vector<int> &inliers);
 
-      /** \brief Count all the points which respect the given model coefficients as inliers. 
-        * 
+      /** \brief Count all the points which respect the given model coefficients as inliers.
+        *
         * \param[in] model_coefficients the coefficients of a model that we need to compute distances to
         * \param[in] threshold maximum admissible distance threshold for determining the inliers from the outliers
         * \return the resultant number of inliers
         */
       virtual int
-      countWithinDistance (const Eigen::VectorXf &model_coefficients, 
+      countWithinDistance (const Eigen::VectorXf &model_coefficients,
                            const double threshold);
 
 
@@ -215,9 +215,9 @@ namespace pcl
         * \param[in] model_coefficients the initial guess for the optimization
         * \param[out] optimized_coefficients the resultant recomputed coefficients after non-linear optimization
         */
-      void 
-      optimizeModelCoefficients (const std::vector<int> &inliers, 
-                                 const Eigen::VectorXf &model_coefficients, 
+      void
+      optimizeModelCoefficients (const std::vector<int> &inliers,
+                                 const Eigen::VectorXf &model_coefficients,
                                  Eigen::VectorXf &optimized_coefficients);
 
 
@@ -227,10 +227,10 @@ namespace pcl
         * \param[out] projected_points the resultant projected points
         * \param[in] copy_data_fields set to true if we need to copy the other data fields
         */
-      void 
-      projectPoints (const std::vector<int> &inliers, 
-                     const Eigen::VectorXf &model_coefficients, 
-                     PointCloud &projected_points, 
+      void
+      projectPoints (const std::vector<int> &inliers,
+                     const Eigen::VectorXf &model_coefficients,
+                     PointCloud &projected_points,
                      bool copy_data_fields = true);
 
       /** \brief Verify whether a subset of indices verifies the given cone model coefficients.
@@ -238,13 +238,13 @@ namespace pcl
         * \param[in] model_coefficients the cone model coefficients
         * \param[in] threshold a maximum admissible distance threshold for determining the inliers from the outliers
         */
-      bool 
-      doSamplesVerifyModel (const std::set<int> &indices, 
-                            const Eigen::VectorXf &model_coefficients, 
+      bool
+      doSamplesVerifyModel (const std::set<int> &indices,
+                            const Eigen::VectorXf &model_coefficients,
                             const double threshold);
 
       /** \brief Return an unique id for this model (SACMODEL_CONE). */
-      inline pcl::SacModel 
+      inline pcl::SacModel
       getModelType () const { return (SACMODEL_CONE); }
 
     protected:
@@ -252,18 +252,18 @@ namespace pcl
         * \param[in] pt a point
         * \param[in] model_coefficients the line coefficients (a point on the line, line direction)
         */
-      double 
+      double
       pointToAxisDistance (const Eigen::Vector4f &pt, const Eigen::VectorXf &model_coefficients);
 
       /** \brief Get a string representation of the name of this class. */
-      std::string 
+      std::string
       getName () const { return ("SampleConsensusModelCone"); }
 
     protected:
       /** \brief Check whether a model is valid given the user constraints.
         * \param[in] model_coefficients the set of model coefficients
         */
-      bool 
+      bool
       isModelValid (const Eigen::VectorXf &model_coefficients);
 
       /** \brief Check if a sample of indices results in a good sample of points
@@ -276,7 +276,7 @@ namespace pcl
     private:
       /** \brief The axis along which we need to search for a plane perpendicular to. */
       Eigen::Vector3f axis_;
-    
+
       /** \brief The maximum allowed difference between the plane normal and the given axis. */
       double eps_angle_;
 
@@ -298,7 +298,7 @@ namespace pcl
           * \param[in] estimator pointer to the estimator object
           * \param[in] distance distance computation function pointer
           */
-        OptimizationFunctor (int m_data_points, pcl::SampleConsensusModelCone<PointT, PointNT> *model) : 
+        OptimizationFunctor (int m_data_points, pcl::SampleConsensusModelCone<PointT, PointNT> *model) :
           pcl::Functor<float> (m_data_points), model_ (model) {}
 
         /** Cost function to be minimized
@@ -306,7 +306,7 @@ namespace pcl
           * \param[out] fvec resultant functions evaluations
           * \return 0
           */
-        int 
+        int
         operator() (const Eigen::VectorXf &x, Eigen::VectorXf &fvec) const
         {
           Eigen::Vector4f apex  (x[0], x[1], x[2], 0);

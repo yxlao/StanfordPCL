@@ -93,7 +93,7 @@ struct ImageType<Host>
 class Segmentation
 {
   public:
-    Segmentation () 
+    Segmentation ()
       : viewer ("PCL CUDA - Segmentation"),
       new_cloud(false), go_on(true), enable_color(1), normal_method(0), nr_neighbors (36), radius_cm (5), normal_viz_step(200)
       , enable_normal_viz(false)
@@ -144,8 +144,8 @@ class Segmentation
       last_enable_normal_viz = enable_normal_viz;
     }
 
-    template <template <typename> class Storage> void 
-    file_cloud_cb (const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud) 
+    template <template <typename> class Storage> void
+    file_cloud_cb (const pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr& cloud)
     {
       pcl::PointCloud<pcl::PointXYZRGB>::Ptr output (new pcl::PointCloud<pcl::PointXYZRGB>);
       PointCloudAOS<Host> data_host;
@@ -181,9 +181,9 @@ class Segmentation
       new_cloud = true;
     }
 
-    template <template <typename> class Storage> void 
+    template <template <typename> class Storage> void
     cloud_cb (const boost::shared_ptr<openni_wrapper::Image>& image,
-              const boost::shared_ptr<openni_wrapper::DepthImage>& depth_image, 
+              const boost::shared_ptr<openni_wrapper::DepthImage>& depth_image,
               float constant)
     {
       static unsigned count = 0;
@@ -277,7 +277,7 @@ class Segmentation
             if (enable_visualization)
             {
 //              std::cerr << "getting inliers.. ";
-              
+
               std::vector<typename SampleConsensusModel1PointPlane<Storage>::IndicesPtr> planes;
               typename Storage<int>::type region_mask;
               markInliers<Storage> (data, region_mask, planes);
@@ -360,8 +360,8 @@ class Segmentation
         cv::waitKey (2);
       }
     }
-    
-    void 
+
+    void
     run (bool use_device, bool use_file)
     {
       if (use_file)
@@ -373,7 +373,7 @@ class Segmentation
 
         std::string path = "./frame_0.pcd";
         filegrabber = new pcl::PCDGrabber<pcl::PointXYZRGB > (path, frames_per_second, repeat);
-        
+
         if (use_device)
         {
           std::cerr << "[Segmentation] Using GPU..." << std::endl;
@@ -415,7 +415,7 @@ class Segmentation
         viewer.runOnVisualizationThread (boost::bind(&Segmentation::viz_cb, this, _1), "viz_cb");
 
         grabber->start ();
-        
+
         while (!viewer.wasStopped ())
         {
           pcl_sleep (1);
@@ -438,7 +438,7 @@ class Segmentation
     int enable_normal_viz;
 };
 
-int 
+int
 main (int argc, char **argv)
 {
   bool use_device = false;

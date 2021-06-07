@@ -19,7 +19,7 @@ void ON_Brep::MemoryRelocate()
 {
   int i, count;
 
-  // The call to the base class MemoryRelocate() takes care of 
+  // The call to the base class MemoryRelocate() takes care of
   // updating user data back-pointers.
   ON_Geometry::MemoryRelocate();
 
@@ -51,9 +51,9 @@ void ON_Brep::MemoryRelocate()
   }
 }
 
-ON_Brep* ON_Brep::SubBrep( 
-          int subfi_count, 
-          const int* subfi, 
+ON_Brep* ON_Brep::SubBrep(
+          int subfi_count,
+          const int* subfi,
           ON_Brep* sub_brep
           ) const
 {
@@ -163,7 +163,7 @@ ON_Brep* ON_Brep::SubBrep(
               return 0;
             if ( 0 == Vmap[edge->m_vi[1]] )
               return 0;
-          }          
+          }
         }
         else
         {

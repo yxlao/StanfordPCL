@@ -43,14 +43,14 @@ main (int argc, char** argv)
 
   if (octree.voxelSearch (searchPoint, pointIdxVec))
   {
-    std::cout << "Neighbors within voxel search at (" << searchPoint.x 
-     << " " << searchPoint.y 
-     << " " << searchPoint.z << ")" 
+    std::cout << "Neighbors within voxel search at (" << searchPoint.x
+     << " " << searchPoint.y
+     << " " << searchPoint.z << ")"
      << std::endl;
-              
+
     for (size_t i = 0; i < pointIdxVec.size (); ++i)
-   std::cout << "    " << cloud->points[pointIdxVec[i]].x 
-       << " " << cloud->points[pointIdxVec[i]].y 
+   std::cout << "    " << cloud->points[pointIdxVec[i]].x
+       << " " << cloud->points[pointIdxVec[i]].y
        << " " << cloud->points[pointIdxVec[i]].z << std::endl;
   }
 
@@ -61,17 +61,17 @@ main (int argc, char** argv)
   std::vector<int> pointIdxNKNSearch;
   std::vector<float> pointNKNSquaredDistance;
 
-  std::cout << "K nearest neighbor search at (" << searchPoint.x 
-            << " " << searchPoint.y 
+  std::cout << "K nearest neighbor search at (" << searchPoint.x
+            << " " << searchPoint.y
             << " " << searchPoint.z
             << ") with K=" << K << std::endl;
 
   if (octree.nearestKSearch (searchPoint, K, pointIdxNKNSearch, pointNKNSquaredDistance) > 0)
   {
     for (size_t i = 0; i < pointIdxNKNSearch.size (); ++i)
-      std::cout << "    "  <<   cloud->points[ pointIdxNKNSearch[i] ].x 
-                << " " << cloud->points[ pointIdxNKNSearch[i] ].y 
-                << " " << cloud->points[ pointIdxNKNSearch[i] ].z 
+      std::cout << "    "  <<   cloud->points[ pointIdxNKNSearch[i] ].x
+                << " " << cloud->points[ pointIdxNKNSearch[i] ].y
+                << " " << cloud->points[ pointIdxNKNSearch[i] ].z
                 << " (squared distance: " << pointNKNSquaredDistance[i] << ")" << std::endl;
   }
 
@@ -82,8 +82,8 @@ main (int argc, char** argv)
 
   float radius = 256.0f * rand () / (RAND_MAX + 1.0f);
 
-  std::cout << "Neighbors within radius search at (" << searchPoint.x 
-      << " " << searchPoint.y 
+  std::cout << "Neighbors within radius search at (" << searchPoint.x
+      << " " << searchPoint.y
       << " " << searchPoint.z
       << ") with radius=" << radius << std::endl;
 
@@ -91,9 +91,9 @@ main (int argc, char** argv)
   if (octree.radiusSearch (searchPoint, radius, pointIdxRadiusSearch, pointRadiusSquaredDistance) > 0)
   {
     for (size_t i = 0; i < pointIdxRadiusSearch.size (); ++i)
-      std::cout << "    "  <<   cloud->points[ pointIdxRadiusSearch[i] ].x 
-                << " " << cloud->points[ pointIdxRadiusSearch[i] ].y 
-                << " " << cloud->points[ pointIdxRadiusSearch[i] ].z 
+      std::cout << "    "  <<   cloud->points[ pointIdxRadiusSearch[i] ].x
+                << " " << cloud->points[ pointIdxRadiusSearch[i] ].y
+                << " " << cloud->points[ pointIdxRadiusSearch[i] ].z
                 << " (squared distance: " << pointRadiusSquaredDistance[i] << ")" << std::endl;
   }
 

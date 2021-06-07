@@ -34,7 +34,7 @@
  *  POSSIBILITY OF SUCH DAMAGE.
  *
  */
-  
+
 #ifndef PCL_ML_MULTI_CHANNEL_2D_COMPARISON_FEATURE_HANDLER_H_
 #define PCL_ML_MULTI_CHANNEL_2D_COMPARISON_FEATURE_HANDLER_H_
 
@@ -58,7 +58,7 @@ namespace pcl
   class PCL_EXPORTS MultiChannel2DComparisonFeatureHandler
     : public pcl::FeatureHandler<pcl::MultiChannel2DComparisonFeature<pcl::PointXY32i>, pcl::MultiChannel2DDataSet<DATA_TYPE, NUM_OF_CHANNELS>, pcl::MultipleData2DExampleIndex>
   {
-  
+
   public:
 
     /** \brief Constructor. */
@@ -74,22 +74,22 @@ namespace pcl
       * \param[in] width The width of the feature window.
       * \param[in] height The height of the feature window.
       */
-    inline void 
+    inline void
     setFeatureWindowSize (
       int width,
       int height)
-    { 
-      feature_window_width_ = width; 
-      feature_window_height_ = height; 
+    {
+      feature_window_width_ = width;
+      feature_window_height_ = height;
     }
 
     /** \brief Creates random features.
       * \param[in] num_of_features The number of random features to create.
       * \param[out] features The destination for the created random features.
       */
-    inline void 
+    inline void
     createRandomFeatures (
-      const size_t num_of_features, 
+      const size_t num_of_features,
       std::vector<MultiChannel2DComparisonFeature<PointXY32i> > & features)
     {
       features.resize (num_of_features);
@@ -108,7 +108,7 @@ namespace pcl
       * \param[out] results The destination for the evaluation results.
       * \param[out] flags The destination for the flags corresponding to the evaluation results.
       */
-    inline void 
+    inline void
     evaluateFeature (
       const MultiChannel2DComparisonFeature<PointXY32i> & feature,
       MultiChannel2DDataSet<DATA_TYPE, NUM_OF_CHANNELS> & data_set,
@@ -133,7 +133,7 @@ namespace pcl
       * \param[out] result The destination for the evaluation result.
       * \param[out] flag The destination for the flag corresponding to the evaluation result.
       */
-    inline void 
+    inline void
     evaluateFeature (
       const MultiChannel2DComparisonFeature<PointXY32i> & feature,
       MultiChannel2DDataSet<DATA_TYPE, NUM_OF_CHANNELS> & data_set,
@@ -163,7 +163,7 @@ namespace pcl
       * \param[in] feature The feature for which code is generated.
       * \param[out] stream The destination for the generated code.
       */
-    void 
+    void
     generateCodeForEvaluation (
       const MultiChannel2DComparisonFeature<PointXY32i> & feature,
       std::ostream & stream) const
@@ -187,7 +187,7 @@ namespace pcl
   class PCL_EXPORTS ScaledMultiChannel2DComparisonFeatureHandler
     : public pcl::FeatureHandler<pcl::MultiChannel2DComparisonFeature<pcl::PointXY32f>, pcl::MultiChannel2DDataSet<DATA_TYPE, NUM_OF_CHANNELS>, pcl::MultipleData2DExampleIndex>
   {
-  
+
   public:
 
     /** \brief Constructor. */
@@ -203,22 +203,22 @@ namespace pcl
       * \param[in] width The width of the feature window.
       * \param[in] height The height of the feature window.
       */
-    inline void 
+    inline void
     setFeatureWindowSize (
       int width,
       int height)
-    { 
-      feature_window_width_ = width; 
-      feature_window_height_ = height; 
+    {
+      feature_window_width_ = width;
+      feature_window_height_ = height;
     }
 
     /** \brief Creates random features.
       * \param[in] num_of_features The number of random features to create.
       * \param[out] features The destination for the created random features.
       */
-    inline void 
+    inline void
     createRandomFeatures (
-      const size_t num_of_features, 
+      const size_t num_of_features,
       std::vector<MultiChannel2DComparisonFeature<PointXY32f> > & features)
     {
       features.resize (num_of_features);
@@ -237,7 +237,7 @@ namespace pcl
       * \param[out] results The destination for the evaluation results.
       * \param[out] flags The destination for the flags corresponding to the evaluation results.
       */
-    inline void 
+    inline void
     evaluateFeature (
       const MultiChannel2DComparisonFeature<PointXY32f> & feature,
       MultiChannel2DDataSet<DATA_TYPE, NUM_OF_CHANNELS> & data_set,
@@ -262,7 +262,7 @@ namespace pcl
       * \param[out] result The destination for the evaluation result.
       * \param[out] flag The destination for the flag corresponding to the evaluation result.
       */
-    inline void 
+    inline void
     evaluateFeature (
       const MultiChannel2DComparisonFeature<PointXY32f> & feature,
       MultiChannel2DDataSet<DATA_TYPE, NUM_OF_CHANNELS> & data_set,
@@ -294,7 +294,7 @@ namespace pcl
       * \param[in] feature The feature for which code is generated.
       * \param[out] stream The destination for the generated code.
       */
-    void 
+    void
     generateCodeForEvaluation (
       const MultiChannel2DComparisonFeature<PointXY32f> & feature,
       std::ostream & stream) const

@@ -5,8 +5,8 @@
 --- 31,37 ----
     standard_math_library_linked_to_automatically
   )
-  
+
 + set (standard_math_library_linked_to_automatically TRUE)
   if(standard_math_library_linked_to_automatically)
-  
+
     # the test program linked successfully without any linker flag.

@@ -1,15 +1,15 @@
 /*
  * Software License Agreement (BSD License)
- * 
+ *
  * Point Cloud Library (PCL) - www.pointclouds.org
  * Copyright (c) 2009-2011, Willow Garage, Inc.
- * 
+ *
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
- * are met: 
- * 
+ * are met:
+ *
  *  * Redistributions of source code must retain the above copyright
  *    notice, this list of conditions and the following disclaimer.
  *  * Redistributions in binary form must reproduce the above
@@ -19,7 +19,7 @@
  *  * Neither the name of Willow Garage, Inc. nor the names of its
  *    contributors may be used to endorse or promote products derived
  *    from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -73,7 +73,7 @@ namespace pcl
       /** \brief Set the normals computed on the input point cloud
         * \param[in] normals the normals computed for the input cloud
         */
-      inline void 
+      inline void
       setNormals (const NormalsPtr &normals) { input_normals_ = normals; }
 
       /** \brief Get the normals computed on the input point cloud */
@@ -87,13 +87,13 @@ namespace pcl
       setThreshold (float threshold) { threshold_ = threshold; }
 
       /** \brief Get the threshold for shadow points rejection */
-      inline float 
+      inline float
       getThreshold () const { return threshold_; }
 
     protected:
-     
+
       /** \brief The normals computed at each point in the input cloud */
-      NormalsPtr input_normals_; 
+      NormalsPtr input_normals_;
 
       /** \brief Sample of point indices into a separate PointCloud
         * \param[out] output the resultant point cloud

@@ -349,7 +349,7 @@ TEST (SegmentDifferences, Segmentation)
   sd.segment (output);
 
   EXPECT_EQ (static_cast<int> (output.points.size ()), 0);
-  
+
   // Set a different target
   sd.setTargetCloud (cloud_t_);
   sd.segment (output);

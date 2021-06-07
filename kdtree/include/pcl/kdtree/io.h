@@ -44,31 +44,31 @@
 
 namespace pcl
 {
-  /** \brief Get a set of approximate indices for a given point cloud into a reference point cloud. 
-    * The coordinates of the two point clouds can differ. The method uses an internal KdTree for 
-    * finding the closest neighbors from \a cloud_in in \a cloud_ref. 
+  /** \brief Get a set of approximate indices for a given point cloud into a reference point cloud.
+    * The coordinates of the two point clouds can differ. The method uses an internal KdTree for
+    * finding the closest neighbors from \a cloud_in in \a cloud_ref.
     *
     * \param[in] cloud_in the input point cloud dataset
     * \param[in] cloud_ref the reference point cloud dataset
     * \param[out] indices the resultant set of nearest neighbor indices of \a cloud_in in \a cloud_ref
     * \ingroup kdtree
     */
-  template <typename PointT> void 
-  getApproximateIndices (const typename pcl::PointCloud<PointT>::Ptr &cloud_in, 
+  template <typename PointT> void
+  getApproximateIndices (const typename pcl::PointCloud<PointT>::Ptr &cloud_in,
                          const typename pcl::PointCloud<PointT>::Ptr &cloud_ref,
                          std::vector<int> &indices);
 
-  /** \brief Get a set of approximate indices for a given point cloud into a reference point cloud. 
-    * The coordinates of the two point clouds can differ. The method uses an internal KdTree for 
-    * finding the closest neighbors from \a cloud_in in \a cloud_ref. 
+  /** \brief Get a set of approximate indices for a given point cloud into a reference point cloud.
+    * The coordinates of the two point clouds can differ. The method uses an internal KdTree for
+    * finding the closest neighbors from \a cloud_in in \a cloud_ref.
     *
     * \param[in] cloud_in the input point cloud dataset
     * \param[in] cloud_ref the reference point cloud dataset
     * \param[out] indices the resultant set of nearest neighbor indices of \a cloud_in in \a cloud_ref
     * \ingroup kdtree
     */
-  template <typename Point1T, typename Point2T> void 
-  getApproximateIndices (const typename pcl::PointCloud<Point1T>::Ptr &cloud_in, 
+  template <typename Point1T, typename Point2T> void
+  getApproximateIndices (const typename pcl::PointCloud<Point1T>::Ptr &cloud_in,
                          const typename pcl::PointCloud<Point2T>::Ptr &cloud_ref,
                          std::vector<int> &indices);
 }

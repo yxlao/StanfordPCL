@@ -11,7 +11,7 @@ namespace sensor_msgs
 {
   struct Image
   {
-    Image () : header (), height (0), width (0), encoding (), 
+    Image () : header (), height (0), width (0), encoding (),
                is_bigendian (0), step (0), data ()
     {}
 

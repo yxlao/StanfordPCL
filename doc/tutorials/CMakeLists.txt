@@ -7,7 +7,7 @@ if(SPHINX_FOUND)
     set(TMPDIR "/tmp")
   endif()
   file(TO_CMAKE_PATH "${TMPDIR}" TMPDIR)
-  add_custom_target(Tutorials 
+  add_custom_target(Tutorials
                     COMMAND ${CMAKE_COMMAND} -E remove_directory "${TMPDIR}/doctrees"
                     COMMAND ${SPHINX_EXECUTABLE} -b html -a -d "${TMPDIR}/doctrees" "${CMAKE_CURRENT_SOURCE_DIR}/content" html
                     )

@@ -37,7 +37,7 @@
 
 #ifndef PCL_ML_FERNS_FERN_TRAINER_HPP_
 #define PCL_ML_FERNS_FERN_TRAINER_HPP_
-  
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <class FeatureType, class DataSet, class LabelType, class ExampleIndex, class NodeType>
 pcl::FernTrainer<FeatureType, DataSet, LabelType, ExampleIndex, NodeType>::FernTrainer ()
@@ -50,14 +50,14 @@ pcl::FernTrainer<FeatureType, DataSet, LabelType, ExampleIndex, NodeType>::FernT
   , label_data_ ()
   , examples_ ()
 {
-  
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 template <class FeatureType, class DataSet, class LabelType, class ExampleIndex, class NodeType>
 pcl::FernTrainer<FeatureType, DataSet, LabelType, ExampleIndex, NodeType>::~FernTrainer ()
 {
-  
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,7 +97,7 @@ pcl::FernTrainer<FeatureType, DataSet, LabelType, ExampleIndex, NodeType>::train
   std::vector<std::vector<std::vector<unsigned char> > > branch_flags (num_of_features_); // [feature_index][branch_index][flag_index]
   std::vector<std::vector<std::vector<ExampleIndex> > > branch_examples (num_of_features_); // [feature_index][branch_index][result_index]
   std::vector<std::vector<std::vector<LabelType> > > branch_label_data (num_of_features_); // [feature_index][branch_index][flag_index]
-  
+
   // - initialize branch feature results and flags
   for (size_t feature_index = 0; feature_index < num_of_features_; ++feature_index)
   {
@@ -285,5 +285,5 @@ pcl::FernTrainer<FeatureType, DataSet, LabelType, ExampleIndex, NodeType>::creat
     thresholds[threshold_index] = min_value + step*(threshold_index+1);
   }
 }
-  
+
 #endif

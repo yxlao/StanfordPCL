@@ -92,13 +92,13 @@ pcl::ConvexHull<PointInT>::performReconstruction2D (PointCloud &hull, std::vecto
     p2 = input_->points[rand () % indices_->size ()];
     dy1dy2 = (p1.getArray4fMap () - p0.getArray4fMap ()) / (p2.getArray4fMap () - p0.getArray4fMap ());
   }
-    
+
   pcl::PointCloud<PointInT> normal_calc_cloud;
   normal_calc_cloud.points.resize (3);
   normal_calc_cloud.points[0] = p0;
   normal_calc_cloud.points[1] = p1;
   normal_calc_cloud.points[2] = p2;
-    
+
   Eigen::Vector4f normal_calc_centroid;
   Eigen::Matrix3f normal_calc_covariance;
   pcl::computeMeanAndCovarianceMatrix (normal_calc_cloud, normal_calc_covariance, normal_calc_centroid);
@@ -153,7 +153,7 @@ pcl::ConvexHull<PointInT>::performReconstruction2D (PointCloud &hull, std::vecto
       points[j + 0] = static_cast<coordT> (input_->points[(*indices_)[i]].x);
       points[j + 1] = static_cast<coordT> (input_->points[(*indices_)[i]].y);
     }
-  } 
+  }
   else if (yz_proj_safe)
   {
     for (size_t i = 0; i < input_->points.size (); ++i, j+=dimension)
@@ -175,10 +175,10 @@ pcl::ConvexHull<PointInT>::performReconstruction2D (PointCloud &hull, std::vecto
     // This should only happen if we had invalid input
     PCL_ERROR ("[pcl::%s::performReconstruction2D] Invalid input!\n", getClassName ().c_str ());
   }
-   
+
   // Compute convex hull
   int exitcode = qh_new_qhull (dimension, static_cast<int> (indices_->size ()), points, ismalloc, const_cast<char*> (flags), outfile, errfile);
-    
+
   // 0 if no error from qhull
   if (exitcode != 0)
   {
@@ -248,9 +248,9 @@ pcl::ConvexHull<PointInT>::performReconstruction2D (PointCloud &hull, std::vecto
     }
   }
   std::sort (idx_points.begin (), idx_points.end (), comparePoints2D);
-    
+
   polygons.resize (1);
-  polygons[0].vertices.resize (hull.points.size () + 1);  
+  polygons[0].vertices.resize (hull.points.size () + 1);
 
   for (int j = 0; j < static_cast<int> (hull.points.size ()); j++)
   {
@@ -258,7 +258,7 @@ pcl::ConvexHull<PointInT>::performReconstruction2D (PointCloud &hull, std::vecto
     polygons[0].vertices[j] = static_cast<unsigned int> (j);
   }
   polygons[0].vertices[hull.points.size ()] = 0;
-    
+
   qh_freeqhull (!qh_ALL);
   int curlong, totlong;
   qh_memfreeshort (&curlong, &totlong);

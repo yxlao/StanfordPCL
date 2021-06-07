@@ -51,7 +51,7 @@ namespace pcl
     /**
       * @b CorrespondenceRejectorFeatures implements a correspondence rejection method based on a set of feature
       * descriptors. Given an input feature space, the method checks if each feature in the source cloud has a
-      * correspondence in the target cloud, either by checking the first K (given) point correspondences, or 
+      * correspondence in the target cloud, either by checking the first K (given) point correspondences, or
       * by defining a tolerance threshold via a radius in feature space.
       * \todo explain this better.
       * \author Radu B. Rusu
@@ -77,36 +77,36 @@ namespace pcl
           * \param[in] original_correspondences the set of initial correspondences given
           * \param[out] remaining_correspondences the resultant filtered set of remaining correspondences
           */
-        void 
-        getRemainingCorrespondences (const pcl::Correspondences& original_correspondences, 
+        void
+        getRemainingCorrespondences (const pcl::Correspondences& original_correspondences,
                                      pcl::Correspondences& remaining_correspondences);
 
         /** \brief Provide a pointer to a cloud of feature descriptors associated with the source point cloud
           * \param[in] source_feature a cloud of feature descriptors associated with the source point cloud
           * \param[in] key a string that uniquely identifies the feature
           */
-        template <typename FeatureT> inline void 
-        setSourceFeature (const typename pcl::PointCloud<FeatureT>::ConstPtr &source_feature, 
+        template <typename FeatureT> inline void
+        setSourceFeature (const typename pcl::PointCloud<FeatureT>::ConstPtr &source_feature,
                           const std::string &key);
 
         /** \brief Get a pointer to the source cloud's feature descriptors, specified by the given \a key
           * \param[in] key a string that uniquely identifies the feature (must match the key provided by setSourceFeature)
           */
-        template <typename FeatureT> inline typename pcl::PointCloud<FeatureT>::ConstPtr 
+        template <typename FeatureT> inline typename pcl::PointCloud<FeatureT>::ConstPtr
         getSourceFeature (const std::string &key);
 
         /** \brief Provide a pointer to a cloud of feature descriptors associated with the target point cloud
           * \param[in] target_feature a cloud of feature descriptors associated with the target point cloud
           * \param[in] key a string that uniquely identifies the feature
           */
-        template <typename FeatureT> inline void 
-        setTargetFeature (const typename pcl::PointCloud<FeatureT>::ConstPtr &target_feature, 
+        template <typename FeatureT> inline void
+        setTargetFeature (const typename pcl::PointCloud<FeatureT>::ConstPtr &target_feature,
                           const std::string &key);
 
         /** \brief Get a pointer to the source cloud's feature descriptors, specified by the given \a key
           * \param[in] key a string that uniquely identifies the feature (must match the key provided by setTargetFeature)
           */
-        template <typename FeatureT> inline typename pcl::PointCloud<FeatureT>::ConstPtr 
+        template <typename FeatureT> inline typename pcl::PointCloud<FeatureT>::ConstPtr
         getTargetFeature (const std::string &key);
 
         /** \brief Set a hard distance threshold in the feature \a FeatureT space, between source and target
@@ -115,18 +115,18 @@ namespace pcl
           * \param[in] thresh the distance threshold
           * \param[in] key a string that uniquely identifies the feature
           */
-        template <typename FeatureT> inline void 
+        template <typename FeatureT> inline void
         setDistanceThreshold (double thresh, const std::string &key);
 
-        /** \brief Test that all features are valid (i.e., does each key have a valid source cloud, target cloud, 
+        /** \brief Test that all features are valid (i.e., does each key have a valid source cloud, target cloud,
           * and search method)
           */
-        inline bool 
+        inline bool
         hasValidFeatures ();
 
         /** \brief Provide a boost shared pointer to a PointRepresentation to be used when comparing features
           * \param[in] key a string that uniquely identifies the feature
-          * \param[in] fr the point feature representation to be used 
+          * \param[in] fr the point feature representation to be used
           */
         template <typename FeatureT> inline void
         setFeatureRepresentation (const typename pcl::PointRepresentation<FeatureT>::ConstPtr &fr,
@@ -137,7 +137,7 @@ namespace pcl
         /** \brief Apply the rejection algorithm.
           * \param[out] correspondences the set of resultant correspondences.
           */
-        inline void 
+        inline void
         applyRejection (pcl::Correspondences &correspondences)
         {
           getRemainingCorrespondences (*input_correspondences_, correspondences);
@@ -161,10 +161,10 @@ namespace pcl
         /** \brief An STL map containing features to use when performing the correspondence search.*/
         FeaturesMap features_map_;
 
-        /** \brief An inner class containing pointers to the source and target feature clouds 
-          * and the parameters needed to perform the correspondence search.  This class extends 
-          * FeatureContainerInterface, which contains abstract methods for any methods that do not depend on the 
-          * FeatureT --- these methods can thus be called from a pointer to FeatureContainerInterface without 
+        /** \brief An inner class containing pointers to the source and target feature clouds
+          * and the parameters needed to perform the correspondence search.  This class extends
+          * FeatureContainerInterface, which contains abstract methods for any methods that do not depend on the
+          * FeatureT --- these methods can thus be called from a pointer to FeatureContainerInterface without
           * casting to the derived class.
           */
         template <typename FeatureT>
@@ -172,52 +172,52 @@ namespace pcl
         {
           public:
             typedef typename pcl::PointCloud<FeatureT>::ConstPtr FeatureCloudConstPtr;
-            typedef boost::function<int (const pcl::PointCloud<FeatureT> &, int, std::vector<int> &, 
+            typedef boost::function<int (const pcl::PointCloud<FeatureT> &, int, std::vector<int> &,
                                           std::vector<float> &)> SearchMethod;
-            
+
             typedef typename pcl::PointRepresentation<FeatureT>::ConstPtr PointRepresentationConstPtr;
 
             FeatureContainer () : thresh_(std::numeric_limits<double>::max ()), feature_representation_()
             {
             }
 
-            inline void 
+            inline void
             setSourceFeature (const FeatureCloudConstPtr &source_features)
             {
               source_features_ = source_features;
             }
-            
-            inline FeatureCloudConstPtr 
+
+            inline FeatureCloudConstPtr
             getSourceFeature ()
             {
               return (source_features_);
             }
-            
-            inline void 
+
+            inline void
             setTargetFeature (const FeatureCloudConstPtr &target_features)
             {
               target_features_ = target_features;
             }
-            
-            inline FeatureCloudConstPtr 
+
+            inline FeatureCloudConstPtr
             getTargetFeature ()
             {
               return (target_features_);
             }
-            
-            inline void 
+
+            inline void
             setDistanceThreshold (double thresh)
             {
               thresh_ = thresh;
             }
 
-            virtual inline bool 
+            virtual inline bool
             isValid ()
             {
               if (!source_features_ || !target_features_)
                 return (false);
               else
-                return (source_features_->points.size () > 0 && 
+                return (source_features_->points.size () > 0 &&
                         target_features_->points.size () > 0);
             }
 
@@ -263,7 +263,7 @@ namespace pcl
             }
 
             /** \brief Check whether the correspondence pair at the given index is valid
-              * by computing the score and testing it against the user given threshold 
+              * by computing the score and testing it against the user given threshold
               * \param[in] the index to check in the list of correspondences
               * \return true if the correspondence is good, false otherwise
               */
@@ -275,7 +275,7 @@ namespace pcl
               else
                 return (false);
             }
-             
+
           private:
             FeatureCloudConstPtr source_features_, target_features_;
             SearchMethod search_method_;

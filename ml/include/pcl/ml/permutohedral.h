@@ -84,18 +84,18 @@ namespace pcl
       void
       init (const std::vector<float> &feature, const int feature_dimension, const int N);
 
-      void 
-      compute (std::vector<float> &out, const std::vector<float> &in, 
-               int value_size, 
-               int in_offset=0, int out_offset=0, 
+      void
+      compute (std::vector<float> &out, const std::vector<float> &in,
+               int value_size,
+               int in_offset=0, int out_offset=0,
                int in_size = -1, int out_size = -1) const;
       void
       initOLD (const std::vector<float> &feature, const int feature_dimension, const int N);
 
-      void 
-      computeOLD (std::vector<float> &out, const std::vector<float> &in, 
-                  int value_size, 
-                  int in_offset=0, int out_offset=0, 
+      void
+      computeOLD (std::vector<float> &out, const std::vector<float> &in,
+                  int value_size,
+                  int in_offset=0, int out_offset=0,
                   int in_size = -1, int out_size = -1) const;
 
       void
@@ -103,7 +103,7 @@ namespace pcl
 
       // Pseudo radnom generator
       inline
-      size_t generateHashKey (const std::vector<short> &k) 
+      size_t generateHashKey (const std::vector<short> &k)
       {
         size_t r = 0;
         for (int i = 0; i < d_; i++)
@@ -136,9 +136,9 @@ namespace pcl
       int * offsetOLD_;
       float * barycentricOLD_;
       std::vector<float> baryOLD_;
-      
+
     public:
-      EIGEN_MAKE_ALIGNED_OPERATOR_NEW      
+      EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   };
 
@@ -156,7 +156,7 @@ namespace pcl
     int * table_;
     void grow(){
       std::cout << "GROW" << std::endl;
-      
+
       // Swap out the old memory
       short * old_keys = keys_;
       int * old_table = table_;
@@ -167,7 +167,7 @@ namespace pcl
       table_ = new int[ capacity_ ];
       memset( table_, -1, capacity_*sizeof(int) );
       memcpy( keys_, old_keys, filled_*key_size_*sizeof(short) );
-      
+
       // Reinsert each element
       for( int i=0; i<old_capacity; i++ )
         if (old_table[i] >= 0){
@@ -176,7 +176,7 @@ namespace pcl
           for (; table_[h] >= 0; h = h<capacity_-1 ? h+1 : 0) { };
           table_[h] = e;
         }
-      
+
       delete [] old_keys;
       delete [] old_table;
     }
@@ -246,18 +246,18 @@ namespace pcl
 
       find (const std::vector<short> &k, bool create = false;)
       {
-        
-        
+
+
 
 
 
       }
-      
 
-      
+
+
     protected:
       std::multimap<size_t, int> table_;
-      
+
       std::vector<std::vector<short> > keys;
       //keys.reserve ( (d_+1) * N_ );
       // number of elements

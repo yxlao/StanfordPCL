@@ -76,28 +76,28 @@ namespace pcl
     {
       public:
         static PCLVisualizerInteractor *New ();
-        
+
 //        void TerminateApp (void); // do nothing -> disable exit(0) on keys 'q', 'Q' or Esc
         void stopLoop ();
-        
+
         bool stopped;
         int timer_id_;
 
 #ifdef _WIN32
         int BreakLoopFlag;                // if true quit the GetMessage loop
 
-        virtual void 
+        virtual void
         Start ();                         // Redefine the vtkWin32RenderWindowInteractor::Start method...
 
         vtkGetMacro (BreakLoopFlag, int);
 
-        void 
+        void
         SetBreakLoopFlag (int);           // Change the value of BreakLoopFlag
 
-        void 
+        void
         BreakLoopFlagOff ();              // set BreakLoopFlag to 0
-        
-        void 
+
+        void
         BreakLoopFlagOn ();               // set BreakLoopFlag to 1 (quit)
 #endif
     };

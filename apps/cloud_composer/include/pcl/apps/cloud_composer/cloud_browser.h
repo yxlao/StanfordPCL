@@ -56,27 +56,27 @@ namespace pcl
       Q_OBJECT
       public:
         CloudBrowser (QWidget* parent = 0);
-        
-        virtual void 
+
+        virtual void
         setModel (QAbstractItemModel* new_model);
-      
-      private:  
+
+      private:
         ProjectModel* current_project_model_;
-       
+
     };
-    
+
     class BackgroundDelegate : public QStyledItemDelegate
     {
       public:
-        explicit 
+        explicit
         BackgroundDelegate (QObject *parent = 0)
           : QStyledItemDelegate(parent) {}
-          
+
         void
         paint (QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-        
+
     };
-    
+
   }
 }
 

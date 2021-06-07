@@ -2,7 +2,7 @@
  * Software License Agreement (BSD License)
  *
  *  Point Cloud Library (PCL) - www.pointclouds.org
- *  Copyright (C) 2011, The Autonomous Systems Lab (ASL), ETH Zurich, 
+ *  Copyright (C) 2011, The Autonomous Systems Lab (ASL), ETH Zurich,
  *                      Stefan Leutenegger, Simon Lynen and Margarita Chli.
  *  Copyright (c) 2012-, Open Perception, Inc.
  *
@@ -53,7 +53,7 @@ pcl::BriskKeypoint2D<PointInT, PointOutT, IntensityT>::initCompute ()
   }
 
   if (!input_->isOrganized ())
-  {    
+  {
     PCL_ERROR ("[pcl::%s::initCompute] %s doesn't support non organized clouds!\n", name_.c_str ());
     return (false);
   }
@@ -99,4 +99,4 @@ pcl::BriskKeypoint2D<PointInT, PointOutT, IntensityT>::detectKeypoints (PointClo
   output.is_dense = true;
 }
 
-#endif 
+#endif

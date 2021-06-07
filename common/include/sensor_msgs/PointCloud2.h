@@ -79,7 +79,7 @@ namespace sensor_msgs
     }
     s << "is_dense: ";
     s << "  " << v.is_dense << std::endl;
-    
+
     return (s);
   }
 

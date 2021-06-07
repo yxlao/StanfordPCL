@@ -12,13 +12,13 @@ if(build)
     set(srcs src/octree_impl.cpp
     )
 
-    set(incs 
-        include/pcl/${SUBSYS_NAME}/octree_base.h 
+    set(incs
+        include/pcl/${SUBSYS_NAME}/octree_base.h
         include/pcl/${SUBSYS_NAME}/octree_container.h
-        include/pcl/${SUBSYS_NAME}/octree_impl.h 
+        include/pcl/${SUBSYS_NAME}/octree_impl.h
         include/pcl/${SUBSYS_NAME}/octree_nodes.h
         include/pcl/${SUBSYS_NAME}/octree_node_pool.h
-        include/pcl/${SUBSYS_NAME}/octree_key.h 
+        include/pcl/${SUBSYS_NAME}/octree_key.h
         include/pcl/${SUBSYS_NAME}/octree_pointcloud_density.h
         include/pcl/${SUBSYS_NAME}/octree_pointcloud_occupancy.h
         include/pcl/${SUBSYS_NAME}/octree_pointcloud_singlepoint.h
@@ -27,17 +27,17 @@ if(build)
         include/pcl/${SUBSYS_NAME}/octree_pointcloud_voxelcentroid.h
         include/pcl/${SUBSYS_NAME}/octree_pointcloud.h
         include/pcl/${SUBSYS_NAME}/octree_iterator.h
-        include/pcl/${SUBSYS_NAME}/octree_search.h        
+        include/pcl/${SUBSYS_NAME}/octree_search.h
         include/pcl/${SUBSYS_NAME}/octree.h
         include/pcl/${SUBSYS_NAME}/octree2buf_base.h
         )
 
-    set(impl_incs    
+    set(impl_incs
         include/pcl/${SUBSYS_NAME}/impl/octree_base.hpp
         include/pcl/${SUBSYS_NAME}/impl/octree_pointcloud.hpp
-        include/pcl/${SUBSYS_NAME}/impl/octree2buf_base.hpp   
-        include/pcl/${SUBSYS_NAME}/impl/octree_iterator.hpp      
-        include/pcl/${SUBSYS_NAME}/impl/octree_search.hpp        
+        include/pcl/${SUBSYS_NAME}/impl/octree2buf_base.hpp
+        include/pcl/${SUBSYS_NAME}/impl/octree_iterator.hpp
+        include/pcl/${SUBSYS_NAME}/impl/octree_search.hpp
         include/pcl/${SUBSYS_NAME}/impl/octree_pointcloud_voxelcentroid.hpp
         )
 
@@ -47,7 +47,7 @@ if(build)
     target_link_libraries(${LIB_NAME})
     PCL_MAKE_PKGCONFIG(${LIB_NAME} ${SUBSYS_NAME} "${SUBSYS_DESC}"
       "${SUBSYS_DEPS}" "" "" "" "")
- 
+
     # Install include files
     PCL_ADD_INCLUDES(${SUBSYS_NAME} ${SUBSYS_NAME} ${incs})
     PCL_ADD_INCLUDES(${SUBSYS_NAME} ${SUBSYS_NAME}/impl ${impl_incs})

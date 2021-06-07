@@ -44,8 +44,8 @@
 namespace pcl
 {
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  /** \brief @b RandomSampleConsensus represents an implementation of the RANSAC (RAndom SAmple Consensus) algorithm, as 
-    * described in: "Random Sample Consensus: A Paradigm for Model Fitting with Applications to Image Analysis and 
+  /** \brief @b RandomSampleConsensus represents an implementation of the RANSAC (RAndom SAmple Consensus) algorithm, as
+    * described in: "Random Sample Consensus: A Paradigm for Model Fitting with Applications to Image Analysis and
     * Automated Cartography", Martin A. Fischler and Robert C. Bolles, Comm. Of the ACM 24: 381–395, June 1981.
     * \author Radu Bogdan Rusu
     * \ingroup sample_consensus

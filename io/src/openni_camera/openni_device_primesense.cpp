@@ -51,10 +51,10 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 openni_wrapper::DevicePrimesense::DevicePrimesense (
-    xn::Context& context, 
-    const xn::NodeInfo& device_node, 
-    const xn::NodeInfo& image_node, 
-    const xn::NodeInfo& depth_node, 
+    xn::Context& context,
+    const xn::NodeInfo& device_node,
+    const xn::NodeInfo& image_node,
+    const xn::NodeInfo& depth_node,
     const xn::NodeInfo& ir_node) : OpenNIDevice (context, device_node, image_node, depth_node, ir_node)
 {
   // setup stream modes
@@ -97,18 +97,18 @@ openni_wrapper::DevicePrimesense::~DevicePrimesense () throw ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool 
+bool
 openni_wrapper::DevicePrimesense::isImageResizeSupported (
-    unsigned input_width, 
-    unsigned input_height, 
-    unsigned output_width, 
+    unsigned input_width,
+    unsigned input_height,
+    unsigned output_width,
     unsigned output_height) const throw ()
 {
   return (ImageYUV422::resizingSupported (input_width, input_height, output_width, output_height));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 openni_wrapper::DevicePrimesense::enumAvailableModes () throw ()
 {
   XnMapOutputMode output_mode;
@@ -169,7 +169,7 @@ openni_wrapper::DevicePrimesense::enumAvailableModes () throw ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-boost::shared_ptr<openni_wrapper::Image> 
+boost::shared_ptr<openni_wrapper::Image>
 openni_wrapper::DevicePrimesense::getCurrentImage (boost::shared_ptr<xn::ImageMetaData> image_data) const throw ()
 {
   //return (boost::shared_ptr<openni_wrapper::Image> (new ImageYUV422 (image_data)));
@@ -177,7 +177,7 @@ openni_wrapper::DevicePrimesense::getCurrentImage (boost::shared_ptr<xn::ImageMe
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 openni_wrapper::DevicePrimesense::startImageStream ()
 {
   // Suat: Ugly workaround... but on some usb-ports its not possible to start the image stream after the depth stream.
@@ -219,7 +219,7 @@ openni_wrapper::DevicePrimesense::startImageStream ()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void 
+void
 openni_wrapper::DevicePrimesense::startDepthStream ()
 {
   if (isDepthRegistered ())

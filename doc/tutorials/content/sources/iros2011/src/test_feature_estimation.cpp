@@ -7,10 +7,10 @@
 #include <pcl/visualization/pcl_visualizer.h>
 #include <pcl/visualization/histogram_visualizer.h>
 
-int 
+int
 main (int argc, char ** argv)
 {
-  if (argc < 2) 
+  if (argc < 2)
   {
     pcl::console::print_info ("Syntax is: %s input.pcd <options>\n", argv[0]);
     pcl::console::print_info ("  where options are:\n");
@@ -23,24 +23,24 @@ main (int argc, char ** argv)
     pcl::console::print_info ("  Saving (-s) will output individual files for each option used (-n,-k,-f,-g).\n");
     return (1);
   }
-  
+
 
   // Load the input file
   PointCloudPtr cloud (new PointCloud);
   pcl::io::loadPCDFile (argv[1], *cloud);
   pcl::console::print_info ("Loaded %s (%zu points)\n", argv[1], cloud->size ());
-  
+
   // Estimate surface normals
   SurfaceNormalsPtr normals;
   double surface_radius;
   bool estimate_surface_normals = pcl::console::parse_argument (argc, argv, "-n", surface_radius) > 0;
-  
+
   if (estimate_surface_normals)
-  {  
+  {
     normals = estimateSurfaceNormals (cloud, surface_radius);
     pcl::console::print_info ("Estimated surface normals\n");
   }
-  
+
   // Detect keypoints
   PointCloudPtr keypoints;
   std::string params_string;
@@ -50,7 +50,7 @@ main (int argc, char ** argv)
     assert (normals);
     std::vector<std::string> tokens;
     boost::split (tokens, params_string, boost::is_any_of (","), boost::token_compress_on);
-    assert (tokens.size () == 4);    
+    assert (tokens.size () == 4);
     float min_scale = atof(tokens[0].c_str ());
     int nr_octaves = atoi(tokens[1].c_str ());
     int nr_scales = atoi(tokens[2].c_str ());
@@ -58,7 +58,7 @@ main (int argc, char ** argv)
     keypoints = detectKeypoints (cloud, normals, min_scale, nr_octaves, nr_scales, min_contrast);
     pcl::console::print_info ("Detected %zu keypoints\n", keypoints->size ());
   }
-  
+
   // Compute local descriptors
   LocalDescriptorsPtr local_descriptors;
   double feature_radius;

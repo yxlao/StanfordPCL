@@ -52,9 +52,9 @@ public:
 
   ON_BOOL32 IsCircle() const; // returns true is ellipse is a circle
 
-  double Radius( 
+  double Radius(
     int // 0 = x axis radius, 1 = y axis radius
-    ) const; 
+    ) const;
   const ON_3dPoint& Center() const;
   const ON_3dVector& Normal() const;
   const ON_Plane& Plane() const; // plane containing ellipse
@@ -71,7 +71,7 @@ public:
   // t -> plane.origin + cos(t)*radius[0]*plane.xaxis + sin(t)*radius[1]*plane.yaxis
   // evaluate parameters and return point
   ON_3dPoint  PointAt( double ) const;
-  ON_3dVector DerivativeAt( 
+  ON_3dVector DerivativeAt(
                  int, // desired derivative ( >= 0 )
                  double // parameter
                  ) const;
@@ -80,13 +80,13 @@ public:
   ON_3dVector CurvatureAt( double ) const;  // returns curvature vector
 
   // returns parameters of point on ellipse that is closest to given point
-  ON_BOOL32 ClosestPointTo( 
-         const ON_3dPoint&, 
+  ON_BOOL32 ClosestPointTo(
+         const ON_3dPoint&,
          double*
          ) const;
   // returns point on ellipse that is closest to given point
-  ON_3dPoint ClosestPointTo( 
-         const ON_3dPoint& 
+  ON_3dPoint ClosestPointTo(
+         const ON_3dPoint&
          ) const;
 
   // evaluate ellipse's implicit equation in plane
@@ -126,7 +126,7 @@ public:
 
 public: // members left public
   // The center of the ellipse is at the plane's origin.  The axes of the
-  // ellipse are the plane's x and y axes. The equation of the ellipse 
+  // ellipse are the plane's x and y axes. The equation of the ellipse
   // with respect to the plane is (x/m_r[0])^2 + (y/m_r[1])^2 = 1;
   ON_Plane plane;
   double radius[2]; // radii for x and y axes (both must be > 0)

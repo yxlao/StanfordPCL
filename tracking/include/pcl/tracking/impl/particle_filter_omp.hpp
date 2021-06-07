@@ -11,7 +11,7 @@ pcl::tracking::ParticleFilterOMPTracker<PointInT, StateT>::weight ()
 #endif
     for (int i = 0; i < particle_num_; i++)
       this->computeTransformedPointCloudWithoutNormal (particles_->points[i], *transed_reference_vector_[i]);
-    
+
     PointCloudInPtr coherence_input (new PointCloudIn);
     this->cropInputPointCloud (input_, *coherence_input);
     if (change_counter_ == 0)
@@ -64,10 +64,10 @@ pcl::tracking::ParticleFilterOMPTracker<PointInT, StateT>::weight ()
     {
       this->computeTransformedPointCloudWithNormal (particles_->points[i], *indices_list[i], *transed_reference_vector_[i]);
     }
-    
+
     PointCloudInPtr coherence_input (new PointCloudIn);
     this->cropInputPointCloud (input_, *coherence_input);
-    
+
     coherence_->setTargetCloud (coherence_input);
     coherence_->initCompute ();
 #ifdef _OPENMP
@@ -78,7 +78,7 @@ pcl::tracking::ParticleFilterOMPTracker<PointInT, StateT>::weight ()
       coherence_->compute (transed_reference_vector_[i], indices_list[i], particles_->points[i].weight);
     }
   }
-  
+
   normalizeWeight ();
 }
 

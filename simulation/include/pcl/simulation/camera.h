@@ -96,10 +96,10 @@ namespace pcl
 
       void
       updateProjectionMatrix ();
-    
+
       double x_,y_,z_;
       double roll_,pitch_,yaw_;
-    
+
       Eigen::Isometry3d pose_;
 
       // Camera Intrinsic Parameters

@@ -18,7 +18,7 @@
 
 #include <time.h>
 
-int 
+int
 main (int argc, char** argv)
 {
   // Read in the cloud data
@@ -45,7 +45,7 @@ main (int argc, char** argv)
   ec.setSearchMethod (tree);
   ec.setInputCloud( cloud_filtered);
   ec.extract (cluster_indices);
-  
+
   printf("CPU Time taken: %.2fs\n", (double)(clock() - tStart)/CLOCKS_PER_SEC);
 
   int j = 0;
@@ -75,7 +75,7 @@ main (int argc, char** argv)
 
   pcl::gpu::Octree::PointCloud cloud_device;
   cloud_device.upload(cloud_filtered->points);
-  
+
   pcl::gpu::Octree::Ptr octree_device (new pcl::gpu::Octree);
   octree_device->setCloud(cloud_device);
   octree_device->build();

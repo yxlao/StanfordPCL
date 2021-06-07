@@ -22,7 +22,7 @@ macro(get_ros_inc_path _dest _pkg)
     endif()
 endmacro(get_ros_inc_path)
 
-#todo: do we really need the next two lines? 
+#todo: do we really need the next two lines?
 set(ROS_ROOT $ENV{ROS_ROOT})
 if(ROS_ROOT)
     option(USE_ROS "Integrate with ROS rather than using native files" OFF)
@@ -34,7 +34,7 @@ if(ROS_ROOT)
 	  # if find_package(ROS ...) found the required components, add their include directories
           include_directories(${ROS_INCLUDE_DIRS})
 	else()
-          # otherwise, search for these particular packages the old hacky way	  
+          # otherwise, search for these particular packages the old hacky way	
           set(_ros_pkgs std_msgs sensor_msgs roscpp_serialization cpp_common rostime
             roscpp_traits roscpp rosconsole std_msgs rosbag topic_tools pcl)
           set(_ros_paths)
@@ -55,7 +55,7 @@ if(ROS_ROOT)
 
         # when building, don't use the install RPATH already
         # (but later on when installing)
-        SET(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE) 
+        SET(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
 
         # the RPATH to be used when installing
         SET(CMAKE_INSTALL_RPATH "${CMAKE_SOURCE_DIR}/../../lib64")

@@ -181,8 +181,8 @@ endmacro(GET_IN_MAP)
 # See accompanying file LICENSE_1_0.txt or copy at                       #
 #   http://www.boost.org/LICENSE_1_0.txt                                 #
 ##########################################################################
-# Perform a reverse topological sort on the given LIST. 
-#   
+# Perform a reverse topological sort on the given LIST.
+#
 #   topological_sort(my_list "MY_" "_EDGES")
 #
 # LIST is the name of a variable containing a list of elements to be
@@ -204,7 +204,7 @@ endmacro(GET_IN_MAP)
 # using the following variables:
 #
 #     MY_A_EDGES     b
-#     MY_B_EDGES     
+#     MY_B_EDGES
 #     MY_C_EDGES     a b
 #
 #  With the involcation of topological_sort shown above and these
@@ -226,7 +226,7 @@ macro(topological_sort LIST PREFIX SUFFIX)
         # search from where.
         if (NOT FOUND_${UPPER_VERTEX})
             # Push this vertex onto the stack with all of its outgoing edges
-            string(REPLACE ";" " " NEW_ELEMENT 
+            string(REPLACE ";" " " NEW_ELEMENT
                 "${VERTEX};${${PREFIX}${UPPER_VERTEX}${SUFFIX}}")
             list(APPEND STACK ${NEW_ELEMENT})
 
@@ -264,14 +264,14 @@ macro(topological_sort LIST PREFIX SUFFIX)
 
                         # Push the remaining edges for the current vertex onto the
                         # stack
-                        string(REPLACE ";" " " NEW_ELEMENT 
+                        string(REPLACE ";" " " NEW_ELEMENT
                             "${SOURCE};${OUT_EDGES}")
                         list(APPEND STACK ${NEW_ELEMENT})
 
                         # Setup the new source and outgoing edges
                         set(SOURCE ${TARGET})
                         string(TOUPPER ${SOURCE} UPPER_SOURCE)
-                        set(OUT_EDGES 
+                        set(OUT_EDGES
                             ${${PREFIX}${UPPER_SOURCE}${SUFFIX}})
                     endif(NOT FOUND_${UPPER_TARGET})
 
@@ -310,7 +310,7 @@ macro(swap_elements _list _pos1 _pos2)
       set(pos2 ${${_pos1}})
     else(${_pos1} GREATER ${_pos2})
       set(pos1 ${${_pos1}})
-      set(pos2 ${${_pos2}})   
+      set(pos2 ${${_pos2}})
     endif(${_pos1} GREATER ${_pos2})
 
     list(GET ${_list} ${pos1} element1)
@@ -360,7 +360,7 @@ endmacro(set_in_list)
 
 ###
 # Sorts list B the same way list A was sorted by fetching the indices
-# _list [IN] original list A 
+# _list [IN] original list A
 # _sorted_list [IN] list A after sorting
 # _to_sort_relative [IN/OUT] list B
 ##

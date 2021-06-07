@@ -721,7 +721,7 @@ pcl::visualization::PCLVisualizerInteractorStyle::OnKeyDown ()
       }
 
       vtkSmartPointer<vtkCamera> cam = CurrentRenderer->GetActiveCamera ();
-      
+
       static CloudActorMap::iterator it = actors_->begin ();
       // it might be that some actors don't have a valid transformation set -> we skip them to avoid a seg fault.
       bool found_transformation = false;
@@ -729,7 +729,7 @@ pcl::visualization::PCLVisualizerInteractorStyle::OnKeyDown ()
       {
         if (it == actors_->end ())
           it = actors_->begin ();
-        
+
         const CloudActor& actor = it->second;
         if (actor.viewpoint_transformation_.GetPointer ())
         {
@@ -737,7 +737,7 @@ pcl::visualization::PCLVisualizerInteractorStyle::OnKeyDown ()
           break;
         }
       }
-      
+
       // if a valid transformation was found, use it otherwise fall back to default view point.
       if (found_transformation)
       {
@@ -766,7 +766,7 @@ pcl::visualization::PCLVisualizerInteractorStyle::OnKeyDown ()
         ++it;
       else
         it = actors_->begin ();
-      
+
       CurrentRenderer->SetActiveCamera (cam);
       CurrentRenderer->ResetCameraClippingRange ();
       CurrentRenderer->Render ();
@@ -914,7 +914,7 @@ pcl::visualization::PCLVisualizerInteractorStyle::OnMouseWheelForward ()
   mouse_signal_ (event);
   if (Interactor->GetRepeatCount ())
     mouse_signal_ (event);
-  
+
   if (Interactor->GetAltKey ())
   {
     // zoom
@@ -922,12 +922,12 @@ pcl::visualization::PCLVisualizerInteractorStyle::OnMouseWheelForward ()
     double opening_angle = cam->GetViewAngle ();
     if (opening_angle > 15.0)
       opening_angle -= 1.0;
-    
+
     cam->SetViewAngle (opening_angle);
     cam->Modified ();
     CurrentRenderer->SetActiveCamera (cam);
     CurrentRenderer->ResetCameraClippingRange ();
-    CurrentRenderer->Modified ();    
+    CurrentRenderer->Modified ();
     CurrentRenderer->Render ();
     rens_->Render ();
     Interactor->Render ();
@@ -946,7 +946,7 @@ pcl::visualization::PCLVisualizerInteractorStyle::OnMouseWheelBackward ()
   mouse_signal_ (event);
   if (Interactor->GetRepeatCount ())
     mouse_signal_ (event);
-  
+
   if (Interactor->GetAltKey ())
   {
     // zoom
@@ -954,7 +954,7 @@ pcl::visualization::PCLVisualizerInteractorStyle::OnMouseWheelBackward ()
     double opening_angle = cam->GetViewAngle ();
     if (opening_angle < 170.0)
       opening_angle += 1.0;
-    
+
     cam->SetViewAngle (opening_angle);
     cam->Modified ();
     CurrentRenderer->SetActiveCamera (cam);

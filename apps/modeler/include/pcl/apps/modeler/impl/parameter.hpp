@@ -102,7 +102,7 @@ namespace pcl
       std::pair<QVariant, int> model_data;
       for (typename std::map<T, std::string>::const_iterator it = candidates_.begin();
         it != candidates_.end();
-        ++ it) 
+        ++ it)
       {
         if (it->first == value)
         {
