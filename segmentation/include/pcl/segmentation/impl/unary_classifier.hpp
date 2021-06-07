@@ -287,8 +287,9 @@ void pcl::UnaryClassifier<PointT>::queryFeatureDistances(
     index = new flann::Index<flann::ChiSquareDistance<float>>(
         data, flann::LinearIndexParams());
     // flann::Index<flann::ChiSquareDistance<float> > index (data,
-    // flann::LinearIndexParams ()); flann::Index<flann::ChiSquareDistance<float>
-    // > index (data, flann::KMeansIndexParams (5, -1));
+    // flann::LinearIndexParams ());
+    // flann::Index<flann::ChiSquareDistance<float> > index (data,
+    // flann::KMeansIndexParams (5, -1));
     // flann::Index<flann::ChiSquareDistance<float> > index (data,
     // flann::KDTreeIndexParams (4));
     index->buildIndex();

@@ -838,7 +838,7 @@ void pcl::SurfaceNormalModality<PointInT>::computeAndQuantizeSurfaceNormals2() {
                 // double l_ddy = -l_A[1] * l_b[0] + l_A[0] * l_b[1];
 
                 ///// @todo Magic number 1150 is focal length? This is something
-                ///like
+                /// like
                 ///// f in SXGA mode, but in VGA is more like 530.
                 // const double dummy_focal_length = 1150.0f;
                 // double l_nx = l_ddx * dummy_focal_length;
@@ -868,7 +868,8 @@ void pcl::SurfaceNormalModality<PointInT>::computeAndQuantizeSurfaceNormals2() {
                     //*lp_norm = fabs(l_nz)*255;
 
                     // int l_val1 = static_cast<int>(l_nx * l_offsetx +
-                    // l_offsetx); int l_val2 = static_cast<int>(l_ny * l_offsety
+                    // l_offsetx); int l_val2 = static_cast<int>(l_ny *
+                    // l_offsety
                     // + l_offsety); int l_val3 = static_cast<int>(l_nz *
                     // GRANULARITY + GRANULARITY);
 
@@ -1568,8 +1569,9 @@ void pcl::SurfaceNormalModality<PointInT>::filterQuantizedSurfaceNormals() {
     }
 
     // cv::Mat data1(quantized_surface_normals_.height,
-    // quantized_surface_normals_.width, CV_8U, quantized_surface_normals_.data);
-    // cv::Mat data2(filtered_quantized_surface_normals_.height,
+    // quantized_surface_normals_.width, CV_8U,
+    // quantized_surface_normals_.data); cv::Mat
+    // data2(filtered_quantized_surface_normals_.height,
     // filtered_quantized_surface_normals_.width, CV_8U,
     // filtered_quantized_surface_normals_.data);
 

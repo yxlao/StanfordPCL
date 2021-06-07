@@ -295,6 +295,6 @@ int pcl::registration::TransformationEstimationLM<PointSource, PointTarget,
 }
 
 //#define PCL_INSTANTIATE_TransformationEstimationLM(T,U) template class
-//PCL_EXPORTS pcl::registration::TransformationEstimationLM<T,U>;
+// PCL_EXPORTS pcl::registration::TransformationEstimationLM<T,U>;
 
 #endif /* PCL_REGISTRATION_TRANSFORMATION_ESTIMATION_LM_HPP_ */

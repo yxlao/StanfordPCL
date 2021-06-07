@@ -136,8 +136,8 @@ int SampleConsensusModel<Storage>::deleteIndices(
     //                   + indices_stencil_->size(), indices_stencil_->begin (),
     //                   DeleteIndices ());
     // typename Indices::iterator last = thrust::remove_copy
-    // (indices_stencil_->begin (), indices_stencil_->end (), indices_->begin (),
-    // -1); indices_->resize (last - indices_->begin()); return
+    // (indices_stencil_->begin (), indices_stencil_->end (), indices_->begin
+    // (), -1); indices_->resize (last - indices_->begin()); return
     // (int)indices_->size();
 
     assert(indices_stencil_->size() == indices_stencil->size());

@@ -5485,7 +5485,7 @@ bool ON_Annotation2::GetTextXform(ON_RECT gdi_text_rect, int gdi_height_of_I,
     // plane_translation.m_xform[1][3] = text_offset_translation.y;
 
     //// this transform maps a point in the annotation plane to world
-    ///coordinates
+    /// coordinates
     // ON_Xform plane_to_world(1.0);
     // plane_to_world.Rotation(ON_xy_plane,ann->m_plane);
 

@@ -757,8 +757,8 @@ void pcl::IntegralImageNormalEstimation<
         // const size_t point_index_L = point_index - rect_width_4_ - 1;
         // const size_t point_index_R = point_index + rect_width_4_ + 1;
         // const size_t point_index_U = point_index - rect_height_4_ * width -
-        // 1; const size_t point_index_D = point_index + rect_height_4_ * width +
-        // 1;
+        // 1; const size_t point_index_D = point_index + rect_height_4_ * width
+        // + 1;
 
         int point_index_L_x = pos_x - rect_width_4_ - 1;
         int point_index_L_y = pos_y;
@@ -822,10 +822,10 @@ void pcl::IntegralImageNormalEstimation<
         // integral_image_depth_.getFiniteElementsCount (pos_x + 1            ,
         // pos_y - rect_height_4_, rect_width_2_, rect_height_2_); unsigned
         // count_U_z = integral_image_depth_.getFiniteElementsCount (pos_x -
-        // rect_width_4_, pos_y - rect_height_2_, rect_width_2_, rect_height_2_);
-        // unsigned count_D_z = integral_image_depth_.getFiniteElementsCount
-        // (pos_x - rect_width_4_, pos_y + 1             , rect_width_2_,
-        // rect_height_2_);
+        // rect_width_4_, pos_y - rect_height_2_, rect_width_2_,
+        // rect_height_2_); unsigned count_D_z =
+        // integral_image_depth_.getFiniteElementsCount (pos_x - rect_width_4_,
+        // pos_y + 1             , rect_width_2_, rect_height_2_);
 
         unsigned count_L_z = 0;
         unsigned count_R_z = 0;
@@ -961,16 +961,16 @@ void pcl::IntegralImageNormalEstimation<
         //  initSimple3DGradientMethod ();
 
         //// this method does not work if lots of NaNs are in the neighborhood
-        ///of the point /Eigen::Vector3d gradient_x =
-        ///integral_image_XYZ_.getFirstOrderSum (pos_x + rect_width_2_, pos_y -
-        ///rect_height_2_, 1, rect_height_) - /
-        ///integral_image_XYZ_.getFirstOrderSum (pos_x - rect_width_2_, pos_y -
-        ///rect_height_2_, 1, rect_height_);
+        /// of the point /Eigen::Vector3d gradient_x =
+        /// integral_image_XYZ_.getFirstOrderSum (pos_x + rect_width_2_, pos_y -
+        /// rect_height_2_, 1, rect_height_) - /
+        /// integral_image_XYZ_.getFirstOrderSum (pos_x - rect_width_2_, pos_y -
+        /// rect_height_2_, 1, rect_height_);
 
         ////Eigen::Vector3d gradient_y = integral_image_XYZ_.getFirstOrderSum
         ///(pos_x - rect_width_2_, pos_y + rect_height_2_, rect_width_, 1) - /
-        ///integral_image_XYZ_.getFirstOrderSum (pos_x - rect_width_2_, pos_y -
-        ///rect_height_2_, rect_width_, 1);
+        /// integral_image_XYZ_.getFirstOrderSum (pos_x - rect_width_2_, pos_y -
+        /// rect_height_2_, rect_width_, 1);
 
         // const int start_x = pos_x - rect_width_2_;
         // const int start_y = pos_y - rect_height_2_;
@@ -1018,7 +1018,7 @@ void pcl::IntegralImageNormalEstimation<
         // float nz = static_cast<float> (normal_vector [2]);
 
         ////pcl::flipNormalTowardsViewpoint (input_->points[point_index], vpx_,
-        ///vpy_, vpz_, normal_vector);
+        /// vpy_, vpz_, normal_vector);
         // pcl::flipNormalTowardsViewpoint (input_->points[point_index], vpx_,
         // vpy_, vpz_, nx, ny, nz);
         //

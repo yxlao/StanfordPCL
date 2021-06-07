@@ -701,7 +701,8 @@ bool pcl::gpu::KinfuTracker::operator()(const DepthMap &depth_raw,
         // device::integrateTsdfVolume(depths_curr_[ 0 ], intr,
         // device_volume_size, device_initial_cam_rot_inv,
         // device_initial_cam_trans, tsdf_volume_->getTsdfTruncDist(),
-        // tsdf_volume_->data(), getCyclicalBufferStructure (), depthRawScaled_);
+        // tsdf_volume_->data(), getCyclicalBufferStructure (),
+        // depthRawScaled_);
 
         /*
         Matrix3frm init_Rcam = rmats_[0]; //  [Ri|ti] - pos of camera, i.e.
@@ -826,7 +827,7 @@ bool pcl::gpu::KinfuTracker::operator()(const DepthMap &depth_raw,
         float3 cube_origin = (getCyclicalBufferStructure())->origin_metric;
 
         //~ PCL_INFO ("Raycasting with cube origin at %f, %f, %f\n",
-        //cube_origin.x, cube_origin.y, cube_origin.z);
+        // cube_origin.x, cube_origin.y, cube_origin.z);
 
         MapArr &vmap_temp = vmaps_g_prev_[0];
         MapArr &nmap_temp = nmaps_g_prev_[0];
@@ -1253,8 +1254,8 @@ bool pcl::gpu::KinfuTracker::operator()(const DepthMap &depth_raw,
     integrate = true;
     //~ if(integrate)
     //~ std::cout << "\tCamera movement since previous frame was " << (rnorm +
-    //alpha * tnorm)/2 << " integrate is set to " << integrate << std::endl; ~
-    //else ~ std::cout << "Camera movement since previous frame was " << (rnorm
+    // alpha * tnorm)/2 << " integrate is set to " << integrate << std::endl; ~
+    // else ~ std::cout << "Camera movement since previous frame was " << (rnorm
     //+ alpha * tnorm)/2 << " integrate is set to " << integrate << std::endl;
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -1539,7 +1540,7 @@ bool pcl::gpu::KinfuTracker::bdrodometry(const DepthMap &depth_raw,
         float3 cube_origin = (getCyclicalBufferStructure())->origin_metric;
 
         //~ PCL_INFO ("Raycasting with cube origin at %f, %f, %f\n",
-        //cube_origin.x, cube_origin.y, cube_origin.z);
+        // cube_origin.x, cube_origin.y, cube_origin.z);
 
         MapArr &vmap_temp = vmaps_g_prev_[0];
         MapArr &nmap_temp = nmaps_g_prev_[0];
@@ -2142,7 +2143,7 @@ bool pcl::gpu::KinfuTracker::kdtreeodometry(const DepthMap &depth_raw,
         float3 cube_origin = (getCyclicalBufferStructure())->origin_metric;
 
         //~ PCL_INFO ("Raycasting with cube origin at %f, %f, %f\n",
-        //cube_origin.x, cube_origin.y, cube_origin.z);
+        // cube_origin.x, cube_origin.y, cube_origin.z);
 
         MapArr &vmap_temp = vmaps_g_prev_[0];
         MapArr &nmap_temp = nmaps_g_prev_[0];
@@ -2283,10 +2284,10 @@ bool pcl::gpu::KinfuTracker::kdtreeodometry(const DepthMap &depth_raw,
                         // if ( ll == 0 ) {
                         //	cout << pt << endl;
                         //	cout << vmappcd->points[ pointIdxNKNSearch[ 0 ]
-                        //] << endl; 	cout << Eigen::Vector4f( cloud_curr[ i ].x,
-                        //cloud_curr[ i ].y, cloud_curr[ i ].z, 1.0f ) << endl;
-                        //	cout << vmappcd->points[ 0 ] << endl;
-                        //	cout << i << endl;
+                        //] << endl; 	cout << Eigen::Vector4f( cloud_curr[ i
+                        //].x, cloud_curr[ i ].y, cloud_curr[ i ].z, 1.0f ) <<
+                        // endl; 	cout << vmappcd->points[ 0 ] << endl; 	cout << i
+                        //<< endl;
                         //}
 
                         if (pointNKNSquaredDistance[0] <
@@ -2317,8 +2318,8 @@ bool pcl::gpu::KinfuTracker::kdtreeodometry(const DepthMap &depth_raw,
                 }
 
                 // cout << level_index << " " << ll << "-" << distThres_ <<
-                // endl; cout << A_ << endl << b_ << endl; cout << AA_ << endl <<
-                // bb_ << endl;
+                // endl; cout << A_ << endl << b_ << endl; cout << AA_ << endl
+                // << bb_ << endl;
 
                 // Eigen::Matrix<float, 6, 1> result = ( A_ + amplifier * AA_
                 // ).llt ().solve ( b_ + amplifier * bb_ ).cast<float>();
@@ -2477,7 +2478,8 @@ bool pcl::gpu::KinfuTracker::slac(const DepthMap &depth_rawraw,
         // device::integrateTsdfVolume(depths_curr_[ 0 ], intr,
         // device_volume_size, device_initial_cam_rot_inv,
         // device_initial_cam_trans, tsdf_volume_->getTsdfTruncDist(),
-        // tsdf_volume_->data(), getCyclicalBufferStructure (), depthRawScaled_);
+        // tsdf_volume_->data(), getCyclicalBufferStructure (),
+        // depthRawScaled_);
         if (global_time_ % slac_num_ == 0) {
             base_pose_cur_ = getCameraPose().matrix() * grid_.init_pose_inv_;
             base_pose_cur_inv_ = base_pose_cur_.inverse();
@@ -2735,8 +2737,8 @@ bool pcl::gpu::KinfuTracker::slac(const DepthMap &depth_rawraw,
     integrate = true;
     //~ if(integrate)
     //~ std::cout << "\tCamera movement since previous frame was " << (rnorm +
-    //alpha * tnorm)/2 << " integrate is set to " << integrate << std::endl; ~
-    //else ~ std::cout << "Camera movement since previous frame was " << (rnorm
+    // alpha * tnorm)/2 << " integrate is set to " << integrate << std::endl; ~
+    // else ~ std::cout << "Camera movement since previous frame was " << (rnorm
     //+ alpha * tnorm)/2 << " integrate is set to " << integrate << std::endl;
 
     ///////////////////////////////////////////////////////////////////////////////////////////
@@ -2835,9 +2837,9 @@ bool pcl::gpu::KinfuTracker::slac(const DepthMap &depth_rawraw,
             // fragments_.back()->index_ ); FILE * f = fopen( filename, "w" );
             // for ( int i = 0; i < cloud_ptr->points.size(); i++ ) {
             //	fprintf( f, "%.8f %.8f %.8f %.8f %.8f %.8f\n",
-            //cloud_ptr->points[ i ].x, cloud_ptr->points[ i ].y,
-            //cloud_ptr->points[ i ].z, 		normals_ptr->points[ i ].x,
-            //normals_ptr->points[ i ].y, normals_ptr->points[ i ].z );
+            // cloud_ptr->points[ i ].x, cloud_ptr->points[ i ].y,
+            // cloud_ptr->points[ i ].z, 		normals_ptr->points[ i
+            // ].x, normals_ptr->points[ i ].y, normals_ptr->points[ i ].z );
             //}
             // fclose( f );
 
@@ -2908,7 +2910,7 @@ bool pcl::gpu::KinfuTracker::slac(const DepthMap &depth_rawraw,
                 // sprintf( filename, "corres_%d_%d.txt", cor->idx0_, cor->idx1_
                 // ); FILE * f = fopen( filename, "w" ); for ( int i = 0; i <
                 // cor->corres_.size(); i++ ) { 	fprintf( f, "%d %d\n",
-                //cor->corres_[ i ].first, cor->corres_[ i ].second );
+                // cor->corres_[ i ].first, cor->corres_[ i ].second );
                 //}
                 // fclose( f );
                 // end of debug use
@@ -2922,18 +2924,19 @@ bool pcl::gpu::KinfuTracker::slac(const DepthMap &depth_rawraw,
                 // FILE * f = fopen( "reg_output.log", "w" );
                 // for ( int i = 0; i < 7; i++ ) {
                 //	fprintf( f, "%d %d %d\n", corres_[ i ]->idx0_, corres_[
-                //i ]->idx1_, 50000 ); 	fprintf( f, "%.8f %.8f %.8f %.8f\n",
-                //corres_[ i ]->trans_( 0, 0 ), corres_[ i ]->trans_( 0, 1 ),
-                //corres_[ i ]->trans_( 0, 2 ), corres_[ i ]->trans_( 0, 3 ) );
-                //	fprintf( f, "%.8f %.8f %.8f %.8f\n", corres_[ i
+                // i ]->idx1_, 50000 ); 	fprintf( f, "%.8f %.8f %.8f
+                // %.8f\n", corres_[ i ]->trans_( 0, 0 ), corres_[ i ]->trans_(
+                // 0, 1 ), corres_[ i ]->trans_( 0, 2 ), corres_[ i ]->trans_( 0,
+                // 3 ) ); 	fprintf( f, "%.8f %.8f %.8f %.8f\n", corres_[ i
                 //]->trans_( 1, 0 ), corres_[ i ]->trans_( 1, 1 ), corres_[ i
-                //]->trans_( 1, 2 ), corres_[ i ]->trans_( 1, 3 ) ); 	fprintf( f,
+                //]->trans_( 1, 2 ), corres_[ i ]->trans_( 1, 3 ) ); fprintf( f,
                 //"%.8f %.8f %.8f %.8f\n", corres_[ i ]->trans_( 2, 0 ),
-                //corres_[ i ]->trans_( 2, 1 ), corres_[ i ]->trans_( 2, 2 ),
-                //corres_[ i ]->trans_( 2, 3 ) ); 	fprintf( f, "%.8f %.8f %.8f
+                // corres_[ i ]->trans_( 2, 1 ), corres_[ i ]->trans_( 2, 2 ),
+                // corres_[ i ]->trans_( 2, 3 ) ); 	fprintf( f, "%.8f %.8f
+                // %.8f
                 //%.8f\n", corres_[ i ]->trans_( 3, 0 ), corres_[ i ]->trans_(
-                //3, 1 ), corres_[ i ]->trans_( 3, 2 ), corres_[ i ]->trans_( 3,
-                //3 ) );
+                // 3, 1 ), corres_[ i ]->trans_( 3, 2 ), corres_[ i ]->trans_(
+                // 3, 3 ) );
                 //}
                 // fclose( f );
                 boost::thread t(&KinfuTracker::OptimizeSLAC, this);
@@ -3107,11 +3110,12 @@ void pcl::gpu::KinfuTracker::OptimizeSLAC() {
 
                         // if ( score > 1 || _isnan( score ) ) {
                         //	if ( fragments[ i ]->IsValidPoint( ii ) &&
-                        //fragments[ j ]->IsValidPoint( jj ) ) { 		cout << npj <<
-                        //endl; 		cout << fragments[ j ]->points_[ jj ].n_[ 0 ] <<
-                        //endl; 		cout << fragments[ j ]->points_[ jj ].n_[ 1 ] <<
-                        //endl; 		cout << fragments[ j ]->points_[ jj ].n_[ 2 ] <<
-                        //endl; 		cout << _isnan( fragments[ j ]->points_[ jj
+                        // fragments[ j ]->IsValidPoint( jj ) ) { 		cout
+                        // << npj << endl; 		cout << fragments[ j
+                        // ]->points_[ jj ].n_[ 0 ] << endl; 		cout <<
+                        // fragments[ j ]->points_[ jj ].n_[ 1 ] << endl;
+                        // cout << fragments[ j ]->points_[ jj ].n_[ 2 ] << endl;
+                        // cout << _isnan( fragments[ j ]->points_[ jj
                         //].n_[ 0 ] ) << endl;
 
                         //	}
@@ -3206,15 +3210,17 @@ void pcl::gpu::KinfuTracker::OptimizeSLAC() {
                 // cout << ipose[ 7 ] << endl;
                 // if ( itr == 0 ) {
                 //	Eigen::MatrixXf temp = thisJJ - Eigen::MatrixXf(
-                //baseJJ.triangularView< Eigen::Upper >() ); 	cout << temp.block<
-                //10, 10 >( 0, 0 ) << endl; 	cout << temp.block< 10, 10 >( 0,
-                //2710 ) << endl; 	cout << temp.block< 10, 10 >( 2710, 2710 ) <<
-                //endl; 	cout << temp.block< 10, 10 >( matrix_size - 11,
-                //matrix_size - 11 ) << endl; 	cout << thisJJ.block< 10, 10 >( 0,
-                //0 ) << endl; 	cout << thisJJ.block< 10, 10 >( 0, 2710 ) <<
-                //endl; 	cout << thisJJ.block< 10, 10 >( 2710, 2710 ) << endl;
-                //	cout << thisJJ.block< 10, 10 >( matrix_size - 11,
-                //matrix_size - 11 ) << endl;
+                // baseJJ.triangularView< Eigen::Upper >() ); 	cout <<
+                // temp.block<
+                // 10, 10 >( 0, 0 ) << endl; 	cout << temp.block< 10, 10 >( 0,
+                // 2710 ) << endl; 	cout << temp.block< 10, 10 >( 2710, 2710
+                // ) << endl; 	cout << temp.block< 10, 10 >( matrix_size - 11,
+                // matrix_size - 11 ) << endl; 	cout << thisJJ.block< 10, 10 >(
+                // 0,
+                // 0 ) << endl; 	cout << thisJJ.block< 10, 10 >( 0, 2710 )
+                // << endl; 	cout << thisJJ.block< 10, 10 >( 2710, 2710 ) <<
+                // endl; 	cout << thisJJ.block< 10, 10 >( matrix_size - 11,
+                // matrix_size - 11 ) << endl;
                 //}
 
                 Eigen::SparseMatrix<double> thisSparseJJ = thisJJ.sparseView();
@@ -3443,7 +3449,8 @@ bool pcl::gpu::KinfuTracker::operator()(
         // device::integrateTsdfVolume(depths_curr_[ 0 ], intr,
         // device_volume_size, device_initial_cam_rot_inv,
         // device_initial_cam_trans, tsdf_volume_->getTsdfTruncDist(),
-        // tsdf_volume_->data(), getCyclicalBufferStructure (), depthRawScaled_);
+        // tsdf_volume_->data(), getCyclicalBufferStructure (),
+        // depthRawScaled_);
 
         for (int i = 0; i < LEVELS; ++i)
             device::tranformMaps(
@@ -3576,7 +3583,7 @@ bool pcl::gpu::KinfuTracker::operator()(
         float3 cube_origin = (getCyclicalBufferStructure())->origin_metric;
 
         //~ PCL_INFO ("Raycasting with cube origin at %f, %f, %f\n",
-        //cube_origin.x, cube_origin.y, cube_origin.z);
+        // cube_origin.x, cube_origin.y, cube_origin.z);
 
         MapArr &vmap_temp = vmaps_g_prev_[0];
         MapArr &nmap_temp = nmaps_g_prev_[0];
@@ -3950,7 +3957,8 @@ bool pcl::gpu::KinfuTracker::rgbdodometry(
         // device::integrateTsdfVolume(depths_curr_[ 0 ], intr,
         // device_volume_size, device_initial_cam_rot_inv,
         // device_initial_cam_trans, tsdf_volume_->getTsdfTruncDist(),
-        // tsdf_volume_->data(), getCyclicalBufferStructure (), depthRawScaled_);
+        // tsdf_volume_->data(), getCyclicalBufferStructure (),
+        // depthRawScaled_);
 
         for (int i = 0; i < LEVELS; ++i)
             device::tranformMaps(
@@ -4099,7 +4107,7 @@ bool pcl::gpu::KinfuTracker::rgbdodometry(
         float3 cube_origin = (getCyclicalBufferStructure())->origin_metric;
 
         //~ PCL_INFO ("Raycasting with cube origin at %f, %f, %f\n",
-        //cube_origin.x, cube_origin.y, cube_origin.z);
+        // cube_origin.x, cube_origin.y, cube_origin.z);
 
         MapArr &vmap_temp = vmaps_g_prev_[0];
         MapArr &nmap_temp = nmaps_g_prev_[0];

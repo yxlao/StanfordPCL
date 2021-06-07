@@ -267,8 +267,8 @@ class ON_CLASS ON_Light : public ON_Geometry {
                              // m_location+m_length
     ON_3dVector m_width;     // only for rectangular lights
                              // corners of rectangular lights are m_location,
-                         // m_location+m_length, m_location+m_width,
-                         // m_location+m_width+m_length
+                             // m_location+m_length, m_location+m_width,
+                             // m_location+m_width+m_length
 
     double m_intensity; // Linear dimming/brightening factor: 0.0 = off, 1.0 =
                         // 100%. Values < 0.0 and values > 1.0 are permitted but

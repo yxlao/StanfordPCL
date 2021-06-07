@@ -1261,7 +1261,7 @@ class ON_CLASS ON_Viewport : public ON_Geometry {
     unsigned char m_frustum_symmetry_flags; // 0 != (flags & 1) top/bottom
                                             // symmetry enforced 0 != (flags &
                                             // 2) left/right symmetry enforced.
-    ON_3dPoint m_CamLoc;  // camera location
+    ON_3dPoint m_CamLoc;                    // camera location
     ON_3dVector m_CamDir; // from camera towards view (nonzero and not parallel
                           // to m_CamUp)
     ON_3dVector m_CamUp;  // (nonzero and not parallel to m_CamDir)

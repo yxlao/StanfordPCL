@@ -216,6 +216,6 @@ void pcl::registration::TransformationEstimationSVD<PointSource, PointTarget,
 }
 
 //#define PCL_INSTANTIATE_TransformationEstimationSVD(T,U) template class
-//PCL_EXPORTS pcl::registration::TransformationEstimationSVD<T,U>;
+// PCL_EXPORTS pcl::registration::TransformationEstimationSVD<T,U>;
 
 #endif /* PCL_REGISTRATION_TRANSFORMATION_ESTIMATION_SVD_HPP_ */

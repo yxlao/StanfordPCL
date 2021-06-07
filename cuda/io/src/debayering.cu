@@ -273,8 +273,8 @@ void Debayering<Storage>::computeBilinear(
                                    bayer_image->getMetaData().DataSize()),
                  bayer_data.begin());
     //	thrust::device_vector<int> indices(bayer_image->getWidth () *
-    //bayer_image->getHeight ()); 	thrust::sequence (indices.begin(),
-    //indices.end() ); 	thrust::transform (indices.begin(),
+    // bayer_image->getHeight ()); 	thrust::sequence (indices.begin(),
+    // indices.end() ); 	thrust::transform (indices.begin(),
     //                     indices.end(),
     //                     rgb_image.begin(),
     //                     DebayerBilinear<Device> (bayer_data,

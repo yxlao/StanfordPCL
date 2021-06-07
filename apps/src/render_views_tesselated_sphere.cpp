@@ -477,8 +477,8 @@ void pcl::apps::RenderViewsTesselatedSphere::generateViews() {
                 trans_view(x, y) = float(view_transform->GetElement(x, y));
 
         // NOTE: vtk view coordinate system is different than the standard
-        // camera coordinates (z forward, y down, x right) thus, the fliping in y
-        // and z
+        // camera coordinates (z forward, y down, x right) thus, the fliping in
+        // y and z
         for (size_t i = 0; i < cloud->points.size(); i++) {
             cloud->points[i].getVector4fMap() =
                 trans_view * cloud->points[i].getVector4fMap();
@@ -501,8 +501,8 @@ void pcl::apps::RenderViewsTesselatedSphere::generateViews() {
         transOCtoCC->Concatenate(cam_tmp->GetViewTransformMatrix());
 
         // NOTE: vtk view coordinate system is different than the standard
-        // camera coordinates (z forward, y down, x right) thus, the fliping in y
-        // and z
+        // camera coordinates (z forward, y down, x right) thus, the fliping in
+        // y and z
         vtkSmartPointer<vtkMatrix4x4> cameraSTD =
             vtkSmartPointer<vtkMatrix4x4>::New();
         cameraSTD->Identity();

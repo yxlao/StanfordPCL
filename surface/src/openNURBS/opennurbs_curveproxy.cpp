@@ -938,9 +938,10 @@ int ON_CurveProxy::
 
                 // 22 September 2003, GBA.  The end tuning code below should
                 // only  be applied
-                //					to clamped nurbs curves.  In
-                //particular it should not be used on 					periodic nurbs curves.
-                //Fixes TRR#11502.
+                //					to clamped nurbs curves.
+                //In
+                // particular it should not be used on
+                // periodic nurbs curves. Fixes TRR#11502.
                 ON_BOOL32 clamped = nurbs.IsClamped(2);
                 if (clamped && (P0 != N0 || P1 != N1)) {
                     if (0 == nurbs.m_is_rat) {

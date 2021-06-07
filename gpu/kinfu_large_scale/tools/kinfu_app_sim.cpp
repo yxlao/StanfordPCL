@@ -1192,7 +1192,7 @@ struct KinFuApp {
                     Eigen::Affine3f viewer_pose =
                         getViewerPose(scene_cloud_view_.cloud_viewer_);
                     //	  image_view_.showScene (kinfu_, rgb24, registration_,
-                    //independent_camera_ ? &viewer_pose : 0);
+                    // independent_camera_ ? &viewer_pose : 0);
                     image_view_.showScene(kinfu_, rgb24_sim, registration_,
                                           independent_camera_ ? &viewer_pose
                                                               : 0);

@@ -187,13 +187,13 @@ class ON_CLASS ON_ArcCurve : public ON_Curve {
                      // specified points
         const ON_Plane * = NULL, // if not NULL, test is performed in this plane
         ON_Arc * = NULL,         // if not NULL and true is returned, then arc
-                         // parameters are filled in
-        double = 0.0 // tolerance to use when checking
+                                 // parameters are filled in
+        double = 0.0             // tolerance to use when checking
     ) const;
 
     ON_BOOL32 IsPlanar(ON_Plane * = NULL, // if not NULL and true is returned,
                                           // then plane parameters are filled in
-                       double = 0.0 // tolerance to use when checking
+                       double = 0.0       // tolerance to use when checking
     ) const;
 
     ON_BOOL32 IsInPlane(const ON_Plane &, // plane to test

@@ -2446,8 +2446,8 @@ static bool GetSPTCHelper(const ON_Mesh &mesh, const ON_TextureMapping &mapping,
             // ALB 2011.01.14
             // Added support for m_uvw in packed textures.  Even though this
             // conceptually makes very little sense, it's one of the most
-            // requested features for the texture mapping system, so I grudgingly
-            // add it.
+            // requested features for the texture mapping system, so I
+            // grudgingly add it.
             if (bHaveUVWXform) {
                 const ON_2dPoint si = mapping.m_uvw * S[i];
                 u = si.x;

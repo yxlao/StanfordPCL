@@ -225,8 +225,8 @@ void pcl::LinearLeastSquaresNormalEstimation<
                     // float f = fabs(delta) > (pz * 0.05f - 0.3f) ? 0 : 1;
                     // const float f = fabs(delta) > (pz*pz * 0.05f *
                     // max_depth_change_factor_) ? 0 : 1; float f =
-                    // Math.Abs(delta) > (depth * Math.Log(depth + 1.0) * 0.02f -
-                    // 0.2f) ? 0 : 1;
+                    // Math.Abs(delta) > (depth * Math.Log(depth + 1.0) * 0.02f
+                    // - 0.2f) ? 0 : 1;
 
                     matA0 += f * i * i;
                     matA1 += f * i * j;
@@ -266,6 +266,6 @@ void pcl::LinearLeastSquaresNormalEstimation<
 #define PCL_INSTANTIATE_LinearLeastSquaresNormalEstimation(T, NT)              \
     template class PCL_EXPORTS pcl::LinearLeastSquaresNormalEstimation<T, NT>;
 //#define LinearLeastSquaresNormalEstimation(T,NT) template class PCL_EXPORTS
-//pcl::LinearLeastSquaresNormalEstimation<T,NT>;
+// pcl::LinearLeastSquaresNormalEstimation<T,NT>;
 
 #endif

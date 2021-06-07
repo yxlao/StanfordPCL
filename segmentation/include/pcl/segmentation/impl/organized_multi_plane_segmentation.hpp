@@ -64,7 +64,7 @@ projectToPlaneFromViewpoint(pcl::PointCloud<PointT> &cloud,
     Eigen::Vector3f norm(
         normal[0], normal[1],
         normal[2]); //(region.coefficients_[0], region.coefficients_[1],
-                    //region.coefficients_[2]);
+                    // region.coefficients_[2]);
     pcl::PointCloud<PointT> projected_cloud;
     projected_cloud.resize(cloud.points.size());
     for (size_t i = 0; i < cloud.points.size(); i++) {

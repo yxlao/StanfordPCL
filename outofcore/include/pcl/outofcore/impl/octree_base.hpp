@@ -131,7 +131,7 @@ OutofcoreOctreeBase<ContainerT, PointT>::OutofcoreOctreeBase(
     }
 
     ///\todo Incorporate arbitrary optional metadata for the tree (new PCD file
-    ///type might be useful here)
+    /// type might be useful here)
     coord_system_ = coord_sys;
 
     // Get fullpath and recreate directories

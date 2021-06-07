@@ -65,7 +65,7 @@ class ON_DimStyleExtra : public ON_UserData {
     //////// 26 Oct 2010 - Changed to always create ON_DimStyleExtra
     //////static ON_DimStyleExtra* DimStyleExtension( ON_DimStyle* pDimStyle);
     //////static const ON_DimStyleExtra* DimStyleExtension( const ON_DimStyle*
-    ///pDimStyle);
+    /// pDimStyle);
 
     // 2 November 2011 Dale Lear
     //   Undoing above change.  Adding this user data is not necessary
@@ -201,18 +201,15 @@ ON_OBJECT_IMPLEMENT(ON_DimStyleExtra, ON_UserData,
                     "513FDE53-7284-4065-8601-06CEA8B28D6F");
 
 ////// 26 Oct 2010 - Lowell - Changed to always create ON_DimStyleExtra if
-///there's not one /ON_DimStyleExtra* ON_DimStyleExtra::DimStyleExtension(
-///ON_DimStyle* pDimStyle)
+/// there's not one /ON_DimStyleExtra* ON_DimStyleExtra::DimStyleExtension(
+/// ON_DimStyle* pDimStyle)
 ////{
 ////  ON_DimStyleExtra* pExtra = 0;
 ////  if( pDimStyle)
 ////  {
 ////    pExtra = ON_DimStyleExtra::Cast( pDimStyle->GetUserData(
-///ON_DimStyleExtra::m_ON_DimStyleExtra_class_id.Uuid())); /    if( pExtra == 0)
-////    {
-////      pExtra = new ON_DimStyleExtra;
-////      if( pExtra)
-////      {
+/// ON_DimStyleExtra::m_ON_DimStyleExtra_class_id.Uuid())); /    if( pExtra ==
+/// 0) /    { /      pExtra = new ON_DimStyleExtra; /      if( pExtra) /      {
 ////        if( !pDimStyle->AttachUserData( pExtra))
 ////        {
 ////          delete pExtra;

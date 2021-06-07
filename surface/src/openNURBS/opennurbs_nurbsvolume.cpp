@@ -1719,7 +1719,7 @@ bool ON_NurbsCage::ReserveKnotCapacity(int dir, int knot_capacity) {
 
 bool ON_NurbsCage::IsSingular( // true if surface side is collapsed to a point
     int                        // side
-        // // side of parameter space to test
+                               // // side of parameter space to test
         // 0 = south, 1 = east, 2 = north, 3 = west, 4 = bottom, 5 =top
 ) const {
     ON_ERROR("TODO: fill in ON_NurbsCage::IsSingular\n");

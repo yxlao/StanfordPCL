@@ -87,17 +87,17 @@ template <typename PointT, typename FlannDistance>
 int pcl::search::FlannSearch<PointT, FlannDistance>::nearestKSearch(
     const PointT &point, int k, std::vector<int> &indices,
     std::vector<float> &dists) const {
-    assert(
-        point_representation_->isValid(point) && "Invalid (NaN, Inf) point "
-                                                 "coordinates given to "
-                                                 "nearestKSearch!"); // remove
-                                                                     // this
-                                                                     // check as
-                                                                     // soon as
-                                                                     // FLANN
-                                                                     // does NaN
-                                                                     // checks
-                                                                     // internally
+    assert(point_representation_->isValid(point) &&
+           "Invalid (NaN, Inf) point "
+           "coordinates given to "
+           "nearestKSearch!"); // remove
+                               // this
+                               // check as
+                               // soon as
+                               // FLANN
+                               // does NaN
+                               // checks
+                               // internally
     bool can_cast = point_representation_->isTrivial();
 
     float *data = 0;
@@ -230,15 +230,15 @@ template <typename PointT, typename FlannDistance>
 int pcl::search::FlannSearch<PointT, FlannDistance>::radiusSearch(
     const PointT &point, double radius, std::vector<int> &indices,
     std::vector<float> &distances, unsigned int max_nn) const {
-    assert(
-        point_representation_->isValid(point) && "Invalid (NaN, Inf) point "
-                                                 "coordinates given to "
-                                                 "radiusSearch!"); // remove
-                                                                   // this check
-                                                                   // as soon as
-                                                                   // FLANN does
-                                                                   // NaN checks
-                                                                   // internally
+    assert(point_representation_->isValid(point) &&
+           "Invalid (NaN, Inf) point "
+           "coordinates given to "
+           "radiusSearch!"); // remove
+                             // this check
+                             // as soon as
+                             // FLANN does
+                             // NaN checks
+                             // internally
     bool can_cast = point_representation_->isTrivial();
 
     float *data = 0;

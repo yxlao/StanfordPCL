@@ -320,7 +320,7 @@ void OrganizedSegmentationDemo::cloud_cb(const CloudConstPtr &cloud) {
                              labels, label_indices, boundary_indices);
     } else {
         mps.segment(regions); //, model_coefficients, inlier_indices, labels,
-                              //label_indices, boundary_indices);
+                              // label_indices, boundary_indices);
     }
     double mps_end = pcl::getTime();
     std::cout << "MPS+Refine took: " << double(mps_end - mps_start)

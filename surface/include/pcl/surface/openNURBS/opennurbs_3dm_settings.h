@@ -278,7 +278,7 @@ class ON_CLASS ON_3dmConstructionPlane {
                                 // 2: every other is thick, ...
     bool m_bDepthBuffer;        // false=grid is always drawn behind 3d geometry
                                 // true=grid is drawn at its depth as a 3d plane
-                         // and grid lines obscure things behind the grid.
+    // and grid lines obscure things behind the grid.
 
     ON_wString m_name;
 };

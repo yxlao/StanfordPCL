@@ -449,11 +449,11 @@ typedef struct cholmod_common_struct {
     int supernodal;           /* If Common->supernodal <= CHOLMOD_SIMPLICIAL
                                * (0) then cholmod_analyze performs a
                                * simplicial analysis.  If >= CHOLMOD_SUPERNODAL (2), then
-                               * a supernodal           analysis is performed.  If == CHOLMOD_AUTO
-                               * (1) and           flop/nnz(L) < Common->supernodal_switch, then a
-                               * simplicial analysis           is done.  A supernodal analysis done
-                               * otherwise.           Default:  CHOLMOD_AUTO.  Default
-                               * supernodal_switch = 40 */
+                               * a supernodal           analysis is performed.  If ==
+                               * CHOLMOD_AUTO           (1) and           flop/nnz(L) <
+                               * Common->supernodal_switch, then a           simplicial analysis           is
+                               * done.  A supernodal analysis done           otherwise.           Default:
+                               * CHOLMOD_AUTO.  Default           supernodal_switch = 40 */
 
     int final_asis; /* If TRUE, then ignore the other final_* parameters
                      * (except for final_pack).

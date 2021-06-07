@@ -141,7 +141,8 @@ class SkylineMatrixBase : public EigenBase<Derived> {
         return derived();
     }
 
-    SkylineMatrixBase() : m_isRValue(false) { /* TODO check flags */ }
+    SkylineMatrixBase() : m_isRValue(false) { /* TODO check flags */
+    }
 
     inline Derived &operator=(const Derived &other) {
         this->operator=<Derived>(other);

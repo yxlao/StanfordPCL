@@ -174,7 +174,7 @@ void pcl::TSDFVolume<VoxelT, WeightT>::convertToTsdfCloud(
 
     int volume_idx = 0, cloud_idx = 0;
     //#pragma omp parallel for // if used, increment over idx not possible! use
-    //index calculation
+    // index calculation
     for (int z = 0; z < sz; z += step)
         for (int y = 0; y < sy; y += step)
             for (int x = 0; x < sx; x += step, ++cloud_idx) {

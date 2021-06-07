@@ -662,9 +662,9 @@ class mpreal {
     // Human friendly Debug Preview in Visual Studio.
     // Put one of these lines:
     //
-    // mpfr::mpreal=<DebugView>								; Show value
-    // only mpfr::mpreal=<DebugView>, <mp[0]._mpfr_prec,u>bits	; Show value &
-    // precision
+    // mpfr::mpreal=<DebugView>								; Show
+    // value only mpfr::mpreal=<DebugView>, <mp[0]._mpfr_prec,u>bits	; Show
+    // value & precision
     //
     // at the beginning of
     // [Visual Studio Installation Folder]\Common7\Packages\Debugger\autoexp.dat
@@ -2511,7 +2511,8 @@ inline const mpreal pow(const unsigned long int a, const unsigned long int b,
 
 inline const mpreal pow(const unsigned long int a, const unsigned int b,
                         mp_rnd_t rnd_mode) {
-    return pow(a, static_cast<unsigned long int>(b), rnd_mode); // mpfr_ui_pow_ui
+    return pow(a, static_cast<unsigned long int>(b),
+               rnd_mode); // mpfr_ui_pow_ui
 }
 
 inline const mpreal pow(const unsigned long int a, const long int b,
@@ -2545,7 +2546,8 @@ inline const mpreal pow(const unsigned long int a, const double b,
 // pow unsigned int
 inline const mpreal pow(const unsigned int a, const unsigned long int b,
                         mp_rnd_t rnd_mode) {
-    return pow(static_cast<unsigned long int>(a), b, rnd_mode); // mpfr_ui_pow_ui
+    return pow(static_cast<unsigned long int>(a), b,
+               rnd_mode); // mpfr_ui_pow_ui
 }
 
 inline const mpreal pow(const unsigned int a, const unsigned int b,

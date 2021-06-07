@@ -254,8 +254,8 @@ template <typename Derived> class SparseMatrixBase : public EigenBase<Derived> {
 
         const Index outerSize = other.outerSize();
         // typedef typename internal::conditional<transpose,
-        // LinkedVectorMatrix<Scalar,Flags&RowMajorBit>, Derived>::type TempType;
-        // thanks to shallow copies, we always eval to a tempary
+        // LinkedVectorMatrix<Scalar,Flags&RowMajorBit>, Derived>::type
+        // TempType; thanks to shallow copies, we always eval to a tempary
         Derived temp(other.rows(), other.cols());
 
         temp.reserve((std::max)(this->rows(), this->cols()) * 2);

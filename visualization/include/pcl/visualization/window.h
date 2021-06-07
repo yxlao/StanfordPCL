@@ -193,8 +193,8 @@ class PCL_EXPORTS Window {
                 return;
             int timer_id = *static_cast<int *>(call_data);
             // PCL_WARN
-            // ("[pcl::visualization::Window::ExitMainLoopTimerCallback] Timer %d
-            // called.\n", timer_id);
+            // ("[pcl::visualization::Window::ExitMainLoopTimerCallback] Timer
+            // %d called.\n", timer_id);
             if (timer_id != right_timer_id)
                 return;
             window->interactor_->TerminateApp();

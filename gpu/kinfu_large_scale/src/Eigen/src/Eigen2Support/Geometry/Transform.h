@@ -95,7 +95,7 @@ template <typename _Scalar, int _Dim> class Transform {
     template <typename OtherDerived,
               bool BigMatrix> // MSVC 2005 will commit suicide if BigMatrix has
                               // a default value
-                              struct construct_from_matrix {
+    struct construct_from_matrix {
         static inline void run(Transform *transform,
                                const MatrixBase<OtherDerived> &other) {
             transform->matrix() = other;

@@ -457,9 +457,9 @@ int ON_SearchMonotoneArray( // find a value in an increasing array
                             //           < length-1 )
                             //    length-1: t == array[length-1]
                             //      length: t >= array[length-1]
-    const double *, // array[]
-    int,            // length of array
-    double          // t = value to search for
+    const double *,         // array[]
+    int,                    // length of array
+    double                  // t = value to search for
 );
 
 /*
@@ -701,8 +701,8 @@ int ON_SolveQuadraticEquation( // solve a*X^2 + b*X + c = 0
                                //        = r1 = -c/b) -2: failure - a = 0, b  =
                                //        0 c != 0 (r0 = r1 = 0.0) -3: failure -
                                //        a = 0, b  = 0 c  = 0 (r0 = r1 = 0.0)
-    double, double, double, // a, b, c
-    double *, double *      // roots r0 and r1 returned here
+    double, double, double,    // a, b, c
+    double *, double *         // roots r0 and r1 returned here
 );
 
 ON_DECL

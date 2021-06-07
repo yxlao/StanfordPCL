@@ -221,4 +221,4 @@ void pcl::OrganizedConnectedComponentSegmentation<PointT, PointLT>::segment(
         pcl::OrganizedConnectedComponentSegmentation<T, LT>;
 
 #endif //#ifndef
-       //PCL_SEGMENTATION_IMPL_ORGANIZED_CONNECTED_COMPONENT_SEGMENTATION_H_
+       // PCL_SEGMENTATION_IMPL_ORGANIZED_CONNECTED_COMPONENT_SEGMENTATION_H_

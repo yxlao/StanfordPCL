@@ -452,7 +452,7 @@ class PCL_EXPORTS PCLPlotter {
     vtkSmartPointer<ExitCallback> exit_callback_;
 
     ////////////////////////////////////IMPORTANT PRIVATE COMPUTING
-    ///FUNCTIONS////////////////////////////////////////////////////
+    /// FUNCTIONS////////////////////////////////////////////////////
     /** \brief computes the value of the polynomial function at val
      * \param[in] p_function polynomial function
      * \param[in] value the value at which the function is to be computed

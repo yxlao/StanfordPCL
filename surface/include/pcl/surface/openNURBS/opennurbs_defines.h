@@ -467,27 +467,24 @@ class ON_CLASS ON {
         printer_pica = 21,  // 1/6 inches  (computer picas)
 
         // terrestrial distances
-        nautical_mile =
-            22, // 1852 meters
-                //    Approximately 1 minute of arc on a terrestrial great
-                //    circle. See http://en.wikipedia.org/wiki/Nautical_mile.
+        nautical_mile = 22, // 1852 meters
+        //    Approximately 1 minute of arc on a terrestrial great
+        //    circle. See http://en.wikipedia.org/wiki/Nautical_mile.
 
         // astronomical distances
-        astronomical =
-            23, // 1.4959787e+11 //
-                // http://en.wikipedia.org/wiki/Astronomical_unit 1.495979e+11
-                // // http://units.nist.gov/Pubs/SP811/appenB9.htm
-                //    An astronomical unit (au) is the mean distance from the
-                //    center of the earth to the center of the sun.
-        lightyears =
-            24, // 9.4607304725808e+15 //
-                // http://en.wikipedia.org/wiki/Light_year 9.46073e+15 meters //
-                // http://units.nist.gov/Pubs/SP811/appenB9.htm
-                //    A light year is the distance light travels in one Julian
-                //    year. The speed of light is exactly 299792458
-                //    meters/second. A Julian year is exactly 365.25 * 86400
-                //    seconds and is approximately the time it takes for one
-                //    earth orbit.
+        astronomical = 23, // 1.4959787e+11 //
+        // http://en.wikipedia.org/wiki/Astronomical_unit 1.495979e+11
+        // // http://units.nist.gov/Pubs/SP811/appenB9.htm
+        //    An astronomical unit (au) is the mean distance from the
+        //    center of the earth to the center of the sun.
+        lightyears = 24, // 9.4607304725808e+15 //
+        // http://en.wikipedia.org/wiki/Light_year 9.46073e+15 meters //
+        // http://units.nist.gov/Pubs/SP811/appenB9.htm
+        //    A light year is the distance light travels in one Julian
+        //    year. The speed of light is exactly 299792458
+        //    meters/second. A Julian year is exactly 365.25 * 86400
+        //    seconds and is approximately the time it takes for one
+        //    earth orbit.
         parsecs = 25, // 3.08567758e+16  // http://en.wikipedia.org/wiki/Parsec
                       // 3.085678e+16    //
                       // http://units.nist.gov/Pubs/SP811/appenB9.htm

@@ -676,7 +676,7 @@ template <typename PointT>
 void OutofcoreOctreeDiskContainer<PointT>::insertRange(const PointT *start,
                                                        const uint64_t count) {
     ///\todo standardize the interface for writing points to disk with this
-    ///class; this method may not work properly \todo deprecate this method
+    /// class; this method may not work properly \todo deprecate this method
 
     // variables which ultimately need to be global
     int outofcore_v = 3;

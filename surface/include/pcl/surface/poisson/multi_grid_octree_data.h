@@ -394,8 +394,8 @@ template <int Degree> class Octree {
 
     // int setTree(char* fileName,const int& maxDepth,const int& binary,const
     // int& kernelDepth,const Real& samplesPerNode, 	const Real&
-    //scaleFactor,Point3D<Real>& center,Real& scale,const int&
-    //resetSampleDepths,const int& useConfidence);
+    // scaleFactor,Point3D<Real>& center,Real& scale,const int&
+    // resetSampleDepths,const int& useConfidence);
 
     template <typename PointNT>
     int setTree(boost::shared_ptr<const pcl::PointCloud<PointNT>> input_,

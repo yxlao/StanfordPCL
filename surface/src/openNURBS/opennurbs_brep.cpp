@@ -9834,8 +9834,8 @@ void ON_Brep::StandardizeEdgeCurves(bool bAdjustEnds) {
     int ei, edge_count = m_E.Count();
 
     // chuck - 10/13/2008.  The edge curve use counter called in
-    // StandardizeEdgeCurves(int,bool) searches through the entire edge array. In
-    // huge breps, this takes a long time.
+    // StandardizeEdgeCurves(int,bool) searches through the entire edge array.
+    // In huge breps, this takes a long time.
     int *index = (int *)onmalloc(edge_count * sizeof(int));
     m_E.Sort(ON::quick_sort, index, sort_ci);
 

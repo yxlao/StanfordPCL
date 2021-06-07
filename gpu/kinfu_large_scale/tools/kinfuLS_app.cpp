@@ -1046,7 +1046,7 @@ struct KinFuLSApp {
         //~ float fx, fy, cx, cy;
         //~ boost::shared_ptr<openni_wrapper::OpenNIDevice> d =
         //((pcl::OpenNIGrabber)source).getDevice (); ~
-        //kinfu_->getDepthIntrinsics (fx, fy, cx, cy);
+        // kinfu_->getDepthIntrinsics (fx, fy, cx, cy);
 
         float height = 480.0f;
         float width = 640.0f;
@@ -1472,8 +1472,8 @@ struct KinFuLSApp {
             // (edge.frame_i_), processing finished.
             //// move on to the next index_
             //// if frame_j_ remains, seek to (newedge.frame_i_ - rate_ + 1) ---
-            ///note that sometimes seek is not needed / otherwise, reset, seek
-            ///to (newedge.frame_j_ - rate_ + 1)
+            /// note that sometimes seek is not needed / otherwise, reset, seek
+            /// to (newedge.frame_j_ - rate_ + 1)
             int js = edge.frame_j_ - fragment_rate_ + 1;
             int je = edge.frame_j_;
             int is = edge.frame_i_ - fragment_rate_ + 1;
@@ -1758,8 +1758,8 @@ struct KinFuLSApp {
             //	ifile.read( buf, 512 * 512 * 512 * sizeof( int ) );
             //	ifile.close();
             //	kinfu_->volume().data().upload( buf,
-            //kinfu_->volume().data().cols() * sizeof(int),
-            //kinfu_->volume().data().rows(), kinfu_->volume().data().cols() );
+            // kinfu_->volume().data().cols() * sizeof(int),
+            // kinfu_->volume().data().rows(), kinfu_->volume().data().cols() );
             //	delete []buf;
             //}
 
@@ -2625,7 +2625,7 @@ struct KinFuLSApp {
         cout << "    7,8  : save mesh to PLY, VTK" << endl;
         cout << "   X, V  : TSDF volume utility" << endl;
         // cout << "   L, l  : On the next shift, KinFu will extract the whole
-        // current cube, extract the world and stop" << endl; cout << "   S, s  :
+        // current cube, extract the world and stop" << endl; cout << "   S, s :
         // On the next shift, KinFu will extract the world and stop" << endl;
         cout << endl;
     }
@@ -3286,7 +3286,7 @@ int main(int argc, char *argv[]) {
     //~ cout << "Saving depth map of first view." << endl;
     //~ cv::imwrite ("./depthmap_1stview.png", app.image_view_.views_[0]);
     //~ cout << "Saving sequence of (" << app.image_view_.views_.size () << ")
-    //views." << endl; ~ } ~ char buf[4096]; ~ sprintf (buf, "./%06d.png",
+    // views." << endl; ~ } ~ char buf[4096]; ~ sprintf (buf, "./%06d.png",
     //(int)t); ~ cv::imwrite (buf, app.image_view_.views_[t]); ~ printf
     //("writing: %s\n", buf); ~ } ~ #endif
     std::cout << "pcl_kinfu_largeScale exiting\n";
