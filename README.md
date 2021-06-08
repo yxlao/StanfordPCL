@@ -1,8 +1,96 @@
 # StanfordPCL
 
-Fork of Qianyi's StanfordPCL to work on Ubuntu 18.04 + CUDA 11.
+Fork of Qianyi's StanfordPCL for Ubuntu 18.04 + CUDA 11.
 
-## Formatting
+- Source code change: [be0e43b](https://github.com/yxlao/StanfordPCL/commit/be0e43bac806d0c0d372f7b945acb98f41cc33e7)
+- Build system change: [1a09956](https://github.com/yxlao/StanfordPCL/commit/1a09956200712882e17449e08dc357e6c2011af5)
+
+## Environment
+
+- Ubuntu 18.04
+- CUDA 11.0
+- gcc/g++ 7.5
+- gcc/g++ 4.8
+- CMake 3.20
+
+## Dependencies
+
+Dependencies are built automatically within the `deps` folder, so that it won't
+pollute your system environment. One exception is OpenNI, where we'll install
+by `apt-get`.
+
+Here's the list of dependencies:
+
+- Boost
+  - `1.50.0`: download the zip file from official website, the tar file does not
+    contain build scripts
+  - requires `toolset=gcc-4.8`
+- Eigen
+  - `3.0.0`: https://gitlab.com/libeigen/eigen/-/archive/3.0.4/eigen-3.0.4.zip
+- Flann
+  - `1.8.0`: https://github.com/flann-lib/flann/releases/tag/1.8.0-src
+  - modified
+    - fix cmake target with no source file to support newer cmake
+- OpenCV
+  - `2.3.1`: https://github.com/opencv/opencv/archive/refs/tags/2.3.1.tar.gz
+- OpenNI
+  - `1.5.4`: installed with `apt-get`
+- SuiteSparse
+  - `5.10.1`: https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/refs/tags/v5.10.1.tar.gz
+- VTK
+  - `v5.6.1`: https://github.com/Kitware/VTK/archive/refs/tags/v5.6.1.zip
+  - modified
+    - added `#include <cstddef>` patch
+    - requires gcc 4.8
+
+## Build instructions
+
+```bash
+# Dependencies for SuiteSparse
+sudo apt-get install libmpc-dev liblapack-dev libopenblas-dev
+
+# Dependencies
+sudo apt install libopenni-dev
+
+# Build dependencies
+cd deps
+mkdir build
+cd build
+cmake ..
+make -j$(nproc)
+cd ../..
+
+# Build main library
+mkdir build
+cd build
+cmake ..
+make pcl_kinfu_largeScale -j$(nproc)
+./bin/pcl_kinfu_largeScale
+```
+
+## Running the example
+
+```bash
+# Download an example .oni file
+# Checkout http://redwood-data.org/indoor/tutorial.html for more data
+cd sandbox
+wget https://github.com/yxlao/StanfordPCL/releases/download/oni-files/input.oni
+wget https://github.com/yxlao/StanfordPCL/releases/download/oni-files/longrange.param
+cd ..
+
+cd build
+./bin/pcl_kinfu_largeScale -r -ic -sd 10 -oni ../sandbox/input.oni -vs 4 --fragment 25 --rgbd_odometry --record_log 100-0.log --camera ../sandbox/longrange.param
+```
+
+If everything goes correctly, you shall see:
+
+![kinfu_large_scale.png](kinfu_large_scale.png)
+
+## Additional notes: formatting
+
+This repo has been formatted with the following commands. This is doe to cleanly
+show what have been modified. Check out the commit history for the list of
+changes after formatting.
 
 ```bash
 # CRLF to LF
@@ -19,6 +107,32 @@ find 2d 3rdparty apps cmake common cuda doc examples features filters geometry \
     surface test tools tracking visualization \
     -iname *.h -o -iname *.cpp -o -iname *.cc -o -iname *.cu -o -iname *.hpp -o -iname *.cuh | xargs clang-format-10 -i
 ```
+
+## Additional notes: OpenNI manual configuration
+
+If for some reason, you have to build OpenNI from source, here's how to do it:
+
+```bash
+# Get https://github.com/yxlao/OpenNI.git, branch ubuntu
+# Fixed: `equivalent -> is_equivalent` to support newer compiler
+cd Platform/Linux/Build
+cd ../../../
+make -j6
+
+cd Platform/Linux/CreateRedist
+./RedistMaker
+cd ../../../
+
+cd Platform/Linux/Redist/OpenNI-Bin-Dev-Linux-x64-v1.x.x.
+sudo ./install.sh
+sudo ./install.sh -u  # To uninstall
+```
+
+Typically we install OpenNI in the system level, rather than giving it a custom
+install prefix due to its hard-coded config file paths. For instance, it assumes
+a config file `/var/lib/ni/modules.xml`
+
+## Original notes
 
 ```txt
 ===============================================================================
