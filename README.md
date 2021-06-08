@@ -2,8 +2,8 @@
 
 Fork of Qianyi's StanfordPCL for Ubuntu 18.04 + CUDA 11.
 
-- Source code change: [be0e43b](https://github.com/yxlao/StanfordPCL/commit/be0e43bac806d0c0d372f7b945acb98f41cc33e7)
-- Build system change: [1a09956](https://github.com/yxlao/StanfordPCL/commit/1a09956200712882e17449e08dc357e6c2011af5)
+- Build system change: [9893fa8](https://github.com/yxlao/StanfordPCL/commit/9893fa80d0a593183bab41a29fc476405b525789)
+- Source code change: [8b07f1c](https://github.com/yxlao/StanfordPCL/commit/8b07f1c2cc0a7e97c67fa602c3fa8033134e251a)
 
 ## Environment
 
