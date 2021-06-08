@@ -21,7 +21,10 @@ mark_as_advanced("BUILD_${SUBSYS_NAME}")
 
 if (build)
 	# Include config instead of doing find_package(OpenCV).
-	include(${PROJECT_SOURCE_DIR}/deps/build/install/share/OpenCV/OpenCVConfig.cmake)
+	include(${PCL_DEPS_INSTALL_PREFIX}/share/OpenCV/OpenCVConfig.cmake)
+	if (NOT OpenCV_INCLUDE_DIRS)
+		message(FATAL_ERROR "OpenCV_INCLUDE_DIRS: ${OpenCV_INCLUDE_DIRS}")
+	endif()
 	include_directories(${OpenCV_INCLUDE_DIRS})
 
 	find_package(SuiteSparse REQUIRED)

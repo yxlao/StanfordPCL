@@ -264,6 +264,12 @@ if (NOT CSPARSE_FOUND)
   message(FATAL_ERROR "CSPARSE_FOUND: ${CSPARSE_FOUND}")
 endif()
 
+# OpenCV only used in kinfu_large_scale, check import here
+include(${PCL_DEPS_INSTALL_PREFIX}/share/OpenCV/OpenCVConfig.cmake)
+if (NOT OpenCV_INCLUDE_DIRS)
+  message(FATAL_ERROR "OpenCV_INCLUDE_DIRS: ${OpenCV_INCLUDE_DIRS}")
+endif()
+
 # libusb-1.0
 find_package(libusb-1.0)
 if(LIBUSB_1_FOUND)
