@@ -47,7 +47,7 @@ fixed > world.pcd write exception on windows fixed on new trunk version
 #define _CRT_SECURE_NO_DEPRECATE
 
 #include <iostream>
-#include <hash_map>
+#include <unordered_map>
 
 #include <XnLog.h>
 #include <pcl/console/parse.h>
@@ -113,7 +113,6 @@ typedef pcl::ScopeTime ScopeTimeT;
     }
 
 using namespace std;
-using namespace stdext;
 using namespace pcl;
 using namespace pcl::gpu;
 using namespace Eigen;
@@ -1940,7 +1939,7 @@ struct KinFuLSApp {
                         } else {
                             int i = frame_id_ - 1;
                             vector<int> &prev = next_pointers_[i];
-                            hash_map<int, Matrix4f>::const_iterator it;
+                            unordered_map<int, Matrix4f>::const_iterator it;
                             for (int k = 0; k < prev.size(); k++) {
                                 it = schedule_matrices_.find(prev[k]);
                                 if (it != schedule_matrices_.end()) {
@@ -2396,7 +2395,7 @@ struct KinFuLSApp {
         {
             // std::cout << "Giving colors1\n";
             boost::mutex::scoped_try_lock lock(data_ready_mutex_);
-            std::cout << lock << std::endl;
+            // std::cout << lock << std::endl;
             if (exit_ || !lock)
                 return;
             // std::cout << "Giving colors2\n";
@@ -2665,7 +2664,7 @@ struct KinFuLSApp {
     bool use_schedule_;
     RGBDTrajectory schedule_traj_;
     vector<vector<int>> next_pointers_;
-    hash_map<int, Matrix4f> schedule_matrices_;
+    unordered_map<int, Matrix4f> schedule_matrices_;
 
     int fragment_rate_;
     int fragment_start_;

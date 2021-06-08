@@ -413,8 +413,7 @@ void pcl::WorldModel<PointT>::getWorldAsCubes(
                     pcl::PointCloud<pcl::PointXYZI> *pbox =
                         reinterpret_cast<pcl::PointCloud<pcl::PointXYZI> *>(
                             ppbox);
-                    pcl::gpu::StandaloneMarchingCubes<PointT>::MeshPtr tmp =
-                        mcubes.getMeshFromTSDFCloud(*pbox);
+                    auto tmp = mcubes.getMeshFromTSDFCloud(*pbox);
                     float cell_size = mcubes.getCellSize();
 
                     if (tmp != 0) {

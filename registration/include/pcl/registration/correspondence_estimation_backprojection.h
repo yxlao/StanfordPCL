@@ -156,7 +156,9 @@ class CorrespondenceEstimationBackProjection
      * point cloud for computing correspondences. By default we use k = 10
      * nearest neighbors.
      */
-    inline void getKSearch() const { return (k_); }
+    inline void getKSearch() const {
+        // return (k_);
+    }
 
     /** \brief Return true if the source normals are needed for correspondence
      * estimation. */

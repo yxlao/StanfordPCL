@@ -132,7 +132,7 @@ struct Warp_appNearestSearch {
     __device__ __forceinline__ void processNode(int node_idx) {
         __shared__ volatile int per_warp_buffer[KernelPolicy::WARPS_COUNT];
 
-        int mask = __ballot(node_idx != -1);
+        int mask = __ballot_sync(0xffffffff, node_idx != -1);
 
         while (mask) {
             unsigned int laneId = Warp::laneId();
@@ -255,7 +255,7 @@ __global__ void KernelAN(const Batch batch) {
 
     bool active = query_index < batch.queries_num;
 
-    if (__all(active == false))
+    if (__all_sync(0xffffffff, active == false))
         return;
 
     Warp_appNearestSearch search(batch, query_index);

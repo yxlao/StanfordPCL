@@ -1337,8 +1337,8 @@ cv::Mat pcl::gpu::KinfuTracker::bdrodometry_interpmax(cv::Mat depth) {
                 }
             } else {
                 if (result.at<float>(i, j) > 0.0f) {
-                    float x = __max(result.at<float>(i, j),
-                                    result.at<float>(i, marker));
+                    float x = std::max(result.at<float>(i, j),
+                                       result.at<float>(i, marker));
                     for (int k = marker + 1; k < j; k++) {
                         result.at<float>(i, k) = x;
                     }
@@ -3105,13 +3105,13 @@ void pcl::gpu::KinfuTracker::OptimizeSLAC() {
                         b = diff.dot(npi);
                         score += b * b;
 
-                        // if ( score > 1 || _isnan( score ) ) {
+                        // if ( score > 1 || __isnan( score ) ) {
                         //	if ( fragments[ i ]->IsValidPoint( ii ) &&
                         //fragments[ j ]->IsValidPoint( jj ) ) { 		cout << npj <<
                         //endl; 		cout << fragments[ j ]->points_[ jj ].n_[ 0 ] <<
                         //endl; 		cout << fragments[ j ]->points_[ jj ].n_[ 1 ] <<
                         //endl; 		cout << fragments[ j ]->points_[ jj ].n_[ 2 ] <<
-                        //endl; 		cout << _isnan( fragments[ j ]->points_[ jj
+                        //endl; 		cout << __isnan( fragments[ j ]->points_[ jj
                         //].n_[ 0 ] ) << endl;
 
                         //	}

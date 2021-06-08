@@ -31,11 +31,9 @@
  *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *  POSSIBILITY OF SUCH DAMAGE.
  *
- * $Id: disparity_to_cloud.cu 4203 2012-02-02 09:53:55Z nerei $
+ * $Id$
  *
  */
-
-#define PCL_CUDA_IO
 
 #include "pcl/cuda/io/disparity_to_cloud.h"
 #include "pcl/cuda/io/debayering.h"
@@ -95,10 +93,9 @@ PointXYZRGB ComputeXYZRGB::operator()(const Tuple &t) {
 
 //////////////////////////////////////////////////////////////////////////
 // void
-// DisparityToCloud::compute (const sensor_msgs::Image::ConstPtr &depth_image,
-//                                     const sensor_msgs::Image::ConstPtr
-//                                     &rgb_image, const
-//                                     sensor_msgs::CameraInfo::ConstPtr &info,
+// DisparityToCloud::compute (const pcl::PCLImage::ConstPtr &depth_image,
+//                                     const pcl::PCLImage::ConstPtr &rgb_image,
+//                                     const pcl::CameraInfo::ConstPtr &info,
 //                                     PointCloudAOS<Device>::Ptr &output)
 //{
 //  if (!output)
@@ -157,10 +154,9 @@ PointXYZRGB ComputeXYZRGB::operator()(const Tuple &t) {
 //
 ////////////////////////////////////////////////////////////////////////////
 // void
-// DisparityToCloud::compute (const sensor_msgs::Image::ConstPtr &depth_image,
-//                                     const sensor_msgs::Image::ConstPtr
-//                                     &rgb_image, const
-//                                     sensor_msgs::CameraInfo::ConstPtr &info,
+// DisparityToCloud::compute (const pcl::PCLImage::ConstPtr &depth_image,
+//                                     const pcl::PCLImage::ConstPtr &rgb_image,
+//                                     const pcl::CameraInfo::ConstPtr &info,
 //                                     PointCloudAOS<Host>::Ptr &output)
 //{
 //  if (!output)
@@ -190,7 +186,7 @@ void save_pgm(const T *depth, std::string filename, int w, int h) {
 
 //////////////////////////////////////////////////////////////////////////
 template <template <typename> class Storage>
-void DisparityToCloud::compute(const boost::uint16_t *depth_image,
+void DisparityToCloud::compute(const std::uint16_t *depth_image,
                                const OpenNIRGB *rgb_image, int width,
                                int height, float constant,
                                typename PointCloudAOS<Storage>::Ptr &output,
@@ -266,8 +262,8 @@ void DisparityToCloud::compute(const boost::uint16_t *depth_image,
 //////////////////////////////////////////////////////////////////////////
 template <template <typename> class Storage>
 void DisparityToCloud::compute(
-    const boost::shared_ptr<openni_wrapper::DepthImage> &depth_image,
-    const boost::shared_ptr<openni_wrapper::Image> &rgb_image, float constant,
+    const openni_wrapper::DepthImage::Ptr &depth_image,
+    const openni_wrapper::Image::Ptr &rgb_image, float constant,
     typename PointCloudAOS<Storage>::Ptr &output, bool downsample, int stride,
     int smoothing_nr_iterations, int smoothing_filter_size) {
     if (!output)
@@ -463,9 +459,9 @@ void DisparityToCloud::compute(
 
 //////////////////////////////////////////////////////////////////////////
 /*void
-DisparityToCloud::compute (const boost::shared_ptr<openni_wrapper::DepthImage>&
-depth_image, const boost::shared_ptr<openni_wrapper::Image>& rgb_image, float
-constant, PointCloudAOS<Host>::Ptr &output)
+DisparityToCloud::compute (const openni_wrapper::DepthImage::Ptr& depth_image,
+                                     const openni_wrapper::Image::Ptr&
+rgb_image, float constant, PointCloudAOS<Host>::Ptr &output)
 {
   if (!output)
     output.reset (new PointCloudAOS<Host>);
@@ -477,22 +473,21 @@ constant, PointCloudAOS<Host>::Ptr &output)
 
 //////////////////////////////////////////////////////////////////////////
 // void
-// DisparityToCloud::compute (const sensor_msgs::Image::ConstPtr &depth_image,
-//                                     const sensor_msgs::CameraInfo::ConstPtr
-//                                     &info, PointCloudAOS<Device>::Ptr
-//                                     &output)
+// DisparityToCloud::compute (const pcl::PCLImage::ConstPtr &depth_image,
+//                                     const pcl::CameraInfo::ConstPtr &info,
+//                                     PointCloudAOS<Device>::Ptr &output)
 //{
 //  if (!output)
 //    output.reset (new PointCloudAOS<Device>);
 //
-//  compute (depth_image, sensor_msgs::Image::ConstPtr(), info, output);
+//  compute (depth_image, pcl::PCLImage::ConstPtr(), info, output);
 //}
 //
 ////////////////////////////////////////////////////////////////////////////
 // void
-// DisparityToCloud::compute (const sensor_msgs::Image::ConstPtr &depth_image,
-//                                     const sensor_msgs::CameraInfo::ConstPtr
-//                                     &info, PointCloudAOS<Host>::Ptr &output)
+// DisparityToCloud::compute (const pcl::PCLImage::ConstPtr &depth_image,
+//                                     const pcl::CameraInfo::ConstPtr &info,
+//                                     PointCloudAOS<Host>::Ptr &output)
 //{
 //  if (!output)
 //    output.reset (new PointCloudAOS<Host>);
@@ -504,46 +499,44 @@ constant, PointCloudAOS<Host>::Ptr &output)
 
 //////////////////////////////////////////////////////////////////////////
 void DisparityToCloud::compute(
-    const boost::shared_ptr<openni_wrapper::DepthImage> &depth_image,
-    float constant, PointCloudAOS<Device>::Ptr &output) {
+    const openni_wrapper::DepthImage::Ptr &depth_image, float constant,
+    PointCloudAOS<Device>::Ptr &output) {
     if (!output)
         output.reset(new PointCloudAOS<Device>);
 
-    compute<Device>(depth_image, boost::shared_ptr<openni_wrapper::Image>(),
-                    constant, output, false);
+    compute<Device>(depth_image, openni_wrapper::Image::Ptr(), constant, output,
+                    false);
 }
 
 //////////////////////////////////////////////////////////////////////////
 void DisparityToCloud::compute(
-    const boost::shared_ptr<openni_wrapper::DepthImage> &depth_image,
-    float constant, PointCloudAOS<Host>::Ptr &output) {
+    const openni_wrapper::DepthImage::Ptr &depth_image, float constant,
+    PointCloudAOS<Host>::Ptr &output) {
     if (!output)
         output.reset(new PointCloudAOS<Host>);
 
-    compute<Host>(depth_image, boost::shared_ptr<openni_wrapper::Image>(),
-                  constant, output, false);
+    compute<Host>(depth_image, openni_wrapper::Image::Ptr(), constant, output,
+                  false);
     // PointCloudAOS<Device>::Ptr data;
     // compute (depth_image, constant, data);
     //*output << *data;
 }
 
 template PCL_EXPORTS void DisparityToCloud::compute<Host>(
-    const boost::shared_ptr<openni_wrapper::DepthImage> &depth_image,
-    const boost::shared_ptr<openni_wrapper::Image> &rgb_image, float constant,
+    const openni_wrapper::DepthImage::Ptr &depth_image,
+    const openni_wrapper::Image::Ptr &rgb_image, float constant,
     PointCloudAOS<Host>::Ptr &output, bool downsample, int stride, int, int);
 template PCL_EXPORTS void DisparityToCloud::compute<Device>(
-    const boost::shared_ptr<openni_wrapper::DepthImage> &depth_image,
-    const boost::shared_ptr<openni_wrapper::Image> &rgb_image, float constant,
+    const openni_wrapper::DepthImage::Ptr &depth_image,
+    const openni_wrapper::Image::Ptr &rgb_image, float constant,
     PointCloudAOS<Device>::Ptr &output, bool downsample, int stridem, int, int);
 template PCL_EXPORTS void DisparityToCloud::compute<Host>(
-    const boost::uint16_t *depth_image, const OpenNIRGB *rgb_image, int width,
+    const std::uint16_t *depth_image, const OpenNIRGB *rgb_image, int width,
     int height, float constant, typename PointCloudAOS<Host>::Ptr &output,
     int smoothing_nr_iterations, int smoothing_filter_size);
 template PCL_EXPORTS void DisparityToCloud::compute<Device>(
-    const boost::uint16_t *depth_image, const OpenNIRGB *rgb_image, int width,
+    const std::uint16_t *depth_image, const OpenNIRGB *rgb_image, int width,
     int height, float constant, typename PointCloudAOS<Device>::Ptr &output,
     int smoothing_nr_iterations, int smoothing_filter_size);
 } // namespace cuda
 } // namespace pcl
-
-#undef PCL_CUDA_IO
