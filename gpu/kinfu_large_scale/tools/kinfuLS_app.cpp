@@ -2930,117 +2930,51 @@ void writePoligonMeshFile(int format, const pcl::PolygonMesh &mesh,
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int print_cli_help() {
+    // clang-format off
     cout << "\nKinFu parameters:" << endl;
-    cout << "    --help, -h                          : print this message"
-         << endl;
-    cout << "    --verbose                           : print driver information"
-         << endl;
-    cout << "    --registration, -r                  : try to enable "
-            "registration (source needs to support this)"
-         << endl;
-    cout << "    --current-cloud, -cc                : show current frame cloud"
-         << endl;
-    cout << "    --save-views, -sv                   : accumulate scene view "
-            "and save in the end ( Requires OpenCV. Will cause 'bad_alloc' "
-            "after some time )"
-         << endl;
-    cout << "    --registration, -r                  : enable registration mode"
-         << endl;
-    cout << "    --integrate-colors, -ic             : enable color "
-            "integration mode (allows to get cloud with colors)"
-         << endl;
-    cout << "    --extract-textures, -et             : extract RGB PNG images "
-            "to KinFuSnapshots folder."
-         << endl;
-    cout << "    --volume_size <in_meters>, -vs      : define integration "
-            "volume size"
-         << endl;
-    cout << "    --shifting_distance <in_meters>, -sd : define shifting "
-            "threshold (distance target-point / cube center)"
-         << endl;
-    cout << "    --snapshot_rate <X_frames>, -sr     : Extract RGB textures "
-            "every <X_frames>. Default: 45  "
-         << endl;
-    cout << "    --integration_trunc <in_meters>     : truncation distance for "
-            "integration"
-         << endl;
-    cout << "    --record                            : record the stream to "
-            ".oni file"
-         << endl;
-    cout << "    --record_script                     : record playback script "
-            "file"
-         << endl;
-    cout << "    --play_script <script file>         : playback script file"
-         << endl;
-    cout << "    --use_rgbdslam <log file>           : use rgbdslam estimation"
-         << endl;
-    cout << "    --fragment <X_frames>               : fragments the stream "
-            "every <X_frames>"
-         << endl;
-    cout << "    --fragment_start <X_frames>         : fragments start from "
-            "<X_frames>"
-         << endl;
-    cout << "    --record_log <log_file>             : record transformation "
-            "log file"
-         << endl;
-    cout << "    --graph_registration <graph file>   : register the fragments "
-            "in the file"
-         << endl;
-    cout << "    --schedule <schedule file>          : schedule Kinfu "
-            "processing from the file"
-         << endl;
-    cout << "    --seek_start <X_frames>              : start from X_frames"
-         << endl;
-    cout << "    --kinfu_image                       : record kinfu images to "
-            "image folder"
-         << endl;
-    cout << "    --world                             : turn on world.pcd "
-            "extraction"
-         << endl;
-    cout << "    --bbox <bbox file>                  : turn on bbox, used with "
-            "--rgbdslam"
-         << endl;
-    cout << "    --mask <x1,x2,y1,y2>                : trunc the depth image "
-            "with a window"
-         << endl;
-    cout << "    --camera <param_file>               : launch parameters from "
-            "the file"
-         << endl;
-    cout << "    --slac <slac_num>                   : enable slac (0x40 flag "
-            "in schedule)"
-         << endl;
-    cout << "    --kintinuous                        : turn on kintinuous"
-         << endl;
-    cout << "    --rgbd_odometry                     : turn on rgbd odometry "
-            "(overwrite kintinuous)"
-         << endl;
-    cout << "    --bdr_odometry                      : turn on new boundary "
-            "odometry"
-         << endl;
-    cout << "    --kdtree_odometry                   : turn on kdtree odometry "
-            "(experimental use)"
-         << endl;
+    cout << "    --help, -h                          : print this message" << endl;
+    cout << "    --verbose                           : print driver information" << endl;
+    cout << "    --registration, -r                  : try to enable registration (source needs to support this)" << endl;
+    cout << "    --current-cloud, -cc                : show current frame cloud" << endl;
+    cout << "    --save-views, -sv                   : accumulate scene view and save in the end ( Requires OpenCV. Will cause 'bad_alloc' after some time )" << endl;
+    cout << "    --registration, -r                  : enable registration mode" << endl;
+    cout << "    --integrate-colors, -ic             : enable color integration mode (allows to get cloud with colors)" << endl;
+    cout << "    --extract-textures, -et             : extract RGB PNG images to KinFuSnapshots folder." << endl;
+    cout << "    --volume_size <in_meters>, -vs      : define integration volume size" << endl;
+    cout << "    --shifting_distance <in_meters>, -sd : define shifting threshold (distance target-point / cube center)" << endl;
+    cout << "    --snapshot_rate <X_frames>, -sr     : Extract RGB textures every <X_frames>. Default: 45  " << endl;
+    cout << "    --integration_trunc <in_meters>     : truncation distance for integration" << endl;
+    cout << "    --record                            : record the stream to .oni file" << endl;
+    cout << "    --record_script                     : record playback script file" << endl;
+    cout << "    --play_script <script file>         : playback script file" << endl;
+    cout << "    --use_rgbdslam <log file>           : use rgbdslam estimation" << endl;
+    cout << "    --fragment <X_frames>               : fragments the stream every <X_frames>" << endl;
+    cout << "    --fragment_start <X_frames>         : fragments start from <X_frames>" << endl;
+    cout << "    --record_log <log_file>             : record transformation log file" << endl;
+    cout << "    --graph_registration <graph file>   : register the fragments in the file" << endl;
+    cout << "    --schedule <schedule file>          : schedule Kinfu processing from the file" << endl;
+    cout << "    --seek_start <X_frames>              : start from X_frames" << endl;
+    cout << "    --kinfu_image                       : record kinfu images to image folder" << endl;
+    cout << "    --world                             : turn on world.pcd extraction" << endl;
+    cout << "    --bbox <bbox file>                  : turn on bbox, used with --rgbdslam" << endl;
+    cout << "    --mask <x1,x2,y1,y2>                : trunc the depth image with a window" << endl;
+    cout << "    --camera <param_file>               : launch parameters from the file" << endl;
+    cout << "    --slac <slac_num>                   : enable slac (0x40 flag in schedule)" << endl;
+    cout << "    --kintinuous                        : turn on kintinuous" << endl;
+    cout << "    --rgbd_odometry                     : turn on rgbd odometry (overwrite kintinuous)" << endl;
+    cout << "    --bdr_odometry                      : turn on new boundary odometry" << endl;
+    cout << "    --kdtree_odometry                   : turn on kdtree odometry (experimental use)" << endl;
     cout << "    --bdr_amplifier <amp>               : default : 4" << endl;
-    cout << "    --shift_x <in_meters>               : initial shift along x "
-            "axis"
-         << endl;
-    cout << "    --shift_y <in_meters>               : initial shift along y "
-            "axis"
-         << endl;
-    cout << "    --shift_z <in_meters>               : initial shift along z "
-            "axis"
-         << endl;
+    cout << "    --shift_x <in_meters>               : initial shift along x axis" << endl;
+    cout << "    --shift_y <in_meters>               : initial shift along y axis" << endl;
+    cout << "    --shift_z <in_meters>               : initial shift along z axis" << endl;
     cout << endl << "";
     cout << "Valid depth data sources:" << endl;
-    cout << "    -dev <device> (default), -oni <oni_file>, -pcd <pcd_file or "
-            "directory>"
-         << endl;
+    cout << "    -dev <device> (default), -oni <oni_file>, -pcd <pcd_file or directory>" << endl;
     cout << endl << "";
     cout << " For RGBD benchmark (Requires OpenCV):" << endl;
-    cout << "    -eval <eval_folder> [-match_file "
-            "<associations_file_in_the_folder>]"
-         << endl
-         << endl;
+    cout << "    -eval <eval_folder> [-match_file <associations_file_in_the_folder>]" << endl << endl;
+    // clang-format on
 
     return 0;
 }
