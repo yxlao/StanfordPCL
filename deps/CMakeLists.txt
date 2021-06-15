@@ -7,7 +7,7 @@ project(PCL_DEPS)
 set(PCL_DEPS_INSTALL_PREFIX ${CMAKE_BINARY_DIR}/install)
 
 # Boost
-# include(${PROJECT_SOURCE_DIR}/boost/boost.cmake)
+include(${PROJECT_SOURCE_DIR}/boost/boost.cmake)
 
 # FLANN
 include(${PROJECT_SOURCE_DIR}/flann/flann.cmake)

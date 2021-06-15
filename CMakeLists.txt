@@ -237,9 +237,9 @@ endif()
 
 ################################################################################
 # Boost (required)
-# set(BOOST_ROOT ${PCL_DEPS_INSTALL_PREFIX})
-# set(BOOSTROOT ${PCL_DEPS_INSTALL_PREFIX})
-# set(Boost_NO_SYSTEM_PATHS ON)
+set(BOOST_ROOT ${PCL_DEPS_INSTALL_PREFIX})
+set(BOOSTROOT ${PCL_DEPS_INSTALL_PREFIX})
+set(Boost_NO_SYSTEM_PATHS ON)
 include(${PCL_SOURCE_DIR}/cmake/pcl_find_boost.cmake)
 link_libraries(${Boost_LIBRARIES})
 
