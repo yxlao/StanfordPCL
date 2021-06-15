@@ -12,8 +12,8 @@ include(${PROJECT_SOURCE_DIR}/boost/boost.cmake)
 # FLANN
 include(${PROJECT_SOURCE_DIR}/flann/flann.cmake)
 
-# Eigen
-include(${PROJECT_SOURCE_DIR}/eigen/eigen.cmake)
+# # Eigen
+# include(${PROJECT_SOURCE_DIR}/eigen/eigen.cmake)
 
 # OpenCV
 include(${PROJECT_SOURCE_DIR}/opencv/opencv.cmake)

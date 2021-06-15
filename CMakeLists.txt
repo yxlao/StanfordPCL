@@ -244,7 +244,7 @@ include(${PCL_SOURCE_DIR}/cmake/pcl_find_boost.cmake)
 link_libraries(${Boost_LIBRARIES})
 
 # Eigen (required)
-set(EIGEN_INCLUDE_DIR ${PCL_DEPS_INSTALL_PREFIX}/include/eigen3)
+# set(EIGEN_INCLUDE_DIR ${PCL_DEPS_INSTALL_PREFIX}/include/eigen3)
 find_package(Eigen REQUIRED)
 include_directories(SYSTEM ${EIGEN_INCLUDE_DIRS})
 add_definitions(-DEIGEN_USE_NEW_STDVECTOR

@@ -26,7 +26,7 @@ Here's the list of dependencies:
     contain build scripts
   - requires `toolset=gcc-4.8`
 - Eigen
-  - `3.0.0`: https://gitlab.com/libeigen/eigen/-/archive/3.0.4/eigen-3.0.4.zip
+  - `sudo apt install libeigen3-dev`
 - Flann
   - `1.8.0`: https://github.com/flann-lib/flann/releases/tag/1.8.0-src
   - modified
