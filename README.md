@@ -22,9 +22,7 @@ by `apt-get`.
 Here's the list of dependencies:
 
 - Boost
-  - `1.50.0`: download the zip file from official website, the tar file does not
-    contain build scripts
-  - requires `toolset=gcc-4.8`
+  - `sudo apt install libboost-all-dev`.
 - Eigen
   - `3.0.0`: https://gitlab.com/libeigen/eigen/-/archive/3.0.4/eigen-3.0.4.zip
 - Flann
